@@ -1,0 +1,347 @@
+<footer
+  id="CustomFooter-{{ section.id }}"
+  class="custom-luxury-footer color-custom-{{ section.id }}"
+  style="
+    --footer-padding-top: {{ section.settings.padding_top | default: 60 }}px;
+    --footer-padding-bottom: {{ section.settings.padding_bottom | default: 36 }}px;
+    --footer-max-width: {{ section.settings.max_width | default: 1280 }}px;
+  "
+>
+  <div class="custom-footer__container">
+    <div class="custom-footer__top-row">
+      {%- comment -%} Column 1: About {%- endcomment -%}
+      <div class="custom-footer__col custom-footer__col--about">
+        <h3 class="custom-footer__col-heading">
+          {{ section.settings.about_heading | default: 'ABOUT' }}
+        </h3>
+        <ul class="custom-footer__links-list" role="list">
+          {% if section.settings.about_menu != blank %}
+            {% for link in section.settings.about_menu.links %}
+              <li>
+                <a href="{{ link.url }}" class="custom-footer__link">{{ link.title }}</a>
+              </li>
+            {% endfor %}
+          {% else %}
+            <li><a href="/pages/about-us" class="custom-footer__link">OUR STORY</a></li>
+            <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link">MAKERS</a></li>
+            <li><a href="/blogs/news" class="custom-footer__link">JOURNAL</a></li>
+            <li><a href="/pages/press" class="custom-footer__link">PRESS & EVENTS</a></li>
+            <li><a href="/policies/privacy-policy" class="custom-footer__link">PRIVACY POLICY</a></li>
+            <li><a href="/pages/contact" class="custom-footer__link">CONTACT US</a></li>
+          {% endif %}
+        </ul>
+      </div>
+
+      {%- comment -%} Column 2: Services {%- endcomment -%}
+      <div class="custom-footer__col custom-footer__col--services">
+        <h3 class="custom-footer__col-heading">
+          {{ section.settings.services_heading | default: 'SERVICES' }}
+        </h3>
+        <ul class="custom-footer__links-list" role="list">
+          {% if section.settings.services_menu != blank %}
+            {% for link in section.settings.services_menu.links %}
+              <li>
+                <a href="{{ link.url }}" class="custom-footer__link">{{ link.title }}</a>
+              </li>
+            {% endfor %}
+          {% else %}
+            <li><a href="/pages/concierge" class="custom-footer__link">CONCIERGE</a></li>
+            <li><a href="/pages/b2b" class="custom-footer__link">THOT B2B</a></li>
+            <li><a href="/pages/interiors" class="custom-footer__link">INTERIORS</a></li>
+            <li><a href="/pages/gifting" class="custom-footer__link">GIFTING SERVICES</a></li>
+            <li><a href="/policies/shipping-policy" class="custom-footer__link">SHIPPING & RETURNS</a></li>
+            <li><a href="/policies/terms-of-service" class="custom-footer__link">TERMS & CONDITIONS</a></li>
+          {% endif %}
+        </ul>
+      </div>
+
+      {%- comment -%} Column 3: Newsletter & Concierge {%- endcomment -%}
+      <div class="custom-footer__col custom-footer__col--newsletter">
+        <h3 class="custom-footer__col-heading">
+          {{ section.settings.newsletter_heading | default: 'BE THE FIRST TO KNOW' }}
+        </h3>
+
+        {% form 'customer', class: 'custom-footer__newsletter-form' %}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          <div class="custom-footer__newsletter-field-wrapper">
+            <input
+              type="email"
+              name="contact[email]"
+              id="NewsletterEmail-{{ section.id }}"
+              class="custom-footer__newsletter-input"
+              value="{{ form.email }}"
+              aria-required="true"
+              autocorrect="off"
+              autocapitalize="off"
+              autocomplete="email"
+              {% if form.errors %}
+                aria-invalid="true"
+                aria-describedby="Newsletter-error--{{ section.id }}"
+              {% elsif form.posted_successfully? %}
+                aria-describedby="Newsletter-success--{{ section.id }}"
+              {% endif %}
+              placeholder="{{ section.settings.newsletter_placeholder | default: 'Enter your email ID' }}"
+              required
+            >
+            <button
+              type="submit"
+              class="custom-footer__newsletter-btn"
+              name="commit"
+              id="Subscribe-{{ section.id }}"
+              aria-label="Subscribe"
+            >
+              {{ section.settings.newsletter_button_text | default: 'SUBSCRIBE' }}
+            </button>
+          </div>
+          {%- if form.errors -%}
+            <small class="custom-footer__form-message custom-footer__form-message--error" id="Newsletter-error--{{ section.id }}">
+              {{ form.errors.translated_fields.email | capitalize }}
+              {{ form.errors.messages.email }}
+            </small>
+          {%- endif -%}
+          {%- if form.posted_successfully? -%}
+            <p class="custom-footer__form-message custom-footer__form-message--success" id="Newsletter-success--{{ section.id }}" tabindex="-1">
+              Thank you for subscribing!
+            </p>
+          {%- endif -%}
+        {% endform %}
+
+        <div class="custom-footer__concierge-block">
+          <h4 class="custom-footer__concierge-heading">
+            {{ section.settings.concierge_heading | default: 'CONCIERGE' }}
+          </h4>
+          <p class="custom-footer__concierge-text">
+            {{ section.settings.concierge_text | default: '+91 80030 11110 / concierge@thehouseofthings.com' }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    {%- comment -%} Middle Row: Payment Methods & Find Us Online {%- endcomment -%}
+    <div class="custom-footer__middle-row">
+      <div class="custom-footer__payment-col">
+        <h4 class="custom-footer__sub-heading">
+          {{ section.settings.payment_heading | default: 'PAYMENT METHODS' }}
+        </h4>
+        <div class="custom-footer__payment-icons">
+          {%- comment -%} PayPal {%- endcomment -%}
+          <span class="custom-footer__payment-item" title="PayPal">
+            <svg class="payment-icon payment-icon--paypal" viewBox="0 0 64 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <text x="0" y="18" font-family="'Helvetica Neue', Arial, sans-serif" font-size="16" font-style="italic" font-weight="700" fill="#777">PayPal</text>
+            </svg>
+          </span>
+          {%- comment -%} VISA {%- endcomment -%}
+          <span class="custom-footer__payment-item" title="Visa">
+            <svg class="payment-icon payment-icon--visa" viewBox="0 0 54 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <text x="0" y="18" font-family="'Helvetica Neue', Arial, sans-serif" font-size="16" font-style="italic" font-weight="800" fill="#777" letter-spacing="1">VISA</text>
+            </svg>
+          </span>
+          {%- comment -%} Mastercard {%- endcomment -%}
+          <span class="custom-footer__payment-item" title="Mastercard">
+            <svg class="payment-icon payment-icon--mastercard" viewBox="0 0 38 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="12" r="10" fill="#888" fill-opacity="0.6"/>
+              <circle cx="26" cy="12" r="10" fill="#666" fill-opacity="0.7"/>
+            </svg>
+          </span>
+          {%- comment -%} AMEX {%- endcomment -%}
+          <span class="custom-footer__payment-item" title="American Express">
+            <svg class="payment-icon payment-icon--amex" viewBox="0 0 50 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="50" height="22" rx="3" fill="#888" fill-opacity="0.3"/>
+              <text x="6" y="15" font-family="'Helvetica Neue', Arial, sans-serif" font-size="10" font-weight="700" fill="#555" letter-spacing="0.5">AMEX</text>
+            </svg>
+          </span>
+        </div>
+      </div>
+
+      <div class="custom-footer__social-col">
+        <h4 class="custom-footer__sub-heading">
+          {{ section.settings.social_heading | default: 'FIND US ONLINE' }}
+        </h4>
+        <div class="custom-footer__social-icons">
+          {%- comment -%} Facebook {%- endcomment -%}
+          <a href="{{ section.settings.facebook_url | default: 'https://facebook.com' }}" target="_blank" rel="noopener" class="custom-footer__social-badge" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
+              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+            </svg>
+          </a>
+          {%- comment -%} Instagram {%- endcomment -%}
+          <a href="{{ section.settings.instagram_url | default: 'https://instagram.com' }}" target="_blank" rel="noopener" class="custom-footer__social-badge" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+          </a>
+          {%- comment -%} Pinterest / X {%- endcomment -%}
+          <a href="{{ section.settings.pinterest_url | default: 'https://pinterest.com' }}" target="_blank" rel="noopener" class="custom-footer__social-badge" aria-label="Pinterest">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
+              <path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738.098.119.112.224.083.345-.09.375-.293 1.194-.333 1.36-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    {%- comment -%} Bottom Row: Copyright {%- endcomment -%}
+    <div class="custom-footer__bottom-row">
+      <p class="custom-footer__copyright">
+        &copy; {{ 'now' | date: '%Y' }} {{ section.settings.copyright_text | default: 'THOT Lifestyle Pvt Ltd' }}
+      </p>
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Luxury Reference Footer",
+  "tag": "section",
+  "class": "section-custom-luxury-footer",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Column 1: About"
+    },
+    {
+      "type": "text",
+      "id": "about_heading",
+      "label": "About Heading",
+      "default": "ABOUT"
+    },
+    {
+      "type": "link_list",
+      "id": "about_menu",
+      "label": "About Menu (Optional)"
+    },
+    {
+      "type": "header",
+      "content": "Column 2: Services"
+    },
+    {
+      "type": "text",
+      "id": "services_heading",
+      "label": "Services Heading",
+      "default": "SERVICES"
+    },
+    {
+      "type": "link_list",
+      "id": "services_menu",
+      "label": "Services Menu (Optional)"
+    },
+    {
+      "type": "header",
+      "content": "Column 3: Newsletter"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_heading",
+      "label": "Newsletter Heading",
+      "default": "BE THE FIRST TO KNOW"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_placeholder",
+      "label": "Newsletter Placeholder",
+      "default": "Enter your email ID"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_button_text",
+      "label": "Newsletter Button Text",
+      "default": "SUBSCRIBE"
+    },
+    {
+      "type": "header",
+      "content": "Concierge Info"
+    },
+    {
+      "type": "text",
+      "id": "concierge_heading",
+      "label": "Concierge Heading",
+      "default": "CONCIERGE"
+    },
+    {
+      "type": "text",
+      "id": "concierge_text",
+      "label": "Concierge Contact Text",
+      "default": "+91 80030 11110 / concierge@thehouseofthings.com"
+    },
+    {
+      "type": "header",
+      "content": "Payment Methods & Social"
+    },
+    {
+      "type": "text",
+      "id": "payment_heading",
+      "label": "Payment Heading",
+      "default": "PAYMENT METHODS"
+    },
+    {
+      "type": "text",
+      "id": "social_heading",
+      "label": "Social Heading",
+      "default": "FIND US ONLINE"
+    },
+    {
+      "type": "url",
+      "id": "facebook_url",
+      "label": "Facebook URL"
+    },
+    {
+      "type": "url",
+      "id": "instagram_url",
+      "label": "Instagram URL"
+    },
+    {
+      "type": "url",
+      "id": "pinterest_url",
+      "label": "Pinterest / X URL"
+    },
+    {
+      "type": "header",
+      "content": "Copyright & Layout"
+    },
+    {
+      "type": "text",
+      "id": "copyright_text",
+      "label": "Copyright Text",
+      "default": "THOT Lifestyle Pvt Ltd"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 900,
+      "max": 1400,
+      "step": 20,
+      "unit": "px",
+      "label": "Max Width",
+      "default": 1280
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 20,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top Padding",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 20,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom Padding",
+      "default": 36
+    }
+  ],
+  "presets": [
+    {
+      "name": "Luxury Reference Footer",
+      "category": "Footer"
+    }
+  ]
+}
+{% endschema %}

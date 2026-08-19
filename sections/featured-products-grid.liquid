@@ -1,0 +1,395 @@
+<div
+  id="FeaturedProducts-{{ section.id }}"
+  class="featured-products-section color-custom-{{ section.id }}"
+  style="
+    --section-padding-top: {{ section.settings.padding_top | default: 56 }}px;
+    --section-padding-bottom: {{ section.settings.padding_bottom | default: 64 }}px;
+    --section-max-width: {{ section.settings.max_width | default: 1160 }}px;
+  "
+>
+  <div class="featured-products__container">
+    {% if section.settings.heading != blank %}
+      <div class="featured-products__header scroll-reveal">
+        <h2 class="featured-products__heading">
+          {{ section.settings.heading }}
+        </h2>
+        {% if section.settings.show_underline %}
+          <div class="featured-products__divider" aria-hidden="true"></div>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {% liquid
+      assign collection = section.settings.collection
+      assign has_real_products = false
+      if collection != blank and collection.products_count > 0
+        assign has_real_products = true
+      endif
+    %}
+
+    <div class="featured-products__grid">
+      {% if has_real_products %}
+        {% for product in collection.products limit: section.settings.products_to_show %}
+          {% assign anim_delay = forloop.index0 | times: 100 %}
+          <div
+            class="featured-product-card scroll-reveal"
+            style="transition-delay: {{ anim_delay }}ms;"
+          >
+            <div class="featured-product-card__media-wrapper">
+              <button
+                type="button"
+                class="featured-product-card__wishlist-btn"
+                aria-label="Add to wishlist"
+                onclick="this.classList.toggle('active');"
+              >
+                <svg class="icon-heart-outline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                </svg>
+                <svg class="icon-heart-filled" viewBox="0 0 24 24" fill="#c02b27" stroke="#c02b27" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                </svg>
+              </button>
+
+              <a href="{{ product.url }}" class="featured-product-card__media-link">
+                {% if product.featured_media != blank %}
+                  {{
+                    product.featured_media
+                    | image_url: width: 800
+                    | image_tag:
+                      loading: 'lazy',
+                      class: 'featured-product-card__image',
+                      widths: '300, 450, 600, 800',
+                      alt: product.title
+                  }}
+                {% else %}
+                  {% assign placeholder_num = forloop.index | modulo: 6 %}
+                  {% if placeholder_num == 0 %}
+                    {% assign placeholder_num = 6 %}
+                  {% endif %}
+                  {% assign placeholder_name = 'product-' | append: placeholder_num %}
+                  {{ placeholder_name | placeholder_svg_tag: 'featured-product-card__placeholder' }}
+                {% endif %}
+              </a>
+            </div>
+
+            <div class="featured-product-card__info">
+              <div class="featured-product-card__title-col">
+                <a href="{{ product.url }}" class="featured-product-card__title">
+                  {{ product.title }}
+                </a>
+                {% if product.has_only_default_variant == false %}
+                  <span class="featured-product-card__badge">OPTIONS AVAILABLE</span>
+                {% endif %}
+              </div>
+              <div class="featured-product-card__price-col">
+                <span class="featured-product-card__price">
+                  {{ product.price | money }}
+                </span>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      {% elsif section.blocks.size > 0 %}
+        {% for block in section.blocks %}
+          {% assign anim_delay = forloop.index0 | times: 100 %}
+          <div
+            class="featured-product-card scroll-reveal"
+            style="transition-delay: {{ anim_delay }}ms;"
+            {{ block.shopify_attributes }}
+          >
+            <div class="featured-product-card__media-wrapper">
+              <button
+                type="button"
+                class="featured-product-card__wishlist-btn"
+                aria-label="Add to wishlist"
+                onclick="this.classList.toggle('active');"
+              >
+                <svg class="icon-heart-outline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                </svg>
+                <svg class="icon-heart-filled" viewBox="0 0 24 24" fill="#c02b27" stroke="#c02b27" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                </svg>
+              </button>
+
+              {% if block.settings.product != blank %}
+                {% assign card_product = block.settings.product %}
+                <a href="{{ card_product.url }}" class="featured-product-card__media-link">
+                  {% if card_product.featured_media != blank %}
+                    {{
+                      card_product.featured_media
+                      | image_url: width: 800
+                      | image_tag:
+                        loading: 'lazy',
+                        class: 'featured-product-card__image',
+                        widths: '300, 450, 600, 800',
+                        alt: card_product.title
+                    }}
+                  {% elsif block.settings.custom_image != blank %}
+                    {{
+                      block.settings.custom_image
+                      | image_url: width: 800
+                      | image_tag:
+                        loading: 'lazy',
+                        class: 'featured-product-card__image',
+                        widths: '300, 450, 600, 800',
+                        alt: block.settings.custom_title | default: card_product.title
+                    }}
+                  {% else %}
+                    {% assign placeholder_num = forloop.index | modulo: 6 %}
+                    {% if placeholder_num == 0 %}
+                      {% assign placeholder_num = 6 %}
+                    {% endif %}
+                    {% assign placeholder_name = 'product-' | append: placeholder_num %}
+                    {{ placeholder_name | placeholder_svg_tag: 'featured-product-card__placeholder' }}
+                  {% endif %}
+                </a>
+              {% else %}
+                <a href="{{ routes.all_products_collection_url }}" class="featured-product-card__media-link">
+                  {% if block.settings.custom_image != blank %}
+                    {{
+                      block.settings.custom_image
+                      | image_url: width: 800
+                      | image_tag:
+                        loading: 'lazy',
+                        class: 'featured-product-card__image',
+                        widths: '300, 450, 600, 800',
+                        alt: block.settings.custom_title
+                    }}
+                  {% else %}
+                    {% assign placeholder_num = forloop.index | modulo: 6 %}
+                    {% if placeholder_num == 0 %}
+                      {% assign placeholder_num = 6 %}
+                    {% endif %}
+                    {% assign placeholder_name = 'product-' | append: placeholder_num %}
+                    {{ placeholder_name | placeholder_svg_tag: 'featured-product-card__placeholder' }}
+                  {% endif %}
+                </a>
+              {% endif %}
+            </div>
+
+            <div class="featured-product-card__info">
+              <div class="featured-product-card__title-col">
+                <a href="{% if block.settings.product != blank %}{{ block.settings.product.url }}{% else %}{{ routes.all_products_collection_url }}{% endif %}" class="featured-product-card__title">
+                  {% if block.settings.custom_title != blank %}
+                    {{ block.settings.custom_title }}
+                  {% elsif block.settings.product != blank %}
+                    {{ block.settings.product.title }}
+                  {% else %}
+                    Product Title
+                  {% endif %}
+                </a>
+                {% if block.settings.show_badge %}
+                  <span class="featured-product-card__badge">{{ block.settings.badge_text | default: 'OPTIONS AVAILABLE' }}</span>
+                {% endif %}
+              </div>
+              <div class="featured-product-card__price-col">
+                <span class="featured-product-card__price">
+                  {% if block.settings.custom_price != blank %}
+                    {{ block.settings.custom_price }}
+                  {% elsif block.settings.product != blank %}
+                    {{ block.settings.product.price | money }}
+                  {% else %}
+                    ₹37,000.00
+                  {% endif %}
+                </span>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        {%- comment -%} Default 6 Luxury Dummy Products matching screenshot {%- endcomment -%}
+        {% liquid
+          assign dummy_titles = 'Cabinet Evanthe,Chair Hazelwood,Vase Zanna,Coffee Table Oracle,Object Salda,Box Seaside 8' | split: ','
+          assign dummy_prices = '₹570,940.00,₹151,990.00,₹37,000.00,₹444,150.00,₹37,000.00,₹27,000.00' | split: ','
+          assign dummy_badges = 'false,false,true,false,false,false' | split: ','
+        %}
+        {% for title in dummy_titles %}
+          {% assign anim_delay = forloop.index0 | times: 100 %}
+          {% assign price = dummy_prices[forloop.index0] %}
+          {% assign has_badge = dummy_badges[forloop.index0] %}
+          <div
+            class="featured-product-card scroll-reveal"
+            style="transition-delay: {{ anim_delay }}ms;"
+          >
+            <div class="featured-product-card__media-wrapper">
+              <button
+                type="button"
+                class="featured-product-card__wishlist-btn"
+                aria-label="Add to wishlist"
+                onclick="this.classList.toggle('active');"
+              >
+                <svg class="icon-heart-outline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                </svg>
+                <svg class="icon-heart-filled" viewBox="0 0 24 24" fill="#c02b27" stroke="#c02b27" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                </svg>
+              </button>
+
+              <a href="{{ routes.all_products_collection_url }}" class="featured-product-card__media-link">
+                {% assign placeholder_num = forloop.index | modulo: 6 %}
+                {% if placeholder_num == 0 %}
+                  {% assign placeholder_num = 6 %}
+                {% endif %}
+                {% assign placeholder_name = 'product-' | append: placeholder_num %}
+                {{ placeholder_name | placeholder_svg_tag: 'featured-product-card__placeholder' }}
+              </a>
+            </div>
+
+            <div class="featured-product-card__info">
+              <div class="featured-product-card__title-col">
+                <a href="{{ routes.all_products_collection_url }}" class="featured-product-card__title">
+                  {{ title }}
+                </a>
+                {% if has_badge == 'true' %}
+                  <span class="featured-product-card__badge">OPTIONS AVAILABLE</span>
+                {% endif %}
+              </div>
+              <div class="featured-product-card__price-col">
+                <span class="featured-product-card__price">
+                  {{ price }}
+                </span>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<script>
+  (function initFeaturedProductsAnimation() {
+    if (typeof IntersectionObserver === 'undefined') return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-revealed');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+    );
+
+    document.querySelectorAll('.featured-products-section .scroll-reveal').forEach((el) => {
+      observer.observe(el);
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Featured Products Grid",
+  "tag": "section",
+  "class": "section-featured-products-grid",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "FEATURED PRODUCTS"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_underline",
+      "label": "Show Heading Underline",
+      "default": true
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 3,
+      "max": 12,
+      "step": 1,
+      "default": 6,
+      "label": "Maximum products to show"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 800,
+      "max": 1400,
+      "step": 20,
+      "unit": "px",
+      "label": "Container Max Width",
+      "default": 1160
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 10,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Top Padding",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 10,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Bottom Padding",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product_item",
+      "name": "Custom Product Card",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Select Product"
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_image",
+          "label": "Custom Image (Optional)"
+        },
+        {
+          "type": "text",
+          "id": "custom_title",
+          "label": "Custom Title (Optional)"
+        },
+        {
+          "type": "text",
+          "id": "custom_price",
+          "label": "Custom Price (Optional)",
+          "default": "₹37,000.00"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_badge",
+          "label": "Show Badge",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "badge_text",
+          "label": "Badge Text",
+          "default": "OPTIONS AVAILABLE"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Products Grid",
+      "category": "Products"
+    }
+  ]
+}
+{% endschema %}

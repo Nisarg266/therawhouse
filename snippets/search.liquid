@@ -1,0 +1,36 @@
+{%- doc -%}
+  Renders the header inline expandable pill search bar.
+
+  @param {string} [style] - The style of the search action.
+  @param {string} [class] - Additional classes for the search action.
+{%- enddoc -%}
+
+{% unless style == 'none' %}
+  <div class="header-inline-search-wrapper{% if class != blank %} {{ class | strip }}{% endif %}">
+    <form action="{{ routes.search_url }}" method="get" role="search" class="header-inline-search-form">
+      <div class="header-inline-search-pill">
+        <button
+          type="submit"
+          class="header-inline-search-icon-btn"
+          aria-label="{{ 'content.search' | t }}"
+        >
+          <svg class="header-inline-search-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </button>
+        <input
+          type="search"
+          name="q"
+          class="header-inline-search-input"
+          placeholder="What are you looking for?"
+          aria-label="{{ 'content.search' | t }}"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+          spellcheck="false"
+        >
+      </div>
+    </form>
+  </div>
+{% endunless %}

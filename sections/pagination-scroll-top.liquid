@@ -1,0 +1,225 @@
+<div
+  id="ScrollTopPagination-{{ section.id }}"
+  class="scroll-top-pagination-section color-custom-{{ section.id }}"
+  style="
+    --section-padding-top: {{ section.settings.padding_top | default: 32 }}px;
+    --section-padding-bottom: {{ section.settings.padding_bottom | default: 32 }}px;
+    --section-max-width: {{ section.settings.max_width | default: 1280 }}px;
+  "
+>
+  <div class="scroll-top-pagination__container">
+    {%- comment -%} Divider with Centered Animated Scroll-To-Top Button {%- endcomment -%}
+    <div class="scroll-top-pagination__divider-wrapper">
+      <div class="scroll-top-pagination__line"></div>
+      
+      <button
+        type="button"
+        class="scroll-top-pagination__btn"
+        id="ScrollToTopBtn-{{ section.id }}"
+        aria-label="Scroll to top"
+        title="Scroll to top"
+      >
+        <span class="scroll-top-pagination__btn-icon-wrapper">
+          <svg class="scroll-top-pagination__arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+          </svg>
+        </span>
+        <span class="scroll-top-pagination__pulse-ring"></span>
+      </button>
+    </div>
+
+    {%- comment -%} Navigation / Pagination Row {%- endcomment -%}
+    {% if section.settings.show_pagination %}
+      <div class="scroll-top-pagination__nav-row">
+        {%- comment -%} Left: First & Previous {%- endcomment -%}
+        <div class="scroll-top-pagination__nav-group scroll-top-pagination__nav-group--prev">
+          <button
+            type="button"
+            class="scroll-top-pagination__nav-btn scroll-top-pagination__nav-btn--first disabled"
+            id="PaginationFirstBtn-{{ section.id }}"
+            aria-label="First page"
+            title="First page"
+          >
+            <span class="scroll-top-pagination__icon-first">|&lt;</span>
+          </button>
+
+          <button
+            type="button"
+            class="scroll-top-pagination__nav-btn scroll-top-pagination__nav-btn--prev disabled"
+            id="PaginationPrevBtn-{{ section.id }}"
+          >
+            <span class="scroll-top-pagination__chevron">&lt;</span>
+            <span class="scroll-top-pagination__nav-text">Previous</span>
+          </button>
+        </div>
+
+        {%- comment -%} Center: Page Indicator {%- endcomment -%}
+        <div class="scroll-top-pagination__page-indicator">
+          <span class="scroll-top-pagination__page-text">
+            Page <strong id="PaginationCurrentPage-{{ section.id }}">1</strong> of <span id="PaginationTotalPages-{{ section.id }}">4</span>
+          </span>
+        </div>
+
+        {%- comment -%} Right: Next & Last {%- endcomment -%}
+        <div class="scroll-top-pagination__nav-group scroll-top-pagination__nav-group--next">
+          <button
+            type="button"
+            class="scroll-top-pagination__nav-btn scroll-top-pagination__nav-btn--next"
+            id="PaginationNextBtn-{{ section.id }}"
+          >
+            <span class="scroll-top-pagination__nav-text">Next</span>
+            <span class="scroll-top-pagination__chevron">&gt;</span>
+          </button>
+
+          <button
+            type="button"
+            class="scroll-top-pagination__nav-btn scroll-top-pagination__nav-btn--last"
+            id="PaginationLastBtn-{{ section.id }}"
+            aria-label="Last page"
+            title="Last page"
+          >
+            <span class="scroll-top-pagination__icon-last">&gt;|</span>
+          </button>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<script>
+  (function initScrollTopPagination() {
+    const sectionId = '{{ section.id }}';
+    const scrollTopBtn = document.getElementById('ScrollToTopBtn-' + sectionId);
+
+    if (scrollTopBtn) {
+      scrollTopBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      });
+    }
+
+    // Pagination Interactive Handler
+    let currentPage = 1;
+    const totalPages = 4;
+    const currentSpan = document.getElementById('PaginationCurrentPage-' + sectionId);
+    const prevBtn = document.getElementById('PaginationPrevBtn-' + sectionId);
+    const firstBtn = document.getElementById('PaginationFirstBtn-' + sectionId);
+    const nextBtn = document.getElementById('PaginationNextBtn-' + sectionId);
+    const lastBtn = document.getElementById('PaginationLastBtn-' + sectionId);
+
+    function updatePaginationUI() {
+      if (currentSpan) currentSpan.textContent = currentPage;
+      if (prevBtn) prevBtn.classList.toggle('disabled', currentPage <= 1);
+      if (firstBtn) firstBtn.classList.toggle('disabled', currentPage <= 1);
+      if (nextBtn) nextBtn.classList.toggle('disabled', currentPage >= totalPages);
+      if (lastBtn) lastBtn.classList.toggle('disabled', currentPage >= totalPages);
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', function () {
+        if (currentPage < totalPages) {
+          currentPage++;
+          updatePaginationUI();
+          const targetSection = document.querySelector('.featured-products-section');
+          if (targetSection) {
+            targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }
+      });
+    }
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', function () {
+        if (currentPage > 1) {
+          currentPage--;
+          updatePaginationUI();
+          const targetSection = document.querySelector('.featured-products-section');
+          if (targetSection) {
+            targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }
+      });
+    }
+
+    if (firstBtn) {
+      firstBtn.addEventListener('click', function () {
+        if (currentPage > 1) {
+          currentPage = 1;
+          updatePaginationUI();
+          const targetSection = document.querySelector('.featured-products-section');
+          if (targetSection) {
+            targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }
+      });
+    }
+
+    if (lastBtn) {
+      lastBtn.addEventListener('click', function () {
+        if (currentPage < totalPages) {
+          currentPage = totalPages;
+          updatePaginationUI();
+          const targetSection = document.querySelector('.featured-products-section');
+          if (targetSection) {
+            targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }
+      });
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Scroll Top & Pagination",
+  "tag": "section",
+  "class": "section-scroll-top-pagination",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_pagination",
+      "label": "Show Pagination Bar",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 900,
+      "max": 1400,
+      "step": 20,
+      "unit": "px",
+      "label": "Max Width",
+      "default": 1280
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 10,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Top Padding",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 10,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Bottom Padding",
+      "default": 32
+    }
+  ],
+  "presets": [
+    {
+      "name": "Scroll Top & Pagination",
+      "category": "Navigation"
+    }
+  ]
+}
+{% endschema %}

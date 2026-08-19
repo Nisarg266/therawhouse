@@ -1,0 +1,156 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */{
+  "sections": {
+    "luxury_hero_slider": {
+      "type": "luxury-hero-slider",
+      "blocks": {
+        "slide_1": {
+          "type": "slide",
+          "settings": {
+            "default_asset": "maker-gallery-1.jpg",
+            "subheading": "EICHHOLTZ LUXURY LIVING",
+            "heading": "ARCHITECTURAL INTERIORS",
+            "content_alignment": "center",
+            "button_label": "EXPLORE DESIGNS",
+            "button_link": "shopify://collections/all"
+          }
+        },
+        "slide_2": {
+          "type": "slide",
+          "settings": {
+            "default_asset": "maker-gallery-2.jpg",
+            "subheading": "CURATED EXCELLENCE",
+            "heading": "TIMELESS ARTISAN DESIGNS",
+            "content_alignment": "center",
+            "button_label": "SHOP INTERIORS",
+            "button_link": "shopify://collections/all"
+          }
+        },
+        "slide_3": {
+          "type": "slide",
+          "settings": {
+            "default_asset": "maker-gallery-3.jpg",
+            "subheading": "HAUTE LIVING",
+            "heading": "BESPOKE ACCENTS & LIGHTING",
+            "content_alignment": "center",
+            "button_label": "VIEW CATALOGUE",
+            "button_link": "shopify://collections/all"
+          }
+        }
+      },
+      "block_order": [
+        "slide_1",
+        "slide_2",
+        "slide_3"
+      ],
+      "settings": {
+        "slider_height_desktop": 80,
+        "slider_height_mobile": 60,
+        "autoplay": true,
+        "autoplay_speed": 5,
+        "show_overlay": true,
+        "overlay_color": "#000000",
+        "overlay_opacity": 25
+      }
+    },
+    "new_arrivals_gallery": {
+      "type": "new-arrivals-gallery",
+      "settings": {
+        "subheading": "the",
+        "heading": "N E W   A R R I V A L S",
+        "show_underline": true,
+        "underline_width": 36,
+        "max_width": 1080,
+        "gap": 14,
+        "padding_top": 48,
+        "padding_bottom": 48,
+        "enable_hover_zoom": true
+      }
+    },
+    "recommendations_editorial": {
+      "type": "recommendations-editorial",
+      "settings": {
+        "subheading": "the",
+        "heading": "R E C O M M E N D A T I O N S",
+        "show_underline": true,
+        "max_width": 1080,
+        "gap": 48,
+        "padding_top": 48,
+        "padding_bottom": 48,
+        "enable_hover_zoom": true
+      }
+    },
+    "fine_prints_showcase": {
+      "type": "fine-prints-showcase",
+      "settings": {
+        "subheading": "the",
+        "heading": "F I N E   P R I N T S",
+        "show_underline": true,
+        "max_width": 1080,
+        "gap": 28,
+        "padding_top": 28,
+        "padding_bottom": 20,
+        "view_all_text": "VIEW ALL",
+        "enable_hover_zoom": true
+      }
+    },
+    "the_makers_grid": {
+      "type": "the-makers-grid",
+      "settings": {
+        "subheading": "the",
+        "heading": "M A K E R S",
+        "show_underline": true,
+        "max_width": 1080,
+        "gap": 24,
+        "padding_top": 24,
+        "padding_bottom": 20,
+        "view_all_text": "VIEW OUR MAKERS",
+        "enable_hover_zoom": true
+      }
+    },
+    "brand_manifesto": {
+      "type": "brand-manifesto",
+      "settings": {
+        "heading": "A little bit of us",
+        "text": "The House of Things is a destination for design, artistry and craftsmanship, curated for a life artfully lived.",
+        "max_width": 680,
+        "padding_top": 24,
+        "padding_bottom": 40,
+        "facebook_url": "https://facebook.com",
+        "instagram_url": "https://instagram.com",
+        "pinterest_url": "https://pinterest.com"
+      }
+    },
+    "featured_press_and_quote": {
+      "type": "featured-press-and-quote",
+      "settings": {
+        "heading": "Featured In",
+        "show_heading_underline": true,
+        "show_quote": true,
+        "quote_line_1": "Nothing haunts us",
+        "quote_line_2": "LIKE THE THINGS",
+        "quote_line_3": "we didn't buy",
+        "show_quote_dividers": true,
+        "max_width": 1100,
+        "padding_top": 32,
+        "padding_bottom": 60
+      }
+    }
+  },
+  "order": [
+    "luxury_hero_slider",
+    "new_arrivals_gallery",
+    "recommendations_editorial",
+    "fine_prints_showcase",
+    "the_makers_grid",
+    "brand_manifesto",
+    "featured_press_and_quote"
+  ]
+}

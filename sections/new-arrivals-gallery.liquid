@@ -1,0 +1,578 @@
+{%- comment -%}
+  Renders the editorial "NEW ARRIVALS" 6-card asymmetrical masonry gallery.
+  Matches reference design: 
+  Left Column: 2 Top Squares + 1 Bottom Wide Landscape
+  Right Column: 1 Top Tall Vertical Cabinet + 2 Bottom Squares
+{%- endcomment -%}
+
+{% liquid
+  assign section_id = section.id
+  assign subheading = section.settings.subheading | default: 'the'
+  assign heading = section.settings.heading | default: 'N E W   A R R I V A L S'
+  assign show_underline = section.settings.show_underline
+  assign gap = section.settings.gap | default: 16
+  assign corner_radius = section.settings.corner_radius | default: 0
+  assign enable_hover_zoom = section.settings.enable_hover_zoom
+
+  assign card_1_img = section.settings.card_1_image
+  assign card_1_link = section.settings.card_1_link
+  assign card_1_alt = section.settings.card_1_alt | default: 'New Arrival Item 1'
+
+  assign card_2_img = section.settings.card_2_image
+  assign card_2_link = section.settings.card_2_link
+  assign card_2_alt = section.settings.card_2_alt | default: 'New Arrival Item 2'
+
+  assign card_3_img = section.settings.card_3_image
+  assign card_3_link = section.settings.card_3_link
+  assign card_3_alt = section.settings.card_3_alt | default: 'New Arrival Item 3'
+
+  assign card_4_img = section.settings.card_4_image
+  assign card_4_link = section.settings.card_4_link
+  assign card_4_alt = section.settings.card_4_alt | default: 'New Arrival Item 4'
+
+  assign card_5_img = section.settings.card_5_image
+  assign card_5_link = section.settings.card_5_link
+  assign card_5_alt = section.settings.card_5_alt | default: 'New Arrival Item 5'
+
+  assign card_6_img = section.settings.card_6_image
+  assign card_6_link = section.settings.card_6_link
+  assign card_6_alt = section.settings.card_6_alt | default: 'New Arrival Item 6'
+%}
+
+<div
+  id="NewArrivalsGallery-{{ section_id }}"
+  class="new-arrivals-gallery section-{{ section_id }}"
+  style="
+    --nag-bg: {{ section.settings.background_color | default: '#ffffff' }};
+    --nag-heading-color: {{ section.settings.heading_color | default: '#111111' }};
+    --nag-heading-size: {{ section.settings.heading_size | default: 20 }}px;
+    --nag-heading-spacing: {{ section.settings.heading_letter_spacing | default: '0.35em' }};
+    --nag-underline-width: {{ section.settings.underline_width | default: 44 }}px;
+    --nag-underline-color: {{ section.settings.underline_color | default: '#111111' }};
+    --nag-gap: {{ gap }}px;
+    --nag-radius: {{ corner_radius }}px;
+    --nag-max-width: {{ section.settings.max_width | default: 1280 }}px;
+    --nag-padding-top: {{ section.settings.padding_top | default: 60 }}px;
+    --nag-padding-bottom: {{ section.settings.padding_bottom | default: 60 }}px;
+  "
+  {{ section.shopify_attributes }}
+>
+  <div class="new-arrivals-gallery__container">
+    
+    {%- comment -%} Header Title with Script Subheading & Underline {%- endcomment -%}
+    <div class="new-arrivals-gallery__header">
+      {% if subheading != blank %}
+        <span class="new-arrivals-gallery__subheading">{{ subheading }}</span>
+      {% endif %}
+      {% if heading != blank %}
+        <h2 class="new-arrivals-gallery__heading">{{ heading }}</h2>
+      {% endif %}
+      {% if show_underline %}
+        <div class="new-arrivals-gallery__underline" aria-hidden="true"></div>
+      {% endif %}
+    </div>
+
+    {%- comment -%} 6-Item Masonry Grid {%- endcomment -%}
+    <div class="new-arrivals-gallery__grid">
+      
+      {%- comment -%} LEFT COLUMN: 2 Top Split Cards + 1 Bottom Large Card {%- endcomment -%}
+      <div class="new-arrivals-gallery__column new-arrivals-gallery__column--left">
+        
+        <!-- Top Split Row (Card 1 & Card 2) -->
+        <div class="new-arrivals-gallery__row-split">
+          
+          <!-- Card 1 -->
+          <div class="new-arrivals-gallery__card new-arrivals-gallery__card--split">
+            {% if card_1_link != blank %}<a href="{{ card_1_link }}" class="new-arrivals-gallery__card-link" aria-label="{{ card_1_alt }}">{% endif %}
+              <div class="new-arrivals-gallery__media{% if enable_hover_zoom %} new-arrivals-gallery__media--zoom{% endif %}">
+                {% if card_1_img != blank %}
+                  {{ card_1_img | image_url: width: 1000 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_1_alt }}
+                {% else %}
+                  <img src="{{ 'new-arrival-1.jpg' | asset_url }}" alt="{{ card_1_alt }}" class="new-arrivals-gallery__img" loading="eager" width="600" height="700">
+                {% endif %}
+              </div>
+            {% if card_1_link != blank %}</a>{% endif %}
+          </div>
+
+          <!-- Card 2 -->
+          <div class="new-arrivals-gallery__card new-arrivals-gallery__card--split">
+            {% if card_2_link != blank %}<a href="{{ card_2_link }}" class="new-arrivals-gallery__card-link" aria-label="{{ card_2_alt }}">{% endif %}
+              <div class="new-arrivals-gallery__media{% if enable_hover_zoom %} new-arrivals-gallery__media--zoom{% endif %}">
+                {% if card_2_img != blank %}
+                  {{ card_2_img | image_url: width: 1000 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_2_alt }}
+                {% else %}
+                  <img src="{{ 'new-arrival-2.jpg' | asset_url }}" alt="{{ card_2_alt }}" class="new-arrivals-gallery__img" loading="eager" width="600" height="700">
+                {% endif %}
+              </div>
+            {% if card_2_link != blank %}</a>{% endif %}
+          </div>
+
+        </div>
+
+        <!-- Bottom Large Card 3 -->
+        <div class="new-arrivals-gallery__card new-arrivals-gallery__card--large">
+          {% if card_3_link != blank %}<a href="{{ card_3_link }}" class="new-arrivals-gallery__card-link" aria-label="{{ card_3_alt }}">{% endif %}
+            <div class="new-arrivals-gallery__media{% if enable_hover_zoom %} new-arrivals-gallery__media--zoom{% endif %}">
+              {% if card_3_img != blank %}
+                {{ card_3_img | image_url: width: 1600 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_3_alt }}
+              {% else %}
+                <img src="{{ 'new-arrival-3.jpg' | asset_url }}" alt="{{ card_3_alt }}" class="new-arrivals-gallery__img" loading="eager" width="1200" height="1050">
+              {% endif %}
+            </div>
+          {% if card_3_link != blank %}</a>{% endif %}
+        </div>
+
+      </div>
+
+      {%- comment -%} RIGHT COLUMN: 1 Top Large Card + 2 Bottom Split Cards {%- endcomment -%}
+      <div class="new-arrivals-gallery__column new-arrivals-gallery__column--right">
+        
+        <!-- Top Large Card 4 -->
+        <div class="new-arrivals-gallery__card new-arrivals-gallery__card--large">
+          {% if card_4_link != blank %}<a href="{{ card_4_link }}" class="new-arrivals-gallery__card-link" aria-label="{{ card_4_alt }}">{% endif %}
+            <div class="new-arrivals-gallery__media{% if enable_hover_zoom %} new-arrivals-gallery__media--zoom{% endif %}">
+              {% if card_4_img != blank %}
+                {{ card_4_img | image_url: width: 1200 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_4_alt }}
+              {% else %}
+                <img src="{{ 'new-arrival-4.jpg' | asset_url }}" alt="{{ card_4_alt }}" class="new-arrivals-gallery__img" loading="eager" width="1200" height="1050">
+              {% endif %}
+            </div>
+          {% if card_4_link != blank %}</a>{% endif %}
+        </div>
+
+        <!-- Bottom Split Row (Card 5 & Card 6) -->
+        <div class="new-arrivals-gallery__row-split">
+          
+          <!-- Card 5 -->
+          <div class="new-arrivals-gallery__card new-arrivals-gallery__card--split">
+            {% if card_5_link != blank %}<a href="{{ card_5_link }}" class="new-arrivals-gallery__card-link" aria-label="{{ card_5_alt }}">{% endif %}
+              <div class="new-arrivals-gallery__media{% if enable_hover_zoom %} new-arrivals-gallery__media--zoom{% endif %}">
+                {% if card_5_img != blank %}
+                  {{ card_5_img | image_url: width: 1000 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_5_alt }}
+                {% else %}
+                  <img src="{{ 'new-arrival-5.jpg' | asset_url }}" alt="{{ card_5_alt }}" class="new-arrivals-gallery__img" loading="eager" width="600" height="700">
+                {% endif %}
+              </div>
+            {% if card_5_link != blank %}</a>{% endif %}
+          </div>
+
+          <!-- Card 6 -->
+          <div class="new-arrivals-gallery__card new-arrivals-gallery__card--split">
+            {% if card_6_link != blank %}<a href="{{ card_6_link }}" class="new-arrivals-gallery__card-link" aria-label="{{ card_6_alt }}">{% endif %}
+              <div class="new-arrivals-gallery__media{% if enable_hover_zoom %} new-arrivals-gallery__media--zoom{% endif %}">
+                {% if card_6_img != blank %}
+                  {{ card_6_img | image_url: width: 1000 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_6_alt }}
+                {% else %}
+                  <img src="{{ 'new-arrival-6.jpg' | asset_url }}" alt="{{ card_6_alt }}" class="new-arrivals-gallery__img" loading="eager" width="600" height="700">
+                {% endif %}
+              </div>
+            {% if card_6_link != blank %}</a>{% endif %}
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .new-arrivals-gallery {
+    background-color: var(--nag-bg, #ffffff);
+    width: 100%;
+    padding-block-start: var(--nag-padding-top, 48px);
+    padding-block-end: var(--nag-padding-bottom, 64px);
+    position: relative;
+    box-sizing: border-box;
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  .new-arrivals-gallery__container {
+    max-width: var(--nag-max-width, 980px) !important;
+    margin-inline: auto !important;
+    padding-inline: 20px !important;
+    box-sizing: border-box !important;
+  }
+
+  .new-arrivals-gallery__header {
+    text-align: center !important;
+    margin-block-end: 32px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .new-arrivals-gallery__subheading {
+    font-family: Georgia, 'Times New Roman', serif !important;
+    font-style: italic !important;
+    font-size: 14px !important;
+    color: var(--nag-heading-color, #111111) !important;
+    margin-bottom: 2px !important;
+    letter-spacing: 0.04em !important;
+    opacity: 0.8 !important;
+  }
+
+  .new-arrivals-gallery__heading {
+    font-size: var(--nag-heading-size, 18px) !important;
+    letter-spacing: var(--nag-heading-spacing, 0.35em) !important;
+    font-weight: 500 !important;
+    text-transform: uppercase !important;
+    color: var(--nag-heading-color, #111111) !important;
+    margin: 0 !important;
+    line-height: 1.2 !important;
+  }
+
+  .new-arrivals-gallery__underline {
+    width: var(--nag-underline-width, 36px) !important;
+    height: 1px !important;
+    background-color: var(--nag-underline-color, #111111) !important;
+    margin-top: 8px !important;
+  }
+
+  /* Grid Layout: 2 Columns with Equal Height Balance */
+  .new-arrivals-gallery__grid {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: var(--nag-gap, 14px) !important;
+    width: 100% !important;
+  }
+
+  @media screen and (min-width: 750px) {
+    .new-arrivals-gallery__grid {
+      grid-template-columns: 1fr 1fr !important;
+      align-items: stretch !important;
+    }
+  }
+
+  .new-arrivals-gallery__column {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: var(--nag-gap, 14px) !important;
+    width: 100% !important;
+  }
+
+  .new-arrivals-gallery__row-split {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: var(--nag-gap, 14px) !important;
+    width: 100% !important;
+  }
+
+  .new-arrivals-gallery__card {
+    position: relative !important;
+    overflow: hidden !important;
+    border-radius: var(--nag-radius, 0px) !important;
+    background-color: #f6f6f6 !important;
+    width: 100% !important;
+    display: block !important;
+  }
+
+  .new-arrivals-gallery__card--split {
+    aspect-ratio: 1 / 1.18 !important;
+  }
+
+  .new-arrivals-gallery__card--large {
+    aspect-ratio: 1 / 0.88 !important;
+  }
+
+  .new-arrivals-gallery__card-link {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    text-decoration: none !important;
+    color: inherit !important;
+  }
+
+  .new-arrivals-gallery__media {
+    position: relative !important;
+    width: 100% !important;
+    height: 100% !important;
+    overflow: hidden !important;
+    display: block !important;
+  }
+
+  .new-arrivals-gallery__img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    display: block !important;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+
+  .new-arrivals-gallery__media--zoom:hover .new-arrivals-gallery__img {
+    transform: scale(1.04) !important;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "New Arrivals Gallery",
+  "tag": "section",
+  "class": "section-new-arrivals-gallery",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Heading & Title"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Italic Subheading",
+      "default": "the"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Main Heading",
+      "default": "N E W   A R R I V A L S"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 14,
+      "max": 36,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading Font Size",
+      "default": 20
+    },
+    {
+      "type": "text",
+      "id": "heading_letter_spacing",
+      "label": "Heading Letter Spacing",
+      "default": "0.35em"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#111111"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_underline",
+      "label": "Show Underline",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "underline_width",
+      "min": 20,
+      "max": 120,
+      "step": 2,
+      "unit": "px",
+      "label": "Underline Width",
+      "default": 44
+    },
+    {
+      "type": "color",
+      "id": "underline_color",
+      "label": "Underline Color",
+      "default": "#111111"
+    },
+    {
+      "type": "header",
+      "content": "Left Column - Top Left (Card 1)"
+    },
+    {
+      "type": "image_picker",
+      "id": "card_1_image",
+      "label": "Card 1 Image"
+    },
+    {
+      "type": "url",
+      "id": "card_1_link",
+      "label": "Card 1 Link"
+    },
+    {
+      "type": "text",
+      "id": "card_1_alt",
+      "label": "Card 1 Alt Text",
+      "default": "Classical Urn Vase"
+    },
+    {
+      "type": "header",
+      "content": "Left Column - Top Right (Card 2)"
+    },
+    {
+      "type": "image_picker",
+      "id": "card_2_image",
+      "label": "Card 2 Image"
+    },
+    {
+      "type": "url",
+      "id": "card_2_link",
+      "label": "Card 2 Link"
+    },
+    {
+      "type": "text",
+      "id": "card_2_alt",
+      "label": "Card 2 Alt Text",
+      "default": "Luxury Marble Vessel"
+    },
+    {
+      "type": "header",
+      "content": "Left Column - Bottom Wide (Card 3)"
+    },
+    {
+      "type": "image_picker",
+      "id": "card_3_image",
+      "label": "Card 3 Image"
+    },
+    {
+      "type": "url",
+      "id": "card_3_link",
+      "label": "Card 3 Link"
+    },
+    {
+      "type": "text",
+      "id": "card_3_alt",
+      "label": "Card 3 Alt Text",
+      "default": "Console Table with Forest Mural"
+    },
+    {
+      "type": "header",
+      "content": "Right Column - Top Tall (Card 4)"
+    },
+    {
+      "type": "image_picker",
+      "id": "card_4_image",
+      "label": "Card 4 Image"
+    },
+    {
+      "type": "url",
+      "id": "card_4_link",
+      "label": "Card 4 Link"
+    },
+    {
+      "type": "text",
+      "id": "card_4_alt",
+      "label": "Card 4 Alt Text",
+      "default": "Tall Standing Cabinet"
+    },
+    {
+      "type": "header",
+      "content": "Right Column - Bottom Left (Card 5)"
+    },
+    {
+      "type": "image_picker",
+      "id": "card_5_image",
+      "label": "Card 5 Image"
+    },
+    {
+      "type": "url",
+      "id": "card_5_link",
+      "label": "Card 5 Link"
+    },
+    {
+      "type": "text",
+      "id": "card_5_alt",
+      "label": "Card 5 Alt Text",
+      "default": "Vintage Ribbed Teapot"
+    },
+    {
+      "type": "header",
+      "content": "Right Column - Bottom Right (Card 6)"
+    },
+    {
+      "type": "image_picker",
+      "id": "card_6_image",
+      "label": "Card 6 Image"
+    },
+    {
+      "type": "url",
+      "id": "card_6_link",
+      "label": "Card 6 Link"
+    },
+    {
+      "type": "text",
+      "id": "card_6_alt",
+      "label": "Card 6 Alt Text",
+      "default": "Sculptural Globe Lamp"
+    },
+    {
+      "type": "header",
+      "content": "Layout & Animation Settings"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 500,
+      "max": 1600,
+      "step": 20,
+      "unit": "px",
+      "label": "Grid Max Width",
+      "default": 1080
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "min": 8,
+      "max": 36,
+      "step": 2,
+      "unit": "px",
+      "label": "Image Grid Gap",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "corner_radius",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Corner Radius",
+      "default": 0
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_hover_zoom",
+      "label": "Enable Image Hover Zoom",
+      "default": true
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 48
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 64
+    }
+  ],
+  "presets": [
+    {
+      "name": "New Arrivals Gallery",
+      "settings": {
+        "subheading": "the",
+        "heading": "N E W   A R R I V A L S",
+        "show_underline": true,
+        "max_width": 1080,
+        "gap": 14
+      }
+    }
+  ]
+}
+{% endschema %}
