@@ -1,0 +1,78 @@
+{%- comment -%}
+  Universal High-Performance Smooth Scrolling Engine for The House of Things
+  Ensures 100% smooth, natural scrolling across Desktop, Tablet, and Mobile devices.
+{%- endcomment -%}
+
+<style>
+  html {
+    scroll-behavior: smooth !important;
+    scrollbar-width: thin !important;
+  }
+
+  body {
+    scroll-behavior: smooth !important;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+  }
+
+  .page-wrapper {
+    scroll-behavior: smooth !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+</style>
+
+<script>
+  (function initUniversalSmoothScroll() {
+    if (window.__luxurySmoothScrollLoaded) return;
+    window.__luxurySmoothScrollLoaded = true;
+
+    function getScrollContainer() {
+      if (window.innerWidth >= 990) {
+        const pw = document.querySelector('.page-wrapper');
+        if (pw && pw.scrollHeight > pw.clientHeight) {
+          return pw;
+        }
+      }
+      return window;
+    }
+
+    // Smooth Anchor and Internal Link Navigation
+    document.addEventListener('click', function(e) {
+      const anchor = e.target.closest('a[href^="#"]');
+      if (!anchor) return;
+      const href = anchor.getAttribute('href');
+      if (!href || href === '#') return;
+
+      const targetElem = document.querySelector(href);
+      if (targetElem) {
+        e.preventDefault();
+        const headerOffset = parseInt(getComputedStyle(document.body).getPropertyValue('--header-height')) || 120;
+        const container = getScrollContainer();
+
+        if (container === window) {
+          const targetPosition = targetElem.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+          window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+          });
+        } else {
+          const targetPosition = targetElem.getBoundingClientRect().top + container.scrollTop - headerOffset;
+          container.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+          });
+        }
+      }
+    });
+
+    // Ensure smooth scroll-to-top function is globally accessible
+    window.scrollToTopSmooth = function() {
+      const container = getScrollContainer();
+      if (container === window) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        container.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    };
+  })();
+</script>

@@ -5,7 +5,7 @@
 <div
   id="LuxuryHeroSlider-{{ section.id }}"
   class="luxury-hero-slider-section"
-  style="--slider-height-desktop: {{ section.settings.slider_height_desktop }}vh; --slider-height-mobile: {{ section.settings.slider_height_mobile }}vh;"
+  style="--slider-height-desktop: calc({{ section.settings.slider_height_desktop }}vh + 30px); --slider-height-mobile: calc({{ section.settings.slider_height_mobile }}vh + 30px);"
   data-autoplay="{{ section.settings.autoplay }}"
   data-autoplay-speed="{{ section.settings.autoplay_speed | times: 1000 }}"
 >
@@ -242,15 +242,15 @@
   .luxury-hero-slider-wrapper {
     position: relative !important;
     width: 100% !important;
-    height: var(--slider-height-desktop, 80vh) !important;
-    min-height: 480px !important;
+    height: var(--slider-height-desktop, calc(80vh + 30px)) !important;
+    min-height: 510px !important;
     overflow: hidden !important;
   }
 
   @media screen and (max-width: 749px) {
     .luxury-hero-slider-wrapper {
-      height: var(--slider-height-mobile, 60vh) !important;
-      min-height: 340px !important;
+      height: var(--slider-height-mobile, calc(60vh + 30px)) !important;
+      min-height: 370px !important;
     }
   }
 

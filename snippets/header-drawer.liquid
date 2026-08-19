@@ -34,7 +34,6 @@
     <summary
       class="header__icon header__icon--menu header__icon--summary"
       aria-label="{{ 'accessibility.menu' | t }}"
-      on:click="/toggle"
     >
       <span class="svg-wrapper header-drawer-icon header-drawer-icon--open">
         {{- 'icon-menu.svg' | inline_asset_content -}}
@@ -45,7 +44,6 @@
     </summary>
     <div
       class="menu-drawer__backdrop"
-      on:click="/close"
       aria-hidden="true"
     ></div>
     <div
@@ -58,24 +56,6 @@
       "
     >
       <div class="menu-drawer__header">
-        <div class="menu-drawer__header-left-actions">
-          <button
-            class="button close-button menu-drawer__close-button focus-inset"
-            type="button"
-            aria-label="{{ 'actions.close' | t }}"
-            on:click="/close"
-          >
-            <span class="svg-wrapper header-drawer-icon header-drawer-icon--close">
-              {{- 'icon-close.svg' | inline_asset_content -}}
-            </span>
-          </button>
-          <a href="{{ routes.search_url }}" class="menu-drawer__header-search-icon" aria-label="{{ 'content.search' | t }}">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="11" cy="11" r="8"></circle>
-              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-            </svg>
-          </a>
-        </div>
         <span class="menu-drawer__header-title">COLLABORATIONS</span>
       </div>
 
@@ -122,10 +102,6 @@
         </ul>
       </nav>
     </div>
-    <div
-      class="menu-drawer__backdrop"
-      on:click="header-drawer/close"
-    ></div>
   </details>
 </header-drawer>
 
@@ -787,86 +763,98 @@
 {% endstylesheet %}
 
 <script>
-  (function initHeaderDrawerHover() {
-    function setupDrawerHover() {
+  (function initHeaderDrawerController() {
+    function setupDrawer() {
       const details = document.getElementById('Details-menu-drawer-container');
       if (!details) return;
 
       const summary = details.querySelector('summary.header__icon--menu');
-      const drawer = details.querySelector('.menu-drawer');
+      const closeBtn = details.querySelector('.menu-drawer__close-button');
       const backdrop = details.querySelector('.menu-drawer__backdrop');
+      const links = details.querySelectorAll('.menu-drawer__menu-item, .menu-drawer__editorial-link');
 
-      if (!summary || !drawer) return;
-
-      let isHovered = false;
-      let closeTimer = null;
-
-      function showMenu() {
-        if (closeTimer) {
-          clearTimeout(closeTimer);
-          closeTimer = null;
+      function openDrawer(e) {
+        if (e) {
+          e.preventDefault();
+          e.stopPropagation();
         }
-        isHovered = true;
+        details.classList.remove('is-closing');
         details.setAttribute('open', '');
-        details.classList.add('is-open', 'menu-open');
-        summary.setAttribute('aria-expanded', 'true');
-      }
-
-      function hideMenu(immediate = false) {
-        isHovered = false;
-        if (closeTimer) clearTimeout(closeTimer);
-
-        const executeClose = () => {
-          if (!isHovered) {
-            details.removeAttribute('open');
-            details.classList.remove('is-open', 'menu-open');
-            summary.setAttribute('aria-expanded', 'false');
+        void details.offsetWidth;
+        requestAnimationFrame(() => {
+          details.classList.add('is-open', 'menu-open');
+          if (summary) summary.setAttribute('aria-expanded', 'true');
+          if (window.innerWidth < 990) {
+            document.body.style.overflow = 'hidden';
           }
-        };
-
-        if (immediate) {
-          executeClose();
-        } else {
-          closeTimer = setTimeout(executeClose, 120);
-        }
-      }
-
-      // Hover on hamburger button
-      summary.addEventListener('mouseenter', showMenu);
-      summary.addEventListener('mouseleave', () => hideMenu(false));
-
-      // Hover on drawer content
-      drawer.addEventListener('mouseenter', showMenu);
-      drawer.addEventListener('mouseleave', () => hideMenu(false));
-
-      // Click on summary toggles
-      summary.addEventListener('click', (e) => {
-        if (details.hasAttribute('open')) {
-          e.preventDefault();
-          hideMenu(true);
-        }
-      });
-
-      // Close button inside drawer
-      const closeBtn = drawer.querySelector('.menu-drawer__close-button');
-      if (closeBtn) {
-        closeBtn.addEventListener('click', (e) => {
-          e.preventDefault();
-          hideMenu(true);
         });
       }
 
-      // Backdrop click
-      if (backdrop) {
-        backdrop.addEventListener('click', () => hideMenu(true));
-        backdrop.addEventListener('mouseenter', () => hideMenu(true));
+      function closeDrawer(e) {
+        if (e) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+        if (!details.hasAttribute('open')) return;
+        details.classList.remove('is-open', 'menu-open');
+        details.classList.add('is-closing');
+        if (summary) summary.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+        document.documentElement.style.overflow = '';
+
+        setTimeout(() => {
+          if (details.classList.contains('is-closing')) {
+            details.removeAttribute('open');
+            details.classList.remove('is-closing');
+          }
+        }, 340);
       }
+
+      if (summary) {
+        summary.onclick = function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          if (details.hasAttribute('open') && details.classList.contains('menu-open') && !details.classList.contains('is-closing')) {
+            closeDrawer(e);
+          } else {
+            openDrawer(e);
+          }
+        };
+      }
+
+      if (closeBtn) {
+        closeBtn.onclick = function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          closeDrawer(e);
+        };
+      }
+
+      if (backdrop) {
+        backdrop.onclick = function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          closeDrawer(e);
+        };
+      }
+
+      links.forEach((link) => {
+        link.addEventListener('click', () => {
+          closeDrawer();
+        });
+      });
+
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && details.hasAttribute('open')) {
+          closeDrawer();
+        }
+      });
     }
 
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', setupDrawerHover);
+      document.addEventListener('DOMContentLoaded', setupDrawer);
     } else {
-      setupDrawerHover();
+      setupDrawer();
     }
   })();
 </script>

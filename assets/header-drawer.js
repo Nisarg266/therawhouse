@@ -56,9 +56,13 @@ class HeaderDrawer extends Component {
 
   /**
    * Toggle the main menu drawer
+   * @param {Event} [event]
    */
-  toggle() {
-    return this.isOpen ? this.close() : this.open();
+  toggle(event) {
+    if (event && typeof event.preventDefault === 'function') {
+      event.preventDefault();
+    }
+    return this.isOpen ? this.close(event) : this.open(undefined, event);
   }
 
   /**
@@ -67,16 +71,20 @@ class HeaderDrawer extends Component {
    * @param {Event} [event]
    */
   open(target, event) {
+    if (event && typeof event.preventDefault === 'function') {
+      event.preventDefault();
+    }
     const details = this.#getDetailsElement(event);
     const summary = details.querySelector('summary');
 
     if (!summary) return;
 
+    details.setAttribute('open', '');
     summary.setAttribute('aria-expanded', 'true');
 
     this.preventInitialAccordionAnimations(details);
     requestAnimationFrame(() => {
-      details.classList.add('menu-open');
+      details.classList.add('menu-open', 'is-open');
 
       if (target) {
         this.refs.menuDrawer.classList.add('menu-drawer--has-submenu-opened');
@@ -98,8 +106,12 @@ class HeaderDrawer extends Component {
 
   /**
    * Close the main menu drawer
+   * @param {Event} [event]
    */
-  close() {
+  close(event) {
+    if (event && typeof event.preventDefault === 'function') {
+      event.preventDefault();
+    }
     this.#close(this.refs.details);
   }
 
@@ -114,7 +126,7 @@ class HeaderDrawer extends Component {
     if (!summary) return;
 
     summary.setAttribute('aria-expanded', 'false');
-    details.classList.remove('menu-open');
+    details.classList.remove('menu-open', 'is-open');
     this.refs.menuDrawer.classList.remove('menu-drawer--has-submenu-opened');
 
     // Wait for the .menu-drawer element's transition, not the entire details subtree
