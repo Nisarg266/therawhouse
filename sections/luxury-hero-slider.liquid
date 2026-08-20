@@ -5,7 +5,7 @@
 <div
   id="LuxuryHeroSlider-{{ section.id }}"
   class="luxury-hero-slider-section"
-  style="--slider-height-desktop: calc({{ section.settings.slider_height_desktop }}vh + 30px); --slider-height-mobile: calc({{ section.settings.slider_height_mobile }}vh + 30px);"
+  style="--slider-height-desktop: calc({{ section.settings.slider_height_desktop }}vh + 20px); --slider-height-mobile: calc({{ section.settings.slider_height_mobile }}vh + 20px);"
   data-autoplay="{{ section.settings.autoplay }}"
   data-autoplay-speed="{{ section.settings.autoplay_speed | times: 1000 }}"
 >
@@ -242,15 +242,15 @@
   .luxury-hero-slider-wrapper {
     position: relative !important;
     width: 100% !important;
-    height: var(--slider-height-desktop, calc(80vh + 30px)) !important;
-    min-height: 510px !important;
+    height: var(--slider-height-desktop, calc(86vh + 20px)) !important;
+    min-height: 590px !important;
     overflow: hidden !important;
   }
 
   @media screen and (max-width: 749px) {
     .luxury-hero-slider-wrapper {
-      height: var(--slider-height-mobile, calc(60vh + 30px)) !important;
-      min-height: 370px !important;
+      height: var(--slider-height-mobile, calc(70vh + 20px)) !important;
+      min-height: 420px !important;
     }
   }
 
@@ -334,35 +334,35 @@
   }
 
   .luxury-hero-slide__subheading {
-    font-size: 11.5px !important;
+    font-size: 12px !important;
     font-weight: 600 !important;
-    letter-spacing: 0.28em !important;
+    letter-spacing: 0.3em !important;
     text-transform: uppercase !important;
-    margin: 0 0 10px 0 !important;
-    color: rgba(255, 255, 255, 0.9) !important;
+    margin: 0 0 12px 0 !important;
+    color: rgba(255, 255, 255, 0.95) !important;
   }
 
   .luxury-hero-slide__heading {
-    font-size: clamp(24px, 4vw, 44px) !important;
+    font-size: clamp(26px, 4.2vw, 48px) !important;
     font-weight: 400 !important;
-    letter-spacing: 0.12em !important;
+    letter-spacing: 0.14em !important;
     text-transform: uppercase !important;
-    margin: 0 0 24px 0 !important;
-    line-height: 1.15 !important;
+    margin: 0 0 26px 0 !important;
+    line-height: 1.18 !important;
     color: #ffffff !important;
     font-family: inherit !important;
   }
 
   .luxury-hero-slide__btn {
     display: inline-block !important;
-    padding: 12px 28px !important;
+    padding: 13px 32px !important;
     background-color: transparent !important;
     color: #ffffff !important;
-    border: 1px solid #ffffff !important;
+    border: 1.5px solid #ffffff !important;
     border-radius: 9999px !important;
-    font-size: 11px !important;
+    font-size: 11.5px !important;
     font-weight: 600 !important;
-    letter-spacing: 0.18em !important;
+    letter-spacing: 0.2em !important;
     text-transform: uppercase !important;
     text-decoration: none !important;
     transition: all 0.3s ease !important;
@@ -463,17 +463,17 @@
       "id": "slider_height_desktop",
       "min": 50,
       "max": 100,
-      "step": 5,
+      "step": 1,
       "unit": "vh",
       "label": "Desktop Slider Height",
-      "default": 90
+      "default": 85
     },
     {
       "type": "range",
       "id": "slider_height_mobile",
       "min": 40,
       "max": 100,
-      "step": 5,
+      "step": 1,
       "unit": "vh",
       "label": "Mobile Slider Height",
       "default": 70

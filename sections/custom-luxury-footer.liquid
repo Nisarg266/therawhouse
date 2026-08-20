@@ -2,194 +2,757 @@
   id="CustomFooter-{{ section.id }}"
   class="custom-luxury-footer color-custom-{{ section.id }}"
   style="
+    --footer-bg: {{ section.settings.bg_color | default: '#ffffff' }};
+    --footer-heading-color: {{ section.settings.heading_color | default: '#111111' }};
+    --footer-text-color: {{ section.settings.text_color | default: '#444444' }};
+    --footer-hover-color: {{ section.settings.hover_color | default: '#000000' }};
+    --footer-border-color: {{ section.settings.border_color | default: '#f0f0f0' }};
     --footer-padding-top: {{ section.settings.padding_top | default: 60 }}px;
     --footer-padding-bottom: {{ section.settings.padding_bottom | default: 36 }}px;
     --footer-max-width: {{ section.settings.max_width | default: 1280 }}px;
   "
 >
   <div class="custom-footer__container">
-    <div class="custom-footer__top-row">
-      {%- comment -%} Column 1: About {%- endcomment -%}
-      <div class="custom-footer__col custom-footer__col--about">
-        <h3 class="custom-footer__col-heading">
-          {{ section.settings.about_heading | default: 'ABOUT' }}
-        </h3>
-        <ul class="custom-footer__links-list" role="list">
-          {% if section.settings.about_menu != blank %}
-            {% for link in section.settings.about_menu.links %}
-              <li>
-                <a href="{{ link.url }}" class="custom-footer__link">{{ link.title }}</a>
-              </li>
-            {% endfor %}
-          {% else %}
-            <li><a href="/pages/about-us" class="custom-footer__link">OUR STORY</a></li>
-            <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link">MAKERS</a></li>
-            <li><a href="/blogs/news" class="custom-footer__link">JOURNAL</a></li>
-            <li><a href="/pages/press" class="custom-footer__link">PRESS & EVENTS</a></li>
-            <li><a href="/policies/privacy-policy" class="custom-footer__link">PRIVACY POLICY</a></li>
-            <li><a href="/pages/contact" class="custom-footer__link">CONTACT US</a></li>
-          {% endif %}
-        </ul>
-      </div>
+    {%- if section.blocks.size > 0 -%}
+      {%- comment -%} ================= ADVANCED MODULAR BLOCKS LAYOUT ================= {%- endcomment -%}
+      <div class="custom-footer__blocks-grid">
+        {%- for block in section.blocks -%}
+          <div
+            class="custom-footer__block custom-footer__block--{{ block.type }} custom-footer__block--width-{{ block.settings.column_width | default: 'auto' }}"
+            {{ block.shopify_attributes }}
+          >
+            {%- case block.type -%}
+              {%- when 'menu' -%}
+                {%- assign block_menu = linklists[block.settings.menu] | default: block.settings.menu -%}
+                {%- assign block_heading = block.settings.heading | default: block_menu.title -%}
+                {%- if block_heading != blank -%}
+                  <h3 class="custom-footer__col-heading">{{ block_heading }}</h3>
+                {%- endif -%}
 
-      {%- comment -%} Column 2: Services {%- endcomment -%}
-      <div class="custom-footer__col custom-footer__col--services">
-        <h3 class="custom-footer__col-heading">
-          {{ section.settings.services_heading | default: 'SERVICES' }}
-        </h3>
-        <ul class="custom-footer__links-list" role="list">
-          {% if section.settings.services_menu != blank %}
-            {% for link in section.settings.services_menu.links %}
-              <li>
-                <a href="{{ link.url }}" class="custom-footer__link">{{ link.title }}</a>
-              </li>
-            {% endfor %}
-          {% else %}
-            <li><a href="/pages/concierge" class="custom-footer__link">CONCIERGE</a></li>
-            <li><a href="/pages/b2b" class="custom-footer__link">THOT B2B</a></li>
-            <li><a href="/pages/interiors" class="custom-footer__link">INTERIORS</a></li>
-            <li><a href="/pages/gifting" class="custom-footer__link">GIFTING SERVICES</a></li>
-            <li><a href="/policies/shipping-policy" class="custom-footer__link">SHIPPING & RETURNS</a></li>
-            <li><a href="/policies/terms-of-service" class="custom-footer__link">TERMS & CONDITIONS</a></li>
-          {% endif %}
-        </ul>
-      </div>
+                <ul class="custom-footer__links-list" role="list">
+                  {%- if block_menu != blank and block_menu.links.size > 0 -%}
+                    {%- for link in block_menu.links -%}
+                      <li>
+                        <a href="{{ link.url }}" class="custom-footer__link">{{ link.title }}</a>
+                        {%- if link.links != blank -%}
+                          <ul class="custom-footer__sublinks-list" role="list">
+                            {%- for child_link in link.links -%}
+                              <li>
+                                <a href="{{ child_link.url }}" class="custom-footer__sublink">{{ child_link.title }}</a>
+                              </li>
+                            {%- endfor -%}
+                          </ul>
+                        {%- endif -%}
+                      </li>
+                    {%- endfor -%}
+                  {%- else -%}
+                    <li><a href="/pages/about-us" class="custom-footer__link">OUR STORY</a></li>
+                    <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link">MAKERS</a></li>
+                    <li><a href="/blogs/news" class="custom-footer__link">JOURNAL</a></li>
+                    <li><a href="/pages/press" class="custom-footer__link">PRESS & EVENTS</a></li>
+                    <li><a href="/policies/privacy-policy" class="custom-footer__link">PRIVACY POLICY</a></li>
+                    <li><a href="/pages/contact" class="custom-footer__link">CONTACT US</a></li>
+                  {%- endif -%}
+                </ul>
 
-      {%- comment -%} Column 3: Newsletter & Concierge {%- endcomment -%}
-      <div class="custom-footer__col custom-footer__col--newsletter">
-        <h3 class="custom-footer__col-heading">
-          {{ section.settings.newsletter_heading | default: 'BE THE FIRST TO KNOW' }}
-        </h3>
+              {%- when 'text' -%}
+                {%- if block.settings.heading != blank -%}
+                  <h3 class="custom-footer__col-heading">{{ block.settings.heading }}</h3>
+                {%- endif -%}
+                {%- if block.settings.text != blank -%}
+                  <div class="custom-footer__text-content">
+                    {{ block.settings.text }}
+                  </div>
+                {%- endif -%}
+                {%- if block.settings.phone != blank or block.settings.email != blank -%}
+                  <div class="custom-footer__concierge-block" style="margin-top: 16px;">
+                    {%- if block.settings.contact_heading != blank -%}
+                      <h4 class="custom-footer__concierge-heading">{{ block.settings.contact_heading }}</h4>
+                    {%- endif -%}
+                    <p class="custom-footer__concierge-text">
+                      {%- if block.settings.phone != blank -%}
+                        <a href="tel:{{ block.settings.phone | replace: ' ', '' }}">{{ block.settings.phone }}</a>
+                      {%- endif -%}
+                      {%- if block.settings.phone != blank and block.settings.email != blank %} / {% endif -%}
+                      {%- if block.settings.email != blank -%}
+                        <a href="mailto:{{ block.settings.email }}">{{ block.settings.email }}</a>
+                      {%- endif -%}
+                    </p>
+                  </div>
+                {%- endif -%}
 
-        {% form 'customer', class: 'custom-footer__newsletter-form' %}
-          <input type="hidden" name="contact[tags]" value="newsletter">
-          <div class="custom-footer__newsletter-field-wrapper">
-            <input
-              type="email"
-              name="contact[email]"
-              id="NewsletterEmail-{{ section.id }}"
-              class="custom-footer__newsletter-input"
-              value="{{ form.email }}"
-              aria-required="true"
-              autocorrect="off"
-              autocapitalize="off"
-              autocomplete="email"
-              {% if form.errors %}
-                aria-invalid="true"
-                aria-describedby="Newsletter-error--{{ section.id }}"
-              {% elsif form.posted_successfully? %}
-                aria-describedby="Newsletter-success--{{ section.id }}"
-              {% endif %}
-              placeholder="{{ section.settings.newsletter_placeholder | default: 'Enter your email ID' }}"
-              required
-            >
-            <button
-              type="submit"
-              class="custom-footer__newsletter-btn"
-              name="commit"
-              id="Subscribe-{{ section.id }}"
-              aria-label="Subscribe"
-            >
-              {{ section.settings.newsletter_button_text | default: 'SUBSCRIBE' }}
-            </button>
+              {%- when 'newsletter' -%}
+                {%- if block.settings.heading != blank -%}
+                  <h3 class="custom-footer__col-heading">{{ block.settings.heading }}</h3>
+                {%- endif -%}
+                {%- if block.settings.subtext != blank -%}
+                  <p class="custom-footer__newsletter-subtext">{{ block.settings.subtext }}</p>
+                {%- endif -%}
+
+                {% form 'customer', class: 'custom-footer__newsletter-form' %}
+                  <input type="hidden" name="contact[tags]" value="newsletter">
+                  <div class="custom-footer__newsletter-field-wrapper">
+                    <input
+                      type="email"
+                      name="contact[email]"
+                      id="NewsletterEmail-{{ block.id }}"
+                      class="custom-footer__newsletter-input"
+                      value="{{ form.email }}"
+                      aria-required="true"
+                      autocorrect="off"
+                      autocapitalize="off"
+                      autocomplete="email"
+                      placeholder="{{ block.settings.placeholder | default: 'Enter your email ID' }}"
+                      required
+                    >
+                    <button
+                      type="submit"
+                      class="custom-footer__newsletter-btn"
+                      name="commit"
+                      id="Subscribe-{{ block.id }}"
+                      aria-label="Subscribe"
+                    >
+                      {{ block.settings.button_text | default: 'SUBSCRIBE' }}
+                    </button>
+                  </div>
+                  {%- if form.errors -%}
+                    <small class="custom-footer__form-message custom-footer__form-message--error">
+                      {{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}
+                    </small>
+                  {%- endif -%}
+                  {%- if form.posted_successfully? -%}
+                    <p class="custom-footer__form-message custom-footer__form-message--success" tabindex="-1">
+                      Thank you for subscribing!
+                    </p>
+                  {%- endif -%}
+                {% endform %}
+
+                {%- if block.settings.show_concierge -%}
+                  <div class="custom-footer__concierge-block">
+                    <h4 class="custom-footer__concierge-heading">
+                      {{ block.settings.concierge_heading | default: 'CONCIERGE' }}
+                    </h4>
+                    <p class="custom-footer__concierge-text">
+                      {{ block.settings.concierge_text | default: '+91 80030 11110 / concierge@thehouseofthings.com' }}
+                    </p>
+                  </div>
+                {%- endif -%}
+
+              {%- when 'image' -%}
+                {%- if block.settings.heading != blank -%}
+                  <h3 class="custom-footer__col-heading">{{ block.settings.heading }}</h3>
+                {%- endif -%}
+                {%- if block.settings.image != blank -%}
+                  <div class="custom-footer__image-wrapper" style="max-width: {{ block.settings.image_width | default: 160 }}px;">
+                    {%- if block.settings.link != blank -%}<a href="{{ block.settings.link }}">{%- endif -%}
+                    {{ block.settings.image | image_url: width: 400 | image_tag: loading: 'lazy', class: 'custom-footer__image' }}
+                    {%- if block.settings.link != blank -%}</a>{%- endif -%}
+                  </div>
+                {%- endif -%}
+                {%- if block.settings.caption != blank -%}
+                  <p class="custom-footer__image-caption">{{ block.settings.caption }}</p>
+                {%- endif -%}
+
+              {%- when 'custom_liquid' -%}
+                {{ block.settings.custom_liquid }}
+            {%- endcase -%}
           </div>
-          {%- if form.errors -%}
-            <small class="custom-footer__form-message custom-footer__form-message--error" id="Newsletter-error--{{ section.id }}">
-              {{ form.errors.translated_fields.email | capitalize }}
-              {{ form.errors.messages.email }}
-            </small>
-          {%- endif -%}
-          {%- if form.posted_successfully? -%}
-            <p class="custom-footer__form-message custom-footer__form-message--success" id="Newsletter-success--{{ section.id }}" tabindex="-1">
-              Thank you for subscribing!
-            </p>
-          {%- endif -%}
-        {% endform %}
-
-        <div class="custom-footer__concierge-block">
-          <h4 class="custom-footer__concierge-heading">
-            {{ section.settings.concierge_heading | default: 'CONCIERGE' }}
-          </h4>
-          <p class="custom-footer__concierge-text">
-            {{ section.settings.concierge_text | default: '+91 80030 11110 / concierge@thehouseofthings.com' }}
-          </p>
-        </div>
-      </div>
-    </div>
-
-    {%- comment -%} Middle Row: Payment Methods & Find Us Online {%- endcomment -%}
-    <div class="custom-footer__middle-row">
-      <div class="custom-footer__payment-col">
-        <h4 class="custom-footer__sub-heading">
-          {{ section.settings.payment_heading | default: 'PAYMENT METHODS' }}
-        </h4>
-        <div class="custom-footer__payment-icons">
-          {%- comment -%} PayPal {%- endcomment -%}
-          <span class="custom-footer__payment-item" title="PayPal">
-            <svg class="payment-icon payment-icon--paypal" viewBox="0 0 64 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <text x="0" y="18" font-family="'Helvetica Neue', Arial, sans-serif" font-size="16" font-style="italic" font-weight="700" fill="#777">PayPal</text>
-            </svg>
-          </span>
-          {%- comment -%} VISA {%- endcomment -%}
-          <span class="custom-footer__payment-item" title="Visa">
-            <svg class="payment-icon payment-icon--visa" viewBox="0 0 54 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <text x="0" y="18" font-family="'Helvetica Neue', Arial, sans-serif" font-size="16" font-style="italic" font-weight="800" fill="#777" letter-spacing="1">VISA</text>
-            </svg>
-          </span>
-          {%- comment -%} Mastercard {%- endcomment -%}
-          <span class="custom-footer__payment-item" title="Mastercard">
-            <svg class="payment-icon payment-icon--mastercard" viewBox="0 0 38 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="12" cy="12" r="10" fill="#888" fill-opacity="0.6"/>
-              <circle cx="26" cy="12" r="10" fill="#666" fill-opacity="0.7"/>
-            </svg>
-          </span>
-          {%- comment -%} AMEX {%- endcomment -%}
-          <span class="custom-footer__payment-item" title="American Express">
-            <svg class="payment-icon payment-icon--amex" viewBox="0 0 50 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="50" height="22" rx="3" fill="#888" fill-opacity="0.3"/>
-              <text x="6" y="15" font-family="'Helvetica Neue', Arial, sans-serif" font-size="10" font-weight="700" fill="#555" letter-spacing="0.5">AMEX</text>
-            </svg>
-          </span>
-        </div>
+        {%- endfor -%}
       </div>
 
-      <div class="custom-footer__social-col">
-        <h4 class="custom-footer__sub-heading">
-          {{ section.settings.social_heading | default: 'FIND US ONLINE' }}
-        </h4>
-        <div class="custom-footer__social-icons">
-          {%- comment -%} Facebook {%- endcomment -%}
-          <a href="{{ section.settings.facebook_url | default: 'https://facebook.com' }}" target="_blank" rel="noopener" class="custom-footer__social-badge" aria-label="Facebook">
-            <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
-              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-            </svg>
-          </a>
-          {%- comment -%} Instagram {%- endcomment -%}
-          <a href="{{ section.settings.instagram_url | default: 'https://instagram.com' }}" target="_blank" rel="noopener" class="custom-footer__social-badge" aria-label="Instagram">
-            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-            </svg>
-          </a>
-          {%- comment -%} Pinterest / X {%- endcomment -%}
-          <a href="{{ section.settings.pinterest_url | default: 'https://pinterest.com' }}" target="_blank" rel="noopener" class="custom-footer__social-badge" aria-label="Pinterest">
-            <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
-              <path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738.098.119.112.224.083.345-.09.375-.293 1.194-.333 1.36-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/>
-            </svg>
-          </a>
+    {%- else -%}
+      {%- comment -%} ================= DEFAULT 3-COLUMN SECTIONS LAYOUT ================= {%- endcomment -%}
+      <div class="custom-footer__top-row">
+        {%- comment -%} Column 1: About Menu {%- endcomment -%}
+        <div class="custom-footer__col custom-footer__col--about">
+          <h3 class="custom-footer__col-heading">
+            {{ section.settings.about_heading | default: 'ABOUT' }}
+          </h3>
+          {%- assign about_linklist = linklists[section.settings.about_menu] | default: section.settings.about_menu -%}
+          <ul class="custom-footer__links-list" role="list">
+            {%- if about_linklist != blank and about_linklist.links.size > 0 -%}
+              {%- for link in about_linklist.links -%}
+                <li>
+                  <a href="{{ link.url }}" class="custom-footer__link">{{ link.title }}</a>
+                  {%- if link.links != blank -%}
+                    <ul class="custom-footer__sublinks-list" role="list">
+                      {%- for child_link in link.links -%}
+                        <li><a href="{{ child_link.url }}" class="custom-footer__sublink">{{ child_link.title }}</a></li>
+                      {%- endfor -%}
+                    </ul>
+                  {%- endif -%}
+                </li>
+              {%- endfor -%}
+            {%- else -%}
+              <li><a href="/pages/about-us" class="custom-footer__link">OUR STORY</a></li>
+              <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link">MAKERS</a></li>
+              <li><a href="/blogs/news" class="custom-footer__link">JOURNAL</a></li>
+              <li><a href="/pages/press" class="custom-footer__link">PRESS & EVENTS</a></li>
+              <li><a href="/policies/privacy-policy" class="custom-footer__link">PRIVACY POLICY</a></li>
+              <li><a href="/pages/contact" class="custom-footer__link">CONTACT US</a></li>
+            {%- endif -%}
+          </ul>
         </div>
-      </div>
-    </div>
 
-    {%- comment -%} Bottom Row: Copyright {%- endcomment -%}
+        {%- comment -%} Column 2: Services Menu {%- endcomment -%}
+        <div class="custom-footer__col custom-footer__col--services">
+          <h3 class="custom-footer__col-heading">
+            {{ section.settings.services_heading | default: 'SERVICES' }}
+          </h3>
+          {%- assign services_linklist = linklists[section.settings.services_menu] | default: section.settings.services_menu -%}
+          <ul class="custom-footer__links-list" role="list">
+            {%- if services_linklist != blank and services_linklist.links.size > 0 -%}
+              {%- for link in services_linklist.links -%}
+                <li>
+                  <a href="{{ link.url }}" class="custom-footer__link">{{ link.title }}</a>
+                  {%- if link.links != blank -%}
+                    <ul class="custom-footer__sublinks-list" role="list">
+                      {%- for child_link in link.links -%}
+                        <li><a href="{{ child_link.url }}" class="custom-footer__sublink">{{ child_link.title }}</a></li>
+                      {%- endfor -%}
+                    </ul>
+                  {%- endif -%}
+                </li>
+              {%- endfor -%}
+            {%- else -%}
+              <li><a href="/pages/concierge" class="custom-footer__link">CONCIERGE</a></li>
+              <li><a href="/pages/b2b" class="custom-footer__link">THOT B2B</a></li>
+              <li><a href="/pages/interiors" class="custom-footer__link">INTERIORS</a></li>
+              <li><a href="/pages/gifting" class="custom-footer__link">GIFTING SERVICES</a></li>
+              <li><a href="/policies/shipping-policy" class="custom-footer__link">SHIPPING & RETURNS</a></li>
+              <li><a href="/policies/terms-of-service" class="custom-footer__link">TERMS & CONDITIONS</a></li>
+            {%- endif -%}
+          </ul>
+        </div>
+
+        {%- comment -%} Column 3: Newsletter & Concierge {%- endcomment -%}
+        {%- if section.settings.show_newsletter -%}
+          <div class="custom-footer__col custom-footer__col--newsletter">
+            <h3 class="custom-footer__col-heading">
+              {{ section.settings.newsletter_heading | default: 'BE THE FIRST TO KNOW' }}
+            </h3>
+
+            {% form 'customer', class: 'custom-footer__newsletter-form' %}
+              <input type="hidden" name="contact[tags]" value="newsletter">
+              <div class="custom-footer__newsletter-field-wrapper">
+                <input
+                  type="email"
+                  name="contact[email]"
+                  id="NewsletterEmail-{{ section.id }}"
+                  class="custom-footer__newsletter-input"
+                  value="{{ form.email }}"
+                  aria-required="true"
+                  autocorrect="off"
+                  autocapitalize="off"
+                  autocomplete="email"
+                  placeholder="{{ section.settings.newsletter_placeholder | default: 'Enter your email ID' }}"
+                  required
+                >
+                <button
+                  type="submit"
+                  class="custom-footer__newsletter-btn"
+                  name="commit"
+                  id="Subscribe-{{ section.id }}"
+                  aria-label="Subscribe"
+                >
+                  {{ section.settings.newsletter_button_text | default: 'SUBSCRIBE' }}
+                </button>
+              </div>
+              {%- if form.errors -%}
+                <small class="custom-footer__form-message custom-footer__form-message--error" id="Newsletter-error--{{ section.id }}">
+                  {{ form.errors.translated_fields.email | capitalize }}
+                  {{ form.errors.messages.email }}
+                </small>
+              {%- endif -%}
+              {%- if form.posted_successfully? -%}
+                <p class="custom-footer__form-message custom-footer__form-message--success" id="Newsletter-success--{{ section.id }}" tabindex="-1">
+                  Thank you for subscribing!
+                </p>
+              {%- endif -%}
+            {% endform %}
+
+            {%- if section.settings.show_concierge -%}
+              <div class="custom-footer__concierge-block">
+                <h4 class="custom-footer__concierge-heading">
+                  {{ section.settings.concierge_heading | default: 'CONCIERGE' }}
+                </h4>
+                <p class="custom-footer__concierge-text">
+                  {{ section.settings.concierge_text | default: '+91 80030 11110 / concierge@thehouseofthings.com' }}
+                </p>
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} ================= MIDDLE ROW: PAYMENT METHODS & SOCIAL MEDIA ================= {%- endcomment -%}
+    {%- if section.settings.show_payments or section.settings.show_social -%}
+      <div class="custom-footer__middle-row">
+        {%- if section.settings.show_payments -%}
+          <div class="custom-footer__payment-col">
+            <h4 class="custom-footer__sub-heading">
+              {{ section.settings.payment_heading | default: 'PAYMENT METHODS' }}
+            </h4>
+            <div class="custom-footer__payment-icons">
+              {%- if shop.enabled_payment_types.size > 0 and section.settings.use_shopify_payment_icons -%}
+                {%- for type in shop.enabled_payment_types -%}
+                  <span class="custom-footer__payment-item">
+                    {{ type | payment_type_svg_tag: class: 'payment-icon' }}
+                  </span>
+                {%- endfor -%}
+              {%- else -%}
+                {%- comment -%} Luxury Custom Minimal Payment Badges {%- endcomment -%}
+                <span class="custom-footer__payment-item" title="PayPal">
+                  <svg class="payment-icon payment-icon--paypal" viewBox="0 0 64 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <text x="0" y="18" font-family="'Helvetica Neue', Arial, sans-serif" font-size="16" font-style="italic" font-weight="700" fill="#777">PayPal</text>
+                  </svg>
+                </span>
+                <span class="custom-footer__payment-item" title="Visa">
+                  <svg class="payment-icon payment-icon--visa" viewBox="0 0 54 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <text x="0" y="18" font-family="'Helvetica Neue', Arial, sans-serif" font-size="16" font-style="italic" font-weight="800" fill="#777" letter-spacing="1">VISA</text>
+                  </svg>
+                </span>
+                <span class="custom-footer__payment-item" title="Mastercard">
+                  <svg class="payment-icon payment-icon--mastercard" viewBox="0 0 38 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="10" fill="#888" fill-opacity="0.6"/>
+                    <circle cx="26" cy="12" r="10" fill="#666" fill-opacity="0.7"/>
+                  </svg>
+                </span>
+                <span class="custom-footer__payment-item" title="American Express">
+                  <svg class="payment-icon payment-icon--amex" viewBox="0 0 50 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="50" height="22" rx="3" fill="#888" fill-opacity="0.3"/>
+                    <text x="6" y="15" font-family="'Helvetica Neue', Arial, sans-serif" font-size="10" font-weight="700" fill="#555" letter-spacing="0.5">AMEX</text>
+                  </svg>
+                </span>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.show_social -%}
+          <div class="custom-footer__social-col">
+            <h4 class="custom-footer__sub-heading">
+              {{ section.settings.social_heading | default: 'FIND US ONLINE' }}
+            </h4>
+            <div class="custom-footer__social-icons">
+              {%- assign fb_link = section.settings.facebook_url | default: 'https://facebook.com' -%}
+              {%- if fb_link != blank -%}
+                <a href="{{ fb_link }}" target="_blank" rel="noopener" class="custom-footer__social-badge" aria-label="Facebook">
+                  <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
+                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                  </svg>
+                </a>
+              {%- endif -%}
+
+              {%- assign ig_link = section.settings.instagram_url | default: 'https://instagram.com' -%}
+              {%- if ig_link != blank -%}
+                <a href="{{ ig_link }}" target="_blank" rel="noopener" class="custom-footer__social-badge" aria-label="Instagram">
+                  <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                  </svg>
+                </a>
+              {%- endif -%}
+
+              {%- assign pin_link = section.settings.pinterest_url | default: 'https://pinterest.com' -%}
+              {%- if pin_link != blank -%}
+                <a href="{{ pin_link }}" target="_blank" rel="noopener" class="custom-footer__social-badge" aria-label="Pinterest">
+                  <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
+                    <path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738.098.119.112.224.083.345-.09.375-.293 1.194-.333 1.36-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/>
+                  </svg>
+                </a>
+              {%- endif -%}
+
+              {%- if section.settings.twitter_url != blank -%}
+                <a href="{{ section.settings.twitter_url }}" target="_blank" rel="noopener" class="custom-footer__social-badge" aria-label="X / Twitter">
+                  <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+                  </svg>
+                </a>
+              {%- endif -%}
+
+              {%- if section.settings.youtube_url != blank -%}
+                <a href="{{ section.settings.youtube_url }}" target="_blank" rel="noopener" class="custom-footer__social-badge" aria-label="YouTube">
+                  <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
+                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                  </svg>
+                </a>
+              {%- endif -%}
+
+              {%- if section.settings.whatsapp_url != blank -%}
+                <a href="{{ section.settings.whatsapp_url }}" target="_blank" rel="noopener" class="custom-footer__social-badge" aria-label="WhatsApp">
+                  <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
+                    <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/>
+                  </svg>
+                </a>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} ================= BOTTOM ROW: COPYRIGHT ================= {%- endcomment -%}
     <div class="custom-footer__bottom-row">
       <p class="custom-footer__copyright">
-        &copy; {{ 'now' | date: '%Y' }} {{ section.settings.copyright_text | default: 'THOT Lifestyle Pvt Ltd' }}
+        &copy; {{ 'now' | date: '%Y' }} {{ section.settings.copyright_text | default: shop.name }}
       </p>
     </div>
   </div>
 </footer>
+
+<style>
+  .custom-luxury-footer {
+    background-color: var(--footer-bg, #ffffff);
+    color: var(--footer-text-color, #444444);
+    padding-top: var(--footer-padding-top, 60px);
+    padding-bottom: var(--footer-padding-bottom, 36px);
+    border-top: 1px solid var(--footer-border-color, #f0f0f0);
+    font-family: inherit;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .custom-footer__container {
+    max-width: var(--footer-max-width, 1280px);
+    margin-inline: auto;
+    padding-inline: 40px;
+    box-sizing: border-box;
+  }
+
+  .custom-footer__top-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.6fr;
+    gap: 48px;
+    align-items: flex-start;
+  }
+
+  .custom-footer__blocks-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 48px;
+    align-items: flex-start;
+  }
+
+  .custom-footer__block--width-auto {
+    flex: 1 1 200px;
+  }
+  .custom-footer__block--width-20 {
+    flex: 0 0 calc(20% - 39px);
+  }
+  .custom-footer__block--width-25 {
+    flex: 0 0 calc(25% - 36px);
+  }
+  .custom-footer__block--width-33 {
+    flex: 0 0 calc(33.333% - 32px);
+  }
+  .custom-footer__block--width-50 {
+    flex: 0 0 calc(50% - 24px);
+  }
+
+  .custom-footer__col-heading {
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--footer-heading-color, #111111);
+    margin: 0 0 20px 0;
+    font-family: inherit;
+    line-height: 1.2;
+  }
+
+  .custom-footer__links-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+  }
+
+  .custom-footer__sublinks-list {
+    list-style: none;
+    margin: 6px 0 0 12px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .custom-footer__link,
+  .custom-footer__sublink {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--footer-text-color, #444444);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    line-height: 1.3;
+    display: inline-block;
+  }
+
+  .custom-footer__sublink {
+    font-size: 10px;
+    opacity: 0.85;
+  }
+
+  .custom-footer__link:hover,
+  .custom-footer__sublink:hover {
+    color: var(--footer-hover-color, #000000);
+  }
+
+  .custom-footer__text-content {
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--footer-text-color, #444444);
+  }
+
+  .custom-footer__newsletter-subtext {
+    font-size: 11.5px;
+    color: var(--footer-text-color, #666666);
+    margin: 0 0 16px 0;
+    line-height: 1.4;
+  }
+
+  .custom-footer__newsletter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .custom-footer__newsletter-field-wrapper {
+    display: flex;
+    align-items: flex-end;
+    gap: 16px;
+    max-width: 440px;
+  }
+
+  .custom-footer__newsletter-input {
+    flex: 1;
+    border: none !important;
+    border-bottom: 1.5px solid var(--footer-heading-color, #111111) !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+    padding: 6px 0 !important;
+    font-size: 12.5px !important;
+    color: var(--footer-heading-color, #111111) !important;
+    outline: none !important;
+    font-family: inherit !important;
+  }
+
+  .custom-footer__newsletter-input::placeholder {
+    color: #888888 !important;
+    font-size: 12px !important;
+  }
+
+  .custom-footer__newsletter-btn {
+    background: transparent !important;
+    border: none !important;
+    cursor: pointer !important;
+    padding: 6px 0 !important;
+    font-size: 11.5px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.18em !important;
+    text-transform: uppercase !important;
+    color: var(--footer-heading-color, #111111) !important;
+    text-decoration: underline !important;
+    text-underline-offset: 4px !important;
+    white-space: nowrap !important;
+    transition: opacity 0.2s ease !important;
+  }
+
+  .custom-footer__newsletter-btn:hover {
+    opacity: 0.7 !important;
+  }
+
+  .custom-footer__form-message {
+    font-size: 11px;
+    margin-top: 6px;
+  }
+
+  .custom-footer__form-message--success {
+    color: #2e7d32;
+  }
+
+  .custom-footer__form-message--error {
+    color: #c02b27;
+  }
+
+  .custom-footer__concierge-block {
+    margin-top: 36px;
+  }
+
+  .custom-footer__concierge-heading {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--footer-heading-color, #111111);
+    margin: 0 0 8px 0;
+    font-family: inherit;
+  }
+
+  .custom-footer__concierge-text {
+    font-size: 11.5px;
+    color: var(--footer-text-color, #444444);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .custom-footer__concierge-text a {
+    color: var(--footer-text-color, #444444);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .custom-footer__concierge-text a:hover {
+    color: var(--footer-hover-color, #000000);
+    text-decoration: underline;
+  }
+
+  .custom-footer__image-wrapper img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .custom-footer__image-caption {
+    font-size: 11px;
+    color: var(--footer-text-color, #666666);
+    margin: 8px 0 0 0;
+  }
+
+  .custom-footer__middle-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.6fr;
+    gap: 48px;
+    margin-top: 48px;
+    align-items: flex-start;
+  }
+
+  .custom-footer__sub-heading {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #666666;
+    margin: 0 0 14px 0;
+    font-family: inherit;
+  }
+
+  .custom-footer__payment-icons {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .custom-footer__payment-item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 24px;
+  }
+
+  .payment-icon {
+    height: 20px;
+    width: auto;
+    display: block;
+  }
+
+  .custom-footer__social-icons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .custom-footer__social-badge {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background-color: #222222;
+    color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+  }
+
+  .custom-footer__social-badge:hover {
+    background-color: #000000;
+    transform: translateY(-2px);
+  }
+
+  .custom-footer__bottom-row {
+    margin-top: 44px;
+    padding-top: 24px;
+    border-top: 1px solid var(--footer-border-color, #f0f0f0);
+    text-align: center;
+  }
+
+  .custom-footer__copyright {
+    font-size: 11px;
+    color: #777777;
+    letter-spacing: 0.05em;
+    margin: 0;
+  }
+
+  @media screen and (max-width: 989px) {
+    .custom-footer__top-row,
+    .custom-footer__middle-row {
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+    }
+    .custom-footer__blocks-grid {
+      gap: 32px;
+    }
+    .custom-footer__block--width-20,
+    .custom-footer__block--width-25,
+    .custom-footer__block--width-33 {
+      flex: 0 0 calc(50% - 16px);
+    }
+    .custom-footer__block--width-50 {
+      flex: 0 0 100%;
+    }
+    .custom-footer__col--newsletter {
+      grid-column: 1 / -1;
+    }
+    .custom-footer__social-col {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    .custom-footer__container {
+      padding-inline: 20px;
+    }
+    .custom-footer__top-row,
+    .custom-footer__middle-row {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+    .custom-footer__blocks-grid {
+      flex-direction: column;
+      gap: 28px;
+    }
+    .custom-footer__block--width-20,
+    .custom-footer__block--width-25,
+    .custom-footer__block--width-33,
+    .custom-footer__block--width-50,
+    .custom-footer__block--width-auto {
+      flex: 0 0 100%;
+      width: 100%;
+    }
+    .custom-footer__newsletter-field-wrapper {
+      max-width: 100%;
+    }
+  }
+</style>
 
 {% schema %}
 {
@@ -199,37 +762,41 @@
   "settings": [
     {
       "type": "header",
-      "content": "Column 1: About"
+      "content": "Navigation Menus (Section Mode)"
     },
     {
       "type": "text",
       "id": "about_heading",
-      "label": "About Heading",
+      "label": "First Column Heading",
       "default": "ABOUT"
     },
     {
       "type": "link_list",
       "id": "about_menu",
-      "label": "About Menu (Optional)"
-    },
-    {
-      "type": "header",
-      "content": "Column 2: Services"
+      "label": "First Column Menu (Shopify Navigation)",
+      "info": "Select any menu created in Shopify Admin > Online Store > Navigation"
     },
     {
       "type": "text",
       "id": "services_heading",
-      "label": "Services Heading",
+      "label": "Second Column Heading",
       "default": "SERVICES"
     },
     {
       "type": "link_list",
       "id": "services_menu",
-      "label": "Services Menu (Optional)"
+      "label": "Second Column Menu (Shopify Navigation)",
+      "info": "Select any menu created in Shopify Admin > Online Store > Navigation"
     },
     {
       "type": "header",
-      "content": "Column 3: Newsletter"
+      "content": "Newsletter Form"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_newsletter",
+      "label": "Enable Newsletter Section",
+      "default": true
     },
     {
       "type": "text",
@@ -254,6 +821,12 @@
       "content": "Concierge Info"
     },
     {
+      "type": "checkbox",
+      "id": "show_concierge",
+      "label": "Enable Concierge Info",
+      "default": true
+    },
+    {
       "type": "text",
       "id": "concierge_heading",
       "label": "Concierge Heading",
@@ -267,13 +840,36 @@
     },
     {
       "type": "header",
-      "content": "Payment Methods & Social"
+      "content": "Payment Methods"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payments",
+      "label": "Show Payment Methods",
+      "default": true
     },
     {
       "type": "text",
       "id": "payment_heading",
       "label": "Payment Heading",
       "default": "PAYMENT METHODS"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_shopify_payment_icons",
+      "label": "Use Automatic Shopify Payment Icons",
+      "default": false,
+      "info": "If unchecked, displays luxury curated minimal payment badges"
+    },
+    {
+      "type": "header",
+      "content": "Social Media Links"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_social",
+      "label": "Show Social Media Icons",
+      "default": true
     },
     {
       "type": "text",
@@ -294,7 +890,56 @@
     {
       "type": "url",
       "id": "pinterest_url",
-      "label": "Pinterest / X URL"
+      "label": "Pinterest URL"
+    },
+    {
+      "type": "url",
+      "id": "twitter_url",
+      "label": "X / Twitter URL"
+    },
+    {
+      "type": "url",
+      "id": "youtube_url",
+      "label": "YouTube URL"
+    },
+    {
+      "type": "url",
+      "id": "whatsapp_url",
+      "label": "WhatsApp URL"
+    },
+    {
+      "type": "header",
+      "content": "Colors & Styling"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Footer Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Headings Color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text & Links Color",
+      "default": "#444444"
+    },
+    {
+      "type": "color",
+      "id": "hover_color",
+      "label": "Links Hover Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Divider Border Color",
+      "default": "#f0f0f0"
     },
     {
       "type": "header",
@@ -310,7 +955,7 @@
       "type": "range",
       "id": "max_width",
       "min": 900,
-      "max": 1400,
+      "max": 1600,
       "step": 20,
       "unit": "px",
       "label": "Max Width",
@@ -320,7 +965,7 @@
       "type": "range",
       "id": "padding_top",
       "min": 20,
-      "max": 100,
+      "max": 120,
       "step": 4,
       "unit": "px",
       "label": "Top Padding",
@@ -330,11 +975,212 @@
       "type": "range",
       "id": "padding_bottom",
       "min": 20,
-      "max": 100,
+      "max": 120,
       "step": 4,
       "unit": "px",
       "label": "Bottom Padding",
       "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "menu",
+      "name": "Navigation Menu",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Menu Heading",
+          "info": "Leave blank to use the name of the selected Shopify menu"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Shopify Navigation Menu",
+          "default": "footer",
+          "info": "Select any menu from Shopify Admin > Navigation"
+        },
+        {
+          "type": "select",
+          "id": "column_width",
+          "label": "Column Width",
+          "options": [
+            { "value": "auto", "label": "Auto" },
+            { "value": "20", "label": "20%" },
+            { "value": "25", "label": "25%" },
+            { "value": "33", "label": "33.33%" },
+            { "value": "50", "label": "50%" }
+          ],
+          "default": "auto"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text & Contact",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "ABOUT THE BRAND"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>A destination for art, design and craftsmanship, curated for a life artfully lived.</p>"
+        },
+        {
+          "type": "text",
+          "id": "contact_heading",
+          "label": "Contact Heading",
+          "default": "CONCIERGE"
+        },
+        {
+          "type": "text",
+          "id": "phone",
+          "label": "Phone Number",
+          "default": "+91 80030 11110"
+        },
+        {
+          "type": "text",
+          "id": "email",
+          "label": "Email Address",
+          "default": "concierge@thehouseofthings.com"
+        },
+        {
+          "type": "select",
+          "id": "column_width",
+          "label": "Column Width",
+          "options": [
+            { "value": "auto", "label": "Auto" },
+            { "value": "20", "label": "20%" },
+            { "value": "25", "label": "25%" },
+            { "value": "33", "label": "33.33%" },
+            { "value": "50", "label": "50%" }
+          ],
+          "default": "auto"
+        }
+      ]
+    },
+    {
+      "type": "newsletter",
+      "name": "Newsletter & Concierge",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "BE THE FIRST TO KNOW"
+        },
+        {
+          "type": "text",
+          "id": "subtext",
+          "label": "Subtext (Optional)"
+        },
+        {
+          "type": "text",
+          "id": "placeholder",
+          "label": "Input Placeholder",
+          "default": "Enter your email ID"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button Label",
+          "default": "SUBSCRIBE"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_concierge",
+          "label": "Show Concierge Block Below Form",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "concierge_heading",
+          "label": "Concierge Heading",
+          "default": "CONCIERGE"
+        },
+        {
+          "type": "text",
+          "id": "concierge_text",
+          "label": "Concierge Contact Text",
+          "default": "+91 80030 11110 / concierge@thehouseofthings.com"
+        },
+        {
+          "type": "select",
+          "id": "column_width",
+          "label": "Column Width",
+          "options": [
+            { "value": "auto", "label": "Auto" },
+            { "value": "33", "label": "33.33%" },
+            { "value": "50", "label": "50%" }
+          ],
+          "default": "auto"
+        }
+      ]
+    },
+    {
+      "type": "image",
+      "name": "Brand Logo / Image",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading (Optional)"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Logo or Image"
+        },
+        {
+          "type": "range",
+          "id": "image_width",
+          "min": 50,
+          "max": 300,
+          "step": 10,
+          "unit": "px",
+          "label": "Image Width",
+          "default": 140
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Image Link URL"
+        },
+        {
+          "type": "text",
+          "id": "caption",
+          "label": "Caption Text"
+        },
+        {
+          "type": "select",
+          "id": "column_width",
+          "label": "Column Width",
+          "options": [
+            { "value": "auto", "label": "Auto" },
+            { "value": "20", "label": "20%" },
+            { "value": "25", "label": "25%" },
+            { "value": "33", "label": "33.33%" }
+          ],
+          "default": "auto"
+        }
+      ]
+    },
+    {
+      "type": "custom_liquid",
+      "name": "Custom Liquid / HTML",
+      "settings": [
+        {
+          "type": "liquid",
+          "id": "custom_liquid",
+          "label": "Custom Liquid code"
+        }
+      ]
     }
   ],
   "presets": [
