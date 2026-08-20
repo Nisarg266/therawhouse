@@ -15,7 +15,9 @@
       "type": "custom-luxury-footer",
       "settings": {
         "about_heading": "ABOUT",
+        "about_menu": "footer",
         "services_heading": "SERVICES",
+        "services_menu": "footer",
         "newsletter_heading": "BE THE FIRST TO KNOW",
         "newsletter_placeholder": "Enter your email ID",
         "newsletter_button_text": "SUBSCRIBE",
