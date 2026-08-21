@@ -1,18 +1,22 @@
 <div
   class="about-pillars about-pillars--{{ section.id }}"
   style="
-    --pillars-pt: {{ section.settings.padding_top }}px;
-    --pillars-pb: {{ section.settings.padding_bottom }}px;
-    --pillars-bg: {{ section.settings.bg_color }};
-    --pillars-card-bg: {{ section.settings.card_bg_color }};
-    --pillars-heading: {{ section.settings.heading_color }};
-    --pillars-text: {{ section.settings.text_color }};
-    --pillars-accent: {{ section.settings.accent_color }};
+    --pillars-pt: {{ section.settings.padding_top | default: 90 }}px;
+    --pillars-pb: {{ section.settings.padding_bottom | default: 90 }}px;
+    --pillars-pt-mobile: {{ section.settings.mobile_padding_top | default: 50 }}px;
+    --pillars-pb-mobile: {{ section.settings.mobile_padding_bottom | default: 50 }}px;
+    --pillars-bg: {{ section.settings.bg_color | default: '#ffffff' }};
+    --pillars-card-bg: {{ section.settings.card_bg_color | default: '#faf8f5' }};
+    --pillars-card-border: {{ section.settings.card_border_color | default: '#ede8e1' }};
+    --pillars-heading: {{ section.settings.heading_color | default: '#111111' }};
+    --pillars-text: {{ section.settings.text_color | default: '#666666' }};
+    --pillars-accent: {{ section.settings.accent_color | default: '#c8a876' }};
+    --pillars-cols: {{ section.settings.columns_desktop | default: 4 }};
   "
 >
   <div class="about-pillars__container about-slider-wrapper">
     
-    <div class="about-pillars__header" data-about-reveal>
+    <div class="about-pillars__header about-pillars__header--align-{{ section.settings.header_alignment | default: 'center' }}" {% if section.settings.enable_reveal_animation != false %}data-about-reveal{% endif %}>
       {%- if section.settings.eyebrow != blank -%}
         <div class="about-pillars__eyebrow-wrap">
           <span class="about-pillars__eyebrow-line"></span>
@@ -32,45 +36,74 @@
       {%- endif -%}
     </div>
 
-    <div class="about-pillars__grid about-mobile-slider">
+    <div class="about-pillars__grid {% if section.settings.mobile_layout == 'swipe_slider' or section.settings.mobile_layout == blank %}about-mobile-slider{% elsif section.settings.mobile_layout == 'grid_2_col' %}about-mobile-grid-2{% else %}about-mobile-grid-1{% endif %}">
       {%- if section.blocks.size > 0 -%}
         {%- for block in section.blocks -%}
-          <div class="about-pillars__card" data-about-reveal {{ block.shopify_attributes }}>
+          <div class="about-pillars__card" {% if section.settings.enable_reveal_animation != false %}data-about-reveal{% endif %} {{ block.shopify_attributes }}>
+            {%- if block.settings.link_url != blank -%}
+              <a href="{{ block.settings.link_url }}" class="about-pillars__card-overlay-link" aria-label="{{ block.settings.title | escape }}"></a>
+            {%- endif -%}
             <div class="about-pillars__card-top">
               <span class="about-pillars__num">0{{ forloop.index }}</span>
               <div class="about-pillars__icon-wrap">
-                {%- case block.settings.icon -%}
-                  {%- when 'globe' -%}
-                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                      <circle cx="12" cy="12" r="10"></circle>
-                      <line x1="2" y1="12" x2="22" y2="12"></line>
-                      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-                    </svg>
-                  {%- when 'craft' -%}
-                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                      <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
-                      <polyline points="2 17 12 22 22 17"></polyline>
-                      <polyline points="2 12 12 17 22 12"></polyline>
-                    </svg>
-                  {%- when 'concierge' -%}
-                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                    </svg>
-                  {%- when 'sustainability' -%}
-                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                    </svg>
-                  {%- else -%}
-                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                      <circle cx="12" cy="12" r="9"></circle>
-                      <polyline points="12 6 12 12 16 14"></polyline>
-                    </svg>
-                {%- endcase -%}
+                {%- if block.settings.custom_icon_image != blank -%}
+                  {{ block.settings.custom_icon_image | image_url: width: 48 | image_tag: class: 'about-pillars__custom-icon', loading: 'lazy', alt: block.settings.title | escape }}
+                {%- else -%}
+                  {%- case block.settings.icon -%}
+                    {%- when 'globe' -%}
+                      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="2" y1="12" x2="22" y2="12"></line>
+                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                      </svg>
+                    {%- when 'craft' -%}
+                      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                        <polyline points="2 17 12 22 22 17"></polyline>
+                        <polyline points="2 12 12 17 22 12"></polyline>
+                      </svg>
+                    {%- when 'concierge' -%}
+                      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                      </svg>
+                    {%- when 'sustainability' -%}
+                      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                      </svg>
+                    {%- when 'compass' -%}
+                      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
+                      </svg>
+                    {%- when 'award' -%}
+                      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="8" r="7"></circle>
+                        <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+                      </svg>
+                    {%- when 'eye' -%}
+                      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                      </svg>
+                    {%- else -%}
+                      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="9"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                      </svg>
+                  {%- endcase -%}
+                {%- endif -%}
               </div>
             </div>
 
             <h3 class="about-pillars__card-title">{{ block.settings.title }}</h3>
             <p class="about-pillars__card-desc">{{ block.settings.description }}</p>
+
+            {%- if block.settings.link_text != blank -%}
+              <span class="about-pillars__card-link-text">
+                {{ block.settings.link_text }}
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              </span>
+            {%- endif -%}
 
             <div class="about-pillars__card-line"></div>
           </div>
@@ -83,7 +116,7 @@
           assign default_icons = 'globe,craft,concierge,sustainability' | split: ','
         %}
         {% for title in default_titles %}
-          <div class="about-pillars__card" data-about-reveal>
+          <div class="about-pillars__card" {% if section.settings.enable_reveal_animation != false %}data-about-reveal{% endif %}>
             <div class="about-pillars__card-top">
               <span class="about-pillars__num">0{{ forloop.index }}</span>
               <div class="about-pillars__icon-wrap">
@@ -123,8 +156,8 @@
   .about-pillars {
     width: 100%;
     background-color: var(--pillars-bg, #ffffff);
-    padding-top: var(--pillars-pt, 85px);
-    padding-bottom: var(--pillars-pb, 85px);
+    padding-top: var(--pillars-pt, 90px);
+    padding-bottom: var(--pillars-pb, 90px);
     box-sizing: border-box;
   }
 
@@ -137,9 +170,16 @@
   }
 
   .about-pillars__header {
-    text-align: center;
     max-width: 800px;
     margin: 0 auto 48px auto;
+  }
+
+  .about-pillars__header--align-center {
+    text-align: center;
+  }
+  .about-pillars__header--align-left {
+    text-align: left;
+    margin-left: 0;
   }
 
   .about-pillars__eyebrow-wrap {
@@ -186,19 +226,25 @@
 
   .about-pillars__grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(var(--pillars-cols, 4), 1fr);
     gap: 24px;
   }
 
   .about-pillars__card {
     position: relative;
     background-color: var(--pillars-card-bg, #faf8f5);
-    border: 1px solid #ede8e1;
+    border: 1px solid var(--pillars-card-border, #ede8e1);
     padding: 32px 24px 28px;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
     transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.3s ease;
+  }
+
+  .about-pillars__card-overlay-link {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
   }
 
   .about-pillars__card:nth-child(1) { transition-delay: 0.08s; }
@@ -235,6 +281,12 @@
     transition: transform 0.3s ease, color 0.3s ease;
   }
 
+  .about-pillars__custom-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+  }
+
   .about-pillars__card:hover .about-pillars__icon-wrap {
     color: var(--pillars-accent, #c8a876);
     transform: scale(1.1);
@@ -258,6 +310,18 @@
     color: var(--pillars-text, #666666);
     margin: 0 0 18px 0;
     flex-grow: 1;
+  }
+
+  .about-pillars__card-link-text {
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--pillars-accent, #c8a876);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 12px;
   }
 
   .about-pillars__card-line {
@@ -302,8 +366,8 @@
 
   @media screen and (max-width: 749px) {
     .about-pillars {
-      padding-top: 48px;
-      padding-bottom: 48px;
+      padding-top: var(--pillars-pt-mobile, 48px);
+      padding-bottom: var(--pillars-pb-mobile, 48px);
     }
     .about-pillars__container {
       padding: 0 16px;
@@ -329,13 +393,28 @@
     .about-pillars__grid.about-mobile-slider::-webkit-scrollbar {
       display: none;
     }
-    .about-pillars__card {
+    .about-pillars__grid.about-mobile-slider .about-pillars__card {
       flex: 0 0 78vw;
       max-width: 290px;
       scroll-snap-align: start;
       padding: 24px 20px 22px;
     }
-    .about-slider-dots {
+
+    .about-pillars__grid.about-mobile-grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    .about-pillars__grid.about-mobile-grid-2 .about-pillars__card {
+      padding: 18px 14px;
+    }
+    .about-pillars__grid.about-mobile-grid-1 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    .about-pillars__grid.about-mobile-slider ~ .about-slider-dots {
       display: flex;
     }
   }
@@ -346,11 +425,18 @@
   "name": "About Pillars",
   "tag": "section",
   "class": "section-about-pillars",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
   "settings": [
+    {
+      "type": "header",
+      "content": "Section Header & Intro"
+    },
     {
       "type": "text",
       "id": "eyebrow",
-      "label": "Eyebrow Text",
+      "label": "Eyebrow Subtitle",
       "default": "OUR PHILOSOPHY"
     },
     {
@@ -366,8 +452,42 @@
       "default": "Every collectible, artwork, and design object is governed by four timeless tenets of excellence."
     },
     {
+      "type": "select",
+      "id": "header_alignment",
+      "label": "Header Alignment",
+      "options": [
+        { "value": "center", "label": "Center Aligned" },
+        { "value": "left", "label": "Left Aligned" }
+      ],
+      "default": "center"
+    },
+    {
       "type": "header",
-      "content": "Colors & Padding"
+      "content": "Grid Layout & Cards"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "label": "Desktop Columns",
+      "default": 4
+    },
+    {
+      "type": "select",
+      "id": "mobile_layout",
+      "label": "Mobile Layout Style",
+      "options": [
+        { "value": "swipe_slider", "label": "Horizontal Swipe Slider (Smooth)" },
+        { "value": "grid_2_col", "label": "2 Columns Grid" },
+        { "value": "grid_1_col", "label": "1 Column Stacked" }
+      ],
+      "default": "swipe_slider"
+    },
+    {
+      "type": "header",
+      "content": "Colors & Borders"
     },
     {
       "type": "color",
@@ -383,41 +503,77 @@
     },
     {
       "type": "color",
+      "id": "card_border_color",
+      "label": "Card Border Color",
+      "default": "#ede8e1"
+    },
+    {
+      "type": "color",
       "id": "heading_color",
-      "label": "Heading Color",
+      "label": "Heading Text Color",
       "default": "#111111"
     },
     {
       "type": "color",
       "id": "text_color",
-      "label": "Text Color",
+      "label": "Body Text Color",
       "default": "#666666"
     },
     {
       "type": "color",
       "id": "accent_color",
-      "label": "Accent Color",
+      "label": "Gold Accent Color",
       "default": "#c8a876"
+    },
+    {
+      "type": "header",
+      "content": "Animation & Spacing"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_reveal_animation",
+      "label": "Enable Scroll Reveal Animation",
+      "default": true
     },
     {
       "type": "range",
       "id": "padding_top",
       "min": 40,
-      "max": 160,
+      "max": 180,
       "step": 5,
       "unit": "px",
-      "label": "Top Padding",
+      "label": "Desktop Top Padding",
       "default": 90
     },
     {
       "type": "range",
       "id": "padding_bottom",
       "min": 40,
-      "max": 160,
+      "max": 180,
       "step": 5,
       "unit": "px",
-      "label": "Bottom Padding",
+      "label": "Desktop Bottom Padding",
       "default": 90
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_top",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile Top Padding",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_bottom",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile Bottom Padding",
+      "default": 50
     }
   ],
   "blocks": [
@@ -428,14 +584,23 @@
         {
           "type": "select",
           "id": "icon",
-          "label": "Icon",
+          "label": "Vector Icon",
           "options": [
             { "value": "globe", "label": "Globe / Global Sourcing" },
             { "value": "craft", "label": "Craft / Geometric Diamond" },
             { "value": "concierge", "label": "Concierge / Star" },
-            { "value": "sustainability", "label": "Sustainability / Shield" }
+            { "value": "sustainability", "label": "Sustainability / Shield" },
+            { "value": "compass", "label": "Compass / Heritage" },
+            { "value": "award", "label": "Award / Excellence" },
+            { "value": "eye", "label": "Eye / Visionary Design" }
           ],
           "default": "globe"
+        },
+        {
+          "type": "image_picker",
+          "id": "custom_icon_image",
+          "label": "Custom Icon Image (Optional)",
+          "info": "Upload PNG/SVG icon to override vector icon"
         },
         {
           "type": "text",
@@ -448,6 +613,17 @@
           "id": "description",
           "label": "Pillar Description",
           "default": "Sourcing across 200+ artisan workshops and international design ateliers with uncompromising discerning standards."
+        },
+        {
+          "type": "text",
+          "id": "link_text",
+          "label": "Optional Card Link Text",
+          "placeholder": "Discover More"
+        },
+        {
+          "type": "url",
+          "id": "link_url",
+          "label": "Optional Card Link URL"
         }
       ]
     }

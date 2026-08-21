@@ -1,19 +1,24 @@
 <div
   class="about-narrative about-narrative--{{ section.id }}"
   style="
-    --narrative-pt: {{ section.settings.padding_top }}px;
-    --narrative-pb: {{ section.settings.padding_bottom }}px;
-    --narrative-bg: {{ section.settings.bg_color }};
-    --narrative-heading: {{ section.settings.heading_color }};
-    --narrative-text: {{ section.settings.text_color }};
-    --narrative-accent: {{ section.settings.accent_color }};
+    --narrative-pt: {{ section.settings.padding_top | default: 95 }}px;
+    --narrative-pb: {{ section.settings.padding_bottom | default: 95 }}px;
+    --narrative-pt-mobile: {{ section.settings.mobile_padding_top | default: 50 }}px;
+    --narrative-pb-mobile: {{ section.settings.mobile_padding_bottom | default: 50 }}px;
+    --narrative-bg: {{ section.settings.bg_color | default: '#fcfbfa' }};
+    --narrative-heading: {{ section.settings.heading_color | default: '#1a1a1a' }};
+    --narrative-text: {{ section.settings.text_color | default: '#555555' }};
+    --narrative-accent: {{ section.settings.accent_color | default: '#c8a876' }};
+    --narrative-quote-border: {{ section.settings.quote_border_color | default: '#c8a876' }};
+    --narrative-badge-bg: {{ section.settings.badge_bg_color | default: '#111111' }};
+    --narrative-badge-text: {{ section.settings.badge_text_color | default: '#ffffff' }};
   "
 >
   <div class="about-narrative__container">
-    <div class="about-narrative__grid">
+    <div class="about-narrative__grid {% if section.settings.layout_order == 'media_first' %}about-narrative__grid--media-first{% endif %}">
       
       {%- comment -%} Left Column: Editorial Story Content {%- endcomment -%}
-      <div class="about-narrative__content" data-about-reveal>
+      <div class="about-narrative__content" {% if section.settings.enable_reveal_animation != false %}data-about-reveal{% endif %}>
         {%- if section.settings.eyebrow != blank -%}
           <div class="about-narrative__eyebrow-wrap">
             <span class="about-narrative__eyebrow-dot"></span>
@@ -50,7 +55,11 @@
           {%- endif -%}
 
           {%- if section.settings.button_text != blank -%}
-            <a href="{{ section.settings.button_url | default: '/collections/all' }}" class="about-narrative__btn">
+            <a
+              href="{{ section.settings.button_url | default: '/collections/all' }}"
+              class="about-narrative__btn about-narrative__btn--{{ section.settings.button_style | default: 'solid_dark' }}"
+              {% if section.settings.button_open_new_tab %}target="_blank" rel="noopener noreferrer"{% endif %}
+            >
               <span>{{ section.settings.button_text }}</span>
               <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -62,9 +71,9 @@
       </div>
 
       {%- comment -%} Right Column: Layered Editorial Visuals {%- endcomment -%}
-      <div class="about-narrative__media" data-about-reveal>
+      <div class="about-narrative__media" {% if section.settings.enable_reveal_animation != false %}data-about-reveal{% endif %}>
         <div class="about-narrative__media-wrap">
-          <div class="about-narrative__main-img-box">
+          <div class="about-narrative__main-img-box {% if section.settings.enable_image_zoom == false %}no-zoom{% endif %}">
             {%- if section.settings.primary_image != blank -%}
               {{ section.settings.primary_image | image_url: width: 1200 | image_tag: 
                 class: 'about-narrative__main-img', 
@@ -84,7 +93,7 @@
             {%- endif -%}
           </div>
 
-          <div class="about-narrative__sub-img-box">
+          <div class="about-narrative__sub-img-box {% if section.settings.enable_image_zoom == false %}no-zoom{% endif %}">
             {%- if section.settings.secondary_image != blank -%}
               {{ section.settings.secondary_image | image_url: width: 600 | image_tag: 
                 class: 'about-narrative__sub-img', 
@@ -104,9 +113,9 @@
             {%- endif -%}
           </div>
 
-          {%- if section.settings.badge_text != blank -%}
+          {%- if section.settings.show_badge != false and section.settings.badge_text != blank -%}
             <div class="about-narrative__heritage-badge">
-              <span class="about-narrative__badge-eyebrow">{{ section.settings.badge_eyebrow | default: 'SINCE' }}</span>
+              <span class="about-narrative__badge-eyebrow">{{ section.settings.badge_eyebrow | default: 'ESTABLISHED' }}</span>
               <span class="about-narrative__badge-title">{{ section.settings.badge_text }}</span>
               <span class="about-narrative__badge-sub">{{ section.settings.badge_sub | default: 'UDAIPUR • MUMBAI' }}</span>
             </div>
@@ -141,6 +150,16 @@
     grid-template-columns: 1.15fr 1fr;
     gap: 64px;
     align-items: center;
+  }
+
+  .about-narrative__grid--media-first {
+    grid-template-columns: 1fr 1.15fr;
+  }
+  .about-narrative__grid--media-first .about-narrative__content {
+    order: 2;
+  }
+  .about-narrative__grid--media-first .about-narrative__media {
+    order: 1;
   }
 
   .about-narrative__content {
@@ -190,7 +209,7 @@
     color: #333333;
     margin-bottom: 20px;
     padding-left: 18px;
-    border-left: 2px solid var(--narrative-accent, #c8a876);
+    border-left: 2px solid var(--narrative-quote-border, #c8a876);
   }
 
   .about-narrative__body {
@@ -212,6 +231,7 @@
     padding: 16px 20px;
     margin-bottom: 26px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+    border-left: 3px solid var(--narrative-quote-border, #c8a876);
   }
 
   .about-narrative__quote-text {
@@ -267,11 +287,32 @@
     letter-spacing: 0.18em;
     text-transform: uppercase;
     text-decoration: none;
-    transition: background-color 0.25s ease, transform 0.2s ease;
+    transition: background-color 0.25s ease, transform 0.2s ease, border-color 0.25s ease;
+    border: 1px solid transparent;
   }
 
-  .about-narrative__btn:hover {
+  .about-narrative__btn--solid_dark:hover {
     background-color: #333333;
+    transform: translateY(-2px);
+  }
+
+  .about-narrative__btn--outline_dark {
+    background-color: transparent;
+    color: #111111;
+    border: 1px solid #111111;
+  }
+  .about-narrative__btn--outline_dark:hover {
+    background-color: #111111;
+    color: #ffffff;
+    transform: translateY(-2px);
+  }
+
+  .about-narrative__btn--gold_accent {
+    background-color: var(--narrative-accent, #c8a876);
+    color: #ffffff;
+  }
+  .about-narrative__btn--gold_accent:hover {
+    background-color: #b59461;
     transform: translateY(-2px);
   }
 
@@ -303,7 +344,7 @@
     transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .about-narrative__media-wrap:hover .about-narrative__main-img {
+  .about-narrative__media-wrap:hover .about-narrative__main-img-box:not(.no-zoom) .about-narrative__main-img {
     transform: scale(1.04);
   }
 
@@ -328,7 +369,7 @@
     transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .about-narrative__media-wrap:hover .about-narrative__sub-img {
+  .about-narrative__media-wrap:hover .about-narrative__sub-img-box:not(.no-zoom) .about-narrative__sub-img {
     transform: scale(1.06);
   }
 
@@ -337,8 +378,8 @@
     top: 24px;
     left: -20px;
     z-index: 3;
-    background-color: #111111;
-    color: #ffffff;
+    background-color: var(--narrative-badge-bg, #111111);
+    color: var(--narrative-badge-text, #ffffff);
     padding: 14px 18px;
     display: flex;
     flex-direction: column;
@@ -358,7 +399,7 @@
     font-size: 16px;
     font-weight: 600;
     letter-spacing: 0.12em;
-    color: #ffffff;
+    color: var(--narrative-badge-text, #ffffff);
     margin: 2px 0;
   }
 
@@ -369,9 +410,16 @@
   }
 
   @media screen and (max-width: 989px) {
-    .about-narrative__grid {
+    .about-narrative__grid,
+    .about-narrative__grid--media-first {
       grid-template-columns: 1fr;
       gap: 48px;
+    }
+    .about-narrative__grid--media-first .about-narrative__content {
+      order: 1;
+    }
+    .about-narrative__grid--media-first .about-narrative__media {
+      order: 2;
     }
     .about-narrative__media-wrap {
       padding-right: 20px;
@@ -387,8 +435,8 @@
 
   @media screen and (max-width: 749px) {
     .about-narrative {
-      padding-top: 48px;
-      padding-bottom: 48px;
+      padding-top: var(--narrative-pt-mobile, 48px);
+      padding-bottom: var(--narrative-pb-mobile, 48px);
     }
     .about-narrative__container {
       padding: 0 16px;
@@ -425,7 +473,14 @@
   "name": "About Heritage Story",
   "tag": "section",
   "class": "section-about-narrative",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
   "settings": [
+    {
+      "type": "header",
+      "content": "Story Content & Narrative"
+    },
     {
       "type": "text",
       "id": "eyebrow",
@@ -441,7 +496,7 @@
     {
       "type": "textarea",
       "id": "lead_text",
-      "label": "Lead Statement (Serif Italic)",
+      "label": "Lead Statement (Serif Italic with Accent Bar)",
       "default": "Founded with a vision to bridge timeless Indian craft heritage with contemporary international living."
     },
     {
@@ -451,9 +506,13 @@
       "default": "<p>The House of Things is an experiential luxury portal where exquisite design meets discerning tastemakers. We scout master craftsmen, independent studios, and heritage ateliers across India and around the world, curating heirlooms that evoke emotion and architectural serenity.</p><p>Every collectible piece in our collection is chosen for its authenticity, uncompromising materiality, and poetic narrative—turning living spaces into soulful sanctuaries.</p>"
     },
     {
+      "type": "header",
+      "content": "Founder Quote & Credentials"
+    },
+    {
       "type": "textarea",
       "id": "founder_quote",
-      "label": "Founder Quote",
+      "label": "Founder Quote Box",
       "default": "True luxury is not about excess—it is the quiet confidence of objects crafted with soul, patience, and deliberate intention."
     },
     {
@@ -465,33 +524,72 @@
     {
       "type": "text",
       "id": "founder_title",
-      "label": "Founder Title",
+      "label": "Founder Title / Role",
       "default": "FOUNDER & CREATIVE DIRECTOR"
+    },
+    {
+      "type": "header",
+      "content": "Call-to-Action Button"
     },
     {
       "type": "text",
       "id": "button_text",
-      "label": "CTA Button Text",
+      "label": "Button Label",
       "default": "EXPLORE THE EDITS"
     },
     {
       "type": "url",
       "id": "button_url",
-      "label": "CTA Button Link"
+      "label": "Button Link URL"
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Button Style",
+      "options": [
+        { "value": "solid_dark", "label": "Solid Dark Black" },
+        { "value": "outline_dark", "label": "Outline Border" },
+        { "value": "gold_accent", "label": "Gold Accent" }
+      ],
+      "default": "solid_dark"
+    },
+    {
+      "type": "checkbox",
+      "id": "button_open_new_tab",
+      "label": "Open Link in New Tab",
+      "default": false
     },
     {
       "type": "header",
-      "content": "Imagery & Visuals"
+      "content": "Layered Editorial Imagery"
     },
     {
       "type": "image_picker",
       "id": "primary_image",
-      "label": "Primary Portrait Image"
+      "label": "Primary Portrait Image (Large)",
+      "info": "Recommended ratio 4:5 (800x1000px)"
     },
     {
       "type": "image_picker",
       "id": "secondary_image",
-      "label": "Secondary Overlapping Image"
+      "label": "Secondary Overlapping Craft Detail Image",
+      "info": "Recommended ratio 1:1 (600x600px)"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_image_zoom",
+      "label": "Enable Subtle Hover Zoom on Images",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Heritage Floating Badge"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_badge",
+      "label": "Show Heritage Floating Badge",
+      "default": true
     },
     {
       "type": "text",
@@ -502,7 +600,7 @@
     {
       "type": "text",
       "id": "badge_text",
-      "label": "Badge Main Text",
+      "label": "Badge Main Text (Year/Highlight)",
       "default": "2014"
     },
     {
@@ -513,18 +611,32 @@
     },
     {
       "type": "header",
-      "content": "Colors & Spacing"
+      "content": "Layout & Positioning"
+    },
+    {
+      "type": "select",
+      "id": "layout_order",
+      "label": "Desktop Layout Order",
+      "options": [
+        { "value": "content_first", "label": "Story Left / Images Right (Standard)" },
+        { "value": "media_first", "label": "Images Left / Story Right (Reversed)" }
+      ],
+      "default": "content_first"
+    },
+    {
+      "type": "header",
+      "content": "Colors & Theming"
     },
     {
       "type": "color",
       "id": "bg_color",
-      "label": "Section Background",
+      "label": "Section Background Color",
       "default": "#fcfbfa"
     },
     {
       "type": "color",
       "id": "heading_color",
-      "label": "Heading Color",
+      "label": "Heading Text Color",
       "default": "#1a1a1a"
     },
     {
@@ -536,33 +648,100 @@
     {
       "type": "color",
       "id": "accent_color",
-      "label": "Accent Color",
+      "label": "Accent Color (Gold / Sand)",
       "default": "#c8a876"
+    },
+    {
+      "type": "color",
+      "id": "quote_border_color",
+      "label": "Quote & Lead Border Accent",
+      "default": "#c8a876"
+    },
+    {
+      "type": "color",
+      "id": "badge_bg_color",
+      "label": "Badge Background Color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "badge_text_color",
+      "label": "Badge Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Animation & Responsiveness"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_reveal_animation",
+      "label": "Enable Scroll Reveal Animation",
+      "default": true
     },
     {
       "type": "range",
       "id": "padding_top",
       "min": 40,
-      "max": 160,
+      "max": 180,
       "step": 5,
       "unit": "px",
-      "label": "Top Padding",
+      "label": "Desktop Top Padding",
       "default": 95
     },
     {
       "type": "range",
       "id": "padding_bottom",
       "min": 40,
-      "max": 160,
+      "max": 180,
       "step": 5,
       "unit": "px",
-      "label": "Bottom Padding",
+      "label": "Desktop Bottom Padding",
       "default": 95
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_top",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile Top Padding",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_bottom",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile Bottom Padding",
+      "default": 50
     }
   ],
   "presets": [
     {
-      "name": "About Heritage Story"
+      "name": "About Heritage Story",
+      "settings": {
+        "eyebrow": "THE HERITAGE & GENESIS",
+        "heading": "BORN FROM A PASSION FOR TIMELESS BEAUTY",
+        "lead_text": "Founded with a vision to bridge timeless Indian craft heritage with contemporary international living.",
+        "body_text": "<p>The House of Things is an experiential luxury portal where exquisite design meets discerning tastemakers. We scout master craftsmen, independent studios, and heritage ateliers across India and around the world, curating heirlooms that evoke emotion and architectural serenity.</p><p>Every collectible piece in our collection is chosen for its authenticity, uncompromising materiality, and poetic narrative—turning living spaces into soulful sanctuaries.</p>",
+        "founder_quote": "True luxury is not about excess—it is the quiet confidence of objects crafted with soul, patience, and deliberate intention.",
+        "founder_name": "Astha Khetan",
+        "founder_title": "FOUNDER & CREATIVE DIRECTOR",
+        "button_text": "EXPLORE THE EDITS",
+        "badge_eyebrow": "ESTABLISHED",
+        "badge_text": "2014",
+        "badge_sub": "UDAIPUR • MUMBAI",
+        "bg_color": "#fcfbfa",
+        "heading_color": "#1a1a1a",
+        "text_color": "#555555",
+        "accent_color": "#c8a876",
+        "padding_top": 95,
+        "padding_bottom": 95
+      }
     }
   ]
 }

@@ -1,25 +1,31 @@
 <div
-  class="about-cta about-cta--{{ section.id }}"
+  class="about-cta about-cta--{{ section.id }} about-cta--height-{{ section.settings.banner_height | default: 'medium' }} about-cta--align-{{ section.settings.text_align | default: 'center' }}"
   style="
-    --cta-pt: {{ section.settings.padding_top }}px;
-    --cta-pb: {{ section.settings.padding_bottom }}px;
-    --cta-bg: {{ section.settings.bg_color }};
-    --cta-text: {{ section.settings.text_color }};
-    --cta-accent: {{ section.settings.accent_color }};
+    --cta-pt: {{ section.settings.padding_top | default: 110 }}px;
+    --cta-pb: {{ section.settings.padding_bottom | default: 110 }}px;
+    --cta-pt-mobile: {{ section.settings.mobile_padding_top | default: 50 }}px;
+    --cta-pb-mobile: {{ section.settings.mobile_padding_bottom | default: 50 }}px;
+    --cta-bg: {{ section.settings.bg_color | default: '#111111' }};
+    --cta-text: {{ section.settings.text_color | default: '#ffffff' }};
+    --cta-accent: {{ section.settings.accent_color | default: '#c8a876' }};
+    --cta-overlay-color: {{ section.settings.overlay_color | default: '#0a0a0a' }};
+    --cta-overlay-op: {{ section.settings.overlay_opacity | default: 75 | divided_by: 100.0 }};
   "
 >
-  {%- if section.settings.background_image != blank -%}
-    <div class="about-cta__bg-wrap">
-      {{ section.settings.background_image | image_url: width: 2000 | image_tag: 
-        class: 'about-cta__bg-img', 
-        loading: 'lazy', 
-        widths: '600,1000,1400,2000',
-        alt: section.settings.heading | escape 
-      }}
-      <div class="about-cta__overlay" style="opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};"></div>
-    </div>
-  {%- else -%}
-    <div class="about-cta__bg-wrap">
+  <div class="about-cta__bg-wrap">
+    {%- if section.settings.background_image != blank -%}
+      <picture>
+        {%- if section.settings.mobile_background_image != blank -%}
+          <source media="(max-width: 749px)" srcset="{{ section.settings.mobile_background_image | image_url: width: 900 }}">
+        {%- endif -%}
+        {{ section.settings.background_image | image_url: width: 2000 | image_tag: 
+          class: 'about-cta__bg-img', 
+          loading: 'lazy', 
+          widths: '600,1000,1400,2000',
+          alt: section.settings.heading | escape 
+        }}
+      </picture>
+    {%- else -%}
       <img
         src="{{ 'maker-gallery-3.jpg' | asset_url }}"
         alt="The House of Things Curation"
@@ -28,12 +34,12 @@
         width="1920"
         height="800"
       >
-      <div class="about-cta__overlay" style="opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};"></div>
-    </div>
-  {%- endif -%}
+    {%- endif -%}
+    <div class="about-cta__overlay"></div>
+  </div>
 
   <div class="about-cta__container">
-    <div class="about-cta__content" data-about-reveal>
+    <div class="about-cta__content" {% if section.settings.enable_reveal_animation != false %}data-about-reveal{% endif %}>
       {%- if section.settings.eyebrow != blank -%}
         <div class="about-cta__eyebrow-wrap">
           <span class="about-cta__eyebrow-line"></span>
@@ -54,7 +60,11 @@
 
       <div class="about-cta__buttons">
         {%- if section.settings.primary_btn_text != blank -%}
-          <a href="{{ section.settings.primary_btn_url | default: '/collections/all' }}" class="about-cta__btn about-cta__btn--primary">
+          <a
+            href="{{ section.settings.primary_btn_url | default: '/collections/all' }}"
+            class="about-cta__btn about-cta__btn--primary about-cta__btn--style-{{ section.settings.primary_btn_style | default: 'white_solid' }}"
+            {% if section.settings.primary_btn_new_tab %}target="_blank" rel="noopener noreferrer"{% endif %}
+          >
             <span>{{ section.settings.primary_btn_text }}</span>
             <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
               <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -64,7 +74,11 @@
         {%- endif -%}
 
         {%- if section.settings.secondary_btn_text != blank -%}
-          <a href="{{ section.settings.secondary_btn_url | default: '/pages/contact' }}" class="about-cta__btn about-cta__btn--secondary">
+          <a
+            href="{{ section.settings.secondary_btn_url | default: '/pages/contact' }}"
+            class="about-cta__btn about-cta__btn--secondary about-cta__btn--style-{{ section.settings.secondary_btn_style | default: 'white_outline' }}"
+            {% if section.settings.secondary_btn_new_tab %}target="_blank" rel="noopener noreferrer"{% endif %}
+          >
             <span>{{ section.settings.secondary_btn_text }}</span>
           </a>
         {%- endif -%}
@@ -80,12 +94,24 @@
     overflow: hidden;
     background-color: var(--cta-bg, #111111);
     color: var(--cta-text, #ffffff);
-    padding-top: var(--cta-pt, 90px);
-    padding-bottom: var(--cta-pb, 90px);
+    padding-top: var(--cta-pt, 110px);
+    padding-bottom: var(--cta-pb, 110px);
     box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  .about-cta--height-compact { min-height: 48vh; }
+  .about-cta--height-medium { min-height: 62vh; }
+  .about-cta--height-large { min-height: 76vh; }
+
+  .about-cta--align-left .about-cta__content {
+    align-items: flex-start;
+    text-align: left;
+  }
+  .about-cta--align-left .about-cta__buttons {
+    justify-content: flex-start;
   }
 
   .about-cta__bg-wrap {
@@ -113,7 +139,8 @@
   .about-cta__overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(10,10,10,0.65) 0%, rgba(10,10,10,0.85) 100%);
+    background: linear-gradient(180deg, rgba(10,10,10,0.65) 0%, rgba(10,10,10,0.88) 100%);
+    opacity: var(--cta-overlay-op, 0.75);
   }
 
   .about-cta__container {
@@ -198,35 +225,57 @@
     transition: background-color 0.25s ease, color 0.25s ease, transform 0.2s ease, border-color 0.25s ease;
   }
 
-  .about-cta__btn--primary {
+  /* Primary Button Styles */
+  .about-cta__btn--primary.about-cta__btn--style-white_solid {
     background-color: #ffffff;
     color: #111111;
     border: 1px solid #ffffff;
   }
-
-  .about-cta__btn--primary:hover {
+  .about-cta__btn--primary.about-cta__btn--style-white_solid:hover {
     background-color: var(--cta-accent, #c8a876);
     border-color: var(--cta-accent, #c8a876);
     color: #ffffff;
     transform: translateY(-2px);
   }
 
-  .about-cta__btn--secondary {
+  .about-cta__btn--primary.about-cta__btn--style-gold_solid {
+    background-color: var(--cta-accent, #c8a876);
+    color: #ffffff;
+    border: 1px solid var(--cta-accent, #c8a876);
+  }
+  .about-cta__btn--primary.about-cta__btn--style-gold_solid:hover {
+    background-color: #b59461;
+    border-color: #b59461;
+    transform: translateY(-2px);
+  }
+
+  /* Secondary Button Styles */
+  .about-cta__btn--secondary.about-cta__btn--style-white_outline {
     background-color: transparent;
     color: #ffffff;
     border: 1px solid rgba(255, 255, 255, 0.6);
   }
-
-  .about-cta__btn--secondary:hover {
+  .about-cta__btn--secondary.about-cta__btn--style-white_outline:hover {
     border-color: #ffffff;
     background-color: rgba(255, 255, 255, 0.1);
     transform: translateY(-2px);
   }
 
+  .about-cta__btn--secondary.about-cta__btn--style-gold_outline {
+    background-color: transparent;
+    color: var(--cta-accent, #c8a876);
+    border: 1px solid var(--cta-accent, #c8a876);
+  }
+  .about-cta__btn--secondary.about-cta__btn--style-gold_outline:hover {
+    background-color: var(--cta-accent, #c8a876);
+    color: #ffffff;
+    transform: translateY(-2px);
+  }
+
   @media screen and (max-width: 749px) {
     .about-cta {
-      padding-top: 50px;
-      padding-bottom: 50px;
+      padding-top: var(--cta-pt-mobile, 50px);
+      padding-bottom: var(--cta-pb-mobile, 50px);
     }
     .about-cta__container {
       padding: 0 16px;
@@ -258,26 +307,44 @@
   "name": "About CTA Banner",
   "tag": "section",
   "class": "section-about-cta",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
   "settings": [
+    {
+      "type": "header",
+      "content": "Background Media & Visuals"
+    },
     {
       "type": "image_picker",
       "id": "background_image",
-      "label": "Background Image"
+      "label": "Desktop Background Image",
+      "info": "Recommended 2000x800px high-res editorial scene"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_background_image",
+      "label": "Mobile Background Image (Optional)",
+      "info": "Custom crop for mobile portrait screens (800x1000px)"
     },
     {
       "type": "range",
       "id": "overlay_opacity",
       "min": 20,
-      "max": 90,
+      "max": 95,
       "step": 5,
       "unit": "%",
-      "label": "Dark Overlay Opacity",
+      "label": "Dark Vignette Overlay Opacity",
       "default": 75
+    },
+    {
+      "type": "header",
+      "content": "Banner Content & Sizing"
     },
     {
       "type": "text",
       "id": "eyebrow",
-      "label": "Eyebrow Text",
+      "label": "Eyebrow Subtitle",
       "default": "THE CURATION AWAITS"
     },
     {
@@ -289,38 +356,95 @@
     {
       "type": "textarea",
       "id": "subtitle",
-      "label": "Subtitle",
+      "label": "Subtitle Paragraph",
       "default": "Explore our latest collectible edits or schedule a private consultation at our flagship gallery spaces."
     },
     {
+      "type": "select",
+      "id": "banner_height",
+      "label": "Banner Height",
+      "options": [
+        { "value": "compact", "label": "Compact (48vh)" },
+        { "value": "medium", "label": "Medium (62vh) - Standard" },
+        { "value": "large", "label": "Large (76vh)" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "text_align",
+      "label": "Text Alignment",
+      "options": [
+        { "value": "center", "label": "Center Aligned" },
+        { "value": "left", "label": "Left Aligned" }
+      ],
+      "default": "center"
+    },
+    {
       "type": "header",
-      "content": "Call-to-Action Buttons"
+      "content": "Primary Call-to-Action Button"
     },
     {
       "type": "text",
       "id": "primary_btn_text",
-      "label": "Primary Button Text",
+      "label": "Primary Button Label",
       "default": "EXPLORE ALL EDITS"
     },
     {
       "type": "url",
       "id": "primary_btn_url",
-      "label": "Primary Button Link"
+      "label": "Primary Button Link URL"
+    },
+    {
+      "type": "select",
+      "id": "primary_btn_style",
+      "label": "Primary Button Style",
+      "options": [
+        { "value": "white_solid", "label": "Solid White (Dark Hover)" },
+        { "value": "gold_solid", "label": "Solid Gold" }
+      ],
+      "default": "white_solid"
+    },
+    {
+      "type": "checkbox",
+      "id": "primary_btn_new_tab",
+      "label": "Open Primary Button in New Tab",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Secondary Call-to-Action Button"
     },
     {
       "type": "text",
       "id": "secondary_btn_text",
-      "label": "Secondary Button Text",
+      "label": "Secondary Button Label",
       "default": "SCHEDULE CONSULTATION"
     },
     {
       "type": "url",
       "id": "secondary_btn_url",
-      "label": "Secondary Button Link"
+      "label": "Secondary Button Link URL"
+    },
+    {
+      "type": "select",
+      "id": "secondary_btn_style",
+      "label": "Secondary Button Style",
+      "options": [
+        { "value": "white_outline", "label": "Outline White" },
+        { "value": "gold_outline", "label": "Outline Gold" }
+      ],
+      "default": "white_outline"
+    },
+    {
+      "type": "checkbox",
+      "id": "secondary_btn_new_tab",
+      "label": "Open Secondary Button in New Tab",
+      "default": false
     },
     {
       "type": "header",
-      "content": "Colors & Spacing"
+      "content": "Colors & Theming"
     },
     {
       "type": "color",
@@ -337,33 +461,76 @@
     {
       "type": "color",
       "id": "accent_color",
-      "label": "Accent Color",
+      "label": "Gold Accent Color",
       "default": "#c8a876"
+    },
+    {
+      "type": "header",
+      "content": "Animation & Spacing"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_reveal_animation",
+      "label": "Enable Scroll Reveal Fade Up",
+      "default": true
     },
     {
       "type": "range",
       "id": "padding_top",
       "min": 40,
-      "max": 160,
+      "max": 180,
       "step": 5,
       "unit": "px",
-      "label": "Top Padding",
+      "label": "Desktop Top Padding",
       "default": 110
     },
     {
       "type": "range",
       "id": "padding_bottom",
       "min": 40,
-      "max": 160,
+      "max": 180,
       "step": 5,
       "unit": "px",
-      "label": "Bottom Padding",
+      "label": "Desktop Bottom Padding",
       "default": 110
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_top",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile Top Padding",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_bottom",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile Bottom Padding",
+      "default": 50
     }
   ],
   "presets": [
     {
-      "name": "About CTA Banner"
+      "name": "About CTA Banner",
+      "settings": {
+        "eyebrow": "THE CURATION AWAITS",
+        "heading": "BEGIN YOUR CURATED JOURNEY",
+        "subtitle": "Explore our latest collectible edits or schedule a private consultation at our flagship gallery spaces.",
+        "primary_btn_text": "EXPLORE ALL EDITS",
+        "secondary_btn_text": "SCHEDULE CONSULTATION",
+        "bg_color": "#111111",
+        "text_color": "#ffffff",
+        "accent_color": "#c8a876",
+        "overlay_opacity": 75,
+        "padding_top": 110,
+        "padding_bottom": 110
+      }
     }
   ]
 }

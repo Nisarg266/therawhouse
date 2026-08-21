@@ -1,17 +1,21 @@
 <div
   class="about-services about-services--{{ section.id }}"
   style="
-    --srv-pt: {{ section.settings.padding_top }}px;
-    --srv-pb: {{ section.settings.padding_bottom }}px;
-    --srv-bg: {{ section.settings.bg_color }};
-    --srv-card-bg: {{ section.settings.card_bg }};
-    --srv-heading: {{ section.settings.heading_color }};
-    --srv-text: {{ section.settings.text_color }};
-    --srv-accent: {{ section.settings.accent_color }};
+    --srv-pt: {{ section.settings.padding_top | default: 95 }}px;
+    --srv-pb: {{ section.settings.padding_bottom | default: 95 }}px;
+    --srv-pt-mobile: {{ section.settings.mobile_padding_top | default: 50 }}px;
+    --srv-pb-mobile: {{ section.settings.mobile_padding_bottom | default: 50 }}px;
+    --srv-bg: {{ section.settings.bg_color | default: '#ffffff' }};
+    --srv-card-bg: {{ section.settings.card_bg | default: '#faf8f5' }};
+    --srv-card-border: {{ section.settings.card_border_color | default: '#ede8e1' }};
+    --srv-heading: {{ section.settings.heading_color | default: '#111111' }};
+    --srv-text: {{ section.settings.text_color | default: '#555555' }};
+    --srv-accent: {{ section.settings.accent_color | default: '#c8a876' }};
+    --srv-cols: {{ section.settings.columns_desktop | default: 3 }};
   "
 >
   <div class="about-services__container about-slider-wrapper">
-    <div class="about-services__header" data-about-reveal>
+    <div class="about-services__header about-services__header--align-{{ section.settings.header_alignment | default: 'center' }}" {% if section.settings.enable_reveal_animation != false %}data-about-reveal{% endif %}>
       {%- if section.settings.eyebrow != blank -%}
         <div class="about-services__eyebrow-wrap">
           <span class="about-services__eyebrow-line"></span>
@@ -31,10 +35,10 @@
       {%- endif -%}
     </div>
 
-    <div class="about-services__grid about-mobile-slider">
+    <div class="about-services__grid {% if section.settings.mobile_layout == 'stacked_1_col' %}about-mobile-stacked{% else %}about-mobile-slider{% endif %}">
       {%- if section.blocks.size > 0 -%}
         {%- for block in section.blocks -%}
-          <div class="about-services__card" data-about-reveal {{ block.shopify_attributes }}>
+          <div class="about-services__card {% if block.settings.is_featured %}about-services__card--featured{% endif %}" {% if section.settings.enable_reveal_animation != false %}data-about-reveal{% endif %} {{ block.shopify_attributes }}>
             <div class="about-services__card-tag">{{ block.settings.tag }}</div>
             <h3 class="about-services__card-title">{{ block.settings.title }}</h3>
             <p class="about-services__card-desc">{{ block.settings.description }}</p>
@@ -46,7 +50,11 @@
             {%- endif -%}
 
             {%- if block.settings.button_text != blank -%}
-              <a href="{{ block.settings.button_url | default: '/pages/contact' }}" class="about-services__card-btn">
+              <a
+                href="{{ block.settings.button_url | default: '/pages/contact' }}"
+                class="about-services__card-btn about-services__card-btn--{{ section.settings.button_style | default: 'outline_dark' }}"
+                {% if block.settings.button_open_new_tab %}target="_blank" rel="noopener noreferrer"{% endif %}
+              >
                 <span>{{ block.settings.button_text }}</span>
                 <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                   <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -58,7 +66,7 @@
         {%- endfor -%}
       {%- else -%}
         {%- comment -%} Default 3 Bespoke Services Fallback {%- endcomment -%}
-        <div class="about-services__card" data-about-reveal>
+        <div class="about-services__card" {% if section.settings.enable_reveal_animation != false %}data-about-reveal{% endif %}>
           <div class="about-services__card-tag">PRIVATE RESIDENCES</div>
           <h3 class="about-services__card-title">Interior Styling & Sourcing</h3>
           <p class="about-services__card-desc">Comprehensive private curation for luxury residences and hospitality suites, tailoring unique palettes, rare collectibles, and artisanal accents.</p>
@@ -73,7 +81,7 @@
           </a>
         </div>
 
-        <div class="about-services__card" data-about-reveal>
+        <div class="about-services__card" {% if section.settings.enable_reveal_animation != false %}data-about-reveal{% endif %}>
           <div class="about-services__card-tag">ART & GALLERY</div>
           <h3 class="about-services__card-title">Art & Sculpture Advisory</h3>
           <p class="about-services__card-desc">Connecting private collectors and institutions with rare fine art prints, museum-grade sculptures, and bespoke commissioned masterworks.</p>
@@ -88,7 +96,7 @@
           </a>
         </div>
 
-        <div class="about-services__card" data-about-reveal>
+        <div class="about-services__card" {% if section.settings.enable_reveal_animation != false %}data-about-reveal{% endif %}>
           <div class="about-services__card-tag">ARCHITECTS & DESIGNERS</div>
           <h3 class="about-services__card-title">Trade & Bespoke B2B Program</h3>
           <p class="about-services__card-desc">Privileged trade pricing, dedicated project managers, custom manufacturing, and global logistic support for architects and interior designers.</p>
@@ -118,8 +126,8 @@
   .about-services {
     width: 100%;
     background-color: var(--srv-bg, #ffffff);
-    padding-top: var(--srv-pt, 85px);
-    padding-bottom: var(--srv-pb, 85px);
+    padding-top: var(--srv-pt, 95px);
+    padding-bottom: var(--srv-pb, 95px);
     box-sizing: border-box;
   }
 
@@ -132,9 +140,16 @@
   }
 
   .about-services__header {
-    text-align: center;
     max-width: 820px;
     margin: 0 auto 48px auto;
+  }
+
+  .about-services__header--align-center {
+    text-align: center;
+  }
+  .about-services__header--align-left {
+    text-align: left;
+    margin-left: 0;
   }
 
   .about-services__eyebrow-wrap {
@@ -181,18 +196,23 @@
 
   .about-services__grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(var(--srv-cols, 3), 1fr);
     gap: 28px;
   }
 
   .about-services__card {
     background-color: var(--srv-card-bg, #faf8f5);
-    border: 1px solid #ede8e1;
+    border: 1px solid var(--srv-card-border, #ede8e1);
     padding: 36px 28px 30px;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
     transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.3s ease;
+  }
+
+  .about-services__card--featured {
+    border-color: var(--srv-accent, #c8a876);
+    box-shadow: 0 8px 24px rgba(200, 168, 118, 0.12);
   }
 
   .about-services__card:nth-child(1) { transition-delay: 0.08s; }
@@ -267,21 +287,42 @@
     align-items: center;
     justify-content: space-between;
     padding: 11px 16px;
-    background-color: transparent;
-    border: 1px solid #111111;
-    color: #111111;
     font-size: 10px;
     font-weight: 600;
     letter-spacing: 0.16em;
     text-transform: uppercase;
     text-decoration: none;
-    transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+    transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
   }
 
-  .about-services__card-btn:hover {
+  .about-services__card-btn--outline_dark {
+    background-color: transparent;
+    border: 1px solid #111111;
+    color: #111111;
+  }
+  .about-services__card-btn--outline_dark:hover {
     background-color: #111111;
     color: #ffffff;
-    border-color: #111111;
+  }
+
+  .about-services__card-btn--solid_dark {
+    background-color: #111111;
+    border: 1px solid #111111;
+    color: #ffffff;
+  }
+  .about-services__card-btn--solid_dark:hover {
+    background-color: #333333;
+    border-color: #333333;
+  }
+
+  .about-services__card-btn--gold_accent {
+    background-color: var(--srv-accent, #c8a876);
+    border: 1px solid var(--srv-accent, #c8a876);
+    color: #ffffff;
+  }
+  .about-services__card-btn--gold_accent:hover {
+    background-color: #b59461;
+    border-color: #b59461;
   }
 
   .about-slider-dots {
@@ -315,8 +356,8 @@
 
   @media screen and (max-width: 749px) {
     .about-services {
-      padding-top: 48px;
-      padding-bottom: 48px;
+      padding-top: var(--srv-pt-mobile, 48px);
+      padding-bottom: var(--srv-pb-mobile, 48px);
     }
     .about-services__container {
       padding: 0 16px;
@@ -342,13 +383,20 @@
     .about-services__grid.about-mobile-slider::-webkit-scrollbar {
       display: none;
     }
-    .about-services__card {
+    .about-services__grid.about-mobile-slider .about-services__card {
       flex: 0 0 82vw;
       max-width: 300px;
       scroll-snap-align: start;
       padding: 24px 18px 20px;
     }
-    .about-slider-dots {
+
+    .about-services__grid.about-mobile-stacked {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .about-services__grid.about-mobile-slider ~ .about-slider-dots {
       display: flex;
     }
   }
@@ -359,11 +407,18 @@
   "name": "About Concierge",
   "tag": "section",
   "class": "section-about-services",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
   "settings": [
+    {
+      "type": "header",
+      "content": "Section Header & Intro"
+    },
     {
       "type": "text",
       "id": "eyebrow",
-      "label": "Eyebrow Text",
+      "label": "Eyebrow Subtitle",
       "default": "BESPOKE ADVISORY"
     },
     {
@@ -379,8 +434,52 @@
       "default": "Experience white-glove curation, custom commissions, and tailored architectural sourcing."
     },
     {
+      "type": "select",
+      "id": "header_alignment",
+      "label": "Header Alignment",
+      "options": [
+        { "value": "center", "label": "Center Aligned" },
+        { "value": "left", "label": "Left Aligned" }
+      ],
+      "default": "center"
+    },
+    {
       "type": "header",
-      "content": "Colors & Spacing"
+      "content": "Layout & Buttons"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "label": "Desktop Columns",
+      "default": 3
+    },
+    {
+      "type": "select",
+      "id": "mobile_layout",
+      "label": "Mobile Layout",
+      "options": [
+        { "value": "swipe_slider", "label": "Horizontal Swipe Slider (Smooth)" },
+        { "value": "stacked_1_col", "label": "1 Column Stacked" }
+      ],
+      "default": "swipe_slider"
+    },
+    {
+      "type": "select",
+      "id": "button_style",
+      "label": "Card Button Style",
+      "options": [
+        { "value": "outline_dark", "label": "Outline Border (Minimalist)" },
+        { "value": "solid_dark", "label": "Solid Black" },
+        { "value": "gold_accent", "label": "Gold Accent" }
+      ],
+      "default": "outline_dark"
+    },
+    {
+      "type": "header",
+      "content": "Colors & Borders"
     },
     {
       "type": "color",
@@ -396,41 +495,77 @@
     },
     {
       "type": "color",
+      "id": "card_border_color",
+      "label": "Card Border Color",
+      "default": "#ede8e1"
+    },
+    {
+      "type": "color",
       "id": "heading_color",
-      "label": "Heading Color",
+      "label": "Heading Text Color",
       "default": "#111111"
     },
     {
       "type": "color",
       "id": "text_color",
-      "label": "Text Color",
+      "label": "Body Text Color",
       "default": "#555555"
     },
     {
       "type": "color",
       "id": "accent_color",
-      "label": "Accent Color",
+      "label": "Gold Accent Color",
       "default": "#c8a876"
+    },
+    {
+      "type": "header",
+      "content": "Animation & Spacing"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_reveal_animation",
+      "label": "Enable Scroll Reveal Fade Up",
+      "default": true
     },
     {
       "type": "range",
       "id": "padding_top",
       "min": 40,
-      "max": 160,
+      "max": 180,
       "step": 5,
       "unit": "px",
-      "label": "Top Padding",
+      "label": "Desktop Top Padding",
       "default": 95
     },
     {
       "type": "range",
       "id": "padding_bottom",
       "min": 40,
-      "max": 160,
+      "max": 180,
       "step": 5,
       "unit": "px",
-      "label": "Bottom Padding",
+      "label": "Desktop Bottom Padding",
       "default": 95
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_top",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile Top Padding",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_bottom",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile Bottom Padding",
+      "default": 50
     }
   ],
   "blocks": [
@@ -471,7 +606,19 @@
         {
           "type": "url",
           "id": "button_url",
-          "label": "Button Link"
+          "label": "Button Link URL"
+        },
+        {
+          "type": "checkbox",
+          "id": "button_open_new_tab",
+          "label": "Open Link in New Tab",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "is_featured",
+          "label": "Highlight as Featured Service (Gold Border)",
+          "default": false
         }
       ]
     }
