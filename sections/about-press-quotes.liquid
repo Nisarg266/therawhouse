@@ -1,0 +1,440 @@
+<div
+  class="about-press about-press--{{ section.id }}"
+  style="
+    --press-pt: {{ section.settings.padding_top }}px;
+    --press-pb: {{ section.settings.padding_bottom }}px;
+    --press-bg: {{ section.settings.bg_color }};
+    --press-heading: {{ section.settings.heading_color }};
+    --press-text: {{ section.settings.text_color }};
+    --press-accent: {{ section.settings.accent_color }};
+  "
+>
+  <div class="about-press__container about-slider-wrapper">
+    <div class="about-press__header" data-about-reveal>
+      {%- if section.settings.eyebrow != blank -%}
+        <div class="about-press__eyebrow-wrap">
+          <span class="about-press__eyebrow-line"></span>
+          <span class="about-press__eyebrow">{{ section.settings.eyebrow }}</span>
+          <span class="about-press__eyebrow-line"></span>
+        </div>
+      {%- endif -%}
+
+      <h2 class="about-press__heading">
+        {{ section.settings.heading }}
+      </h2>
+
+      {%- if section.settings.subtitle != blank -%}
+        <p class="about-press__subtitle">
+          {{ section.settings.subtitle }}
+        </p>
+      {%- endif -%}
+    </div>
+
+    <div class="about-press__grid about-mobile-slider">
+      {%- if section.blocks.size > 0 -%}
+        {%- for block in section.blocks -%}
+          <div class="about-press__card" data-about-reveal {{ block.shopify_attributes }}>
+            <div class="about-press__quote-mark">“</div>
+            <p class="about-press__quote-text">{{ block.settings.quote }}</p>
+            <div class="about-press__card-footer">
+              <span class="about-press__pub-name">{{ block.settings.publication }}</span>
+              {%- if block.settings.detail != blank -%}
+                <span class="about-press__pub-detail">{{ block.settings.detail }}</span>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- else -%}
+        {%- comment -%} Default 4 Luxury Press Reviews {%- endcomment -%}
+        <div class="about-press__card" data-about-reveal>
+          <div class="about-press__quote-mark">“</div>
+          <p class="about-press__quote-text">A masterclass in contemporary luxury, bridging centuries-old heritage crafts with museum-grade interior aesthetics.</p>
+          <div class="about-press__card-footer">
+            <span class="about-press__pub-name">ARCHITECTURAL DIGEST</span>
+            <span class="about-press__pub-detail">Design Feature • 2024</span>
+          </div>
+        </div>
+
+        <div class="about-press__card" data-about-reveal>
+          <div class="about-press__quote-mark">“</div>
+          <p class="about-press__quote-text">The definitive destination for discerning tastemakers seeking rare, soulful objects that turn homes into sanctuaries.</p>
+          <div class="about-press__card-footer">
+            <span class="about-press__pub-name">VOGUE LIVING</span>
+            <span class="about-press__pub-detail">Curator's Edit</span>
+          </div>
+        </div>
+
+        <div class="about-press__card" data-about-reveal>
+          <div class="about-press__quote-mark">“</div>
+          <p class="about-press__quote-text">Transforming living spaces with an uncompromising devotion to noble materials, artisanal purity, and timeless elegance.</p>
+          <div class="about-press__card-footer">
+            <span class="about-press__pub-name">ELLE DECOR</span>
+            <span class="about-press__pub-detail">Global Luxury Spotlight</span>
+          </div>
+        </div>
+
+        <div class="about-press__card" data-about-reveal>
+          <div class="about-press__quote-mark">“</div>
+          <p class="about-press__quote-text">Astha Khetan’s platform has redefined collectible design in South Asia, fostering master ateliers with international finesse.</p>
+          <div class="about-press__card-footer">
+            <span class="about-press__pub-name">HARPER'S BAZAAR</span>
+            <span class="about-press__pub-detail">Art & Interiors Issue</span>
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} Mobile Slider Dots Indicator {%- endcomment -%}
+    <div class="about-slider-dots">
+      <span class="about-slider-dot is-active"></span>
+      <span class="about-slider-dot"></span>
+      <span class="about-slider-dot"></span>
+      <span class="about-slider-dot"></span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .about-press {
+    width: 100%;
+    background-color: var(--press-bg, #faf8f5);
+    padding-top: var(--press-pt, 85px);
+    padding-bottom: var(--press-pb, 85px);
+    box-sizing: border-box;
+  }
+
+  .about-press__container {
+    width: 100%;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 28px;
+    box-sizing: border-box;
+  }
+
+  .about-press__header {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 46px auto;
+  }
+
+  .about-press__eyebrow-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+
+  .about-press__eyebrow-line {
+    display: block;
+    width: 28px;
+    height: 1px;
+    background-color: var(--press-accent, #c8a876);
+  }
+
+  .about-press__eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--press-accent, #c8a876);
+  }
+
+  .about-press__heading {
+    font-family: var(--font-heading-family, serif);
+    font-size: clamp(24px, 3vw, 40px);
+    font-weight: 400;
+    line-height: 1.22;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--press-heading, #111111);
+    margin: 0 0 14px 0;
+  }
+
+  .about-press__subtitle {
+    font-family: var(--font-body-family, sans-serif);
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: var(--press-text, #666666);
+    margin: 0;
+  }
+
+  .about-press__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+
+  .about-press__card {
+    background-color: #ffffff;
+    border: 1px solid #ede8e1;
+    padding: 30px 24px 26px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    position: relative;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.03);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.3s ease;
+  }
+
+  .about-press__card:nth-child(1) { transition-delay: 0.08s; }
+  .about-press__card:nth-child(2) { transition-delay: 0.16s; }
+  .about-press__card:nth-child(3) { transition-delay: 0.24s; }
+  .about-press__card:nth-child(4) { transition-delay: 0.32s; }
+
+  .about-press__card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.07);
+    border-color: var(--press-accent, #c8a876);
+  }
+
+  .about-press__quote-mark {
+    font-family: var(--font-heading-family, serif);
+    font-size: 34px;
+    line-height: 1;
+    color: var(--press-accent, #c8a876);
+    margin-bottom: 6px;
+  }
+
+  .about-press__quote-text {
+    font-family: var(--font-heading-family, serif);
+    font-size: 13.5px;
+    font-style: italic;
+    line-height: 1.65;
+    color: #2b2b2b;
+    margin: 0 0 20px 0;
+    flex-grow: 1;
+  }
+
+  .about-press__card-footer {
+    border-top: 1px solid #f0ece5;
+    padding-top: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .about-press__pub-name {
+    font-family: var(--font-body-family, sans-serif);
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #111111;
+  }
+
+  .about-press__pub-detail {
+    font-size: 9.5px;
+    letter-spacing: 0.06em;
+    color: #888888;
+  }
+
+  .about-slider-dots {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 18px;
+  }
+
+  .about-slider-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #d8d8d8;
+    transition: background-color 0.25s ease, width 0.25s ease;
+  }
+
+  .about-slider-dot.is-active {
+    width: 18px;
+    border-radius: 4px;
+    background-color: var(--press-accent, #c8a876);
+  }
+
+  @media screen and (max-width: 1080px) {
+    .about-press__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .about-press {
+      padding-top: 48px;
+      padding-bottom: 48px;
+    }
+    .about-press__container {
+      padding: 0 16px;
+    }
+    .about-press__header {
+      margin-bottom: 26px;
+    }
+    .about-press__heading {
+      font-size: 22px;
+    }
+    .about-press__grid.about-mobile-slider {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      gap: 14px;
+      padding: 4px 4px 16px 4px;
+      margin: 0 -16px;
+      padding-left: 16px;
+      padding-right: 16px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .about-press__grid.about-mobile-slider::-webkit-scrollbar {
+      display: none;
+    }
+    .about-press__card {
+      flex: 0 0 78vw;
+      max-width: 290px;
+      scroll-snap-align: start;
+      padding: 24px 20px 20px;
+    }
+    .about-slider-dots {
+      display: flex;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "About Press",
+  "tag": "section",
+  "class": "section-about-press",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow Text",
+      "default": "CRITICAL ACCLAIM"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "CELEBRATED IN GLOBAL PRESS"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Section Subtitle",
+      "default": "Recognized by the world's most revered design, architecture, and luxury lifestyle publications."
+    },
+    {
+      "type": "header",
+      "content": "Colors & Spacing"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Section Background",
+      "default": "#faf8f5"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#666666"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color",
+      "default": "#c8a876"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 40,
+      "max": 160,
+      "step": 5,
+      "unit": "px",
+      "label": "Top Padding",
+      "default": 90
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 40,
+      "max": 160,
+      "step": 5,
+      "unit": "px",
+      "label": "Bottom Padding",
+      "default": 90
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Press Review",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Review Quote",
+          "default": "A masterclass in contemporary luxury, bridging centuries-old heritage crafts with museum-grade interior aesthetics."
+        },
+        {
+          "type": "text",
+          "id": "publication",
+          "label": "Publication Name",
+          "default": "ARCHITECTURAL DIGEST"
+        },
+        {
+          "type": "text",
+          "id": "detail",
+          "label": "Detail / Issue Date",
+          "default": "Design Feature • 2024"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Press",
+      "blocks": [
+        {
+          "type": "review",
+          "settings": {
+            "quote": "A masterclass in contemporary luxury, bridging centuries-old heritage crafts with museum-grade interior aesthetics.",
+            "publication": "ARCHITECTURAL DIGEST",
+            "detail": "Design Feature • 2024"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "quote": "The definitive destination for discerning tastemakers seeking rare, soulful objects that turn homes into sanctuaries.",
+            "publication": "VOGUE LIVING",
+            "detail": "Curator's Edit"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "quote": "Transforming living spaces with an uncompromising devotion to noble materials, artisanal purity, and timeless elegance.",
+            "publication": "ELLE DECOR",
+            "detail": "Global Luxury Spotlight"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "quote": "Astha Khetan’s platform has redefined collectible design in South Asia, fostering master ateliers with international finesse.",
+            "publication": "HARPER'S BAZAAR",
+            "detail": "Art & Interiors Issue"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

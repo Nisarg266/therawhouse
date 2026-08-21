@@ -1,0 +1,514 @@
+<div
+  class="about-services about-services--{{ section.id }}"
+  style="
+    --srv-pt: {{ section.settings.padding_top }}px;
+    --srv-pb: {{ section.settings.padding_bottom }}px;
+    --srv-bg: {{ section.settings.bg_color }};
+    --srv-card-bg: {{ section.settings.card_bg }};
+    --srv-heading: {{ section.settings.heading_color }};
+    --srv-text: {{ section.settings.text_color }};
+    --srv-accent: {{ section.settings.accent_color }};
+  "
+>
+  <div class="about-services__container about-slider-wrapper">
+    <div class="about-services__header" data-about-reveal>
+      {%- if section.settings.eyebrow != blank -%}
+        <div class="about-services__eyebrow-wrap">
+          <span class="about-services__eyebrow-line"></span>
+          <span class="about-services__eyebrow">{{ section.settings.eyebrow }}</span>
+          <span class="about-services__eyebrow-line"></span>
+        </div>
+      {%- endif -%}
+
+      <h2 class="about-services__heading">
+        {{ section.settings.heading }}
+      </h2>
+
+      {%- if section.settings.subtitle != blank -%}
+        <p class="about-services__subtitle">
+          {{ section.settings.subtitle }}
+        </p>
+      {%- endif -%}
+    </div>
+
+    <div class="about-services__grid about-mobile-slider">
+      {%- if section.blocks.size > 0 -%}
+        {%- for block in section.blocks -%}
+          <div class="about-services__card" data-about-reveal {{ block.shopify_attributes }}>
+            <div class="about-services__card-tag">{{ block.settings.tag }}</div>
+            <h3 class="about-services__card-title">{{ block.settings.title }}</h3>
+            <p class="about-services__card-desc">{{ block.settings.description }}</p>
+            
+            {%- if block.settings.features != blank -%}
+              <div class="about-services__features">
+                {{ block.settings.features }}
+              </div>
+            {%- endif -%}
+
+            {%- if block.settings.button_text != blank -%}
+              <a href="{{ block.settings.button_url | default: '/pages/contact' }}" class="about-services__card-btn">
+                <span>{{ block.settings.button_text }}</span>
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </a>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      {%- else -%}
+        {%- comment -%} Default 3 Bespoke Services Fallback {%- endcomment -%}
+        <div class="about-services__card" data-about-reveal>
+          <div class="about-services__card-tag">PRIVATE RESIDENCES</div>
+          <h3 class="about-services__card-title">Interior Styling & Sourcing</h3>
+          <p class="about-services__card-desc">Comprehensive private curation for luxury residences and hospitality suites, tailoring unique palettes, rare collectibles, and artisanal accents.</p>
+          <ul class="about-services__features-list">
+            <li>Dedicated Senior Interior Stylist</li>
+            <li>Custom Finishes & Noble Materials</li>
+            <li>Worldwide White-Glove Installation</li>
+          </ul>
+          <a href="/pages/contact" class="about-services__card-btn">
+            <span>INQUIRE WITH STYLIST</span>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </a>
+        </div>
+
+        <div class="about-services__card" data-about-reveal>
+          <div class="about-services__card-tag">ART & GALLERY</div>
+          <h3 class="about-services__card-title">Art & Sculpture Advisory</h3>
+          <p class="about-services__card-desc">Connecting private collectors and institutions with rare fine art prints, museum-grade sculptures, and bespoke commissioned masterworks.</p>
+          <ul class="about-services__features-list">
+            <li>Private Gallery Previews & Catalogues</li>
+            <li>Site-Specific Commissioned Pieces</li>
+            <li>Certificates of Authenticity Included</li>
+          </ul>
+          <a href="/pages/contact" class="about-services__card-btn">
+            <span>DISCOVER ART ADVISORY</span>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </a>
+        </div>
+
+        <div class="about-services__card" data-about-reveal>
+          <div class="about-services__card-tag">ARCHITECTS & DESIGNERS</div>
+          <h3 class="about-services__card-title">Trade & Bespoke B2B Program</h3>
+          <p class="about-services__card-desc">Privileged trade pricing, dedicated project managers, custom manufacturing, and global logistic support for architects and interior designers.</p>
+          <ul class="about-services__features-list">
+            <li>Exclusive Trade Tier Discounts</li>
+            <li>Direct Artisan Atelier Collaboration</li>
+            <li>Priority Expedited Global Freight</li>
+          </ul>
+          <a href="/pages/contact" class="about-services__card-btn">
+            <span>JOIN TRADE PROGRAM</span>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </a>
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} Mobile Slider Dots Indicator {%- endcomment -%}
+    <div class="about-slider-dots">
+      <span class="about-slider-dot is-active"></span>
+      <span class="about-slider-dot"></span>
+      <span class="about-slider-dot"></span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .about-services {
+    width: 100%;
+    background-color: var(--srv-bg, #ffffff);
+    padding-top: var(--srv-pt, 85px);
+    padding-bottom: var(--srv-pb, 85px);
+    box-sizing: border-box;
+  }
+
+  .about-services__container {
+    width: 100%;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 28px;
+    box-sizing: border-box;
+  }
+
+  .about-services__header {
+    text-align: center;
+    max-width: 820px;
+    margin: 0 auto 48px auto;
+  }
+
+  .about-services__eyebrow-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+
+  .about-services__eyebrow-line {
+    display: block;
+    width: 28px;
+    height: 1px;
+    background-color: var(--srv-accent, #c8a876);
+  }
+
+  .about-services__eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--srv-accent, #c8a876);
+  }
+
+  .about-services__heading {
+    font-family: var(--font-heading-family, serif);
+    font-size: clamp(24px, 3.2vw, 40px);
+    font-weight: 400;
+    line-height: 1.22;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--srv-heading, #111111);
+    margin: 0 0 14px 0;
+  }
+
+  .about-services__subtitle {
+    font-family: var(--font-body-family, sans-serif);
+    font-size: 13.5px;
+    line-height: 1.7;
+    letter-spacing: 0.02em;
+    color: var(--srv-text, #555555);
+    margin: 0;
+  }
+
+  .about-services__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+
+  .about-services__card {
+    background-color: var(--srv-card-bg, #faf8f5);
+    border: 1px solid #ede8e1;
+    padding: 36px 28px 30px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.3s ease;
+  }
+
+  .about-services__card:nth-child(1) { transition-delay: 0.08s; }
+  .about-services__card:nth-child(2) { transition-delay: 0.16s; }
+  .about-services__card:nth-child(3) { transition-delay: 0.24s; }
+
+  .about-services__card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.06);
+    border-color: var(--srv-accent, #c8a876);
+  }
+
+  .about-services__card-tag {
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--srv-accent, #c8a876);
+    margin-bottom: 12px;
+  }
+
+  .about-services__card-title {
+    font-family: var(--font-heading-family, serif);
+    font-size: 18.5px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--srv-heading, #111111);
+    margin: 0 0 12px 0;
+    line-height: 1.3;
+  }
+
+  .about-services__card-desc {
+    font-family: var(--font-body-family, sans-serif);
+    font-size: 12.5px;
+    line-height: 1.7;
+    color: var(--srv-text, #555555);
+    margin: 0 0 18px 0;
+  }
+
+  .about-services__features-list,
+  .about-services__features ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 24px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border-top: 1px solid #eae5de;
+    padding-top: 16px;
+  }
+
+  .about-services__features-list li,
+  .about-services__features li {
+    font-size: 11.5px;
+    letter-spacing: 0.02em;
+    color: #444444;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .about-services__features-list li::before,
+  .about-services__features li::before {
+    content: '—';
+    color: var(--srv-accent, #c8a876);
+    font-weight: bold;
+  }
+
+  .about-services__card-btn {
+    margin-top: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 11px 16px;
+    background-color: transparent;
+    border: 1px solid #111111;
+    color: #111111;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+  }
+
+  .about-services__card-btn:hover {
+    background-color: #111111;
+    color: #ffffff;
+    border-color: #111111;
+  }
+
+  .about-slider-dots {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 18px;
+  }
+
+  .about-slider-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #d8d8d8;
+    transition: background-color 0.25s ease, width 0.25s ease;
+  }
+
+  .about-slider-dot.is-active {
+    width: 18px;
+    border-radius: 4px;
+    background-color: var(--srv-accent, #c8a876);
+  }
+
+  @media screen and (max-width: 989px) {
+    .about-services__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .about-services {
+      padding-top: 48px;
+      padding-bottom: 48px;
+    }
+    .about-services__container {
+      padding: 0 16px;
+    }
+    .about-services__header {
+      margin-bottom: 26px;
+    }
+    .about-services__heading {
+      font-size: 22px;
+    }
+    .about-services__grid.about-mobile-slider {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      gap: 14px;
+      padding: 4px 4px 16px 4px;
+      margin: 0 -16px;
+      padding-left: 16px;
+      padding-right: 16px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .about-services__grid.about-mobile-slider::-webkit-scrollbar {
+      display: none;
+    }
+    .about-services__card {
+      flex: 0 0 82vw;
+      max-width: 300px;
+      scroll-snap-align: start;
+      padding: 24px 18px 20px;
+    }
+    .about-slider-dots {
+      display: flex;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "About Concierge",
+  "tag": "section",
+  "class": "section-about-services",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow Text",
+      "default": "BESPOKE ADVISORY"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "CURATED SERVICES FOR CLIENTS & TRADE"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Section Subtitle",
+      "default": "Experience white-glove curation, custom commissions, and tailored architectural sourcing."
+    },
+    {
+      "type": "header",
+      "content": "Colors & Spacing"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Section Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_bg",
+      "label": "Card Background Color",
+      "default": "#faf8f5"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#555555"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color",
+      "default": "#c8a876"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 40,
+      "max": 160,
+      "step": 5,
+      "unit": "px",
+      "label": "Top Padding",
+      "default": 95
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 40,
+      "max": 160,
+      "step": 5,
+      "unit": "px",
+      "label": "Bottom Padding",
+      "default": 95
+    }
+  ],
+  "blocks": [
+    {
+      "type": "service",
+      "name": "Service Card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "tag",
+          "label": "Category Tag",
+          "default": "PRIVATE RESIDENCES"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Service Title",
+          "default": "Interior Styling & Sourcing"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Comprehensive private curation for luxury residences and hospitality suites, tailoring unique palettes, rare collectibles, and artisanal accents."
+        },
+        {
+          "type": "richtext",
+          "id": "features",
+          "label": "Features Bullet List",
+          "default": "<ul><li>Dedicated Senior Interior Stylist</li><li>Custom Finishes & Noble Materials</li><li>Worldwide White-Glove Installation</li></ul>"
+        },
+        {
+          "type": "text",
+          "id": "button_text",
+          "label": "Button Label",
+          "default": "INQUIRE WITH STYLIST"
+        },
+        {
+          "type": "url",
+          "id": "button_url",
+          "label": "Button Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Concierge",
+      "blocks": [
+        {
+          "type": "service",
+          "settings": {
+            "tag": "PRIVATE RESIDENCES",
+            "title": "Interior Styling & Sourcing",
+            "description": "Comprehensive private curation for luxury residences and hospitality suites, tailoring unique palettes, rare collectibles, and artisanal accents.",
+            "button_text": "INQUIRE WITH STYLIST"
+          }
+        },
+        {
+          "type": "service",
+          "settings": {
+            "tag": "ART & GALLERY",
+            "title": "Art & Sculpture Advisory",
+            "description": "Connecting private collectors and institutions with rare fine art prints, museum-grade sculptures, and bespoke commissioned masterworks.",
+            "button_text": "DISCOVER ART ADVISORY"
+          }
+        },
+        {
+          "type": "service",
+          "settings": {
+            "tag": "ARCHITECTS & DESIGNERS",
+            "title": "Trade & Bespoke B2B Program",
+            "description": "Privileged trade pricing, dedicated project managers, custom manufacturing, and global logistic support for architects and interior designers.",
+            "button_text": "JOIN TRADE PROGRAM"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,569 @@
+<div
+  class="about-narrative about-narrative--{{ section.id }}"
+  style="
+    --narrative-pt: {{ section.settings.padding_top }}px;
+    --narrative-pb: {{ section.settings.padding_bottom }}px;
+    --narrative-bg: {{ section.settings.bg_color }};
+    --narrative-heading: {{ section.settings.heading_color }};
+    --narrative-text: {{ section.settings.text_color }};
+    --narrative-accent: {{ section.settings.accent_color }};
+  "
+>
+  <div class="about-narrative__container">
+    <div class="about-narrative__grid">
+      
+      {%- comment -%} Left Column: Editorial Story Content {%- endcomment -%}
+      <div class="about-narrative__content" data-about-reveal>
+        {%- if section.settings.eyebrow != blank -%}
+          <div class="about-narrative__eyebrow-wrap">
+            <span class="about-narrative__eyebrow-dot"></span>
+            <span class="about-narrative__eyebrow">{{ section.settings.eyebrow }}</span>
+          </div>
+        {%- endif -%}
+
+        <h2 class="about-narrative__heading">
+          {{ section.settings.heading }}
+        </h2>
+
+        {%- if section.settings.lead_text != blank -%}
+          <div class="about-narrative__lead">
+            {{ section.settings.lead_text }}
+          </div>
+        {%- endif -%}
+
+        <div class="about-narrative__body">
+          {{ section.settings.body_text }}
+        </div>
+
+        {%- if section.settings.founder_quote != blank -%}
+          <div class="about-narrative__quote-box">
+            <p class="about-narrative__quote-text">“{{ section.settings.founder_quote }}”</p>
+          </div>
+        {%- endif -%}
+
+        <div class="about-narrative__founder-block">
+          {%- if section.settings.founder_name != blank -%}
+            <div class="about-narrative__founder-info">
+              <span class="about-narrative__founder-name">{{ section.settings.founder_name }}</span>
+              <span class="about-narrative__founder-title">{{ section.settings.founder_title }}</span>
+            </div>
+          {%- endif -%}
+
+          {%- if section.settings.button_text != blank -%}
+            <a href="{{ section.settings.button_url | default: '/collections/all' }}" class="about-narrative__btn">
+              <span>{{ section.settings.button_text }}</span>
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          {%- endif -%}
+        </div>
+      </div>
+
+      {%- comment -%} Right Column: Layered Editorial Visuals {%- endcomment -%}
+      <div class="about-narrative__media" data-about-reveal>
+        <div class="about-narrative__media-wrap">
+          <div class="about-narrative__main-img-box">
+            {%- if section.settings.primary_image != blank -%}
+              {{ section.settings.primary_image | image_url: width: 1200 | image_tag: 
+                class: 'about-narrative__main-img', 
+                loading: 'lazy', 
+                widths: '400,600,800,1200',
+                alt: section.settings.heading | escape 
+              }}
+            {%- else -%}
+              <img
+                src="{{ 'maker-gallery-1.jpg' | asset_url }}"
+                alt="The House of Things Craft Narrative"
+                class="about-narrative__main-img"
+                loading="lazy"
+                width="800"
+                height="1000"
+              >
+            {%- endif -%}
+          </div>
+
+          <div class="about-narrative__sub-img-box">
+            {%- if section.settings.secondary_image != blank -%}
+              {{ section.settings.secondary_image | image_url: width: 600 | image_tag: 
+                class: 'about-narrative__sub-img', 
+                loading: 'lazy', 
+                widths: '250,400,600',
+                alt: 'Artisan Detail' 
+              }}
+            {%- else -%}
+              <img
+                src="{{ 'fine-print-1.jpg' | asset_url }}"
+                alt="Fine Curated Craft Detail"
+                class="about-narrative__sub-img"
+                loading="lazy"
+                width="450"
+                height="550"
+              >
+            {%- endif -%}
+          </div>
+
+          {%- if section.settings.badge_text != blank -%}
+            <div class="about-narrative__heritage-badge">
+              <span class="about-narrative__badge-eyebrow">{{ section.settings.badge_eyebrow | default: 'SINCE' }}</span>
+              <span class="about-narrative__badge-title">{{ section.settings.badge_text }}</span>
+              <span class="about-narrative__badge-sub">{{ section.settings.badge_sub | default: 'UDAIPUR • MUMBAI' }}</span>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<style>
+  .about-narrative {
+    width: 100%;
+    background-color: var(--narrative-bg, #fcfbfa);
+    padding-top: var(--narrative-pt, 90px);
+    padding-bottom: var(--narrative-pb, 90px);
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .about-narrative__container {
+    width: 100%;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 28px;
+    box-sizing: border-box;
+  }
+
+  .about-narrative__grid {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+
+  .about-narrative__content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .about-narrative__eyebrow-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .about-narrative__eyebrow-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--narrative-accent, #c8a876);
+  }
+
+  .about-narrative__eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--narrative-accent, #c8a876);
+  }
+
+  .about-narrative__heading {
+    font-family: var(--font-heading-family, serif);
+    font-size: clamp(28px, 3.2vw, 44px);
+    font-weight: 400;
+    line-height: 1.22;
+    letter-spacing: 0.04em;
+    color: var(--narrative-heading, #1a1a1a);
+    margin: 0 0 22px 0;
+    text-transform: uppercase;
+  }
+
+  .about-narrative__lead {
+    font-family: var(--font-heading-family, serif);
+    font-size: clamp(16px, 1.5vw, 19px);
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1.6;
+    color: #333333;
+    margin-bottom: 20px;
+    padding-left: 18px;
+    border-left: 2px solid var(--narrative-accent, #c8a876);
+  }
+
+  .about-narrative__body {
+    font-family: var(--font-body-family, sans-serif);
+    font-size: 13.5px;
+    line-height: 1.85;
+    letter-spacing: 0.03em;
+    color: var(--narrative-text, #555555);
+    margin-bottom: 26px;
+  }
+
+  .about-narrative__body p {
+    margin: 0 0 14px 0;
+  }
+
+  .about-narrative__quote-box {
+    background-color: #ffffff;
+    border: 1px solid #eae5de;
+    padding: 16px 20px;
+    margin-bottom: 26px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+  }
+
+  .about-narrative__quote-text {
+    font-family: var(--font-heading-family, serif);
+    font-size: 14.5px;
+    font-style: italic;
+    line-height: 1.6;
+    color: #222222;
+    margin: 0;
+  }
+
+  .about-narrative__founder-block {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding-top: 18px;
+    border-top: 1px solid #eae5de;
+  }
+
+  .about-narrative__founder-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .about-narrative__founder-name {
+    font-family: var(--font-heading-family, serif);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: #111111;
+    text-transform: uppercase;
+  }
+
+  .about-narrative__founder-title {
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #777777;
+  }
+
+  .about-narrative__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 24px;
+    background-color: #111111;
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background-color 0.25s ease, transform 0.2s ease;
+  }
+
+  .about-narrative__btn:hover {
+    background-color: #333333;
+    transform: translateY(-2px);
+  }
+
+  /* Right Media Side */
+  .about-narrative__media {
+    position: relative;
+  }
+
+  .about-narrative__media-wrap {
+    position: relative;
+    padding-right: 40px;
+    padding-bottom: 40px;
+  }
+
+  .about-narrative__main-img-box {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background-color: #eaeaea;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+  }
+
+  .about-narrative__main-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .about-narrative__media-wrap:hover .about-narrative__main-img {
+    transform: scale(1.04);
+  }
+
+  .about-narrative__sub-img-box {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 48%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border: 6px solid #ffffff;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+    z-index: 2;
+    background-color: #eaeaea;
+  }
+
+  .about-narrative__sub-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .about-narrative__media-wrap:hover .about-narrative__sub-img {
+    transform: scale(1.06);
+  }
+
+  .about-narrative__heritage-badge {
+    position: absolute;
+    top: 24px;
+    left: -20px;
+    z-index: 3;
+    background-color: #111111;
+    color: #ffffff;
+    padding: 14px 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  .about-narrative__badge-eyebrow {
+    font-size: 8.5px;
+    letter-spacing: 0.28em;
+    color: var(--narrative-accent, #c8a876);
+  }
+
+  .about-narrative__badge-title {
+    font-family: var(--font-heading-family, serif);
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    color: #ffffff;
+    margin: 2px 0;
+  }
+
+  .about-narrative__badge-sub {
+    font-size: 8px;
+    letter-spacing: 0.22em;
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  @media screen and (max-width: 989px) {
+    .about-narrative__grid {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+    .about-narrative__media-wrap {
+      padding-right: 20px;
+      padding-bottom: 20px;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+    .about-narrative__heritage-badge {
+      left: 10px;
+      top: 10px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .about-narrative {
+      padding-top: 48px;
+      padding-bottom: 48px;
+    }
+    .about-narrative__container {
+      padding: 0 16px;
+    }
+    .about-narrative__heading {
+      font-size: 24px;
+      margin-bottom: 16px;
+    }
+    .about-narrative__lead {
+      font-size: 15px;
+      padding-left: 14px;
+      margin-bottom: 16px;
+    }
+    .about-narrative__body {
+      font-size: 13px;
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+    .about-narrative__founder-block {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .about-narrative__btn {
+      width: 100%;
+      justify-content: center;
+      box-sizing: border-box;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "About Heritage Story",
+  "tag": "section",
+  "class": "section-about-narrative",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow Subtitle",
+      "default": "THE HERITAGE & GENESIS"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "BORN FROM A PASSION FOR TIMELESS BEAUTY"
+    },
+    {
+      "type": "textarea",
+      "id": "lead_text",
+      "label": "Lead Statement (Serif Italic)",
+      "default": "Founded with a vision to bridge timeless Indian craft heritage with contemporary international living."
+    },
+    {
+      "type": "richtext",
+      "id": "body_text",
+      "label": "Story Body Paragraphs",
+      "default": "<p>The House of Things is an experiential luxury portal where exquisite design meets discerning tastemakers. We scout master craftsmen, independent studios, and heritage ateliers across India and around the world, curating heirlooms that evoke emotion and architectural serenity.</p><p>Every collectible piece in our collection is chosen for its authenticity, uncompromising materiality, and poetic narrative—turning living spaces into soulful sanctuaries.</p>"
+    },
+    {
+      "type": "textarea",
+      "id": "founder_quote",
+      "label": "Founder Quote",
+      "default": "True luxury is not about excess—it is the quiet confidence of objects crafted with soul, patience, and deliberate intention."
+    },
+    {
+      "type": "text",
+      "id": "founder_name",
+      "label": "Founder Name",
+      "default": "Astha Khetan"
+    },
+    {
+      "type": "text",
+      "id": "founder_title",
+      "label": "Founder Title",
+      "default": "FOUNDER & CREATIVE DIRECTOR"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "CTA Button Text",
+      "default": "EXPLORE THE EDITS"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "CTA Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Imagery & Visuals"
+    },
+    {
+      "type": "image_picker",
+      "id": "primary_image",
+      "label": "Primary Portrait Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "secondary_image",
+      "label": "Secondary Overlapping Image"
+    },
+    {
+      "type": "text",
+      "id": "badge_eyebrow",
+      "label": "Badge Eyebrow",
+      "default": "ESTABLISHED"
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Badge Main Text",
+      "default": "2014"
+    },
+    {
+      "type": "text",
+      "id": "badge_sub",
+      "label": "Badge Subtitle",
+      "default": "UDAIPUR • MUMBAI"
+    },
+    {
+      "type": "header",
+      "content": "Colors & Spacing"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Section Background",
+      "default": "#fcfbfa"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Body Text Color",
+      "default": "#555555"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color",
+      "default": "#c8a876"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 40,
+      "max": 160,
+      "step": 5,
+      "unit": "px",
+      "label": "Top Padding",
+      "default": 95
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 40,
+      "max": 160,
+      "step": 5,
+      "unit": "px",
+      "label": "Bottom Padding",
+      "default": 95
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Heritage Story"
+    }
+  ]
+}
+{% endschema %}

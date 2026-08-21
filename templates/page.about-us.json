@@ -1,61 +1,303 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
-    "main": {
-      "type": "main-page",
+    "about_hero": {
+      "type": "about-hero",
+      "settings": {
+        "eyebrow": "THE HOUSE OF THINGS",
+        "title": "CURATORS OF EXCEPTIONAL LIVING",
+        "subtitle": "A distinguished destination for timeless interiors, rare artisan craft, and collectible fine objects from around the globe.",
+        "manifesto": "“We believe a home is a living sanctuary of art, memories, and masterful craft designed to outlast the ephemeral.”",
+        "show_breadcrumbs": true,
+        "bg_color": "#111111",
+        "text_color": "#ffffff",
+        "accent_color": "#c8a876",
+        "overlay_opacity": 65,
+        "padding_top": 110,
+        "padding_bottom": 90
+      }
+    },
+    "about_narrative": {
+      "type": "about-narrative-split",
+      "settings": {
+        "eyebrow": "THE HERITAGE & GENESIS",
+        "heading": "BORN FROM A PASSION FOR TIMELESS BEAUTY",
+        "lead_text": "Founded with a vision to bridge timeless Indian craft heritage with contemporary international living.",
+        "body_text": "<p>The House of Things is an experiential luxury portal where exquisite design meets discerning tastemakers. We scout master craftsmen, independent studios, and heritage ateliers across India and around the world, curating heirlooms that evoke emotion and architectural serenity.</p><p>Every collectible piece in our collection is chosen for its authenticity, uncompromising materiality, and poetic narrative—turning living spaces into soulful sanctuaries.</p>",
+        "founder_quote": "True luxury is not about excess—it is the quiet confidence of objects crafted with soul, patience, and deliberate intention.",
+        "founder_name": "Astha Khetan",
+        "founder_title": "FOUNDER & CREATIVE DIRECTOR",
+        "button_text": "EXPLORE THE EDITS",
+        "badge_eyebrow": "ESTABLISHED",
+        "badge_text": "2014",
+        "badge_sub": "UDAIPUR • MUMBAI",
+        "bg_color": "#fcfbfa",
+        "heading_color": "#1a1a1a",
+        "text_color": "#555555",
+        "accent_color": "#c8a876",
+        "padding_top": 95,
+        "padding_bottom": 95
+      }
+    },
+    "about_pillars": {
+      "type": "about-pillars-grid",
       "blocks": {
-        "heading": {
-          "type": "text",
-          "name": "t:names.title",
+        "pillar_1": {
+          "type": "pillar",
           "settings": {
-            "text": "<h1>{{ closest.page.title }}</h1>",
-            "width": "100%",
-            "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "h2",
-            "font": "var(--font-body--family)",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
+            "icon": "globe",
+            "title": "CURATION WITHOUT BOUNDARIES",
+            "description": "Sourcing across 200+ artisan workshops and international design ateliers with uncompromising discerning standards."
+          }
         },
-        "page-content": {
-          "type": "page-content",
-          "settings": {},
-          "blocks": {}
+        "pillar_2": {
+          "type": "pillar",
+          "settings": {
+            "icon": "craft",
+            "title": "HEIRLOOM CRAFTSMANSHIP",
+            "description": "Preserving ancestral artisanal traditions through refined contemporary silhouettes and noble materials."
+          }
+        },
+        "pillar_3": {
+          "type": "pillar",
+          "settings": {
+            "icon": "concierge",
+            "title": "BESPOKE CONCIERGE",
+            "description": "Dedicated white-glove curation, custom commissions, and private interior architectural advisory for collectors."
+          }
+        },
+        "pillar_4": {
+          "type": "pillar",
+          "settings": {
+            "icon": "sustainability",
+            "title": "SUSTAINED ELEGANCE",
+            "description": "Conscious, ethical creation built with longevity in mind—curated to be passed on to future generations."
+          }
         }
       },
       "block_order": [
-        "heading",
-        "page-content"
+        "pillar_1",
+        "pillar_2",
+        "pillar_3",
+        "pillar_4"
       ],
       "settings": {
-        "content_direction": "column",
-        "gap": 32,
-        "background_color": "{{ settings.color_palette.background }}",
-        "padding-block-start": 40,
-        "padding-block-end": 80
+        "eyebrow": "OUR PHILOSOPHY",
+        "heading": "THE PILLARS OF OUR CURATION",
+        "subtitle": "Every collectible, artwork, and design object is governed by four timeless tenets of excellence.",
+        "bg_color": "#ffffff",
+        "card_bg_color": "#faf8f5",
+        "heading_color": "#111111",
+        "text_color": "#666666",
+        "accent_color": "#c8a876",
+        "padding_top": 90,
+        "padding_bottom": 90
+      }
+    },
+    "about_stats": {
+      "type": "about-stats-counter",
+      "blocks": {
+        "stat_1": {
+          "type": "stat",
+          "settings": {
+            "number": "10+",
+            "label": "YEARS OF CURATED LIVING",
+            "sublabel": "Established in 2014"
+          }
+        },
+        "stat_2": {
+          "type": "stat",
+          "settings": {
+            "number": "200+",
+            "label": "MASTER ARTISANS & STUDIOS",
+            "sublabel": "Across 15 Design Capitals"
+          }
+        },
+        "stat_3": {
+          "type": "stat",
+          "settings": {
+            "number": "5000+",
+            "label": "EXCLUSIVE FINE EDITS",
+            "sublabel": "Individually Vetted & Numbered"
+          }
+        },
+        "stat_4": {
+          "type": "stat",
+          "settings": {
+            "number": "10K+",
+            "label": "HOMES TRANSFORMED",
+            "sublabel": "Worldwide White-Glove Delivery"
+          }
+        }
+      },
+      "block_order": [
+        "stat_1",
+        "stat_2",
+        "stat_3",
+        "stat_4"
+      ],
+      "settings": {
+        "bg_color": "#111111",
+        "num_color": "#c8a876",
+        "lbl_color": "#ffffff",
+        "accent_color": "#c8a876",
+        "padding_top": 70,
+        "padding_bottom": 70
+      }
+    },
+    "about_mosaic": {
+      "type": "about-gallery-mosaic",
+      "settings": {
+        "eyebrow": "VISUAL ODYSSEY",
+        "heading": "INSIDE OUR GALLERIES & ATELIERS",
+        "subtitle": "Step behind the curtain into our physical spaces, master craft workshops, and curated architectural sanctuaries.",
+        "tag_1": "FLAGSHIP GALLERY",
+        "title_1": "The House of Things Udaipur Gallery",
+        "tag_2": "ATELIER",
+        "title_2": "Sculptural Vessels & Objects",
+        "tag_3": "CURATION",
+        "title_3": "Limited Edition Art Prints",
+        "tag_4": "INTERIORS",
+        "title_4": "Refined Living Sanctuaries",
+        "tag_5": "MATERIALITY",
+        "title_5": "Hand-Finished Rare Patinas",
+        "bg_color": "#f7f6f3",
+        "heading_color": "#111111",
+        "accent_color": "#c8a876",
+        "padding_top": 90,
+        "padding_bottom": 90
+      }
+    },
+    "about_services": {
+      "type": "about-services-concierge",
+      "blocks": {
+        "service_1": {
+          "type": "service",
+          "settings": {
+            "tag": "PRIVATE RESIDENCES",
+            "title": "Interior Styling & Sourcing",
+            "description": "Comprehensive private curation for luxury residences and hospitality suites, tailoring unique palettes, rare collectibles, and artisanal accents.",
+            "features": "<ul><li>Dedicated Senior Interior Stylist</li><li>Custom Finishes & Noble Materials</li><li>Worldwide White-Glove Installation</li></ul>",
+            "button_text": "INQUIRE WITH STYLIST"
+          }
+        },
+        "service_2": {
+          "type": "service",
+          "settings": {
+            "tag": "ART & GALLERY",
+            "title": "Art & Sculpture Advisory",
+            "description": "Connecting private collectors and institutions with rare fine art prints, museum-grade sculptures, and bespoke commissioned masterworks.",
+            "features": "<ul><li>Private Gallery Previews & Catalogues</li><li>Site-Specific Commissioned Pieces</li><li>Certificates of Authenticity Included</li></ul>",
+            "button_text": "DISCOVER ART ADVISORY"
+          }
+        },
+        "service_3": {
+          "type": "service",
+          "settings": {
+            "tag": "ARCHITECTS & DESIGNERS",
+            "title": "Trade & Bespoke B2B Program",
+            "description": "Privileged trade pricing, dedicated project managers, custom manufacturing, and global logistic support for architects and interior designers.",
+            "features": "<ul><li>Exclusive Trade Tier Discounts</li><li>Direct Artisan Atelier Collaboration</li><li>Priority Expedited Global Freight</li></ul>",
+            "button_text": "JOIN TRADE PROGRAM"
+          }
+        }
+      },
+      "block_order": [
+        "service_1",
+        "service_2",
+        "service_3"
+      ],
+      "settings": {
+        "eyebrow": "BESPOKE ADVISORY",
+        "heading": "CURATED SERVICES FOR CLIENTS & TRADE",
+        "subtitle": "Experience white-glove curation, custom commissions, and tailored architectural sourcing.",
+        "bg_color": "#ffffff",
+        "card_bg": "#faf8f5",
+        "heading_color": "#111111",
+        "text_color": "#555555",
+        "accent_color": "#c8a876",
+        "padding_top": 95,
+        "padding_bottom": 95
+      }
+    },
+    "about_press": {
+      "type": "about-press-quotes",
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "quote": "A masterclass in contemporary luxury, bridging centuries-old heritage crafts with museum-grade interior aesthetics.",
+            "publication": "ARCHITECTURAL DIGEST",
+            "detail": "Design Feature • 2024"
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "quote": "The definitive destination for discerning tastemakers seeking rare, soulful objects that turn homes into sanctuaries.",
+            "publication": "VOGUE LIVING",
+            "detail": "Curator's Edit"
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {
+            "quote": "Transforming living spaces with an uncompromising devotion to noble materials, artisanal purity, and timeless elegance.",
+            "publication": "ELLE DECOR",
+            "detail": "Global Luxury Spotlight"
+          }
+        },
+        "review_4": {
+          "type": "review",
+          "settings": {
+            "quote": "Astha Khetan’s platform has redefined collectible design in South Asia, fostering master ateliers with international finesse.",
+            "publication": "HARPER'S BAZAAR",
+            "detail": "Art & Interiors Issue"
+          }
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3",
+        "review_4"
+      ],
+      "settings": {
+        "eyebrow": "CRITICAL ACCLAIM",
+        "heading": "CELEBRATED IN GLOBAL PRESS",
+        "subtitle": "Recognized by the world's most revered design, architecture, and luxury lifestyle publications.",
+        "bg_color": "#faf8f5",
+        "heading_color": "#111111",
+        "text_color": "#666666",
+        "accent_color": "#c8a876",
+        "padding_top": 90,
+        "padding_bottom": 90
+      }
+    },
+    "about_cta": {
+      "type": "about-cta-banner",
+      "settings": {
+        "eyebrow": "THE CURATION AWAITS",
+        "heading": "BEGIN YOUR CURATED JOURNEY",
+        "subtitle": "Explore our latest collectible edits or schedule a private consultation at our flagship gallery spaces.",
+        "primary_btn_text": "EXPLORE ALL EDITS",
+        "secondary_btn_text": "SCHEDULE CONSULTATION",
+        "bg_color": "#111111",
+        "text_color": "#ffffff",
+        "accent_color": "#c8a876",
+        "overlay_opacity": 75,
+        "padding_top": 110,
+        "padding_bottom": 110
       }
     }
   },
   "order": [
-    "main"
+    "about_hero",
+    "about_narrative",
+    "about_pillars",
+    "about_stats",
+    "about_mosaic",
+    "about_services",
+    "about_press",
+    "about_cta"
   ]
 }

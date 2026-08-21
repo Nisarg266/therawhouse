@@ -1,0 +1,525 @@
+<div
+  class="about-mosaic about-mosaic--{{ section.id }}"
+  style="
+    --mosaic-pt: {{ section.settings.padding_top }}px;
+    --mosaic-pb: {{ section.settings.padding_bottom }}px;
+    --mosaic-bg: {{ section.settings.bg_color }};
+    --mosaic-heading: {{ section.settings.heading_color }};
+    --mosaic-accent: {{ section.settings.accent_color }};
+  "
+>
+  <div class="about-mosaic__container about-slider-wrapper">
+    <div class="about-mosaic__header" data-about-reveal>
+      {%- if section.settings.eyebrow != blank -%}
+        <div class="about-mosaic__eyebrow-wrap">
+          <span class="about-mosaic__eyebrow-line"></span>
+          <span class="about-mosaic__eyebrow">{{ section.settings.eyebrow }}</span>
+          <span class="about-mosaic__eyebrow-line"></span>
+        </div>
+      {%- endif -%}
+
+      <h2 class="about-mosaic__heading">
+        {{ section.settings.heading }}
+      </h2>
+
+      {%- if section.settings.subtitle != blank -%}
+        <p class="about-mosaic__subtitle">
+          {{ section.settings.subtitle }}
+        </p>
+      {%- endif -%}
+    </div>
+
+    <div class="about-mosaic__grid about-mobile-slider">
+      {%- comment -%} Item 1: Large Featured Atelier Scene {%- endcomment -%}
+      <div class="about-mosaic__item about-mosaic__item--featured" data-about-reveal>
+        <div class="about-mosaic__img-wrap">
+          {%- if section.settings.image_1 != blank -%}
+            {{ section.settings.image_1 | image_url: width: 1400 | image_tag: class: 'about-mosaic__img', loading: 'lazy', alt: 'Flagship Gallery' }}
+          {%- else -%}
+            <img src="{{ 'maker-gallery-1.jpg' | asset_url }}" alt="Flagship Gallery Atelier" class="about-mosaic__img" loading="lazy" width="800" height="600">
+          {%- endif -%}
+          <div class="about-mosaic__caption-box">
+            <span class="about-mosaic__item-tag">{{ section.settings.tag_1 | default: 'FLAGSHIP GALLERY' }}</span>
+            <h3 class="about-mosaic__item-title">{{ section.settings.title_1 | default: 'The House of Things Udaipur Gallery' }}</h3>
+          </div>
+        </div>
+      </div>
+
+      {%- comment -%} Item 2: Ceramic / Marble Craft Detail {%- endcomment -%}
+      <div class="about-mosaic__item" data-about-reveal>
+        <div class="about-mosaic__img-wrap">
+          {%- if section.settings.image_2 != blank -%}
+            {{ section.settings.image_2 | image_url: width: 800 | image_tag: class: 'about-mosaic__img', loading: 'lazy', alt: 'Artisan Workshop' }}
+          {%- else -%}
+            <img src="{{ 'maker-gallery-2.jpg' | asset_url }}" alt="Artisan Studio Workshop" class="about-mosaic__img" loading="lazy" width="600" height="450">
+          {%- endif -%}
+          <div class="about-mosaic__caption-box">
+            <span class="about-mosaic__item-tag">{{ section.settings.tag_2 | default: 'ATELIER' }}</span>
+            <h3 class="about-mosaic__item-title">{{ section.settings.title_2 | default: 'Sculptural Vessels & Objects' }}</h3>
+          </div>
+        </div>
+      </div>
+
+      {%- comment -%} Item 3: Fine Prints & Canvas {%- endcomment -%}
+      <div class="about-mosaic__item" data-about-reveal>
+        <div class="about-mosaic__img-wrap">
+          {%- if section.settings.image_3 != blank -%}
+            {{ section.settings.image_3 | image_url: width: 800 | image_tag: class: 'about-mosaic__img', loading: 'lazy', alt: 'Fine Print Archive' }}
+          {%- else -%}
+            <img src="{{ 'fine-print-2.jpg' | asset_url }}" alt="Fine Print Archive Edition" class="about-mosaic__img" loading="lazy" width="600" height="450">
+          {%- endif -%}
+          <div class="about-mosaic__caption-box">
+            <span class="about-mosaic__item-tag">{{ section.settings.tag_3 | default: 'CURATION' }}</span>
+            <h3 class="about-mosaic__item-title">{{ section.settings.title_3 | default: 'Limited Edition Art Prints' }}</h3>
+          </div>
+        </div>
+      </div>
+
+      {%- comment -%} Item 4: Architectural Interiors {%- endcomment -%}
+      <div class="about-mosaic__item" data-about-reveal>
+        <div class="about-mosaic__img-wrap">
+          {%- if section.settings.image_4 != blank -%}
+            {{ section.settings.image_4 | image_url: width: 800 | image_tag: class: 'about-mosaic__img', loading: 'lazy', alt: 'Architectural Interiors' }}
+          {%- else -%}
+            <img src="{{ 'maker-gallery-3.jpg' | asset_url }}" alt="Architectural Living Sanctuaries" class="about-mosaic__img" loading="lazy" width="600" height="450">
+          {%- endif -%}
+          <div class="about-mosaic__caption-box">
+            <span class="about-mosaic__item-tag">{{ section.settings.tag_4 | default: 'INTERIORS' }}</span>
+            <h3 class="about-mosaic__item-title">{{ section.settings.title_4 | default: 'Refined Living Sanctuaries' }}</h3>
+          </div>
+        </div>
+      </div>
+
+      {%- comment -%} Item 5: Master Craft Finishing {%- endcomment -%}
+      <div class="about-mosaic__item" data-about-reveal>
+        <div class="about-mosaic__img-wrap">
+          {%- if section.settings.image_5 != blank -%}
+            {{ section.settings.image_5 | image_url: width: 800 | image_tag: class: 'about-mosaic__img', loading: 'lazy', alt: 'Noble Materials' }}
+          {%- else -%}
+            <img src="{{ 'fine-print-3.jpg' | asset_url }}" alt="Noble Materials & Textures" class="about-mosaic__img" loading="lazy" width="600" height="450">
+          {%- endif -%}
+          <div class="about-mosaic__caption-box">
+            <span class="about-mosaic__item-tag">{{ section.settings.tag_5 | default: 'MATERIALITY' }}</span>
+            <h3 class="about-mosaic__item-title">{{ section.settings.title_5 | default: 'Hand-Finished Rare Patinas' }}</h3>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    {%- comment -%} Mobile Slider Dots Indicator {%- endcomment -%}
+    <div class="about-slider-dots">
+      <span class="about-slider-dot is-active"></span>
+      <span class="about-slider-dot"></span>
+      <span class="about-slider-dot"></span>
+      <span class="about-slider-dot"></span>
+      <span class="about-slider-dot"></span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .about-mosaic {
+    width: 100%;
+    background-color: var(--mosaic-bg, #f7f6f3);
+    padding-top: var(--mosaic-pt, 85px);
+    padding-bottom: var(--mosaic-pb, 85px);
+    box-sizing: border-box;
+  }
+
+  .about-mosaic__container {
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 28px;
+    box-sizing: border-box;
+  }
+
+  .about-mosaic__header {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 46px auto;
+  }
+
+  .about-mosaic__eyebrow-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+
+  .about-mosaic__eyebrow-line {
+    display: block;
+    width: 28px;
+    height: 1px;
+    background-color: var(--mosaic-accent, #c8a876);
+  }
+
+  .about-mosaic__eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--mosaic-accent, #c8a876);
+  }
+
+  .about-mosaic__heading {
+    font-family: var(--font-heading-family, serif);
+    font-size: clamp(24px, 3vw, 40px);
+    font-weight: 400;
+    line-height: 1.22;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--mosaic-heading, #111111);
+    margin: 0 0 14px 0;
+  }
+
+  .about-mosaic__subtitle {
+    font-family: var(--font-body-family, sans-serif);
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: #666666;
+    margin: 0;
+  }
+
+  .about-mosaic__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 270px 270px;
+    gap: 18px;
+  }
+
+  .about-mosaic__item {
+    position: relative;
+    overflow: hidden;
+    background-color: #eaeaea;
+  }
+
+  .about-mosaic__item:nth-child(1) { transition-delay: 0.08s; }
+  .about-mosaic__item:nth-child(2) { transition-delay: 0.16s; }
+  .about-mosaic__item:nth-child(3) { transition-delay: 0.24s; }
+  .about-mosaic__item:nth-child(4) { transition-delay: 0.32s; }
+  .about-mosaic__item:nth-child(5) { transition-delay: 0.40s; }
+
+  .about-mosaic__item--featured {
+    grid-column: 1 / 3;
+    grid-row: 1 / 3;
+  }
+
+  .about-mosaic__img-wrap {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .about-mosaic__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .about-mosaic__item:hover .about-mosaic__img {
+    transform: scale(1.06);
+  }
+
+  .about-mosaic__caption-box {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0.85) 100%);
+    padding: 22px 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    color: #ffffff;
+    box-sizing: border-box;
+    transition: background 0.3s ease;
+  }
+
+  .about-mosaic__item:hover .about-mosaic__caption-box {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.4) 40%, rgba(0, 0, 0, 0.92) 100%);
+  }
+
+  .about-mosaic__item-tag {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--mosaic-accent, #c8a876);
+    margin-bottom: 5px;
+  }
+
+  .about-mosaic__item-title {
+    font-family: var(--font-heading-family, serif);
+    font-size: clamp(13.5px, 1.3vw, 19px);
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    color: #ffffff;
+    margin: 0;
+    line-height: 1.3;
+  }
+
+  .about-slider-dots {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 18px;
+  }
+
+  .about-slider-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #d8d8d8;
+    transition: background-color 0.25s ease, width 0.25s ease;
+  }
+
+  .about-slider-dot.is-active {
+    width: 18px;
+    border-radius: 4px;
+    background-color: var(--mosaic-accent, #c8a876);
+  }
+
+  @media screen and (max-width: 989px) {
+    .about-mosaic__grid {
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: auto;
+      gap: 16px;
+    }
+    .about-mosaic__item {
+      height: 240px;
+    }
+    .about-mosaic__item--featured {
+      grid-column: 1 / -1;
+      height: 320px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .about-mosaic {
+      padding-top: 48px;
+      padding-bottom: 48px;
+    }
+    .about-mosaic__container {
+      padding: 0 16px;
+    }
+    .about-mosaic__header {
+      margin-bottom: 26px;
+    }
+    .about-mosaic__heading {
+      font-size: 22px;
+    }
+    .about-mosaic__grid.about-mobile-slider {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      gap: 14px;
+      padding: 4px 4px 16px 4px;
+      margin: 0 -16px;
+      padding-left: 16px;
+      padding-right: 16px;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .about-mosaic__grid.about-mobile-slider::-webkit-scrollbar {
+      display: none;
+    }
+    .about-mosaic__item {
+      flex: 0 0 80vw;
+      max-width: 300px;
+      height: 280px;
+      scroll-snap-align: start;
+    }
+    .about-mosaic__item--featured {
+      height: 280px;
+      flex: 0 0 80vw;
+      max-width: 300px;
+    }
+    .about-slider-dots {
+      display: flex;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "About Studio Mosaic",
+  "tag": "section",
+  "class": "section-about-mosaic",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow Subtitle",
+      "default": "VISUAL ODYSSEY"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "INSIDE OUR GALLERIES & ATELIERS"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Section Subtitle",
+      "default": "Step behind the curtain into our physical spaces, master craft workshops, and curated architectural sanctuaries."
+    },
+    {
+      "type": "header",
+      "content": "Mosaic Image 1 (Featured Large)"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Image 1 (Large Featured)"
+    },
+    {
+      "type": "text",
+      "id": "tag_1",
+      "label": "Tag 1",
+      "default": "FLAGSHIP GALLERY"
+    },
+    {
+      "type": "text",
+      "id": "title_1",
+      "label": "Title 1",
+      "default": "The House of Things Udaipur Gallery"
+    },
+    {
+      "type": "header",
+      "content": "Mosaic Image 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Image 2"
+    },
+    {
+      "type": "text",
+      "id": "tag_2",
+      "label": "Tag 2",
+      "default": "ATELIER"
+    },
+    {
+      "type": "text",
+      "id": "title_2",
+      "label": "Title 2",
+      "default": "Sculptural Vessels & Objects"
+    },
+    {
+      "type": "header",
+      "content": "Mosaic Image 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_3",
+      "label": "Image 3"
+    },
+    {
+      "type": "text",
+      "id": "tag_3",
+      "label": "Tag 3",
+      "default": "CURATION"
+    },
+    {
+      "type": "text",
+      "id": "title_3",
+      "label": "Title 3",
+      "default": "Limited Edition Art Prints"
+    },
+    {
+      "type": "header",
+      "content": "Mosaic Image 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_4",
+      "label": "Image 4"
+    },
+    {
+      "type": "text",
+      "id": "tag_4",
+      "label": "Tag 4",
+      "default": "INTERIORS"
+    },
+    {
+      "type": "text",
+      "id": "title_4",
+      "label": "Title 4",
+      "default": "Refined Living Sanctuaries"
+    },
+    {
+      "type": "header",
+      "content": "Mosaic Image 5"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_5",
+      "label": "Image 5"
+    },
+    {
+      "type": "text",
+      "id": "tag_5",
+      "label": "Tag 5",
+      "default": "MATERIALITY"
+    },
+    {
+      "type": "text",
+      "id": "title_5",
+      "label": "Title 5",
+      "default": "Hand-Finished Rare Patinas"
+    },
+    {
+      "type": "header",
+      "content": "Colors & Spacing"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#f7f6f3"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color",
+      "default": "#c8a876"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 40,
+      "max": 160,
+      "step": 5,
+      "unit": "px",
+      "label": "Top Padding",
+      "default": 90
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 40,
+      "max": 160,
+      "step": 5,
+      "unit": "px",
+      "label": "Bottom Padding",
+      "default": 90
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Studio Mosaic"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,309 @@
+<div
+  class="about-stats about-stats--{{ section.id }}"
+  style="
+    --stats-pt: {{ section.settings.padding_top }}px;
+    --stats-pb: {{ section.settings.padding_bottom }}px;
+    --stats-bg: {{ section.settings.bg_color }};
+    --stats-num: {{ section.settings.num_color }};
+    --stats-lbl: {{ section.settings.lbl_color }};
+    --stats-accent: {{ section.settings.accent_color }};
+  "
+>
+  <div class="about-stats__container">
+    <div class="about-stats__grid">
+      {%- if section.blocks.size > 0 -%}
+        {%- for block in section.blocks -%}
+          <div class="about-stats__item" data-about-reveal {{ block.shopify_attributes }}>
+            {%- liquid
+              assign raw_num = block.settings.number | remove: '+' | remove: 'K' | remove: '%' | remove: ',' | strip
+              assign has_plus = false
+              if block.settings.number contains '+'
+                assign has_plus = true
+              endif
+              assign has_k = false
+              if block.settings.number contains 'K'
+                assign has_k = true
+              endif
+            -%}
+            <span
+              class="about-stats__number"
+              {% if raw_num != blank %}
+                data-count="{{ raw_num }}"
+                {% if has_plus %}data-suffix="+"{% elsif has_k %}data-suffix="K+"{% endif %}
+              {% endif %}
+            >
+              {{ block.settings.number }}
+            </span>
+            <span class="about-stats__label">{{ block.settings.label }}</span>
+            {%- if block.settings.sublabel != blank -%}
+              <span class="about-stats__sublabel">{{ block.settings.sublabel }}</span>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      {%- else -%}
+        {%- comment -%} Default 4 Luxury Stats {%- endcomment -%}
+        <div class="about-stats__item" data-about-reveal>
+          <span class="about-stats__number" data-count="10" data-suffix="+">10+</span>
+          <span class="about-stats__label">YEARS OF CURATED LIVING</span>
+          <span class="about-stats__sublabel">Established in 2014</span>
+        </div>
+        <div class="about-stats__item" data-about-reveal>
+          <span class="about-stats__number" data-count="200" data-suffix="+">200+</span>
+          <span class="about-stats__label">MASTER ARTISANS & STUDIOS</span>
+          <span class="about-stats__sublabel">Across 15 Design Capitals</span>
+        </div>
+        <div class="about-stats__item" data-about-reveal>
+          <span class="about-stats__number" data-count="5000" data-suffix="+">5000+</span>
+          <span class="about-stats__label">EXCLUSIVE FINE EDITS</span>
+          <span class="about-stats__sublabel">Individually Vetted & Numbered</span>
+        </div>
+        <div class="about-stats__item" data-about-reveal>
+          <span class="about-stats__number" data-count="10" data-suffix="K+">10K+</span>
+          <span class="about-stats__label">HOMES TRANSFORMED</span>
+          <span class="about-stats__sublabel">Worldwide White-Glove Delivery</span>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+<style>
+  .about-stats {
+    width: 100%;
+    background-color: var(--stats-bg, #111111);
+    color: #ffffff;
+    padding-top: var(--stats-pt, 64px);
+    padding-bottom: var(--stats-pb, 64px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    box-sizing: border-box;
+  }
+
+  .about-stats__container {
+    width: 100%;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 28px;
+    box-sizing: border-box;
+  }
+
+  .about-stats__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+    align-items: center;
+  }
+
+  .about-stats__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    padding: 0 12px;
+  }
+
+  .about-stats__item:nth-child(1) { transition-delay: 0.08s; }
+  .about-stats__item:nth-child(2) { transition-delay: 0.16s; }
+  .about-stats__item:nth-child(3) { transition-delay: 0.24s; }
+  .about-stats__item:nth-child(4) { transition-delay: 0.32s; }
+
+  .about-stats__item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: -16px;
+    top: 15%;
+    height: 70%;
+    width: 1px;
+    background-color: rgba(255, 255, 255, 0.12);
+  }
+
+  .about-stats__number {
+    font-family: var(--font-heading-family, serif);
+    font-size: clamp(34px, 4vw, 56px);
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    color: var(--stats-num, #c8a876);
+    margin-bottom: 10px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .about-stats__label {
+    font-family: var(--font-body-family, sans-serif);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--stats-lbl, #ffffff);
+    margin-bottom: 4px;
+    line-height: 1.35;
+  }
+
+  .about-stats__sublabel {
+    font-family: var(--font-body-family, sans-serif);
+    font-size: 10.5px;
+    color: rgba(255, 255, 255, 0.55);
+    letter-spacing: 0.03em;
+  }
+
+  @media screen and (max-width: 989px) {
+    .about-stats__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px 24px;
+    }
+    .about-stats__item:nth-child(2)::after {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .about-stats {
+      padding-top: 40px;
+      padding-bottom: 40px;
+    }
+    .about-stats__container {
+      padding: 0 16px;
+    }
+    .about-stats__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px 14px;
+    }
+    .about-stats__item {
+      padding: 8px 6px;
+    }
+    .about-stats__number {
+      font-size: 28px;
+      margin-bottom: 6px;
+    }
+    .about-stats__label {
+      font-size: 9.5px;
+      letter-spacing: 0.12em;
+    }
+    .about-stats__sublabel {
+      font-size: 9.5px;
+    }
+    .about-stats__item:not(:last-child)::after {
+      display: none;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "About Milestones",
+  "tag": "section",
+  "class": "section-about-stats",
+  "settings": [
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "num_color",
+      "label": "Number Color",
+      "default": "#c8a876"
+    },
+    {
+      "type": "color",
+      "id": "lbl_color",
+      "label": "Label Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color",
+      "default": "#c8a876"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 30,
+      "max": 140,
+      "step": 5,
+      "unit": "px",
+      "label": "Top Padding",
+      "default": 70
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 30,
+      "max": 140,
+      "step": 5,
+      "unit": "px",
+      "label": "Bottom Padding",
+      "default": 70
+    }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "number",
+          "label": "Stat Number (e.g. 10+)",
+          "default": "10+"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Stat Label",
+          "default": "YEARS OF CURATED LIVING"
+        },
+        {
+          "type": "text",
+          "id": "sublabel",
+          "label": "Sublabel (Optional)",
+          "default": "Established in 2014"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Milestones",
+      "blocks": [
+        {
+          "type": "stat",
+          "settings": {
+            "number": "10+",
+            "label": "YEARS OF CURATED LIVING",
+            "sublabel": "Established in 2014"
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "number": "200+",
+            "label": "MASTER ARTISANS & STUDIOS",
+            "sublabel": "Across 15 Design Capitals"
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "number": "5000+",
+            "label": "EXCLUSIVE FINE EDITS",
+            "sublabel": "Individually Vetted & Numbered"
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "number": "10K+",
+            "label": "HOMES TRANSFORMED",
+            "sublabel": "Worldwide White-Glove Delivery"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

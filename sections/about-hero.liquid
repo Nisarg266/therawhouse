@@ -1,0 +1,407 @@
+<script src="{{ 'about-scroll-animations.js' | asset_url }}" defer="defer"></script>
+
+<div
+  class="about-hero about-hero--{{ section.id }}"
+  style="
+    --hero-pt: {{ section.settings.padding_top }}px;
+    --hero-pb: {{ section.settings.padding_bottom }}px;
+    --hero-overlay-opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+    --hero-bg-color: {{ section.settings.bg_color }};
+    --hero-text-color: {{ section.settings.text_color }};
+    --hero-accent-color: {{ section.settings.accent_color }};
+  "
+>
+  {%- if section.settings.background_image != blank -%}
+    <div class="about-hero__bg-wrap">
+      {{ section.settings.background_image | image_url: width: 2400 | image_tag: 
+        class: 'about-hero__bg-img', 
+        loading: 'eager', 
+        fetchpriority: 'high',
+        widths: '600,900,1200,1600,2000,2400',
+        alt: section.settings.title | escape 
+      }}
+      <div class="about-hero__overlay"></div>
+    </div>
+  {%- else -%}
+    <div class="about-hero__bg-wrap">
+      <img
+        src="{{ 'maker-gallery-2.jpg' | asset_url }}"
+        alt="The House of Things Architecture"
+        class="about-hero__bg-img"
+        loading="eager"
+        width="1920"
+        height="1080"
+      >
+      <div class="about-hero__overlay"></div>
+    </div>
+  {%- endif -%}
+
+  <div class="about-hero__inner">
+    <div class="about-hero__container">
+      {%- if section.settings.eyebrow != blank -%}
+        <div class="about-hero__eyebrow-wrap" data-about-reveal>
+          <span class="about-hero__eyebrow-line"></span>
+          <span class="about-hero__eyebrow">{{ section.settings.eyebrow }}</span>
+          <span class="about-hero__eyebrow-line"></span>
+        </div>
+      {%- endif -%}
+
+      <h1 class="about-hero__title" data-about-reveal>
+        {{ section.settings.title }}
+      </h1>
+
+      {%- if section.settings.subtitle != blank -%}
+        <p class="about-hero__subtitle" data-about-reveal>
+          {{ section.settings.subtitle }}
+        </p>
+      {%- endif -%}
+
+      {%- if section.settings.manifesto != blank -%}
+        <div class="about-hero__manifesto" data-about-reveal>
+          <p>{{ section.settings.manifesto }}</p>
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.show_breadcrumbs -%}
+        <nav class="about-hero__breadcrumbs" aria-label="Breadcrumb" data-about-reveal>
+          <a href="{{ routes.root_url }}" class="about-hero__bc-link">Home</a>
+          <span class="about-hero__bc-sep">/</span>
+          <span class="about-hero__bc-curr">About Us</span>
+        </nav>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <div class="about-hero__scroll-indicator">
+    <span class="about-hero__scroll-text">DISCOVER OUR WORLD</span>
+    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="12" y1="5" x2="12" y2="19"></line>
+      <polyline points="19 12 12 19 5 12"></polyline>
+    </svg>
+  </div>
+</div>
+
+<style>
+  /* Global Scroll Reveal Utilities */
+  [data-about-reveal] {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.8s ease;
+    will-change: transform, opacity;
+  }
+
+  [data-about-reveal].is-revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .about-hero {
+    position: relative;
+    width: 100%;
+    min-height: 68vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background-color: var(--hero-bg-color, #111111);
+    color: var(--hero-text-color, #ffffff);
+    padding-top: var(--hero-pt, 90px);
+    padding-bottom: var(--hero-pb, 80px);
+    box-sizing: border-box;
+  }
+
+  .about-hero__bg-wrap {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  .about-hero__bg-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 35%;
+    display: block;
+    transform: scale(1.03);
+    transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .about-hero:hover .about-hero__bg-img {
+    transform: scale(1.06);
+  }
+
+  .about-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(10,10,10,0.55) 0%, rgba(10,10,10,0.75) 60%, rgba(10,10,10,0.92) 100%);
+    opacity: var(--hero-overlay-opacity, 0.65);
+  }
+
+  .about-hero__inner {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+  .about-hero__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .about-hero__eyebrow-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+
+  .about-hero__eyebrow-line {
+    display: block;
+    width: 28px;
+    height: 1px;
+    background-color: var(--hero-accent-color, #c8a876);
+  }
+
+  .about-hero__eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--hero-accent-color, #c8a876);
+  }
+
+  .about-hero__title {
+    font-family: var(--font-heading-family, serif);
+    font-size: clamp(28px, 4.8vw, 64px);
+    font-weight: 300;
+    line-height: 1.14;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #ffffff;
+    margin: 0 0 16px 0;
+    max-width: 920px;
+    text-wrap: balance;
+  }
+
+  .about-hero__subtitle {
+    font-family: var(--font-body-family, sans-serif);
+    font-size: clamp(13.5px, 1.3vw, 16px);
+    font-weight: 400;
+    line-height: 1.65;
+    letter-spacing: 0.04em;
+    color: rgba(255, 255, 255, 0.88);
+    max-width: 680px;
+    margin: 0 0 24px 0;
+  }
+
+  .about-hero__manifesto {
+    font-family: var(--font-heading-family, serif);
+    font-size: clamp(14.5px, 1.6vw, 20px);
+    font-style: italic;
+    font-weight: 300;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.95);
+    max-width: 780px;
+    margin: 0 0 24px 0;
+    padding: 16px 24px;
+    border-left: 2px solid var(--hero-accent-color, #c8a876);
+    border-right: 2px solid var(--hero-accent-color, #c8a876);
+    background: rgba(0, 0, 0, 0.32);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .about-hero__manifesto p {
+    margin: 0;
+  }
+
+  .about-hero__breadcrumbs {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 10.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.65);
+    margin-top: 6px;
+  }
+
+  .about-hero__bc-link {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .about-hero__bc-link:hover {
+    color: #ffffff;
+  }
+
+  .about-hero__bc-sep {
+    opacity: 0.4;
+  }
+
+  .about-hero__bc-curr {
+    color: var(--hero-accent-color, #c8a876);
+  }
+
+  .about-hero__scroll-indicator {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.26em;
+    animation: aboutBounce 2.2s infinite ease-in-out;
+  }
+
+  @keyframes aboutBounce {
+    0%, 100% { transform: translate(-50%, 0); opacity: 0.6; }
+    50% { transform: translate(-50%, 5px); opacity: 1; }
+  }
+
+  @media screen and (max-width: 749px) {
+    .about-hero {
+      min-height: 52vh;
+      padding-top: 50px;
+      padding-bottom: 40px;
+    }
+    .about-hero__inner {
+      padding: 0 16px;
+    }
+    .about-hero__title {
+      font-size: 26px;
+      margin-bottom: 12px;
+    }
+    .about-hero__subtitle {
+      font-size: 13px;
+      margin-bottom: 18px;
+    }
+    .about-hero__manifesto {
+      padding: 12px 14px;
+      font-size: 13.5px;
+      margin-bottom: 16px;
+    }
+    .about-hero__scroll-indicator {
+      display: none;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "About Hero Banner",
+  "tag": "section",
+  "class": "section-about-hero",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Hero Background Image",
+      "info": "Upload high-res editorial scene (recommended 2400x1200)"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow Text",
+      "default": "THE HOUSE OF THINGS"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Main Heading",
+      "default": "CURATORS OF EXCEPTIONAL LIVING"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle Paragraph",
+      "default": "A distinguished destination for timeless interiors, rare artisan craft, and collectible fine objects from around the globe."
+    },
+    {
+      "type": "textarea",
+      "id": "manifesto",
+      "label": "Manifesto Quote Box",
+      "default": "“We believe a home is a living sanctuary of art, memories, and masterful craft designed to outlast the ephemeral.”"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_breadcrumbs",
+      "label": "Show Breadcrumbs Navigation",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Styling & Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Fallback Background Color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color (Gold / Sand)",
+      "default": "#c8a876"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 10,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "label": "Background Dark Overlay",
+      "default": 65
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 40,
+      "max": 160,
+      "step": 5,
+      "unit": "px",
+      "label": "Top Padding",
+      "default": 110
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 40,
+      "max": 160,
+      "step": 5,
+      "unit": "px",
+      "label": "Bottom Padding",
+      "default": 90
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Hero Banner"
+    }
+  ]
+}
+{% endschema %}
