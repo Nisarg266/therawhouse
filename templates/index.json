@@ -15,11 +15,12 @@
         "slide_1": {
           "type": "slide",
           "settings": {
+            "image": "shopify://shop_images/hicko.png",
             "default_asset": "maker-gallery-1.jpg",
-            "subheading": "EICHHOLTZ LUXURY LIVING",
-            "heading": "ARCHITECTURAL INTERIORS",
+            "subheading": "Thoughtfully designed for modern living",
+            "heading": "Paribhraman",
             "content_alignment": "center",
-            "button_label": "EXPLORE DESIGNS",
+            "button_label": "EXPLORE Hinchko",
             "button_link": "shopify://collections/all"
           }
         },
