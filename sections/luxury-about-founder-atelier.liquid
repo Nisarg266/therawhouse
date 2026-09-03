@@ -1,18 +1,65 @@
 {%- comment -%}
-  THE RAW HOUSE - LUXURY FOUNDER & ATELIER STORY
-  Split editorial layout showcasing studio craft, pigment grinding, bronze foundry, and museum metrics.
+  THE RAW HOUSE - ADVANCED FOUNDER & ATELIER STORY
+  Split editorial story with dynamic metric cards, media positioning, custom signature, and advanced color schemes.
 {%- endcomment -%}
 
+{% liquid
+  assign scheme = section.settings.color_scheme_preset | default: 'obsidian'
+  case scheme
+    when 'dark'
+      assign bg_color = '#161616'
+      assign text_color = '#ffffff'
+      assign accent_color = '#c5a880'
+      assign metric_border = 'rgba(255, 255, 255, 0.12)'
+    when 'warm'
+      assign bg_color = '#f9f8f5'
+      assign text_color = '#111111'
+      assign accent_color = '#c5a880'
+      assign metric_border = '#e5e1d8'
+    when 'light'
+      assign bg_color = '#ffffff'
+      assign text_color = '#111111'
+      assign accent_color = '#c5a880'
+      assign metric_border = '#edeae3'
+    else
+      assign bg_color = '#0b0b0b'
+      assign text_color = '#ffffff'
+      assign accent_color = '#c5a880'
+      assign metric_border = 'rgba(255, 255, 255, 0.14)'
+  endcase
+
+  if section.settings.custom_bg_color != blank and section.settings.custom_bg_color != 'rgba(0,0,0,0)'
+    assign bg_color = section.settings.custom_bg_color
+  endif
+  if section.settings.custom_text_color != blank and section.settings.custom_text_color != 'rgba(0,0,0,0)'
+    assign text_color = section.settings.custom_text_color
+  endif
+  if section.settings.custom_accent_color != blank and section.settings.custom_accent_color != 'rgba(0,0,0,0)'
+    assign accent_color = section.settings.custom_accent_color
+  endif
+%}
+
 <section
-  id="LuxuryAboutFounder-{{ section.id }}"
-  class="lux-founder-section"
-  style="background: {{ section.settings.background_color | default: '#0d0d0d' }}; color: #ffffff;"
+  id="LuxuryFounder-{{ section.id }}"
+  class="lux-founder-section lux-founder-scheme-{{ scheme }}"
+  style="
+    --founder-bg: {{ bg_color }};
+    --founder-color: {{ text_color }};
+    --founder-accent: {{ accent_color }};
+    --founder-border: {{ metric_border }};
+    --founder-pt: {{ section.settings.padding_top | default: 34 }}px;
+    --founder-pb: {{ section.settings.padding_bottom | default: 54 }}px;
+    background: var(--founder-bg);
+    color: var(--founder-color);
+    padding-top: var(--founder-pt);
+    padding-bottom: var(--founder-pb);
+  "
   {{ section.shopify_attributes }}
 >
   <div class="lux-founder-container">
-    <div class="lux-founder-grid">
-      <!-- Left Media Column -->
-      <div class="lux-founder-media-wrap lux-reveal-fade-up">
+    <div class="lux-founder-grid" style="{% if section.settings.media_position == 'right' %}direction: rtl;{% endif %}">
+      <!-- Media Column -->
+      <div class="lux-founder-media-wrap lux-reveal-fade-up" style="direction: ltr;">
         <div class="lux-founder-media-frame">
           {% if section.settings.image != blank %}
             <img
@@ -46,52 +93,68 @@
           <div class="lux-founder-image-glow"></div>
         </div>
 
-        <!-- Floating Glass Provenance Badge -->
+        <!-- Floating Provenance Badge -->
         <div class="lux-founder-floating-badge">
-          <span class="lux-founder-badge-gold">✦ ATELIER CERTIFIED</span>
-          <p class="lux-founder-badge-text">Hand-Authored Fine Art & Cast Models</p>
+          <span class="lux-founder-badge-gold" style="color: var(--founder-accent);">{{ section.settings.badge_title | default: '✦ ATELIER CERTIFIED' }}</span>
+          <p class="lux-founder-badge-text">{{ section.settings.badge_subtitle | default: 'Hand-Authored Fine Art & Cast Models' }}</p>
         </div>
       </div>
 
-      <!-- Right Editorial Content Column -->
-      <div class="lux-founder-content lux-reveal-fade-up">
-        <span class="lux-founder-subheading">{{ section.settings.subheading | default: 'BEHIND THE CANVAS & FOUNDRY' }}</span>
-        <h2 class="lux-founder-heading">{{ section.settings.heading | default: 'HONORING THE WEIGHT OF CREATION' }}</h2>
+      <!-- Content Column -->
+      <div class="lux-founder-content lux-reveal-fade-up" style="direction: ltr;">
+        <span class="lux-founder-subheading" style="color: var(--founder-accent);">{{ section.settings.subheading | default: 'BEHIND THE CANVAS & FOUNDRY' }}</span>
+        <h2 class="lux-founder-heading" style="color: var(--founder-color);">{{ section.settings.heading | default: 'HONORING THE WEIGHT OF CREATION' }}</h2>
 
         <div class="lux-founder-text-body">
-          <p>
+          <p style="color: var(--founder-color); opacity: 0.82;">
             {{ section.settings.paragraph_1 | default: 'At The Raw House, we believe that an art piece is not merely an ornament—it is a tangible focal point that alters the energy and spatial geometry of an interior. Every oil painting begins with unhurried canvas stretching and mineral pigment blending, capturing luminous depth through dozens of textured impasto layers.' }}
           </p>
-          <p>
+          <p style="color: var(--founder-color); opacity: 0.82;">
             {{ section.settings.paragraph_2 | default: 'Our 3D sculptural models and bronze figures undergo traditional lost-wax foundry casting. Heated to over 1,200°C and hand-chiseled by master sculptors, each piece achieves a weighted presence and rich patina that mass machinery could never replicate.' }}
           </p>
         </div>
 
-        <!-- Metrics Grid (4 Stats) -->
-        <div class="lux-founder-metrics">
-          <div class="lux-founder-metric-item">
-            <span class="lux-founder-metric-val">100%</span>
-            <span class="lux-founder-metric-lbl">Hand-Authored</span>
-          </div>
-          <div class="lux-founder-metric-item">
-            <span class="lux-founder-metric-val">15+</span>
-            <span class="lux-founder-metric-lbl">Impasto Glazes</span>
-          </div>
-          <div class="lux-founder-metric-item">
-            <span class="lux-founder-metric-val">1200°C</span>
-            <span class="lux-founder-metric-lbl">Bronze Casting</span>
-          </div>
-          <div class="lux-founder-metric-item">
-            <span class="lux-founder-metric-val">100 Yrs+</span>
-            <span class="lux-founder-metric-lbl">Archival Guarantee</span>
-          </div>
+        <!-- Dynamic Metric Cards Grid -->
+        <div class="lux-founder-metrics" style="border-color: var(--founder-border);">
+          {% if section.blocks.size > 0 %}
+            {% for block in section.blocks %}
+              <div class="lux-founder-metric-item" {{ block.shopify_attributes }}>
+                <span class="lux-founder-metric-val" style="color: var(--founder-accent);">{{ block.settings.value }}</span>
+                <span class="lux-founder-metric-lbl" style="color: var(--founder-color); opacity: 0.7;">{{ block.settings.label }}</span>
+              </div>
+            {% endfor %}
+          {% else %}
+            <!-- Default Metric Cards -->
+            <div class="lux-founder-metric-item">
+              <span class="lux-founder-metric-val" style="color: var(--founder-accent);">100%</span>
+              <span class="lux-founder-metric-lbl" style="color: var(--founder-color); opacity: 0.7;">Hand-Authored</span>
+            </div>
+            <div class="lux-founder-metric-item">
+              <span class="lux-founder-metric-val" style="color: var(--founder-accent);">15+</span>
+              <span class="lux-founder-metric-lbl" style="color: var(--founder-color); opacity: 0.7;">Impasto Glazes</span>
+            </div>
+            <div class="lux-founder-metric-item">
+              <span class="lux-founder-metric-val" style="color: var(--founder-accent);">1200°C</span>
+              <span class="lux-founder-metric-lbl" style="color: var(--founder-color); opacity: 0.7;">Bronze Casting</span>
+            </div>
+            <div class="lux-founder-metric-item">
+              <span class="lux-founder-metric-val" style="color: var(--founder-accent);">100 Yrs+</span>
+              <span class="lux-founder-metric-lbl" style="color: var(--founder-color); opacity: 0.7;">Archival Guarantee</span>
+            </div>
+          {% endif %}
         </div>
 
         <!-- Signature Block -->
-        <div class="lux-founder-signature-wrap">
-          <div class="lux-founder-signature-mark">The Raw House Atelier</div>
-          <p class="lux-founder-signature-title">Master Artisan & Curator of Acquisitions</p>
-        </div>
+        {% if section.settings.show_signature %}
+          <div class="lux-founder-signature-wrap">
+            <div class="lux-founder-signature-mark" style="color: var(--founder-accent);">
+              {{ section.settings.signature_mark | default: 'The Master Artisans' }}
+            </div>
+            <p class="lux-founder-signature-title" style="color: var(--founder-color); opacity: 0.6;">
+              {{ section.settings.signature_title | default: 'MASTER PAINTERS & FOUNDRY SCULPTORS' }}
+            </p>
+          </div>
+        {% endif %}
       </div>
     </div>
   </div>
@@ -99,14 +162,81 @@
 
 {% schema %}
 {
-  "name": "Luxury Founder & Atelier",
+  "name": "About Founder Atelier",
   "tag": "section",
-  "class": "section-luxury-founder-atelier",
+  "class": "section-luxury-founder",
   "settings": [
+    {
+      "type": "header",
+      "content": "Color Scheme & Style"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme_preset",
+      "label": "Color Scheme Preset",
+      "options": [
+        { "value": "obsidian", "label": "Obsidian Luxury (#0b0b0b)" },
+        { "value": "dark", "label": "Contemporary Dark (#161616)" },
+        { "value": "warm", "label": "Warm Atelier (#f9f8f5)" },
+        { "value": "light", "label": "Light Clean (#ffffff)" }
+      ],
+      "default": "obsidian"
+    },
+    {
+      "type": "color",
+      "id": "custom_bg_color",
+      "label": "Custom Background Color"
+    },
+    {
+      "type": "color",
+      "id": "custom_text_color",
+      "label": "Custom Text Color"
+    },
+    {
+      "type": "color",
+      "id": "custom_accent_color",
+      "label": "Custom Gold / Accent Color"
+    },
+    {
+      "type": "header",
+      "content": "Layout & Story Media"
+    },
+    {
+      "type": "select",
+      "id": "media_position",
+      "label": "Media Position",
+      "options": [
+        { "value": "left", "label": "Image Left" },
+        { "value": "right", "label": "Image Right" }
+      ],
+      "default": "left"
+    },
     {
       "type": "image_picker",
       "id": "image",
-      "label": "Atelier Studio Image"
+      "label": "Atelier / Founder Image"
+    },
+    {
+      "type": "text",
+      "id": "default_asset",
+      "label": "Default Asset Fallback",
+      "default": "art-atelier-artist-studio.jpg"
+    },
+    {
+      "type": "text",
+      "id": "badge_title",
+      "label": "Floating Badge Title",
+      "default": "✦ ATELIER CERTIFIED"
+    },
+    {
+      "type": "text",
+      "id": "badge_subtitle",
+      "label": "Floating Badge Subtitle",
+      "default": "Hand-Authored Fine Art & Cast Models"
+    },
+    {
+      "type": "header",
+      "content": "Story Text"
     },
     {
       "type": "text",
@@ -117,7 +247,7 @@
     {
       "type": "text",
       "id": "heading",
-      "label": "Main Heading",
+      "label": "Heading",
       "default": "HONORING THE WEIGHT OF CREATION"
     },
     {
@@ -133,15 +263,105 @@
       "default": "Our 3D sculptural models and bronze figures undergo traditional lost-wax foundry casting. Heated to over 1,200°C and hand-chiseled by master sculptors, each piece achieves a weighted presence and rich patina that mass machinery could never replicate."
     },
     {
-      "type": "color",
-      "id": "background_color",
-      "label": "Background Color",
-      "default": "#0d0d0d"
+      "type": "header",
+      "content": "Signature"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_signature",
+      "label": "Show Signature Block",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "signature_mark",
+      "label": "Signature Mark Text",
+      "default": "The Master Artisans"
+    },
+    {
+      "type": "text",
+      "id": "signature_title",
+      "label": "Signature Subtitle",
+      "default": "MASTER PAINTERS & FOUNDRY SCULPTORS"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 16,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 34
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 16,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 54
+    }
+  ],
+  "blocks": [
+    {
+      "type": "metric",
+      "name": "Provenience Metric Card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Metric Value",
+          "default": "100%"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Metric Label",
+          "default": "Hand-Authored"
+        }
+      ]
     }
   ],
   "presets": [
     {
-      "name": "Luxury Founder & Atelier"
+      "name": "About Founder Atelier",
+      "blocks": [
+        {
+          "type": "metric",
+          "settings": {
+            "value": "100%",
+            "label": "Hand-Authored"
+          }
+        },
+        {
+          "type": "metric",
+          "settings": {
+            "value": "15+",
+            "label": "Impasto Glazes"
+          }
+        },
+        {
+          "type": "metric",
+          "settings": {
+            "value": "1200°C",
+            "label": "Bronze Casting"
+          }
+        },
+        {
+          "type": "metric",
+          "settings": {
+            "value": "100 Yrs+",
+            "label": "Archival Guarantee"
+          }
+        }
+      ]
     }
   ]
 }

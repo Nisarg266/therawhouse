@@ -3,10 +3,48 @@
   Tabbed collection showcase with AJAX Quick Add, Wishlist persistence, and secondary image hover swap.
 {%- endcomment -%}
 
+{% liquid
+  assign scheme = section.settings.color_scheme_preset | default: 'warm'
+  case scheme
+    when 'light'
+      assign bg_color = '#ffffff'
+      assign heading_color = '#111111'
+      assign tab_active_border = '#111111'
+    when 'dark'
+      assign bg_color = '#141414'
+      assign heading_color = '#ffffff'
+      assign tab_active_border = '#c5a880'
+    when 'obsidian'
+      assign bg_color = '#0b0b0b'
+      assign heading_color = '#ffffff'
+      assign tab_active_border = '#c5a880'
+    else
+      assign bg_color = '#f6f5f0'
+      assign heading_color = '#111111'
+      assign tab_active_border = '#111111'
+  endcase
+
+  if section.settings.custom_bg_color != blank and section.settings.custom_bg_color != 'rgba(0,0,0,0)'
+    assign bg_color = section.settings.custom_bg_color
+  endif
+  if section.settings.custom_heading_color != blank and section.settings.custom_heading_color != 'rgba(0,0,0,0)'
+    assign heading_color = section.settings.custom_heading_color
+  endif
+%}
+
 <div
   id="LuxuryTabbedProducts-{{ section.id }}"
-  class="lux-tabbed-section"
-  style="background: {{ section.settings.background_color }};"
+  class="lux-tabbed-section lux-tabbed-scheme-{{ scheme }}"
+  style="
+    --tabbed-bg: {{ bg_color }};
+    --tabbed-heading-color: {{ heading_color }};
+    --tabbed-active-border: {{ tab_active_border }};
+    --tabbed-pt: {{ section.settings.padding_top | default: 30 }}px;
+    --tabbed-pb: {{ section.settings.padding_bottom | default: 48 }}px;
+    background: var(--tabbed-bg);
+    padding-top: var(--tabbed-pt);
+    padding-bottom: var(--tabbed-pb);
+  "
   {{ section.shopify_attributes }}
 >
   <div class="lux-tabbed-container">
@@ -250,6 +288,36 @@
   "class": "section-luxury-tabbed",
   "settings": [
     {
+      "type": "header",
+      "content": "Color Scheme & Style"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme_preset",
+      "label": "Color Scheme Preset",
+      "options": [
+        { "value": "warm", "label": "Warm Atelier Ivory (#f6f5f0)" },
+        { "value": "light", "label": "Light Clean (#ffffff)" },
+        { "value": "dark", "label": "Contemporary Dark (#141414)" },
+        { "value": "obsidian", "label": "Obsidian Gold (#0b0b0b)" }
+      ],
+      "default": "warm"
+    },
+    {
+      "type": "color",
+      "id": "custom_bg_color",
+      "label": "Custom Background Color"
+    },
+    {
+      "type": "color",
+      "id": "custom_heading_color",
+      "label": "Custom Heading Color"
+    },
+    {
+      "type": "header",
+      "content": "Headings & Layout"
+    },
+    {
       "type": "text",
       "id": "subheading",
       "label": "Subheading",
@@ -262,12 +330,6 @@
       "default": "FEATURED CREATIONS"
     },
     {
-      "type": "color",
-      "id": "background_color",
-      "label": "Background Color",
-      "default": "#f6f5f0"
-    },
-    {
       "type": "range",
       "id": "products_to_show",
       "min": 4,
@@ -275,6 +337,30 @@
       "step": 4,
       "label": "Products To Show Per Tab",
       "default": 4
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 16,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 16,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 48
     }
   ],
   "blocks": [

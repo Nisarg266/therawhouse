@@ -1,23 +1,84 @@
 {%- comment -%}
-  THE RAW HOUSE - VIP COLLECTORS CLUB NEWSLETTER
-  Bright luxury gallery subscription card for private previews, lookbooks, and VIP events.
+  THE RAW HOUSE - ADVANCED VIP COLLECTORS CLUB NEWSLETTER
+  Bright luxury gallery subscription card with customizable trust notes, advanced color schemes, and spacing controls.
 {%- endcomment -%}
+
+{% liquid
+  assign scheme = section.settings.color_scheme_preset | default: 'warm'
+  case scheme
+    when 'dark'
+      assign bg_color = '#141414'
+      assign card_bg = '#1c1c1c'
+      assign text_color = '#ffffff'
+      assign accent_color = '#c5a880'
+      assign border_color = 'rgba(255, 255, 255, 0.12)'
+    when 'obsidian'
+      assign bg_color = '#0b0b0b'
+      assign card_bg = 'rgba(255, 255, 255, 0.03)'
+      assign text_color = '#ffffff'
+      assign accent_color = '#c5a880'
+      assign border_color = 'rgba(197, 168, 128, 0.3)'
+    when 'gold'
+      assign bg_color = '#191510'
+      assign card_bg = '#241f17'
+      assign text_color = '#ffffff'
+      assign accent_color = '#e2cca6'
+      assign border_color = 'rgba(226, 204, 166, 0.25)'
+    when 'light'
+      assign bg_color = '#ffffff'
+      assign card_bg = '#faf9f6'
+      assign text_color = '#111111'
+      assign accent_color = '#c5a880'
+      assign border_color = '#edeae3'
+    else
+      assign bg_color = '#fcfbf9'
+      assign card_bg = '#ffffff'
+      assign text_color = '#111111'
+      assign accent_color = '#c5a880'
+      assign border_color = '#eae6dd'
+  endcase
+
+  if section.settings.custom_bg_color != blank and section.settings.custom_bg_color != 'rgba(0,0,0,0)'
+    assign bg_color = section.settings.custom_bg_color
+  endif
+  if section.settings.custom_card_bg != blank and section.settings.custom_card_bg != 'rgba(0,0,0,0)'
+    assign card_bg = section.settings.custom_card_bg
+  endif
+  if section.settings.custom_text_color != blank and section.settings.custom_text_color != 'rgba(0,0,0,0)'
+    assign text_color = section.settings.custom_text_color
+  endif
+  if section.settings.custom_accent_color != blank and section.settings.custom_accent_color != 'rgba(0,0,0,0)'
+    assign accent_color = section.settings.custom_accent_color
+  endif
+%}
 
 <div
   id="LuxuryVIP-{{ section.id }}"
-  class="lux-vip-section"
-  style="background: {{ section.settings.background_color | default: '#fcfbf9' }};"
+  class="lux-vip-section lux-vip-scheme-{{ scheme }}"
+  style="
+    --vip-bg: {{ bg_color }};
+    --vip-card-bg: {{ card_bg }};
+    --vip-color: {{ text_color }};
+    --vip-accent: {{ accent_color }};
+    --vip-border: {{ border_color }};
+    --vip-pt: {{ section.settings.padding_top | default: 34 }}px;
+    --vip-pb: {{ section.settings.padding_bottom | default: 54 }}px;
+    background: var(--vip-bg);
+    color: var(--vip-color);
+    padding-top: var(--vip-pt);
+    padding-bottom: var(--vip-pb);
+  "
   {{ section.shopify_attributes }}
 >
   <div class="lux-vip-container lux-reveal-zoom">
-    <div class="lux-vip-card">
+    <div class="lux-vip-card" style="background: var(--vip-card-bg); border-color: var(--vip-border);">
       {% if section.settings.subheading != blank %}
-        <span class="lux-vip-subheading">{{ section.settings.subheading }}</span>
+        <span class="lux-vip-subheading" style="color: var(--vip-accent);">{{ section.settings.subheading }}</span>
       {% endif %}
 
-      <h2 class="lux-vip-heading">{{ section.settings.heading }}</h2>
+      <h2 class="lux-vip-heading" style="color: var(--vip-color);">{{ section.settings.heading }}</h2>
 
-      <p class="lux-vip-text">
+      <p class="lux-vip-text" style="color: var(--vip-color); opacity: 0.85;">
         {{ section.settings.text }}
       </p>
 
@@ -30,24 +91,25 @@
           placeholder="{{ section.settings.input_placeholder | default: 'Enter your email address...' }}"
           required
           autocomplete="email"
+          style="border-color: var(--vip-border); color: var(--vip-color);"
         >
-        <button type="submit" class="lux-vip-btn">
+        <button type="submit" class="lux-vip-btn" style="background: var(--vip-accent);">
           {{ section.settings.button_label | default: 'JOIN CIRCLE' }}
         </button>
 
         {% if form.posted_successfully? %}
-          <p class="lux-vip-success" style="color: #c5a880; font-size: 13px; margin-top: 14px; width: 100%; font-weight: 500;">
+          <p class="lux-vip-success" style="color: var(--vip-accent); font-size: 13px; margin-top: 14px; width: 100%; font-weight: 500;">
             ✓ Welcome to The Collectors Circle. Your private invitation is on its way.
           </p>
         {% endif %}
       {% endform %}
 
-      <div class="lux-vip-trust-note">
-        <span>✦ Curated Discretion</span>
+      <div class="lux-vip-trust-note" style="color: var(--vip-color); opacity: 0.65;">
+        <span>{{ section.settings.trust_note_1 | default: '✦ Curated Discretion' }}</span>
         <span>•</span>
-        <span>Zero Spam</span>
+        <span>{{ section.settings.trust_note_2 | default: 'Zero Spam' }}</span>
         <span>•</span>
-        <span>Unsubscribe Anytime</span>
+        <span>{{ section.settings.trust_note_3 | default: 'Unsubscribe Anytime' }}</span>
       </div>
     </div>
   </div>
@@ -59,6 +121,47 @@
   "tag": "section",
   "class": "section-luxury-vip",
   "settings": [
+    {
+      "type": "header",
+      "content": "Color Scheme & Style"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme_preset",
+      "label": "Color Scheme Preset",
+      "options": [
+        { "value": "warm", "label": "Warm Atelier Ivory (#fcfbf9)" },
+        { "value": "light", "label": "Light Clean (#ffffff)" },
+        { "value": "dark", "label": "Contemporary Dark (#141414)" },
+        { "value": "obsidian", "label": "Obsidian Gold (#0b0b0b)" },
+        { "value": "gold", "label": "Champagne Bronze Accent" }
+      ],
+      "default": "warm"
+    },
+    {
+      "type": "color",
+      "id": "custom_bg_color",
+      "label": "Custom Background Color"
+    },
+    {
+      "type": "color",
+      "id": "custom_card_bg",
+      "label": "Custom Card Background"
+    },
+    {
+      "type": "color",
+      "id": "custom_text_color",
+      "label": "Custom Text Color"
+    },
+    {
+      "type": "color",
+      "id": "custom_accent_color",
+      "label": "Custom Accent / Gold Color"
+    },
+    {
+      "type": "header",
+      "content": "Headings & Text"
+    },
     {
       "type": "text",
       "id": "subheading",
@@ -90,10 +193,50 @@
       "default": "JOIN CIRCLE"
     },
     {
-      "type": "color",
-      "id": "background_color",
-      "label": "Background Color",
-      "default": "#fcfbf9"
+      "type": "header",
+      "content": "Trust Footnotes"
+    },
+    {
+      "type": "text",
+      "id": "trust_note_1",
+      "label": "Note 1",
+      "default": "✦ Curated Discretion"
+    },
+    {
+      "type": "text",
+      "id": "trust_note_2",
+      "label": "Note 2",
+      "default": "Zero Spam"
+    },
+    {
+      "type": "text",
+      "id": "trust_note_3",
+      "label": "Note 3",
+      "default": "Unsubscribe Anytime"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 16,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 34
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 16,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 54
     }
   ],
   "presets": [

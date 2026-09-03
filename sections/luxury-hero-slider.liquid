@@ -168,6 +168,31 @@
   "class": "section-luxury-hero",
   "settings": [
     {
+      "type": "header",
+      "content": "Color Scheme & Style"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme_preset",
+      "label": "Color Scheme Preset",
+      "options": [
+        { "value": "dark", "label": "Classic Dark (#111111)" },
+        { "value": "obsidian", "label": "Obsidian Gold (#0b0b0b)" },
+        { "value": "gold", "label": "Champagne Bronze" },
+        { "value": "warm", "label": "Warm Atelier" }
+      ],
+      "default": "dark"
+    },
+    {
+      "type": "color",
+      "id": "custom_accent_color",
+      "label": "Custom Gold / Accent Color"
+    },
+    {
+      "type": "header",
+      "content": "Slider Sizing & Autoplay"
+    },
+    {
       "type": "range",
       "id": "desktop_height",
       "min": 60,
@@ -202,6 +227,10 @@
       "unit": "s",
       "label": "Autoplay Speed",
       "default": 6
+    },
+    {
+      "type": "header",
+      "content": "Overlay Settings"
     },
     {
       "type": "color",

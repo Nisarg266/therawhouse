@@ -1,30 +1,95 @@
 {%- comment -%}
-  THE RAW HOUSE - LUXURY PROCESS & TIMELINE
-  4-Step visual craftsmanship journey from mineral sourcing to private gallery installation.
+  THE RAW HOUSE - ADVANCED LUXURY PROCESS & TIMELINE
+  4-Step visual craftsmanship journey with dynamic step blocks, optional links, and advanced color schemes.
 {%- endcomment -%}
+
+{% liquid
+  assign scheme = section.settings.color_scheme_preset | default: 'warm'
+  case scheme
+    when 'light'
+      assign bg_color = '#ffffff'
+      assign text_color = '#111111'
+      assign card_bg = '#faf9f6'
+      assign card_border = '#edeae3'
+      assign accent_color = '#c5a880'
+    when 'dark'
+      assign bg_color = '#161616'
+      assign text_color = '#ffffff'
+      assign card_bg = '#202020'
+      assign card_border = 'rgba(255, 255, 255, 0.12)'
+      assign accent_color = '#c5a880'
+    when 'obsidian'
+      assign bg_color = '#0b0b0b'
+      assign text_color = '#ffffff'
+      assign card_bg = 'rgba(255, 255, 255, 0.04)'
+      assign card_border = 'rgba(197, 168, 128, 0.25)'
+      assign accent_color = '#c5a880'
+    else
+      assign bg_color = '#f7f6f2'
+      assign text_color = '#111111'
+      assign card_bg = '#ffffff'
+      assign card_border = '#e8e5dd'
+      assign accent_color = '#c5a880'
+  endcase
+
+  if section.settings.custom_bg_color != blank and section.settings.custom_bg_color != 'rgba(0,0,0,0)'
+    assign bg_color = section.settings.custom_bg_color
+  endif
+  if section.settings.custom_text_color != blank and section.settings.custom_text_color != 'rgba(0,0,0,0)'
+    assign text_color = section.settings.custom_text_color
+  endif
+  if section.settings.custom_card_bg != blank and section.settings.custom_card_bg != 'rgba(0,0,0,0)'
+    assign card_bg = section.settings.custom_card_bg
+  endif
+  if section.settings.custom_accent_color != blank and section.settings.custom_accent_color != 'rgba(0,0,0,0)'
+    assign accent_color = section.settings.custom_accent_color
+  endif
+%}
 
 <section
   id="LuxuryAboutProcess-{{ section.id }}"
-  class="lux-process-section"
-  style="background: {{ section.settings.background_color | default: '#f7f6f2' }};"
+  class="lux-process-section lux-process-scheme-{{ scheme }}"
+  style="
+    --process-bg: {{ bg_color }};
+    --process-color: {{ text_color }};
+    --process-card-bg: {{ card_bg }};
+    --process-border: {{ card_border }};
+    --process-accent: {{ accent_color }};
+    --process-pt: {{ section.settings.padding_top | default: 32 }}px;
+    --process-pb: {{ section.settings.padding_bottom | default: 50 }}px;
+    background: var(--process-bg);
+    color: var(--process-color);
+    padding-top: var(--process-pt);
+    padding-bottom: var(--process-pb);
+  "
   {{ section.shopify_attributes }}
 >
   <div class="lux-process-container">
     <div class="lux-section-heading-wrap lux-reveal-fade-up">
       {% if section.settings.subheading != blank %}
-        <span class="lux-section-subheading">{{ section.settings.subheading | default: 'THE ATELIER DISCIPLINE' }}</span>
+        <span class="lux-section-subheading" style="color: var(--process-accent);">{{ section.settings.subheading | default: 'THE ATELIER DISCIPLINE' }}</span>
       {% endif %}
-      <h2 class="lux-section-heading">{{ section.settings.heading | default: 'FROM RAW MEDIUM TO PRIVATE GALLERY' }}</h2>
+      <h2 class="lux-section-heading" style="color: var(--process-color);">{{ section.settings.heading | default: 'FROM RAW MEDIUM TO PRIVATE GALLERY' }}</h2>
       <div class="lux-section-divider"></div>
-      <p class="lux-process-intro">
+      <p class="lux-process-intro" style="color: var(--process-color); opacity: 0.85;">
         {{ section.settings.intro | default: 'Each artwork moves through an unhurried sequence of master artisan disciplines, ensuring every painting and sculpture holds authentic museum permanence.' }}
       </p>
     </div>
 
-    <!-- 4 Steps Process Grid -->
+    <!-- Steps Process Grid -->
     <div class="lux-process-grid lux-stagger-parent lux-reveal-fade-up">
       {% for block in section.blocks %}
-        <div class="lux-process-card lux-stagger-child" {{ block.shopify_attributes }}>
+        {% assign tag_item = 'div' %}
+        {% if block.settings.link != blank %}
+          {% assign tag_item = 'a' %}
+        {% endif %}
+        
+        <{{ tag_item }}
+          {% if block.settings.link != blank %}href="{{ block.settings.link }}" style="text-decoration: none;"{% endif %}
+          class="lux-process-card lux-stagger-child"
+          style="background: var(--process-card-bg); border-color: var(--process-border);"
+          {{ block.shopify_attributes }}
+        >
           <div class="lux-process-media">
             {% if block.settings.image != blank %}
               <img
@@ -55,15 +120,15 @@
                 height="280"
               >
             {% endif %}
-            <span class="lux-process-step-num">{{ block.settings.step_number | default: forloop.index | prepend: '0' }}</span>
+            <span class="lux-process-step-num" style="color: var(--process-accent);">{{ block.settings.step_number | default: forloop.index | prepend: '0' }}</span>
           </div>
 
           <div class="lux-process-info">
-            <span class="lux-process-tag">{{ block.settings.stage_label }}</span>
-            <h3 class="lux-process-card-title">{{ block.settings.title }}</h3>
-            <p class="lux-process-card-desc">{{ block.settings.description }}</p>
+            <span class="lux-process-tag" style="color: var(--process-accent);">{{ block.settings.stage_label }}</span>
+            <h3 class="lux-process-card-title" style="color: var(--process-color);">{{ block.settings.title }}</h3>
+            <p class="lux-process-card-desc" style="color: var(--process-color); opacity: 0.78;">{{ block.settings.description }}</p>
           </div>
-        </div>
+        </{{ tag_item }}>
       {% endfor %}
     </div>
   </div>
@@ -75,6 +140,46 @@
   "tag": "section",
   "class": "section-luxury-process-timeline",
   "settings": [
+    {
+      "type": "header",
+      "content": "Color Scheme & Style"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme_preset",
+      "label": "Color Scheme Preset",
+      "options": [
+        { "value": "warm", "label": "Warm Atelier (#f7f6f2)" },
+        { "value": "light", "label": "Light Clean (#ffffff)" },
+        { "value": "dark", "label": "Contemporary Dark (#161616)" },
+        { "value": "obsidian", "label": "Obsidian Luxury (#0b0b0b)" }
+      ],
+      "default": "warm"
+    },
+    {
+      "type": "color",
+      "id": "custom_bg_color",
+      "label": "Custom Background Color"
+    },
+    {
+      "type": "color",
+      "id": "custom_text_color",
+      "label": "Custom Text Color"
+    },
+    {
+      "type": "color",
+      "id": "custom_card_bg",
+      "label": "Custom Card Background"
+    },
+    {
+      "type": "color",
+      "id": "custom_accent_color",
+      "label": "Custom Accent Color"
+    },
+    {
+      "type": "header",
+      "content": "Heading & Subheading"
+    },
     {
       "type": "text",
       "id": "subheading",
@@ -94,16 +199,34 @@
       "default": "Each artwork moves through an unhurried sequence of master artisan disciplines, ensuring every painting and sculpture holds authentic museum permanence."
     },
     {
-      "type": "color",
-      "id": "background_color",
-      "label": "Background Color",
-      "default": "#f7f6f2"
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 16,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 16,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 50
     }
   ],
   "blocks": [
     {
       "type": "step",
-      "name": "Process Step",
+      "name": "Process Step Card",
       "settings": [
         {
           "type": "text",
@@ -139,6 +262,11 @@
           "id": "default_asset",
           "label": "Default Asset Fallback",
           "default": "art-atelier-artist-studio.jpg"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Card Link (Optional)"
         }
       ]
     }
@@ -151,9 +279,9 @@
           "type": "step",
           "settings": {
             "step_number": "01",
-            "stage_label": "STAGE I • PREPARATION",
-            "title": "Mineral Sourcing & Canvas Priming",
-            "description": "Extracting rich earth minerals and fine oils to hand-mix archival glazes over heavy-weight Belgian linen canvases.",
+            "stage_label": "RAW MATERIAL DISCIPLINE",
+            "title": "Mineral Sourcing & Linen Priming",
+            "description": "Extracting raw ochres, lapis lazuli, and rich mineral pigments to hand-mix oil glazes over triple-primed Belgian linen canvas.",
             "default_asset": "art-atelier-artist-studio.jpg"
           }
         },
@@ -161,9 +289,9 @@
           "type": "step",
           "settings": {
             "step_number": "02",
-            "stage_label": "STAGE II • CREATION",
-            "title": "Lost-Wax Foundry & Sculptural Form",
-            "description": "Pouring molten bronze at 1,200°C into refractory ceramic shell molds, followed by hand-chiseled detailing and hot patinas.",
+            "stage_label": "FOUNDRY & MOULDING",
+            "title": "Lost-Wax Foundry Casting",
+            "description": "Molten bronze heated to 1,200°C cast in ceramic shells, slowly cooled and hand-chiseled for unmatched sculptural definition.",
             "default_asset": "art-sculpture-bronze-figure.jpg"
           }
         },
@@ -171,9 +299,9 @@
           "type": "step",
           "settings": {
             "step_number": "03",
-            "stage_label": "STAGE III • PROVENANCE",
-            "title": "Archival Framing & Ledger Registration",
-            "description": "Custom shadowbox hardwood framing and wax-sealed certificate of provenance registration in our master atelier ledger.",
+            "stage_label": "SURFACE FINISHING",
+            "title": "Multi-Tier Patina & Gold Leafing",
+            "description": "Thermal oxidization and 24-karat gold leaf gilding impart a subtle ancient luster that deepens with ambient room light.",
             "default_asset": "art-painting-gold-canvas.jpg"
           }
         },
@@ -181,9 +309,9 @@
           "type": "step",
           "settings": {
             "step_number": "04",
-            "stage_label": "STAGE IV • INSTALLATION",
-            "title": "White-Glove Crating & Installation",
-            "description": "Dispatched in bespoke museum-grade wooden crating with specialized transit and curatorial placement support worldwide.",
+            "stage_label": "WHITE-GLOVE INSTALLATION",
+            "title": "Crated Delivery & In-Home Curating",
+            "description": "Reinforced wooden crating followed by bespoke placement advising, ensuring your space achieves gallery-tier spatial balance.",
             "default_asset": "art-gallery-room-hotspots.jpg"
           }
         }

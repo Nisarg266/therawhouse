@@ -3,10 +3,53 @@
   Interactive luxury reviews carousel for desktop and phone with glass navigation arrows, touch swipe, and pagination.
 {%- endcomment -%}
 
+{% liquid
+  assign scheme = section.settings.color_scheme_preset | default: 'warm'
+  case scheme
+    when 'light'
+      assign bg_color = '#ffffff'
+      assign heading_color = '#111111'
+      assign card_bg = '#faf9f6'
+      assign card_border = '#eae6dd'
+    when 'dark'
+      assign bg_color = '#141414'
+      assign heading_color = '#ffffff'
+      assign card_bg = '#1d1d1d'
+      assign card_border = 'rgba(255, 255, 255, 0.12)'
+    when 'obsidian'
+      assign bg_color = '#0b0b0b'
+      assign heading_color = '#ffffff'
+      assign card_bg = 'rgba(255, 255, 255, 0.04)'
+      assign card_border = 'rgba(197, 168, 128, 0.25)'
+    else
+      assign bg_color = '#f9f8f5'
+      assign heading_color = '#111111'
+      assign card_bg = '#ffffff'
+      assign card_border = '#eae6de'
+  endcase
+
+  if section.settings.custom_bg_color != blank and section.settings.custom_bg_color != 'rgba(0,0,0,0)'
+    assign bg_color = section.settings.custom_bg_color
+  endif
+  if section.settings.custom_heading_color != blank and section.settings.custom_heading_color != 'rgba(0,0,0,0)'
+    assign heading_color = section.settings.custom_heading_color
+  endif
+%}
+
 <div
   id="LuxuryReviews-{{ section.id }}"
-  class="lux-reviews-section"
-  style="background: {{ section.settings.background_color }};"
+  class="lux-reviews-section lux-reviews-scheme-{{ scheme }}"
+  style="
+    --reviews-bg: {{ bg_color }};
+    --reviews-heading-color: {{ heading_color }};
+    --reviews-card-bg: {{ card_bg }};
+    --reviews-card-border: {{ card_border }};
+    --reviews-pt: {{ section.settings.padding_top | default: 30 }}px;
+    --reviews-pb: {{ section.settings.padding_bottom | default: 48 }}px;
+    background: var(--reviews-bg);
+    padding-top: var(--reviews-pt);
+    padding-bottom: var(--reviews-pb);
+  "
   data-autoplay="{{ section.settings.autoplay }}"
   data-autoplay-speed="{{ section.settings.autoplay_speed | default: 5 | times: 1000 }}"
   {{ section.shopify_attributes }}
@@ -112,22 +155,50 @@
   "class": "section-luxury-reviews",
   "settings": [
     {
+      "type": "header",
+      "content": "Color Scheme & Style"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme_preset",
+      "label": "Color Scheme Preset",
+      "options": [
+        { "value": "warm", "label": "Warm Atelier Ivory (#f9f8f5)" },
+        { "value": "light", "label": "Light Clean (#ffffff)" },
+        { "value": "dark", "label": "Contemporary Dark (#141414)" },
+        { "value": "obsidian", "label": "Obsidian Gold (#0b0b0b)" }
+      ],
+      "default": "warm"
+    },
+    {
+      "type": "color",
+      "id": "custom_bg_color",
+      "label": "Custom Background Color"
+    },
+    {
+      "type": "color",
+      "id": "custom_heading_color",
+      "label": "Custom Heading Color"
+    },
+    {
+      "type": "header",
+      "content": "Headings"
+    },
+    {
       "type": "text",
       "id": "subheading",
       "label": "Subheading",
-      "default": "THE COLLECTORS VOICE"
+      "default": "THE COLLECTORS' PRAISE"
     },
     {
       "type": "text",
       "id": "heading",
       "label": "Heading",
-      "default": "WORDS OF ADMIRATION"
+      "default": "TESTIMONIALS & CRITICAL ACCLAIM"
     },
     {
-      "type": "color",
-      "id": "background_color",
-      "label": "Background Color",
-      "default": "#fcfbf9"
+      "type": "header",
+      "content": "Slider Settings"
     },
     {
       "type": "checkbox",
@@ -144,6 +215,34 @@
       "unit": "s",
       "label": "Autoplay Speed",
       "default": 5
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 16,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 16,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 48
+    },
+    {
+      "type": "header",
+      "content": "Press Publications"
     },
     {
       "type": "checkbox",

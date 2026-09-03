@@ -2,23 +2,59 @@
   "sections": {
     "luxury_marquee_top": {
       "type": "luxury-marquee-ticker",
+      "blocks": {
+        "statement_1": {
+          "type": "statement",
+          "settings": {
+            "text": "CONTEMPORARY FINE ART GALLERY & SCULPTURAL ATELIER",
+            "separator": "\u2726"
+          }
+        },
+        "statement_2": {
+          "type": "statement",
+          "settings": {
+            "text": "MUSEUM-GRADE ORIGINAL OIL PAINTINGS & 3D ART MODELS",
+            "separator": "\u2726"
+          }
+        },
+        "statement_3": {
+          "type": "statement",
+          "settings": {
+            "text": "COMPLIMENTARY WHITE-GLOVE FINE ART DELIVERY & CRATING",
+            "separator": "\u2726"
+          }
+        },
+        "statement_4": {
+          "type": "statement",
+          "settings": {
+            "text": "AUTHENTIC BRONZE, CARVED MARBLE & TEXTURED GOLD LEAF",
+            "separator": "\u2726"
+          }
+        }
+      },
+      "block_order": [
+        "statement_1",
+        "statement_2",
+        "statement_3",
+        "statement_4"
+      ],
       "settings": {
-        "ticker_1": "HAND-STRETCHED OIL CANVASES",
-        "ticker_2": "LOST-WAX CAST BRONZE SCULPTURES",
-        "ticker_3": "3D SAJAWAT ART MODELS",
-        "ticker_4": "AUTHENTIC CERTIFICATES OF PROVENANCE",
-        "ticker_5": "WHITE-GLOVE MUSEUM CRATING & TRANSIT"
+        "color_scheme_preset": "dark",
+        "speed": 35,
+        "font_size": 11.5,
+        "padding_vertical": 12
       }
     },
     "luxury_about_hero": {
       "type": "luxury-about-hero",
       "settings": {
-        "badge_text": "EST. 2024 • THE ATELIER & FOUNDRY",
+        "badge_text": "EST. 2024 \u2022 THE ATELIER & FOUNDRY",
         "heading": "THE ART OF TIMELESS FORM & PIGMENT",
         "subheading": "Where monumental oil paintings, lost-wax bronze sculptures, and architectural 3D art models converge into private living galleries.",
         "button_text": "EXPLORE MASTERPIECES",
         "height_desktop": 68,
-        "height_mobile": 480
+        "height_mobile": 480,
+        "color_scheme_preset": "dark"
       }
     },
     "luxury_about_manifesto": {
@@ -61,17 +97,63 @@
         "subheading": "OUR ARTISTIC CALLING",
         "heading": "THE ATELIER MANIFESTO",
         "intro_text": "In an era of disposable mass-produced decor, The Raw House was founded on an unapologetic conviction: True art possesses physical weight, tactile soul, and unhurried mastery.",
-        "background_color": "#ffffff"
+        "background_color": "#ffffff",
+        "color_scheme_preset": "light"
       }
     },
     "luxury_about_founder": {
       "type": "luxury-about-founder-atelier",
+      "blocks": {
+        "metric_1": {
+          "type": "metric",
+          "settings": {
+            "value": "100%",
+            "label": "Hand-Authored"
+          }
+        },
+        "metric_2": {
+          "type": "metric",
+          "settings": {
+            "value": "15+",
+            "label": "Impasto Glazes"
+          }
+        },
+        "metric_3": {
+          "type": "metric",
+          "settings": {
+            "value": "1200\u00b0C",
+            "label": "Bronze Casting"
+          }
+        },
+        "metric_4": {
+          "type": "metric",
+          "settings": {
+            "value": "100 Yrs+",
+            "label": "Archival Guarantee"
+          }
+        }
+      },
+      "block_order": [
+        "metric_1",
+        "metric_2",
+        "metric_3",
+        "metric_4"
+      ],
       "settings": {
+        "color_scheme_preset": "obsidian",
+        "media_position": "left",
+        "default_asset": "art-atelier-artist-studio.jpg",
+        "badge_title": "\u2726 ATELIER CERTIFIED",
+        "badge_subtitle": "Hand-Authored Fine Art & Cast Models",
         "subheading": "BEHIND THE CANVAS & FOUNDRY",
         "heading": "HONORING THE WEIGHT OF CREATION",
-        "paragraph_1": "At The Raw House, we believe that an art piece is not merely an ornament—it is a tangible focal point that alters the energy and spatial geometry of an interior. Every oil painting begins with unhurried canvas stretching and mineral pigment blending, capturing luminous depth through dozens of textured impasto layers.",
-        "paragraph_2": "Our 3D sculptural models and bronze figures undergo traditional lost-wax foundry casting. Heated to over 1,200°C and hand-chiseled by master sculptors, each piece achieves a weighted presence and rich patina that mass machinery could never replicate.",
-        "background_color": "#0d0d0d"
+        "paragraph_1": "At The Raw House, we believe that an art piece is not merely an ornament\u2014it is a tangible focal point that alters the energy and spatial geometry of an interior. Every oil painting begins with unhurried canvas stretching and mineral pigment blending, capturing luminous depth through dozens of textured impasto layers.",
+        "paragraph_2": "Our 3D sculptural models and bronze figures undergo traditional lost-wax foundry casting. Heated to over 1,200\u00b0C and hand-chiseled by master sculptors, each piece achieves a weighted presence and rich patina that mass machinery could never replicate.",
+        "show_signature": true,
+        "signature_mark": "The Master Artisans",
+        "signature_title": "MASTER PAINTERS & FOUNDRY SCULPTORS",
+        "padding_top": 34,
+        "padding_bottom": 54
       }
     },
     "luxury_about_process": {
@@ -81,7 +163,7 @@
           "type": "step",
           "settings": {
             "step_number": "01",
-            "stage_label": "STAGE I • PREPARATION",
+            "stage_label": "STAGE I \u2022 PREPARATION",
             "title": "Mineral Sourcing & Canvas Priming",
             "description": "Extracting rich earth minerals and fine oils to hand-mix archival glazes over heavy-weight Belgian linen canvases.",
             "default_asset": "art-atelier-artist-studio.jpg"
@@ -91,9 +173,9 @@
           "type": "step",
           "settings": {
             "step_number": "02",
-            "stage_label": "STAGE II • CREATION",
+            "stage_label": "STAGE II \u2022 CREATION",
             "title": "Lost-Wax Foundry & Sculptural Form",
-            "description": "Pouring molten bronze at 1,200°C into refractory ceramic shell molds, followed by hand-chiseled detailing and hot patinas.",
+            "description": "Pouring molten bronze at 1,200\u00b0C into refractory ceramic shell molds, followed by hand-chiseled detailing and hot patinas.",
             "default_asset": "art-sculpture-bronze-figure.jpg"
           }
         },
@@ -101,7 +183,7 @@
           "type": "step",
           "settings": {
             "step_number": "03",
-            "stage_label": "STAGE III • PROVENANCE",
+            "stage_label": "STAGE III \u2022 PROVENANCE",
             "title": "Archival Framing & Ledger Registration",
             "description": "Custom shadowbox hardwood framing and wax-sealed certificate of provenance registration in our master atelier ledger.",
             "default_asset": "art-painting-gold-canvas.jpg"
@@ -111,7 +193,7 @@
           "type": "step",
           "settings": {
             "step_number": "04",
-            "stage_label": "STAGE IV • INSTALLATION",
+            "stage_label": "STAGE IV \u2022 INSTALLATION",
             "title": "White-Glove Crating & Installation",
             "description": "Dispatched in bespoke museum-grade wooden crating with specialized transit and curatorial placement support worldwide.",
             "default_asset": "art-gallery-room-hotspots.jpg"
@@ -128,13 +210,58 @@
         "subheading": "THE ATELIER DISCIPLINE",
         "heading": "FROM RAW MEDIUM TO PRIVATE GALLERY",
         "intro": "Each artwork moves through an unhurried sequence of master artisan disciplines, ensuring every painting and sculpture holds authentic museum permanence.",
-        "background_color": "#f7f6f2"
+        "background_color": "#f7f6f2",
+        "color_scheme_preset": "warm"
       }
     },
     "luxury_trust_features": {
       "type": "luxury-trust-features",
+      "blocks": {
+        "pillar_1": {
+          "type": "feature",
+          "settings": {
+            "icon": "museum",
+            "title": "MUSEUM-GRADE PROVENANCE",
+            "subtitle": "Certified original gallery art & signed authenticity"
+          }
+        },
+        "pillar_2": {
+          "type": "feature",
+          "settings": {
+            "icon": "authenticity",
+            "title": "SOLID BRONZE & MARBLE",
+            "subtitle": "Hand-cast sculptures, stone & 3D art models"
+          }
+        },
+        "pillar_3": {
+          "type": "feature",
+          "settings": {
+            "icon": "delivery",
+            "title": "WHITE GLOVE ART CRATING",
+            "subtitle": "Custom museum wooden crating & insured transit"
+          }
+        },
+        "pillar_4": {
+          "type": "feature",
+          "settings": {
+            "icon": "concierge",
+            "title": "PRIVATE ART CONCIERGE",
+            "subtitle": "1-on-1 private collector advisory & commissions"
+          }
+        }
+      },
+      "block_order": [
+        "pillar_1",
+        "pillar_2",
+        "pillar_3",
+        "pillar_4"
+      ],
       "settings": {
-        "background_color": "#ffffff"
+        "color_scheme_preset": "light",
+        "columns_desktop": 4,
+        "text_alignment": "left",
+        "padding_top": 20,
+        "padding_bottom": 28
       }
     },
     "luxury_reviews_press": {
@@ -176,7 +303,8 @@
         "background_color": "#fcfbf9",
         "autoplay": true,
         "autoplay_speed": 5,
-        "show_press": true
+        "show_press": true,
+        "color_scheme_preset": "warm"
       }
     },
     "luxury_vip_newsletter": {
@@ -187,7 +315,8 @@
         "text": "Join our inner circle to receive confidential previews of newly acquired original canvases, bespoke sculpture editions, and private gallery vernissage invitations.",
         "input_placeholder": "Enter your email address...",
         "button_label": "JOIN CIRCLE",
-        "background_color": "#fcfbf9"
+        "background_color": "#fcfbf9",
+        "color_scheme_preset": "warm"
       }
     }
   },

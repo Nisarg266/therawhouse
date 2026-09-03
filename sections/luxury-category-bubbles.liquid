@@ -1,13 +1,50 @@
 {%- comment -%}
-  THE RAW HOUSE - CURATED CATEGORY BUBBLES / STORY HIGHLIGHTS
-  Instagram-style luxury circular category highlights with gold border glow and smooth touch swipe.
+  THE RAW HOUSE - ADVANCED CATEGORY BUBBLES / HIGHLIGHTS
+  Instagram-style luxury circular highlights with dynamic blocks, advanced color schemes, and size controls.
 {%- endcomment -%}
+
+{% liquid
+  assign scheme = section.settings.color_scheme_preset | default: 'warm'
+  case scheme
+    when 'light'
+      assign bg_color = '#ffffff'
+      assign text_color = '#111111'
+      assign ring_color = 'linear-gradient(135deg, #c5a880 0%, #ecd8b8 50%, #c5a880 100%)'
+    when 'dark'
+      assign bg_color = '#141414'
+      assign text_color = '#ffffff'
+      assign ring_color = 'linear-gradient(135deg, #c5a880 0%, #ffffff 50%, #c5a880 100%)'
+    when 'obsidian'
+      assign bg_color = '#0b0b0b'
+      assign text_color = '#ffffff'
+      assign ring_color = 'linear-gradient(135deg, #c5a880 0%, #e2cca6 50%, #9e7f57 100%)'
+    else
+      assign bg_color = '#fcfbf9'
+      assign text_color = '#111111'
+      assign ring_color = 'linear-gradient(135deg, #c5a880 0%, #dfcaa5 50%, #c5a880 100%)'
+  endcase
+
+  if section.settings.custom_bg_color != blank and section.settings.custom_bg_color != 'rgba(0,0,0,0)'
+    assign bg_color = section.settings.custom_bg_color
+  endif
+  if section.settings.custom_text_color != blank and section.settings.custom_text_color != 'rgba(0,0,0,0)'
+    assign text_color = section.settings.custom_text_color
+  endif
+%}
 
 <div
   id="LuxuryBubbles-{{ section.id }}"
-  class="lux-bubbles-section"
+  class="lux-bubbles-section lux-bubbles-scheme-{{ scheme }}"
   style="
-    --bubbles-bg: {{ section.settings.background_color }};
+    --bubbles-bg: {{ bg_color }};
+    --bubbles-color: {{ text_color }};
+    --bubbles-ring: {{ ring_color }};
+    --bubbles-pt: {{ section.settings.padding_top | default: 22 }}px;
+    --bubbles-pb: {{ section.settings.padding_bottom | default: 36 }}px;
+    background: var(--bubbles-bg);
+    color: var(--bubbles-color);
+    padding-top: var(--bubbles-pt);
+    padding-bottom: var(--bubbles-pb);
   "
   {{ section.shopify_attributes }}
 >
@@ -17,7 +54,7 @@
         {% if section.settings.subheading != blank %}
           <span class="lux-section-subheading">{{ section.settings.subheading }}</span>
         {% endif %}
-        <h2 class="lux-section-heading">{{ section.settings.heading }}</h2>
+        <h2 class="lux-section-heading" style="color: var(--bubbles-color);">{{ section.settings.heading }}</h2>
         <div class="lux-section-divider"></div>
       </div>
     {% endif %}
@@ -29,7 +66,7 @@
           class="lux-bubble-item lux-stagger-child"
           {{ block.shopify_attributes }}
         >
-          <div class="lux-bubble-ring">
+          <div class="lux-bubble-ring" style="background: var(--bubbles-ring);">
             <div class="lux-bubble-avatar">
               {% if block.settings.image != blank %}
                 {{
@@ -62,7 +99,7 @@
               {% endif %}
             </div>
           </div>
-          <span class="lux-bubble-title">{{ block.settings.title }}</span>
+          <span class="lux-bubble-title" style="color: var(--bubbles-color);">{{ block.settings.title }}</span>
         </a>
       {% endfor %}
     </div>
@@ -76,6 +113,36 @@
   "class": "section-luxury-bubbles",
   "settings": [
     {
+      "type": "header",
+      "content": "Color Scheme & Style"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme_preset",
+      "label": "Color Scheme Preset",
+      "options": [
+        { "value": "warm", "label": "Warm Atelier Ivory (#fcfbf9)" },
+        { "value": "light", "label": "Light Clean (#ffffff)" },
+        { "value": "dark", "label": "Contemporary Dark (#141414)" },
+        { "value": "obsidian", "label": "Obsidian Gold (#0b0b0b)" }
+      ],
+      "default": "warm"
+    },
+    {
+      "type": "color",
+      "id": "custom_bg_color",
+      "label": "Custom Background Color"
+    },
+    {
+      "type": "color",
+      "id": "custom_text_color",
+      "label": "Custom Text Color"
+    },
+    {
+      "type": "header",
+      "content": "Heading & Text"
+    },
+    {
       "type": "text",
       "id": "subheading",
       "label": "Subheading",
@@ -88,16 +155,34 @@
       "default": "CURATED CATEGORIES"
     },
     {
-      "type": "color",
-      "id": "background_color",
-      "label": "Background Color",
-      "default": "#fcfbf9"
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 12,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 22
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 12,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 36
     }
   ],
   "blocks": [
     {
       "type": "bubble",
-      "name": "Category Bubble",
+      "name": "Category Bubble Card",
       "settings": [
         {
           "type": "image_picker",
@@ -138,35 +223,35 @@
           "type": "bubble",
           "settings": {
             "title": "BRONZE SCULPTURES",
-            "default_asset": "art-sculpture-rodin-thinker.jpg"
+            "default_asset": "art-sculpture-bronze-figure.jpg"
           }
         },
         {
           "type": "bubble",
           "settings": {
-            "title": "MARBLE MODELS",
-            "default_asset": "art-sculpture-venus-milo.jpg"
+            "title": "3D ART MODELS",
+            "default_asset": "art-sculpture-marble-bust.jpg"
           }
         },
         {
           "type": "bubble",
           "settings": {
-            "title": "TEXTURED CANVASES",
-            "default_asset": "art-painting-abstract-oil.jpg"
+            "title": "ABSTRACT GOLD LEAF",
+            "default_asset": "art-painting-gold-canvas.jpg"
           }
         },
         {
           "type": "bubble",
           "settings": {
-            "title": "LIMITED EDITIONS",
-            "default_asset": "art-painting-great-wave.jpg"
+            "title": "EXPRESSIONIST FORMS",
+            "default_asset": "maker-gallery-2.jpg"
           }
         },
         {
           "type": "bubble",
           "settings": {
-            "title": "SAJAWAT ACCENTS",
-            "default_asset": "art-sculpture-winged-victory.jpg"
+            "title": "BESPOKE COMMISSIONS",
+            "default_asset": "art-atelier-artist-studio.jpg"
           }
         }
       ]

@@ -1,6 +1,6 @@
 {%- comment -%}
-  THE RAW HOUSE - LUXURY ABOUT HERO
-  Grand editorial hero banner for the About Us Atelier page with responsive styling.
+  THE RAW HOUSE - ADVANCED LUXURY ABOUT HERO
+  Grand editorial hero banner with advanced color schemes, dual CTAs, overlay controls, and responsive heights.
 {%- endcomment -%}
 
 {% liquid
@@ -8,52 +8,92 @@
   if section.settings.image != blank
     assign bg_url = section.settings.image | image_url: width: 2400
   endif
+
+  assign scheme = section.settings.color_scheme_preset | default: 'dark'
+  case scheme
+    when 'obsidian'
+      assign overlay_grad = 'linear-gradient(180deg, rgba(11, 11, 11, 0.85) 0%, rgba(11, 11, 11, 0.55) 50%, rgba(11, 11, 11, 0.95) 100%)'
+      assign text_color = '#ffffff'
+      assign accent_color = '#c5a880'
+      assign fade_color = '#0b0b0b'
+    when 'gold'
+      assign overlay_grad = 'linear-gradient(180deg, rgba(20, 17, 13, 0.82) 0%, rgba(35, 29, 21, 0.6) 50%, rgba(15, 13, 10, 0.9) 100%)'
+      assign text_color = '#ffffff'
+      assign accent_color = '#e2cca6'
+      assign fade_color = '#ffffff'
+    when 'warm'
+      assign overlay_grad = 'linear-gradient(180deg, rgba(25, 23, 21, 0.72) 0%, rgba(40, 36, 32, 0.45) 50%, rgba(20, 18, 16, 0.85) 100%)'
+      assign text_color = '#ffffff'
+      assign accent_color = '#c5a880'
+      assign fade_color = '#fdfcf9'
+    else
+      assign overlay_grad = 'linear-gradient(180deg, rgba(0, 0, 0, 0.76) 0%, rgba(0, 0, 0, 0.48) 50%, rgba(0, 0, 0, 0.9) 100%)'
+      assign text_color = '#ffffff'
+      assign accent_color = '#c5a880'
+      assign fade_color = '#ffffff'
+  endcase
+
+  if section.settings.custom_text_color != blank and section.settings.custom_text_color != 'rgba(0,0,0,0)'
+    assign text_color = section.settings.custom_text_color
+  endif
+  if section.settings.custom_accent_color != blank and section.settings.custom_accent_color != 'rgba(0,0,0,0)'
+    assign accent_color = section.settings.custom_accent_color
+  endif
 %}
 
 <section
   id="LuxuryAboutHero-{{ section.id }}"
-  class="lux-about-hero"
+  class="lux-about-hero lux-about-hero-scheme-{{ scheme }}"
   style="
     --about-hero-bg: url({{ bg_url }});
-    --about-hero-height-desktop: {{ section.settings.height_desktop | default: 68 }}vh;
-    --about-hero-height-mobile: {{ section.settings.height_mobile | default: 480 }}px;
+    --about-hero-height-desktop: {{ section.settings.height_desktop | default: 62 }}vh;
+    --about-hero-height-mobile: {{ section.settings.height_mobile | default: 460 }}px;
+    --about-hero-color: {{ text_color }};
+    --about-hero-accent: {{ accent_color }};
+    --about-hero-fade: {{ fade_color }};
   "
   {{ section.shopify_attributes }}
 >
-  <div class="lux-about-hero-overlay"></div>
+  <div class="lux-about-hero-overlay" style="background: {{ overlay_grad }};"></div>
 
   <div class="lux-about-hero-container">
     <div class="lux-about-hero-content lux-reveal-fade-up">
-      <div class="lux-about-hero-badge">
+      <div class="lux-about-hero-badge" style="border-color: var(--about-hero-accent); color: var(--about-hero-accent);">
         <span class="lux-about-hero-badge-diamond">✦</span>
         <span>{{ section.settings.badge_text | default: 'EST. 2024 • THE ATELIER & FOUNDRY' }}</span>
         <span class="lux-about-hero-badge-diamond">✦</span>
       </div>
 
-      <h1 class="lux-about-hero-title">
+      <h1 class="lux-about-hero-title" style="color: var(--about-hero-color);">
         {{ section.settings.heading | default: 'THE ART OF TIMELESS FORM & PIGMENT' }}
       </h1>
 
-      <p class="lux-about-hero-subtitle">
+      <p class="lux-about-hero-subtitle" style="color: var(--about-hero-color); opacity: 0.9;">
         {{ section.settings.subheading | default: 'Where monumental oil paintings, lost-wax bronze sculptures, and architectural 3D art models converge into private living galleries.' }}
       </p>
 
-      {% if section.settings.button_text != blank %}
-        <div class="lux-about-hero-actions">
-          <a href="{{ section.settings.button_link | default: routes.all_products_collection_url }}" class="lux-about-hero-btn">
-            <span>{{ section.settings.button_text | default: 'EXPLORE MASTERPIECES' }}</span>
+      <div class="lux-about-hero-actions">
+        {% if section.settings.button_text != blank %}
+          <a href="{{ section.settings.button_link | default: routes.all_products_collection_url }}" class="lux-about-hero-btn" style="background: var(--about-hero-accent);">
+            <span>{{ section.settings.button_text }}</span>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <line x1="5" y1="12" x2="19" y2="12"></line>
               <polyline points="12 5 19 12 12 19"></polyline>
             </svg>
           </a>
-        </div>
-      {% endif %}
+        {% endif %}
+
+        {% if section.settings.button_2_text != blank %}
+          <a href="{{ section.settings.button_2_link | default: routes.all_products_collection_url }}" class="lux-about-hero-btn" style="background: transparent; color: #ffffff; border: 1px solid rgba(255,255,255,0.4);">
+            <span>{{ section.settings.button_2_text }}</span>
+          </a>
+        {% endif %}
+      </div>
     </div>
   </div>
 
   <!-- Ambient Bottom Fade -->
-  <div class="lux-about-hero-fade"></div>
+  <div class="lux-about-hero-fade" style="background: linear-gradient(180deg, transparent 0%, var(--about-hero-fade) 100%);"></div>
 </section>
 
 {% schema %}
@@ -63,15 +103,49 @@
   "class": "section-luxury-about-hero",
   "settings": [
     {
+      "type": "header",
+      "content": "Color Scheme & Atmosphere"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme_preset",
+      "label": "Color Scheme Preset",
+      "options": [
+        { "value": "dark", "label": "Classic Editorial Dark" },
+        { "value": "obsidian", "label": "Deep Obsidian Gold" },
+        { "value": "gold", "label": "Warm Champagne Bronze" },
+        { "value": "warm", "label": "Atelier Parchment Warm" }
+      ],
+      "default": "dark"
+    },
+    {
+      "type": "color",
+      "id": "custom_text_color",
+      "label": "Custom Text Color"
+    },
+    {
+      "type": "color",
+      "id": "custom_accent_color",
+      "label": "Custom Gold / Accent Color"
+    },
+    {
+      "type": "header",
+      "content": "Background Media"
+    },
+    {
       "type": "image_picker",
       "id": "image",
       "label": "Hero Background Image"
     },
     {
+      "type": "header",
+      "content": "Typography & Headings"
+    },
+    {
       "type": "text",
       "id": "badge_text",
       "label": "Top Badge Text",
-      "default": "EST. 2024 • THE ATELIER"
+      "default": "EST. 2024 • THE ATELIER & FOUNDRY"
     },
     {
       "type": "text",
@@ -86,35 +160,57 @@
       "default": "Where monumental oil paintings, lost-wax bronze sculptures, and architectural 3D art models converge into private living galleries."
     },
     {
+      "type": "header",
+      "content": "Primary Action Button"
+    },
+    {
       "type": "text",
       "id": "button_text",
-      "label": "Button Label",
+      "label": "Primary Button Text",
       "default": "EXPLORE MASTERPIECES"
     },
     {
       "type": "url",
       "id": "button_link",
-      "label": "Button Link"
+      "label": "Primary Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Secondary Action Button"
+    },
+    {
+      "type": "text",
+      "id": "button_2_text",
+      "label": "Secondary Button Text"
+    },
+    {
+      "type": "url",
+      "id": "button_2_link",
+      "label": "Secondary Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Hero Height"
     },
     {
       "type": "range",
       "id": "height_desktop",
-      "min": 50,
+      "min": 45,
       "max": 90,
-      "step": 2,
+      "step": 1,
       "unit": "vh",
       "label": "Desktop Height",
-      "default": 68
+      "default": 65
     },
     {
       "type": "range",
       "id": "height_mobile",
-      "min": 360,
-      "max": 600,
-      "step": 20,
+      "min": 350,
+      "max": 650,
+      "step": 10,
       "unit": "px",
       "label": "Mobile Height",
-      "default": 480
+      "default": 460
     }
   ],
   "presets": [

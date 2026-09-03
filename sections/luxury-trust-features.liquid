@@ -1,61 +1,177 @@
 {%- comment -%}
-  THE RAW HOUSE - 4 PILLARS OF LUXURY TRUST FEATURES
-  Value propositions banner highlighting white glove delivery, bespoke customization, and concierge service.
+  THE RAW HOUSE - ADVANCED LUXURY TRUST FEATURES & VALUE PILLARS
+  Customizable dynamic blocks with icon selections, custom SVG, links, and advanced color schemes.
 {%- endcomment -%}
+
+{% liquid
+  assign scheme = section.settings.color_scheme_preset | default: 'light'
+  
+  case scheme
+    when 'warm'
+      assign bg_color = '#f9f8f5'
+      assign text_color = '#111111'
+      assign subtitle_color = '#666666'
+      assign border_color = '#e8e4dc'
+      assign card_bg = '#ffffff'
+    when 'dark'
+      assign bg_color = '#161616'
+      assign text_color = '#ffffff'
+      assign subtitle_color = 'rgba(255,255,255,0.7)'
+      assign border_color = 'rgba(255,255,255,0.12)'
+      assign card_bg = '#1f1f1f'
+    when 'obsidian'
+      assign bg_color = '#0b0b0b'
+      assign text_color = '#ffffff'
+      assign subtitle_color = 'rgba(255,255,255,0.65)'
+      assign border_color = 'rgba(197, 168, 128, 0.25)'
+      assign card_bg = 'rgba(255, 255, 255, 0.04)'
+    else
+      assign bg_color = '#ffffff'
+      assign text_color = '#111111'
+      assign subtitle_color = '#555555'
+      assign border_color = '#edeae3'
+      assign card_bg = '#faf9f6'
+  endcase
+
+  if section.settings.custom_bg_color != blank and section.settings.custom_bg_color != 'rgba(0,0,0,0)'
+    assign bg_color = section.settings.custom_bg_color
+  endif
+  if section.settings.custom_text_color != blank and section.settings.custom_text_color != 'rgba(0,0,0,0)'
+    assign text_color = section.settings.custom_text_color
+  endif
+  if section.settings.custom_border_color != blank and section.settings.custom_border_color != 'rgba(0,0,0,0)'
+    assign border_color = section.settings.custom_border_color
+  endif
+%}
 
 <div
   id="LuxuryTrust-{{ section.id }}"
-  class="lux-trust-section"
+  class="lux-trust-section lux-scheme-{{ scheme }}"
+  style="
+    --trust-bg: {{ bg_color }};
+    --trust-color: {{ text_color }};
+    --trust-sub-color: {{ subtitle_color }};
+    --trust-border: {{ border_color }};
+    --trust-card-bg: {{ card_bg }};
+    --trust-pt: {{ section.settings.padding_top | default: 24 }}px;
+    --trust-pb: {{ section.settings.padding_bottom | default: 24 }}px;
+    background: var(--trust-bg);
+    color: var(--trust-color);
+    padding-top: var(--trust-pt);
+    padding-bottom: var(--trust-pb);
+    border-top: 1px solid var(--trust-border);
+    border-bottom: 1px solid var(--trust-border);
+  "
   {{ section.shopify_attributes }}
 >
-  <div class="lux-trust-container lux-stagger-parent lux-reveal-fade-up">
-    <!-- Pillar 1 -->
-    <div class="lux-trust-card lux-stagger-child">
-      <svg class="lux-trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="1" y="3" width="15" height="13"></rect>
-        <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
-        <circle cx="5.5" cy="18.5" r="2.5"></circle>
-        <circle cx="18.5" cy="18.5" r="2.5"></circle>
-      </svg>
-      <div>
-        <h4 class="lux-trust-title">{{ section.settings.title_1 | default: 'WHITE GLOVE DELIVERY' }}</h4>
-        <p class="lux-trust-subtitle">{{ section.settings.subtitle_1 | default: 'Complimentary placement & unboxing' }}</p>
+  <div
+    class="lux-trust-container lux-stagger-parent lux-reveal-fade-up"
+    style="
+      grid-template-columns: repeat({{ section.settings.columns_desktop | default: 4 }}, 1fr);
+      text-align: {{ section.settings.text_alignment | default: 'left' }};
+    "
+  >
+    {% if section.blocks.size > 0 %}
+      {% for block in section.blocks %}
+        {% assign tag_name = 'div' %}
+        {% if block.settings.link != blank %}
+          {% assign tag_name = 'a' %}
+        {% endif %}
+        
+        <{{ tag_name }}
+          {% if block.settings.link != blank %}href="{{ block.settings.link }}"{% endif %}
+          class="lux-trust-card lux-stagger-child"
+          style="background: var(--trust-card-bg); border-color: var(--trust-border);"
+          {{ block.shopify_attributes }}
+        >
+          {% if block.settings.custom_svg != blank %}
+            <div class="lux-trust-icon-wrap">{{ block.settings.custom_svg }}</div>
+          {% else %}
+            <div class="lux-trust-icon-wrap">
+              {% case block.settings.icon %}
+                {% when 'authenticity' %}
+                  <svg class="lux-trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                  </svg>
+                {% when 'bespoke' %}
+                  <svg class="lux-trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                  </svg>
+                {% when 'concierge' %}
+                  <svg class="lux-trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                  </svg>
+                {% when 'museum' %}
+                  <svg class="lux-trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 21h18M4 18h16M6 10v8M10 10v8M14 10v8M18 10v8M2 7l10-4 10 4v3H2V7z"></path>
+                  </svg>
+                {% when 'gem' %}
+                  <svg class="lux-trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 3h12l4 6-10 12L2 9l4-6z"></path>
+                  </svg>
+                {% else %}
+                  <svg class="lux-trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="1" y="3" width="15" height="13"></rect>
+                    <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                    <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                    <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                  </svg>
+              {% endcase %}
+            </div>
+          {% endif %}
+          <div class="lux-trust-card-body">
+            <h4 class="lux-trust-title" style="color: var(--trust-color);">{{ block.settings.title }}</h4>
+            <p class="lux-trust-subtitle" style="color: var(--trust-sub-color);">{{ block.settings.subtitle }}</p>
+          </div>
+        </{{ tag_name }}>
+      {% endfor %}
+    {% else %}
+      <!-- Default Fallback Cards -->
+      <div class="lux-trust-card lux-stagger-child">
+        <svg class="lux-trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="1" y="3" width="15" height="13"></rect>
+          <polygon points="16 8 20 8 23 11 23 16 16 16 8"></polygon>
+          <circle cx="5.5" cy="18.5" r="2.5"></circle>
+          <circle cx="18.5" cy="18.5" r="2.5"></circle>
+        </svg>
+        <div class="lux-trust-card-body">
+          <h4 class="lux-trust-title">WHITE GLOVE DELIVERY</h4>
+          <p class="lux-trust-subtitle">Complimentary placement & unboxing</p>
+        </div>
       </div>
-    </div>
 
-    <!-- Pillar 2 -->
-    <div class="lux-trust-card lux-stagger-child">
-      <svg class="lux-trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-      </svg>
-      <div>
-        <h4 class="lux-trust-title">{{ section.settings.title_2 | default: 'ARTISAN AUTHENTICITY' }}</h4>
-        <p class="lux-trust-subtitle">{{ section.settings.subtitle_2 | default: '100% Certified master craftsman pieces' }}</p>
+      <div class="lux-trust-card lux-stagger-child">
+        <svg class="lux-trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+        </svg>
+        <div class="lux-trust-card-body">
+          <h4 class="lux-trust-title">ARTISAN AUTHENTICITY</h4>
+          <p class="lux-trust-subtitle">100% Certified master craftsman pieces</p>
+        </div>
       </div>
-    </div>
 
-    <!-- Pillar 3 -->
-    <div class="lux-trust-card lux-stagger-child">
-      <svg class="lux-trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="10"></circle>
-        <polyline points="12 6 12 12 16 14"></polyline>
-      </svg>
-      <div>
-        <h4 class="lux-trust-title">{{ section.settings.title_3 | default: 'BESPOKE CUSTOM' }}</h4>
-        <p class="lux-trust-subtitle">{{ section.settings.subtitle_3 | default: 'Tailored dimensions & finishes' }}</p>
+      <div class="lux-trust-card lux-stagger-child">
+        <svg class="lux-trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+        <div class="lux-trust-card-body">
+          <h4 class="lux-trust-title">BESPOKE CUSTOM</h4>
+          <p class="lux-trust-subtitle">Tailored dimensions & finishes</p>
+        </div>
       </div>
-    </div>
 
-    <!-- Pillar 4 -->
-    <div class="lux-trust-card lux-stagger-child">
-      <svg class="lux-trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-      </svg>
-      <div>
-        <h4 class="lux-trust-title">{{ section.settings.title_4 | default: 'PRIVATE CONCIERGE' }}</h4>
-        <p class="lux-trust-subtitle">{{ section.settings.subtitle_4 | default: 'Dedicated 1-on-1 interior advising' }}</p>
+      <div class="lux-trust-card lux-stagger-child">
+        <svg class="lux-trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+        </svg>
+        <div class="lux-trust-card-body">
+          <h4 class="lux-trust-title">PRIVATE CONCIERGE</h4>
+          <p class="lux-trust-subtitle">Dedicated 1-on-1 interior advising</p>
+        </div>
       </div>
-    </div>
+    {% endif %}
   </div>
 </div>
 
@@ -66,57 +182,161 @@
   "class": "section-luxury-trust",
   "settings": [
     {
-      "type": "text",
-      "id": "title_1",
-      "label": "Pillar 1 Title",
-      "default": "WHITE GLOVE DELIVERY"
+      "type": "header",
+      "content": "Color Scheme & Style"
     },
     {
-      "type": "text",
-      "id": "subtitle_1",
-      "label": "Pillar 1 Subtitle",
-      "default": "Complimentary placement & unboxing"
+      "type": "select",
+      "id": "color_scheme_preset",
+      "label": "Color Scheme Preset",
+      "options": [
+        { "value": "light", "label": "Light Clean (White)" },
+        { "value": "warm", "label": "Warm Atelier (Ivory)" },
+        { "value": "dark", "label": "Dark Contemporary (#161616)" },
+        { "value": "obsidian", "label": "Obsidian Luxury (#0b0b0b)" }
+      ],
+      "default": "light"
     },
     {
-      "type": "text",
-      "id": "title_2",
-      "label": "Pillar 2 Title",
-      "default": "ARTISAN AUTHENTICITY"
+      "type": "color",
+      "id": "custom_bg_color",
+      "label": "Custom Background Color"
     },
     {
-      "type": "text",
-      "id": "subtitle_2",
-      "label": "Pillar 2 Subtitle",
-      "default": "100% Certified master craftsman pieces"
+      "type": "color",
+      "id": "custom_text_color",
+      "label": "Custom Text Color"
     },
     {
-      "type": "text",
-      "id": "title_3",
-      "label": "Pillar 3 Title",
-      "default": "BESPOKE CUSTOM"
+      "type": "color",
+      "id": "custom_border_color",
+      "label": "Custom Border Color"
     },
     {
-      "type": "text",
-      "id": "subtitle_3",
-      "label": "Pillar 3 Subtitle",
-      "default": "Tailored dimensions & finishes"
+      "type": "header",
+      "content": "Layout & Spacing"
     },
     {
-      "type": "text",
-      "id": "title_4",
-      "label": "Pillar 4 Title",
-      "default": "PRIVATE CONCIERGE"
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "label": "Desktop Columns",
+      "default": 4
     },
     {
-      "type": "text",
-      "id": "subtitle_4",
-      "label": "Pillar 4 Subtitle",
-      "default": "Dedicated 1-on-1 interior advising"
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Card Text Alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 10,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 10,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 24
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Trust Pillar Card",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "delivery", "label": "Delivery Truck" },
+            { "value": "authenticity", "label": "Shield Authenticity" },
+            { "value": "bespoke", "label": "Clock / Bespoke" },
+            { "value": "concierge", "label": "Phone Concierge" },
+            { "value": "museum", "label": "Museum Columns" },
+            { "value": "gem", "label": "Gem / Diamond" }
+          ],
+          "default": "delivery"
+        },
+        {
+          "type": "html",
+          "id": "custom_svg",
+          "label": "Custom SVG Icon (Optional)"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "WHITE GLOVE DELIVERY"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "Complimentary placement & unboxing"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Card Link (Optional)"
+        }
+      ]
     }
   ],
   "presets": [
     {
-      "name": "Luxury Trust Features"
+      "name": "Luxury Trust Features",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "delivery",
+            "title": "WHITE GLOVE DELIVERY",
+            "subtitle": "Complimentary placement & unboxing"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "authenticity",
+            "title": "ARTISAN AUTHENTICITY",
+            "subtitle": "100% Certified master craftsman pieces"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "bespoke",
+            "title": "BESPOKE CUSTOM",
+            "subtitle": "Tailored dimensions & finishes"
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "concierge",
+            "title": "PRIVATE CONCIERGE",
+            "subtitle": "Dedicated 1-on-1 interior advising"
+          }
+        }
+      ]
     }
   ]
 }

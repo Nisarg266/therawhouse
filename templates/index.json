@@ -2,13 +2,47 @@
   "sections": {
     "luxury_marquee_top": {
       "type": "luxury-marquee-ticker",
+      "blocks": {
+        "statement_1": {
+          "type": "statement",
+          "settings": {
+            "text": "CONTEMPORARY FINE ART GALLERY & SCULPTURAL ATELIER",
+            "separator": "\u2726"
+          }
+        },
+        "statement_2": {
+          "type": "statement",
+          "settings": {
+            "text": "MUSEUM-GRADE ORIGINAL OIL PAINTINGS & 3D ART MODELS",
+            "separator": "\u2726"
+          }
+        },
+        "statement_3": {
+          "type": "statement",
+          "settings": {
+            "text": "COMPLIMENTARY WHITE-GLOVE FINE ART DELIVERY & CRATING",
+            "separator": "\u2726"
+          }
+        },
+        "statement_4": {
+          "type": "statement",
+          "settings": {
+            "text": "AUTHENTIC BRONZE, CARVED MARBLE & TEXTURED GOLD LEAF",
+            "separator": "\u2726"
+          }
+        }
+      },
+      "block_order": [
+        "statement_1",
+        "statement_2",
+        "statement_3",
+        "statement_4"
+      ],
       "settings": {
-        "text_1": "CONTEMPORARY FINE ART GALLERY & SCULPTURAL ATELIER",
-        "text_2": "MUSEUM-GRADE ORIGINAL OIL PAINTINGS & 3D ART MODELS",
-        "text_3": "COMPLIMENTARY WHITE-GLOVE FINE ART DELIVERY & CRATING",
-        "text_4": "AUTHENTIC BRONZE, CARVED MARBLE & TEXTURED GOLD LEAF",
-        "background_color": "#111111",
-        "text_color": "#ffffff"
+        "color_scheme_preset": "dark",
+        "speed": 35,
+        "font_size": 11.5,
+        "padding_vertical": 12
       }
     },
     "luxury_hero_showcase": {
@@ -68,20 +102,58 @@
         "autoplay": true,
         "autoplay_speed": 6,
         "overlay_color": "#000000",
-        "overlay_opacity": 25
+        "overlay_opacity": 25,
+        "color_scheme_preset": "dark"
       }
     },
     "luxury_trust_features": {
       "type": "luxury-trust-features",
+      "blocks": {
+        "pillar_1": {
+          "type": "feature",
+          "settings": {
+            "icon": "museum",
+            "title": "MUSEUM-GRADE PROVENANCE",
+            "subtitle": "Certified original gallery art & signed authenticity"
+          }
+        },
+        "pillar_2": {
+          "type": "feature",
+          "settings": {
+            "icon": "authenticity",
+            "title": "SOLID BRONZE & MARBLE",
+            "subtitle": "Hand-cast sculptures, stone & 3D art models"
+          }
+        },
+        "pillar_3": {
+          "type": "feature",
+          "settings": {
+            "icon": "delivery",
+            "title": "WHITE GLOVE ART CRATING",
+            "subtitle": "Custom museum wooden crating & insured transit"
+          }
+        },
+        "pillar_4": {
+          "type": "feature",
+          "settings": {
+            "icon": "concierge",
+            "title": "PRIVATE ART CONCIERGE",
+            "subtitle": "1-on-1 private collector advisory & commissions"
+          }
+        }
+      },
+      "block_order": [
+        "pillar_1",
+        "pillar_2",
+        "pillar_3",
+        "pillar_4"
+      ],
       "settings": {
-        "title_1": "MUSEUM-GRADE PROVENANCE",
-        "subtitle_1": "Certified original gallery art & signed authenticity",
-        "title_2": "SOLID BRONZE & MARBLE",
-        "subtitle_2": "Hand-cast sculptures, stone & 3D art models",
-        "title_3": "WHITE GLOVE ART CRATING",
-        "subtitle_3": "Custom museum wooden crating & insured transit",
-        "title_4": "PRIVATE ART CONCIERGE",
-        "subtitle_4": "1-on-1 private collector advisory & commissions"
+        "color_scheme_preset": "light",
+        "columns_desktop": 4,
+        "text_alignment": "left",
+        "padding_top": 20,
+        "padding_bottom": 28
       }
     },
     "luxury_category_bubbles": {
@@ -141,7 +213,8 @@
       "settings": {
         "subheading": "EXPLORE BY ART MEDIUM",
         "heading": "CURATED FINE ART & SCULPTURES",
-        "background_color": "#fcfbf9"
+        "background_color": "#fcfbf9",
+        "color_scheme_preset": "warm"
       }
     },
     "luxury_bento_grid": {
@@ -201,7 +274,8 @@
       "settings": {
         "subheading": "CURATED ACQUISITIONS",
         "heading": "GALLERY EDITS & MASTERWORKS",
-        "background_color": "#ffffff"
+        "background_color": "#ffffff",
+        "color_scheme_preset": "light"
       }
     },
     "luxury_tabbed_products": {
@@ -242,7 +316,8 @@
         "subheading": "THE ATELIER SELECTION",
         "heading": "FEATURED MASTERPIECES",
         "background_color": "#f6f5f0",
-        "products_to_show": 4
+        "products_to_show": 4,
+        "color_scheme_preset": "warm"
       }
     },
     "luxury_room_hotspots": {
@@ -299,28 +374,56 @@
         "subheading": "THE CURATED EXHIBITION SPACE",
         "heading": "COLLECT THE GALLERY LOOK",
         "default_asset": "hero-fine-art-2.jpg",
-        "background_color": "#ffffff"
+        "background_color": "#ffffff",
+        "color_scheme_preset": "light"
       }
     },
     "luxury_craftsmanship_story": {
       "type": "luxury-craftsmanship-story",
+      "blocks": {
+        "counter_1": {
+          "type": "counter",
+          "settings": {
+            "number": "2400",
+            "suffix": "+",
+            "label": "Paintings & Artworks Curated"
+          }
+        },
+        "counter_2": {
+          "type": "counter",
+          "settings": {
+            "number": "140",
+            "suffix": "+",
+            "label": "Master Artists & Sculptors"
+          }
+        },
+        "counter_3": {
+          "type": "counter",
+          "settings": {
+            "number": "35",
+            "suffix": "+",
+            "label": "Museum Exhibitions"
+          }
+        }
+      },
+      "block_order": [
+        "counter_1",
+        "counter_2",
+        "counter_3"
+      ],
       "settings": {
+        "color_scheme_preset": "obsidian",
+        "media_position": "left",
         "subheading": "THE ATELIER PHILOSOPHY",
         "heading": "WHERE VISIONARY PAINTINGS MEET THREE-DIMENSIONAL SCULPTURES",
         "story_text": "The Raw House is an international atelier dedicated to museum-grade original canvas paintings and handcrafted decorative sculptures. Every canvas is layered with rich mineral pigments, gold leaf, and archival linen, while each sculpture is cast in small foundry batches using solid bronze, aged marble, and refined resins.",
         "default_asset": "art-atelier-artist-studio.jpg",
-        "background_color": "#181818",
-        "counter_1_number": 2400,
-        "counter_1_suffix": "+",
-        "counter_1_label": "Paintings & Artworks Curated",
-        "counter_2_number": 140,
-        "counter_2_suffix": "+",
-        "counter_2_label": "Master Artists & Sculptors",
-        "counter_3_number": 35,
-        "counter_3_suffix": "+",
-        "counter_3_label": "Museum Exhibitions",
+        "badge_number": "100%",
+        "badge_label": "ARTISAN HANDCRAFTED",
         "button_label": "DISCOVER THE ATELIER",
-        "button_link": "shopify://pages/about-us"
+        "button_link": "shopify://collections/all",
+        "padding_top": 34,
+        "padding_bottom": 54
       }
     },
     "luxury_editorial_journal": {
@@ -365,7 +468,8 @@
       "settings": {
         "subheading": "THE COLLECTORS JOURNAL",
         "heading": "ART & SCULPTURE DIALOGUES",
-        "background_color": "#ffffff"
+        "background_color": "#ffffff",
+        "color_scheme_preset": "light"
       }
     },
     "luxury_reviews_press": {
@@ -430,7 +534,8 @@
         "press_2": "ARCHITECTURAL DIGEST",
         "press_3": "VOGUE LIVING",
         "press_4": "FRIEZE",
-        "press_5": "ART REVIEW"
+        "press_5": "ART REVIEW",
+        "color_scheme_preset": "warm"
       }
     },
     "luxury_vip_newsletter": {
@@ -441,7 +546,8 @@
         "text": "Join our inner circle to receive confidential previews of newly acquired original canvases, bespoke sculpture editions, and private gallery vernissage invitations.",
         "input_placeholder": "Enter your email address...",
         "button_label": "JOIN CIRCLE",
-        "background_color": "#fcfbf9"
+        "background_color": "#fcfbf9",
+        "color_scheme_preset": "obsidian"
       }
     }
   },

@@ -1,46 +1,111 @@
 {%- comment -%}
-  THE RAW HOUSE - LUXURY ABOUT MANIFESTO
-  3-Column Pillars of the Fine Art & Sculpture Atelier with Roman numerals and gold accents.
+  THE RAW HOUSE - ADVANCED LUXURY ABOUT MANIFESTO
+  3-Column Pillars of the Fine Art & Sculpture Atelier with Roman numerals, optional links, and advanced color schemes.
 {%- endcomment -%}
+
+{% liquid
+  assign scheme = section.settings.color_scheme_preset | default: 'light'
+  case scheme
+    when 'warm'
+      assign bg_color = '#fbf9f5'
+      assign text_color = '#111111'
+      assign card_bg = '#ffffff'
+      assign card_border = '#e8e4dc'
+      assign accent_color = '#c5a880'
+    when 'dark'
+      assign bg_color = '#161616'
+      assign text_color = '#ffffff'
+      assign card_bg = '#1f1f1f'
+      assign card_border = 'rgba(255, 255, 255, 0.12)'
+      assign accent_color = '#c5a880'
+    when 'obsidian'
+      assign bg_color = '#0b0b0b'
+      assign text_color = '#ffffff'
+      assign card_bg = 'rgba(255, 255, 255, 0.03)'
+      assign card_border = 'rgba(197, 168, 128, 0.25)'
+      assign accent_color = '#c5a880'
+    else
+      assign bg_color = '#ffffff'
+      assign text_color = '#111111'
+      assign card_bg = '#fcfbf8'
+      assign card_border = '#edeae3'
+      assign accent_color = '#c5a880'
+  endcase
+
+  if section.settings.custom_bg_color != blank and section.settings.custom_bg_color != 'rgba(0,0,0,0)'
+    assign bg_color = section.settings.custom_bg_color
+  endif
+  if section.settings.custom_text_color != blank and section.settings.custom_text_color != 'rgba(0,0,0,0)'
+    assign text_color = section.settings.custom_text_color
+  endif
+  if section.settings.custom_card_bg != blank and section.settings.custom_card_bg != 'rgba(0,0,0,0)'
+    assign card_bg = section.settings.custom_card_bg
+  endif
+  if section.settings.custom_accent_color != blank and section.settings.custom_accent_color != 'rgba(0,0,0,0)'
+    assign accent_color = section.settings.custom_accent_color
+  endif
+%}
 
 <section
   id="LuxuryAboutManifesto-{{ section.id }}"
-  class="lux-manifesto-section"
-  style="background: {{ section.settings.background_color | default: '#ffffff' }};"
+  class="lux-manifesto-section lux-manifesto-scheme-{{ scheme }}"
+  style="
+    --manifesto-bg: {{ bg_color }};
+    --manifesto-color: {{ text_color }};
+    --manifesto-card-bg: {{ card_bg }};
+    --manifesto-border: {{ card_border }};
+    --manifesto-accent: {{ accent_color }};
+    --manifesto-pt: {{ section.settings.padding_top | default: 32 }}px;
+    --manifesto-pb: {{ section.settings.padding_bottom | default: 50 }}px;
+    background: var(--manifesto-bg);
+    color: var(--manifesto-color);
+    padding-top: var(--manifesto-pt);
+    padding-bottom: var(--manifesto-pb);
+  "
   {{ section.shopify_attributes }}
 >
   <div class="lux-manifesto-container">
     <div class="lux-section-heading-wrap lux-reveal-fade-up">
       {% if section.settings.subheading != blank %}
-        <span class="lux-section-subheading">{{ section.settings.subheading | default: 'OUR ARTISTIC CALLING' }}</span>
+        <span class="lux-section-subheading" style="color: var(--manifesto-accent);">{{ section.settings.subheading | default: 'OUR ARTISTIC CALLING' }}</span>
       {% endif %}
-      <h2 class="lux-section-heading">{{ section.settings.heading | default: 'THE ATELIER MANIFESTO' }}</h2>
+      <h2 class="lux-section-heading" style="color: var(--manifesto-color);">{{ section.settings.heading | default: 'THE ATELIER MANIFESTO' }}</h2>
       <div class="lux-section-divider"></div>
       {% if section.settings.intro_text != blank %}
-        <p class="lux-manifesto-intro">
+        <p class="lux-manifesto-intro" style="color: var(--manifesto-color); opacity: 0.85;">
           "{{ section.settings.intro_text | default: 'In an era of disposable mass-produced decor, The Raw House was founded on an unapologetic conviction: True art possesses physical weight, tactile soul, and unhurried mastery.' }}"
         </p>
       {% endif %}
     </div>
 
-    <!-- 3 Pillars Grid -->
+    <!-- Pillars Grid -->
     <div class="lux-manifesto-grid lux-stagger-parent lux-reveal-fade-up">
       {% for block in section.blocks %}
-        <div class="lux-manifesto-card lux-stagger-child" {{ block.shopify_attributes }}>
+        {% assign tag_el = 'div' %}
+        {% if block.settings.link != blank %}
+          {% assign tag_el = 'a' %}
+        {% endif %}
+        
+        <{{ tag_el }}
+          {% if block.settings.link != blank %}href="{{ block.settings.link }}" style="text-decoration: none;"{% endif %}
+          class="lux-manifesto-card lux-stagger-child"
+          style="background: var(--manifesto-card-bg); border-color: var(--manifesto-border);"
+          {{ block.shopify_attributes }}
+        >
           <div class="lux-manifesto-card-header">
-            <span class="lux-manifesto-roman">{{ block.settings.numeral | default: forloop.index | prepend: '0' }}</span>
-            <div class="lux-manifesto-line"></div>
+            <span class="lux-manifesto-roman" style="color: var(--manifesto-accent);">{{ block.settings.numeral | default: forloop.index | prepend: '0' }}</span>
+            <div class="lux-manifesto-line" style="background: var(--manifesto-border);"></div>
           </div>
 
-          <h3 class="lux-manifesto-card-title">{{ block.settings.title }}</h3>
-          <p class="lux-manifesto-card-desc">{{ block.settings.description }}</p>
+          <h3 class="lux-manifesto-card-title" style="color: var(--manifesto-color);">{{ block.settings.title }}</h3>
+          <p class="lux-manifesto-card-desc" style="color: var(--manifesto-color); opacity: 0.8;">{{ block.settings.description }}</p>
 
           {% if block.settings.tag != blank %}
-            <div class="lux-manifesto-card-footer">
-              <span class="lux-manifesto-tag">{{ block.settings.tag }}</span>
+            <div class="lux-manifesto-card-footer" style="border-top-color: var(--manifesto-border);">
+              <span class="lux-manifesto-tag" style="color: var(--manifesto-accent);">{{ block.settings.tag }}</span>
             </div>
           {% endif %}
-        </div>
+        </{{ tag_el }}>
       {% endfor %}
     </div>
   </div>
@@ -52,6 +117,46 @@
   "tag": "section",
   "class": "section-luxury-about-manifesto",
   "settings": [
+    {
+      "type": "header",
+      "content": "Color Scheme & Style"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme_preset",
+      "label": "Color Scheme Preset",
+      "options": [
+        { "value": "light", "label": "Light Clean (White)" },
+        { "value": "warm", "label": "Warm Atelier (#fbf9f5)" },
+        { "value": "dark", "label": "Contemporary Dark (#161616)" },
+        { "value": "obsidian", "label": "Obsidian Luxury (#0b0b0b)" }
+      ],
+      "default": "light"
+    },
+    {
+      "type": "color",
+      "id": "custom_bg_color",
+      "label": "Custom Background Color"
+    },
+    {
+      "type": "color",
+      "id": "custom_text_color",
+      "label": "Custom Text Color"
+    },
+    {
+      "type": "color",
+      "id": "custom_card_bg",
+      "label": "Custom Card Background"
+    },
+    {
+      "type": "color",
+      "id": "custom_accent_color",
+      "label": "Custom Accent Color"
+    },
+    {
+      "type": "header",
+      "content": "Heading & Subheading"
+    },
     {
       "type": "text",
       "id": "subheading",
@@ -71,10 +176,28 @@
       "default": "In an era of disposable mass-produced decor, The Raw House was founded on an unapologetic conviction: True art possesses physical weight, tactile soul, and unhurried mastery."
     },
     {
-      "type": "color",
-      "id": "background_color",
-      "label": "Background Color",
-      "default": "#ffffff"
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 16,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 16,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 50
     }
   ],
   "blocks": [
@@ -105,6 +228,11 @@
           "id": "tag",
           "label": "Badge Tag",
           "default": "PURE PIGMENTS"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Card Link (Optional)"
         }
       ]
     }

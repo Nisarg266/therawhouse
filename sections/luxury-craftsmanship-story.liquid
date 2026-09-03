@@ -1,17 +1,64 @@
 {%- comment -%}
-  THE RAW HOUSE - CRAFTSMANSHIP & BRAND STORY SPLIT
-  Split-screen brand philosophy section with animated live counting numbers and luxury badge.
+  THE RAW HOUSE - ADVANCED CRAFTSMANSHIP STORY & LIVE METRICS
+  Split-screen brand philosophy section with dynamic counter blocks, media positioning, and advanced color schemes.
 {%- endcomment -%}
+
+{% liquid
+  assign scheme = section.settings.color_scheme_preset | default: 'obsidian'
+  case scheme
+    when 'dark'
+      assign bg_color = '#181818'
+      assign text_color = '#ffffff'
+      assign accent_color = '#c5a880'
+      assign card_border = 'rgba(255, 255, 255, 0.12)'
+    when 'warm'
+      assign bg_color = '#f9f8f5'
+      assign text_color = '#111111'
+      assign accent_color = '#c5a880'
+      assign card_border = '#e5e1d8'
+    when 'light'
+      assign bg_color = '#ffffff'
+      assign text_color = '#111111'
+      assign accent_color = '#c5a880'
+      assign card_border = '#edeae3'
+    else
+      assign bg_color = '#0e0e0e'
+      assign text_color = '#ffffff'
+      assign accent_color = '#c5a880'
+      assign card_border = 'rgba(197, 168, 128, 0.25)'
+  endcase
+
+  if section.settings.custom_bg_color != blank and section.settings.custom_bg_color != 'rgba(0,0,0,0)'
+    assign bg_color = section.settings.custom_bg_color
+  endif
+  if section.settings.custom_text_color != blank and section.settings.custom_text_color != 'rgba(0,0,0,0)'
+    assign text_color = section.settings.custom_text_color
+  endif
+  if section.settings.custom_accent_color != blank and section.settings.custom_accent_color != 'rgba(0,0,0,0)'
+    assign accent_color = section.settings.custom_accent_color
+  endif
+%}
 
 <div
   id="LuxuryCraft-{{ section.id }}"
-  class="lux-craft-section"
-  style="background: {{ section.settings.background_color }};"
+  class="lux-craft-section lux-craft-scheme-{{ scheme }}"
+  style="
+    --craft-bg: {{ bg_color }};
+    --craft-color: {{ text_color }};
+    --craft-accent: {{ accent_color }};
+    --craft-border: {{ card_border }};
+    --craft-pt: {{ section.settings.padding_top | default: 34 }}px;
+    --craft-pb: {{ section.settings.padding_bottom | default: 54 }}px;
+    background: var(--craft-bg);
+    color: var(--craft-color);
+    padding-top: var(--craft-pt);
+    padding-bottom: var(--craft-pb);
+  "
   {{ section.shopify_attributes }}
 >
-  <div class="lux-craft-container">
-    <!-- Visual Left Column -->
-    <div class="lux-craft-media-wrap lux-reveal-zoom">
+  <div class="lux-craft-container" style="{% if section.settings.media_position == 'right' %}direction: rtl;{% endif %}">
+    <!-- Visual Column -->
+    <div class="lux-craft-media-wrap lux-reveal-zoom" style="direction: ltr;">
       {% if section.settings.image != blank %}
         {{
           section.settings.image
@@ -43,62 +90,82 @@
       {% endif %}
 
       <div class="lux-craft-floating-badge">
-        <div class="lux-craft-badge-number">100%</div>
-        <div class="lux-craft-badge-label">ARTISAN HANDCRAFTED</div>
+        <div class="lux-craft-badge-number" style="color: var(--craft-accent);">{{ section.settings.badge_number | default: '100%' }}</div>
+        <div class="lux-craft-badge-label">{{ section.settings.badge_label | default: 'ARTISAN HANDCRAFTED' }}</div>
       </div>
     </div>
 
-    <!-- Story Right Column -->
-    <div class="lux-craft-content lux-reveal-fade-up">
+    <!-- Story Column -->
+    <div class="lux-craft-content lux-reveal-fade-up" style="direction: ltr;">
       {% if section.settings.subheading != blank %}
-        <span class="lux-craft-subheading">{{ section.settings.subheading }}</span>
+        <span class="lux-craft-subheading" style="color: var(--craft-accent);">{{ section.settings.subheading }}</span>
       {% endif %}
 
-      <h2 class="lux-craft-heading">{{ section.settings.heading }}</h2>
+      <h2 class="lux-craft-heading" style="color: var(--craft-color);">{{ section.settings.heading }}</h2>
 
-      <p class="lux-craft-text">
+      <p class="lux-craft-text" style="color: var(--craft-color); opacity: 0.85;">
         {{ section.settings.story_text }}
       </p>
 
-      <!-- Live Counters -->
-      <div class="lux-craft-counters">
-        <div class="lux-craft-counter-item">
-          <div
-            class="lux-counter-number"
-            data-target="{{ section.settings.counter_1_number }}"
-            data-suffix="{{ section.settings.counter_1_suffix }}"
-          >
-            0
+      <!-- Live Counters Grid (Blocks or Fallback) -->
+      <div class="lux-craft-counters" style="border-color: var(--craft-border);">
+        {% if section.blocks.size > 0 %}
+          {% for block in section.blocks %}
+            <div class="lux-craft-counter-item" {{ block.shopify_attributes }}>
+              <div
+                class="lux-counter-number"
+                data-target="{{ block.settings.number }}"
+                data-suffix="{{ block.settings.suffix }}"
+                style="color: var(--craft-accent);"
+              >
+                0
+              </div>
+              <div class="lux-counter-label" style="color: var(--craft-color); opacity: 0.75;">{{ block.settings.label }}</div>
+            </div>
+          {% endfor %}
+        {% else %}
+          <!-- Default Counters -->
+          <div class="lux-craft-counter-item">
+            <div
+              class="lux-counter-number"
+              data-target="{{ section.settings.counter_1_number | default: 2400 }}"
+              data-suffix="{{ section.settings.counter_1_suffix | default: '+' }}"
+              style="color: var(--craft-accent);"
+            >
+              0
+            </div>
+            <div class="lux-counter-label" style="color: var(--craft-color); opacity: 0.75;">{{ section.settings.counter_1_label | default: 'Paintings & Artworks Curated' }}</div>
           </div>
-          <div class="lux-counter-label">{{ section.settings.counter_1_label }}</div>
-        </div>
 
-        <div class="lux-craft-counter-item">
-          <div
-            class="lux-counter-number"
-            data-target="{{ section.settings.counter_2_number }}"
-            data-suffix="{{ section.settings.counter_2_suffix }}"
-          >
-            0
+          <div class="lux-craft-counter-item">
+            <div
+              class="lux-counter-number"
+              data-target="{{ section.settings.counter_2_number | default: 140 }}"
+              data-suffix="{{ section.settings.counter_2_suffix | default: '+' }}"
+              style="color: var(--craft-accent);"
+            >
+              0
+            </div>
+            <div class="lux-counter-label" style="color: var(--craft-color); opacity: 0.75;">{{ section.settings.counter_2_label | default: 'Master Artists & Sculptors' }}</div>
           </div>
-          <div class="lux-counter-label">{{ section.settings.counter_2_label }}</div>
-        </div>
 
-        <div class="lux-craft-counter-item">
-          <div
-            class="lux-counter-number"
-            data-target="{{ section.settings.counter_3_number }}"
-            data-suffix="{{ section.settings.counter_3_suffix }}"
-          >
-            0
+          <div class="lux-craft-counter-item">
+            <div
+              class="lux-counter-number"
+              data-target="{{ section.settings.counter_3_number | default: 35 }}"
+              data-suffix="{{ section.settings.counter_3_suffix | default: '+' }}"
+              style="color: var(--craft-accent);"
+            >
+              0
+            </div>
+            <div class="lux-counter-label" style="color: var(--craft-color); opacity: 0.75;">{{ section.settings.counter_3_label | default: 'Museum Exhibitions' }}</div>
           </div>
-          <div class="lux-counter-label">{{ section.settings.counter_3_label }}</div>
-        </div>
+        {% endif %}
       </div>
 
       {% if section.settings.button_label != blank %}
         <a
-          href="{{ section.settings.button_link | default: '/pages/about-us' }}"
+          href="{{ section.settings.button_link | default: routes.all_products_collection_url }}"
           class="lux-btn-primary"
         >
           {{ section.settings.button_label }}
@@ -118,6 +185,51 @@
   "tag": "section",
   "class": "section-luxury-craft",
   "settings": [
+    {
+      "type": "header",
+      "content": "Color Scheme & Style"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme_preset",
+      "label": "Color Scheme Preset",
+      "options": [
+        { "value": "obsidian", "label": "Obsidian Gold (#0e0e0e)" },
+        { "value": "dark", "label": "Dark Contemporary (#181818)" },
+        { "value": "warm", "label": "Warm Atelier (#f9f8f5)" },
+        { "value": "light", "label": "Light Clean (#ffffff)" }
+      ],
+      "default": "obsidian"
+    },
+    {
+      "type": "color",
+      "id": "custom_bg_color",
+      "label": "Custom Background Color"
+    },
+    {
+      "type": "color",
+      "id": "custom_text_color",
+      "label": "Custom Text Color"
+    },
+    {
+      "type": "color",
+      "id": "custom_accent_color",
+      "label": "Custom Gold/Accent Color"
+    },
+    {
+      "type": "header",
+      "content": "Layout & Story Content"
+    },
+    {
+      "type": "select",
+      "id": "media_position",
+      "label": "Media Position",
+      "options": [
+        { "value": "left", "label": "Image Left" },
+        { "value": "right", "label": "Image Right" }
+      ],
+      "default": "left"
+    },
     {
       "type": "text",
       "id": "subheading",
@@ -148,80 +260,20 @@
       "default": "art-atelier-artist-studio.jpg"
     },
     {
-      "type": "color",
-      "id": "background_color",
-      "label": "Background Color",
-      "default": "#181818"
+      "type": "text",
+      "id": "badge_number",
+      "label": "Floating Badge Number",
+      "default": "100%"
+    },
+    {
+      "type": "text",
+      "id": "badge_label",
+      "label": "Floating Badge Label",
+      "default": "ARTISAN HANDCRAFTED"
     },
     {
       "type": "header",
-      "content": "Counter 1"
-    },
-    {
-      "type": "number",
-      "id": "counter_1_number",
-      "label": "Counter 1 Number",
-      "default": 2400
-    },
-    {
-      "type": "text",
-      "id": "counter_1_suffix",
-      "label": "Counter 1 Suffix",
-      "default": "+"
-    },
-    {
-      "type": "text",
-      "id": "counter_1_label",
-      "label": "Counter 1 Label",
-      "default": "Paintings & Artworks Curated"
-    },
-    {
-      "type": "header",
-      "content": "Counter 2"
-    },
-    {
-      "type": "number",
-      "id": "counter_2_number",
-      "label": "Counter 2 Number",
-      "default": 140
-    },
-    {
-      "type": "text",
-      "id": "counter_2_suffix",
-      "label": "Counter 2 Suffix",
-      "default": "+"
-    },
-    {
-      "type": "text",
-      "id": "counter_2_label",
-      "label": "Counter 2 Label",
-      "default": "Master Artists & Sculptors"
-    },
-    {
-      "type": "header",
-      "content": "Counter 3"
-    },
-    {
-      "type": "number",
-      "id": "counter_3_number",
-      "label": "Counter 3 Number",
-      "default": 35
-    },
-    {
-      "type": "text",
-      "id": "counter_3_suffix",
-      "label": "Counter 3 Suffix",
-      "default": "+"
-    },
-    {
-      "type": "text",
-      "id": "counter_3_label",
-      "label": "Counter 3 Label",
-      "default": "Museum Exhibitions"
-    },
-    {
-      "type": "header",
-      "content": "Call to Action"
+      "content": "Call to Action Button"
     },
     {
       "type": "text",
@@ -233,11 +285,87 @@
       "type": "url",
       "id": "button_link",
       "label": "Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 16,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 34
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 16,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 54
+    }
+  ],
+  "blocks": [
+    {
+      "type": "counter",
+      "name": "Metric Counter Card",
+      "settings": [
+        {
+          "type": "text",
+          "id": "number",
+          "label": "Counter Number",
+          "default": "2400"
+        },
+        {
+          "type": "text",
+          "id": "suffix",
+          "label": "Counter Suffix",
+          "default": "+"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Counter Label",
+          "default": "Paintings & Artworks Curated"
+        }
+      ]
     }
   ],
   "presets": [
     {
-      "name": "Luxury Craftsmanship Story"
+      "name": "Luxury Craftsmanship Story",
+      "blocks": [
+        {
+          "type": "counter",
+          "settings": {
+            "number": "2400",
+            "suffix": "+",
+            "label": "Paintings & Artworks Curated"
+          }
+        },
+        {
+          "type": "counter",
+          "settings": {
+            "number": "140",
+            "suffix": "+",
+            "label": "Master Artists & Sculptors"
+          }
+        },
+        {
+          "type": "counter",
+          "settings": {
+            "number": "35",
+            "suffix": "+",
+            "label": "Museum Exhibitions"
+          }
+        }
+      ]
     }
   ]
 }

@@ -1,12 +1,59 @@
 {%- comment -%}
-  THE RAW HOUSE - ASYMMETRICAL BENTO GRID SHOWCASE
-  Modern Bento Box layout for new arrivals & collections with glassmorphism overlays and hover zoom.
+  THE RAW HOUSE - ADVANCED ASYMMETRICAL BENTO GRID SHOWCASE
+  Modern Bento Box layout for new arrivals & collections with dynamic card blocks, advanced color schemes, and spacing controls.
 {%- endcomment -%}
+
+{% liquid
+  assign scheme = section.settings.color_scheme_preset | default: 'light'
+  case scheme
+    when 'warm'
+      assign bg_color = '#f9f8f5'
+      assign text_color = '#111111'
+      assign heading_color = '#111111'
+      assign badge_bg = '#c5a880'
+      assign badge_color = '#111111'
+    when 'dark'
+      assign bg_color = '#141414'
+      assign text_color = '#ffffff'
+      assign heading_color = '#ffffff'
+      assign badge_bg = 'rgba(255, 255, 255, 0.15)'
+      assign badge_color = '#ffffff'
+    when 'obsidian'
+      assign bg_color = '#0b0b0b'
+      assign text_color = '#ffffff'
+      assign heading_color = '#ffffff'
+      assign badge_bg = '#c5a880'
+      assign badge_color = '#000000'
+    else
+      assign bg_color = '#ffffff'
+      assign text_color = '#111111'
+      assign heading_color = '#111111'
+      assign badge_bg = '#111111'
+      assign badge_color = '#ffffff'
+  endcase
+
+  if section.settings.custom_bg_color != blank and section.settings.custom_bg_color != 'rgba(0,0,0,0)'
+    assign bg_color = section.settings.custom_bg_color
+  endif
+  if section.settings.custom_heading_color != blank and section.settings.custom_heading_color != 'rgba(0,0,0,0)'
+    assign heading_color = section.settings.custom_heading_color
+  endif
+%}
 
 <div
   id="LuxuryBento-{{ section.id }}"
-  class="lux-bento-section"
-  style="background: {{ section.settings.background_color }};"
+  class="lux-bento-section lux-bento-scheme-{{ scheme }}"
+  style="
+    --bento-bg: {{ bg_color }};
+    --bento-heading-color: {{ heading_color }};
+    --bento-badge-bg: {{ badge_bg }};
+    --bento-badge-color: {{ badge_color }};
+    --bento-pt: {{ section.settings.padding_top | default: 28 }}px;
+    --bento-pb: {{ section.settings.padding_bottom | default: 46 }}px;
+    background: var(--bento-bg);
+    padding-top: var(--bento-pt);
+    padding-bottom: var(--bento-pb);
+  "
   {{ section.shopify_attributes }}
 >
   <div class="lux-bento-container">
@@ -15,7 +62,7 @@
         {% if section.settings.subheading != blank %}
           <span class="lux-section-subheading">{{ section.settings.subheading }}</span>
         {% endif %}
-        <h2 class="lux-section-heading">{{ section.settings.heading }}</h2>
+        <h2 class="lux-section-heading" style="color: var(--bento-heading-color);">{{ section.settings.heading }}</h2>
         <div class="lux-section-divider"></div>
       </div>
     {% endif %}
@@ -59,7 +106,7 @@
 
           <div class="lux-bento-overlay">
             {% if block.settings.badge != blank %}
-              <span class="lux-bento-badge">{{ block.settings.badge }}</span>
+              <span class="lux-bento-badge" style="background: var(--bento-badge-bg); color: var(--bento-badge-color);">{{ block.settings.badge }}</span>
             {% endif %}
 
             <h3 class="lux-bento-title">{{ block.settings.title }}</h3>
@@ -88,6 +135,36 @@
   "class": "section-luxury-bento",
   "settings": [
     {
+      "type": "header",
+      "content": "Color Scheme & Style"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme_preset",
+      "label": "Color Scheme Preset",
+      "options": [
+        { "value": "light", "label": "Light Clean (#ffffff)" },
+        { "value": "warm", "label": "Warm Atelier Ivory (#f9f8f5)" },
+        { "value": "dark", "label": "Contemporary Dark (#141414)" },
+        { "value": "obsidian", "label": "Obsidian Gold (#0b0b0b)" }
+      ],
+      "default": "light"
+    },
+    {
+      "type": "color",
+      "id": "custom_bg_color",
+      "label": "Custom Background Color"
+    },
+    {
+      "type": "color",
+      "id": "custom_heading_color",
+      "label": "Custom Heading Color"
+    },
+    {
+      "type": "header",
+      "content": "Heading & Subheading"
+    },
+    {
       "type": "text",
       "id": "subheading",
       "label": "Subheading",
@@ -100,33 +177,39 @@
       "default": "NEW ARRIVALS & EDITS"
     },
     {
-      "type": "color",
-      "id": "background_color",
-      "label": "Background Color",
-      "default": "#ffffff"
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 16,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 16,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 46
     }
   ],
   "blocks": [
     {
       "type": "bento_card",
-      "name": "Bento Card",
+      "name": "Bento Grid Card",
       "settings": [
-        {
-          "type": "select",
-          "id": "card_size",
-          "label": "Card Size / Proportion",
-          "options": [
-            { "value": "large", "label": "Large (Hero 7x2)" },
-            { "value": "medium", "label": "Medium (Top Right 5x1)" },
-            { "value": "tall", "label": "Tall (Vertical 4x2)" },
-            { "value": "wide", "label": "Wide (Landscape 8x1)" }
-          ],
-          "default": "large"
-        },
         {
           "type": "image_picker",
           "id": "image",
-          "label": "Card Image"
+          "label": "Artwork Image"
         },
         {
           "type": "text",
@@ -134,27 +217,39 @@
           "label": "Default Asset Fallback"
         },
         {
+          "type": "select",
+          "id": "card_size",
+          "label": "Card Layout Size",
+          "options": [
+            { "value": "large", "label": "Large (Double Width & Height)" },
+            { "value": "medium", "label": "Medium (Double Height / Portrait)" },
+            { "value": "wide", "label": "Wide (Double Width / Landscape)" },
+            { "value": "small", "label": "Standard (Square)" }
+          ],
+          "default": "medium"
+        },
+        {
           "type": "text",
           "id": "badge",
-          "label": "Badge Pill",
-          "default": "NEW ARRIVAL"
+          "label": "Badge Tag",
+          "default": "NEW RELEASE"
         },
         {
           "type": "text",
           "id": "title",
           "label": "Card Title",
-          "default": "SCULPTURAL LOUNGE"
+          "default": "Monolithic Oil Compositions"
         },
         {
           "type": "text",
           "id": "subtitle",
-          "label": "Subtitle / Description",
-          "default": "Handcrafted boucle seating for understated modern luxury."
+          "label": "Card Subtitle",
+          "default": "Mineral pigment glazes on Belgian linen"
         },
         {
           "type": "text",
           "id": "cta_text",
-          "label": "CTA Link Text",
+          "label": "Button / CTA Text",
           "default": "EXPLORE EDIT"
         },
         {
@@ -173,44 +268,40 @@
           "type": "bento_card",
           "settings": {
             "card_size": "large",
-            "default_asset": "hero-museum-exhibition-3.jpg",
-            "badge": "MUSEUM COLLECTION",
-            "title": "THE GRAND EXHIBITION HALL",
-            "subtitle": "Harmonious curation of monumental canvas oil paintings and museum-grade sculptural masterworks.",
-            "cta_text": "ENTER EXHIBITION"
+            "badge": "MUSEUM MASTERPIECE",
+            "title": "Starry Night Over The Rhône",
+            "subtitle": "Large-format oil impasto with textured mineral blues",
+            "default_asset": "art-painting-starry-night.jpg"
           }
         },
         {
           "type": "bento_card",
           "settings": {
             "card_size": "medium",
-            "default_asset": "hero-fine-art-2.jpg",
-            "badge": "ORIGINAL PAINTINGS",
-            "title": "GOLD LEAF & CANVAS OILS",
-            "subtitle": "Museum-grade contemporary abstractions and textured impasto.",
-            "cta_text": "VIEW PAINTINGS"
+            "badge": "FOUNDRY CAST",
+            "title": "Lost-Wax Bronze Figures",
+            "subtitle": "Hand-chiseled sculptural patina",
+            "default_asset": "art-sculpture-bronze-figure.jpg"
           }
         },
         {
           "type": "bento_card",
           "settings": {
-            "card_size": "tall",
-            "default_asset": "art-sculpture-rodin-thinker.jpg",
-            "badge": "SCULPTURAL ART",
-            "title": "CAST BRONZE & MARBLE",
-            "subtitle": "Handcrafted 3D art models and iconic statuettes.",
-            "cta_text": "DISCOVER SCULPTURES"
+            "card_size": "small",
+            "badge": "LIMITED EDITION",
+            "title": "Architectural 3D Models",
+            "subtitle": "Solid cast resins & marble",
+            "default_asset": "art-sculpture-marble-bust.jpg"
           }
         },
         {
           "type": "bento_card",
           "settings": {
             "card_size": "wide",
-            "default_asset": "art-painting-water-lilies.jpg",
-            "badge": "FINE ART PRINTS",
-            "title": "ARCHIVAL GALLERY EDITIONS",
-            "subtitle": "Museum-grade 100% cotton rag archival prints hand-signed with certificate of provenance.",
-            "cta_text": "EXPLORE EDITIONS"
+            "badge": "ARCHIVAL COMMISSIONS",
+            "title": "Bespoke Grand Canvases",
+            "subtitle": "Tailored scales for private residences",
+            "default_asset": "art-painting-gold-canvas.jpg"
           }
         }
       ]
