@@ -1,0 +1,123 @@
+{%- comment -%}
+  THE RAW HOUSE - 4 PILLARS OF LUXURY TRUST FEATURES
+  Value propositions banner highlighting white glove delivery, bespoke customization, and concierge service.
+{%- endcomment -%}
+
+<div
+  id="LuxuryTrust-{{ section.id }}"
+  class="lux-trust-section"
+  {{ section.shopify_attributes }}
+>
+  <div class="lux-trust-container lux-stagger-parent lux-reveal-fade-up">
+    <!-- Pillar 1 -->
+    <div class="lux-trust-card lux-stagger-child">
+      <svg class="lux-trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="1" y="3" width="15" height="13"></rect>
+        <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+        <circle cx="5.5" cy="18.5" r="2.5"></circle>
+        <circle cx="18.5" cy="18.5" r="2.5"></circle>
+      </svg>
+      <div>
+        <h4 class="lux-trust-title">{{ section.settings.title_1 | default: 'WHITE GLOVE DELIVERY' }}</h4>
+        <p class="lux-trust-subtitle">{{ section.settings.subtitle_1 | default: 'Complimentary placement & unboxing' }}</p>
+      </div>
+    </div>
+
+    <!-- Pillar 2 -->
+    <div class="lux-trust-card lux-stagger-child">
+      <svg class="lux-trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+      </svg>
+      <div>
+        <h4 class="lux-trust-title">{{ section.settings.title_2 | default: 'ARTISAN AUTHENTICITY' }}</h4>
+        <p class="lux-trust-subtitle">{{ section.settings.subtitle_2 | default: '100% Certified master craftsman pieces' }}</p>
+      </div>
+    </div>
+
+    <!-- Pillar 3 -->
+    <div class="lux-trust-card lux-stagger-child">
+      <svg class="lux-trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <polyline points="12 6 12 12 16 14"></polyline>
+      </svg>
+      <div>
+        <h4 class="lux-trust-title">{{ section.settings.title_3 | default: 'BESPOKE CUSTOM' }}</h4>
+        <p class="lux-trust-subtitle">{{ section.settings.subtitle_3 | default: 'Tailored dimensions & finishes' }}</p>
+      </div>
+    </div>
+
+    <!-- Pillar 4 -->
+    <div class="lux-trust-card lux-stagger-child">
+      <svg class="lux-trust-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+      </svg>
+      <div>
+        <h4 class="lux-trust-title">{{ section.settings.title_4 | default: 'PRIVATE CONCIERGE' }}</h4>
+        <p class="lux-trust-subtitle">{{ section.settings.subtitle_4 | default: 'Dedicated 1-on-1 interior advising' }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Luxury Trust Features",
+  "tag": "section",
+  "class": "section-luxury-trust",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title_1",
+      "label": "Pillar 1 Title",
+      "default": "WHITE GLOVE DELIVERY"
+    },
+    {
+      "type": "text",
+      "id": "subtitle_1",
+      "label": "Pillar 1 Subtitle",
+      "default": "Complimentary placement & unboxing"
+    },
+    {
+      "type": "text",
+      "id": "title_2",
+      "label": "Pillar 2 Title",
+      "default": "ARTISAN AUTHENTICITY"
+    },
+    {
+      "type": "text",
+      "id": "subtitle_2",
+      "label": "Pillar 2 Subtitle",
+      "default": "100% Certified master craftsman pieces"
+    },
+    {
+      "type": "text",
+      "id": "title_3",
+      "label": "Pillar 3 Title",
+      "default": "BESPOKE CUSTOM"
+    },
+    {
+      "type": "text",
+      "id": "subtitle_3",
+      "label": "Pillar 3 Subtitle",
+      "default": "Tailored dimensions & finishes"
+    },
+    {
+      "type": "text",
+      "id": "title_4",
+      "label": "Pillar 4 Title",
+      "default": "PRIVATE CONCIERGE"
+    },
+    {
+      "type": "text",
+      "id": "subtitle_4",
+      "label": "Pillar 4 Subtitle",
+      "default": "Dedicated 1-on-1 interior advising"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Luxury Trust Features"
+    }
+  ]
+}
+{% endschema %}

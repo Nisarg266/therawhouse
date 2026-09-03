@@ -1,34 +1,60 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "type": "footer",
   "name": "t:names.footer",
   "sections": {
     "custom_luxury_footer": {
       "type": "custom-luxury-footer",
+      "blocks": {
+        "menu_atelier": {
+          "type": "menu",
+          "settings": {
+            "heading": "THE ATELIER"
+          }
+        },
+        "menu_services": {
+          "type": "menu",
+          "settings": {
+            "heading": "CLIENT SERVICES"
+          }
+        },
+        "newsletter_vip": {
+          "type": "newsletter",
+          "settings": {
+            "heading": "THE COLLECTORS CIRCLE",
+            "subtext": "Subscribe for private invitations to salon exhibitions, newly acquired canvases, and bespoke sculpture catalogues.",
+            "placeholder": "Enter your email address...",
+            "button_text": "JOIN"
+          }
+        },
+        "concierge_info": {
+          "type": "concierge",
+          "settings": {
+            "heading": "PRIVATE ART CONCIERGE",
+            "hours": "Mon - Sat: 9am - 7pm EST",
+            "phone": "+18007294687",
+            "phone_display": "+1 (800) 729-4687",
+            "email": "concierge@therawhouse.com"
+          }
+        }
+      },
+      "block_order": [
+        "menu_atelier",
+        "menu_services",
+        "newsletter_vip",
+        "concierge_info"
+      ],
       "settings": {
-        "about_heading": "ABOUT",
-        "services_heading": "SERVICES",
-        "newsletter_heading": "BE THE FIRST TO KNOW",
-        "newsletter_placeholder": "Enter your email ID",
-        "newsletter_button_text": "SUBSCRIBE",
-        "concierge_heading": "CONCIERGE",
-        "concierge_text": "+91 80030 11110 / concierge@thehouseofthings.com",
-        "payment_heading": "PAYMENT METHODS",
-        "social_heading": "FIND US ONLINE",
+        "show_brand_header": true,
+        "brand_name": "THE RAW HOUSE",
+        "brand_tagline": "Fine Art Paintings, 3D Sculptural Models & Museum Curations",
+        "payment_heading": "PAYMENT & VERIFICATION",
+        "social_heading": "CONNECT & EXHIBITIONS",
         "facebook_url": "https://facebook.com",
         "instagram_url": "https://instagram.com",
         "pinterest_url": "https://pinterest.com",
-        "copyright_text": "THOT Lifestyle Pvt Ltd",
-        "max_width": 1280,
-        "padding_top": 60,
+        "copyright_text": "The Raw House Living Pvt Ltd. All rights reserved.",
+        "max_width": 1240,
+        "padding_top": 64,
         "padding_bottom": 36
       }
     }

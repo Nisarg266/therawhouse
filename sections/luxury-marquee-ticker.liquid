@@ -1,0 +1,80 @@
+{%- comment -%}
+  THE RAW HOUSE - INFINITE LUXURY MARQUEE TICKER
+  Continuous animated running ticker for luxury brand statements and announcements.
+{%- endcomment -%}
+
+<div
+  id="LuxuryMarquee-{{ section.id }}"
+  class="lux-marquee-section"
+  style="
+    background: {{ section.settings.background_color }};
+    color: {{ section.settings.text_color }};
+  "
+  {{ section.shopify_attributes }}
+>
+  <div class="lux-marquee-track">
+    {% for i in (1..2) %}
+      <div class="lux-marquee-item">
+        <span>{{ section.settings.text_1 | default: 'CONTEMPORARY FINE ART GALLERY & SCULPTURAL ATELIER' }}</span>
+        <span class="lux-marquee-diamond">✦</span>
+        <span>{{ section.settings.text_2 | default: 'MUSEUM-GRADE ORIGINAL OIL PAINTINGS & 3D ART MODELS' }}</span>
+        <span class="lux-marquee-diamond">✦</span>
+        <span>{{ section.settings.text_3 | default: 'COMPLIMENTARY WHITE-GLOVE FINE ART DELIVERY & CRATING' }}</span>
+        <span class="lux-marquee-diamond">✦</span>
+        <span>{{ section.settings.text_4 | default: 'AUTHENTIC BRONZE, CARVED MARBLE & TEXTURED GOLD LEAF' }}</span>
+        <span class="lux-marquee-diamond">✦</span>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Luxury Marquee Ticker",
+  "tag": "section",
+  "class": "section-luxury-marquee",
+  "settings": [
+    {
+      "type": "text",
+      "id": "text_1",
+      "label": "Statement 1",
+      "default": "CONTEMPORARY FINE ART GALLERY & SCULPTURAL ATELIER"
+    },
+    {
+      "type": "text",
+      "id": "text_2",
+      "label": "Statement 2",
+      "default": "MUSEUM-GRADE ORIGINAL OIL PAINTINGS & 3D ART MODELS"
+    },
+    {
+      "type": "text",
+      "id": "text_3",
+      "label": "Statement 3",
+      "default": "COMPLIMENTARY WHITE-GLOVE FINE ART DELIVERY & CRATING"
+    },
+    {
+      "type": "text",
+      "id": "text_4",
+      "label": "Statement 4",
+      "default": "AUTHENTIC BRONZE, CARVED MARBLE & TEXTURED GOLD LEAF"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Luxury Marquee Ticker"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,599 @@
+<script src="{{ 'about-scroll-animations.js' | asset_url }}" defer="defer"></script>
+
+{%- if section.settings.enable_schema_org -%}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    "name": {{ page.title | default: section.settings.title | json }},
+    "description": {{ page_description | default: section.settings.subtitle | json }},
+    "url": {{ canonical_url | json }},
+    "mainEntity": {
+      "@type": "Organization",
+      "name": {{ shop.name | json }},
+      "url": {{ routes.root_url | json }},
+      "description": {{ section.settings.subtitle | json }}
+    },
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": {{ section.settings.breadcrumb_home_text | default: "Home" | json }},
+          "item": {{ shop.url | append: routes.root_url | json }}
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": {{ section.settings.breadcrumb_current_text | default: "About Us" | json }},
+          "item": {{ canonical_url | json }}
+        }
+      ]
+    }
+  }
+  </script>
+{%- endif -%}
+
+<div
+  class="about-hero about-hero--{{ section.id }} about-hero--height-{{ section.settings.hero_height | default: 'medium' }} about-hero--align-{{ section.settings.text_alignment | default: 'center' }}"
+  style="
+    --hero-pt: {{ section.settings.padding_top | default: 110 }}px;
+    --hero-pb: {{ section.settings.padding_bottom | default: 90 }}px;
+    --hero-pt-mobile: {{ section.settings.mobile_padding_top | default: 50 }}px;
+    --hero-pb-mobile: {{ section.settings.mobile_padding_bottom | default: 40 }}px;
+    --hero-overlay-opacity: {{ section.settings.overlay_opacity | default: 65 | divided_by: 100.0 }};
+    --hero-bg-color: {{ section.settings.bg_color | default: '#111111' }};
+    --hero-text-color: {{ section.settings.text_color | default: '#ffffff' }};
+    --hero-accent-color: {{ section.settings.accent_color | default: '#c8a876' }};
+  "
+>
+  <div class="about-hero__bg-wrap">
+    {%- if section.settings.background_image != blank -%}
+      <picture>
+        {%- if section.settings.mobile_background_image != blank -%}
+          <source media="(max-width: 749px)" srcset="{{ section.settings.mobile_background_image | image_url: width: 900 }}">
+        {%- endif -%}
+        {{ section.settings.background_image | image_url: width: 2400 | image_tag: 
+          class: 'about-hero__bg-img', 
+          loading: 'eager', 
+          fetchpriority: 'high',
+          widths: '600,900,1200,1600,2000,2400',
+          alt: section.settings.title | escape 
+        }}
+      </picture>
+    {%- else -%}
+      <img
+        src="{{ 'maker-gallery-2.jpg' | asset_url }}"
+        alt="The House of Things Architecture"
+        class="about-hero__bg-img"
+        loading="eager"
+        width="1920"
+        height="1080"
+      >
+    {%- endif -%}
+    <div class="about-hero__overlay"></div>
+  </div>
+
+  <div class="about-hero__inner">
+    <div class="about-hero__container">
+      {%- if section.settings.eyebrow != blank -%}
+        <div class="about-hero__eyebrow-wrap" {% if section.settings.enable_reveal_animation %}data-about-reveal{% endif %}>
+          <span class="about-hero__eyebrow-line"></span>
+          <span class="about-hero__eyebrow">{{ section.settings.eyebrow }}</span>
+          <span class="about-hero__eyebrow-line"></span>
+        </div>
+      {%- endif -%}
+
+      <h1 class="about-hero__title" {% if section.settings.enable_reveal_animation %}data-about-reveal{% endif %}>
+        {{ section.settings.title }}
+      </h1>
+
+      {%- if section.settings.subtitle != blank -%}
+        <p class="about-hero__subtitle" {% if section.settings.enable_reveal_animation %}data-about-reveal{% endif %}>
+          {{ section.settings.subtitle }}
+        </p>
+      {%- endif -%}
+
+      {%- if section.settings.manifesto != blank -%}
+        <div class="about-hero__manifesto" {% if section.settings.enable_reveal_animation %}data-about-reveal{% endif %}>
+          <p>{{ section.settings.manifesto }}</p>
+        </div>
+      {%- endif -%}
+
+      {%- if section.settings.show_breadcrumbs -%}
+        <nav class="about-hero__breadcrumbs" aria-label="Breadcrumb" {% if section.settings.enable_reveal_animation %}data-about-reveal{% endif %}>
+          <a href="{{ routes.root_url }}" class="about-hero__bc-link">{{ section.settings.breadcrumb_home_text | default: "Home" }}</a>
+          <span class="about-hero__bc-sep">/</span>
+          <span class="about-hero__bc-curr">{{ section.settings.breadcrumb_current_text | default: "About Us" }}</span>
+        </nav>
+      {%- endif -%}
+    </div>
+  </div>
+
+  {%- if section.settings.show_scroll_indicator -%}
+    <div class="about-hero__scroll-indicator">
+      <span class="about-hero__scroll-text">{{ section.settings.scroll_indicator_text | default: 'DISCOVER OUR WORLD' }}</span>
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="12" y1="5" x2="12" y2="19"></line>
+        <polyline points="19 12 12 19 5 12"></polyline>
+      </svg>
+    </div>
+  {%- endif -%}
+</div>
+
+<style>
+  /* Global Scroll Reveal Utilities */
+  [data-about-reveal] {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.8s ease;
+    will-change: transform, opacity;
+  }
+
+  [data-about-reveal].is-revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .about-hero {
+    position: relative;
+    width: 100%;
+    min-height: 68vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background-color: var(--hero-bg-color, #111111);
+    color: var(--hero-text-color, #ffffff);
+    padding-top: var(--hero-pt, 110px);
+    padding-bottom: var(--hero-pb, 90px);
+    box-sizing: border-box;
+  }
+
+  .about-hero--height-compact { min-height: 52vh; }
+  .about-hero--height-medium { min-height: 68vh; }
+  .about-hero--height-large { min-height: 82vh; }
+  .about-hero--height-full { min-height: 100vh; }
+
+  .about-hero--align-left .about-hero__container {
+    align-items: flex-start;
+    text-align: left;
+  }
+  .about-hero--align-left .about-hero__inner {
+    text-align: left;
+  }
+  .about-hero--align-left .about-hero__manifesto {
+    border-left: 2px solid var(--hero-accent-color, #c8a876);
+    border-right: none;
+    text-align: left;
+  }
+
+  .about-hero__bg-wrap {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  .about-hero__bg-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 35%;
+    display: block;
+    transform: scale(1.03);
+    transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .about-hero:hover .about-hero__bg-img {
+    transform: scale(1.06);
+  }
+
+  .about-hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(10,10,10,0.55) 0%, rgba(10,10,10,0.75) 60%, rgba(10,10,10,0.92) 100%);
+    opacity: var(--hero-overlay-opacity, 0.65);
+  }
+
+  .about-hero__inner {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+  .about-hero__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .about-hero__eyebrow-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+
+  .about-hero__eyebrow-line {
+    display: block;
+    width: 28px;
+    height: 1px;
+    background-color: var(--hero-accent-color, #c8a876);
+  }
+
+  .about-hero__eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--hero-accent-color, #c8a876);
+  }
+
+  .about-hero__title {
+    font-family: var(--font-heading-family, serif);
+    font-size: clamp(28px, 4.8vw, 64px);
+    font-weight: 300;
+    line-height: 1.14;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #ffffff;
+    margin: 0 0 16px 0;
+    max-width: 920px;
+    text-wrap: balance;
+  }
+
+  .about-hero__subtitle {
+    font-family: var(--font-body-family, sans-serif);
+    font-size: clamp(13.5px, 1.3vw, 16px);
+    font-weight: 400;
+    line-height: 1.65;
+    letter-spacing: 0.04em;
+    color: rgba(255, 255, 255, 0.88);
+    max-width: 680px;
+    margin: 0 0 24px 0;
+  }
+
+  .about-hero__manifesto {
+    font-family: var(--font-heading-family, serif);
+    font-size: clamp(14.5px, 1.6vw, 20px);
+    font-style: italic;
+    font-weight: 300;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.95);
+    max-width: 780px;
+    margin: 0 0 24px 0;
+    padding: 16px 24px;
+    border-left: 2px solid var(--hero-accent-color, #c8a876);
+    border-right: 2px solid var(--hero-accent-color, #c8a876);
+    background: rgba(0, 0, 0, 0.32);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .about-hero__manifesto p {
+    margin: 0;
+  }
+
+  .about-hero__breadcrumbs {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 10.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.65);
+    margin-top: 6px;
+  }
+
+  .about-hero__bc-link {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .about-hero__bc-link:hover {
+    color: #ffffff;
+  }
+
+  .about-hero__bc-sep {
+    opacity: 0.4;
+  }
+
+  .about-hero__bc-curr {
+    color: var(--hero-accent-color, #c8a876);
+  }
+
+  .about-hero__scroll-indicator {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.26em;
+    animation: aboutBounce 2.2s infinite ease-in-out;
+  }
+
+  @keyframes aboutBounce {
+    0%, 100% { transform: translate(-50%, 0); opacity: 0.6; }
+    50% { transform: translate(-50%, 5px); opacity: 1; }
+  }
+
+  @media screen and (max-width: 749px) {
+    .about-hero {
+      min-height: 52vh;
+      padding-top: var(--hero-pt-mobile, 50px);
+      padding-bottom: var(--hero-pb-mobile, 40px);
+    }
+    .about-hero__inner {
+      padding: 0 16px;
+    }
+    .about-hero__title {
+      font-size: 26px;
+      margin-bottom: 12px;
+    }
+    .about-hero__subtitle {
+      font-size: 13px;
+      margin-bottom: 18px;
+    }
+    .about-hero__manifesto {
+      padding: 12px 14px;
+      font-size: 13.5px;
+      margin-bottom: 16px;
+    }
+    .about-hero__scroll-indicator {
+      display: none;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "About Hero Banner",
+  "tag": "section",
+  "class": "section-about-hero",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content & Typography"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow Text",
+      "default": "THE HOUSE OF THINGS",
+      "info": "Appears above the main title with gold accent lines"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Main Heading",
+      "default": "CURATORS OF EXCEPTIONAL LIVING"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle Paragraph",
+      "default": "A distinguished destination for timeless interiors, rare artisan craft, and collectible fine objects from around the globe."
+    },
+    {
+      "type": "textarea",
+      "id": "manifesto",
+      "label": "Manifesto Quote Box",
+      "default": "“We believe a home is a living sanctuary of art, memories, and masterful craft designed to outlast the ephemeral.”",
+      "info": "Display in an elegant frosted glass box with gold accent borders"
+    },
+    {
+      "type": "header",
+      "content": "Imagery & Visuals"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Desktop Hero Background Image",
+      "info": "High-res editorial scene (recommended 2400x1200px)"
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_background_image",
+      "label": "Mobile Hero Background Image (Optional)",
+      "info": "Custom portrait crop for mobile screens (recommended 900x1200px)"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 10,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "label": "Dark Vignette Overlay",
+      "default": 65,
+      "info": "Higher values increase text readability over busy backgrounds"
+    },
+    {
+      "type": "header",
+      "content": "Layout & Sizing"
+    },
+    {
+      "type": "select",
+      "id": "hero_height",
+      "label": "Hero Section Height",
+      "options": [
+        { "value": "compact", "label": "Compact (52vh)" },
+        { "value": "medium", "label": "Medium (68vh) - Recommended" },
+        { "value": "large", "label": "Large (82vh)" },
+        { "value": "full", "label": "Full Screen (100vh)" }
+      ],
+      "default": "medium"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text Alignment",
+      "options": [
+        { "value": "center", "label": "Center Aligned" },
+        { "value": "left", "label": "Left Aligned" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Breadcrumbs & Navigation"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_breadcrumbs",
+      "label": "Show Breadcrumbs Navigation",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "breadcrumb_home_text",
+      "label": "Home Link Label",
+      "default": "Home"
+    },
+    {
+      "type": "text",
+      "id": "breadcrumb_current_text",
+      "label": "Current Page Label",
+      "default": "About Us"
+    },
+    {
+      "type": "header",
+      "content": "Scroll Down Indicator"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_scroll_indicator",
+      "label": "Show Animated Scroll Indicator",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "scroll_indicator_text",
+      "label": "Scroll Indicator Label",
+      "default": "DISCOVER OUR WORLD"
+    },
+    {
+      "type": "header",
+      "content": "Colors & Theme Palette"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Fallback Background Color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Primary Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Gold Accent Color",
+      "default": "#c8a876"
+    },
+    {
+      "type": "header",
+      "content": "Animations & SEO"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_reveal_animation",
+      "label": "Enable Smooth Scroll Reveal Animation",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_schema_org",
+      "label": "Enable JSON-LD SEO Structured Data (AboutPage + Organization)",
+      "default": true,
+      "info": "Automatically generates Google-compliant Schema.org metadata for rich search snippets"
+    },
+    {
+      "type": "header",
+      "content": "Desktop & Mobile Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 40,
+      "max": 180,
+      "step": 5,
+      "unit": "px",
+      "label": "Desktop Top Padding",
+      "default": 110
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 40,
+      "max": 180,
+      "step": 5,
+      "unit": "px",
+      "label": "Desktop Bottom Padding",
+      "default": 90
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_top",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile Top Padding",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_bottom",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile Bottom Padding",
+      "default": 40
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Hero Banner",
+      "settings": {
+        "eyebrow": "THE HOUSE OF THINGS",
+        "title": "CURATORS OF EXCEPTIONAL LIVING",
+        "subtitle": "A distinguished destination for timeless interiors, rare artisan craft, and collectible fine objects from around the globe.",
+        "manifesto": "“We believe a home is a living sanctuary of art, memories, and masterful craft designed to outlast the ephemeral.”",
+        "show_breadcrumbs": true,
+        "show_scroll_indicator": true,
+        "bg_color": "#111111",
+        "text_color": "#ffffff",
+        "accent_color": "#c8a876",
+        "overlay_opacity": 65,
+        "padding_top": 110,
+        "padding_bottom": 90
+      }
+    }
+  ]
+}
+{% endschema %}

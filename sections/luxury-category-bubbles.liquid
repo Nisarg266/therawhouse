@@ -1,0 +1,176 @@
+{%- comment -%}
+  THE RAW HOUSE - CURATED CATEGORY BUBBLES / STORY HIGHLIGHTS
+  Instagram-style luxury circular category highlights with gold border glow and smooth touch swipe.
+{%- endcomment -%}
+
+<div
+  id="LuxuryBubbles-{{ section.id }}"
+  class="lux-bubbles-section"
+  style="
+    --bubbles-bg: {{ section.settings.background_color }};
+  "
+  {{ section.shopify_attributes }}
+>
+  <div class="lux-bubbles-container">
+    {% if section.settings.heading != blank %}
+      <div class="lux-section-heading-wrap lux-reveal-fade-up">
+        {% if section.settings.subheading != blank %}
+          <span class="lux-section-subheading">{{ section.settings.subheading }}</span>
+        {% endif %}
+        <h2 class="lux-section-heading">{{ section.settings.heading }}</h2>
+        <div class="lux-section-divider"></div>
+      </div>
+    {% endif %}
+
+    <div class="lux-bubbles-track lux-stagger-parent lux-reveal-fade-up">
+      {% for block in section.blocks %}
+        <a
+          href="{{ block.settings.link | default: routes.all_products_collection_url }}"
+          class="lux-bubble-item lux-stagger-child"
+          {{ block.shopify_attributes }}
+        >
+          <div class="lux-bubble-ring">
+            <div class="lux-bubble-avatar">
+              {% if block.settings.image != blank %}
+                {{
+                  block.settings.image
+                  | image_url: width: 300
+                  | image_tag:
+                    class: 'lux-bubble-img',
+                    loading: 'eager',
+                    alt: block.settings.title
+                }}
+              {% elsif block.settings.default_asset != blank %}
+                <img
+                  src="{{ block.settings.default_asset | asset_url }}"
+                  alt="{{ block.settings.title | escape }}"
+                  class="lux-bubble-img"
+                  loading="eager"
+                  onerror="this.onerror=null;this.src='{{ 'new-arrival-1.jpg' | asset_url }}';"
+                  width="120"
+                  height="120"
+                >
+              {% else %}
+                <img
+                  src="{{ 'new-arrival-1.jpg' | asset_url }}"
+                  alt="{{ block.settings.title | escape }}"
+                  class="lux-bubble-img"
+                  loading="eager"
+                  width="120"
+                  height="120"
+                >
+              {% endif %}
+            </div>
+          </div>
+          <span class="lux-bubble-title">{{ block.settings.title }}</span>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Luxury Category Bubbles",
+  "tag": "section",
+  "class": "section-luxury-bubbles",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "EXPLORE BY WORLD"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "CURATED CATEGORIES"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#fcfbf9"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "bubble",
+      "name": "Category Bubble",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Category Image"
+        },
+        {
+          "type": "text",
+          "id": "default_asset",
+          "label": "Default Asset Fallback"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Category Title",
+          "default": "Living Room"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Category Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Luxury Category Bubbles",
+      "blocks": [
+        {
+          "type": "bubble",
+          "settings": {
+            "title": "ORIGINAL OILS",
+            "default_asset": "art-painting-starry-night.jpg"
+          }
+        },
+        {
+          "type": "bubble",
+          "settings": {
+            "title": "BRONZE SCULPTURES",
+            "default_asset": "art-sculpture-rodin-thinker.jpg"
+          }
+        },
+        {
+          "type": "bubble",
+          "settings": {
+            "title": "MARBLE MODELS",
+            "default_asset": "art-sculpture-venus-milo.jpg"
+          }
+        },
+        {
+          "type": "bubble",
+          "settings": {
+            "title": "TEXTURED CANVASES",
+            "default_asset": "art-painting-abstract-oil.jpg"
+          }
+        },
+        {
+          "type": "bubble",
+          "settings": {
+            "title": "LIMITED EDITIONS",
+            "default_asset": "art-painting-great-wave.jpg"
+          }
+        },
+        {
+          "type": "bubble",
+          "settings": {
+            "title": "SAJAWAT ACCENTS",
+            "default_asset": "art-sculpture-winged-victory.jpg"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,244 @@
+{%- comment -%}
+  THE RAW HOUSE - CRAFTSMANSHIP & BRAND STORY SPLIT
+  Split-screen brand philosophy section with animated live counting numbers and luxury badge.
+{%- endcomment -%}
+
+<div
+  id="LuxuryCraft-{{ section.id }}"
+  class="lux-craft-section"
+  style="background: {{ section.settings.background_color }};"
+  {{ section.shopify_attributes }}
+>
+  <div class="lux-craft-container">
+    <!-- Visual Left Column -->
+    <div class="lux-craft-media-wrap lux-reveal-zoom">
+      {% if section.settings.image != blank %}
+        {{
+          section.settings.image
+          | image_url: width: 1200
+          | image_tag:
+            class: 'lux-craft-img',
+            loading: 'eager',
+            alt: section.settings.heading
+        }}
+      {% elsif section.settings.default_asset != blank %}
+        <img
+          src="{{ section.settings.default_asset | asset_url }}"
+          alt="Artisan Craftsmanship"
+          class="lux-craft-img"
+          loading="eager"
+          onerror="this.onerror=null;this.src='{{ 'maker-gallery-3.jpg' | asset_url }}';"
+          width="800"
+          height="800"
+        >
+      {% else %}
+        <img
+          src="{{ 'maker-gallery-3.jpg' | asset_url }}"
+          alt="Artisan Craftsmanship"
+          class="lux-craft-img"
+          loading="eager"
+          width="800"
+          height="800"
+        >
+      {% endif %}
+
+      <div class="lux-craft-floating-badge">
+        <div class="lux-craft-badge-number">100%</div>
+        <div class="lux-craft-badge-label">ARTISAN HANDCRAFTED</div>
+      </div>
+    </div>
+
+    <!-- Story Right Column -->
+    <div class="lux-craft-content lux-reveal-fade-up">
+      {% if section.settings.subheading != blank %}
+        <span class="lux-craft-subheading">{{ section.settings.subheading }}</span>
+      {% endif %}
+
+      <h2 class="lux-craft-heading">{{ section.settings.heading }}</h2>
+
+      <p class="lux-craft-text">
+        {{ section.settings.story_text }}
+      </p>
+
+      <!-- Live Counters -->
+      <div class="lux-craft-counters">
+        <div class="lux-craft-counter-item">
+          <div
+            class="lux-counter-number"
+            data-target="{{ section.settings.counter_1_number }}"
+            data-suffix="{{ section.settings.counter_1_suffix }}"
+          >
+            0
+          </div>
+          <div class="lux-counter-label">{{ section.settings.counter_1_label }}</div>
+        </div>
+
+        <div class="lux-craft-counter-item">
+          <div
+            class="lux-counter-number"
+            data-target="{{ section.settings.counter_2_number }}"
+            data-suffix="{{ section.settings.counter_2_suffix }}"
+          >
+            0
+          </div>
+          <div class="lux-counter-label">{{ section.settings.counter_2_label }}</div>
+        </div>
+
+        <div class="lux-craft-counter-item">
+          <div
+            class="lux-counter-number"
+            data-target="{{ section.settings.counter_3_number }}"
+            data-suffix="{{ section.settings.counter_3_suffix }}"
+          >
+            0
+          </div>
+          <div class="lux-counter-label">{{ section.settings.counter_3_label }}</div>
+        </div>
+      </div>
+
+      {% if section.settings.button_label != blank %}
+        <a
+          href="{{ section.settings.button_link | default: '/pages/about-us' }}"
+          class="lux-btn-primary"
+        >
+          {{ section.settings.button_label }}
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Craftsmanship Story",
+  "tag": "section",
+  "class": "section-luxury-craft",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "THE ATELIER PHILOSOPHY"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "WHERE VISIONARY PAINTINGS MEET THREE-DIMENSIONAL SCULPTURES"
+    },
+    {
+      "type": "textarea",
+      "id": "story_text",
+      "label": "Story Text",
+      "default": "The Raw House is an international atelier dedicated to museum-grade original canvas paintings and handcrafted decorative sculptures. Every canvas is layered with rich mineral pigments, gold leaf, and archival linen, while each sculpture is cast in small foundry batches using solid bronze, aged marble, and refined resins."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Artisan Image"
+    },
+    {
+      "type": "text",
+      "id": "default_asset",
+      "label": "Default Asset Fallback",
+      "default": "art-atelier-artist-studio.jpg"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#181818"
+    },
+    {
+      "type": "header",
+      "content": "Counter 1"
+    },
+    {
+      "type": "number",
+      "id": "counter_1_number",
+      "label": "Counter 1 Number",
+      "default": 2400
+    },
+    {
+      "type": "text",
+      "id": "counter_1_suffix",
+      "label": "Counter 1 Suffix",
+      "default": "+"
+    },
+    {
+      "type": "text",
+      "id": "counter_1_label",
+      "label": "Counter 1 Label",
+      "default": "Paintings & Artworks Curated"
+    },
+    {
+      "type": "header",
+      "content": "Counter 2"
+    },
+    {
+      "type": "number",
+      "id": "counter_2_number",
+      "label": "Counter 2 Number",
+      "default": 140
+    },
+    {
+      "type": "text",
+      "id": "counter_2_suffix",
+      "label": "Counter 2 Suffix",
+      "default": "+"
+    },
+    {
+      "type": "text",
+      "id": "counter_2_label",
+      "label": "Counter 2 Label",
+      "default": "Master Artists & Sculptors"
+    },
+    {
+      "type": "header",
+      "content": "Counter 3"
+    },
+    {
+      "type": "number",
+      "id": "counter_3_number",
+      "label": "Counter 3 Number",
+      "default": 35
+    },
+    {
+      "type": "text",
+      "id": "counter_3_suffix",
+      "label": "Counter 3 Suffix",
+      "default": "+"
+    },
+    {
+      "type": "text",
+      "id": "counter_3_label",
+      "label": "Counter 3 Label",
+      "default": "Museum Exhibitions"
+    },
+    {
+      "type": "header",
+      "content": "Call to Action"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "DISCOVER THE ATELIER"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Luxury Craftsmanship Story"
+    }
+  ]
+}
+{% endschema %}

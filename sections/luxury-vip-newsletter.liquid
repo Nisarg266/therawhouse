@@ -1,0 +1,105 @@
+{%- comment -%}
+  THE RAW HOUSE - VIP COLLECTORS CLUB NEWSLETTER
+  Bright luxury gallery subscription card for private previews, lookbooks, and VIP events.
+{%- endcomment -%}
+
+<div
+  id="LuxuryVIP-{{ section.id }}"
+  class="lux-vip-section"
+  style="background: {{ section.settings.background_color | default: '#fcfbf9' }};"
+  {{ section.shopify_attributes }}
+>
+  <div class="lux-vip-container lux-reveal-zoom">
+    <div class="lux-vip-card">
+      {% if section.settings.subheading != blank %}
+        <span class="lux-vip-subheading">{{ section.settings.subheading }}</span>
+      {% endif %}
+
+      <h2 class="lux-vip-heading">{{ section.settings.heading }}</h2>
+
+      <p class="lux-vip-text">
+        {{ section.settings.text }}
+      </p>
+
+      {% form 'customer', class: 'lux-vip-form' %}
+        <input type="hidden" name="contact[tags]" value="newsletter, vip-collector">
+        <input
+          type="email"
+          name="contact[email]"
+          class="lux-vip-input"
+          placeholder="{{ section.settings.input_placeholder | default: 'Enter your email address...' }}"
+          required
+          autocomplete="email"
+        >
+        <button type="submit" class="lux-vip-btn">
+          {{ section.settings.button_label | default: 'JOIN CIRCLE' }}
+        </button>
+
+        {% if form.posted_successfully? %}
+          <p class="lux-vip-success" style="color: #c5a880; font-size: 13px; margin-top: 14px; width: 100%; font-weight: 500;">
+            ✓ Welcome to The Collectors Circle. Your private invitation is on its way.
+          </p>
+        {% endif %}
+      {% endform %}
+
+      <div class="lux-vip-trust-note">
+        <span>✦ Curated Discretion</span>
+        <span>•</span>
+        <span>Zero Spam</span>
+        <span>•</span>
+        <span>Unsubscribe Anytime</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Luxury VIP Newsletter",
+  "tag": "section",
+  "class": "section-luxury-vip",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "THE COLLECTORS CIRCLE"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "PRIVATE EXHIBITIONS & CATALOGUES"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Description Text",
+      "default": "Join our inner circle to receive confidential previews of newly acquired original canvases, bespoke sculpture editions, and private gallery vernissage invitations."
+    },
+    {
+      "type": "text",
+      "id": "input_placeholder",
+      "label": "Input Placeholder",
+      "default": "Enter your email address..."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "JOIN CIRCLE"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#fcfbf9"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Luxury VIP Newsletter"
+    }
+  ]
+}
+{% endschema %}

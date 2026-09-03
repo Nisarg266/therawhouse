@@ -1,0 +1,278 @@
+{%- comment -%}
+  THE RAW HOUSE - INTERACTIVE ROOM HOTSPOTS EXPLORER
+  "Shop The Look" interactive interior view with glowing pulsing pins and floating glassmorphic popovers.
+{%- endcomment -%}
+
+<div
+  id="LuxuryHotspots-{{ section.id }}"
+  class="lux-hotspots-section"
+  style="background: {{ section.settings.background_color }};"
+  {{ section.shopify_attributes }}
+>
+  <div class="lux-hotspots-container">
+    {% if section.settings.heading != blank %}
+      <div class="lux-section-heading-wrap lux-reveal-fade-up">
+        {% if section.settings.subheading != blank %}
+          <span class="lux-section-subheading">{{ section.settings.subheading }}</span>
+        {% endif %}
+        <h2 class="lux-section-heading">{{ section.settings.heading }}</h2>
+        <div class="lux-section-divider"></div>
+      </div>
+    {% endif %}
+
+    <div class="lux-hotspots-stage lux-reveal-zoom">
+      {% if section.settings.image != blank %}
+        {{
+          section.settings.image
+          | image_url: width: 2000
+          | image_tag:
+            class: 'lux-hotspots-bg-img',
+            loading: 'eager',
+            alt: section.settings.heading
+        }}
+      {% elsif section.settings.default_asset != blank %}
+        <img
+          src="{{ section.settings.default_asset | asset_url }}"
+          alt="Interior Living Room Look"
+          class="lux-hotspots-bg-img"
+          loading="eager"
+          onerror="this.onerror=null;this.src='{{ 'maker-gallery-2.jpg' | asset_url }}';"
+          width="1600"
+          height="900"
+        >
+      {% else %}
+        <img
+          src="{{ 'maker-gallery-2.jpg' | asset_url }}"
+          alt="Interior Living Room Look"
+          class="lux-hotspots-bg-img"
+          loading="eager"
+          width="1600"
+          height="900"
+        >
+      {% endif %}
+
+      <!-- Hotspot Pins -->
+      {% for block in section.blocks %}
+        {% assign prod = block.settings.product %}
+        <div
+          class="lux-hotspot-pin"
+          style="top: {{ block.settings.top_pos }}%; left: {{ block.settings.left_pos }}%;"
+          {{ block.shopify_attributes }}
+        >
+          <div class="lux-hotspot-pin-dot"></div>
+
+          <!-- Floating Glass Popover -->
+          <div
+            class="lux-hotspot-card"
+            style="
+              {% if block.settings.left_pos > 50 %}
+                right: 0; left: auto;
+              {% else %}
+                left: 0; right: auto;
+              {% endif %}
+              {% if block.settings.top_pos > 60 %}
+                bottom: 42px; top: auto;
+              {% else %}
+                top: 42px; bottom: auto;
+              {% endif %}
+            "
+          >
+            {% if prod != blank and prod.featured_media != blank %}
+              <img
+                src="{{ prod.featured_media | image_url: width: 200 }}"
+                alt="{{ prod.title | escape }}"
+                class="lux-hotspot-card-thumb"
+                loading="eager"
+                width="64"
+                height="64"
+              >
+            {% elsif block.settings.custom_image != blank %}
+              <img
+                src="{{ block.settings.custom_image | asset_url }}"
+                alt="{{ block.settings.title | escape }}"
+                class="lux-hotspot-card-thumb"
+                loading="eager"
+                onerror="this.onerror=null;this.src='{{ 'new-arrival-2.jpg' | asset_url }}';"
+                width="64"
+                height="64"
+              >
+            {% else %}
+              <img
+                src="{{ 'new-arrival-2.jpg' | asset_url }}"
+                alt="Piece {{ forloop.index }}"
+                class="lux-hotspot-card-thumb"
+                loading="eager"
+                width="64"
+                height="64"
+              >
+            {% endif %}
+
+            <div class="lux-hotspot-card-details">
+              <a
+                href="{{ prod.url | default: block.settings.link | default: routes.all_products_collection_url }}"
+                class="lux-hotspot-card-title"
+              >
+                {{ prod.title | default: block.settings.title }}
+              </a>
+              <span class="lux-hotspot-card-price">
+                {% if prod != blank %}
+                  {{ prod.price | money }}
+                {% else %}
+                  {{ block.settings.price }}
+                {% endif %}
+              </span>
+              <a
+                href="{{ prod.url | default: block.settings.link | default: routes.all_products_collection_url }}"
+                class="lux-hotspot-card-btn"
+              >
+                Shop This Piece →
+              </a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Luxury Room Hotspots",
+  "tag": "section",
+  "class": "section-luxury-hotspots",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "THE ARCHITECTURAL LOOK"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "SHOP THE ROOM"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Main Scene Image"
+    },
+    {
+      "type": "text",
+      "id": "default_asset",
+      "label": "Default Asset Fallback",
+      "default": "hero-fine-art-2.jpg"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "hotspot",
+      "name": "Hotspot Pin",
+      "settings": [
+        {
+          "type": "range",
+          "id": "top_pos",
+          "min": 10,
+          "max": 90,
+          "step": 1,
+          "unit": "%",
+          "label": "Vertical Position (Top %)",
+          "default": 40
+        },
+        {
+          "type": "range",
+          "id": "left_pos",
+          "min": 10,
+          "max": 90,
+          "step": 1,
+          "unit": "%",
+          "label": "Horizontal Position (Left %)",
+          "default": 35
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product (Optional)"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Fallback Title",
+          "default": "The Gilded Horizon Textured Oil Canvas"
+        },
+        {
+          "type": "text",
+          "id": "price",
+          "label": "Fallback Price",
+          "default": "$3,400.00"
+        },
+        {
+          "type": "text",
+          "id": "custom_image",
+          "label": "Fallback Image Asset",
+          "default": "hero-fine-art-2.jpg"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Fallback Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Luxury Room Hotspots",
+      "blocks": [
+        {
+          "type": "hotspot",
+          "settings": {
+            "top_pos": 34,
+            "left_pos": 24,
+            "title": "The Gilded Horizon Textured Oil Canvas (60x48 in)",
+            "price": "$3,400.00",
+            "custom_image": "hero-fine-art-2.jpg"
+          }
+        },
+        {
+          "type": "hotspot",
+          "settings": {
+            "top_pos": 58,
+            "left_pos": 58,
+            "title": "Elysian Form Hand-Cast Bronze Sculpture",
+            "price": "$1,850.00",
+            "custom_image": "art-sculpture-rodin-thinker.jpg"
+          }
+        },
+        {
+          "type": "hotspot",
+          "settings": {
+            "top_pos": 46,
+            "left_pos": 76,
+            "title": "The Muse Carved Alabaster Marble Model",
+            "price": "$2,200.00",
+            "custom_image": "art-sculpture-venus-milo.jpg"
+          }
+        },
+        {
+          "type": "hotspot",
+          "settings": {
+            "top_pos": 72,
+            "left_pos": 44,
+            "title": "Harmonic Bloom Archival Masterpiece Print",
+            "price": "$680.00",
+            "custom_image": "fine-print-1.jpg"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

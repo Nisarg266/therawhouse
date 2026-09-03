@@ -62,7 +62,7 @@
           {% else %}
             <img
               src="{{ 'maker-gallery-1.jpg' | asset_url }}"
-              alt="Luxury Fine Art Gallery"
+              alt="Luxury Interior Living"
               class="lux-hero__image"
               loading="eager"
               fetchpriority="{{ img_priority }}"
@@ -163,7 +163,7 @@
 
 {% schema %}
 {
-  "name": "Luxury Hero Slider",
+  "name": "Luxury Hero Showcase",
   "tag": "section",
   "class": "section-luxury-hero",
   "settings": [
@@ -234,25 +234,25 @@
           "type": "text",
           "id": "default_asset",
           "label": "Default Asset Fallback",
-          "default": "hero-fine-art-2.jpg"
+          "default": "maker-gallery-1.jpg"
         },
         {
           "type": "text",
           "id": "subheading",
           "label": "Badge / Subheading",
-          "default": "ATELIER EXHIBITION 2026"
+          "default": "ATELIER COLLECTION 2026"
         },
         {
           "type": "text",
           "id": "heading",
           "label": "Heading",
-          "default": "ORIGINAL OIL PAINTINGS & CANVAS ART"
+          "default": "ARCHITECTURAL FURNITURE & FINE ART"
         },
         {
           "type": "textarea",
           "id": "description",
           "label": "Description",
-          "default": "Monumental textured linen canvases, gold leaf impasto, and evocative masterworks by acclaimed contemporary painters."
+          "default": "A curated sanctuary of sculptural bouclé seating, hand-carved travertine, and monumental contemporary paintings."
         },
         {
           "type": "select",
@@ -269,7 +269,7 @@
           "type": "text",
           "id": "button_label",
           "label": "Primary Button Label",
-          "default": "EXPLORE PAINTINGS"
+          "default": "EXPLORE FURNITURE"
         },
         {
           "type": "url",
@@ -280,7 +280,7 @@
           "type": "text",
           "id": "button_2_label",
           "label": "Secondary Button Label",
-          "default": "VIEW EXHIBITION"
+          "default": "VIEW FINE ART"
         },
         {
           "type": "url",
@@ -292,42 +292,42 @@
   ],
   "presets": [
     {
-      "name": "Luxury Hero Slider",
+      "name": "Luxury Hero Showcase",
       "blocks": [
         {
           "type": "slide",
           "settings": {
-            "default_asset": "hero-fine-art-2.jpg",
-            "subheading": "ATELIER EXHIBITION 2026",
-            "heading": "ORIGINAL OIL PAINTINGS & CANVAS ART",
-            "description": "Monumental textured linen canvases, gold leaf impasto, and evocative masterworks by acclaimed contemporary painters.",
+            "default_asset": "maker-gallery-1.jpg",
+            "subheading": "ATELIER COLLECTION 2026",
+            "heading": "ARCHITECTURAL FURNITURE & FINE ART",
+            "description": "A curated sanctuary of sculptural bouclé seating, hand-carved travertine, and monumental contemporary paintings.",
             "content_alignment": "center",
-            "button_label": "EXPLORE PAINTINGS",
-            "button_2_label": "VIEW EXHIBITION"
+            "button_label": "EXPLORE FURNITURE",
+            "button_2_label": "VIEW FINE ART"
           }
         },
         {
           "type": "slide",
           "settings": {
-            "default_asset": "art-sculpture-rodin-thinker.jpg",
-            "subheading": "SCULPTURAL ATELIER",
-            "heading": "BRONZE & MARBLE 3D ART MODELS",
-            "description": "Handcrafted cast bronze statuettes, architectural marble forms, and decorative centerpieces designed for curated luxury spaces.",
-            "content_alignment": "center",
-            "button_label": "COLLECT SCULPTURES",
-            "button_2_label": "ACQUISITION GUIDE"
-          }
-        },
-        {
-          "type": "slide",
-          "settings": {
-            "default_asset": "hero-museum-exhibition-3.jpg",
+            "default_asset": "maker-gallery-2.jpg",
             "subheading": "MUSEUM CURATION",
-            "heading": "MUSEUM MASTERPIECES & FINE EDITIONS",
-            "description": "Certified provenance, rare fine art acquisitions, and signed archival prints for private international collectors.",
+            "heading": "ORIGINAL OIL PAINTINGS & CANVAS",
+            "description": "Textured gold leaf, raw linen, and evocative pigment masterworks for discerning international collectors.",
             "content_alignment": "center",
-            "button_label": "VIEW MASTERPIECES",
+            "button_label": "COLLECT PAINTINGS",
             "button_2_label": "PRIVATE ADVISORY"
+          }
+        },
+        {
+          "type": "slide",
+          "settings": {
+            "default_asset": "maker-gallery-3.jpg",
+            "subheading": "HAUTE LIVING",
+            "heading": "SCULPTURES & STATEMENT LIGHTING",
+            "description": "Luminous solid brass fixtures and hand-cast bronze centerpieces designed to anchor modern pavilions.",
+            "content_alignment": "center",
+            "button_label": "SHOP LIGHTING",
+            "button_2_label": "VIEW CATALOGUE"
           }
         }
       ]

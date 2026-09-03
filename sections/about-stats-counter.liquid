@@ -1,0 +1,492 @@
+<div
+  class="about-stats about-stats--{{ section.id }}"
+  style="
+    --stats-pt: {{ section.settings.padding_top | default: 70 }}px;
+    --stats-pb: {{ section.settings.padding_bottom | default: 70 }}px;
+    --stats-pt-mobile: {{ section.settings.mobile_padding_top | default: 40 }}px;
+    --stats-pb-mobile: {{ section.settings.mobile_padding_bottom | default: 40 }}px;
+    --stats-bg: {{ section.settings.bg_color | default: '#111111' }};
+    --stats-num: {{ section.settings.num_color | default: '#c8a876' }};
+    --stats-lbl: {{ section.settings.lbl_color | default: '#ffffff' }};
+    --stats-accent: {{ section.settings.accent_color | default: '#c8a876' }};
+    --stats-cols: {{ section.settings.columns_desktop | default: 4 }};
+  "
+>
+  <div class="about-stats__container">
+    {%- if section.settings.show_header and section.settings.heading != blank -%}
+      <div class="about-stats__header" {% if section.settings.enable_reveal_animation != false %}data-about-reveal{% endif %}>
+        {%- if section.settings.eyebrow != blank -%}
+          <div class="about-stats__eyebrow-wrap">
+            <span class="about-stats__eyebrow-line"></span>
+            <span class="about-stats__eyebrow">{{ section.settings.eyebrow }}</span>
+            <span class="about-stats__eyebrow-line"></span>
+          </div>
+        {%- endif -%}
+        <h2 class="about-stats__heading">{{ section.settings.heading }}</h2>
+        {%- if section.settings.subtitle != blank -%}
+          <p class="about-stats__subtitle">{{ section.settings.subtitle }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="about-stats__grid about-stats__grid--mob-{{ section.settings.mobile_columns | default: '2' }} {% if section.settings.show_dividers == false %}no-dividers{% endif %}">
+      {%- if section.blocks.size > 0 -%}
+        {%- for block in section.blocks -%}
+          <div class="about-stats__item" {% if section.settings.enable_reveal_animation != false %}data-about-reveal{% endif %} {{ block.shopify_attributes }}>
+            {%- liquid
+              assign raw_num = block.settings.number | remove: '+' | remove: 'K' | remove: '%' | remove: ',' | strip
+              assign has_plus = false
+              if block.settings.number contains '+'
+                assign has_plus = true
+              endif
+              assign has_k = false
+              if block.settings.number contains 'K'
+                assign has_k = true
+              endif
+              assign has_percent = false
+              if block.settings.number contains '%'
+                assign has_percent = true
+              endif
+            -%}
+            <span
+              class="about-stats__number"
+              style="{% if block.settings.custom_color != blank and block.settings.custom_color != 'rgba(0,0,0,0)' %}color: {{ block.settings.custom_color }};{% endif %}"
+              {% if section.settings.enable_counter_animation != false and raw_num != blank %}
+                data-count="{{ raw_num }}"
+                {% if has_plus and has_k %}data-suffix="K+"{% elsif has_plus %}data-suffix="+"{% elsif has_k %}data-suffix="K"{% elsif has_percent %}data-suffix="%"{% endif %}
+              {% endif %}
+            >
+              {{ block.settings.number }}
+            </span>
+            <span class="about-stats__label">{{ block.settings.label }}</span>
+            {%- if block.settings.sublabel != blank -%}
+              <span class="about-stats__sublabel">{{ block.settings.sublabel }}</span>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+      {%- else -%}
+        {%- comment -%} Default 4 Luxury Stats {%- endcomment -%}
+        <div class="about-stats__item" {% if section.settings.enable_reveal_animation != false %}data-about-reveal{% endif %}>
+          <span class="about-stats__number" {% if section.settings.enable_counter_animation != false %}data-count="10" data-suffix="+"{% endif %}>10+</span>
+          <span class="about-stats__label">YEARS OF CURATED LIVING</span>
+          <span class="about-stats__sublabel">Established in 2014</span>
+        </div>
+        <div class="about-stats__item" {% if section.settings.enable_reveal_animation != false %}data-about-reveal{% endif %}>
+          <span class="about-stats__number" {% if section.settings.enable_counter_animation != false %}data-count="200" data-suffix="+"{% endif %}>200+</span>
+          <span class="about-stats__label">MASTER ARTISANS & STUDIOS</span>
+          <span class="about-stats__sublabel">Across 15 Design Capitals</span>
+        </div>
+        <div class="about-stats__item" {% if section.settings.enable_reveal_animation != false %}data-about-reveal{% endif %}>
+          <span class="about-stats__number" {% if section.settings.enable_counter_animation != false %}data-count="5000" data-suffix="+"{% endif %}>5000+</span>
+          <span class="about-stats__label">EXCLUSIVE FINE EDITS</span>
+          <span class="about-stats__sublabel">Individually Vetted & Numbered</span>
+        </div>
+        <div class="about-stats__item" {% if section.settings.enable_reveal_animation != false %}data-about-reveal{% endif %}>
+          <span class="about-stats__number" {% if section.settings.enable_counter_animation != false %}data-count="10" data-suffix="K+"{% endif %}>10K+</span>
+          <span class="about-stats__label">HOMES TRANSFORMED</span>
+          <span class="about-stats__sublabel">Worldwide White-Glove Delivery</span>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+<style>
+  .about-stats {
+    width: 100%;
+    background-color: var(--stats-bg, #111111);
+    color: #ffffff;
+    padding-top: var(--stats-pt, 70px);
+    padding-bottom: var(--stats-pb, 70px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    box-sizing: border-box;
+  }
+
+  .about-stats__container {
+    width: 100%;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 28px;
+    box-sizing: border-box;
+  }
+
+  .about-stats__header {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 36px auto;
+  }
+
+  .about-stats__eyebrow-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 12px;
+  }
+
+  .about-stats__eyebrow-line {
+    display: block;
+    width: 28px;
+    height: 1px;
+    background-color: var(--stats-accent, #c8a876);
+  }
+
+  .about-stats__eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--stats-accent, #c8a876);
+  }
+
+  .about-stats__heading {
+    font-family: var(--font-heading-family, serif);
+    font-size: clamp(22px, 2.5vw, 36px);
+    font-weight: 400;
+    text-transform: uppercase;
+    color: #ffffff;
+    margin: 0 0 10px 0;
+  }
+
+  .about-stats__subtitle {
+    font-size: 13.5px;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0;
+  }
+
+  .about-stats__grid {
+    display: grid;
+    grid-template-columns: repeat(var(--stats-cols, 4), 1fr);
+    gap: 32px;
+    align-items: center;
+  }
+
+  .about-stats__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    padding: 0 12px;
+  }
+
+  .about-stats__item:nth-child(1) { transition-delay: 0.08s; }
+  .about-stats__item:nth-child(2) { transition-delay: 0.16s; }
+  .about-stats__item:nth-child(3) { transition-delay: 0.24s; }
+  .about-stats__item:nth-child(4) { transition-delay: 0.32s; }
+
+  .about-stats__grid:not(.no-dividers) .about-stats__item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: -16px;
+    top: 15%;
+    height: 70%;
+    width: 1px;
+    background-color: rgba(255, 255, 255, 0.12);
+  }
+
+  .about-stats__number {
+    font-family: var(--font-heading-family, serif);
+    font-size: clamp(34px, 4vw, 56px);
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    color: var(--stats-num, #c8a876);
+    margin-bottom: 10px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .about-stats__label {
+    font-family: var(--font-body-family, sans-serif);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--stats-lbl, #ffffff);
+    margin-bottom: 4px;
+    line-height: 1.35;
+  }
+
+  .about-stats__sublabel {
+    font-family: var(--font-body-family, sans-serif);
+    font-size: 10.5px;
+    color: rgba(255, 255, 255, 0.55);
+    letter-spacing: 0.03em;
+  }
+
+  @media screen and (max-width: 989px) {
+    .about-stats__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px 24px;
+    }
+    .about-stats__grid:not(.no-dividers) .about-stats__item:nth-child(2)::after {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .about-stats {
+      padding-top: var(--stats-pt-mobile, 40px);
+      padding-bottom: var(--stats-pb-mobile, 40px);
+    }
+    .about-stats__container {
+      padding: 0 16px;
+    }
+    .about-stats__grid--mob-2 {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px 14px;
+    }
+    .about-stats__grid--mob-1 {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+    .about-stats__item {
+      padding: 8px 6px;
+    }
+    .about-stats__number {
+      font-size: 28px;
+      margin-bottom: 6px;
+    }
+    .about-stats__label {
+      font-size: 9.5px;
+      letter-spacing: 0.12em;
+    }
+    .about-stats__sublabel {
+      font-size: 9.5px;
+    }
+    .about-stats__grid:not(.no-dividers) .about-stats__item:not(:last-child)::after {
+      display: none;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "About Milestones",
+  "tag": "section",
+  "class": "section-about-stats",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Optional Section Header"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_header",
+      "label": "Show Header Above Counters",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow Subtitle",
+      "default": "BY THE NUMBERS"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "A DECADE OF ARTISANAL MASTERY"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Section Subtitle"
+    },
+    {
+      "type": "header",
+      "content": "Layout & Animation"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "label": "Desktop Columns",
+      "default": 4
+    },
+    {
+      "type": "select",
+      "id": "mobile_columns",
+      "label": "Mobile Columns",
+      "options": [
+        { "value": "2", "label": "2 Columns Grid (Recommended)" },
+        { "value": "1", "label": "1 Column Stacked" }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dividers",
+      "label": "Show Vertical Divider Lines Between Stats",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_counter_animation",
+      "label": "Enable Number Counting Scroll Animation",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_reveal_animation",
+      "label": "Enable Scroll Reveal Fade Up",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Colors & Theming"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "num_color",
+      "label": "Number Color (Gold)",
+      "default": "#c8a876"
+    },
+    {
+      "type": "color",
+      "id": "lbl_color",
+      "label": "Label Color (White)",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color",
+      "default": "#c8a876"
+    },
+    {
+      "type": "header",
+      "content": "Desktop & Mobile Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 30,
+      "max": 160,
+      "step": 5,
+      "unit": "px",
+      "label": "Desktop Top Padding",
+      "default": 70
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 30,
+      "max": 160,
+      "step": 5,
+      "unit": "px",
+      "label": "Desktop Bottom Padding",
+      "default": 70
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_top",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile Top Padding",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "mobile_padding_bottom",
+      "min": 20,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "label": "Mobile Bottom Padding",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat Milestone Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "number",
+          "label": "Stat Number (e.g. 10+, 200+, 5000+, 10K+)",
+          "default": "10+"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Stat Label",
+          "default": "YEARS OF CURATED LIVING"
+        },
+        {
+          "type": "text",
+          "id": "sublabel",
+          "label": "Sublabel (Optional)",
+          "default": "Established in 2014"
+        },
+        {
+          "type": "color",
+          "id": "custom_color",
+          "label": "Custom Number Color Override (Optional)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Milestones",
+      "settings": {
+        "bg_color": "#111111",
+        "num_color": "#c8a876",
+        "lbl_color": "#ffffff",
+        "accent_color": "#c8a876",
+        "padding_top": 70,
+        "padding_bottom": 70
+      },
+      "blocks": [
+        {
+          "type": "stat",
+          "settings": {
+            "number": "10+",
+            "label": "YEARS OF CURATED LIVING",
+            "sublabel": "Established in 2014"
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "number": "200+",
+            "label": "MASTER ARTISANS & STUDIOS",
+            "sublabel": "Across 15 Design Capitals"
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "number": "5000+",
+            "label": "EXCLUSIVE FINE EDITS",
+            "sublabel": "Individually Vetted & Numbered"
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "number": "10K+",
+            "label": "HOMES TRANSFORMED",
+            "sublabel": "Worldwide White-Glove Delivery"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

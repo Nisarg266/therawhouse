@@ -1,0 +1,194 @@
+{%- comment -%}
+  THE RAW HOUSE - EDITORIAL JOURNAL & ARTICLES
+  Magazine editorial layout with reading time badges, author tags, and interactive hover transitions.
+{%- endcomment -%}
+
+<div
+  id="LuxuryJournal-{{ section.id }}"
+  class="lux-journal-section"
+  style="background: {{ section.settings.background_color }};"
+  {{ section.shopify_attributes }}
+>
+  <div class="lux-journal-container">
+    {% if section.settings.heading != blank %}
+      <div class="lux-section-heading-wrap lux-reveal-fade-up">
+        {% if section.settings.subheading != blank %}
+          <span class="lux-section-subheading">{{ section.settings.subheading }}</span>
+        {% endif %}
+        <h2 class="lux-section-heading">{{ section.settings.heading }}</h2>
+        <div class="lux-section-divider"></div>
+      </div>
+    {% endif %}
+
+    <div class="lux-journal-grid lux-stagger-parent lux-reveal-fade-up">
+      {% for block in section.blocks %}
+        <a
+          href="{{ block.settings.link | default: '/blogs/news' }}"
+          class="lux-journal-card lux-stagger-child"
+          {{ block.shopify_attributes }}
+        >
+          <div class="lux-journal-media-wrap">
+            {% if block.settings.image != blank %}
+              {{
+                block.settings.image
+                | image_url: width: 800
+                | image_tag:
+                  class: 'lux-journal-img',
+                  loading: 'eager',
+                  alt: block.settings.title
+              }}
+            {% elsif block.settings.default_asset != blank %}
+              <img
+                src="{{ block.settings.default_asset | asset_url }}"
+                alt="{{ block.settings.title | escape }}"
+                class="lux-journal-img"
+                loading="eager"
+                onerror="this.onerror=null;this.src='{{ 'fine-print-1.jpg' | asset_url }}';"
+                width="600"
+                height="400"
+              >
+            {% else %}
+              <img
+                src="{{ 'fine-print-1.jpg' | asset_url }}"
+                alt="{{ block.settings.title | escape }}"
+                class="lux-journal-img"
+                loading="eager"
+                width="600"
+                height="400"
+              >
+            {% endif %}
+          </div>
+
+          <div class="lux-journal-meta">
+            <span>{{ block.settings.category }}</span>
+            <span>•</span>
+            <span>{{ block.settings.read_time }}</span>
+          </div>
+
+          <h3 class="lux-journal-title">{{ block.settings.title }}</h3>
+          <p class="lux-journal-excerpt">{{ block.settings.excerpt }}</p>
+
+          <span class="lux-journal-link">
+            Read Journal
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </span>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Luxury Editorial Journal",
+  "tag": "section",
+  "class": "section-luxury-journal",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "THE JOURNAL"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "STORIES & INSPIRATIONS"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "article_card",
+      "name": "Journal Article",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Article Image"
+        },
+        {
+          "type": "text",
+          "id": "default_asset",
+          "label": "Default Asset Fallback"
+        },
+        {
+          "type": "text",
+          "id": "category",
+          "label": "Category Tag",
+          "default": "INTERIORS"
+        },
+        {
+          "type": "text",
+          "id": "read_time",
+          "label": "Reading Time",
+          "default": "4 MIN READ"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Article Title",
+          "default": "The Art of Curating Organic Textures"
+        },
+        {
+          "type": "textarea",
+          "id": "excerpt",
+          "label": "Excerpt",
+          "default": "How layering limestone, unlacquered brass, and reclaimed teak creates warmth in contemporary living spaces."
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Article Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Luxury Editorial Journal",
+      "blocks": [
+        {
+          "type": "article_card",
+          "settings": {
+            "default_asset": "art-painting-starry-night.jpg",
+            "category": "ART COLLECTING",
+            "read_time": "5 MIN READ",
+            "title": "The Collector's Guide: Investing in Contemporary Oil on Canvas",
+            "excerpt": "Understanding mineral pigment quality, archival linen substrates, and the rising valuation of textured mixed-media masterworks."
+          }
+        },
+        {
+          "type": "article_card",
+          "settings": {
+            "default_asset": "art-sculpture-rodin-thinker.jpg",
+            "category": "SCULPTURAL ART",
+            "read_time": "6 MIN READ",
+            "title": "Living with Sculpture: Placing 3D Art Models & Bronze Figures",
+            "excerpt": "How architectural interior curators integrate three-dimensional art sculptures to create striking focal points in modern rooms."
+          }
+        },
+        {
+          "type": "article_card",
+          "settings": {
+            "default_asset": "art-painting-water-lilies.jpg",
+            "category": "GALLERY CURATION",
+            "read_time": "4 MIN READ",
+            "title": "The Art of Archival Care: Lighting, Framing & Canvas Preservation",
+            "excerpt": "Preserving museum-grade oil paintings and delicate bronze patinas with optimal ambient lighting and temperature control."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

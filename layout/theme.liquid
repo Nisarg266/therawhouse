@@ -155,44 +155,21 @@
 
     <script>
       (function initGlobalLuxuryScrollAnimations() {
-        if (typeof IntersectionObserver === 'undefined') return;
-
-        const observerOptions = {
-          threshold: 0.06,
-          rootMargin: '0px 0px -40px 0px'
-        };
-
-        const revealObserver = new IntersectionObserver((entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('is-revealed');
-              revealObserver.unobserve(entry.target);
-            }
-          });
-        }, observerOptions);
-
         const setupScrollReveals = () => {
           const sections = document.querySelectorAll(
             '#MainContent > .shopify-section, .new-arrivals-gallery, .recommendations-editorial, .fine-prints-showcase, .the-makers-grid, .brand-manifesto, .featured-press-and-quote, .custom-luxury-footer, footer'
           );
 
-          sections.forEach((sec, idx) => {
-            // First section (e.g. Hero Slider) or elements already visible in viewport
-            const rect = sec.getBoundingClientRect();
-            if (idx === 0 || (rect.top < window.innerHeight && rect.bottom > 0)) {
-              sec.classList.add('is-revealed');
-            } else {
-              sec.classList.add('luxury-scroll-reveal');
-              revealObserver.observe(sec);
-            }
+          sections.forEach((sec) => {
+            sec.classList.add('is-revealed');
+          });
 
-            // Apply staggered animations to internal cards and items
-            const childCards = sec.querySelectorAll(
-              '.new-arrivals-gallery__card, .recommendations-editorial__card, .fine-prints-showcase__card, .the-makers-grid__card, .featured-press__logo-item'
-            );
-            childCards.forEach((card) => {
-              card.classList.add('scroll-stagger-item');
-            });
+          // Apply staggered animations to internal cards and items
+          const childCards = document.querySelectorAll(
+            '.new-arrivals-gallery__card, .recommendations-editorial__card, .fine-prints-showcase__card, .the-makers-grid__card, .featured-press__logo-item'
+          );
+          childCards.forEach((card) => {
+            card.classList.add('scroll-stagger-item');
           });
         };
 
@@ -203,5 +180,6 @@
         }
       })();
     </script>
+    <script src="{{ 'luxury-ui-engine.js' | asset_url }}" defer="defer"></script>
   </body>
 </html>

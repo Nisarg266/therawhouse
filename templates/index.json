@@ -1,47 +1,59 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */{
+{
   "sections": {
-    "luxury_hero_slider": {
+    "luxury_marquee_top": {
+      "type": "luxury-marquee-ticker",
+      "settings": {
+        "text_1": "CONTEMPORARY FINE ART GALLERY & SCULPTURAL ATELIER",
+        "text_2": "MUSEUM-GRADE ORIGINAL OIL PAINTINGS & 3D ART MODELS",
+        "text_3": "COMPLIMENTARY WHITE-GLOVE FINE ART DELIVERY & CRATING",
+        "text_4": "AUTHENTIC BRONZE, CARVED MARBLE & TEXTURED GOLD LEAF",
+        "background_color": "#111111",
+        "text_color": "#ffffff"
+      }
+    },
+    "luxury_hero_showcase": {
       "type": "luxury-hero-slider",
       "blocks": {
         "slide_1": {
           "type": "slide",
           "settings": {
-            "default_asset": "maker-gallery-1.jpg",
-            "subheading": "EICHHOLTZ LUXURY LIVING",
-            "heading": "ARCHITECTURAL INTERIORS",
+            "default_asset": "hero-fine-art-2.jpg",
+            "subheading": "ATELIER EXHIBITION 2026",
+            "heading": "ORIGINAL OIL PAINTINGS & CANVAS ART",
+            "description": "Monumental textured linen canvases, gold leaf impasto, and evocative masterworks by acclaimed contemporary painters.",
             "content_alignment": "center",
-            "button_label": "EXPLORE DESIGNS",
-            "button_link": "shopify://collections/all"
+            "button_label": "EXPLORE PAINTINGS",
+            "button_link": "shopify://collections/all",
+            "button_2_label": "VIEW EXHIBITION",
+            "button_2_link": "shopify://collections/all"
           }
         },
         "slide_2": {
           "type": "slide",
           "settings": {
-            "default_asset": "maker-gallery-2.jpg",
-            "subheading": "CURATED EXCELLENCE",
-            "heading": "TIMELESS ARTISAN DESIGNS",
+            "default_asset": "art-sculpture-rodin-thinker.jpg",
+            "subheading": "SCULPTURAL ATELIER",
+            "heading": "BRONZE & MARBLE 3D ART MODELS",
+            "description": "Handcrafted cast bronze statuettes, architectural marble forms, and decorative centerpieces designed for curated luxury spaces.",
             "content_alignment": "center",
-            "button_label": "SHOP INTERIORS",
-            "button_link": "shopify://collections/all"
+            "button_label": "COLLECT SCULPTURES",
+            "button_link": "shopify://collections/all",
+            "button_2_label": "ACQUISITION GUIDE",
+            "button_2_link": "shopify://collections/all"
           }
         },
         "slide_3": {
           "type": "slide",
           "settings": {
-            "default_asset": "maker-gallery-3.jpg",
-            "subheading": "HAUTE LIVING",
-            "heading": "BESPOKE ACCENTS & LIGHTING",
+            "default_asset": "hero-museum-exhibition-3.jpg",
+            "subheading": "MUSEUM CURATION",
+            "heading": "MUSEUM MASTERPIECES & FINE EDITIONS",
+            "description": "Certified provenance, rare fine art acquisitions, and signed archival prints for private international collectors.",
             "content_alignment": "center",
-            "button_label": "VIEW CATALOGUE",
-            "button_link": "shopify://collections/all"
+            "button_label": "VIEW MASTERPIECES",
+            "button_link": "shopify://collections/all",
+            "button_2_label": "PRIVATE ADVISORY",
+            "button_2_link": "shopify://collections/all"
           }
         }
       },
@@ -51,118 +63,399 @@
         "slide_3"
       ],
       "settings": {
-        "slider_height_desktop": 80,
-        "slider_height_mobile": 60,
+        "desktop_height": 72,
+        "mobile_height": 58,
         "autoplay": true,
-        "autoplay_speed": 5,
-        "show_overlay": true,
+        "autoplay_speed": 6,
         "overlay_color": "#000000",
         "overlay_opacity": 25
       }
     },
-    "new_arrivals_gallery": {
-      "type": "new-arrivals-gallery",
+    "luxury_trust_features": {
+      "type": "luxury-trust-features",
       "settings": {
-        "subheading": "the",
-        "heading": "N E W   A R R I V A L S",
-        "show_underline": true,
-        "underline_width": 36,
-        "max_width": 1080,
-        "gap": 14,
-        "background_color": "#ffffff",
-        "padding_top": 40,
-        "padding_bottom": 40,
-        "enable_hover_zoom": true
+        "title_1": "MUSEUM-GRADE PROVENANCE",
+        "subtitle_1": "Certified original gallery art & signed authenticity",
+        "title_2": "SOLID BRONZE & MARBLE",
+        "subtitle_2": "Hand-cast sculptures, stone & 3D art models",
+        "title_3": "WHITE GLOVE ART CRATING",
+        "subtitle_3": "Custom museum wooden crating & insured transit",
+        "title_4": "PRIVATE ART CONCIERGE",
+        "subtitle_4": "1-on-1 private collector advisory & commissions"
       }
     },
-    "recommendations_editorial": {
-      "type": "recommendations-editorial",
+    "luxury_category_bubbles": {
+      "type": "luxury-category-bubbles",
+      "blocks": {
+        "bubble_1": {
+          "type": "bubble",
+          "settings": {
+            "title": "ORIGINAL OILS",
+            "default_asset": "art-painting-starry-night.jpg"
+          }
+        },
+        "bubble_2": {
+          "type": "bubble",
+          "settings": {
+            "title": "BRONZE SCULPTURES",
+            "default_asset": "art-sculpture-rodin-thinker.jpg"
+          }
+        },
+        "bubble_3": {
+          "type": "bubble",
+          "settings": {
+            "title": "MARBLE MODELS",
+            "default_asset": "art-sculpture-venus-milo.jpg"
+          }
+        },
+        "bubble_4": {
+          "type": "bubble",
+          "settings": {
+            "title": "TEXTURED CANVASES",
+            "default_asset": "art-painting-abstract-oil.jpg"
+          }
+        },
+        "bubble_5": {
+          "type": "bubble",
+          "settings": {
+            "title": "LIMITED EDITIONS",
+            "default_asset": "art-painting-great-wave.jpg"
+          }
+        },
+        "bubble_6": {
+          "type": "bubble",
+          "settings": {
+            "title": "SAJAWAT ACCENTS",
+            "default_asset": "art-sculpture-winged-victory.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "bubble_1",
+        "bubble_2",
+        "bubble_3",
+        "bubble_4",
+        "bubble_5",
+        "bubble_6"
+      ],
       "settings": {
-        "subheading": "the",
-        "heading": "R E C O M M E N D A T I O N S",
-        "show_underline": true,
-        "max_width": 1080,
-        "gap": 48,
-        "background_color": "#f8f7f4",
-        "padding_top": 40,
-        "padding_bottom": 40,
-        "enable_hover_zoom": true
+        "subheading": "EXPLORE BY ART MEDIUM",
+        "heading": "CURATED FINE ART & SCULPTURES",
+        "background_color": "#fcfbf9"
       }
     },
-    "fine_prints_showcase": {
-      "type": "fine-prints-showcase",
+    "luxury_bento_grid": {
+      "type": "luxury-bento-grid",
+      "blocks": {
+        "bento_1": {
+          "type": "bento_card",
+          "settings": {
+            "card_size": "large",
+            "default_asset": "hero-museum-exhibition-3.jpg",
+            "badge": "MUSEUM COLLECTION",
+            "title": "THE GRAND EXHIBITION HALL",
+            "subtitle": "Harmonious curation of monumental canvas oil paintings and museum-grade sculptural masterworks.",
+            "cta_text": "ENTER EXHIBITION"
+          }
+        },
+        "bento_2": {
+          "type": "bento_card",
+          "settings": {
+            "card_size": "medium",
+            "default_asset": "hero-fine-art-2.jpg",
+            "badge": "ORIGINAL PAINTINGS",
+            "title": "GOLD LEAF & CANVAS OILS",
+            "subtitle": "Museum-grade contemporary abstractions and textured impasto.",
+            "cta_text": "VIEW PAINTINGS"
+          }
+        },
+        "bento_3": {
+          "type": "bento_card",
+          "settings": {
+            "card_size": "tall",
+            "default_asset": "art-sculpture-rodin-thinker.jpg",
+            "badge": "SCULPTURAL ART",
+            "title": "CAST BRONZE & MARBLE",
+            "subtitle": "Handcrafted 3D art models and iconic statuettes.",
+            "cta_text": "DISCOVER SCULPTURES"
+          }
+        },
+        "bento_4": {
+          "type": "bento_card",
+          "settings": {
+            "card_size": "wide",
+            "default_asset": "art-painting-water-lilies.jpg",
+            "badge": "FINE ART PRINTS",
+            "title": "ARCHIVAL GALLERY EDITIONS",
+            "subtitle": "Museum-grade 100% cotton rag archival prints hand-signed with certificate of provenance.",
+            "cta_text": "EXPLORE EDITIONS"
+          }
+        }
+      },
+      "block_order": [
+        "bento_1",
+        "bento_2",
+        "bento_3",
+        "bento_4"
+      ],
       "settings": {
-        "subheading": "the",
-        "heading": "F I N E   P R I N T S",
-        "show_underline": true,
-        "max_width": 1080,
-        "gap": 28,
-        "background_color": "#ffffff",
-        "padding_top": 36,
-        "padding_bottom": 32,
-        "view_all_text": "VIEW ALL",
-        "enable_hover_zoom": true
+        "subheading": "CURATED ACQUISITIONS",
+        "heading": "GALLERY EDITS & MASTERWORKS",
+        "background_color": "#ffffff"
       }
     },
-    "the_makers_grid": {
-      "type": "the-makers-grid",
+    "luxury_tabbed_products": {
+      "type": "luxury-tabbed-products",
+      "blocks": {
+        "tab_1": {
+          "type": "tab",
+          "settings": {
+            "tab_title": "ALL ARTWORKS"
+          }
+        },
+        "tab_2": {
+          "type": "tab",
+          "settings": {
+            "tab_title": "ORIGINAL OIL PAINTINGS"
+          }
+        },
+        "tab_3": {
+          "type": "tab",
+          "settings": {
+            "tab_title": "SCULPTURES & ART MODELS"
+          }
+        },
+        "tab_4": {
+          "type": "tab",
+          "settings": {
+            "tab_title": "ARCHIVAL FINE PRINTS"
+          }
+        }
+      },
+      "block_order": [
+        "tab_1",
+        "tab_2",
+        "tab_3",
+        "tab_4"
+      ],
       "settings": {
-        "subheading": "the",
-        "heading": "M A K E R S",
-        "show_underline": true,
-        "max_width": 1080,
-        "gap": 24,
-        "background_color": "#f5f4ef",
-        "padding_top": 36,
-        "padding_bottom": 32,
-        "view_all_text": "VIEW OUR MAKERS",
-        "enable_hover_zoom": true
+        "subheading": "THE ATELIER SELECTION",
+        "heading": "FEATURED MASTERPIECES",
+        "background_color": "#f6f5f0",
+        "products_to_show": 4
       }
     },
-    "brand_manifesto": {
-      "type": "brand-manifesto",
+    "luxury_room_hotspots": {
+      "type": "luxury-room-hotspots",
+      "blocks": {
+        "hotspot_1": {
+          "type": "hotspot",
+          "settings": {
+            "top_pos": 34,
+            "left_pos": 24,
+            "title": "The Gilded Horizon Textured Oil Canvas (60x48 in)",
+            "price": "$3,400.00",
+            "custom_image": "hero-fine-art-2.jpg"
+          }
+        },
+        "hotspot_2": {
+          "type": "hotspot",
+          "settings": {
+            "top_pos": 58,
+            "left_pos": 58,
+            "title": "Elysian Form Hand-Cast Bronze Sculpture",
+            "price": "$1,850.00",
+            "custom_image": "art-sculpture-rodin-thinker.jpg"
+          }
+        },
+        "hotspot_3": {
+          "type": "hotspot",
+          "settings": {
+            "top_pos": 46,
+            "left_pos": 76,
+            "title": "The Muse Carved Alabaster Marble Model",
+            "price": "$2,200.00",
+            "custom_image": "art-sculpture-venus-milo.jpg"
+          }
+        },
+        "hotspot_4": {
+          "type": "hotspot",
+          "settings": {
+            "top_pos": 72,
+            "left_pos": 44,
+            "title": "Harmonic Bloom Archival Masterpiece Print",
+            "price": "$680.00",
+            "custom_image": "fine-print-1.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "hotspot_1",
+        "hotspot_2",
+        "hotspot_3",
+        "hotspot_4"
+      ],
       "settings": {
-        "heading": "A little bit of us",
-        "text": "The House of Things is a destination for design, artistry and craftsmanship, curated for a life artfully lived.",
-        "max_width": 680,
-        "background_color": "#ffffff",
-        "heading_color": "#111111",
-        "text_color": "#333333",
-        "icon_bg_color": "#1c1c1c",
-        "padding_top": 32,
-        "padding_bottom": 36,
-        "facebook_url": "https://facebook.com",
-        "instagram_url": "https://instagram.com",
-        "pinterest_url": "https://pinterest.com"
+        "subheading": "THE CURATED EXHIBITION SPACE",
+        "heading": "COLLECT THE GALLERY LOOK",
+        "default_asset": "hero-fine-art-2.jpg",
+        "background_color": "#ffffff"
       }
     },
-    "featured_press_and_quote": {
-      "type": "featured-press-and-quote",
+    "luxury_craftsmanship_story": {
+      "type": "luxury-craftsmanship-story",
       "settings": {
-        "heading": "Featured In",
-        "show_heading_underline": true,
-        "show_quote": true,
-        "quote_line_1": "Nothing haunts us",
-        "quote_line_2": "LIKE THE THINGS",
-        "quote_line_3": "we didn't buy",
-        "show_quote_dividers": true,
-        "max_width": 1100,
-        "background_color": "#f7f6f2",
-        "heading_color": "#111111",
-        "quote_color": "#181818",
-        "divider_color": "#222222",
-        "padding_top": 36,
-        "padding_bottom": 44
+        "subheading": "THE ATELIER PHILOSOPHY",
+        "heading": "WHERE VISIONARY PAINTINGS MEET THREE-DIMENSIONAL SCULPTURES",
+        "story_text": "The Raw House is an international atelier dedicated to museum-grade original canvas paintings and handcrafted decorative sculptures. Every canvas is layered with rich mineral pigments, gold leaf, and archival linen, while each sculpture is cast in small foundry batches using solid bronze, aged marble, and refined resins.",
+        "default_asset": "art-atelier-artist-studio.jpg",
+        "background_color": "#181818",
+        "counter_1_number": 2400,
+        "counter_1_suffix": "+",
+        "counter_1_label": "Paintings & Artworks Curated",
+        "counter_2_number": 140,
+        "counter_2_suffix": "+",
+        "counter_2_label": "Master Artists & Sculptors",
+        "counter_3_number": 35,
+        "counter_3_suffix": "+",
+        "counter_3_label": "Museum Exhibitions",
+        "button_label": "DISCOVER THE ATELIER",
+        "button_link": "shopify://pages/about-us"
+      }
+    },
+    "luxury_editorial_journal": {
+      "type": "luxury-editorial-journal",
+      "blocks": {
+        "article_1": {
+          "type": "article_card",
+          "settings": {
+            "default_asset": "art-painting-starry-night.jpg",
+            "category": "ART COLLECTING",
+            "read_time": "5 MIN READ",
+            "title": "The Collector's Guide: Investing in Contemporary Oil on Canvas",
+            "excerpt": "Understanding mineral pigment quality, archival linen substrates, and the rising valuation of textured mixed-media masterworks."
+          }
+        },
+        "article_2": {
+          "type": "article_card",
+          "settings": {
+            "default_asset": "art-sculpture-rodin-thinker.jpg",
+            "category": "SCULPTURAL ART",
+            "read_time": "6 MIN READ",
+            "title": "Living with Sculpture: Placing 3D Art Models & Bronze Figures",
+            "excerpt": "How architectural interior curators integrate three-dimensional art sculptures to create striking focal points in modern rooms."
+          }
+        },
+        "article_3": {
+          "type": "article_card",
+          "settings": {
+            "default_asset": "art-painting-water-lilies.jpg",
+            "category": "GALLERY CURATION",
+            "read_time": "4 MIN READ",
+            "title": "The Art of Archival Care: Lighting, Framing & Canvas Preservation",
+            "excerpt": "Preserving museum-grade oil paintings and delicate bronze patinas with optimal ambient lighting and temperature control."
+          }
+        }
+      },
+      "block_order": [
+        "article_1",
+        "article_2",
+        "article_3"
+      ],
+      "settings": {
+        "subheading": "THE COLLECTORS JOURNAL",
+        "heading": "ART & SCULPTURE DIALOGUES",
+        "background_color": "#ffffff"
+      }
+    },
+    "luxury_reviews_press": {
+      "type": "luxury-reviews-press",
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "quote": "The 6ft textured oil canvas and bronze sculpture arrived in custom white-glove museum crating. It completely transformed our penthouse into a living art gallery.",
+            "author_name": "Lady Victoria Hastings",
+            "author_city": "London, UK"
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "quote": "The Raw House is in a league of its own. The depth of pigments in their paintings and the raw weight of their hand-cast art models is authentic museum quality.",
+            "author_name": "Harrison Vance",
+            "author_city": "New York, NY"
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {
+            "quote": "Unrivaled curation of modern art paintings and sculptural masterpieces. Every visitor is mesmerized by the bronze statue in our gallery foyer.",
+            "author_name": "Sophia Laurent",
+            "author_city": "Paris, France"
+          }
+        },
+        "review_4": {
+          "type": "review",
+          "settings": {
+            "quote": "Acquired two monumental abstract canvases for our private villa in Como. The archival certificate of provenance and custom timber frames are sublime.",
+            "author_name": "Matteo Rossi",
+            "author_city": "Milan, Italy"
+          }
+        },
+        "review_5": {
+          "type": "review",
+          "settings": {
+            "quote": "The sculptural models and carved marble art figures bring an aura of serene elegance that no mass furniture ever could.",
+            "author_name": "Dr. Kenji Takahashi",
+            "author_city": "Tokyo, Japan"
+          }
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3",
+        "review_4",
+        "review_5"
+      ],
+      "settings": {
+        "subheading": "THE COLLECTORS VOICE",
+        "heading": "WORDS OF ADMIRATION",
+        "background_color": "#fcfbf9",
+        "autoplay": true,
+        "autoplay_speed": 5,
+        "show_press": true,
+        "press_1": "ARTFORUM",
+        "press_2": "ARCHITECTURAL DIGEST",
+        "press_3": "VOGUE LIVING",
+        "press_4": "FRIEZE",
+        "press_5": "ART REVIEW"
+      }
+    },
+    "luxury_vip_newsletter": {
+      "type": "luxury-vip-newsletter",
+      "settings": {
+        "subheading": "THE COLLECTORS CIRCLE",
+        "heading": "PRIVATE EXHIBITIONS & CATALOGUES",
+        "text": "Join our inner circle to receive confidential previews of newly acquired original canvases, bespoke sculpture editions, and private gallery vernissage invitations.",
+        "input_placeholder": "Enter your email address...",
+        "button_label": "JOIN CIRCLE",
+        "background_color": "#fcfbf9"
       }
     }
   },
   "order": [
-    "luxury_hero_slider",
-    "new_arrivals_gallery",
-    "recommendations_editorial",
-    "fine_prints_showcase",
-    "the_makers_grid",
-    "brand_manifesto",
-    "featured_press_and_quote"
+    "luxury_marquee_top",
+    "luxury_hero_showcase",
+    "luxury_trust_features",
+    "luxury_category_bubbles",
+    "luxury_bento_grid",
+    "luxury_tabbed_products",
+    "luxury_room_hotspots",
+    "luxury_craftsmanship_story",
+    "luxury_editorial_journal",
+    "luxury_reviews_press",
+    "luxury_vip_newsletter"
   ]
 }

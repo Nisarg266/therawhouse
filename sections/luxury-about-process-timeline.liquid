@@ -1,0 +1,194 @@
+{%- comment -%}
+  THE RAW HOUSE - LUXURY PROCESS & TIMELINE
+  4-Step visual craftsmanship journey from mineral sourcing to private gallery installation.
+{%- endcomment -%}
+
+<section
+  id="LuxuryAboutProcess-{{ section.id }}"
+  class="lux-process-section"
+  style="background: {{ section.settings.background_color | default: '#f7f6f2' }};"
+  {{ section.shopify_attributes }}
+>
+  <div class="lux-process-container">
+    <div class="lux-section-heading-wrap lux-reveal-fade-up">
+      {% if section.settings.subheading != blank %}
+        <span class="lux-section-subheading">{{ section.settings.subheading | default: 'THE ATELIER DISCIPLINE' }}</span>
+      {% endif %}
+      <h2 class="lux-section-heading">{{ section.settings.heading | default: 'FROM RAW MEDIUM TO PRIVATE GALLERY' }}</h2>
+      <div class="lux-section-divider"></div>
+      <p class="lux-process-intro">
+        {{ section.settings.intro | default: 'Each artwork moves through an unhurried sequence of master artisan disciplines, ensuring every painting and sculpture holds authentic museum permanence.' }}
+      </p>
+    </div>
+
+    <!-- 4 Steps Process Grid -->
+    <div class="lux-process-grid lux-stagger-parent lux-reveal-fade-up">
+      {% for block in section.blocks %}
+        <div class="lux-process-card lux-stagger-child" {{ block.shopify_attributes }}>
+          <div class="lux-process-media">
+            {% if block.settings.image != blank %}
+              <img
+                src="{{ block.settings.image | image_url: width: 800 }}"
+                alt="{{ block.settings.title | escape }}"
+                class="lux-process-img"
+                loading="eager"
+                width="400"
+                height="280"
+              >
+            {% elsif block.settings.default_asset != blank %}
+              <img
+                src="{{ block.settings.default_asset | asset_url }}"
+                alt="{{ block.settings.title | escape }}"
+                class="lux-process-img"
+                loading="eager"
+                onerror="this.onerror=null;this.src='{{ 'maker-gallery-1.jpg' | asset_url }}';"
+                width="400"
+                height="280"
+              >
+            {% else %}
+              <img
+                src="{{ 'maker-gallery-1.jpg' | asset_url }}"
+                alt="{{ block.settings.title | escape }}"
+                class="lux-process-img"
+                loading="eager"
+                width="400"
+                height="280"
+              >
+            {% endif %}
+            <span class="lux-process-step-num">{{ block.settings.step_number | default: forloop.index | prepend: '0' }}</span>
+          </div>
+
+          <div class="lux-process-info">
+            <span class="lux-process-tag">{{ block.settings.stage_label }}</span>
+            <h3 class="lux-process-card-title">{{ block.settings.title }}</h3>
+            <p class="lux-process-card-desc">{{ block.settings.description }}</p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Luxury Process Timeline",
+  "tag": "section",
+  "class": "section-luxury-process-timeline",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "THE ATELIER DISCIPLINE"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "FROM RAW MEDIUM TO PRIVATE GALLERY"
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Intro Text",
+      "default": "Each artwork moves through an unhurried sequence of master artisan disciplines, ensuring every painting and sculpture holds authentic museum permanence."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#f7f6f2"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Process Step",
+      "settings": [
+        {
+          "type": "text",
+          "id": "step_number",
+          "label": "Step Number",
+          "default": "01"
+        },
+        {
+          "type": "text",
+          "id": "stage_label",
+          "label": "Stage Label",
+          "default": "RAW MATERIAL DISCIPLINE"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Step Title",
+          "default": "Mineral Sourcing & Linen Priming"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Step Description",
+          "default": "Extracting raw ochres, lapis lazuli, and rich mineral pigments to hand-mix oil glazes over triple-primed Belgian linen canvas."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Step Image"
+        },
+        {
+          "type": "text",
+          "id": "default_asset",
+          "label": "Default Asset Fallback",
+          "default": "art-atelier-artist-studio.jpg"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Luxury Process Timeline",
+      "blocks": [
+        {
+          "type": "step",
+          "settings": {
+            "step_number": "01",
+            "stage_label": "STAGE I • PREPARATION",
+            "title": "Mineral Sourcing & Canvas Priming",
+            "description": "Extracting rich earth minerals and fine oils to hand-mix archival glazes over heavy-weight Belgian linen canvases.",
+            "default_asset": "art-atelier-artist-studio.jpg"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "step_number": "02",
+            "stage_label": "STAGE II • CREATION",
+            "title": "Lost-Wax Foundry & Sculptural Form",
+            "description": "Pouring molten bronze at 1,200°C into refractory ceramic shell molds, followed by hand-chiseled detailing and hot patinas.",
+            "default_asset": "art-sculpture-bronze-figure.jpg"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "step_number": "03",
+            "stage_label": "STAGE III • PROVENANCE",
+            "title": "Archival Framing & Ledger Registration",
+            "description": "Custom shadowbox hardwood framing and wax-sealed certificate of provenance registration in our master atelier ledger.",
+            "default_asset": "art-painting-gold-canvas.jpg"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "step_number": "04",
+            "stage_label": "STAGE IV • INSTALLATION",
+            "title": "White-Glove Crating & Installation",
+            "description": "Dispatched in bespoke museum-grade wooden crating with specialized transit and curatorial placement support worldwide.",
+            "default_asset": "art-gallery-room-hotspots.jpg"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

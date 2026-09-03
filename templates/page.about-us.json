@@ -1,0 +1,204 @@
+{
+  "sections": {
+    "luxury_marquee_top": {
+      "type": "luxury-marquee-ticker",
+      "settings": {
+        "ticker_1": "HAND-STRETCHED OIL CANVASES",
+        "ticker_2": "LOST-WAX CAST BRONZE SCULPTURES",
+        "ticker_3": "3D SAJAWAT ART MODELS",
+        "ticker_4": "AUTHENTIC CERTIFICATES OF PROVENANCE",
+        "ticker_5": "WHITE-GLOVE MUSEUM CRATING & TRANSIT"
+      }
+    },
+    "luxury_about_hero": {
+      "type": "luxury-about-hero",
+      "settings": {
+        "badge_text": "EST. 2024 • THE ATELIER & FOUNDRY",
+        "heading": "THE ART OF TIMELESS FORM & PIGMENT",
+        "subheading": "Where monumental oil paintings, lost-wax bronze sculptures, and architectural 3D art models converge into private living galleries.",
+        "button_text": "EXPLORE MASTERPIECES",
+        "height_desktop": 68,
+        "height_mobile": 480
+      }
+    },
+    "luxury_about_manifesto": {
+      "type": "luxury-about-manifesto",
+      "blocks": {
+        "pillar_1": {
+          "type": "pillar",
+          "settings": {
+            "numeral": "I",
+            "title": "MONUMENTAL OIL PAINTINGS",
+            "description": "Hand-stretched Belgian linen canvases prepared with traditional gesso ground, layered with rich natural mineral pigments and textured impasto techniques.",
+            "tag": "ORIGINAL OIL CANVASES"
+          }
+        },
+        "pillar_2": {
+          "type": "pillar",
+          "settings": {
+            "numeral": "II",
+            "title": "BRONZE SCULPTURE & 3D MODELS",
+            "description": "Lost-wax cast bronze statuettes, carved marble figures, and three-dimensional architectural decorative models that command tactile reverence.",
+            "tag": "LOST-WAX BRONZE & MARBLE"
+          }
+        },
+        "pillar_3": {
+          "type": "pillar",
+          "settings": {
+            "numeral": "III",
+            "title": "AUTHENTIC PROVENANCE & CARE",
+            "description": "Every acquisition is numbered, registered, and accompanied by a museum certificate of provenance guaranteeing archival longevity for generations.",
+            "tag": "MUSEUM PROVENANCE"
+          }
+        }
+      },
+      "block_order": [
+        "pillar_1",
+        "pillar_2",
+        "pillar_3"
+      ],
+      "settings": {
+        "subheading": "OUR ARTISTIC CALLING",
+        "heading": "THE ATELIER MANIFESTO",
+        "intro_text": "In an era of disposable mass-produced decor, The Raw House was founded on an unapologetic conviction: True art possesses physical weight, tactile soul, and unhurried mastery.",
+        "background_color": "#ffffff"
+      }
+    },
+    "luxury_about_founder": {
+      "type": "luxury-about-founder-atelier",
+      "settings": {
+        "subheading": "BEHIND THE CANVAS & FOUNDRY",
+        "heading": "HONORING THE WEIGHT OF CREATION",
+        "paragraph_1": "At The Raw House, we believe that an art piece is not merely an ornament—it is a tangible focal point that alters the energy and spatial geometry of an interior. Every oil painting begins with unhurried canvas stretching and mineral pigment blending, capturing luminous depth through dozens of textured impasto layers.",
+        "paragraph_2": "Our 3D sculptural models and bronze figures undergo traditional lost-wax foundry casting. Heated to over 1,200°C and hand-chiseled by master sculptors, each piece achieves a weighted presence and rich patina that mass machinery could never replicate.",
+        "background_color": "#0d0d0d"
+      }
+    },
+    "luxury_about_process": {
+      "type": "luxury-about-process-timeline",
+      "blocks": {
+        "step_1": {
+          "type": "step",
+          "settings": {
+            "step_number": "01",
+            "stage_label": "STAGE I • PREPARATION",
+            "title": "Mineral Sourcing & Canvas Priming",
+            "description": "Extracting rich earth minerals and fine oils to hand-mix archival glazes over heavy-weight Belgian linen canvases.",
+            "default_asset": "art-atelier-artist-studio.jpg"
+          }
+        },
+        "step_2": {
+          "type": "step",
+          "settings": {
+            "step_number": "02",
+            "stage_label": "STAGE II • CREATION",
+            "title": "Lost-Wax Foundry & Sculptural Form",
+            "description": "Pouring molten bronze at 1,200°C into refractory ceramic shell molds, followed by hand-chiseled detailing and hot patinas.",
+            "default_asset": "art-sculpture-bronze-figure.jpg"
+          }
+        },
+        "step_3": {
+          "type": "step",
+          "settings": {
+            "step_number": "03",
+            "stage_label": "STAGE III • PROVENANCE",
+            "title": "Archival Framing & Ledger Registration",
+            "description": "Custom shadowbox hardwood framing and wax-sealed certificate of provenance registration in our master atelier ledger.",
+            "default_asset": "art-painting-gold-canvas.jpg"
+          }
+        },
+        "step_4": {
+          "type": "step",
+          "settings": {
+            "step_number": "04",
+            "stage_label": "STAGE IV • INSTALLATION",
+            "title": "White-Glove Crating & Installation",
+            "description": "Dispatched in bespoke museum-grade wooden crating with specialized transit and curatorial placement support worldwide.",
+            "default_asset": "art-gallery-room-hotspots.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "step_1",
+        "step_2",
+        "step_3",
+        "step_4"
+      ],
+      "settings": {
+        "subheading": "THE ATELIER DISCIPLINE",
+        "heading": "FROM RAW MEDIUM TO PRIVATE GALLERY",
+        "intro": "Each artwork moves through an unhurried sequence of master artisan disciplines, ensuring every painting and sculpture holds authentic museum permanence.",
+        "background_color": "#f7f6f2"
+      }
+    },
+    "luxury_trust_features": {
+      "type": "luxury-trust-features",
+      "settings": {
+        "background_color": "#ffffff"
+      }
+    },
+    "luxury_reviews_press": {
+      "type": "luxury-reviews-press",
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "quote": "The 6ft textured oil canvas and bronze sculpture arrived in custom white-glove museum crating. It completely transformed our penthouse into a living art gallery.",
+            "author_name": "Lady Victoria Hastings",
+            "author_city": "London, UK"
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "quote": "The Raw House is in a league of its own. The depth of pigments in their paintings and the raw weight of their hand-cast art models is authentic museum quality.",
+            "author_name": "Harrison Vance",
+            "author_city": "New York, NY"
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {
+            "quote": "Unrivaled curation of modern art paintings and sculptural masterpieces. Every visitor is mesmerized by the bronze statue in our gallery foyer.",
+            "author_name": "Sophia Laurent",
+            "author_city": "Paris, France"
+          }
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3"
+      ],
+      "settings": {
+        "subheading": "THE COLLECTORS VOICE",
+        "heading": "WORDS OF ADMIRATION",
+        "background_color": "#fcfbf9",
+        "autoplay": true,
+        "autoplay_speed": 5,
+        "show_press": true
+      }
+    },
+    "luxury_vip_newsletter": {
+      "type": "luxury-vip-newsletter",
+      "settings": {
+        "subheading": "THE COLLECTORS CIRCLE",
+        "heading": "PRIVATE EXHIBITIONS & CATALOGUES",
+        "text": "Join our inner circle to receive confidential previews of newly acquired original canvases, bespoke sculpture editions, and private gallery vernissage invitations.",
+        "input_placeholder": "Enter your email address...",
+        "button_label": "JOIN CIRCLE",
+        "background_color": "#fcfbf9"
+      }
+    }
+  },
+  "order": [
+    "luxury_marquee_top",
+    "luxury_about_hero",
+    "luxury_about_manifesto",
+    "luxury_about_founder",
+    "luxury_about_process",
+    "luxury_trust_features",
+    "luxury_reviews_press",
+    "luxury_vip_newsletter"
+  ]
+}

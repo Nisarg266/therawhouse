@@ -1,0 +1,220 @@
+{%- comment -%}
+  THE RAW HOUSE - ASYMMETRICAL BENTO GRID SHOWCASE
+  Modern Bento Box layout for new arrivals & collections with glassmorphism overlays and hover zoom.
+{%- endcomment -%}
+
+<div
+  id="LuxuryBento-{{ section.id }}"
+  class="lux-bento-section"
+  style="background: {{ section.settings.background_color }};"
+  {{ section.shopify_attributes }}
+>
+  <div class="lux-bento-container">
+    {% if section.settings.heading != blank %}
+      <div class="lux-section-heading-wrap lux-reveal-fade-up">
+        {% if section.settings.subheading != blank %}
+          <span class="lux-section-subheading">{{ section.settings.subheading }}</span>
+        {% endif %}
+        <h2 class="lux-section-heading">{{ section.settings.heading }}</h2>
+        <div class="lux-section-divider"></div>
+      </div>
+    {% endif %}
+
+    <div class="lux-bento-grid lux-stagger-parent lux-reveal-fade-up">
+      {% for block in section.blocks %}
+        <a
+          href="{{ block.settings.link | default: routes.all_products_collection_url }}"
+          class="lux-bento-card lux-bento-card--{{ block.settings.card_size }} lux-stagger-child"
+          {{ block.shopify_attributes }}
+        >
+          {% if block.settings.image != blank %}
+            {{
+              block.settings.image
+              | image_url: width: 1400
+              | image_tag:
+                class: 'lux-bento-img',
+                loading: 'eager',
+                alt: block.settings.title
+            }}
+          {% elsif block.settings.default_asset != blank %}
+            <img
+              src="{{ block.settings.default_asset | asset_url }}"
+              alt="{{ block.settings.title | escape }}"
+              class="lux-bento-img"
+              loading="eager"
+              onerror="this.onerror=null;this.src='{{ 'maker-gallery-2.jpg' | asset_url }}';"
+              width="800"
+              height="600"
+            >
+          {% else %}
+            <img
+              src="{{ 'maker-gallery-2.jpg' | asset_url }}"
+              alt="{{ block.settings.title | escape }}"
+              class="lux-bento-img"
+              loading="eager"
+              width="800"
+              height="600"
+            >
+          {% endif %}
+
+          <div class="lux-bento-overlay">
+            {% if block.settings.badge != blank %}
+              <span class="lux-bento-badge">{{ block.settings.badge }}</span>
+            {% endif %}
+
+            <h3 class="lux-bento-title">{{ block.settings.title }}</h3>
+            {% if block.settings.subtitle != blank %}
+              <p class="lux-bento-subtitle">{{ block.settings.subtitle }}</p>
+            {% endif %}
+
+            <span class="lux-bento-cta">
+              {{ block.settings.cta_text | default: 'EXPLORE EDIT' }}
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </span>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Luxury Bento Grid",
+  "tag": "section",
+  "class": "section-luxury-bento",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "THE COLLECTION"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "NEW ARRIVALS & EDITS"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "bento_card",
+      "name": "Bento Card",
+      "settings": [
+        {
+          "type": "select",
+          "id": "card_size",
+          "label": "Card Size / Proportion",
+          "options": [
+            { "value": "large", "label": "Large (Hero 7x2)" },
+            { "value": "medium", "label": "Medium (Top Right 5x1)" },
+            { "value": "tall", "label": "Tall (Vertical 4x2)" },
+            { "value": "wide", "label": "Wide (Landscape 8x1)" }
+          ],
+          "default": "large"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Card Image"
+        },
+        {
+          "type": "text",
+          "id": "default_asset",
+          "label": "Default Asset Fallback"
+        },
+        {
+          "type": "text",
+          "id": "badge",
+          "label": "Badge Pill",
+          "default": "NEW ARRIVAL"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Card Title",
+          "default": "SCULPTURAL LOUNGE"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle / Description",
+          "default": "Handcrafted boucle seating for understated modern luxury."
+        },
+        {
+          "type": "text",
+          "id": "cta_text",
+          "label": "CTA Link Text",
+          "default": "EXPLORE EDIT"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Card Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Luxury Bento Grid",
+      "blocks": [
+        {
+          "type": "bento_card",
+          "settings": {
+            "card_size": "large",
+            "default_asset": "hero-museum-exhibition-3.jpg",
+            "badge": "MUSEUM COLLECTION",
+            "title": "THE GRAND EXHIBITION HALL",
+            "subtitle": "Harmonious curation of monumental canvas oil paintings and museum-grade sculptural masterworks.",
+            "cta_text": "ENTER EXHIBITION"
+          }
+        },
+        {
+          "type": "bento_card",
+          "settings": {
+            "card_size": "medium",
+            "default_asset": "hero-fine-art-2.jpg",
+            "badge": "ORIGINAL PAINTINGS",
+            "title": "GOLD LEAF & CANVAS OILS",
+            "subtitle": "Museum-grade contemporary abstractions and textured impasto.",
+            "cta_text": "VIEW PAINTINGS"
+          }
+        },
+        {
+          "type": "bento_card",
+          "settings": {
+            "card_size": "tall",
+            "default_asset": "art-sculpture-rodin-thinker.jpg",
+            "badge": "SCULPTURAL ART",
+            "title": "CAST BRONZE & MARBLE",
+            "subtitle": "Handcrafted 3D art models and iconic statuettes.",
+            "cta_text": "DISCOVER SCULPTURES"
+          }
+        },
+        {
+          "type": "bento_card",
+          "settings": {
+            "card_size": "wide",
+            "default_asset": "art-painting-water-lilies.jpg",
+            "badge": "FINE ART PRINTS",
+            "title": "ARCHIVAL GALLERY EDITIONS",
+            "subtitle": "Museum-grade 100% cotton rag archival prints hand-signed with certificate of provenance.",
+            "cta_text": "EXPLORE EDITIONS"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

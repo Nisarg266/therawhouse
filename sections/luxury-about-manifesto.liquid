@@ -1,0 +1,147 @@
+{%- comment -%}
+  THE RAW HOUSE - LUXURY ABOUT MANIFESTO
+  3-Column Pillars of the Fine Art & Sculpture Atelier with Roman numerals and gold accents.
+{%- endcomment -%}
+
+<section
+  id="LuxuryAboutManifesto-{{ section.id }}"
+  class="lux-manifesto-section"
+  style="background: {{ section.settings.background_color | default: '#ffffff' }};"
+  {{ section.shopify_attributes }}
+>
+  <div class="lux-manifesto-container">
+    <div class="lux-section-heading-wrap lux-reveal-fade-up">
+      {% if section.settings.subheading != blank %}
+        <span class="lux-section-subheading">{{ section.settings.subheading | default: 'OUR ARTISTIC CALLING' }}</span>
+      {% endif %}
+      <h2 class="lux-section-heading">{{ section.settings.heading | default: 'THE ATELIER MANIFESTO' }}</h2>
+      <div class="lux-section-divider"></div>
+      {% if section.settings.intro_text != blank %}
+        <p class="lux-manifesto-intro">
+          "{{ section.settings.intro_text | default: 'In an era of disposable mass-produced decor, The Raw House was founded on an unapologetic conviction: True art possesses physical weight, tactile soul, and unhurried mastery.' }}"
+        </p>
+      {% endif %}
+    </div>
+
+    <!-- 3 Pillars Grid -->
+    <div class="lux-manifesto-grid lux-stagger-parent lux-reveal-fade-up">
+      {% for block in section.blocks %}
+        <div class="lux-manifesto-card lux-stagger-child" {{ block.shopify_attributes }}>
+          <div class="lux-manifesto-card-header">
+            <span class="lux-manifesto-roman">{{ block.settings.numeral | default: forloop.index | prepend: '0' }}</span>
+            <div class="lux-manifesto-line"></div>
+          </div>
+
+          <h3 class="lux-manifesto-card-title">{{ block.settings.title }}</h3>
+          <p class="lux-manifesto-card-desc">{{ block.settings.description }}</p>
+
+          {% if block.settings.tag != blank %}
+            <div class="lux-manifesto-card-footer">
+              <span class="lux-manifesto-tag">{{ block.settings.tag }}</span>
+            </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Luxury About Manifesto",
+  "tag": "section",
+  "class": "section-luxury-about-manifesto",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "OUR ARTISTIC CALLING"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "THE ATELIER MANIFESTO"
+    },
+    {
+      "type": "textarea",
+      "id": "intro_text",
+      "label": "Introductory Philosophy Quote",
+      "default": "In an era of disposable mass-produced decor, The Raw House was founded on an unapologetic conviction: True art possesses physical weight, tactile soul, and unhurried mastery."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "pillar",
+      "name": "Manifesto Pillar",
+      "settings": [
+        {
+          "type": "text",
+          "id": "numeral",
+          "label": "Roman Numeral / Step",
+          "default": "I"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Pillar Title",
+          "default": "MONUMENTAL OIL PAINTINGS"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Pillar Description",
+          "default": "Hand-stretched Belgian linen canvases prepared with traditional gesso ground, layered with rich natural mineral pigments and textured impasto techniques."
+        },
+        {
+          "type": "text",
+          "id": "tag",
+          "label": "Badge Tag",
+          "default": "PURE PIGMENTS"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Luxury About Manifesto",
+      "blocks": [
+        {
+          "type": "pillar",
+          "settings": {
+            "numeral": "I",
+            "title": "MONUMENTAL OIL PAINTINGS",
+            "description": "Hand-stretched Belgian linen canvases prepared with traditional gesso ground, layered with rich natural mineral pigments and textured impasto techniques.",
+            "tag": "ORIGINAL OIL CANVASES"
+          }
+        },
+        {
+          "type": "pillar",
+          "settings": {
+            "numeral": "II",
+            "title": "BRONZE SCULPTURE & 3D MODELS",
+            "description": "Lost-wax cast bronze statuettes, carved marble figures, and three-dimensional architectural decorative models that command tactile reverence.",
+            "tag": "LOST-WAX BRONZE & MARBLE"
+          }
+        },
+        {
+          "type": "pillar",
+          "settings": {
+            "numeral": "III",
+            "title": "AUTHENTIC PROVENANCE & CARE",
+            "description": "Every acquisition is numbered, registered, and accompanied by a museum certificate of provenance guaranteeing archival longevity for generations.",
+            "tag": "MUSEUM PROVENANCE"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

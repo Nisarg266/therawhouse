@@ -1,35 +1,13 @@
 {%- doc -%}
-  Renders a header drawer menu triggered by the top details element.
-
-  @param {string} [class] - Additional classes to add to the drawer
-  @param {object} [block] - The block that can be used to provide settings
+  Renders the Ultra-Luxury Header Slide Drawer Navigation.
 {%- enddoc -%}
 
-{% liquid
-  assign block_settings = block.settings
-  assign image_border_radius = block_settings.image_border_radius | default: 0
-
-  if block_settings.background_color != blank or block_settings.text_color != blank
-    render 'contrast-override', background_color: block_settings.background_color, text_color: block_settings.text_color, section_id: block.id
-  endif
-%}
-
-<script
-  src="{{ 'header-drawer.js' | asset_url }}"
-  type="module"
-  fetchpriority="low"
-></script>
-
-<header-drawer
-  class="header-drawer {{ class }}"
-  style="--menu-image-border-radius: {{ image_border_radius }}px; --resource-card-corner-radius: {{ image_border_radius }}px;"
->
+<header-drawer class="header-drawer {{ class }}">
   <details
     id="Details-menu-drawer-container"
     data-skip-node-update="true"
     class="menu-drawer-container"
     ref="details"
-    scroll-lock
   >
     <summary
       class="header__icon header__icon--menu header__icon--summary"
@@ -42,736 +20,503 @@
         {{- 'icon-close.svg' | inline_asset_content -}}
       </span>
     </summary>
-    <div
-      class="menu-drawer__backdrop"
-      aria-hidden="true"
-    ></div>
-    <div
-      ref="menuDrawer"
-      class="
-        menu-drawer
-        {% if block_settings.background_color != blank or block_settings.text_color != blank %}
-          color-custom-{{ block.id }}
-        {% endif %}
-      "
-    >
-      <div class="menu-drawer__header">
-        <span class="menu-drawer__header-title">COLLABORATIONS</span>
+
+    <div class="menu-drawer__backdrop" aria-hidden="true"></div>
+
+    <div ref="menuDrawer" class="menu-drawer">
+      <!-- Drawer Header -->
+      <div class="menu-drawer__head">
+        <div class="menu-drawer__brand">
+          <span class="menu-drawer__brand-title">THE RAW HOUSE</span>
+          <span class="menu-drawer__brand-sub">FINE ART & BESPOKE ATELIER</span>
+        </div>
+        <button
+          type="button"
+          class="menu-drawer__close-btn"
+          aria-label="Close Navigation"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
       </div>
 
-      {%- comment -%} Editorial Feature Gallery Card (Screenshot Match) {%- endcomment -%}
-      <div class="menu-drawer__editorial-card">
-        <div class="menu-drawer__editorial-img-wrap">
+      <!-- Drawer Spotlight Card -->
+      <div class="menu-drawer__spotlight">
+        <div class="menu-drawer__spotlight-media">
           <img
             src="{{ 'maker-gallery-1.jpg' | asset_url }}"
-            alt="The House of Things Gallery"
-            class="menu-drawer__editorial-img"
+            alt="The Raw House Gallery Exhibition"
+            class="menu-drawer__spotlight-img"
             loading="lazy"
-            width="600"
-            height="400"
+            width="500"
+            height="300"
           >
-        </div>
-        <div class="menu-drawer__editorial-info">
-          <h3 class="menu-drawer__editorial-title">THE HOUSE OF THINGS GALLERY</h3>
-          <a href="/pages/gallery" class="menu-drawer__editorial-link">Visit Us</a>
+          <div class="menu-drawer__spotlight-overlay"></div>
+          <div class="menu-drawer__spotlight-content">
+            <span class="menu-drawer__spotlight-badge">✦ ATELIER EXHIBITION</span>
+            <h3 class="menu-drawer__spotlight-title">ARCHITECTURAL LIVING & FINE ART</h3>
+            <a href="{{ routes.all_products_collection_url }}" class="menu-drawer__spotlight-link">
+              EXPLORE EXHIBITION
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </a>
+          </div>
         </div>
       </div>
 
-      <nav
-        class="menu-drawer__navigation"
-        style="
-          {%- render 'menu-font-styles', settings: block_settings, menu_type: 'drawer' %}
-          {%- render 'submenu-font-styles', settings: block_settings %}
-        "
-        aria-label="{{ 'accessibility.header_navigation_label' | t }}"
-      >
-        <ul
-          class="menu-drawer__menu has-submenu"
-          role="list"
-        >
-          {% liquid
-            assign default_menu_items = 'VIEW ALL EDITS,INTERIORS,GIFTS,ART CONSULTANCY,B2B,CONCIERGE,JOURNAL' | split: ','
-          %}
-          {% for item_title in default_menu_items %}
-            <li class="menu-drawer__list-item--flat">
-              <a href="{{ routes.all_products_collection_url }}" class="menu-drawer__menu-item">
-                <span class="menu-drawer__menu-item-text">{{ item_title }}</span>
-              </a>
-            </li>
-          {% endfor %}
+      <!-- Main Navigation Menu -->
+      <nav class="menu-drawer__nav" aria-label="Main Navigation">
+        <div class="menu-drawer__nav-heading">GALLERY COLLECTIONS</div>
+        <ul class="menu-drawer__list" role="list">
+          <li class="menu-drawer__item">
+            <a href="{{ routes.all_products_collection_url }}" class="menu-drawer__link">
+              <span>ORIGINAL OIL PAINTINGS & CANVAS</span>
+              <svg class="menu-drawer__chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </a>
+          </li>
+          <li class="menu-drawer__item">
+            <a href="{{ routes.all_products_collection_url }}" class="menu-drawer__link">
+              <span>BESPOKE SCULPTURAL FURNITURE</span>
+              <svg class="menu-drawer__chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </a>
+          </li>
+          <li class="menu-drawer__item">
+            <a href="{{ routes.all_products_collection_url }}" class="menu-drawer__link">
+              <span>BRONZE & MARBLE SCULPTURES</span>
+              <svg class="menu-drawer__chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </a>
+          </li>
+          <li class="menu-drawer__item">
+            <a href="{{ routes.all_products_collection_url }}" class="menu-drawer__link">
+              <span>ARCHITECTURAL BRASS LIGHTING</span>
+              <svg class="menu-drawer__chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </a>
+          </li>
+          <li class="menu-drawer__item">
+            <a href="{{ routes.all_products_collection_url }}" class="menu-drawer__link">
+              <span>LIMITED ARCHIVAL FINE PRINTS</span>
+              <svg class="menu-drawer__chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </a>
+          </li>
+          <li class="menu-drawer__item">
+            <a href="{{ routes.all_products_collection_url }}" class="menu-drawer__link">
+              <span>HAND-KNOTTED ORGANIC RUGS</span>
+              <svg class="menu-drawer__chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </a>
+          </li>
+          <li class="menu-drawer__item">
+            <a href="/blogs/news" class="menu-drawer__link">
+              <span>COLLECTORS JOURNAL</span>
+              <svg class="menu-drawer__chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </a>
+          </li>
+          <li class="menu-drawer__item">
+            <a href="/pages/about-us" class="menu-drawer__link">
+              <span>THE ATELIER & ARTISANS</span>
+              <svg class="menu-drawer__chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </a>
+          </li>
+          <li class="menu-drawer__item">
+            <a href="/pages/contact" class="menu-drawer__link">
+              <span>PRIVATE ART ADVISORY & CONTACT</span>
+              <svg class="menu-drawer__chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </a>
+          </li>
         </ul>
       </nav>
+
+      <!-- Drawer Footer & Concierge -->
+      <div class="menu-drawer__footer">
+        <div class="menu-drawer__concierge-box">
+          <div class="menu-drawer__concierge-title">✦ PRIVATE ART CONCIERGE</div>
+          <p class="menu-drawer__concierge-desc">
+            Bespoke commissions, private viewings & interior advising.
+          </p>
+          <a href="mailto:concierge@therawhouse.com" class="menu-drawer__concierge-contact">
+            concierge@therawhouse.com
+          </a>
+        </div>
+
+        <div class="menu-drawer__socials">
+          <a href="https://instagram.com" target="_blank" rel="noopener" class="menu-drawer__social-link" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+          </a>
+          <a href="https://pinterest.com" target="_blank" rel="noopener" class="menu-drawer__social-link" aria-label="Pinterest">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+              <path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738.098.119.112.224.083.345-.09.375-.293 1.194-.333 1.36-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/>
+            </svg>
+          </a>
+          <a href="https://facebook.com" target="_blank" rel="noopener" class="menu-drawer__social-link" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+              <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
     </div>
   </details>
 </header-drawer>
 
-{% stylesheet %}
-  .header__icon--menu {
-    position: initial;
+<style>
+  /* Drawer Container & Details */
+  .menu-drawer-container {
+    display: inline-block;
   }
 
-  .menu-drawer-container .header__icon--summary {
-    color: var(--color-foreground);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: var(--padding-lg);
+  .menu-drawer-container summary {
+    list-style: none;
+    outline: none;
   }
 
-  .header__icon--summary .header-drawer-icon {
-    margin: auto;
-    width: 24px;
-    height: 24px;
-  }
-  .header__icon--summary .header-drawer-icon svg {
-    width: 24px;
-    height: 24px;
-  }
-
-  .menu-drawer__featured-content {
-    z-index: var(--layer-base);
-    container-type: inline-size;
-  }
-
-  .menu-drawer__featured-content--childlist {
-    z-index: var(--layer-flat);
-  }
-
-  .menu-drawer__featured-content-list {
-    display: flex;
-    gap: 1em;
-    overflow-x: auto;
-    padding-block-end: var(--padding-lg);
-  }
-
-  .menu-drawer__featured-content-list-item {
-    flex: 0 0 auto;
-  }
-
-  .menu-drawer__featured-content-list-item--product {
-    width: 35cqi;
-  }
-
-  .menu-drawer__featured-content-list-item--collection img.resource-card__image {
-    width: 80cqi;
-  }
-
-  .menu-drawer__featured-content-list-item:first-child {
-    margin-inline-start: var(--margin-xl);
-  }
-
-  .menu-drawer__featured-content-list-item:last-child {
-    margin-inline-end: var(--margin-xl);
-  }
-
-  .menu-drawer__navigation {
-    padding: 0;
-
-    @media screen and (min-width: 750px) {
-      margin-top: var(--drawer-header-desktop-top);
-    }
-  }
-
-  details:not(.menu-open) .header__icon--menu .header-drawer-icon--close {
+  .menu-drawer-container summary::-webkit-details-marker {
     display: none;
   }
 
-  details.menu-open .header__icon--menu .header-drawer-icon--close {
-    @media screen and (min-width: 750px) {
-      display: none;
-    }
-  }
-
-  details.menu-open .header__icon--menu .header-drawer-icon--open {
-    display: none;
-
-    @media screen and (min-width: 750px) {
-      display: flex;
-    }
-  }
-
-  .menu-drawer {
-    position: fixed;
-    transform: translateX(-100%);
-    visibility: hidden;
-    height: var(--drawer-height);
-    width: var(--drawer-width);
-    max-width: var(--drawer-max-width);
-    z-index: var(--layer-menu-drawer);
-    left: 0;
-    top: 0;
-    padding: 0;
-    background-color: var(--color-background);
-    overflow: auto;
-    display: flex;
-    border-right: var(--style-border-drawer);
-    flex-direction: column;
-
-    @media screen and (min-width: 750px) {
-      width: 25rem;
-    }
-  }
-
-  /* When opening a submenu we don't want the first-level menu to be scrollable, so we reset the overflow  */
-  .menu-drawer.menu-drawer--has-submenu-opened {
-    overflow: initial;
-  }
-
+  /* Backdrop */
   .menu-drawer__backdrop {
     position: fixed;
-    top: 0;
-    left: 0;
+    inset: 0;
     width: 100vw;
-    height: 100dvh;
-    backdrop-filter: brightness(0.75);
-    z-index: var(--layer-overlay);
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     opacity: 0;
-    transition: opacity var(--drawer-animation-speed) ease;
-
-    .menu-open & {
-      opacity: 1;
-    }
-  }
-
-  .menu-drawer,
-  details[open] > .menu-drawer__submenu {
-    transition: transform var(--drawer-animation-speed) ease, visibility var(--drawer-animation-speed) ease,
-      opacity var(--drawer-animation-speed) ease;
-  }
-
-  .menu-open > .menu-drawer,
-  .menu-open > .menu-drawer__submenu:not(.menu-drawer__menu--childlist) {
-    transform: translateX(0);
-    visibility: visible;
-    opacity: 1;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .menu-drawer__inner-container {
-    position: relative;
-    height: 100%;
-  }
-
-  .menu-drawer__navigation-container {
-    display: grid;
-    grid-template-rows: 1fr auto;
-    align-content: space-between;
-    overflow-y: auto;
-    height: 100%;
-  }
-
-  .menu-drawer__inner-submenu {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    overflow-y: auto;
-
-    @media screen and (min-width: 750px) {
-      margin-top: var(--drawer-header-desktop-top);
-    }
-  }
-
-  .menu-drawer__nav-buttons {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .menu-drawer__menu {
-    --menu-drawer-inline-padding: calc(var(--padding-sm) + 7px);
-
-    list-style: none;
-    padding-inline: var(--drawer-padding);
-    margin-inline: 0;
-    margin-block-start: 0;
-  }
-
-  .menu-drawer__menu--grid {
-    display: grid;
-    width: 100%;
-    grid-template-columns: 1fr 1fr;
-    gap: var(--padding-sm);
-    padding-inline-end: var(--menu-drawer-inline-padding);
-    padding-block-start: var(--padding-xs);
-  }
-
-  .menu-drawer__menu--childlist:not(.menu-drawer__menu--grid) {
-    flex-grow: 1;
-  }
-
-  .menu-drawer__menu.has-submenu,
-  .menu-drawer__menu--childlist:not(:has(.menu-drawer__animated-element)) {
-    margin-block-end: var(--margin-xs);
-
-    @media screen and (min-width: 750px) {
-      margin-block-end: 2.5rem;
-    }
-  }
-
-  .menu-drawer__list-item--divider {
-    border-block-end: 1px solid var(--color-border);
-  }
-
-  .menu-drawer__list-item--deep:not(.menu-drawer__list-item--divider) .menu-drawer__menu {
-    margin-block-start: -0.3rem;
-  }
-
-  .menu-drawer__list-item--flat.menu-drawer__list-item--divider .menu-drawer__menu {
-    margin-block-start: -0.4rem;
-  }
-
-  .menu-drawer__menu-container--divider {
-    border-block-end: 1px solid var(--color-border);
-  }
-
-  .menu-drawer__menu > .menu-drawer__list-item {
-    display: flex;
-    min-height: calc(2 * var(--padding-lg) + var(--icon-size-xs));
-  }
-
-  .menu-drawer__list-item--deep .menu-drawer__list-item,
-  .menu-drawer__list-item--flat .menu-drawer__list-item {
-    min-height: auto;
-  }
-
-  .menu-drawer__menu .menu-drawer__list-item--flat {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-block-end: var(--margin-md);
-  }
-
-  .menu-drawer__menu--childlist .menu-drawer__list-item--flat {
-    margin-block-end: var(--margin-sm);
-
-    @media screen and (min-width: 750px) {
-      margin-block-end: var(--margin-lg);
-    }
-  }
-
-  .menu-drawer__menu--childlist .menu-drawer__list-item--flat.menu-drawer__list-item--divider {
-    margin-block-end: 0;
-  }
-
-  .menu-drawer__list-item--flat .menu-drawer__menu--childlist {
-    width: 100%;
-    padding-inline: 0;
-  }
-
-  .menu-drawer-container[open] .menu-drawer__animated-element {
-    animation: menu-drawer-nav-open var(--drawer-animation-speed) ease-in-out;
-    animation-delay: calc(var(--drawer-animation-speed) + (var(--menu-drawer-animation-index) - 1) * 0.1s);
-    animation-fill-mode: backwards;
-  }
-
-  .menu-drawer__menu accordion-custom .details-content--no-animation {
-    animation: none;
-    visibility: visible;
-    opacity: 1;
-    transform: translateX(0);
-    transition: none;
-  }
-
-  .menu-drawer__menu details,
-  .menu-drawer__menu-item,
-  .menu-drawer__menu accordion-custom {
-    width: 100%;
-  }
-
-  .menu-drawer__list-item--divider .menu-drawer__menu-item:not(.menu-drawer__menu-item--child) {
-    min-height: calc(2 * var(--padding-lg) + var(--icon-size-xs));
-  }
-
-  .menu-drawer__menu-item--mainlist {
-    min-height: calc(2 * var(--padding-lg) + var(--icon-size-xs));
-    font-family: var(--menu-top-level-font-family);
-    font-style: var(--menu-top-level-font-style);
-    font-weight: 500;
-    font-size: var(--menu-top-level-font-size);
-    line-height: var(--menu-top-level-font-line-height);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--menu-top-level-font-color);
-    justify-content: space-between;
-
-    &:hover {
-      color: var(--menu-top-level-font-color);
-    }
-  }
-
-  .menu-drawer__menu-item--parent {
-    font-family: var(--menu-parent-font-family);
-    font-style: var(--menu-parent-font-style);
-    font-weight: var(--menu-parent-font-weight);
-    font-size: var(--menu-parent-font-size);
-    line-height: var(--menu-parent-font-line-height);
-    text-transform: var(--menu-parent-font-case);
-    color: var(--menu-parent-font-color);
-
-    &:hover {
-      color: var(--menu-parent-font-color);
-    }
-  }
-
-  .menu-drawer__menu-item--child {
-    font-family: var(--menu-child-font-family);
-    font-style: var(--menu-child-font-style);
-    font-weight: var(--menu-child-font-weight);
-    font-size: var(--menu-child-font-size);
-    line-height: var(--menu-child-font-line-height);
-    text-transform: var(--menu-child-font-case);
-    color: var(--menu-child-font-color);
-
-    &:hover {
-      color: var(--menu-child-font-color);
-    }
-  }
-
-  .menu-drawer__menu--childlist summary.menu-drawer__menu-item {
-    display: flex;
-    width: 100%;
-    padding-inline-end: 0;
-  }
-
-  .menu-drawer__list-item--deep .menu-drawer__menu,
-  .menu-drawer__menu--grandchildlist {
-    padding-inline: 0;
-  }
-
-  .menu-drawer__list-item--deep .menu-drawer__menu {
-    padding-block-end: 0.5rem;
-  }
-
-  .menu-drawer__list-item--deep.menu-drawer__list-item--divider .menu-drawer__menu {
-    padding-block-end: 0.3rem;
-  }
-
-  .menu-drawer__list-item--flat.menu-drawer__list-item--divider .menu-drawer__menu--grandchildlist {
-    padding-block-end: 0.5rem;
-  }
-
-  .menu-drawer__menu-item {
-    display: flex;
-    padding: var(--padding-2xs) 0;
-    position: relative;
-    text-decoration: none;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .menu-drawer__menu-item:has(> .menu-drawer__link-image) {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    row-gap: var(--padding-3xs);
-    padding: 0;
-  }
-
-  .menu-drawer__link-image {
-    width: 100%;
-    position: relative;
-    aspect-ratio: 16 / 9;
-    object-fit: cover;
-  }
-
-  /* Fix alignment for collection image mode links without images in drawer */
-
-  /* Target menu items in grids that have images */
-  .menu-drawer__menu--grid:has(.menu-drawer__link-image) .menu-drawer__menu-item:not(:has(> .menu-drawer__link-image)) {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    row-gap: var(--padding-3xs);
-    padding: 0;
-  }
-
-  .menu-drawer__menu--grid:has(.menu-drawer__link-image)
-    .menu-drawer__menu-item:not(:has(> .menu-drawer__link-image))::before {
-    content: '';
-    display: block;
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    background-color: var(--color-foreground-muted);
-    opacity: 0.1;
-    border-radius: var(--menu-image-border-radius);
-  }
-
-  .menu-drawer__close-button {
-    position: relative;
-    right: auto;
-    top: auto;
-    width: fit-content;
-    height: fit-content;
-    color: inherit;
-    padding: var(--padding-lg);
-  }
-
-  .menu-drawer__back-button {
-    display: flex;
-    width: 100%;
-    padding: var(--padding-md) var(--padding-xl);
-    border: none;
-    align-items: center;
-    color: var(--color-foreground);
-    background-color: transparent;
-    text-align: left;
-    text-decoration: none;
-    white-space: nowrap;
-    overflow-x: hidden;
-    line-height: 1.2;
-    box-shadow: none;
-  }
-
-  .menu-drawer__close-button.menu-drawer__close-button,
-  .menu-drawer__back-button.menu-drawer__back-button {
-    outline-color: var(--color-foreground-subdued);
-  }
-
-  .menu-drawer__menu-item-text {
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  /** Styles when the country selector is hidden */
-  .menu-drawer .language-selector:not(.menu-drawer__submenu *) {
-    width: fit-content;
-    padding-inline-start: 0;
-
-    .localization-form__select {
-      text-align: left;
-    }
-  }
-
-  .menu-drawer__menu-item > .svg-wrapper {
-    width: fit-content;
-    height: fit-content;
-    margin: 0;
-    padding-block: var(--padding-lg);
-    padding-inline-start: var(--padding-xl);
-    flex-shrink: 0;
-  }
-
-  .menu-drawer__list-item--divider .menu-drawer__menu-item > .svg-wrapper {
-    padding-block: var(--padding-md);
-  }
-
-  .menu-drawer svg {
-    width: var(--icon-size-xs);
-    height: var(--icon-size-xs);
-  }
-
-  .menu-drawer__submenu {
-    position: absolute;
-    width: 100%;
-    top: 0;
-    height: 100dvh;
-    left: 0;
-    background-color: var(--color-background);
-    z-index: var(--layer-flat);
-    transform: translateX(-5%);
     visibility: hidden;
-    overflow-y: auto;
-    opacity: 0;
+    z-index: 99998;
+    transition: opacity 0.35s ease, visibility 0.35s ease;
+    cursor: pointer;
   }
 
-  .menu-drawer__back-button > .svg-wrapper {
-    margin-right: var(--padding-md);
-    width: var(--icon-size-xs);
-    height: var(--icon-size-xs);
+  .menu-drawer-container.menu-open .menu-drawer__backdrop,
+  .menu-drawer-container[open] .menu-drawer__backdrop {
+    opacity: 1;
+    visibility: visible;
   }
 
-  .menu-drawer__utility-links {
+  /* Main Slide Drawer Panel */
+  .menu-drawer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: clamp(320px, 86vw, 420px);
+    height: 100vh;
+    background: #ffffff;
+    z-index: 99999;
+    transform: translateX(-100%);
+    transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 8px 0 36px rgba(0, 0, 0, 0.16);
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
     padding: 0;
-    margin-block: auto var(--padding-sm);
-    margin-inline-start: var(--padding-xl);
+    box-sizing: border-box;
   }
 
-  .menu-drawer__account {
+  .menu-drawer-container.menu-open .menu-drawer,
+  .menu-drawer-container[open] .menu-drawer {
+    transform: translateX(0);
+  }
+
+  /* Drawer Head */
+  .menu-drawer__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 24px 20px;
+    border-bottom: 1px solid #f0eee9;
+    background: #ffffff;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .menu-drawer__brand {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .menu-drawer__brand-title {
+    font-family: "Playfair Display", "Didot", "Cinzel", Georgia, serif;
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #111111;
+  }
+
+  .menu-drawer__brand-sub {
+    font-family: "Inter", sans-serif;
+    font-size: 8px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #c5a880;
+    margin-top: 3px;
+  }
+
+  .menu-drawer__close-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #f8f7f5;
+    border: 1px solid #e8e5e0;
     display: inline-flex;
     align-items: center;
-    gap: var(--gap-xs);
-    text-decoration: none;
-    height: 44px;
-    font-size: 1.4rem;
-    color: rgb(var(--color-foreground));
+    justify-content: center;
+    cursor: pointer;
+    color: #111111;
+    transition: all 0.25s ease;
   }
 
-  .menu-drawer__account svg {
-    height: var(--icon-size-sm);
-    width: var(--icon-size-sm);
+  .menu-drawer__close-btn:hover {
+    background: #111111;
+    color: #ffffff;
+    border-color: #111111;
+    transform: rotate(90deg);
   }
 
-  .menu-drawer__account shop-user-avatar {
-    --shop-avatar-size: 2.4rem;
-
-    margin-right: 0.55rem;
-    margin-left: -0.45rem;
+  /* Spotlight Card */
+  .menu-drawer__spotlight {
+    padding: 20px 24px 16px;
   }
 
-  .menu-drawer__link-image,
-  .menu-drawer__featured-product-image,
-  .menu-drawer__featured-collection-image,
-  .menu-drawer__featured-collection-link::before {
-    border-radius: var(--menu-image-border-radius);
-  }
-
-  @keyframes menu-drawer-nav-open {
-    0% {
-      visibility: hidden;
-      opacity: 0;
-      transform: translateX(-0.5rem);
-    }
-
-    100% {
-      visibility: visible;
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-
-  @keyframes menu-drawer-subnav-open {
-    0% {
-      visibility: visible;
-      opacity: 1;
-      transform: translateX(0);
-    }
-
-    100% {
-      visibility: hidden;
-      opacity: 0;
-      transform: translateX(-1rem);
-    }
-  }
-
-  /* Drawer Localization Styles */
-  .drawer-localization__button .icon-flag {
-    width: var(--menu-localization-font-size, var(--icon-size-sm));
-    height: var(--menu-localization-font-size, var(--icon-size-sm));
-    clip-path: circle(50%); /* stylelint-disable-line */
-    background-position: center;
-    background-size: cover;
-    margin-inline-end: 4px;
+  .menu-drawer__spotlight-media {
     position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    height: 160px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
   }
 
-  .drawer-localization__button .icon-flag::after {
-    content: '';
+  .menu-drawer__spotlight-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .menu-drawer__spotlight-media:hover .menu-drawer__spotlight-img {
+    transform: scale(1.05);
+  }
+
+  .menu-drawer__spotlight-overlay {
     position: absolute;
     inset: 0;
-    box-shadow: inset 0 0 var(--size-shadow) var(--color-shadow);
-    border-radius: 50%;
+    background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.75) 100%);
   }
 
-  .drawer-localization .country-filter {
-    padding-block: 8px;
+  .menu-drawer__spotlight-content {
+    position: absolute;
+    bottom: 14px;
+    left: 16px;
+    right: 16px;
+    z-index: 2;
   }
 
-  .drawer-localization .drawer-localization__button {
-    display: flex;
-    padding: 0;
-    position: relative;
+  .menu-drawer__spotlight-badge {
+    font-family: "Inter", sans-serif;
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: #c5a880;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .menu-drawer__spotlight-title {
+    font-family: "Playfair Display", serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    color: #ffffff;
+    margin: 0 0 6px;
+    line-height: 1.25;
+  }
+
+  .menu-drawer__spotlight-link {
+    font-family: "Inter", sans-serif;
+    font-size: 9.5px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    color: #c5a880;
     text-decoration: none;
-    height: 44px;
-
-    &:hover {
-      color: var(--color-foreground);
-    }
-  }
-
-  .drawer-localization .drawer-localization__button .icon-caret {
-    width: fit-content;
-    height: fit-content;
-    margin: 0;
-    padding: var(--padding-xl) var(--padding-xl) var(--padding-xl) var(--padding-xs);
-  }
-
-  .menu-drawer__localization:not(drawer-localization-component) .language-selector {
-    font-family: var(--menu-localization-font);
-    font-size: var(--menu-localization-font-size);
-  }
-
-  .menu-drawer__localization .language-selector.h5 {
-    padding-inline-start: 0;
-  }
-
-  .drawer-localization {
-    display: contents;
-    color: var(--color-foreground);
-  }
-
-  .drawer-localization localization-form-component {
-    position: relative;
-    height: 100%;
-  }
-
-  .drawer-localization .mobile-localization,
-  .drawer-localization .drawer-localization__button--label {
-    display: flex;
-    gap: var(--gap-xs);
-    margin-block: 0;
+    display: inline-flex;
     align-items: center;
+    gap: 5px;
+    transition: gap 0.25s ease, color 0.25s ease;
   }
 
-  .drawer-localization__button--label.h6 {
-    font-family: var(--menu-localization-font);
+  .menu-drawer__spotlight-link:hover {
+    color: #ffffff;
+    gap: 8px;
   }
 
-  .drawer-localization img {
-    width: var(--icon-size-sm);
+  /* Navigation Links */
+  .menu-drawer__nav {
+    padding: 8px 24px 20px;
+    flex: 1;
   }
 
-  .drawer-localization .localization-button__icon,
-  .drawer-localization .localization-button__icon svg {
-    width: var(--icon-size-xs);
-    height: var(--icon-size-xs);
+  .menu-drawer__nav-heading {
+    font-family: "Inter", sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: #999999;
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #f0eee9;
   }
 
-  .drawer-localization summary.is-disabled {
-    pointer-events: none;
-  }
-
-  .drawer-localization .localization-wrapper {
-    width: 100%;
-  }
-
-  .drawer-localization .localization-form {
+  .menu-drawer__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
     display: flex;
     flex-direction: column;
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
   }
 
-  .drawer-localization .localization-form > * {
-    padding-inline: var(--padding-xl);
+  .menu-drawer__item {
+    border-bottom: 1px solid #f6f5f2;
   }
 
-  .drawer-localization .language-selector .svg-wrapper.icon-caret {
-    transform: translateY(-50%) rotate(0deg);
-    right: 20px;
+  .menu-drawer__link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 13px 4px;
+    font-family: "Inter", sans-serif;
+    font-size: 11.5px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #222222;
+    text-decoration: none;
+    transition: color 0.25s ease, transform 0.25s ease;
   }
 
-  .drawer-localization .language-selector .svg-wrapper.icon-caret svg {
-    transform: none;
+  .menu-drawer__chevron {
+    color: #bbbbbb;
+    transition: transform 0.25s ease, color 0.25s ease;
   }
-{% endstylesheet %}
+
+  .menu-drawer__link:hover {
+    color: #c5a880;
+    transform: translateX(4px);
+  }
+
+  .menu-drawer__link:hover .menu-drawer__chevron {
+    color: #c5a880;
+    transform: translateX(3px);
+  }
+
+  /* Drawer Footer */
+  .menu-drawer__footer {
+    padding: 20px 24px 28px;
+    background: #fbfaf8;
+    border-top: 1px solid #f0eee9;
+  }
+
+  .menu-drawer__concierge-box {
+    background: #ffffff;
+    border: 1px solid #e8e5e0;
+    border-radius: 6px;
+    padding: 14px 16px;
+    margin-bottom: 18px;
+  }
+
+  .menu-drawer__concierge-title {
+    font-family: "Inter", sans-serif;
+    font-size: 8.5px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: #c5a880;
+    margin-bottom: 4px;
+  }
+
+  .menu-drawer__concierge-desc {
+    font-size: 11px;
+    line-height: 1.45;
+    color: #666666;
+    margin: 0 0 8px;
+  }
+
+  .menu-drawer__concierge-contact {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: #111111;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .menu-drawer__socials {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+  }
+
+  .menu-drawer__social-link {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 1px solid #e8e5e0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #333333;
+    text-decoration: none;
+    transition: all 0.25s ease;
+  }
+
+  .menu-drawer__social-link:hover {
+    background: #c5a880;
+    border-color: #c5a880;
+    color: #ffffff;
+    transform: translateY(-2px);
+  }
+</style>
 
 <script>
-  (function initHeaderDrawerController() {
+  (function initLuxuryMenuDrawer() {
     function setupDrawer() {
       const details = document.getElementById('Details-menu-drawer-container');
       if (!details) return;
 
-      const summary = details.querySelector('summary.header__icon--menu');
-      const closeBtn = details.querySelector('.menu-drawer__close-button');
+      const summary = details.querySelector('summary');
+      const closeBtn = details.querySelector('.menu-drawer__close-btn');
       const backdrop = details.querySelector('.menu-drawer__backdrop');
-      const links = details.querySelectorAll('.menu-drawer__menu-item, .menu-drawer__editorial-link');
+      const links = details.querySelectorAll('.menu-drawer__link, .menu-drawer__spotlight-link');
 
       function openDrawer(e) {
         if (e) {
@@ -782,11 +527,9 @@
         details.setAttribute('open', '');
         void details.offsetWidth;
         requestAnimationFrame(() => {
-          details.classList.add('is-open', 'menu-open');
+          details.classList.add('menu-open');
           if (summary) summary.setAttribute('aria-expanded', 'true');
-          if (window.innerWidth < 990) {
-            document.body.style.overflow = 'hidden';
-          }
+          document.body.style.overflow = 'hidden';
         });
       }
 
@@ -796,25 +539,24 @@
           e.stopPropagation();
         }
         if (!details.hasAttribute('open')) return;
-        details.classList.remove('is-open', 'menu-open');
+        details.classList.remove('menu-open');
         details.classList.add('is-closing');
         if (summary) summary.setAttribute('aria-expanded', 'false');
         document.body.style.overflow = '';
-        document.documentElement.style.overflow = '';
 
         setTimeout(() => {
           if (details.classList.contains('is-closing')) {
             details.removeAttribute('open');
             details.classList.remove('is-closing');
           }
-        }, 340);
+        }, 360);
       }
 
       if (summary) {
         summary.onclick = function(e) {
           e.preventDefault();
           e.stopPropagation();
-          if (details.hasAttribute('open') && details.classList.contains('menu-open') && !details.classList.contains('is-closing')) {
+          if (details.hasAttribute('open') && details.classList.contains('menu-open')) {
             closeDrawer(e);
           } else {
             openDrawer(e);

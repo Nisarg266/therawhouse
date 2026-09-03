@@ -1,0 +1,119 @@
+{%- comment -%}
+  THE RAW HOUSE - LUXURY ABOUT HERO
+  Grand editorial hero banner for the About Us Atelier page with responsive styling.
+{%- endcomment -%}
+
+<section
+  id="LuxuryAboutHero-{{ section.id }}"
+  class="lux-about-hero"
+  style="
+    --about-hero-bg: url({{ section.settings.image | image_url: width: 2400 | default: 'art-atelier-artist-studio.jpg' | asset_url }});
+    --about-hero-height-desktop: {{ section.settings.height_desktop | default: 65 }}vh;
+    --about-hero-height-mobile: {{ section.settings.height_mobile | default: 460 }}px;
+  "
+  {{ section.shopify_attributes }}
+>
+  <div class="lux-about-hero-overlay"></div>
+
+  <div class="lux-about-hero-container">
+    <div class="lux-about-hero-content lux-reveal-fade-up">
+      <div class="lux-about-hero-badge">
+        <span class="lux-about-hero-badge-diamond">✦</span>
+        <span>{{ section.settings.badge_text | default: 'EST. 2024 • THE ATELIER' }}</span>
+        <span class="lux-about-hero-badge-diamond">✦</span>
+      </div>
+
+      <h1 class="lux-about-hero-title">
+        {{ section.settings.heading | default: 'THE ART OF TIMELESS FORM & PIGMENT' }}
+      </h1>
+
+      <p class="lux-about-hero-subtitle">
+        {{ section.settings.subheading | default: 'Where monumental oil paintings, lost-wax bronze sculptures, and architectural 3D art models converge into private living galleries.' }}
+      </p>
+
+      {% if section.settings.button_text != blank %}
+        <div class="lux-about-hero-actions">
+          <a href="{{ section.settings.button_link | default: routes.all_products_collection_url }}" class="lux-about-hero-btn">
+            <span>{{ section.settings.button_text | default: 'EXPLORE MASTERPIECES' }}</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Ambient Bottom Fade -->
+  <div class="lux-about-hero-fade"></div>
+</section>
+
+{% schema %}
+{
+  "name": "Luxury About Hero",
+  "tag": "section",
+  "class": "section-luxury-about-hero",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Hero Background Image"
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "Top Badge Text",
+      "default": "EST. 2024 • THE ATELIER"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Main Heading",
+      "default": "THE ART OF TIMELESS FORM & PIGMENT"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading / Tagline",
+      "default": "Where monumental oil paintings, lost-wax bronze sculptures, and architectural 3D art models converge into private living galleries."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Label",
+      "default": "EXPLORE MASTERPIECES"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "range",
+      "id": "height_desktop",
+      "min": 50,
+      "max": 90,
+      "step": 2,
+      "unit": "vh",
+      "label": "Desktop Height",
+      "default": 68
+    },
+    {
+      "type": "range",
+      "id": "height_mobile",
+      "min": 360,
+      "max": 600,
+      "step": 20,
+      "unit": "px",
+      "label": "Mobile Height",
+      "default": 480
+    }
+  ],
+  "presets": [
+    {
+      "name": "Luxury About Hero"
+    }
+  ]
+}
+{% endschema %}
