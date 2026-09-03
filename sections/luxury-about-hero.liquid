@@ -3,13 +3,20 @@
   Grand editorial hero banner for the About Us Atelier page with responsive styling.
 {%- endcomment -%}
 
+{% liquid
+  assign bg_url = 'art-atelier-artist-studio.jpg' | asset_url
+  if section.settings.image != blank
+    assign bg_url = section.settings.image | image_url: width: 2400
+  endif
+%}
+
 <section
   id="LuxuryAboutHero-{{ section.id }}"
   class="lux-about-hero"
   style="
-    --about-hero-bg: url({{ section.settings.image | image_url: width: 2400 | default: 'art-atelier-artist-studio.jpg' | asset_url }});
-    --about-hero-height-desktop: {{ section.settings.height_desktop | default: 65 }}vh;
-    --about-hero-height-mobile: {{ section.settings.height_mobile | default: 460 }}px;
+    --about-hero-bg: url({{ bg_url }});
+    --about-hero-height-desktop: {{ section.settings.height_desktop | default: 68 }}vh;
+    --about-hero-height-mobile: {{ section.settings.height_mobile | default: 480 }}px;
   "
   {{ section.shopify_attributes }}
 >
@@ -19,7 +26,7 @@
     <div class="lux-about-hero-content lux-reveal-fade-up">
       <div class="lux-about-hero-badge">
         <span class="lux-about-hero-badge-diamond">✦</span>
-        <span>{{ section.settings.badge_text | default: 'EST. 2024 • THE ATELIER' }}</span>
+        <span>{{ section.settings.badge_text | default: 'EST. 2024 • THE ATELIER & FOUNDRY' }}</span>
         <span class="lux-about-hero-badge-diamond">✦</span>
       </div>
 

@@ -14,14 +14,35 @@
       <!-- Left Media Column -->
       <div class="lux-founder-media-wrap lux-reveal-fade-up">
         <div class="lux-founder-media-frame">
-          <img
-            src="{{ section.settings.image | image_url: width: 1400 | default: 'art-atelier-artist-studio.jpg' | asset_url }}"
-            alt="{{ section.settings.heading | default: 'The Raw House Atelier Studio' }}"
-            class="lux-founder-img"
-            loading="lazy"
-            width="700"
-            height="850"
-          >
+          {% if section.settings.image != blank %}
+            <img
+              src="{{ section.settings.image | image_url: width: 1400 }}"
+              alt="{{ section.settings.heading | default: 'The Raw House Atelier Studio' | escape }}"
+              class="lux-founder-img"
+              loading="eager"
+              width="700"
+              height="850"
+            >
+          {% elsif section.settings.default_asset != blank %}
+            <img
+              src="{{ section.settings.default_asset | asset_url }}"
+              alt="{{ section.settings.heading | default: 'The Raw House Atelier Studio' | escape }}"
+              class="lux-founder-img"
+              loading="eager"
+              onerror="this.onerror=null;this.src='{{ 'art-atelier-artist-studio.jpg' | asset_url }}';"
+              width="700"
+              height="850"
+            >
+          {% else %}
+            <img
+              src="{{ 'art-atelier-artist-studio.jpg' | asset_url }}"
+              alt="{{ section.settings.heading | default: 'The Raw House Atelier Studio' | escape }}"
+              class="lux-founder-img"
+              loading="eager"
+              width="700"
+              height="850"
+            >
+          {% endif %}
           <div class="lux-founder-image-glow"></div>
         </div>
 
