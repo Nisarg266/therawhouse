@@ -44,11 +44,25 @@
         "concierge_info"
       ],
       "settings": {
+<<<<<<< HEAD
         "show_brand_header": true,
         "brand_name": "THE RAW HOUSE",
         "brand_tagline": "Fine Art Paintings, 3D Sculptural Models & Museum Curations",
         "payment_heading": "PAYMENT & VERIFICATION",
         "social_heading": "CONNECT & EXHIBITIONS",
+=======
+        "about_heading": "ABOUT",
+        "about_menu": "footer",
+        "services_heading": "SERVICES",
+        "services_menu": "footer",
+        "newsletter_heading": "BE THE FIRST TO KNOW",
+        "newsletter_placeholder": "Enter your email ID",
+        "newsletter_button_text": "SUBSCRIBE",
+        "concierge_heading": "CONCIERGE",
+        "concierge_text": "+91 80030 11110 / concierge@thehouseofthings.com",
+        "payment_heading": "PAYMENT METHODS",
+        "social_heading": "FIND US ONLINE",
+>>>>>>> 3e994d465d93af16f3d340876eba0c5feaaac12c
         "facebook_url": "https://facebook.com",
         "instagram_url": "https://instagram.com",
         "pinterest_url": "https://pinterest.com",

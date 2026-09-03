@@ -1,3 +1,15 @@
+<<<<<<< HEAD
+=======
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+>>>>>>> 3e994d465d93af16f3d340876eba0c5feaaac12c
 {
   "sections": {
     "luxury_marquee_top": {
@@ -51,6 +63,7 @@
         "slide_1": {
           "type": "slide",
           "settings": {
+<<<<<<< HEAD
             "default_asset": "hero-fine-art-2.jpg",
             "subheading": "ATELIER EXHIBITION 2026",
             "heading": "ORIGINAL OIL PAINTINGS & CANVAS ART",
@@ -60,6 +73,15 @@
             "button_link": "shopify://collections/all",
             "button_2_label": "VIEW EXHIBITION",
             "button_2_link": "shopify://collections/all"
+=======
+            "image": "shopify://shop_images/hicko.png",
+            "default_asset": "maker-gallery-1.jpg",
+            "subheading": "Thoughtfully designed for modern living",
+            "heading": "Paribhraman",
+            "content_alignment": "center",
+            "button_label": "EXPLORE Hinchko",
+            "button_link": "shopify://collections/all"
+>>>>>>> 3e994d465d93af16f3d340876eba0c5feaaac12c
           }
         },
         "slide_2": {
@@ -97,6 +119,7 @@
         "slide_3"
       ],
       "settings": {
+<<<<<<< HEAD
         "desktop_height": 72,
         "mobile_height": 58,
         "autoplay": true,
@@ -527,6 +550,10 @@
         "subheading": "THE COLLECTORS VOICE",
         "heading": "WORDS OF ADMIRATION",
         "background_color": "#fcfbf9",
+=======
+        "slider_height_desktop": 85,
+        "slider_height_mobile": 70,
+>>>>>>> 3e994d465d93af16f3d340876eba0c5feaaac12c
         "autoplay": true,
         "autoplay_speed": 5,
         "show_press": true,
@@ -538,6 +565,7 @@
         "color_scheme_preset": "warm"
       }
     },
+<<<<<<< HEAD
     "luxury_vip_newsletter": {
       "type": "luxury-vip-newsletter",
       "settings": {
@@ -548,10 +576,184 @@
         "button_label": "JOIN CIRCLE",
         "background_color": "#fcfbf9",
         "color_scheme_preset": "obsidian"
+=======
+    "new_arrivals_gallery": {
+      "type": "new-arrivals-gallery",
+      "name": "The product catalog",
+      "settings": {
+        "subheading": "the",
+        "heading": "Product Catalog",
+        "heading_size": 20,
+        "heading_letter_spacing": "0.35em",
+        "heading_color": "#111111",
+        "show_underline": true,
+        "underline_width": 36,
+        "underline_color": "#111111",
+        "card_1_link": "",
+        "card_1_alt": "Classical Urn Vase",
+        "card_2_link": "",
+        "card_2_alt": "Luxury Marble Vessel",
+        "card_3_link": "",
+        "card_3_alt": "Console Table with Forest Mural",
+        "card_4_link": "",
+        "card_4_alt": "Tall Standing Cabinet",
+        "card_5_link": "",
+        "card_5_alt": "Vintage Ribbed Teapot",
+        "card_6_link": "",
+        "card_6_alt": "Sculptural Globe Lamp",
+        "max_width": 1080,
+        "gap": 14,
+        "corner_radius": 0,
+        "enable_hover_zoom": true,
+        "background_color": "#ffffff",
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
+    "recommendations_editorial": {
+      "type": "recommendations-editorial",
+      "settings": {
+        "subheading": "the",
+        "heading": "Gallery Programs",
+        "show_underline": true,
+        "heading_color": "#111111",
+        "card_1_title": "SEASON OF THE SUN",
+        "card_1_text": "The art of leisure finds its rhythm in the sweetness of summer. Rugs gather the day's warmth, linens fall easy, and every corner feels more open, less hurried.",
+        "card_1_link": "",
+        "card_1_btn_text": "SHOP THIS EDIT",
+        "card_2_title": "ARTIST IN RESIDENCE WITH BETTINA KRIEG",
+        "card_2_text": "In conversation with The House of Things, German artist Bettina Krieg reflects on rhythm in drawing, time, and the tension that defines her art.",
+        "card_2_link": "",
+        "card_2_btn_text": "READ THIS JOURNAL",
+        "card_3_title": "THE ART OF FINE LIVING",
+        "card_3_text": "Built over time and inspired by authenticity, this edit embraces the beauty of layered living - brought to life through thoughtfully curated furniture, art, and accessories.",
+        "card_3_link": "",
+        "card_3_btn_text": "SHOP THIS EDIT",
+        "card_4_title": "A LIFE, COLLECTED WITH EINA AHLUWALIA",
+        "card_4_text": "Step inside modern-day collector Eina Ahluwalia's space graced with memorable finds and antiques, and discover what makes her collect.",
+        "card_4_link": "",
+        "card_4_btn_text": "READ THIS JOURNAL",
+        "left_col_btn_label": "VIEW ALL EDITS",
+        "left_col_btn_link": "",
+        "right_col_btn_label": "VIEW ALL JOURNAL",
+        "right_col_btn_link": "",
+        "max_width": 1080,
+        "gap": 48,
+        "enable_hover_zoom": true,
+        "background_color": "#f8f7f4",
+        "padding_top": 40,
+        "padding_bottom": 40
+      }
+    },
+    "fine_prints_showcase": {
+      "type": "fine-prints-showcase",
+      "settings": {
+        "subheading": "the",
+        "heading": "Raw Collectibles",
+        "show_underline": true,
+        "heading_color": "#111111",
+        "card_1_title": "Radha and Krishna",
+        "card_1_vendor": "By Mahaveer Swami",
+        "card_1_price": "₹3,900.00",
+        "card_1_badge": "OPTIONS AVAILABLE",
+        "card_1_link": "",
+        "card_2_title": "Pink Flower Deep Plate - Bitossi",
+        "card_2_vendor": "By Mon Dimora",
+        "card_2_price": "₹5,900.00",
+        "card_2_badge": "",
+        "card_2_link": "",
+        "card_3_title": "The Blueroom Hand Printed Wallpaper",
+        "card_3_vendor": "By Oldhand Designs",
+        "card_3_price": "₹13,000.00",
+        "card_3_badge_1": "OPTIONS AVAILABLE",
+        "card_3_badge_2": "CUSTOMIZABLE",
+        "card_3_link": "",
+        "view_all_text": "VIEW ALL",
+        "view_all_link": "",
+        "max_width": 1080,
+        "gap": 28,
+        "enable_hover_zoom": true,
+        "background_color": "#ffffff",
+        "padding_top": 36,
+        "padding_bottom": 32
+      }
+    },
+    "fine_prints_showcase_TbC6jf": {
+      "type": "fine-prints-showcase",
+      "settings": {
+        "subheading": "the",
+        "heading": "Raw Collaborations",
+        "show_underline": true,
+        "heading_color": "#111111",
+        "card_1_title": "Radha and Krishna",
+        "card_1_vendor": "By Mahaveer Swami",
+        "card_1_price": "₹3,900.00",
+        "card_1_badge": "OPTIONS AVAILABLE",
+        "card_1_link": "",
+        "card_2_title": "Pink Flower Deep Plate - Bitossi",
+        "card_2_vendor": "By Mon Dimora",
+        "card_2_price": "₹5,900.00",
+        "card_2_badge": "",
+        "card_2_link": "",
+        "card_3_title": "The Blueroom Hand Printed Wallpaper",
+        "card_3_vendor": "By Oldhand Designs",
+        "card_3_price": "₹13,000.00",
+        "card_3_badge_1": "OPTIONS AVAILABLE",
+        "card_3_badge_2": "CUSTOMIZABLE",
+        "card_3_link": "",
+        "view_all_text": "VIEW ALL",
+        "view_all_link": "",
+        "max_width": 1080,
+        "gap": 28,
+        "enable_hover_zoom": true,
+        "background_color": "#ffffff",
+        "padding_top": 36,
+        "padding_bottom": 32
+      }
+    },
+    "brand_manifesto": {
+      "type": "brand-manifesto",
+      "settings": {
+        "heading": "A little bit of us",
+        "text": "The House of Things is a destination for design, artistry and craftsmanship, curated for a life artfully lived.",
+        "facebook_url": "https://facebook.com",
+        "instagram_url": "https://instagram.com",
+        "pinterest_url": "https://pinterest.com",
+        "twitter_url": "",
+        "heading_color": "#111111",
+        "text_color": "#333333",
+        "icon_bg_color": "#1c1c1c",
+        "icon_color": "#ffffff",
+        "background_color": "#ffffff",
+        "max_width": 680,
+        "padding_top": 32,
+        "padding_bottom": 36
+      }
+    },
+    "featured_press_and_quote": {
+      "type": "featured-press-and-quote",
+      "settings": {
+        "heading": "Featured In",
+        "show_heading_underline": true,
+        "heading_color": "#111111",
+        "show_quote": true,
+        "quote_line_1": "Nothing haunts us",
+        "quote_line_2": "LIKE THE THINGS",
+        "quote_line_3": "we didn't buy",
+        "show_quote_dividers": true,
+        "quote_color": "#181818",
+        "divider_color": "#222222",
+        "max_width": 1100,
+        "logo_height": 28,
+        "background_color": "#f7f6f2",
+        "padding_top": 36,
+        "padding_bottom": 44
+>>>>>>> 3e994d465d93af16f3d340876eba0c5feaaac12c
       }
     }
   },
   "order": [
+<<<<<<< HEAD
     "luxury_marquee_top",
     "luxury_hero_showcase",
     "luxury_trust_features",
@@ -563,5 +765,14 @@
     "luxury_editorial_journal",
     "luxury_reviews_press",
     "luxury_vip_newsletter"
+=======
+    "luxury_hero_slider",
+    "new_arrivals_gallery",
+    "recommendations_editorial",
+    "fine_prints_showcase",
+    "fine_prints_showcase_TbC6jf",
+    "brand_manifesto",
+    "featured_press_and_quote"
+>>>>>>> 3e994d465d93af16f3d340876eba0c5feaaac12c
   ]
 }
