@@ -10,8 +10,8 @@
 {
   "current": {
     "logo": "shopify://shop_images/WhatsApp_Image_2026-09-01_at_3.31.09_PM.jpg",
-    "logo_height": 36,
-    "logo_height_mobile": 28,
+    "logo_height": 60,
+    "logo_height_mobile": 44,
     "page_text_color": "{{ settings.color_palette.foreground }}",
     "type_body_font": "inter_n4",
     "type_subheading_font": "inter_n5",

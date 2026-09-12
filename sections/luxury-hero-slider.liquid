@@ -37,6 +37,9 @@
         {{ block.shopify_attributes }}
       >
         <div class="lux-hero__media-wrap">
+          {% if block.settings.button_link != blank and block.settings.heading == blank and block.settings.button_label == blank %}
+            <a href="{{ block.settings.button_link }}" style="display: block; width: 100%; height: 100%;" aria-label="Explore Curation">
+          {% endif %}
           {% if block.settings.image != blank %}
             {{
               block.settings.image
@@ -51,7 +54,7 @@
           {% elsif block.settings.default_asset != blank %}
             <img
               src="{{ block.settings.default_asset | asset_url }}"
-              alt="{{ block.settings.heading | escape }}"
+              alt="{{ block.settings.heading | default: 'The House of Things' | escape }}"
               class="lux-hero__image"
               loading="eager"
               fetchpriority="{{ img_priority }}"
@@ -71,58 +74,69 @@
             >
           {% endif %}
 
-          <div
-            class="lux-hero__overlay"
-            style="background: {{ section.settings.overlay_color }}; opacity: {{ section.settings.overlay_opacity }}%;"
-          ></div>
+          {% if section.settings.overlay_opacity > 0 %}
+            <div
+              class="lux-hero__overlay"
+              style="background: {{ section.settings.overlay_color }}; opacity: {{ section.settings.overlay_opacity }}%;"
+            ></div>
+          {% endif %}
+          {% if block.settings.button_link != blank and block.settings.heading == blank and block.settings.button_label == blank %}
+            </a>
+          {% endif %}
         </div>
 
-        <div class="lux-hero__content-container">
-          <div class="lux-hero__content-box" style="text-align: {{ align }}; {{ margin_style }}">
-            {% if block.settings.subheading != blank %}
-              <div class="lux-hero__badge">
-                <span>✦</span>
-                <span>{{ block.settings.subheading }}</span>
+        {% if block.settings.heading != blank or block.settings.subheading != blank or block.settings.button_label != blank %}
+          <div class="lux-hero__content-container">
+            <div class="lux-hero__content-box" style="text-align: center; margin: 0 auto;">
+
+              {% if block.settings.subheading != blank %}
+                <span class="lux-hero__pre-title">{{ block.settings.subheading }}</span>
+              {% endif %}
+
+              {% if block.settings.heading != blank %}
+                <h1 class="lux-hero__heading">{{ block.settings.heading }}</h1>
+              {% endif %}
+
+              <div class="lux-hero__actions" style="justify-content: center;">
+                {% if block.settings.button_label != blank %}
+                  <a
+                    href="{{ block.settings.button_link | default: routes.all_products_collection_url }}"
+                    class="lux-btn-primary"
+                  >
+                    {{ block.settings.button_label }}
+                  </a>
+                {% endif %}
               </div>
-            {% endif %}
-
-            {% if block.settings.heading != blank %}
-              <h1 class="lux-hero__heading">{{ block.settings.heading }}</h1>
-            {% endif %}
-
-            {% if block.settings.description != blank %}
-              <p class="lux-hero__subheading">{{ block.settings.description }}</p>
-            {% endif %}
-
-            <div class="lux-hero__actions" style="justify-content: {{ align }};">
-              {% if block.settings.button_label != blank %}
-                <a
-                  href="{{ block.settings.button_link | default: routes.all_products_collection_url }}"
-                  class="lux-btn-primary"
-                >
-                  {{ block.settings.button_label }}
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                    <polyline points="12 5 19 12 12 19"></polyline>
-                  </svg>
-                </a>
-              {% endif %}
-
-              {% if block.settings.button_2_label != blank %}
-                <a
-                  href="{{ block.settings.button_2_link | default: routes.all_products_collection_url }}"
-                  class="lux-btn-secondary"
-                >
-                  {{ block.settings.button_2_label }}
-                </a>
-              {% endif %}
             </div>
           </div>
-        </div>
+        {% endif %}
       </div>
     {% endfor %}
 
     {% if section.blocks.size > 1 %}
+      <!-- Side Arrows (mid-screen) -->
+      <div class="lux-hero__arrows">
+        <button
+          type="button"
+          class="lux-hero__arrow-btn lux-hero__arrow-btn--prev"
+          aria-label="Previous Slide"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+        <button
+          type="button"
+          class="lux-hero__arrow-btn lux-hero__arrow-btn--next"
+          aria-label="Next Slide"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Bottom Pagination Dots -->
       <div class="lux-hero__controls">
         <div class="lux-hero__pagination">
           {% for block in section.blocks %}
@@ -134,27 +148,6 @@
               <div class="lux-hero__dot-progress"></div>
             </button>
           {% endfor %}
-        </div>
-
-        <div class="lux-hero__arrows">
-          <button
-            type="button"
-            class="lux-hero__arrow-btn lux-hero__arrow-btn--prev"
-            aria-label="Previous Slide"
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="15 18 9 12 15 6"></polyline>
-            </svg>
-          </button>
-          <button
-            type="button"
-            class="lux-hero__arrow-btn lux-hero__arrow-btn--next"
-            aria-label="Next Slide"
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="9 18 15 12 9 6"></polyline>
-            </svg>
-          </button>
         </div>
       </div>
     {% endif %}
@@ -200,7 +193,7 @@
       "step": 2,
       "unit": "vh",
       "label": "Desktop Height",
-      "default": 84
+      "default": 92
     },
     {
       "type": "range",
@@ -246,7 +239,7 @@
       "step": 5,
       "unit": "%",
       "label": "Overlay Opacity",
-      "default": 25
+      "default": 15
     }
   ],
   "blocks": [
@@ -327,36 +320,30 @@
           "type": "slide",
           "settings": {
             "default_asset": "hero-fine-art-2.jpg",
-            "subheading": "ATELIER EXHIBITION 2026",
-            "heading": "ORIGINAL OIL PAINTINGS & CANVAS ART",
-            "description": "Monumental textured linen canvases, gold leaf impasto, and evocative masterworks by acclaimed contemporary painters.",
+            "subheading": "Presenting",
+            "heading": "Icons of Contemporary Luxury",
             "content_alignment": "center",
-            "button_label": "EXPLORE PAINTINGS",
-            "button_2_label": "VIEW EXHIBITION"
+            "button_label": "Discover New Arrivals"
           }
         },
         {
           "type": "slide",
           "settings": {
             "default_asset": "art-sculpture-rodin-thinker.jpg",
-            "subheading": "SCULPTURAL ATELIER",
-            "heading": "BRONZE & MARBLE 3D ART MODELS",
-            "description": "Handcrafted cast bronze statuettes, architectural marble forms, and decorative centerpieces designed for curated luxury spaces.",
+            "subheading": "Presenting",
+            "heading": "Bronze & Marble 3D Art Models",
             "content_alignment": "center",
-            "button_label": "COLLECT SCULPTURES",
-            "button_2_label": "ACQUISITION GUIDE"
+            "button_label": "Collect Sculptures"
           }
         },
         {
           "type": "slide",
           "settings": {
             "default_asset": "hero-museum-exhibition-3.jpg",
-            "subheading": "MUSEUM CURATION",
-            "heading": "MUSEUM MASTERPIECES & FINE EDITIONS",
-            "description": "Certified provenance, rare fine art acquisitions, and signed archival prints for private international collectors.",
+            "subheading": "Presenting",
+            "heading": "Museum Masterpieces & Fine Editions",
             "content_alignment": "center",
-            "button_label": "VIEW MASTERPIECES",
-            "button_2_label": "PRIVATE ADVISORY"
+            "button_label": "View Masterpieces"
           }
         }
       ]

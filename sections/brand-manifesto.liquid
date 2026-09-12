@@ -12,8 +12,8 @@
 
   assign facebook_url = section.settings.facebook_url | default: 'https://facebook.com'
   assign instagram_url = section.settings.instagram_url | default: 'https://instagram.com'
-  assign pinterest_url = section.settings.pinterest_url | default: 'https://pinterest.com'
-  assign twitter_url = section.settings.twitter_url
+  assign pinterest_url = section.settings.pinterest_url
+  assign twitter_url = section.settings.twitter_url | default: 'https://twitter.com'
 %}
 
 <div

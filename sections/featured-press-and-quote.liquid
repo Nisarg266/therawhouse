@@ -49,16 +49,30 @@
     <div class="featured-press__logos">
       {% if section.blocks.size > 0 %}
         {% for block in section.blocks %}
+          {% assign block_title = block.settings.title | default: block.settings.name | default: 'Featured' %}
+          {% assign title_low = block_title | downcase %}
           <div class="featured-press__logo-item" {{ block.shopify_attributes }}>
             {% if block.settings.link != blank %}
-              <a href="{{ block.settings.link }}" class="featured-press__logo-link" target="_blank" rel="noopener noreferrer" aria-label="{{ block.settings.title | escape }}">
+              <a href="{{ block.settings.link }}" class="featured-press__logo-link" target="_blank" rel="noopener noreferrer" aria-label="{{ block_title | escape }}">
             {% endif %}
               {% if block.settings.image != blank %}
-                {{ block.settings.image | image_url: width: 400 | image_tag: class: 'featured-press__img', loading: 'lazy', alt: block.settings.title }}
+                {{ block.settings.image | image_url: width: 400 | image_tag: class: 'featured-press__img', loading: 'lazy', alt: block_title }}
               {% elsif block.settings.custom_svg != blank %}
                 <div class="featured-press__svg-wrap">{{ block.settings.custom_svg }}</div>
+              {% elsif title_low contains 'ideal' %}
+                <img src="{{ 'logo-idealhome.png' | asset_url }}" alt="Ideal Home" class="featured-press__img" width="130" height="32" loading="lazy">
+              {% elsif title_low contains 'good' %}
+                <img src="{{ 'logo-goodhomes.png' | asset_url }}" alt="GoodHomes India" class="featured-press__img" width="135" height="32" loading="lazy">
+              {% elsif title_low == 'ad' or title_low contains 'architectural' %}
+                <img src="{{ 'logo-ad.png' | asset_url }}" alt="AD" class="featured-press__img" width="52" height="32" loading="lazy">
+              {% elsif title_low contains 'vogue' %}
+                <img src="{{ 'logo-vogue.png' | asset_url }}" alt="VOGUE" class="featured-press__img" width="105" height="32" loading="lazy">
+              {% elsif title_low contains 'elle' %}
+                <img src="{{ 'logo-elle.png' | asset_url }}" alt="ELLE DECOR" class="featured-press__img" width="75" height="32" loading="lazy">
+              {% elsif title_low contains 'femina' %}
+                <img src="{{ 'logo-femina.png' | asset_url }}" alt="FEMINA" class="featured-press__img" width="105" height="32" loading="lazy">
               {% else %}
-                <span class="featured-press__logo-text">{{ block.settings.title }}</span>
+                <span class="featured-press__logo-text">{{ block_title }}</span>
               {% endif %}
             {% if block.settings.link != blank %}
               </a>
@@ -68,22 +82,22 @@
       {% else %}
         <!-- Default Press Logos (Ideal Home, GoodHomes, AD, VOGUE, ELLE DECOR, FEMINA) -->
         <div class="featured-press__logo-item">
-          <span class="featured-press__logo-text featured-press__logo-text--idealhome">Ideal Home</span>
+          <img src="{{ 'logo-idealhome.png' | asset_url }}" alt="Ideal Home" class="featured-press__img" width="130" height="32" loading="lazy">
         </div>
         <div class="featured-press__logo-item">
-          <span class="featured-press__logo-text featured-press__logo-text--goodhomes">GoodHomes</span>
+          <img src="{{ 'logo-goodhomes.png' | asset_url }}" alt="GoodHomes India" class="featured-press__img" width="135" height="32" loading="lazy">
         </div>
         <div class="featured-press__logo-item">
-          <span class="featured-press__logo-text featured-press__logo-text--ad">AD</span>
+          <img src="{{ 'logo-ad.png' | asset_url }}" alt="AD" class="featured-press__img" width="52" height="32" loading="lazy">
         </div>
         <div class="featured-press__logo-item">
-          <span class="featured-press__logo-text featured-press__logo-text--vogue">VOGUE</span>
+          <img src="{{ 'logo-vogue.png' | asset_url }}" alt="VOGUE" class="featured-press__img" width="105" height="32" loading="lazy">
         </div>
         <div class="featured-press__logo-item">
-          <span class="featured-press__logo-text featured-press__logo-text--elle">ELLE<br><small>DECOR</small></span>
+          <img src="{{ 'logo-elle.png' | asset_url }}" alt="ELLE DECOR" class="featured-press__img" width="75" height="32" loading="lazy">
         </div>
         <div class="featured-press__logo-item">
-          <span class="featured-press__logo-text featured-press__logo-text--femina">FEMINA</span>
+          <img src="{{ 'logo-femina.png' | asset_url }}" alt="FEMINA" class="featured-press__img" width="105" height="32" loading="lazy">
         </div>
       {% endif %}
     </div>

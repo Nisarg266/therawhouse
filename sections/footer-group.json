@@ -5,56 +5,45 @@
     "custom_luxury_footer": {
       "type": "custom-luxury-footer",
       "blocks": {
-        "menu_atelier": {
+        "menu_about": {
           "type": "menu",
           "settings": {
-            "heading": "THE ATELIER"
+            "heading": "ABOUT"
           }
         },
         "menu_services": {
           "type": "menu",
           "settings": {
-            "heading": "CLIENT SERVICES"
+            "heading": "SERVICES"
           }
         },
-        "newsletter_vip": {
+        "newsletter_block": {
           "type": "newsletter",
           "settings": {
-            "heading": "THE COLLECTORS CIRCLE",
-            "subtext": "Subscribe for private invitations to salon exhibitions, newly acquired canvases, and bespoke sculpture catalogues.",
-            "placeholder": "Enter your email address...",
-            "button_text": "JOIN"
-          }
-        },
-        "concierge_info": {
-          "type": "concierge",
-          "settings": {
-            "heading": "PRIVATE ART CONCIERGE",
-            "hours": "Mon - Sat: 9am - 7pm EST",
-            "phone": "+18007294687",
-            "phone_display": "+1 (800) 729-4687",
-            "email": "concierge@therawhouse.com"
+            "heading": "BE THE FIRST TO KNOW",
+            "subtext": "",
+            "placeholder": "Enter your email ID",
+            "button_text": "SUBSCRIBE"
           }
         }
       },
       "block_order": [
-        "menu_atelier",
+        "menu_about",
         "menu_services",
-        "newsletter_vip",
-        "concierge_info"
+        "newsletter_block"
       ],
       "settings": {
-        "show_brand_header": true,
-        "brand_name": "THE RAW HOUSE",
-        "brand_tagline": "Fine Art Paintings, 3D Sculptural Models & Museum Curations",
-        "payment_heading": "PAYMENT & VERIFICATION",
-        "social_heading": "CONNECT & EXHIBITIONS",
+        "show_brand_header": false,
+        "concierge_heading": "CONCIERGE",
+        "concierge_text": "+91 80030 11110 / concierge@thehouseofthings.com",
+        "payment_heading": "PAYMENT METHODS",
+        "social_heading": "FIND US ONLINE",
         "facebook_url": "https://facebook.com",
         "instagram_url": "https://instagram.com",
-        "pinterest_url": "https://pinterest.com",
+        "pinterest_url": "https://x.com",
         "copyright_text": "The Raw House Living Pvt Ltd. All rights reserved.",
-        "max_width": 1240,
-        "padding_top": 64,
+        "max_width": 1140,
+        "padding_top": 48,
         "padding_bottom": 36
       }
     }

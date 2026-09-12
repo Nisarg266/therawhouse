@@ -109,14 +109,14 @@
 
         </div>
 
-        <!-- Bottom Large Card 3 -->
-        <div class="new-arrivals-gallery__card new-arrivals-gallery__card--large">
+        <!-- Bottom Wide Card 3 -->
+        <div class="new-arrivals-gallery__card new-arrivals-gallery__card--wide">
           {% if card_3_link != blank %}<a href="{{ card_3_link }}" class="new-arrivals-gallery__card-link" aria-label="{{ card_3_alt }}">{% endif %}
             <div class="new-arrivals-gallery__media{% if enable_hover_zoom %} new-arrivals-gallery__media--zoom{% endif %}">
               {% if card_3_img != blank %}
                 {{ card_3_img | image_url: width: 1600 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_3_alt }}
               {% else %}
-                <img src="{{ 'new-arrival-3.jpg' | asset_url }}" alt="{{ card_3_alt }}" class="new-arrivals-gallery__img" loading="eager" width="1200" height="1050">
+                <img src="{{ 'new-arrival-3.jpg' | asset_url }}" alt="{{ card_3_alt }}" class="new-arrivals-gallery__img" loading="eager" width="1200" height="910">
               {% endif %}
             </div>
           {% if card_3_link != blank %}</a>{% endif %}
@@ -124,17 +124,17 @@
 
       </div>
 
-      {%- comment -%} RIGHT COLUMN: 1 Top Large Card + 2 Bottom Split Cards {%- endcomment -%}
+      {%- comment -%} RIGHT COLUMN: 1 Top Tall Card + 2 Bottom Split Cards {%- endcomment -%}
       <div class="new-arrivals-gallery__column new-arrivals-gallery__column--right">
         
-        <!-- Top Large Card 4 -->
-        <div class="new-arrivals-gallery__card new-arrivals-gallery__card--large">
+        <!-- Top Tall Card 4 -->
+        <div class="new-arrivals-gallery__card new-arrivals-gallery__card--tall">
           {% if card_4_link != blank %}<a href="{{ card_4_link }}" class="new-arrivals-gallery__card-link" aria-label="{{ card_4_alt }}">{% endif %}
             <div class="new-arrivals-gallery__media{% if enable_hover_zoom %} new-arrivals-gallery__media--zoom{% endif %}">
               {% if card_4_img != blank %}
                 {{ card_4_img | image_url: width: 1200 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_4_alt }}
               {% else %}
-                <img src="{{ 'new-arrival-4.jpg' | asset_url }}" alt="{{ card_4_alt }}" class="new-arrivals-gallery__img" loading="eager" width="1200" height="1050">
+                <img src="{{ 'new-arrival-4.jpg' | asset_url }}" alt="{{ card_4_alt }}" class="new-arrivals-gallery__img" loading="eager" width="1200" height="910">
               {% endif %}
             </div>
           {% if card_4_link != blank %}</a>{% endif %}
@@ -207,18 +207,19 @@
   }
 
   .new-arrivals-gallery__subheading {
-    font-family: Georgia, 'Times New Roman', serif !important;
+    font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif !important;
     font-style: italic !important;
-    font-size: 14px !important;
+    font-size: 22px !important;
     color: var(--nag-heading-color, #111111) !important;
     margin-bottom: 2px !important;
-    letter-spacing: 0.04em !important;
-    opacity: 0.8 !important;
+    letter-spacing: 0.02em !important;
+    opacity: 0.9 !important;
+    line-height: 1.1 !important;
   }
 
   .new-arrivals-gallery__heading {
     font-size: var(--nag-heading-size, 18px) !important;
-    letter-spacing: var(--nag-heading-spacing, 0.35em) !important;
+    letter-spacing: var(--nag-heading-spacing, 0.32em) !important;
     font-weight: 500 !important;
     text-transform: uppercase !important;
     color: var(--nag-heading-color, #111111) !important;
@@ -228,7 +229,7 @@
 
   .new-arrivals-gallery__underline {
     width: var(--nag-underline-width, 36px) !important;
-    height: 1px !important;
+    height: 1.5px !important;
     background-color: var(--nag-underline-color, #111111) !important;
     margin-top: 8px !important;
   }
@@ -275,8 +276,12 @@
     aspect-ratio: 1 / 1.18 !important;
   }
 
-  .new-arrivals-gallery__card--large {
-    aspect-ratio: 1 / 0.88 !important;
+  .new-arrivals-gallery__card--wide {
+    aspect-ratio: 1.32 / 1 !important;
+  }
+
+  .new-arrivals-gallery__card--tall {
+    aspect-ratio: 1.32 / 1 !important;
   }
 
   .new-arrivals-gallery__card-link {

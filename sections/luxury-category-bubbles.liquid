@@ -1,132 +1,266 @@
 {%- comment -%}
-  THE RAW HOUSE - ADVANCED CATEGORY BUBBLES / HIGHLIGHTS
-  Instagram-style luxury circular highlights with dynamic blocks, advanced color schemes, and size controls.
+  THE RAW HOUSE - CATEGORY TILES (thehouseofthings.com style)
+  Tall portrait rectangular tiles in a horizontal row
 {%- endcomment -%}
 
 {% liquid
-  assign scheme = section.settings.color_scheme_preset | default: 'warm'
+  assign scheme = section.settings.color_scheme_preset | default: 'light'
   case scheme
-    when 'light'
-      assign bg_color = '#ffffff'
-      assign text_color = '#111111'
-      assign ring_color = 'linear-gradient(135deg, #c5a880 0%, #ecd8b8 50%, #c5a880 100%)'
     when 'dark'
       assign bg_color = '#141414'
       assign text_color = '#ffffff'
-      assign ring_color = 'linear-gradient(135deg, #c5a880 0%, #ffffff 50%, #c5a880 100%)'
     when 'obsidian'
       assign bg_color = '#0b0b0b'
       assign text_color = '#ffffff'
-      assign ring_color = 'linear-gradient(135deg, #c5a880 0%, #e2cca6 50%, #9e7f57 100%)'
-    else
+    when 'warm'
       assign bg_color = '#fcfbf9'
       assign text_color = '#111111'
-      assign ring_color = 'linear-gradient(135deg, #c5a880 0%, #dfcaa5 50%, #c5a880 100%)'
+    else
+      assign bg_color = '#ffffff'
+      assign text_color = '#111111'
   endcase
 
   if section.settings.custom_bg_color != blank and section.settings.custom_bg_color != 'rgba(0,0,0,0)'
     assign bg_color = section.settings.custom_bg_color
   endif
-  if section.settings.custom_text_color != blank and section.settings.custom_text_color != 'rgba(0,0,0,0)'
-    assign text_color = section.settings.custom_text_color
-  endif
 %}
 
 <div
-  id="LuxuryBubbles-{{ section.id }}"
-  class="lux-bubbles-section lux-bubbles-scheme-{{ scheme }}"
+  id="LuxuryCategoryTiles-{{ section.id }}"
+  class="lux-cat-tiles-section"
   style="
-    --bubbles-bg: {{ bg_color }};
-    --bubbles-color: {{ text_color }};
-    --bubbles-ring: {{ ring_color }};
-    --bubbles-pt: {{ section.settings.padding_top | default: 22 }}px;
-    --bubbles-pb: {{ section.settings.padding_bottom | default: 36 }}px;
-    background: var(--bubbles-bg);
-    color: var(--bubbles-color);
-    padding-top: var(--bubbles-pt);
-    padding-bottom: var(--bubbles-pb);
+    background: {{ bg_color }};
+    color: {{ text_color }};
+    padding: {{ section.settings.padding_top | default: 40 }}px 0 {{ section.settings.padding_bottom | default: 48 }}px;
   "
   {{ section.shopify_attributes }}
 >
-  <div class="lux-bubbles-container">
-    {% if section.settings.heading != blank %}
-      <div class="lux-section-heading-wrap lux-reveal-fade-up">
-        {% if section.settings.subheading != blank %}
-          <span class="lux-section-subheading">{{ section.settings.subheading }}</span>
-        {% endif %}
-        <h2 class="lux-section-heading" style="color: var(--bubbles-color);">{{ section.settings.heading }}</h2>
-        <div class="lux-section-divider"></div>
-      </div>
-    {% endif %}
-
-    <div class="lux-bubbles-track lux-stagger-parent lux-reveal-fade-up">
-      {% for block in section.blocks %}
-        <a
-          href="{{ block.settings.link | default: routes.all_products_collection_url }}"
-          class="lux-bubble-item lux-stagger-child"
-          {{ block.shopify_attributes }}
-        >
-          <div class="lux-bubble-ring" style="background: var(--bubbles-ring);">
-            <div class="lux-bubble-avatar">
-              {% if block.settings.image != blank %}
-                {{
-                  block.settings.image
-                  | image_url: width: 300
-                  | image_tag:
-                    class: 'lux-bubble-img',
-                    loading: 'eager',
-                    alt: block.settings.title
-                }}
-              {% elsif block.settings.default_asset != blank %}
-                <img
-                  src="{{ block.settings.default_asset | asset_url }}"
-                  alt="{{ block.settings.title | escape }}"
-                  class="lux-bubble-img"
-                  loading="eager"
-                  onerror="this.onerror=null;this.src='{{ 'new-arrival-1.jpg' | asset_url }}';"
-                  width="120"
-                  height="120"
-                >
-              {% else %}
-                <img
-                  src="{{ 'new-arrival-1.jpg' | asset_url }}"
-                  alt="{{ block.settings.title | escape }}"
-                  class="lux-bubble-img"
-                  loading="eager"
-                  width="120"
-                  height="120"
-                >
-              {% endif %}
-            </div>
-          </div>
-          <span class="lux-bubble-title" style="color: var(--bubbles-color);">{{ block.settings.title }}</span>
-        </a>
-      {% endfor %}
+  {% if section.settings.heading != blank %}
+    <div class="lux-cat-tiles-heading lux-reveal-fade-up">
+      {% if section.settings.subheading != blank %}
+        <p class="lux-cat-tiles-subheading">{{ section.settings.subheading }}</p>
+      {% endif %}
+      <h2 class="lux-cat-tiles-h2" style="color: {{ text_color }};">{{ section.settings.heading }}</h2>
     </div>
+  {% endif %}
+
+  <div class="lux-cat-tiles-track lux-stagger-parent">
+    {% for block in section.blocks %}
+      <a
+        href="{{ block.settings.link | default: routes.all_products_collection_url }}"
+        class="lux-cat-tile lux-stagger-child"
+        {{ block.shopify_attributes }}
+      >
+        <div class="lux-cat-tile-img-wrap">
+          {% if block.settings.image != blank %}
+            {{
+              block.settings.image
+              | image_url: width: 800
+              | image_tag:
+                class: 'lux-cat-tile-img',
+                loading: 'eager',
+                alt: block.settings.title
+            }}
+          {% elsif block.settings.default_asset != blank %}
+            <img
+              src="{{ block.settings.default_asset | asset_url }}"
+              alt="{{ block.settings.title | escape }}"
+              class="lux-cat-tile-img"
+              loading="eager"
+              onerror="this.onerror=null;this.src='{{ 'new-arrival-1.jpg' | asset_url }}';"
+              width="400"
+              height="560"
+            >
+          {% else %}
+            <img
+              src="{{ 'new-arrival-1.jpg' | asset_url }}"
+              alt="{{ block.settings.title | escape }}"
+              class="lux-cat-tile-img"
+              loading="eager"
+              width="400"
+              height="560"
+            >
+          {% endif %}
+          <div class="lux-cat-tile-overlay"></div>
+        </div>
+        <div class="lux-cat-tile-info">
+          <span class="lux-cat-tile-title">{{ block.settings.title }}</span>
+          <span class="lux-cat-tile-cta">Shop Now →</span>
+        </div>
+      </a>
+    {% endfor %}
   </div>
 </div>
 
+{% stylesheet %}
+  .lux-cat-tiles-section {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .lux-cat-tiles-heading {
+    text-align: center;
+    padding: 0 20px;
+    margin-bottom: clamp(20px, 3vw, 36px);
+  }
+
+  .lux-cat-tiles-subheading {
+    font-family: "Inter", sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: #c5a880;
+    margin: 0 0 8px;
+  }
+
+  .lux-cat-tiles-h2 {
+    font-family: "Playfair Display", "Cormorant Garamond", Georgia, serif;
+    font-size: clamp(22px, 3.2vw, 34px);
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  .lux-cat-tiles-track {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 0;
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0;
+  }
+
+  .lux-cat-tile {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    text-decoration: none;
+    aspect-ratio: 3 / 4;
+    background: #f5f5f5;
+  }
+
+  .lux-cat-tile-img-wrap {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    overflow: hidden;
+  }
+
+  .lux-cat-tile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+    display: block;
+  }
+
+  .lux-cat-tile:hover .lux-cat-tile-img {
+    transform: scale(1.06);
+  }
+
+  .lux-cat-tile-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      transparent 40%,
+      rgba(0, 0, 0, 0.55) 100%
+    );
+    transition: background 0.4s ease;
+  }
+
+  .lux-cat-tile:hover .lux-cat-tile-overlay {
+    background: linear-gradient(
+      to bottom,
+      transparent 20%,
+      rgba(0, 0, 0, 0.68) 100%
+    );
+  }
+
+  .lux-cat-tile-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    z-index: 2;
+  }
+
+  .lux-cat-tile-title {
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: clamp(13px, 1.4vw, 17px);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: #ffffff;
+    text-transform: uppercase;
+    line-height: 1.2;
+  }
+
+  .lux-cat-tile-cta {
+    font-family: "Inter", sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    color: rgba(255, 255, 255, 0.8);
+    text-transform: uppercase;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .lux-cat-tile:hover .lux-cat-tile-cta {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (max-width: 900px) {
+    .lux-cat-tiles-track {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .lux-cat-tiles-track {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .lux-cat-tile {
+      aspect-ratio: 2 / 3;
+    }
+    .lux-cat-tile-title {
+      font-size: 12px;
+    }
+  }
+{% endstylesheet %}
+
 {% schema %}
 {
-  "name": "Luxury Category Bubbles",
+  "name": "Category Tiles",
   "tag": "section",
   "class": "section-luxury-bubbles",
   "settings": [
     {
       "type": "header",
-      "content": "Color Scheme & Style"
+      "content": "Color Scheme"
     },
     {
       "type": "select",
       "id": "color_scheme_preset",
-      "label": "Color Scheme Preset",
+      "label": "Color Scheme",
       "options": [
-        { "value": "warm", "label": "Warm Atelier Ivory (#fcfbf9)" },
-        { "value": "light", "label": "Light Clean (#ffffff)" },
-        { "value": "dark", "label": "Contemporary Dark (#141414)" },
-        { "value": "obsidian", "label": "Obsidian Gold (#0b0b0b)" }
+        { "value": "light", "label": "White (#ffffff)" },
+        { "value": "warm", "label": "Warm Ivory (#fcfbf9)" },
+        { "value": "dark", "label": "Dark (#141414)" },
+        { "value": "obsidian", "label": "Obsidian (#0b0b0b)" }
       ],
-      "default": "warm"
+      "default": "light"
     },
     {
       "type": "color",
@@ -134,25 +268,20 @@
       "label": "Custom Background Color"
     },
     {
-      "type": "color",
-      "id": "custom_text_color",
-      "label": "Custom Text Color"
-    },
-    {
       "type": "header",
-      "content": "Heading & Text"
+      "content": "Heading"
     },
     {
       "type": "text",
       "id": "subheading",
-      "label": "Subheading",
-      "default": "EXPLORE BY WORLD"
+      "label": "Subheading Label",
+      "default": "SHOP BY CATEGORY"
     },
     {
       "type": "text",
       "id": "heading",
-      "label": "Heading",
-      "default": "CURATED CATEGORIES"
+      "label": "Section Heading",
+      "default": "EXPLORE THE COLLECTION"
     },
     {
       "type": "header",
@@ -161,28 +290,28 @@
     {
       "type": "range",
       "id": "padding_top",
-      "min": 12,
-      "max": 60,
-      "step": 2,
+      "min": 0,
+      "max": 80,
+      "step": 4,
       "unit": "px",
       "label": "Padding Top",
-      "default": 22
+      "default": 40
     },
     {
       "type": "range",
       "id": "padding_bottom",
-      "min": 12,
-      "max": 60,
-      "step": 2,
+      "min": 0,
+      "max": 80,
+      "step": 4,
       "unit": "px",
       "label": "Padding Bottom",
-      "default": 36
+      "default": 48
     }
   ],
   "blocks": [
     {
       "type": "bubble",
-      "name": "Category Bubble Card",
+      "name": "Category Tile",
       "settings": [
         {
           "type": "image_picker",
@@ -192,7 +321,7 @@
         {
           "type": "text",
           "id": "default_asset",
-          "label": "Default Asset Fallback"
+          "label": "Default Asset Filename"
         },
         {
           "type": "text",
@@ -210,48 +339,41 @@
   ],
   "presets": [
     {
-      "name": "Luxury Category Bubbles",
+      "name": "Category Tiles",
       "blocks": [
         {
           "type": "bubble",
           "settings": {
-            "title": "ORIGINAL OILS",
+            "title": "Original Oils",
             "default_asset": "art-painting-starry-night.jpg"
           }
         },
         {
           "type": "bubble",
           "settings": {
-            "title": "BRONZE SCULPTURES",
-            "default_asset": "art-sculpture-bronze-figure.jpg"
+            "title": "Bronze Sculptures",
+            "default_asset": "art-sculpture-rodin-thinker.jpg"
           }
         },
         {
           "type": "bubble",
           "settings": {
-            "title": "3D ART MODELS",
-            "default_asset": "art-sculpture-marble-bust.jpg"
+            "title": "Marble Models",
+            "default_asset": "art-sculpture-venus-milo.jpg"
           }
         },
         {
           "type": "bubble",
           "settings": {
-            "title": "ABSTRACT GOLD LEAF",
-            "default_asset": "art-painting-gold-canvas.jpg"
+            "title": "Textured Canvases",
+            "default_asset": "art-painting-abstract-oil.jpg"
           }
         },
         {
           "type": "bubble",
           "settings": {
-            "title": "EXPRESSIONIST FORMS",
-            "default_asset": "maker-gallery-2.jpg"
-          }
-        },
-        {
-          "type": "bubble",
-          "settings": {
-            "title": "BESPOKE COMMISSIONS",
-            "default_asset": "art-atelier-artist-studio.jpg"
+            "title": "Limited Editions",
+            "default_asset": "art-painting-great-wave.jpg"
           }
         }
       ]
