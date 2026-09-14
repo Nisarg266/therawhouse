@@ -157,6 +157,14 @@
 
     </div>
 
+    <!-- Mobile Slider Dots Indicator -->
+    <div class="the-makers-grid__mobile-dots" id="TmgDots-{{ section_id }}" aria-hidden="true">
+      <span class="the-makers-grid__dot is-active" data-index="0"></span>
+      <span class="the-makers-grid__dot" data-index="1"></span>
+      <span class="the-makers-grid__dot" data-index="2"></span>
+      <span class="the-makers-grid__dot" data-index="3"></span>
+    </div>
+
     {%- comment -%} Footer View Our Makers Link {%- endcomment -%}
     {% if view_all_text != blank %}
       <div class="the-makers-grid__footer">
@@ -168,6 +176,50 @@
 
   </div>
 </div>
+
+<script>
+  (function() {
+    const section = document.getElementById('TheMakers-{{ section_id }}');
+    if (!section) return;
+    const grid = section.querySelector('.the-makers-grid__grid');
+    const dots = section.querySelectorAll('.the-makers-grid__dot');
+    if (!grid || !dots.length) return;
+
+    let isScrolling;
+    grid.addEventListener('scroll', function() {
+      window.clearTimeout(isScrolling);
+      isScrolling = setTimeout(function() {
+        const cards = grid.querySelectorAll('.the-makers-grid__card');
+        if (!cards.length) return;
+        const scrollLeft = grid.scrollLeft;
+        let activeIdx = 0;
+        let minDiff = Infinity;
+        cards.forEach((card, idx) => {
+          const diff = Math.abs(card.offsetLeft - scrollLeft);
+          if (diff < minDiff) {
+            minDiff = diff;
+            activeIdx = idx;
+          }
+        });
+        dots.forEach((dot, idx) => {
+          dot.classList.toggle('is-active', idx === activeIdx);
+        });
+      }, 50);
+    }, { passive: true });
+
+    dots.forEach((dot, idx) => {
+      dot.addEventListener('click', function() {
+        const cards = grid.querySelectorAll('.the-makers-grid__card');
+        if (cards[idx]) {
+          grid.scrollTo({
+            left: cards[idx].offsetLeft - grid.offsetLeft,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+  })();
+</script>
 
 {% stylesheet %}
   .the-makers-grid {
@@ -227,15 +279,13 @@
 
   .the-makers-grid__grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: var(--tmg-gap, 24px);
     width: 100%;
   }
 
-  @media screen and (min-width: 768px) {
-    .the-makers-grid__grid {
-      grid-template-columns: repeat(4, 1fr);
-    }
+  .the-makers-grid__mobile-dots {
+    display: none;
   }
 
   .the-makers-grid__card {
@@ -330,6 +380,82 @@
 
   .the-makers-grid__view-all:hover {
     opacity: 0.7;
+  }
+
+  /* Mobile Responsive Touch Slider & Spacing Normalization */
+  @media screen and (max-width: 767px) {
+    .the-makers-grid {
+      padding-block-start: clamp(24px, 5vw, 32px) !important;
+      padding-block-end: clamp(26px, 5vw, 34px) !important;
+    }
+
+    .the-makers-grid__container {
+      padding-inline: 18px !important;
+      overflow: hidden !important;
+    }
+
+    .the-makers-grid__header {
+      margin-block-end: 18px !important;
+    }
+
+    .the-makers-grid__grid {
+      display: flex !important;
+      flex-direction: row !important;
+      flex-wrap: nowrap !important;
+      overflow-x: auto !important;
+      overflow-y: hidden !important;
+      scroll-snap-type: x mandatory !important;
+      -webkit-overflow-scrolling: touch !important;
+      gap: 14px !important;
+      padding-inline: 18px !important;
+      margin-inline: -18px !important;
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+    }
+
+    .the-makers-grid__grid::-webkit-scrollbar {
+      display: none !important;
+    }
+
+    .the-makers-grid__card {
+      flex: 0 0 62% !important;
+      max-width: 240px !important;
+      scroll-snap-align: start !important;
+      scroll-snap-stop: always !important;
+    }
+
+    .the-makers-grid__media-wrap {
+      aspect-ratio: 1 / 1.28 !important;
+      margin-bottom: 10px !important;
+    }
+
+    .the-makers-grid__mobile-dots {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 6px !important;
+      margin-top: 14px !important;
+      margin-bottom: 18px !important;
+    }
+
+    .the-makers-grid__dot {
+      width: 6px !important;
+      height: 6px !important;
+      border-radius: 50% !important;
+      background-color: #d8d8d8 !important;
+      cursor: pointer !important;
+      transition: all 0.28s ease !important;
+    }
+
+    .the-makers-grid__dot.is-active {
+      width: 22px !important;
+      border-radius: 4px !important;
+      background-color: var(--tmg-heading-color, #111111) !important;
+    }
+
+    .the-makers-grid__footer {
+      margin-top: 10px !important;
+    }
   }
 {% endstylesheet %}
 

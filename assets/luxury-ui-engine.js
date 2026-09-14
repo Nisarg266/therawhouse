@@ -482,6 +482,33 @@
     });
   }
 
+  // 9. KEEP CURATION TAB ALWAYS OPEN ("Keep curation tab open")
+  function initCurationTabKeeper() {
+    function keepOpen() {
+      const detailsList = document.querySelectorAll(
+        '.product-details details, .accordion details'
+      );
+      detailsList.forEach((details, idx) => {
+        const header = details.querySelector('summary');
+        const text = header ? header.textContent.toLowerCase() : '';
+        if (text.includes('curation') || details.classList.contains('is-curation-tab') || idx === 0) {
+          if (!details.open) {
+            details.open = true;
+            details.setAttribute('open', '');
+            details.setAttribute('declarative-open', '');
+          }
+        }
+      });
+    }
+
+    keepOpen();
+    setTimeout(keepOpen, 100);
+    setTimeout(keepOpen, 500);
+    setTimeout(keepOpen, 1500);
+
+    window.addEventListener('load', keepOpen);
+  }
+
   // INITIALIZE ALL SYSTEMS
   function initAll() {
     initScrollReveals();
@@ -492,6 +519,7 @@
     initRoomHotspots();
     initNumberCounters();
     initReviewsSlider();
+    initCurationTabKeeper();
   }
 
   if (document.readyState === 'loading') {
@@ -502,4 +530,5 @@
 
   // Re-init on Shopify theme editor section load
   document.addEventListener('shopify:section:load', initAll);
+  document.addEventListener('shopify:section:select', initAll);
 })();

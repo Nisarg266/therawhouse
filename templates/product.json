@@ -1,47 +1,20 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */{
+{
   "sections": {
     "main": {
       "type": "product-information",
       "blocks": {
-        "disclosures_g9mWze": {
-          "type": "disclosures",
-          "name": "t:names.disclosures",
-          "settings": {
-            "heading": "Disclosures",
-            "heading_preset": "h5",
-            "open_by_default": false,
-            "icon": "caret",
-            "disclosure_heading_preset": "h6",
-            "text_color": "",
-            "dividers": true,
-            "divider_color": "{{ settings.color_palette.color2 }}",
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
-        },
         "media-gallery": {
           "type": "_product-media-gallery",
           "static": true,
           "settings": {
             "media_presentation": "grid",
             "media_columns": "two",
-            "image_gap": 4,
-            "large_first_image": false,
+            "image_gap": 8,
+            "large_first_image": true,
             "slideshow_controls_style": "counter",
             "slideshow_mobile_controls_style": "dots",
-            "thumbnail_position": "right",
-            "thumbnail_width": 44,
+            "thumbnail_position": "bottom",
+            "thumbnail_width": 64,
             "thumbnail_radius": 0,
             "aspect_ratio": "adapt",
             "constrain_to_viewport": true,
@@ -50,7 +23,7 @@
             "extend_media": false,
             "zoom": true,
             "video_loop": false,
-            "hide_variants": true,
+            "hide_variants": false,
             "padding-block-start": 0,
             "padding-block-end": 0,
             "padding-inline-start": 0,
@@ -68,7 +41,7 @@
             "custom_width_mobile": 100,
             "height": "fit",
             "details_position": "flex-start",
-            "gap": 28,
+            "gap": 20,
             "sticky_details_desktop": true,
             "background_media": "none",
             "background_color": "",
@@ -79,7 +52,7 @@
             "border_opacity": 100,
             "border_color": "",
             "border_radius": 0,
-            "padding-block-start": 24,
+            "padding-block-start": 12,
             "padding-block-end": 24,
             "padding-inline-start": 0,
             "padding-inline-end": 0
@@ -96,7 +69,7 @@
                 "align_baseline": false,
                 "horizontal_alignment_flex_direction_column": "flex-start",
                 "vertical_alignment_flex_direction_column": "center",
-                "gap": 12,
+                "gap": 10,
                 "width": "fill",
                 "custom_width": 100,
                 "width_mobile": "fill",
@@ -124,6 +97,30 @@
                 "padding-inline-end": 0
               },
               "blocks": {
+                "vendor_tag": {
+                  "type": "text",
+                  "name": "Artisan Tag",
+                  "settings": {
+                    "text": "<p>THE RAW HOUSE ATELIER &bull; {{ closest.product.vendor }}</p>",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "alignment": "left",
+                    "type_preset": "paragraph",
+                    "font": "var(--font-body--family)",
+                    "font_size": "0.78rem",
+                    "line_height": "normal",
+                    "letter_spacing": "0.18em",
+                    "case": "none",
+                    "wrap": "pretty",
+                    "background": false,
+                    "background_color": "#00000026",
+                    "corner_radius": 0,
+                    "padding-block-start": 0,
+                    "padding-block-end": 0,
+                    "padding-inline-start": 0,
+                    "padding-inline-end": 0
+                  }
+                },
                 "text_xrnftG": {
                   "type": "text",
                   "name": "t:names.product_title",
@@ -132,11 +129,11 @@
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "left",
-                    "type_preset": "h3",
+                    "type_preset": "h2",
                     "font": "var(--font-body--family)",
-                    "font_size": "1rem",
-                    "line_height": "normal",
-                    "letter_spacing": "normal",
+                    "font_size": "1.85rem",
+                    "line_height": "1.2",
+                    "letter_spacing": "0.02em",
                     "case": "none",
                     "wrap": "pretty",
                     "text_color": "",
@@ -156,11 +153,11 @@
                     "show_sale_price_first": true,
                     "show_installments": false,
                     "show_tax_info": false,
-                    "type_preset": "paragraph",
+                    "type_preset": "h4",
                     "width": "100%",
                     "alignment": "left",
                     "font": "var(--font-body--family)",
-                    "font_size": "1rem",
+                    "font_size": "1.3rem",
                     "line_height": "normal",
                     "letter_spacing": "normal",
                     "case": "none",
@@ -174,6 +171,7 @@
                 }
               },
               "block_order": [
+                "vendor_tag",
                 "text_xrnftG",
                 "price_tVjtKg"
               ]
@@ -184,10 +182,10 @@
               "settings": {
                 "thickness": 1,
                 "corner_radius": "square",
-                "divider_color": "{{ settings.color_palette.color2 }}",
+                "divider_color": "#edeae3",
                 "width_percent": 100,
-                "padding-block-start": 0,
-                "padding-block-end": 0
+                "padding-block-start": 4,
+                "padding-block-end": 4
               },
               "blocks": {}
             },
@@ -195,19 +193,19 @@
               "type": "variant-picker",
               "settings": {
                 "variant_style": "buttons",
-                "show_swatches": false,
+                "show_swatches": true,
                 "option_label_text_color": "",
                 "variant_style_class": "default",
-                "custom_variant_background": "{{ settings.color_palette.background }}",
-                "custom_variant_text": "{{ settings.color_palette.foreground }}",
-                "custom_variant_border": "{{ settings.color_palette.foreground }}",
+                "custom_variant_background": "#ffffff",
+                "custom_variant_text": "#111111",
+                "custom_variant_border": "#d8d4cb",
                 "selected_variant_style_class": "default",
-                "custom_selected_variant_background": "{{ settings.color_palette.foreground }}",
-                "custom_selected_variant_text": "{{ settings.color_palette.background }}",
-                "custom_selected_variant_border": "{{ settings.color_palette.foreground }}",
+                "custom_selected_variant_background": "#111111",
+                "custom_selected_variant_text": "#ffffff",
+                "custom_selected_variant_border": "#111111",
                 "alignment": "left",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
+                "padding-block-start": 4,
+                "padding-block-end": 4,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
               },
@@ -221,21 +219,21 @@
                 "show_pickup_availability": false,
                 "gift_card_form": true,
                 "recipient_button_style": "default",
-                "recipient_button_background": "{{ settings.color_palette.background }}",
-                "recipient_button_text": "{{ settings.color_palette.foreground }}",
-                "recipient_button_border": "{{ settings.color_palette.foreground }}",
+                "recipient_button_background": "#ffffff",
+                "recipient_button_text": "#111111",
+                "recipient_button_border": "#111111",
                 "selected_recipient_button_style": "default",
-                "selected_recipient_button_background": "{{ settings.color_palette.foreground }}",
-                "selected_recipient_button_text": "{{ settings.color_palette.background }}",
-                "selected_recipient_button_border": "{{ settings.color_palette.foreground }}",
+                "selected_recipient_button_background": "#111111",
+                "selected_recipient_button_text": "#ffffff",
+                "selected_recipient_button_border": "#111111",
                 "input_style": "default",
-                "input_background_color": "{{ settings.color_palette.background }}",
-                "input_text_color": "{{ settings.color_palette.foreground }}",
-                "input_border_color": "{{ settings.color_palette.foreground }}",
+                "input_background_color": "#ffffff",
+                "input_text_color": "#111111",
+                "input_border_color": "#d8d4cb",
                 "border_width": 1,
                 "border_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
+                "padding-block-start": 4,
+                "padding-block-end": 12,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
               },
@@ -245,9 +243,9 @@
                   "static": true,
                   "settings": {
                     "input_style": "default",
-                    "input_background_color": "{{ settings.color_palette.background }}",
-                    "input_text_color": "{{ settings.color_palette.foreground }}",
-                    "input_border_color": "{{ settings.color_palette.foreground }}",
+                    "input_background_color": "#faf9f6",
+                    "input_text_color": "#111111",
+                    "input_border_color": "#d8d4cb",
                     "border_width": 1,
                     "border_radius": 0
                   },
@@ -258,9 +256,9 @@
                   "static": true,
                   "settings": {
                     "style_class": "button",
-                    "custom_button_background": "{{ settings.color_palette.foreground }}",
-                    "custom_button_text": "{{ settings.color_palette.background }}",
-                    "custom_button_border": "{{ settings.color_palette.background }}"
+                    "custom_button_background": "#111111",
+                    "custom_button_text": "#ffffff",
+                    "custom_button_border": "#111111"
                   },
                   "blocks": {}
                 },
@@ -273,31 +271,110 @@
               },
               "block_order": []
             },
-            "text_aEtTtq": {
-              "type": "text",
-              "name": "t:names.product_description",
+            "accordion_tabs": {
+              "type": "accordion",
               "settings": {
-                "text": "{{ closest.product.description }}",
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "rte",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "text_color": "",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
+                "icon": "plus",
+                "dividers": true,
+                "divider_color": "#edeae3",
+                "type_preset": "paragraph"
               },
-              "blocks": {}
+              "blocks": {
+                "row_curation": {
+                  "type": "_accordion-row",
+                  "settings": {
+                    "heading": "The Curation & Story",
+                    "open_by_default": true,
+                    "icon": "none"
+                  },
+                  "blocks": {
+                    "desc_content": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>{{ closest.product.description }}</p>",
+                        "width": "100%",
+                        "max_width": "normal",
+                        "alignment": "left"
+                      }
+                    }
+                  },
+                  "block_order": [
+                    "desc_content"
+                  ]
+                },
+                "row_craft": {
+                  "type": "_accordion-row",
+                  "settings": {
+                    "heading": "Materials & Specifications",
+                    "open_by_default": false,
+                    "icon": "none"
+                  },
+                  "blocks": {
+                    "craft_content": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p><strong>Handcrafted Finish:</strong> Curated with traditional craftsmanship techniques.<br><strong>Provenance:</strong> Verified atelier piece from The Raw House curated masters.<br><strong>Care Instructions:</strong> Clean gently with a soft, dry natural microfiber cloth. Avoid direct excessive sunlight or chemical solvents.</p>",
+                        "width": "100%",
+                        "max_width": "normal",
+                        "alignment": "left"
+                      }
+                    }
+                  },
+                  "block_order": [
+                    "craft_content"
+                  ]
+                },
+                "row_delivery": {
+                  "type": "_accordion-row",
+                  "settings": {
+                    "heading": "White Glove Delivery & Transit",
+                    "open_by_default": false,
+                    "icon": "none"
+                  },
+                  "blocks": {
+                    "delivery_content": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>Complimentary insured white-glove transit across India & worldwide on all fine collections. Includes custom protective crating, scheduled appointment, and room-of-choice placement.</p>",
+                        "width": "100%",
+                        "max_width": "normal",
+                        "alignment": "left"
+                      }
+                    }
+                  },
+                  "block_order": [
+                    "delivery_content"
+                  ]
+                },
+                "row_authenticity": {
+                  "type": "_accordion-row",
+                  "settings": {
+                    "heading": "Certificate of Authenticity",
+                    "open_by_default": false,
+                    "icon": "none"
+                  },
+                  "blocks": {
+                    "auth_content": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>Every acquisition is accompanied by an individual Certificate of Authenticity signed and stamped by the atelier curator, guaranteeing authentic provenance and heirloom artistry.</p>",
+                        "width": "100%",
+                        "max_width": "normal",
+                        "alignment": "left"
+                      }
+                    }
+                  },
+                  "block_order": [
+                    "auth_content"
+                  ]
+                }
+              },
+              "block_order": [
+                "row_curation",
+                "row_craft",
+                "row_delivery",
+                "row_authenticity"
+              ]
             }
           },
           "block_order": [
@@ -305,13 +382,11 @@
             "divider_VJhene",
             "variant_picker_R3rGDr",
             "buy_buttons_eYQEYi",
-            "text_aEtTtq"
+            "accordion_tabs"
           ]
         }
       },
-      "block_order": [
-        "disclosures_g9mWze"
-      ],
+      "block_order": [],
       "settings": {
         "content_width": "content-center-aligned",
         "desktop_media_position": "left",
@@ -319,9 +394,75 @@
         "limit_details_width": false,
         "gap": 48,
         "enable_sticky_add_to_cart": true,
-        "background_color": "{{ settings.color_palette.background }}",
-        "padding-block-start": 0,
-        "padding-block-end": 0
+        "background_color": "#ffffff",
+        "padding-block-start": 24,
+        "padding-block-end": 36
+      }
+    },
+    "luxury_trust": {
+      "type": "luxury-trust-features",
+      "blocks": {
+        "trust_1": {
+          "type": "feature",
+          "settings": {
+            "icon": "authenticity",
+            "title": "CERTIFIED PROVENANCE",
+            "subtitle": "Individually certified provenance with signed curator seal"
+          }
+        },
+        "trust_2": {
+          "type": "feature",
+          "settings": {
+            "icon": "delivery",
+            "title": "WHITE GLOVE TRANSIT",
+            "subtitle": "Insured climate packaging & room-of-choice placement"
+          }
+        },
+        "trust_3": {
+          "type": "feature",
+          "settings": {
+            "icon": "bespoke",
+            "title": "BESPOKE SIZING & FINISH",
+            "subtitle": "Custom dimensions crafted to your spatial requirements"
+          }
+        },
+        "trust_4": {
+          "type": "feature",
+          "settings": {
+            "icon": "concierge",
+            "title": "CURATOR CONCIERGE",
+            "subtitle": "1-on-1 personal assistance for art & interior advising"
+          }
+        }
+      },
+      "block_order": [
+        "trust_1",
+        "trust_2",
+        "trust_3",
+        "trust_4"
+      ],
+      "settings": {
+        "color_scheme_preset": "warm",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "craftsmanship_story": {
+      "type": "luxury-craftsmanship-story",
+      "settings": {
+        "color_scheme_preset": "light",
+        "subheading": "THE RAW HOUSE ATELIER",
+        "heading": "Bespoke Artistry & Timeless Provenance",
+        "story_text": "Every object in our atelier tells a story of authentic craftsmanship, time-honored techniques, and contemporary form. We collaborate with master artisans and heritage curators to bring museum-grade masterworks into refined living spaces.",
+        "badge_number": "100%",
+        "badge_label": "ARTISAN HANDCRAFTED",
+        "metric_1_number": "200+",
+        "metric_1_label": "Hours of Hand Craftsmanship",
+        "metric_2_number": "100%",
+        "metric_2_label": "Natural Organic Materials",
+        "media_position": "left",
+        "padding_top": 48,
+        "padding_bottom": 52
       }
     },
     "product_recommendations_qggXJq": {
@@ -331,18 +472,17 @@
           "type": "text",
           "name": "t:names.header",
           "settings": {
-            "text": "<h3>You may also like </h3>",
-            "width": "fit-content",
+            "text": "<h3>Complementary Curations</h3>",
+            "width": "100%",
             "max_width": "normal",
-            "alignment": "left",
-            "type_preset": "h4",
+            "alignment": "center",
+            "type_preset": "h3",
             "font": "var(--font-body--family)",
             "font_size": "1rem",
             "line_height": "normal",
             "letter_spacing": "normal",
             "case": "none",
             "wrap": "pretty",
-            "text_color": "",
             "background": false,
             "background_color": "#00000026",
             "corner_radius": 0,
@@ -358,7 +498,7 @@
           "name": "t:names.product_card",
           "static": true,
           "settings": {
-            "product_card_gap": 8,
+            "product_card_gap": 6,
             "background_color": "",
             "border": "none",
             "border_width": 1,
@@ -366,7 +506,7 @@
             "border_color": "",
             "border_radius": 0,
             "padding-block-start": 0,
-            "padding-block-end": 8,
+            "padding-block-end": 12,
             "padding-inline-start": 0,
             "padding-inline-end": 0
           },
@@ -375,7 +515,7 @@
               "type": "_product-card-gallery",
               "name": "t:names.product_card_media",
               "settings": {
-                "image_ratio": "adapt",
+                "image_ratio": "square",
                 "border": "none",
                 "border_width": 1,
                 "border_opacity": 100,
@@ -399,14 +539,13 @@
                 "font": "var(--font-body--family)",
                 "font_size": "1rem",
                 "line_height": "normal",
-                "letter_spacing": "normal",
+                "letter_spacing": "0.04em",
                 "case": "none",
                 "wrap": "pretty",
-                "text_color": "",
                 "background": false,
                 "background_color": "#00000026",
                 "corner_radius": 0,
-                "padding-block-start": 4,
+                "padding-block-start": 6,
                 "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
@@ -451,24 +590,36 @@
         "product": "{{ closest.product }}",
         "recommendation_type": "related",
         "layout_type": "grid",
-        "carousel_on_mobile": false,
+        "carousel_on_mobile": true,
         "max_products": 4,
         "columns": 4,
         "mobile_columns": "2",
-        "columns_gap": 12,
-        "rows_gap": 24,
+        "columns_gap": 20,
+        "rows_gap": 28,
         "icons_style": "arrow",
         "icons_shape": "none",
         "section_width": "page-width",
-        "gap": 28,
-        "background_color": "{{ settings.color_palette.background }}",
-        "padding-block-start": 48,
-        "padding-block-end": 48
+        "gap": 24,
+        "background_color": "#ffffff",
+        "padding-block-start": 44,
+        "padding-block-end": 52
+      }
+    },
+    "brand_statement": {
+      "type": "brand-manifesto",
+      "settings": {
+        "heading": "A little bit of us",
+        "text": "The House of Things is a destination for design, artistry and craftsmanship, curated for a life artfully lived.",
+        "padding_top": 44,
+        "padding_bottom": 52
       }
     }
   },
   "order": [
     "main",
-    "product_recommendations_qggXJq"
+    "luxury_trust",
+    "craftsmanship_story",
+    "product_recommendations_qggXJq",
+    "brand_statement"
   ]
 }

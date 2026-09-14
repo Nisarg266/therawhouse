@@ -174,8 +174,62 @@
       </div>
 
     </div>
+
+    <!-- Mobile Slider Dots Indicator -->
+    <div class="new-arrivals-gallery__mobile-dots" id="NagDots-{{ section_id }}" aria-hidden="true">
+      <span class="new-arrivals-gallery__dot is-active" data-index="0"></span>
+      <span class="new-arrivals-gallery__dot" data-index="1"></span>
+      <span class="new-arrivals-gallery__dot" data-index="2"></span>
+      <span class="new-arrivals-gallery__dot" data-index="3"></span>
+      <span class="new-arrivals-gallery__dot" data-index="4"></span>
+      <span class="new-arrivals-gallery__dot" data-index="5"></span>
+    </div>
   </div>
 </div>
+
+<script>
+  (function() {
+    const section = document.getElementById('NewArrivalsGallery-{{ section_id }}');
+    if (!section) return;
+    const grid = section.querySelector('.new-arrivals-gallery__grid');
+    const dots = section.querySelectorAll('.new-arrivals-gallery__dot');
+    if (!grid || !dots.length) return;
+
+    let isScrolling;
+    grid.addEventListener('scroll', function() {
+      window.clearTimeout(isScrolling);
+      isScrolling = setTimeout(function() {
+        const cards = section.querySelectorAll('.new-arrivals-gallery__card');
+        if (!cards.length) return;
+        const scrollLeft = grid.scrollLeft;
+        let activeIdx = 0;
+        let minDiff = Infinity;
+        cards.forEach((card, idx) => {
+          const diff = Math.abs(card.offsetLeft - scrollLeft);
+          if (diff < minDiff) {
+            minDiff = diff;
+            activeIdx = idx;
+          }
+        });
+        dots.forEach((dot, idx) => {
+          dot.classList.toggle('is-active', idx === activeIdx);
+        });
+      }, 50);
+    }, { passive: true });
+
+    dots.forEach((dot, idx) => {
+      dot.addEventListener('click', function() {
+        const cards = section.querySelectorAll('.new-arrivals-gallery__card');
+        if (cards[idx]) {
+          grid.scrollTo({
+            left: cards[idx].offsetLeft - grid.offsetLeft,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+  })();
+</script>
 
 {% stylesheet %}
   .new-arrivals-gallery {
@@ -199,7 +253,7 @@
 
   .new-arrivals-gallery__header {
     text-align: center !important;
-    margin-block-end: 32px !important;
+    margin-block-end: 28px !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
@@ -234,19 +288,13 @@
     margin-top: 8px !important;
   }
 
-  /* Grid Layout: 2 Columns with Equal Height Balance */
+  /* Grid Layout: Desktop 2 Columns with Equal Height Balance */
   .new-arrivals-gallery__grid {
     display: grid !important;
-    grid-template-columns: 1fr !important;
+    grid-template-columns: 1fr 1fr !important;
     gap: var(--nag-gap, 14px) !important;
     width: 100% !important;
-  }
-
-  @media screen and (min-width: 750px) {
-    .new-arrivals-gallery__grid {
-      grid-template-columns: 1fr 1fr !important;
-      align-items: stretch !important;
-    }
+    align-items: stretch !important;
   }
 
   .new-arrivals-gallery__column {
@@ -311,6 +359,88 @@
 
   .new-arrivals-gallery__media--zoom:hover .new-arrivals-gallery__img {
     transform: scale(1.04) !important;
+  }
+
+  .new-arrivals-gallery__mobile-dots {
+    display: none !important;
+  }
+
+  /* Mobile Responsive Touch Slider & Spacing Normalization */
+  @media screen and (max-width: 749px) {
+    .new-arrivals-gallery {
+      padding-block-start: clamp(24px, 5vw, 34px) !important;
+      padding-block-end: clamp(26px, 5vw, 36px) !important;
+    }
+
+    .new-arrivals-gallery__header {
+      margin-block-end: 18px !important;
+    }
+
+    .new-arrivals-gallery__container {
+      padding-inline: 18px !important;
+      overflow: hidden !important;
+    }
+
+    .new-arrivals-gallery__grid {
+      display: flex !important;
+      flex-direction: row !important;
+      flex-wrap: nowrap !important;
+      overflow-x: auto !important;
+      overflow-y: hidden !important;
+      scroll-snap-type: x mandatory !important;
+      -webkit-overflow-scrolling: touch !important;
+      gap: 12px !important;
+      padding-inline: 18px !important;
+      margin-inline: -18px !important;
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+    }
+
+    .new-arrivals-gallery__grid::-webkit-scrollbar {
+      display: none !important;
+    }
+
+    .new-arrivals-gallery__column,
+    .new-arrivals-gallery__row-split {
+      display: contents !important;
+    }
+
+    .new-arrivals-gallery__card {
+      flex: 0 0 76% !important;
+      max-width: 290px !important;
+      scroll-snap-align: start !important;
+      scroll-snap-stop: always !important;
+      aspect-ratio: 1 / 1.18 !important;
+    }
+
+    .new-arrivals-gallery__card--split,
+    .new-arrivals-gallery__card--wide,
+    .new-arrivals-gallery__card--tall {
+      aspect-ratio: 1 / 1.18 !important;
+    }
+
+    .new-arrivals-gallery__mobile-dots {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 6px !important;
+      margin-top: 16px !important;
+    }
+
+    .new-arrivals-gallery__dot {
+      width: 6px !important;
+      height: 6px !important;
+      border-radius: 50% !important;
+      background-color: #d8d8d8 !important;
+      cursor: pointer !important;
+      transition: all 0.28s ease !important;
+    }
+
+    .new-arrivals-gallery__dot.is-active {
+      width: 22px !important;
+      border-radius: 4px !important;
+      background-color: var(--nag-heading-color, #111111) !important;
+    }
   }
 {% endstylesheet %}
 

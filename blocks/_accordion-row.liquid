@@ -1,12 +1,18 @@
 
 {% assign block_settings = block.settings %}
+{% assign is_curation = false %}
+{% assign heading_lower = block_settings.heading | downcase %}
+{% if block_settings.open_by_default or heading_lower contains 'curation' %}
+  {% assign is_curation = true %}
+{% endif %}
 
 {% capture accordion_row_children %}
   <details
-    class="details"
+    class="details{% if is_curation %} is-curation-tab{% endif %}"
     data-testid="accordion-details"
-    {% if block_settings.open_by_default %}
+    {% if is_curation %}
       open
+      declarative-open
     {% endif %}
     {{ block.shopify_attributes }}
   >
@@ -33,8 +39,9 @@
 {% endcapture %}
 {% render 'accordion-custom-component',
   children: accordion_row_children,
-  open_by_default_on_desktop: block_settings.open_by_default,
-  open_by_default_on_mobile: block_settings.open_by_default
+  open: is_curation,
+  open_by_default_on_desktop: is_curation,
+  open_by_default_on_mobile: is_curation
 %}
 
 {% schema %}

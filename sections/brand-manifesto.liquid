@@ -158,6 +158,34 @@
     width: 14px;
     height: 14px;
   }
+
+  /* Mobile Responsive Spacing Normalization */
+  @media screen and (max-width: 767px) {
+    .brand-manifesto {
+      padding-block-start: clamp(24px, 5vw, 32px) !important;
+      padding-block-end: clamp(26px, 5vw, 34px) !important;
+    }
+
+    .brand-manifesto__container {
+      padding-inline: 20px !important;
+    }
+
+    .brand-manifesto__heading {
+      font-size: 23px !important;
+      margin-bottom: 8px !important;
+    }
+
+    .brand-manifesto__text {
+      font-size: 13px !important;
+      line-height: 1.6 !important;
+      margin-bottom: 16px !important;
+    }
+
+    .brand-manifesto__social-link {
+      width: 32px !important;
+      height: 32px !important;
+    }
+  }
 {% endstylesheet %}
 
 {% schema %}

@@ -77,144 +77,200 @@
     {%- comment -%} 2-Column Editorial Grid with Unified Rows {%- endcomment -%}
     <div class="recommendations-editorial__grid">
       
-      <!-- ROW 1 - LEFT: Card 1 (Season of the Sun) -->
-      <article class="recommendations-editorial__card">
-        {% if card_1_title != blank %}
-          <h3 class="recommendations-editorial__card-title">{{ card_1_title }}</h3>
-        {% endif %}
+      <div class="recommendations-editorial__cards-track">
+        <!-- ROW 1 - LEFT: Card 1 (Season of the Sun) -->
+        <article class="recommendations-editorial__card">
+          {% if card_1_title != blank %}
+            <h3 class="recommendations-editorial__card-title">{{ card_1_title }}</h3>
+          {% endif %}
 
-        <div class="recommendations-editorial__media-wrap{% if enable_hover_zoom %} recommendations-editorial__media--zoom{% endif %}">
-          <a href="{{ card_1_link }}" class="recommendations-editorial__media-link" aria-label="{{ card_1_title | escape }}">
-            {% if card_1_img != blank %}
-              {{ card_1_img | image_url: width: 1200 | image_tag: class: 'recommendations-editorial__img', loading: 'lazy', alt: card_1_title }}
-            {% else %}
-              <img src="{{ 'recommendation-1.jpg' | asset_url }}" alt="{{ card_1_title | escape }}" class="recommendations-editorial__img" loading="eager" width="1200" height="750">
-            {% endif %}
-          </a>
-        </div>
-
-        {% if card_1_text != blank %}
-          <p class="recommendations-editorial__card-desc">{{ card_1_text }}</p>
-        {% endif %}
-
-        {% if card_1_btn_text != blank %}
-          <div class="recommendations-editorial__card-action">
-            <a href="{{ card_1_link }}" class="recommendations-editorial__card-cta">
-              {{ card_1_btn_text }}
+          <div class="recommendations-editorial__media-wrap{% if enable_hover_zoom %} recommendations-editorial__media--zoom{% endif %}">
+            <a href="{{ card_1_link }}" class="recommendations-editorial__media-link" aria-label="{{ card_1_title | escape }}">
+              {% if card_1_img != blank %}
+                {{ card_1_img | image_url: width: 1200 | image_tag: class: 'recommendations-editorial__img', loading: 'lazy', alt: card_1_title }}
+              {% else %}
+                <img src="{{ 'recommendation-1.jpg' | asset_url }}" alt="{{ card_1_title | escape }}" class="recommendations-editorial__img" loading="eager" width="1200" height="750">
+              {% endif %}
             </a>
           </div>
-        {% endif %}
-      </article>
 
-      <!-- ROW 1 - RIGHT: Card 2 (Artist in Residence) -->
-      <article class="recommendations-editorial__card">
-        {% if card_2_title != blank %}
-          <h3 class="recommendations-editorial__card-title">{{ card_2_title }}</h3>
-        {% endif %}
+          {% if card_1_text != blank %}
+            <p class="recommendations-editorial__card-desc">{{ card_1_text }}</p>
+          {% endif %}
 
-        <div class="recommendations-editorial__media-wrap{% if enable_hover_zoom %} recommendations-editorial__media--zoom{% endif %}">
-          <a href="{{ card_2_link }}" class="recommendations-editorial__media-link" aria-label="{{ card_2_title | escape }}">
-            {% if card_2_img != blank %}
-              {{ card_2_img | image_url: width: 1200 | image_tag: class: 'recommendations-editorial__img', loading: 'lazy', alt: card_2_title }}
-            {% else %}
-              <img src="{{ 'recommendation-2.jpg' | asset_url }}" alt="{{ card_2_title | escape }}" class="recommendations-editorial__img" loading="eager" width="1200" height="750">
-            {% endif %}
-          </a>
-        </div>
+          {% if card_1_btn_text != blank %}
+            <div class="recommendations-editorial__card-action">
+              <a href="{{ card_1_link }}" class="recommendations-editorial__card-cta">
+                {{ card_1_btn_text }}
+              </a>
+            </div>
+          {% endif %}
+        </article>
 
-        {% if card_2_text != blank %}
-          <p class="recommendations-editorial__card-desc">{{ card_2_text }}</p>
-        {% endif %}
+        <!-- ROW 1 - RIGHT: Card 2 (Artist in Residence) -->
+        <article class="recommendations-editorial__card">
+          {% if card_2_title != blank %}
+            <h3 class="recommendations-editorial__card-title">{{ card_2_title }}</h3>
+          {% endif %}
 
-        {% if card_2_btn_text != blank %}
-          <div class="recommendations-editorial__card-action">
-            <a href="{{ card_2_link }}" class="recommendations-editorial__card-cta">
-              {{ card_2_btn_text }}
+          <div class="recommendations-editorial__media-wrap{% if enable_hover_zoom %} recommendations-editorial__media--zoom{% endif %}">
+            <a href="{{ card_2_link }}" class="recommendations-editorial__media-link" aria-label="{{ card_2_title | escape }}">
+              {% if card_2_img != blank %}
+                {{ card_2_img | image_url: width: 1200 | image_tag: class: 'recommendations-editorial__img', loading: 'lazy', alt: card_2_title }}
+              {% else %}
+                <img src="{{ 'recommendation-2.jpg' | asset_url }}" alt="{{ card_2_title | escape }}" class="recommendations-editorial__img" loading="eager" width="1200" height="750">
+              {% endif %}
             </a>
           </div>
-        {% endif %}
-      </article>
 
-      <!-- ROW 2 - LEFT: Card 3 (The Art of Fine Living) -->
-      <article class="recommendations-editorial__card">
-        {% if card_3_title != blank %}
-          <h3 class="recommendations-editorial__card-title">{{ card_3_title }}</h3>
-        {% endif %}
+          {% if card_2_text != blank %}
+            <p class="recommendations-editorial__card-desc">{{ card_2_text }}</p>
+          {% endif %}
 
-        <div class="recommendations-editorial__media-wrap{% if enable_hover_zoom %} recommendations-editorial__media--zoom{% endif %}">
-          <a href="{{ card_3_link }}" class="recommendations-editorial__media-link" aria-label="{{ card_3_title | escape }}">
-            {% if card_3_img != blank %}
-              {{ card_3_img | image_url: width: 1200 | image_tag: class: 'recommendations-editorial__img', loading: 'lazy', alt: card_3_title }}
-            {% else %}
-              <img src="{{ 'recommendation-3.jpg' | asset_url }}" alt="{{ card_3_title | escape }}" class="recommendations-editorial__img" loading="eager" width="1200" height="750">
-            {% endif %}
-          </a>
-        </div>
+          {% if card_2_btn_text != blank %}
+            <div class="recommendations-editorial__card-action">
+              <a href="{{ card_2_link }}" class="recommendations-editorial__card-cta">
+                {{ card_2_btn_text }}
+              </a>
+            </div>
+          {% endif %}
+        </article>
 
-        {% if card_3_text != blank %}
-          <p class="recommendations-editorial__card-desc">{{ card_3_text }}</p>
-        {% endif %}
+        <!-- ROW 2 - LEFT: Card 3 (The Art of Fine Living) -->
+        <article class="recommendations-editorial__card">
+          {% if card_3_title != blank %}
+            <h3 class="recommendations-editorial__card-title">{{ card_3_title }}</h3>
+          {% endif %}
 
-        {% if card_3_btn_text != blank %}
-          <div class="recommendations-editorial__card-action">
-            <a href="{{ card_3_link }}" class="recommendations-editorial__card-cta">
-              {{ card_3_btn_text }}
+          <div class="recommendations-editorial__media-wrap{% if enable_hover_zoom %} recommendations-editorial__media--zoom{% endif %}">
+            <a href="{{ card_3_link }}" class="recommendations-editorial__media-link" aria-label="{{ card_3_title | escape }}">
+              {% if card_3_img != blank %}
+                {{ card_3_img | image_url: width: 1200 | image_tag: class: 'recommendations-editorial__img', loading: 'lazy', alt: card_3_title }}
+              {% else %}
+                <img src="{{ 'recommendation-3.jpg' | asset_url }}" alt="{{ card_3_title | escape }}" class="recommendations-editorial__img" loading="eager" width="1200" height="750">
+              {% endif %}
             </a>
           </div>
-        {% endif %}
-      </article>
 
-      <!-- ROW 2 - RIGHT: Card 4 (A Life, Collected) -->
-      <article class="recommendations-editorial__card">
-        {% if card_4_title != blank %}
-          <h3 class="recommendations-editorial__card-title">{{ card_4_title }}</h3>
-        {% endif %}
+          {% if card_3_text != blank %}
+            <p class="recommendations-editorial__card-desc">{{ card_3_text }}</p>
+          {% endif %}
 
-        <div class="recommendations-editorial__media-wrap{% if enable_hover_zoom %} recommendations-editorial__media--zoom{% endif %}">
-          <a href="{{ card_4_link }}" class="recommendations-editorial__media-link" aria-label="{{ card_4_title | escape }}">
-            {% if card_4_img != blank %}
-              {{ card_4_img | image_url: width: 1200 | image_tag: class: 'recommendations-editorial__img', loading: 'lazy', alt: card_4_title }}
-            {% else %}
-              <img src="{{ 'recommendation-4.jpg' | asset_url }}" alt="{{ card_4_title | escape }}" class="recommendations-editorial__img" loading="eager" width="1200" height="750">
-            {% endif %}
-          </a>
-        </div>
+          {% if card_3_btn_text != blank %}
+            <div class="recommendations-editorial__card-action">
+              <a href="{{ card_3_link }}" class="recommendations-editorial__card-cta">
+                {{ card_3_btn_text }}
+              </a>
+            </div>
+          {% endif %}
+        </article>
 
-        {% if card_4_text != blank %}
-          <p class="recommendations-editorial__card-desc">{{ card_4_text }}</p>
-        {% endif %}
+        <!-- ROW 2 - RIGHT: Card 4 (A Life, Collected) -->
+        <article class="recommendations-editorial__card">
+          {% if card_4_title != blank %}
+            <h3 class="recommendations-editorial__card-title">{{ card_4_title }}</h3>
+          {% endif %}
 
-        {% if card_4_btn_text != blank %}
-          <div class="recommendations-editorial__card-action">
-            <a href="{{ card_4_link }}" class="recommendations-editorial__card-cta">
-              {{ card_4_btn_text }}
+          <div class="recommendations-editorial__media-wrap{% if enable_hover_zoom %} recommendations-editorial__media--zoom{% endif %}">
+            <a href="{{ card_4_link }}" class="recommendations-editorial__media-link" aria-label="{{ card_4_title | escape }}">
+              {% if card_4_img != blank %}
+                {{ card_4_img | image_url: width: 1200 | image_tag: class: 'recommendations-editorial__img', loading: 'lazy', alt: card_4_title }}
+              {% else %}
+                <img src="{{ 'recommendation-4.jpg' | asset_url }}" alt="{{ card_4_title | escape }}" class="recommendations-editorial__img" loading="eager" width="1200" height="750">
+              {% endif %}
             </a>
           </div>
-        {% endif %}
-      </article>
 
-      <!-- ROW 3 - LEFT: Button View All Edits -->
-      <div class="recommendations-editorial__col-footer">
-        {% if left_col_btn_label != blank %}
-          <a href="{{ left_col_btn_link }}" class="recommendations-editorial__solid-btn">
-            {{ left_col_btn_label }}
-          </a>
-        {% endif %}
+          {% if card_4_text != blank %}
+            <p class="recommendations-editorial__card-desc">{{ card_4_text }}</p>
+          {% endif %}
+
+          {% if card_4_btn_text != blank %}
+            <div class="recommendations-editorial__card-action">
+              <a href="{{ card_4_link }}" class="recommendations-editorial__card-cta">
+                {{ card_4_btn_text }}
+              </a>
+            </div>
+          {% endif %}
+        </article>
       </div>
 
-      <!-- ROW 3 - RIGHT: Button View All Journal -->
-      <div class="recommendations-editorial__col-footer">
-        {% if right_col_btn_label != blank %}
-          <a href="{{ right_col_btn_link }}" class="recommendations-editorial__solid-btn">
-            {{ right_col_btn_label }}
-          </a>
-        {% endif %}
+      <!-- Mobile Slider Dots Indicator -->
+      <div class="recommendations-editorial__mobile-dots" id="RecDots-{{ section_id }}" aria-hidden="true">
+        <span class="recommendations-editorial__dot is-active" data-index="0"></span>
+        <span class="recommendations-editorial__dot" data-index="1"></span>
+        <span class="recommendations-editorial__dot" data-index="2"></span>
+        <span class="recommendations-editorial__dot" data-index="3"></span>
+      </div>
+
+      <div class="recommendations-editorial__buttons-row">
+        <!-- ROW 3 - LEFT: Button View All Edits -->
+        <div class="recommendations-editorial__col-footer">
+          {% if left_col_btn_label != blank %}
+            <a href="{{ left_col_btn_link }}" class="recommendations-editorial__solid-btn">
+              {{ left_col_btn_label }}
+            </a>
+          {% endif %}
+        </div>
+
+        <!-- ROW 3 - RIGHT: Button View All Journal -->
+        <div class="recommendations-editorial__col-footer">
+          {% if right_col_btn_label != blank %}
+            <a href="{{ right_col_btn_link }}" class="recommendations-editorial__solid-btn">
+              {{ right_col_btn_label }}
+            </a>
+          {% endif %}
+        </div>
       </div>
 
     </div>
 
   </div>
 </div>
+
+<script>
+  (function() {
+    const section = document.getElementById('Recommendations-{{ section_id }}');
+    if (!section) return;
+    const track = section.querySelector('.recommendations-editorial__cards-track');
+    const dots = section.querySelectorAll('.recommendations-editorial__dot');
+    if (!track || !dots.length) return;
+
+    let isScrolling;
+    track.addEventListener('scroll', function() {
+      window.clearTimeout(isScrolling);
+      isScrolling = setTimeout(function() {
+        const cards = track.querySelectorAll('.recommendations-editorial__card');
+        if (!cards.length) return;
+        const scrollLeft = track.scrollLeft;
+        let activeIdx = 0;
+        let minDiff = Infinity;
+        cards.forEach((card, idx) => {
+          const diff = Math.abs(card.offsetLeft - scrollLeft);
+          if (diff < minDiff) {
+            minDiff = diff;
+            activeIdx = idx;
+          }
+        });
+        dots.forEach((dot, idx) => {
+          dot.classList.toggle('is-active', idx === activeIdx);
+        });
+      }, 50);
+    }, { passive: true });
+
+    dots.forEach((dot, idx) => {
+      dot.addEventListener('click', function() {
+        const cards = track.querySelectorAll('.recommendations-editorial__card');
+        if (cards[idx]) {
+          track.scrollTo({
+            left: cards[idx].offsetLeft - track.offsetLeft,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+  })();
+</script>
 
 {% stylesheet %}
   .recommendations-editorial {
@@ -287,6 +343,15 @@
     .recommendations-editorial__grid {
       grid-template-columns: 1fr 1fr;
       row-gap: 48px;
+    }
+    .recommendations-editorial__cards-track {
+      display: contents !important;
+    }
+    .recommendations-editorial__buttons-row {
+      display: contents !important;
+    }
+    .recommendations-editorial__mobile-dots {
+      display: none !important;
     }
   }
 
@@ -408,6 +473,126 @@
     background-color: #0f141a;
     color: #ffffff;
     transform: translateY(-1px);
+  }
+
+  /* Mobile Responsive Touch Slider & Spacing Normalization */
+  @media screen and (max-width: 767px) {
+    .recommendations-editorial {
+      padding-block-start: clamp(24px, 5vw, 34px) !important;
+      padding-block-end: clamp(26px, 5vw, 36px) !important;
+    }
+
+    .recommendations-editorial__container {
+      padding-inline: 18px !important;
+      overflow: hidden !important;
+    }
+
+    .recommendations-editorial__header {
+      margin-block-end: 18px !important;
+    }
+
+    .recommendations-editorial__grid {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 0 !important;
+    }
+
+    .recommendations-editorial__cards-track {
+      display: flex !important;
+      flex-direction: row !important;
+      flex-wrap: nowrap !important;
+      overflow-x: auto !important;
+      overflow-y: hidden !important;
+      scroll-snap-type: x mandatory !important;
+      -webkit-overflow-scrolling: touch !important;
+      gap: 14px !important;
+      padding-inline: 18px !important;
+      margin-inline: -18px !important;
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+    }
+
+    .recommendations-editorial__cards-track::-webkit-scrollbar {
+      display: none !important;
+    }
+
+    .recommendations-editorial__card {
+      flex: 0 0 82% !important;
+      max-width: 310px !important;
+      scroll-snap-align: start !important;
+      scroll-snap-stop: always !important;
+      background-color: #fafafa !important;
+      padding: 14px 14px 18px 14px !important;
+      box-sizing: border-box !important;
+    }
+
+    .recommendations-editorial__card-title {
+      font-size: 12.5px !important;
+      letter-spacing: 0.16em !important;
+      min-height: 28px !important;
+      margin-bottom: 10px !important;
+    }
+
+    .recommendations-editorial__media-wrap {
+      aspect-ratio: 16 / 10.5 !important;
+      margin-bottom: 12px !important;
+    }
+
+    .recommendations-editorial__card-desc {
+      font-size: 11.5px !important;
+      line-height: 1.5 !important;
+      min-height: auto !important;
+      margin-bottom: 10px !important;
+      display: -webkit-box !important;
+      -webkit-line-clamp: 3 !important;
+      -webkit-box-orient: vertical !important;
+      overflow: hidden !important;
+    }
+
+    .recommendations-editorial__mobile-dots {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 6px !important;
+      margin-top: 14px !important;
+      margin-bottom: 22px !important;
+    }
+
+    .recommendations-editorial__dot {
+      width: 6px !important;
+      height: 6px !important;
+      border-radius: 50% !important;
+      background-color: #d8d8d8 !important;
+      cursor: pointer !important;
+      transition: all 0.28s ease !important;
+    }
+
+    .recommendations-editorial__dot.is-active {
+      width: 22px !important;
+      border-radius: 4px !important;
+      background-color: var(--rec-heading-color, #111111) !important;
+    }
+
+    .recommendations-editorial__buttons-row {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 10px !important;
+      width: 100% !important;
+      align-items: center !important;
+    }
+
+    .recommendations-editorial__col-footer {
+      margin-top: 0 !important;
+      width: 100% !important;
+      max-width: 280px !important;
+    }
+
+    .recommendations-editorial__solid-btn {
+      width: 100% !important;
+      padding: 12px 20px !important;
+      font-size: 11px !important;
+      letter-spacing: 0.16em !important;
+    }
   }
 {% endstylesheet %}
 

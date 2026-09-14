@@ -97,6 +97,20 @@ class AccordionCustom extends HTMLElement {
    */
   #setDefaultOpenState() {
     const isMobile = isMobileBreakpoint();
+    const summaryText = this.summary?.textContent?.toLowerCase() || '';
+    const isCuration =
+      summaryText.includes('curation') ||
+      this.details?.classList?.contains('is-curation-tab') ||
+      this.hasAttribute('open');
+
+    if (isCuration) {
+      if (this.details) {
+        this.details.open = true;
+        this.details.setAttribute('open', '');
+        this.details.setAttribute('declarative-open', '');
+      }
+      return;
+    }
 
     this.details.open =
       (isMobile && this.hasAttribute('open-by-default-on-mobile')) ||

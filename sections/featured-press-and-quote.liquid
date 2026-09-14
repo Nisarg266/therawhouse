@@ -336,6 +336,61 @@
     letter-spacing: 0.22em;
     margin: 3px 0;
   }
+
+  /* Mobile Responsive Spacing Normalization & Logo Grid */
+  @media screen and (max-width: 767px) {
+    .featured-press {
+      padding-block-start: clamp(24px, 5vw, 32px) !important;
+      padding-block-end: clamp(28px, 5vw, 40px) !important;
+    }
+
+    .featured-press__container {
+      padding-inline: 18px !important;
+    }
+
+    .featured-press__header {
+      margin-block-end: 18px !important;
+    }
+
+    .featured-press__logos {
+      display: grid !important;
+      grid-template-columns: repeat(3, 1fr) !important;
+      gap: 16px 10px !important;
+      align-items: center !important;
+      justify-items: center !important;
+      margin-block-end: 24px !important;
+    }
+
+    .featured-press__img {
+      max-height: 24px !important;
+      max-width: 80px !important;
+    }
+
+    .featured-press__logo-text--idealhome { font-size: 16px !important; }
+    .featured-press__logo-text--goodhomes { font-size: 15px !important; }
+    .featured-press__logo-text--ad { font-size: 20px !important; }
+    .featured-press__logo-text--vogue { font-size: 19px !important; }
+    .featured-press__logo-text--elle { font-size: 16px !important; }
+    .featured-press__logo-text--femina { font-size: 17px !important; }
+
+    .featured-press__quote-wrapper {
+      margin-top: 4px !important;
+    }
+
+    .featured-press__quote-divider {
+      width: 30px !important;
+      margin: 8px auto !important;
+    }
+
+    .featured-press__quote-line--italic {
+      font-size: 15.5px !important;
+    }
+
+    .featured-press__quote-line--caps {
+      font-size: 12px !important;
+      letter-spacing: 0.18em !important;
+    }
+  }
 {% endstylesheet %}
 
 {% schema %}

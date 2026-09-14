@@ -170,6 +170,13 @@
 
     </div>
 
+    <!-- Mobile Slider Dots Indicator -->
+    <div class="fine-prints-showcase__mobile-dots" id="FpsDots-{{ section_id }}" aria-hidden="true">
+      <span class="fine-prints-showcase__dot is-active" data-index="0"></span>
+      <span class="fine-prints-showcase__dot" data-index="1"></span>
+      <span class="fine-prints-showcase__dot" data-index="2"></span>
+    </div>
+
     {%- comment -%} Footer View All Link {%- endcomment -%}
     {% if view_all_text != blank %}
       <div class="fine-prints-showcase__footer">
@@ -181,6 +188,50 @@
 
   </div>
 </div>
+
+<script>
+  (function() {
+    const section = document.getElementById('FinePrints-{{ section_id }}');
+    if (!section) return;
+    const grid = section.querySelector('.fine-prints-showcase__grid');
+    const dots = section.querySelectorAll('.fine-prints-showcase__dot');
+    if (!grid || !dots.length) return;
+
+    let isScrolling;
+    grid.addEventListener('scroll', function() {
+      window.clearTimeout(isScrolling);
+      isScrolling = setTimeout(function() {
+        const cards = grid.querySelectorAll('.fine-prints-showcase__card');
+        if (!cards.length) return;
+        const scrollLeft = grid.scrollLeft;
+        let activeIdx = 0;
+        let minDiff = Infinity;
+        cards.forEach((card, idx) => {
+          const diff = Math.abs(card.offsetLeft - scrollLeft);
+          if (diff < minDiff) {
+            minDiff = diff;
+            activeIdx = idx;
+          }
+        });
+        dots.forEach((dot, idx) => {
+          dot.classList.toggle('is-active', idx === activeIdx);
+        });
+      }, 50);
+    }, { passive: true });
+
+    dots.forEach((dot, idx) => {
+      dot.addEventListener('click', function() {
+        const cards = grid.querySelectorAll('.fine-prints-showcase__card');
+        if (cards[idx]) {
+          grid.scrollTo({
+            left: cards[idx].offsetLeft - grid.offsetLeft,
+            behavior: 'smooth'
+          });
+        }
+      });
+    });
+  })();
+</script>
 
 {% stylesheet %}
   .fine-prints-showcase {
@@ -240,15 +291,13 @@
 
   .fine-prints-showcase__grid {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(3, 1fr);
     gap: var(--fps-gap, 28px);
     width: 100%;
   }
 
-  @media screen and (min-width: 640px) {
-    .fine-prints-showcase__grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
+  .fine-prints-showcase__mobile-dots {
+    display: none;
   }
 
   .fine-prints-showcase__card {
@@ -379,6 +428,82 @@
 
   .fine-prints-showcase__view-all:hover {
     opacity: 0.7;
+  }
+
+  /* Mobile Responsive Touch Slider & Spacing Normalization */
+  @media screen and (max-width: 639px) {
+    .fine-prints-showcase {
+      padding-block-start: clamp(24px, 5vw, 32px) !important;
+      padding-block-end: clamp(26px, 5vw, 34px) !important;
+    }
+
+    .fine-prints-showcase__container {
+      padding-inline: 18px !important;
+      overflow: hidden !important;
+    }
+
+    .fine-prints-showcase__header {
+      margin-block-end: 18px !important;
+    }
+
+    .fine-prints-showcase__grid {
+      display: flex !important;
+      flex-direction: row !important;
+      flex-wrap: nowrap !important;
+      overflow-x: auto !important;
+      overflow-y: hidden !important;
+      scroll-snap-type: x mandatory !important;
+      -webkit-overflow-scrolling: touch !important;
+      gap: 14px !important;
+      padding-inline: 18px !important;
+      margin-inline: -18px !important;
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+    }
+
+    .fine-prints-showcase__grid::-webkit-scrollbar {
+      display: none !important;
+    }
+
+    .fine-prints-showcase__card {
+      flex: 0 0 76% !important;
+      max-width: 280px !important;
+      scroll-snap-align: start !important;
+      scroll-snap-stop: always !important;
+    }
+
+    .fine-prints-showcase__media-wrap {
+      aspect-ratio: 1 / 1 !important;
+      margin-bottom: 10px !important;
+    }
+
+    .fine-prints-showcase__mobile-dots {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 6px !important;
+      margin-top: 14px !important;
+      margin-bottom: 18px !important;
+    }
+
+    .fine-prints-showcase__dot {
+      width: 6px !important;
+      height: 6px !important;
+      border-radius: 50% !important;
+      background-color: #d8d8d8 !important;
+      cursor: pointer !important;
+      transition: all 0.28s ease !important;
+    }
+
+    .fine-prints-showcase__dot.is-active {
+      width: 22px !important;
+      border-radius: 4px !important;
+      background-color: var(--fps-heading-color, #111111) !important;
+    }
+
+    .fine-prints-showcase__footer {
+      margin-top: 10px !important;
+    }
   }
 {% endstylesheet %}
 
