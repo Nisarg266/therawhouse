@@ -101,3 +101,11 @@ Additional limits: News currently has no visible articles, so article detail was
 - Matched the header action hit areas to their 44px cart icon container, allowed visible overflow, moved the count badge inside that area, and removed the SVG cutout mask and hover scaling.
 - Verified the populated cart badge and complete bag icon at 320, 768, and 1280 pixels; no clipping ancestors or horizontal page overflow on the narrow mobile layout. Temporary test item removed afterward.
 - Updated CSS passed the Shopify validator and targeted whitespace check. Development theme only.
+
+## Restrained scroll and button motion
+
+- Added one-time 700ms blur-to-clear reveals for below-fold editorial headings, and 420ms fades for editorial actions. Product information, cart controls, dialogs, and header actions are excluded from scroll reveals; above-fold content stays immediately readable.
+- Buttons now lift by 2px on fine-pointer hover and compress gently on press; editorial underlines move subtly. Existing native smooth anchor scrolling remains enabled.
+- Animations leave no persistent hidden/blurred state, stop for keyboard focus or reduced-motion preference changes, and initialize for dynamically inserted content and theme-editor sections.
+- Browser verified the active blur effect and final clear state at 320px, desktop home and about layouts without overflow, and reduced-motion emulation (clear text, zero button transition duration, immediate scrolling). Emulation and viewport overrides reset.
+- Focused runtime checks passed for offscreen eligibility, above-fold/product exclusions, keyframes, one-time behavior, and reduced-motion cancellation. JavaScript syntax, Shopify validation of three changed files, and targeted whitespace checks passed. Theme Check: zero errors, one existing header settings-count warning. Not published live.
