@@ -1,15 +1,19 @@
 {%- comment -%}
-  THE RAW HOUSE - CATALOG GALLERY
-  Full-width clickable image catalog. Each image links to any URL — page, product, or PDF (Content > Files).
+  THE RAW HOUSE - EDITORIAL CATALOG COLLAGE GALLERY
+  Full-width luxury editorial collage section with:
+  - Initial 6-item asymmetrical collage (matching reference Image 2)
+  - Text-only "VIEW MORE" / "VIEW LESS" interactive button
+  - Revealed 6-item distinct asymmetrical collage (custom complementary layout)
+  - 100% Shopify Schema support for image pickers, links, headings, colors
+  - Fully responsive on desktop and mobile
 {%- endcomment -%}
 
 {% liquid
   assign section_id = section.id
-  assign cols_desktop = section.settings.columns_desktop | default: 6 | plus: 0
-  assign cols_md = cols_desktop | at_most: 4
-  assign cols_sm = cols_desktop | at_most: 3
+  assign full_width = section.settings.full_width
+  assign total_blocks = section.blocks.size
 
-  assign fb_imgs = 'art-painting-gold-canvas.jpg~~art-sculpture-marble-bust.jpg~~fine-print-1.jpg~~art-decor-ceramic-statue.jpg~~art-painting-abstract-oil.jpg~~art-sculpture-bronze-figure.jpg~~fine-print-2.jpg~~art-print-limited-edition.jpg~~art-painting-expressionist.jpg~~art-sculpture-rodin-thinker.jpg~~art-painting-water-lilies.jpg~~art-sculpture-venus-milo.jpg' | split: '~~'
+  assign fb_imgs = 'art-painting-gold-canvas.jpg~~art-painting-abstract-oil.jpg~~fine-print-1.jpg~~art-gallery-room-hotspots.jpg~~art-painting-expressionist.jpg~~fine-print-2.jpg~~art-painting-starry-night.jpg~~art-painting-pearl.jpg~~art-decor-ceramic-statue.jpg~~art-painting-water-lilies.jpg~~art-sculpture-rodin-thinker.jpg~~art-sculpture-venus-milo.jpg' | split: '~~'
 
   if section.settings.open_links_new_tab
     assign link_target = ' target="_blank" rel="noopener noreferrer"'
@@ -27,23 +31,18 @@
     --lpc-heading-color: {{ section.settings.heading_color | default: '#1a1a1a' }};
     --lpc-text-color: {{ section.settings.text_color | default: '#4a4a4a' }};
     --lpc-accent: {{ section.settings.accent_color | default: '#b08d57' }};
-    --lpc-cols: {{ cols_desktop }};
-    --lpc-cols-md: {{ cols_md }};
-    --lpc-cols-sm: {{ cols_sm }};
-    --lpc-cols-mobile: {{ section.settings.columns_mobile | default: 2 }};
-    --lpc-gap: {{ section.settings.gap | default: 20 }}px;
-    --lpc-max-width: {{ section.settings.max_width | default: 1400 }}px;
-    --lpc-pt: {{ section.settings.padding_top | default: 44 }}px;
-    --lpc-pb: {{ section.settings.padding_bottom | default: 48 }}px;
-    --lpc-ratio: {% case section.settings.image_ratio %}{% when 'square' %}1 / 1{% when 'landscape' %}4 / 3{% when 'wide' %}16 / 9{% else %}3 / 4{% endcase %};
+    --lpc-gap: {{ section.settings.gap | default: 16 }}px;
+    --lpc-max-width: {{ section.settings.max_width | default: 1440 }}px;
+    --lpc-pt: {{ section.settings.padding_top | default: 48 }}px;
+    --lpc-pb: {{ section.settings.padding_bottom | default: 64 }}px;
     --lpc-hs: {{ section.settings.heading_size | default: 20 }}px;
     --lpc-ls: {{ section.settings.heading_letter_spacing | default: '0.35em' }};
+    --lpc-underline-w: {{ section.settings.underline_width | default: 44 }}px;
     --lpc-radius: {{ section.settings.card_radius | default: 0 }}px;
-    --lpc-tile-h: {{ section.settings.collage_tile_height | default: 230 }}px;
   "
   {{ section.shopify_attributes }}
 >
-  <div class="lpc-container{% unless section.settings.full_width %} lpc-container--boxed{% endunless %}">
+  <div class="lpc-container{% if full_width %} lpc-container--full{% else %} lpc-container--boxed{% endif %}">
 
     {%- comment -%} Header {%- endcomment -%}
     <div class="lpc-header">
@@ -61,70 +60,362 @@
       {% endif %}
     </div>
 
-    {%- comment -%} Image Grid {%- endcomment -%}
-    <div class="lpc-grid{% if section.settings.layout_style == 'collage' %} lpc-grid--collage{% endif %}">
-      {% for block in section.blocks %}
-        {% assign fb_index = forloop.index0 | modulo: 12 %}
-        <a
-          href="{{ block.settings.link | default: '/collections/all' }}"
-          class="lpc-card lpc-hover-{{ block.settings.hover_effect | default: section.settings.hover_effect | default: 'zoom' }}"
-          {% if block.settings.link == blank %}tabindex="-1" aria-disabled="true"{% endif %}
-          {{ link_target }}
-          aria-label="{{ block.settings.alt | default: 'Catalog image' | escape }}"
-          {{ block.shopify_attributes }}
-        >
-          <div class="lpc-card__media">
-            {% if block.settings.image != blank %}
-              {{
-                block.settings.image
-                | image_url: width: 1200
-                | image_tag:
-                  class: 'lpc-card__img',
-                  loading: 'lazy',
-                  alt: block.settings.alt,
-                  widths: '400, 600, 800, 1000, 1200'
-              }}
-            {% else %}
-              <img
-                src="{{ fb_imgs[fb_index] | asset_url }}"
-                alt="{{ block.settings.alt | default: 'Catalog image' | escape }}"
-                class="lpc-card__img"
-                loading="lazy"
-                width="600"
-                height="800"
-              >
-            {% endif %}
+    {%- comment -%}
+      ==========================================================================
+      GROUP 1: INITIAL 6-CARD ASYMMETRICAL EDITORIAL COLLAGE
+      Matches Reference Image 2:
+      - Left Column:  Top Split Row (Card 1 & 2) + Bottom Wide Card (Card 3)
+      - Right Column: Top Tall Card (Card 4)     + Bottom Split Row (Card 5 & 6)
+      ==========================================================================
+    {%- endcomment -%}
+    <div class="lpc-collage-group lpc-collage-group--primary" id="LpcGroup1-{{ section_id }}">
+      <div class="lpc-collage-grid">
 
-            {% if block.settings.show_view_icon %}
-              <span class="lpc-card__icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M4 12h16M14 6l6 6-6 6"/>
-                </svg>
-              </span>
-            {% endif %}
+        {%- comment -%} Left Column (Cards 1, 2, 3) {%- endcomment -%}
+        <div class="lpc-collage-column lpc-collage-column--left">
+          <!-- Top Split Row: Cards 1 & 2 -->
+          <div class="lpc-row-split">
+            {%- assign b1 = section.blocks[0] -%}
+            {%- assign b1_img = b1.settings.image -%}
+            {%- assign b1_link = b1.settings.link | default: '/collections/all' -%}
+            {%- assign b1_alt = b1.settings.alt | default: 'Catalog artwork 1' -%}
+            <a href="{{ b1_link }}" class="lpc-card lpc-card--split" {{ link_target }} aria-label="{{ b1_alt | escape }}" {% if b1 %}{{ b1.shopify_attributes }}{% endif %}>
+              <div class="lpc-card__media{% if section.settings.enable_hover_zoom %} lpc-card__media--zoom{% endif %}">
+                {% if b1_img != blank %}
+                  {{ b1_img | image_url: width: 1000 | image_tag: class: 'lpc-card__img', loading: 'lazy', alt: b1_alt }}
+                {% else %}
+                  <img src="{{ fb_imgs[0] | asset_url }}" alt="{{ b1_alt | escape }}" class="lpc-card__img" loading="eager" width="600" height="700">
+                {% endif %}
+                {% if b1.settings.show_view_icon %}
+                  <span class="lpc-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span>
+                {% endif %}
+              </div>
+            </a>
+
+            {%- assign b2 = section.blocks[1] -%}
+            {%- assign b2_img = b2.settings.image -%}
+            {%- assign b2_link = b2.settings.link | default: '/collections/all' -%}
+            {%- assign b2_alt = b2.settings.alt | default: 'Catalog artwork 2' -%}
+            <a href="{{ b2_link }}" class="lpc-card lpc-card--split" {{ link_target }} aria-label="{{ b2_alt | escape }}" {% if b2 %}{{ b2.shopify_attributes }}{% endif %}>
+              <div class="lpc-card__media{% if section.settings.enable_hover_zoom %} lpc-card__media--zoom{% endif %}">
+                {% if b2_img != blank %}
+                  {{ b2_img | image_url: width: 1000 | image_tag: class: 'lpc-card__img', loading: 'lazy', alt: b2_alt }}
+                {% else %}
+                  <img src="{{ fb_imgs[1] | asset_url }}" alt="{{ b2_alt | escape }}" class="lpc-card__img" loading="eager" width="600" height="700">
+                {% endif %}
+                {% if b2.settings.show_view_icon %}
+                  <span class="lpc-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span>
+                {% endif %}
+              </div>
+            </a>
           </div>
-        </a>
-      {% endfor %}
+
+          <!-- Bottom Wide Card: Card 3 -->
+          {%- assign b3 = section.blocks[2] -%}
+          {%- assign b3_img = b3.settings.image -%}
+          {%- assign b3_link = b3.settings.link | default: '/collections/all' -%}
+          {%- assign b3_alt = b3.settings.alt | default: 'Catalog artwork 3' -%}
+          <a href="{{ b3_link }}" class="lpc-card lpc-card--wide" {{ link_target }} aria-label="{{ b3_alt | escape }}" {% if b3 %}{{ b3.shopify_attributes }}{% endif %}>
+            <div class="lpc-card__media{% if section.settings.enable_hover_zoom %} lpc-card__media--zoom{% endif %}">
+              {% if b3_img != blank %}
+                {{ b3_img | image_url: width: 1400 | image_tag: class: 'lpc-card__img', loading: 'lazy', alt: b3_alt }}
+              {% else %}
+                <img src="{{ fb_imgs[2] | asset_url }}" alt="{{ b3_alt | escape }}" class="lpc-card__img" loading="eager" width="1200" height="910">
+              {% endif %}
+              {% if b3.settings.show_view_icon %}
+                <span class="lpc-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span>
+              {% endif %}
+            </div>
+          </a>
+        </div>
+
+        {%- comment -%} Right Column (Cards 4, 5, 6) {%- endcomment -%}
+        <div class="lpc-collage-column lpc-collage-column--right">
+          <!-- Top Tall Card: Card 4 -->
+          {%- assign b4 = section.blocks[3] -%}
+          {%- assign b4_img = b4.settings.image -%}
+          {%- assign b4_link = b4.settings.link | default: '/collections/all' -%}
+          {%- assign b4_alt = b4.settings.alt | default: 'Catalog artwork 4' -%}
+          <a href="{{ b4_link }}" class="lpc-card lpc-card--tall" {{ link_target }} aria-label="{{ b4_alt | escape }}" {% if b4 %}{{ b4.shopify_attributes }}{% endif %}>
+            <div class="lpc-card__media{% if section.settings.enable_hover_zoom %} lpc-card__media--zoom{% endif %}">
+              {% if b4_img != blank %}
+                {{ b4_img | image_url: width: 1400 | image_tag: class: 'lpc-card__img', loading: 'lazy', alt: b4_alt }}
+              {% else %}
+                <img src="{{ fb_imgs[3] | asset_url }}" alt="{{ b4_alt | escape }}" class="lpc-card__img" loading="eager" width="1200" height="910">
+              {% endif %}
+              {% if b4.settings.show_view_icon %}
+                <span class="lpc-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span>
+              {% endif %}
+            </div>
+          </a>
+
+          <!-- Bottom Split Row: Cards 5 & 6 -->
+          <div class="lpc-row-split">
+            {%- assign b5 = section.blocks[4] -%}
+            {%- assign b5_img = b5.settings.image -%}
+            {%- assign b5_link = b5.settings.link | default: '/collections/all' -%}
+            {%- assign b5_alt = b5.settings.alt | default: 'Catalog artwork 5' -%}
+            <a href="{{ b5_link }}" class="lpc-card lpc-card--split" {{ link_target }} aria-label="{{ b5_alt | escape }}" {% if b5 %}{{ b5.shopify_attributes }}{% endif %}>
+              <div class="lpc-card__media{% if section.settings.enable_hover_zoom %} lpc-card__media--zoom{% endif %}">
+                {% if b5_img != blank %}
+                  {{ b5_img | image_url: width: 1000 | image_tag: class: 'lpc-card__img', loading: 'lazy', alt: b5_alt }}
+                {% else %}
+                  <img src="{{ fb_imgs[4] | asset_url }}" alt="{{ b5_alt | escape }}" class="lpc-card__img" loading="eager" width="600" height="700">
+                {% endif %}
+                {% if b5.settings.show_view_icon %}
+                  <span class="lpc-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span>
+                {% endif %}
+              </div>
+            </a>
+
+            {%- assign b6 = section.blocks[5] -%}
+            {%- assign b6_img = b6.settings.image -%}
+            {%- assign b6_link = b6.settings.link | default: '/collections/all' -%}
+            {%- assign b6_alt = b6.settings.alt | default: 'Catalog artwork 6' -%}
+            <a href="{{ b6_link }}" class="lpc-card lpc-card--split" {{ link_target }} aria-label="{{ b6_alt | escape }}" {% if b6 %}{{ b6.shopify_attributes }}{% endif %}>
+              <div class="lpc-card__media{% if section.settings.enable_hover_zoom %} lpc-card__media--zoom{% endif %}">
+                {% if b6_img != blank %}
+                  {{ b6_img | image_url: width: 1000 | image_tag: class: 'lpc-card__img', loading: 'lazy', alt: b6_alt }}
+                {% else %}
+                  <img src="{{ fb_imgs[5] | asset_url }}" alt="{{ b6_alt | escape }}" class="lpc-card__img" loading="eager" width="600" height="700">
+                {% endif %}
+                {% if b6.settings.show_view_icon %}
+                  <span class="lpc-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span>
+                {% endif %}
+              </div>
+            </a>
+          </div>
+        </div>
+
+      </div>
     </div>
 
-    {%- comment -%} Footer Link {%- endcomment -%}
-    {% if section.settings.view_all_text != blank %}
-      <div class="lpc-footer">
-        <a href="{{ section.settings.view_all_link | default: '/collections/all' }}" class="lpc-view-all"{{ link_target }}>
-          {{ section.settings.view_all_text }}
-        </a>
+    {%- comment -%}
+      ==========================================================================
+      GROUP 2: REVEALED 6-CARD DISTINCT ASYMMETRICAL EDITORIAL COLLAGE
+      User Request: "us ka bhi different collage hona chahiye"
+      Layout inverted for visual dynamism:
+      - Left Column:  Top Tall Card (Card 7)     + Bottom Split Row (Cards 8 & 9)
+      - Right Column: Top Split Row (Card 10 & 11) + Bottom Wide Card (Card 12)
+      ==========================================================================
+    {%- endcomment -%}
+    {% if total_blocks > 6 or section.blocks.size > 6 or fb_imgs.size > 6 %}
+      <div
+        class="lpc-collage-group lpc-collage-group--secondary lpc-group--revealed is-collapsed"
+        id="LpcGroup2-{{ section_id }}"
+        aria-hidden="true"
+      >
+        <div class="lpc-collage-grid">
+
+          {%- comment -%} Left Column (Cards 7, 8, 9) {%- endcomment -%}
+          <div class="lpc-collage-column lpc-collage-column--left">
+            <!-- Top Tall Card: Card 7 -->
+            {%- assign b7 = section.blocks[6] -%}
+            {%- assign b7_img = b7.settings.image -%}
+            {%- assign b7_link = b7.settings.link | default: '/collections/all' -%}
+            {%- assign b7_alt = b7.settings.alt | default: 'Catalog artwork 7' -%}
+            <a href="{{ b7_link }}" class="lpc-card lpc-card--tall" {{ link_target }} aria-label="{{ b7_alt | escape }}" {% if b7 %}{{ b7.shopify_attributes }}{% endif %}>
+              <div class="lpc-card__media{% if section.settings.enable_hover_zoom %} lpc-card__media--zoom{% endif %}">
+                {% if b7_img != blank %}
+                  {{ b7_img | image_url: width: 1400 | image_tag: class: 'lpc-card__img', loading: 'lazy', alt: b7_alt }}
+                {% else %}
+                  <img src="{{ fb_imgs[6] | asset_url }}" alt="{{ b7_alt | escape }}" class="lpc-card__img" loading="lazy" width="1200" height="910">
+                {% endif %}
+                {% if b7.settings.show_view_icon %}
+                  <span class="lpc-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span>
+                {% endif %}
+              </div>
+            </a>
+
+            <!-- Bottom Split Row: Cards 8 & 9 -->
+            <div class="lpc-row-split">
+              {%- assign b8 = section.blocks[7] -%}
+              {%- assign b8_img = b8.settings.image -%}
+              {%- assign b8_link = b8.settings.link | default: '/collections/all' -%}
+              {%- assign b8_alt = b8.settings.alt | default: 'Catalog artwork 8' -%}
+              <a href="{{ b8_link }}" class="lpc-card lpc-card--split" {{ link_target }} aria-label="{{ b8_alt | escape }}" {% if b8 %}{{ b8.shopify_attributes }}{% endif %}>
+                <div class="lpc-card__media{% if section.settings.enable_hover_zoom %} lpc-card__media--zoom{% endif %}">
+                  {% if b8_img != blank %}
+                    {{ b8_img | image_url: width: 1000 | image_tag: class: 'lpc-card__img', loading: 'lazy', alt: b8_alt }}
+                  {% else %}
+                    <img src="{{ fb_imgs[7] | asset_url }}" alt="{{ b8_alt | escape }}" class="lpc-card__img" loading="lazy" width="600" height="700">
+                  {% endif %}
+                  {% if b8.settings.show_view_icon %}
+                    <span class="lpc-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span>
+                  {% endif %}
+                </div>
+              </a>
+
+              {%- assign b9 = section.blocks[8] -%}
+              {%- assign b9_img = b9.settings.image -%}
+              {%- assign b9_link = b9.settings.link | default: '/collections/all' -%}
+              {%- assign b9_alt = b9.settings.alt | default: 'Catalog artwork 9' -%}
+              <a href="{{ b9_link }}" class="lpc-card lpc-card--split" {{ link_target }} aria-label="{{ b9_alt | escape }}" {% if b9 %}{{ b9.shopify_attributes }}{% endif %}>
+                <div class="lpc-card__media{% if section.settings.enable_hover_zoom %} lpc-card__media--zoom{% endif %}">
+                  {% if b9_img != blank %}
+                    {{ b9_img | image_url: width: 1000 | image_tag: class: 'lpc-card__img', loading: 'lazy', alt: b9_alt }}
+                  {% else %}
+                    <img src="{{ fb_imgs[8] | asset_url }}" alt="{{ b9_alt | escape }}" class="lpc-card__img" loading="lazy" width="600" height="700">
+                  {% endif %}
+                  {% if b9.settings.show_view_icon %}
+                    <span class="lpc-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span>
+                  {% endif %}
+                </div>
+              </a>
+            </div>
+          </div>
+
+          {%- comment -%} Right Column (Cards 10, 11, 12) {%- endcomment -%}
+          <div class="lpc-collage-column lpc-collage-column--right">
+            <!-- Top Split Row: Cards 10 & 11 -->
+            <div class="lpc-row-split">
+              {%- assign b10 = section.blocks[9] -%}
+              {%- assign b10_img = b10.settings.image -%}
+              {%- assign b10_link = b10.settings.link | default: '/collections/all' -%}
+              {%- assign b10_alt = b10.settings.alt | default: 'Catalog artwork 10' -%}
+              <a href="{{ b10_link }}" class="lpc-card lpc-card--split" {{ link_target }} aria-label="{{ b10_alt | escape }}" {% if b10 %}{{ b10.shopify_attributes }}{% endif %}>
+                <div class="lpc-card__media{% if section.settings.enable_hover_zoom %} lpc-card__media--zoom{% endif %}">
+                  {% if b10_img != blank %}
+                    {{ b10_img | image_url: width: 1000 | image_tag: class: 'lpc-card__img', loading: 'lazy', alt: b10_alt }}
+                  {% else %}
+                    <img src="{{ fb_imgs[9] | asset_url }}" alt="{{ b10_alt | escape }}" class="lpc-card__img" loading="lazy" width="600" height="700">
+                  {% endif %}
+                  {% if b10.settings.show_view_icon %}
+                    <span class="lpc-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span>
+                  {% endif %}
+                </div>
+              </a>
+
+              {%- assign b11 = section.blocks[10] -%}
+              {%- assign b11_img = b11.settings.image -%}
+              {%- assign b11_link = b11.settings.link | default: '/collections/all' -%}
+              {%- assign b11_alt = b11.settings.alt | default: 'Catalog artwork 11' -%}
+              <a href="{{ b11_link }}" class="lpc-card lpc-card--split" {{ link_target }} aria-label="{{ b11_alt | escape }}" {% if b11 %}{{ b11.shopify_attributes }}{% endif %}>
+                <div class="lpc-card__media{% if section.settings.enable_hover_zoom %} lpc-card__media--zoom{% endif %}">
+                  {% if b11_img != blank %}
+                    {{ b11_img | image_url: width: 1000 | image_tag: class: 'lpc-card__img', loading: 'lazy', alt: b11_alt }}
+                  {% else %}
+                    <img src="{{ fb_imgs[10] | asset_url }}" alt="{{ b11_alt | escape }}" class="lpc-card__img" loading="lazy" width="600" height="700">
+                  {% endif %}
+                  {% if b11.settings.show_view_icon %}
+                    <span class="lpc-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span>
+                  {% endif %}
+                </div>
+              </a>
+            </div>
+
+            <!-- Bottom Wide Card: Card 12 -->
+            {%- assign b12 = section.blocks[11] -%}
+            {%- assign b12_img = b12.settings.image -%}
+            {%- assign b12_link = b12.settings.link | default: '/collections/all' -%}
+            {%- assign b12_alt = b12.settings.alt | default: 'Catalog artwork 12' -%}
+            <a href="{{ b12_link }}" class="lpc-card lpc-card--wide" {{ link_target }} aria-label="{{ b12_alt | escape }}" {% if b12 %}{{ b12.shopify_attributes }}{% endif %}>
+              <div class="lpc-card__media{% if section.settings.enable_hover_zoom %} lpc-card__media--zoom{% endif %}">
+                {% if b12_img != blank %}
+                  {{ b12_img | image_url: width: 1400 | image_tag: class: 'lpc-card__img', loading: 'lazy', alt: b12_alt }}
+                {% else %}
+                  <img src="{{ fb_imgs[11] | asset_url }}" alt="{{ b12_alt | escape }}" class="lpc-card__img" loading="lazy" width="1200" height="910">
+                {% endif %}
+                {% if b12.settings.show_view_icon %}
+                  <span class="lpc-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span>
+                {% endif %}
+              </div>
+            </a>
+          </div>
+
+        </div>
+      </div>
+    {% endif %}
+
+    {%- comment -%}
+      ==========================================================================
+      INTERACTIVE TEXT-ONLY VIEW MORE / VIEW LESS CONTROLLER
+      User Request: "us me ek view more kar niche button add kar doo only text vala"
+      ==========================================================================
+    {%- endcomment -%}
+    {% if total_blocks > 6 or section.blocks.size > 6 or fb_imgs.size > 6 %}
+      <div class="lpc-actions">
+        <button
+          type="button"
+          class="lpc-view-more-btn"
+          id="LpcToggle-{{ section_id }}"
+          aria-expanded="false"
+          aria-controls="LpcGroup2-{{ section_id }}"
+          data-text-more="{{ section.settings.view_more_text | default: 'VIEW MORE' | escape }}"
+          data-text-less="{{ section.settings.view_less_text | default: 'VIEW LESS' | escape }}"
+        >
+          <span class="lpc-view-more-label">{{ section.settings.view_more_text | default: 'VIEW MORE' }}</span>
+          <span class="lpc-view-more-icon" aria-hidden="true">
+            <svg viewBox="0 0 12 12" width="10" height="10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2.5 4.5L6 8L9.5 4.5"/>
+            </svg>
+          </span>
+        </button>
       </div>
     {% endif %}
 
   </div>
 </div>
 
+<script>
+  (function() {
+    function initLpcToggle() {
+      var btn = document.getElementById('LpcToggle-{{ section_id }}');
+      var group2 = document.getElementById('LpcGroup2-{{ section_id }}');
+      if (!btn || !group2) return;
+
+      var textMore = btn.getAttribute('data-text-more') || 'VIEW MORE';
+      var textLess = btn.getAttribute('data-text-less') || 'VIEW LESS';
+      var labelSpan = btn.querySelector('.lpc-view-more-label');
+
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        var isExpanded = btn.getAttribute('aria-expanded') === 'true';
+
+        if (isExpanded) {
+          // Collapse
+          group2.classList.remove('is-expanded');
+          group2.classList.add('is-collapsed');
+          group2.setAttribute('aria-hidden', 'true');
+          btn.setAttribute('aria-expanded', 'false');
+          btn.classList.remove('is-active');
+          if (labelSpan) labelSpan.textContent = textMore;
+
+          // Smoothly keep user in comfortable view of group 1
+          var group1 = document.getElementById('LpcGroup1-{{ section_id }}');
+          if (group1) {
+            var rect = group1.getBoundingClientRect();
+            if (rect.bottom < 150) {
+              group1.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          }
+        } else {
+          // Expand
+          group2.classList.remove('is-collapsed');
+          group2.classList.add('is-expanded');
+          group2.setAttribute('aria-hidden', 'false');
+          btn.setAttribute('aria-expanded', 'true');
+          btn.classList.add('is-active');
+          if (labelSpan) labelSpan.textContent = textLess;
+        }
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initLpcToggle);
+    } else {
+      initLpcToggle();
+    }
+  })();
+</script>
+
 {% stylesheet %}
   .lpc-section {
     background-color: var(--lpc-bg, #ffffff);
     width: 100%;
-    padding-block-start: var(--lpc-pt, 44px);
-    padding-block-end: var(--lpc-pb, 48px);
+    padding-block-start: var(--lpc-pt, 48px);
+    padding-block-end: var(--lpc-pb, 64px);
+    position: relative;
     box-sizing: border-box;
     display: block !important;
     opacity: 1 !important;
@@ -133,18 +424,23 @@
 
   .lpc-container {
     width: 100%;
-    padding-inline: clamp(16px, 2.5vw, 32px);
     box-sizing: border-box;
+    margin-inline: auto;
+  }
+
+  .lpc-container--full {
+    padding-inline: clamp(14px, 2.5vw, 36px);
+    max-width: 100% !important;
   }
 
   .lpc-container--boxed {
-    max-width: var(--lpc-max-width, 1400px);
-    margin-inline: auto;
+    max-width: var(--lpc-max-width, 1440px) !important;
+    padding-inline: clamp(16px, 3vw, 40px) !important;
   }
 
   .lpc-header {
     text-align: center;
-    margin-block-end: 14px;
+    margin-block-end: 28px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -173,294 +469,270 @@
   }
 
   .lpc-underline {
-    width: 44px;
+    width: var(--lpc-underline-w, 44px);
     height: 1.5px;
     background-color: var(--lpc-heading-color, #111111);
-    margin-top: 6px;
+    margin-top: 8px;
   }
 
   .lpc-description {
     font-size: 13.5px;
     line-height: 1.6;
     color: var(--lpc-text-color, #4a4a4a);
-    max-width: min(520px, 92%);
+    max-width: min(540px, 92%);
     margin: 8px 0 0 0;
     letter-spacing: 0.015em;
   }
 
-  .lpc-grid {
-    display: grid;
-    grid-template-columns: repeat(var(--lpc-cols, 6), 1fr);
-    gap: var(--lpc-gap, 16px);
-    width: 100%;
+  /* Collage Master Grid: 2 Columns on Desktop with Equal Height Ratio */
+  .lpc-collage-grid {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: var(--lpc-gap, 16px) !important;
+    width: 100% !important;
+    align-items: stretch !important;
   }
 
-  /* ---------------- Collage Layout ---------------- */
-  .lpc-grid--collage {
-    grid-auto-flow: row dense;
-    grid-auto-rows: var(--lpc-tile-h, 230px);
+  .lpc-collage-column {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: var(--lpc-gap, 16px) !important;
+    width: 100% !important;
   }
 
-  .lpc-grid--collage > .lpc-card {
-    grid-column: span 2;
-    grid-row: span 1;
-    height: 100%;
+  .lpc-row-split {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: var(--lpc-gap, 16px) !important;
+    width: 100% !important;
   }
 
-  .lpc-grid--collage .lpc-card__media {
-    aspect-ratio: auto;
-    height: 100%;
-  }
-
-  /* Big feature tiles */
-  .lpc-grid--collage > .lpc-card:nth-child(1),
-  .lpc-grid--collage > .lpc-card:nth-child(8) {
-    grid-column: span 2;
-    grid-row: span 2;
-  }
-
-  /* Small accent tiles */
-  .lpc-grid--collage > .lpc-card:nth-child(3),
-  .lpc-grid--collage > .lpc-card:nth-child(4),
-  .lpc-grid--collage > .lpc-card:nth-child(6),
-  .lpc-grid--collage > .lpc-card:nth-child(7) {
-    grid-column: span 1;
-    grid-row: span 1;
-  }
-
+  /* Individual Card Architecture */
   .lpc-card {
-    display: block;
-    text-decoration: none;
-    border-radius: var(--lpc-radius, 0);
+    position: relative !important;
+    overflow: hidden !important;
+    border-radius: var(--lpc-radius, 0px) !important;
+    background-color: var(--lpc-card-bg, #f7f6f2) !important;
+    width: 100% !important;
+    display: block !important;
+    text-decoration: none !important;
+    color: inherit !important;
+  }
+
+  .lpc-card--split {
+    aspect-ratio: 1 / 1.18 !important;
+  }
+
+  .lpc-card--wide {
+    aspect-ratio: 1.34 / 1 !important;
+  }
+
+  .lpc-card--tall {
+    aspect-ratio: 1.34 / 1 !important;
   }
 
   .lpc-card__media {
-    position: relative;
-    width: 100%;
-    aspect-ratio: var(--lpc-ratio, 3 / 4);
-    overflow: hidden;
-    background-color: var(--lpc-card-bg, #f7f6f2);
-    border-radius: var(--lpc-radius, 0);
+    position: relative !important;
+    width: 100% !important;
+    height: 100% !important;
+    overflow: hidden !important;
+    display: block !important;
   }
 
   .lpc-card__img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    display: block;
-    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    display: block !important;
+    transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1) !important;
   }
 
-  .lpc-hover-zoom:hover .lpc-card__img {
-    transform: scale(1.05);
-  }
-
-  .lpc-hover-lift {
-    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.45s ease;
-  }
-
-  .lpc-hover-lift:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 18px 40px -18px rgba(0, 0, 0, 0.28);
-  }
-
-  .lpc-hover-fade .lpc-card__img {
-    opacity: 0.88;
-  }
-
-  .lpc-hover-fade:hover .lpc-card__img {
-    opacity: 1;
-    transform: scale(1.02);
+  .lpc-card__media--zoom:hover .lpc-card__img,
+  .lpc-card:hover .lpc-card__img {
+    transform: scale(1.04) !important;
   }
 
   .lpc-card__icon {
     position: absolute;
-    right: 12px;
-    bottom: 12px;
-    display: inline-flex;
+    bottom: 14px;
+    right: 14px;
+    width: 32px;
+    height: 32px;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(4px);
+    border-radius: 50%;
+    display: flex;
     align-items: center;
     justify-content: center;
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    background-color: rgba(26, 26, 26, 0.82);
-    color: #ffffff;
+    color: #111111;
     opacity: 0;
     transform: translateY(6px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .lpc-card:hover .lpc-card__icon,
-  .lpc-card:focus-visible .lpc-card__icon {
+  .lpc-card__icon svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .lpc-card:hover .lpc-card__icon {
     opacity: 1;
     transform: translateY(0);
   }
 
-  .lpc-card__icon svg {
-    width: 15px;
-    height: 15px;
-    display: block;
+  /* Group 2 Revealed State & Smooth Transitions */
+  .lpc-group--revealed {
+    margin-top: var(--lpc-gap, 16px);
+    overflow: hidden;
+    transition: max-height 0.75s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.55s ease, margin-top 0.4s ease;
   }
 
-  .lpc-footer {
-    text-align: center;
-    margin-top: 22px;
+  .lpc-group--revealed.is-collapsed {
+    max-height: 0 !important;
+    opacity: 0 !important;
+    margin-top: 0 !important;
+    pointer-events: none !important;
+    visibility: hidden;
   }
 
-  .lpc-view-all {
-    display: inline-block;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--lpc-heading-color, #111111);
-    text-decoration: underline;
-    text-underline-offset: 4px;
-    transition: opacity 0.2s ease;
+  .lpc-group--revealed.is-expanded {
+    max-height: 4000px !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    visibility: visible;
   }
 
-  .lpc-view-all:hover {
-    opacity: 0.7;
+  /* Minimalist Luxury Text-Only View More Button */
+  .lpc-actions {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin-top: 32px !important;
+    width: 100% !important;
   }
 
-  /* ---------------- Fully Responsive Breakpoints ---------------- */
-
-  /* Small laptop / large tablet (<= 1199px) */
-  @media screen and (max-width: 1199px) {
-    .lpc-grid {
-      grid-template-columns: repeat(var(--lpc-cols-md, 4), 1fr) !important;
-      gap: calc(var(--lpc-gap, 16px) * 0.85) !important;
-    }
-
-    .lpc-grid--collage {
-      grid-auto-rows: 200px !important;
-    }
+  .lpc-view-more-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 9px !important;
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    padding: 10px 20px !important;
+    cursor: pointer !important;
+    color: var(--lpc-heading-color, #111111) !important;
+    font-family: var(--font-body--family, "Inter", sans-serif) !important;
+    font-size: 0.8rem !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.28em !important;
+    text-transform: uppercase !important;
+    position: relative !important;
+    text-decoration: none !important;
+    transition: color 0.25s ease, transform 0.2s ease !important;
   }
 
-  /* Tablet (<= 989px) */
-  @media screen and (max-width: 989px) {
-    .lpc-container {
-      padding-inline: clamp(16px, 3vw, 22px) !important;
-    }
-
-    .lpc-header {
-      margin-block-end: 12px !important;
-    }
-
-    .lpc-grid {
-      grid-template-columns: repeat(var(--lpc-cols-sm, 3), 1fr) !important;
-      gap: calc(var(--lpc-gap, 16px) * 0.7) !important;
-    }
-
-    /* Collage: 4-column variant on tablet */
-    .lpc-grid--collage {
-      grid-template-columns: repeat(4, 1fr) !important;
-      grid-auto-rows: 170px !important;
-    }
+  .lpc-view-more-btn::after {
+    content: '';
+    position: absolute;
+    bottom: 6px;
+    left: 20px;
+    right: 20px;
+    height: 1px;
+    background-color: currentColor;
+    opacity: 0.4;
+    transition: opacity 0.3s ease, transform 0.3s ease;
   }
 
-  /* Mobile (<= 749px) */
+  .lpc-view-more-btn:hover {
+    color: var(--lpc-accent, #b08d57) !important;
+    transform: translateY(-1px);
+  }
+
+  .lpc-view-more-btn:hover::after {
+    opacity: 1;
+    transform: scaleX(1.06);
+  }
+
+  .lpc-view-more-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .lpc-view-more-btn.is-active .lpc-view-more-icon {
+    transform: rotate(180deg);
+  }
+
+  /* Responsive Mobile Adaptations */
   @media screen and (max-width: 749px) {
     .lpc-section {
-      padding-block-start: clamp(24px, 5vw, 34px) !important;
-      padding-block-end: clamp(26px, 5vw, 36px) !important;
+      padding-block-start: 32px !important;
+      padding-block-end: 44px !important;
+    }
+
+    .lpc-container--full,
+    .lpc-container--boxed {
+      padding-inline: 12px !important;
     }
 
     .lpc-header {
-      margin-block-end: 10px !important;
+      margin-block-end: 20px !important;
     }
 
-    .lpc-subheading {
-      font-size: 18px !important;
-    }
-
-    .lpc-description {
-      font-size: 12.5px !important;
-      max-width: 100% !important;
-    }
-
-    .lpc-grid {
-      grid-template-columns: repeat(var(--lpc-cols-mobile, 2), 1fr) !important;
+    .lpc-collage-grid {
+      grid-template-columns: 1fr !important;
       gap: 12px !important;
     }
 
-    /* Collage: clean uniform grid on mobile */
-    .lpc-grid--collage {
-      grid-auto-rows: auto !important;
+    .lpc-collage-column {
+      gap: 12px !important;
     }
 
-    .lpc-grid--collage > .lpc-card {
-      grid-column: span 1 !important;
-      grid-row: span 1 !important;
-      height: auto !important;
+    .lpc-row-split {
+      gap: 12px !important;
     }
 
-    .lpc-grid--collage .lpc-card__media {
-      aspect-ratio: var(--lpc-ratio, 3 / 4) !important;
-      height: auto !important;
+    .lpc-card--split {
+      aspect-ratio: 1 / 1.14 !important;
     }
 
-    .lpc-card__icon {
-      width: 28px !important;
-      height: 28px !important;
-      right: 8px !important;
-      bottom: 8px !important;
+    .lpc-card--wide {
+      aspect-ratio: 1.35 / 1 !important;
     }
 
-    .lpc-card__icon svg {
-      width: 13px !important;
-      height: 13px !important;
+    .lpc-card--tall {
+      aspect-ratio: 1.25 / 1 !important;
     }
 
-    .lpc-footer {
-      margin-top: 18px !important;
-    }
-  }
-
-  /* Small mobile (<= 480px) */
-  @media screen and (max-width: 480px) {
-    .lpc-grid {
-      gap: 10px !important;
-    }
-  }
-
-  /* Touch devices: icon always visible */
-  @media (hover: none) {
-    .lpc-card__icon {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  /* Accessibility: reduced motion */
-  @media (prefers-reduced-motion: reduce) {
-    .lpc-card,
-    .lpc-card__img {
-      transition: none !important;
+    .lpc-actions {
+      margin-top: 22px !important;
     }
 
-    .lpc-hover-lift:hover {
-      transform: none !important;
+    .lpc-view-more-btn {
+      font-size: 0.74rem !important;
+      letter-spacing: 0.22em !important;
+      padding: 8px 12px !important;
     }
   }
 {% endstylesheet %}
 
 {% schema %}
 {
-  "name": "Catalog Gallery",
+  "name": "Editorial Catalog Collage",
   "tag": "section",
-  "class": "section-catalog-gallery",
-  "max_blocks": 24,
+  "class": "section-luxury-catalog",
   "settings": [
     {
       "type": "header",
-      "content": "Section Header"
+      "content": "Header Content"
     },
     {
       "type": "text",
       "id": "subheading",
-      "label": "Script Subheading",
+      "label": "Subheading (italic script)",
       "default": "the"
     },
     {
@@ -476,7 +748,7 @@
       "max": 36,
       "step": 1,
       "unit": "px",
-      "label": "Heading Size",
+      "label": "Heading Font Size",
       "default": 20
     },
     {
@@ -488,18 +760,28 @@
     {
       "type": "checkbox",
       "id": "show_underline",
-      "label": "Show Underline",
+      "label": "Show Accent Underline",
       "default": true
+    },
+    {
+      "type": "range",
+      "id": "underline_width",
+      "min": 20,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Underline Width",
+      "default": 44
     },
     {
       "type": "textarea",
       "id": "description",
-      "label": "Description (optional)",
+      "label": "Description Text",
       "default": "Browse our catalogs — tap any cover to open."
     },
     {
       "type": "header",
-      "content": "Links"
+      "content": "Links & Interactivity"
     },
     {
       "type": "checkbox",
@@ -509,95 +791,49 @@
       "default": true
     },
     {
+      "type": "checkbox",
+      "id": "enable_hover_zoom",
+      "label": "Enable Hover Zoom Effect",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "view_more_text",
+      "label": "View More Button Label",
+      "default": "VIEW MORE"
+    },
+    {
+      "type": "text",
+      "id": "view_less_text",
+      "label": "View Less Button Label",
+      "default": "VIEW LESS"
+    },
+    {
       "type": "header",
-      "content": "Layout"
-    },
-    {
-      "type": "select",
-      "id": "layout_style",
-      "label": "Layout Style",
-      "options": [
-        { "value": "collage", "label": "Collage (Mixed Tile Sizes)" },
-        { "value": "grid", "label": "Uniform Grid" }
-      ],
-      "default": "collage"
-    },
-    {
-      "type": "range",
-      "id": "collage_tile_height",
-      "min": 140,
-      "max": 400,
-      "step": 10,
-      "unit": "px",
-      "label": "Collage Tile Height",
-      "info": "Base row height of the collage. Big tiles are double.",
-      "default": 230
+      "content": "Layout & Spacing"
     },
     {
       "type": "checkbox",
       "id": "full_width",
       "label": "Full Width Section",
-      "info": "Uncheck to contain the grid inside a max width.",
+      "info": "Spans edge to edge across the viewport.",
       "default": true
     },
     {
       "type": "range",
-      "id": "columns_desktop",
-      "min": 2,
-      "max": 6,
-      "step": 1,
-      "label": "Columns (Desktop)",
-      "default": 6
-    },
-    {
-      "type": "select",
-      "id": "columns_mobile",
-      "label": "Columns (Mobile)",
-      "options": [
-        { "value": "2", "label": "2 Columns" },
-        { "value": "1", "label": "1 Column" }
-      ],
-      "default": "2"
-    },
-    {
-      "type": "range",
       "id": "gap",
-      "min": 4,
-      "max": 48,
+      "min": 6,
+      "max": 32,
       "step": 2,
       "unit": "px",
-      "label": "Grid Gap",
+      "label": "Collage Gap",
       "default": 16
-    },
-    {
-      "type": "select",
-      "id": "image_ratio",
-      "label": "Image Ratio",
-      "options": [
-        { "value": "portrait", "label": "Portrait (3:4)" },
-        { "value": "square", "label": "Square (1:1)" },
-        { "value": "landscape", "label": "Landscape (4:3)" },
-        { "value": "wide", "label": "Wide (16:9)" }
-      ],
-      "default": "portrait"
-    },
-    {
-      "type": "select",
-      "id": "hover_effect",
-      "label": "Hover Effect",
-      "options": [
-        { "value": "zoom", "label": "Zoom" },
-        { "value": "lift", "label": "Lift / Shadow" },
-        { "value": "fade", "label": "Fade Reveal" },
-        { "value": "none", "label": "None" }
-      ],
-      "default": "zoom"
     },
     {
       "type": "range",
       "id": "card_radius",
       "min": 0,
-      "max": 24,
+      "max": 20,
       "step": 2,
       "unit": "px",
       "label": "Image Corner Radius",
@@ -606,13 +842,13 @@
     {
       "type": "range",
       "id": "max_width",
-      "min": 500,
+      "min": 900,
       "max": 1800,
       "step": 20,
       "unit": "px",
       "label": "Boxed Max Width",
-      "info": "Only used when Full Width is off.",
-      "default": 1400
+      "info": "Only used when Full Width is disabled.",
+      "default": 1440
     },
     {
       "type": "range",
@@ -622,7 +858,7 @@
       "step": 4,
       "unit": "px",
       "label": "Padding Top",
-      "default": 44
+      "default": 48
     },
     {
       "type": "range",
@@ -632,22 +868,7 @@
       "step": 4,
       "unit": "px",
       "label": "Padding Bottom",
-      "default": 48
-    },
-    {
-      "type": "header",
-      "content": "Footer Link"
-    },
-    {
-      "type": "text",
-      "id": "view_all_text",
-      "label": "Footer Link Label",
-      "default": "VIEW FULL CATALOG"
-    },
-    {
-      "type": "url",
-      "id": "view_all_link",
-      "label": "Footer Link URL"
+      "default": 64
     },
     {
       "type": "header",
@@ -687,38 +908,38 @@
   "blocks": [
     {
       "type": "catalog_image",
-      "name": "Catalog Image",
+      "name": "Catalog Artwork",
       "settings": [
         {
           "type": "image_picker",
           "id": "image",
-          "label": "Image",
-          "info": "Falls back to a demo image if empty."
+          "label": "Artwork Image"
         },
         {
           "type": "text",
           "id": "link",
           "label": "Link URL",
-          "info": "Paste any URL — a page, product, or PDF file link (Shopify Admin > Content > Files).",
+          "info": "Page, product, or PDF file URL.",
           "default": "/collections/all"
         },
         {
           "type": "text",
           "id": "alt",
-          "label": "Alt Text (accessibility)"
+          "label": "Alt Text (Accessibility)",
+          "default": "Catalog artwork"
         },
         {
           "type": "checkbox",
           "id": "show_view_icon",
           "label": "Show Arrow Icon On Hover",
-          "default": true
+          "default": false
         }
       ]
     }
   ],
   "presets": [
     {
-      "name": "Catalog Gallery",
+      "name": "Editorial Catalog Collage",
       "blocks": [
         { "type": "catalog_image" },
         { "type": "catalog_image" },

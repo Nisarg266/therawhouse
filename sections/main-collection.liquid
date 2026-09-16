@@ -96,6 +96,9 @@
   collection-component .product-grid__card.product-grid__card {
     /* Override the legacy equal-height card flex rule. */
     display: grid !important;
+    /* Force the single column to fill the card width so short product titles
+       cannot shrink the track and produce undersized image boxes. */
+    grid-template-columns: minmax(0, 100%);
     grid-template-rows: auto 1fr auto;
     gap: 8px;
     align-items: start;

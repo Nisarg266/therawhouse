@@ -3,7 +3,7 @@
   --art-button-paper: #faf8f3;
   --art-button-hover: #454038;
   --art-button-line: #a49b8c;
-  --art-button-radius: 2px;
+  --art-button-radius: 4px;
   --art-button-height: 48px;
   --art-button-font: var(--font-body--family, "Inter", sans-serif);
 }
@@ -137,7 +137,7 @@
 }
 .lux-tab-btn:is(:hover, .is-active) { background: var(--art-button-ink) !important; color: var(--art-button-paper) !important; }
 
-:is(.lux-hero__arrow-btn, .lux-reviews-nav-btn) {
+.lux-reviews-nav-btn {
   width: 44px !important;
   height: 44px !important;
   border: 1px solid #d4cec3 !important;
@@ -146,7 +146,26 @@
   color: var(--art-button-ink) !important;
   box-shadow: none !important;
 }
-:is(.lux-hero__arrow-btn, .lux-reviews-nav-btn):hover { background: #e7dfd2 !important; }
+.lux-reviews-nav-btn:hover { background: #e7dfd2 !important; }
+
+.lux-hero__arrow-btn {
+  width: 48px !important;
+  height: 48px !important;
+  border: none !important;
+  border-radius: 50% !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+}
+.lux-hero__arrow-btn:hover {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+}
+
 button.quick-add__button { border-radius: var(--art-button-radius); font: 500 11px/20px var(--art-button-font); letter-spacing: 0.1em; text-transform: uppercase; }
 
 .lux-vip-form { gap: 8px; border-radius: var(--art-button-radius); }
@@ -154,7 +173,7 @@ button.quick-add__button { border-radius: var(--art-button-radius); font: 500 11
 
 @media (max-width: 749px) {
   :is(.art-button, .shopify-payment-button__button--unbranded):not(.quick-add__button) { padding-inline: 18px !important; }
-  .lux-hero__arrow-btn { width: 36px !important; height: 44px !important; }
+  .lux-hero__arrow-btn { width: 38px !important; height: 38px !important; background: transparent !important; border: none !important; }
 }
 @media (prefers-reduced-motion: reduce) {
   :is(.art-button, .art-link, .lux-tab-btn, .lux-hero__arrow-btn, .lux-reviews-nav-btn) { transition: none !important; }
