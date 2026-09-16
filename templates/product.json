@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
@@ -11,7 +20,12 @@
             "media_columns": "two",
             "image_gap": 12,
             "large_first_image": true,
+<<<<<<< HEAD
             "slideshow_controls_style": "thumbnails",
+=======
+            "icons_style": "arrow",
+            "slideshow_controls_style": "counter",
+>>>>>>> 0be36a922391c6c8acf5571229b458b79563442f
             "slideshow_mobile_controls_style": "dots",
             "thumbnail_position": "bottom",
             "thumbnail_width": 64,
@@ -89,6 +103,7 @@
                 "border_opacity": 100,
                 "border_color": "",
                 "border_radius": 0,
+                "link": "",
                 "open_in_new_tab": false,
                 "placeholder": "",
                 "padding-block-start": 0,
@@ -112,6 +127,7 @@
                     "letter_spacing": "0.18em",
                     "case": "none",
                     "wrap": "pretty",
+                    "text_color": "",
                     "background": false,
                     "background_color": "#00000026",
                     "corner_radius": 0,
@@ -119,7 +135,8 @@
                     "padding-block-end": 0,
                     "padding-inline-start": 0,
                     "padding-inline-end": 0
-                  }
+                  },
+                  "blocks": {}
                 },
                 "text_xrnftG": {
                   "type": "text",
@@ -264,7 +281,18 @@
                 "icon": "plus",
                 "dividers": true,
                 "divider_color": "#edeae3",
-                "type_preset": "paragraph"
+                "type_preset": "paragraph",
+                "background_color": "",
+                "text_color": "",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_color": "",
+                "border_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
               },
               "blocks": {
                 "row_curation": {
@@ -272,7 +300,8 @@
                   "settings": {
                     "heading": "THE CURATION & STORY",
                     "open_by_default": true,
-                    "icon": "none"
+                    "icon": "none",
+                    "width": 20
                   },
                   "blocks": {
                     "desc_content": {
@@ -281,8 +310,24 @@
                         "text": "{{ closest.product.description }}",
                         "width": "100%",
                         "max_width": "normal",
-                        "alignment": "left"
-                      }
+                        "alignment": "left",
+                        "type_preset": "rte",
+                        "font": "var(--font-body--family)",
+                        "font_size": "1rem",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "text_color": "",
+                        "background": false,
+                        "background_color": "#00000026",
+                        "corner_radius": 0,
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      },
+                      "blocks": {}
                     }
                   },
                   "block_order": [
@@ -294,30 +339,138 @@
                   "settings": {
                     "heading": "MATERIALS & SPECIFICATIONS",
                     "open_by_default": false,
+<<<<<<< HEAD
                     "row_content": "<p>Each piece is meticulously handcrafted with sustainably harvested seasoned natural wood, precision-milled solid brass fixtures, and archival artisanal finishes. Dimensions, finishes, and custom bespoke specifications are available upon request.</p>",
                     "icon": "none"
                   },
                   "blocks": {}
+=======
+                    "icon": "none",
+                    "width": 20
+                  },
+                  "blocks": {
+                    "craft_content": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p><strong>Handcrafted Finish:</strong> Curated with traditional craftsmanship techniques.<br><strong>Provenance:</strong> Verified atelier piece from The Raw House curated masters.<br><strong>Care Instructions:</strong> Clean gently with a soft, dry natural microfiber cloth. Avoid direct excessive sunlight or chemical solvents.</p>",
+                        "width": "100%",
+                        "max_width": "normal",
+                        "alignment": "left",
+                        "type_preset": "rte",
+                        "font": "var(--font-body--family)",
+                        "font_size": "1rem",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "text_color": "",
+                        "background": false,
+                        "background_color": "#00000026",
+                        "corner_radius": 0,
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      },
+                      "blocks": {}
+                    }
+                  },
+                  "block_order": [
+                    "craft_content"
+                  ]
+>>>>>>> 0be36a922391c6c8acf5571229b458b79563442f
                 },
                 "row_delivery": {
                   "type": "_accordion-row",
                   "settings": {
                     "heading": "WHITE GLOVE DELIVERY & TRANSIT",
                     "open_by_default": false,
+<<<<<<< HEAD
                     "row_content": "<p>Complimentary insured white-glove transit across India. Every artifact is individually crated, climate-sealed, and delivered with full provenance documentation and transit insurance.</p>",
                     "icon": "none"
                   },
                   "blocks": {}
+=======
+                    "icon": "none",
+                    "width": 20
+                  },
+                  "blocks": {
+                    "delivery_content": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>Complimentary insured white-glove transit across India & worldwide on all fine collections. Includes custom protective crating, scheduled appointment, and room-of-choice placement.</p>",
+                        "width": "100%",
+                        "max_width": "normal",
+                        "alignment": "left",
+                        "type_preset": "rte",
+                        "font": "var(--font-body--family)",
+                        "font_size": "1rem",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "text_color": "",
+                        "background": false,
+                        "background_color": "#00000026",
+                        "corner_radius": 0,
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      },
+                      "blocks": {}
+                    }
+                  },
+                  "block_order": [
+                    "delivery_content"
+                  ]
+>>>>>>> 0be36a922391c6c8acf5571229b458b79563442f
                 },
                 "row_authenticity": {
                   "type": "_accordion-row",
                   "settings": {
                     "heading": "CERTIFICATE OF AUTHENTICITY",
                     "open_by_default": false,
+<<<<<<< HEAD
                     "row_content": "<p>Every acquisition from The Raw House Atelier includes a serialized Certificate of Authenticity signed by the master artisan and curator, guaranteeing origin, craftsmanship lineage, and heirloom authenticity.</p>",
                     "icon": "none"
                   },
                   "blocks": {}
+=======
+                    "icon": "none",
+                    "width": 20
+                  },
+                  "blocks": {
+                    "auth_content": {
+                      "type": "text",
+                      "settings": {
+                        "text": "<p>Every acquisition is accompanied by an individual Certificate of Authenticity signed and stamped by the atelier curator, guaranteeing authentic provenance and heirloom artistry.</p>",
+                        "width": "100%",
+                        "max_width": "normal",
+                        "alignment": "left",
+                        "type_preset": "rte",
+                        "font": "var(--font-body--family)",
+                        "font_size": "1rem",
+                        "line_height": "normal",
+                        "letter_spacing": "normal",
+                        "case": "none",
+                        "wrap": "pretty",
+                        "text_color": "",
+                        "background": false,
+                        "background_color": "#00000026",
+                        "corner_radius": 0,
+                        "padding-block-start": 0,
+                        "padding-block-end": 0,
+                        "padding-inline-start": 0,
+                        "padding-inline-end": 0
+                      },
+                      "blocks": {}
+                    }
+                  },
+                  "block_order": [
+                    "auth_content"
+                  ]
+>>>>>>> 0be36a922391c6c8acf5571229b458b79563442f
                 }
               },
               "block_order": [
@@ -336,7 +489,6 @@
           ]
         }
       },
-      "block_order": [],
       "settings": {
         "content_width": "content-center-aligned",
         "desktop_media_position": "left",
@@ -345,19 +497,96 @@
         "gap": 36,
         "enable_sticky_add_to_cart": true,
         "background_color": "#ffffff",
+<<<<<<< HEAD
         "padding-block-start": 16,
         "padding-block-end": 20
+=======
+        "padding-block-start": 24,
+        "padding-block-end": 36
+      }
+    },
+    "luxury_trust": {
+      "type": "luxury-trust-features",
+      "blocks": {
+        "trust_1": {
+          "type": "feature",
+          "settings": {
+            "icon": "authenticity",
+            "custom_svg": "",
+            "title": "CERTIFIED PROVENANCE",
+            "subtitle": "Individually certified provenance with signed curator seal",
+            "link": ""
+          }
+        },
+        "trust_2": {
+          "type": "feature",
+          "settings": {
+            "icon": "delivery",
+            "custom_svg": "",
+            "title": "WHITE GLOVE TRANSIT",
+            "subtitle": "Insured climate packaging & room-of-choice placement",
+            "link": ""
+          }
+        },
+        "trust_3": {
+          "type": "feature",
+          "settings": {
+            "icon": "bespoke",
+            "custom_svg": "",
+            "title": "BESPOKE SIZING & FINISH",
+            "subtitle": "Custom dimensions crafted to your spatial requirements",
+            "link": ""
+          }
+        },
+        "trust_4": {
+          "type": "feature",
+          "settings": {
+            "icon": "concierge",
+            "custom_svg": "",
+            "title": "CURATOR CONCIERGE",
+            "subtitle": "1-on-1 personal assistance for art & interior advising",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "trust_1",
+        "trust_2",
+        "trust_3",
+        "trust_4"
+      ],
+      "disabled": true,
+      "settings": {
+        "color_scheme_preset": "warm",
+        "custom_bg_color": "",
+        "custom_text_color": "",
+        "custom_border_color": "",
+        "columns_desktop": 4,
+        "text_alignment": "left",
+        "padding_top": 36,
+        "padding_bottom": 36
+>>>>>>> 0be36a922391c6c8acf5571229b458b79563442f
       }
     },
     "craftsmanship_story": {
       "type": "luxury-craftsmanship-story",
       "settings": {
+<<<<<<< HEAD
         "color_scheme_preset": "warm",
+=======
+        "color_scheme_preset": "light",
+        "custom_bg_color": "",
+        "custom_text_color": "",
+        "custom_accent_color": "",
+        "media_position": "left",
+>>>>>>> 0be36a922391c6c8acf5571229b458b79563442f
         "subheading": "THE RAW HOUSE ATELIER",
         "heading": "Bespoke Artistry & Timeless Provenance",
         "story_text": "Every object in our atelier tells a story of authentic craftsmanship, time-honored techniques, and contemporary form. We collaborate with master artisans and heritage curators to bring museum-grade masterworks into refined living spaces.",
+        "default_asset": "art-atelier-artist-studio.jpg",
         "badge_number": "100%",
         "badge_label": "ARTISAN HANDCRAFTED",
+<<<<<<< HEAD
         "counter_1_number": 2400,
         "counter_1_suffix": "+",
         "counter_1_label": "Paintings & Artworks Curated",
@@ -372,6 +601,12 @@
         "button_link": "shopify:\/\/collections\/all",
         "padding_top": 44,
         "padding_bottom": 48
+=======
+        "button_label": "DISCOVER THE ATELIER",
+        "button_link": "",
+        "padding_top": 48,
+        "padding_bottom": 52
+>>>>>>> 0be36a922391c6c8acf5571229b458b79563442f
       }
     },
     "product_recommendations_qggXJq": {
@@ -392,6 +627,7 @@
             "letter_spacing": "0.12em",
             "case": "uppercase",
             "wrap": "pretty",
+            "text_color": "",
             "background": false,
             "background_color": "#00000026",
             "corner_radius": 0,
@@ -451,6 +687,7 @@
                 "letter_spacing": "0.04em",
                 "case": "none",
                 "wrap": "pretty",
+                "text_color": "",
                 "background": false,
                 "background_color": "#00000026",
                 "corner_radius": 0,
@@ -519,8 +756,23 @@
       "settings": {
         "heading": "A little bit of us",
         "text": "The House of Things is a destination for design, artistry and craftsmanship, curated for a life artfully lived.",
+<<<<<<< HEAD
         "padding_top": 24,
         "padding_bottom": 28
+=======
+        "facebook_url": "",
+        "instagram_url": "",
+        "pinterest_url": "",
+        "twitter_url": "",
+        "heading_color": "#1a1a1a",
+        "text_color": "#4a4a4a",
+        "icon_bg_color": "#2b2b2b",
+        "icon_color": "#ffffff",
+        "background_color": "#ffffff",
+        "max_width": 680,
+        "padding_top": 44,
+        "padding_bottom": 52
+>>>>>>> 0be36a922391c6c8acf5571229b458b79563442f
       }
     }
   },

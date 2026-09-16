@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero_slider": {
@@ -9,9 +18,12 @@
             "default_asset": "hero-slide-1.jpg",
             "subheading": "",
             "heading": "",
+            "description": "Monumental textured linen canvases, gold leaf impasto, and evocative masterworks by acclaimed contemporary painters.",
             "content_alignment": "center",
             "button_label": "",
-            "button_link": "shopify://collections/all"
+            "button_link": "shopify://collections/all",
+            "button_2_label": "VIEW EXHIBITION",
+            "button_2_link": ""
           }
         },
         "slide_2": {
@@ -20,9 +32,12 @@
             "default_asset": "hero-slide-2.jpg",
             "subheading": "",
             "heading": "",
+            "description": "Monumental textured linen canvases, gold leaf impasto, and evocative masterworks by acclaimed contemporary painters.",
             "content_alignment": "center",
             "button_label": "",
-            "button_link": "shopify://blogs/news"
+            "button_link": "shopify://blogs/news",
+            "button_2_label": "VIEW EXHIBITION",
+            "button_2_link": ""
           }
         },
         "slide_3": {
@@ -31,9 +46,12 @@
             "default_asset": "hero-slide-3.jpg",
             "subheading": "",
             "heading": "",
+            "description": "Monumental textured linen canvases, gold leaf impasto, and evocative masterworks by acclaimed contemporary painters.",
             "content_alignment": "center",
             "button_label": "",
-            "button_link": "shopify://collections/all"
+            "button_link": "shopify://collections/all",
+            "button_2_label": "VIEW EXHIBITION",
+            "button_2_link": ""
           }
         }
       },
@@ -43,13 +61,14 @@
         "slide_3"
       ],
       "settings": {
+        "color_scheme_preset": "dark",
+        "custom_accent_color": "",
         "desktop_height": 92,
         "mobile_height": 70,
         "autoplay": true,
         "autoplay_speed": 6,
         "overlay_color": "#000000",
-        "overlay_opacity": 0,
-        "color_scheme_preset": "dark"
+        "overlay_opacity": 0
       }
     },
     "new_arrivals": {
@@ -57,14 +76,12 @@
       "settings": {
         "subheading": "the",
         "heading": "N E W   A R R I V A L S",
-        "show_underline": true,
-        "background_color": "#ffffff",
+        "heading_size": 20,
+        "heading_letter_spacing": "0.35em",
         "heading_color": "#1a1a1a",
-        "gap": 16,
-        "corner_radius": 0,
-        "enable_hover_zoom": true,
-        "padding_top": 60,
-        "padding_bottom": 60,
+        "show_underline": true,
+        "underline_width": 44,
+        "underline_color": "#111111",
         "card_1_link": "shopify://collections/all",
         "card_1_alt": "Vase Calyx-krater By Eichholtz",
         "card_2_link": "shopify://collections/all",
@@ -76,7 +93,14 @@
         "card_5_link": "shopify://collections/all",
         "card_5_alt": "Old Soul Teapot XIII By Eina Ahluwalia",
         "card_6_link": "shopify://collections/all",
-        "card_6_alt": "Lagori Round Table Lamp By Yaahvi"
+        "card_6_alt": "Lagori Round Table Lamp By Yaahvi",
+        "max_width": 1080,
+        "gap": 16,
+        "corner_radius": 0,
+        "enable_hover_zoom": true,
+        "background_color": "#ffffff",
+        "padding_top": 60,
+        "padding_bottom": 60
       }
     },
     "recommendations": {
@@ -85,33 +109,33 @@
         "subheading": "the",
         "heading": "R E C O M M E N D A T I O N S",
         "show_underline": true,
-        "background_color": "#ffffff",
         "heading_color": "#1a1a1a",
-        "gap": 36,
-        "max_width": 1080,
-        "padding_top": 60,
-        "padding_bottom": 72,
-        "enable_hover_zoom": true,
         "card_1_title": "SEASON OF THE SUN",
         "card_1_text": "The art of leisure finds its rhythm in the sweetness of summer. Rugs gather the day's warmth, linens fall easy, and every corner feels more open, less hurried.",
-        "card_1_btn_text": "SHOP THIS EDIT",
         "card_1_link": "shopify://collections/all",
+        "card_1_btn_text": "SHOP THIS EDIT",
         "card_2_title": "THE STORY OF THINGS WITH PRIYANKA KHANNA",
         "card_2_text": "Step inside the family home of luxury curator Priyanka Khanna and discover a thoughtfully collected world of art, design, and objects with stories to tell.",
-        "card_2_btn_text": "READ THIS JOURNAL",
         "card_2_link": "shopify://blogs/news",
+        "card_2_btn_text": "READ THIS JOURNAL",
         "card_3_title": "THE ART OF FINE LIVING",
         "card_3_text": "Built over time and inspired by authenticity, this edit embraces the beauty of layered living - brought to life through thoughtfully curated furniture, art, and accessories.",
-        "card_3_btn_text": "SHOP THIS EDIT",
         "card_3_link": "shopify://collections/all",
+        "card_3_btn_text": "SHOP THIS EDIT",
         "card_4_title": "A LIFE, COLLECTED WITH EINA AHLUWALIA",
         "card_4_text": "Step inside modern-day collector Eina Ahluwalia's space graced with memorable finds and antiques, and discover what makes her collect.",
-        "card_4_btn_text": "READ THIS JOURNAL",
         "card_4_link": "shopify://blogs/news",
+        "card_4_btn_text": "READ THIS JOURNAL",
         "left_col_btn_label": "VIEW ALL EDITS",
         "left_col_btn_link": "shopify://collections/all",
         "right_col_btn_label": "VIEW ALL JOURNAL",
-        "right_col_btn_link": "shopify://blogs/news"
+        "right_col_btn_link": "shopify://blogs/news",
+        "max_width": 1080,
+        "gap": 36,
+        "enable_hover_zoom": true,
+        "background_color": "#ffffff",
+        "padding_top": 60,
+        "padding_bottom": 72
       }
     },
     "fine_prints": {
@@ -120,15 +144,7 @@
         "subheading": "the",
         "heading": "F I N E   P R I N T S",
         "show_underline": true,
-        "background_color": "#ffffff",
         "heading_color": "#1a1a1a",
-        "max_width": 1080,
-        "gap": 28,
-        "padding_top": 60,
-        "padding_bottom": 60,
-        "enable_hover_zoom": true,
-        "view_all_text": "VIEW ALL",
-        "view_all_link": "shopify://collections/all",
         "card_1_title": "Radha and Krishna",
         "card_1_vendor": "By Mahaveer Swami",
         "card_1_price": "₹3,900.00",
@@ -144,7 +160,15 @@
         "card_3_price": "₹13,000.00",
         "card_3_badge_1": "OPTIONS AVAILABLE",
         "card_3_badge_2": "CUSTOMIZABLE",
-        "card_3_link": "shopify://collections/all"
+        "card_3_link": "shopify://collections/all",
+        "view_all_text": "VIEW ALL",
+        "view_all_link": "shopify://collections/all",
+        "max_width": 1080,
+        "gap": 28,
+        "enable_hover_zoom": true,
+        "background_color": "#ffffff",
+        "padding_top": 60,
+        "padding_bottom": 60
       }
     },
     "the_makers": {
@@ -153,13 +177,7 @@
         "subheading": "the",
         "heading": "M A K E R S",
         "show_underline": true,
-        "background_color": "#ffffff",
         "heading_color": "#1a1a1a",
-        "max_width": 1080,
-        "gap": 24,
-        "padding_top": 60,
-        "padding_bottom": 64,
-        "enable_hover_zoom": true,
         "maker_1_name": "Duffy London",
         "maker_1_subtitle": "Fun With Design",
         "maker_1_link": "shopify://collections/all",
@@ -173,7 +191,13 @@
         "maker_4_subtitle": "Hand Enameled Jewels for Home",
         "maker_4_link": "shopify://collections/all",
         "view_all_text": "VIEW OUR MAKERS",
-        "view_all_link": "shopify://collections/all"
+        "view_all_link": "shopify://collections/all",
+        "max_width": 1080,
+        "gap": 24,
+        "enable_hover_zoom": true,
+        "background_color": "#ffffff",
+        "padding_top": 60,
+        "padding_bottom": 64
       }
     },
     "brand_statement": {
@@ -181,17 +205,18 @@
       "settings": {
         "heading": "A little bit of us",
         "text": "The House of Things is a destination for design, artistry and craftsmanship, curated for a life artfully lived.",
-        "background_color": "#ffffff",
+        "facebook_url": "https://facebook.com/therawhouse",
+        "instagram_url": "https://instagram.com/therawhouse",
+        "pinterest_url": "",
+        "twitter_url": "https://twitter.com",
         "heading_color": "#1a1a1a",
         "text_color": "#4a4a4a",
         "icon_bg_color": "#2b2b2b",
         "icon_color": "#ffffff",
+        "background_color": "#ffffff",
         "max_width": 680,
         "padding_top": 56,
-        "padding_bottom": 64,
-        "facebook_url": "https://facebook.com/therawhouse",
-        "instagram_url": "https://instagram.com/therawhouse",
-        "twitter_url": "https://twitter.com"
+        "padding_bottom": 64
       }
     },
     "press_and_quote": {
@@ -200,37 +225,49 @@
         "press_1": {
           "type": "press_logo",
           "settings": {
-            "title": "Ideal Home"
+            "title": "Ideal Home",
+            "custom_svg": "",
+            "link": ""
           }
         },
         "press_2": {
           "type": "press_logo",
           "settings": {
-            "title": "GoodHomes India"
+            "title": "GoodHomes India",
+            "custom_svg": "",
+            "link": ""
           }
         },
         "press_3": {
           "type": "press_logo",
           "settings": {
-            "title": "AD"
+            "title": "AD",
+            "custom_svg": "",
+            "link": ""
           }
         },
         "press_4": {
           "type": "press_logo",
           "settings": {
-            "title": "VOGUE"
+            "title": "VOGUE",
+            "custom_svg": "",
+            "link": ""
           }
         },
         "press_5": {
           "type": "press_logo",
           "settings": {
-            "title": "ELLE DECOR"
+            "title": "ELLE DECOR",
+            "custom_svg": "",
+            "link": ""
           }
         },
         "press_6": {
           "type": "press_logo",
           "settings": {
-            "title": "FEMINA"
+            "title": "FEMINA",
+            "custom_svg": "",
+            "link": ""
           }
         }
       },
@@ -245,18 +282,19 @@
       "settings": {
         "heading": "Featured In",
         "show_heading_underline": true,
-        "background_color": "#ffffff",
         "heading_color": "#1a1a1a",
-        "max_width": 1100,
-        "padding_top": 56,
-        "padding_bottom": 0,
         "show_quote": true,
         "quote_line_1": "Nothing haunts us",
         "quote_line_2": "LIKE THE THINGS",
         "quote_line_3": "we didn't buy",
         "show_quote_dividers": true,
         "quote_color": "#2a2a2a",
-        "divider_color": "#222222"
+        "divider_color": "#222222",
+        "max_width": 1100,
+        "logo_height": 28,
+        "background_color": "#ffffff",
+        "padding_top": 56,
+        "padding_bottom": 28
       }
     }
   },
