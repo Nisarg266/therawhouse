@@ -270,7 +270,7 @@
                 "row_curation": {
                   "type": "_accordion-row",
                   "settings": {
-                    "heading": "The Curation & Story",
+                    "heading": "THE CURATION & STORY",
                     "open_by_default": true,
                     "icon": "none"
                   },
@@ -288,10 +288,43 @@
                   "block_order": [
                     "desc_content"
                   ]
+                },
+                "row_materials": {
+                  "type": "_accordion-row",
+                  "settings": {
+                    "heading": "MATERIALS & SPECIFICATIONS",
+                    "open_by_default": false,
+                    "row_content": "<p>Each piece is meticulously handcrafted with sustainably harvested seasoned natural wood, precision-milled solid brass fixtures, and archival artisanal finishes. Dimensions, finishes, and custom bespoke specifications are available upon request.</p>",
+                    "icon": "none"
+                  },
+                  "blocks": {}
+                },
+                "row_delivery": {
+                  "type": "_accordion-row",
+                  "settings": {
+                    "heading": "WHITE GLOVE DELIVERY & TRANSIT",
+                    "open_by_default": false,
+                    "row_content": "<p>Complimentary insured white-glove transit across India. Every artifact is individually crated, climate-sealed, and delivered with full provenance documentation and transit insurance.</p>",
+                    "icon": "none"
+                  },
+                  "blocks": {}
+                },
+                "row_authenticity": {
+                  "type": "_accordion-row",
+                  "settings": {
+                    "heading": "CERTIFICATE OF AUTHENTICITY",
+                    "open_by_default": false,
+                    "row_content": "<p>Every acquisition from The Raw House Atelier includes a serialized Certificate of Authenticity signed by the master artisan and curator, guaranteeing origin, craftsmanship lineage, and heirloom authenticity.</p>",
+                    "icon": "none"
+                  },
+                  "blocks": {}
                 }
               },
               "block_order": [
-                "row_curation"
+                "row_curation",
+                "row_materials",
+                "row_delivery",
+                "row_authenticity"
               ]
             }
           },

@@ -1,9 +1,8 @@
 
 {% assign block_settings = block.settings %}
-{% assign is_curation = false %}
-{% assign heading_lower = block_settings.heading | downcase %}
-{% if block_settings.open_by_default or heading_lower contains 'curation' %}
-  {% assign is_curation = true %}
+{% assign is_open = false %}
+{% if block_settings.open_by_default %}
+  {% assign is_open = true %}
 {% endif %}
 
 {% capture inner_blocks %}
@@ -15,12 +14,17 @@
   {% assign has_media_content = true %}
 {% endif %}
 
-{% if inner_stripped != blank or has_media_content %}
+{% assign has_direct_content = false %}
+{% if block_settings.row_content != blank or block_settings.row_page != blank %}
+  {% assign has_direct_content = true %}
+{% endif %}
+
+{% if inner_stripped != blank or has_media_content or has_direct_content %}
   {% capture accordion_row_children %}
     <details
-      class="details{% if is_curation %} is-curation-tab{% endif %}"
+      class="details{% if is_open %} is-curation-tab{% endif %}"
       data-testid="accordion-details"
-      {% if is_curation %}
+      {% if is_open %}
         open
         declarative-open
       {% endif %}
@@ -33,7 +37,7 @@
           width: block_settings.width,
           class_name: 'details__icon'
         %}
-        {{ block_settings.heading }}
+        <span class="details__title">{{ block_settings.heading }}</span>
         <span class="svg-wrapper icon-caret icon-animated">
           {{- 'icon-caret.svg' | inline_asset_content -}}
         </span>
@@ -43,15 +47,23 @@
       </summary>
 
       <div class="details-content">
-        {{ inner_blocks }}
+        {% if inner_stripped != blank or has_media_content %}
+          {{ inner_blocks }}
+        {% endif %}
+        {% if block_settings.row_content != blank %}
+          <div class="accordion-row-custom-richtext">{{ block_settings.row_content }}</div>
+        {% endif %}
+        {% if block_settings.row_page != blank %}
+          <div class="accordion-row-page-content">{{ pages[block_settings.row_page].content }}</div>
+        {% endif %}
       </div>
     </details>
   {% endcapture %}
   {% render 'accordion-custom-component',
     children: accordion_row_children,
-    open: is_curation,
-    open_by_default_on_desktop: is_curation,
-    open_by_default_on_mobile: is_curation
+    open: is_open,
+    open_by_default_on_desktop: is_open,
+    open_by_default_on_mobile: is_open
   %}
 {% endif %}
 
@@ -72,13 +84,23 @@
       "type": "text",
       "id": "heading",
       "label": "t:settings.heading",
-      "default": "t:text_defaults.accordion_heading"
+      "default": "THE CURATION & STORY"
     },
     {
       "type": "checkbox",
       "id": "open_by_default",
-      "label": "t:settings.open_row_by_default",
+      "label": "Open Row by Default",
       "default": false
+    },
+    {
+      "type": "richtext",
+      "id": "row_content",
+      "label": "Row Content (Rich Text)"
+    },
+    {
+      "type": "page",
+      "id": "row_page",
+      "label": "Row Content from Page"
     },
     {
       "type": "header",
