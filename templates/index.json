@@ -30,6 +30,7 @@
         "slide_2": {
           "type": "slide",
           "settings": {
+            "image": "shopify://shop_images/3c2a8f52-358c-4ff6-9e88-f0e441cc7b80.png",
             "default_asset": "hero-slide-2.jpg",
             "subheading": "",
             "heading": "",
