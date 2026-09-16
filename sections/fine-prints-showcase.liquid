@@ -67,10 +67,10 @@
     </div>
 
     {%- comment -%} 3-Product Cards Grid {%- endcomment -%}
-    <div class="fine-prints-showcase__grid">
+    <div class="fine-prints-showcase__grid" data-editorial-track>
       
       <!-- Card 1 -->
-      <article class="fine-prints-showcase__card">
+      <article class="fine-prints-showcase__card" data-editorial-card>
         <div class="fine-prints-showcase__media-wrap{% if enable_hover_zoom %} fine-prints-showcase__media--zoom{% endif %}">
           <a href="{{ card_1_link }}" class="fine-prints-showcase__media-link" aria-label="{{ card_1_title | escape }}">
             {% if card_1_img != blank %}
@@ -102,7 +102,7 @@
       </article>
 
       <!-- Card 2 -->
-      <article class="fine-prints-showcase__card">
+      <article class="fine-prints-showcase__card" data-editorial-card>
         <div class="fine-prints-showcase__media-wrap{% if enable_hover_zoom %} fine-prints-showcase__media--zoom{% endif %}">
           <a href="{{ card_2_link }}" class="fine-prints-showcase__media-link" aria-label="{{ card_2_title | escape }}">
             {% if card_2_img != blank %}
@@ -134,7 +134,7 @@
       </article>
 
       <!-- Card 3 -->
-      <article class="fine-prints-showcase__card">
+      <article class="fine-prints-showcase__card" data-editorial-card>
         <div class="fine-prints-showcase__media-wrap{% if enable_hover_zoom %} fine-prints-showcase__media--zoom{% endif %}">
           <a href="{{ card_3_link }}" class="fine-prints-showcase__media-link" aria-label="{{ card_3_title | escape }}">
             {% if card_3_img != blank %}
@@ -171,10 +171,10 @@
     </div>
 
     <!-- Mobile Slider Dots Indicator -->
-    <div class="fine-prints-showcase__mobile-dots" id="FpsDots-{{ section_id }}" aria-hidden="true">
-      <span class="fine-prints-showcase__dot is-active" data-index="0"></span>
-      <span class="fine-prints-showcase__dot" data-index="1"></span>
-      <span class="fine-prints-showcase__dot" data-index="2"></span>
+    <div class="fine-prints-showcase__mobile-dots" id="FpsDots-{{ section_id }}">
+      <button type="button" class="fine-prints-showcase__dot is-active" data-editorial-dot data-index="0" aria-label="Show item 1" aria-current="true"></button>
+      <button type="button" class="fine-prints-showcase__dot" data-editorial-dot data-index="1" aria-label="Show item 2" aria-current="false"></button>
+      <button type="button" class="fine-prints-showcase__dot" data-editorial-dot data-index="2" aria-label="Show item 3" aria-current="false"></button>
     </div>
 
     {%- comment -%} Footer View All Link {%- endcomment -%}
@@ -189,49 +189,7 @@
   </div>
 </div>
 
-<script>
-  (function() {
-    const section = document.getElementById('FinePrints-{{ section_id }}');
-    if (!section) return;
-    const grid = section.querySelector('.fine-prints-showcase__grid');
-    const dots = section.querySelectorAll('.fine-prints-showcase__dot');
-    if (!grid || !dots.length) return;
 
-    let isScrolling;
-    grid.addEventListener('scroll', function() {
-      window.clearTimeout(isScrolling);
-      isScrolling = setTimeout(function() {
-        const cards = grid.querySelectorAll('.fine-prints-showcase__card');
-        if (!cards.length) return;
-        const scrollLeft = grid.scrollLeft;
-        let activeIdx = 0;
-        let minDiff = Infinity;
-        cards.forEach((card, idx) => {
-          const diff = Math.abs(card.offsetLeft - scrollLeft);
-          if (diff < minDiff) {
-            minDiff = diff;
-            activeIdx = idx;
-          }
-        });
-        dots.forEach((dot, idx) => {
-          dot.classList.toggle('is-active', idx === activeIdx);
-        });
-      }, 50);
-    }, { passive: true });
-
-    dots.forEach((dot, idx) => {
-      dot.addEventListener('click', function() {
-        const cards = grid.querySelectorAll('.fine-prints-showcase__card');
-        if (cards[idx]) {
-          grid.scrollTo({
-            left: cards[idx].offsetLeft - grid.offsetLeft,
-            behavior: 'smooth'
-          });
-        }
-      });
-    });
-  })();
-</script>
 
 {% stylesheet %}
   .fine-prints-showcase {
@@ -487,6 +445,11 @@
     }
 
     .fine-prints-showcase__dot {
+      box-sizing: content-box !important;
+      padding: 10px 5px !important;
+      border: 0 !important;
+      background-clip: content-box !important;
+      flex-shrink: 0;
       width: 6px !important;
       height: 6px !important;
       border-radius: 50% !important;

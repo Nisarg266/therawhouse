@@ -4,8 +4,7 @@
 
 /* 0. Accessibility Link */
 .skip-to-content-link,
-a.skip-to-content-link,
-.skip-to-content-link:not(:focus) {
+a.skip-to-content-link {
   position: absolute !important;
   left: -99999px !important;
   top: -99999px !important;
@@ -541,8 +540,8 @@ details.menu-open > .menu-drawer__backdrop {
   max-width: 88vw !important;
   height: calc(100vh - 120px) !important;
   height: calc(100dvh - 120px) !important;
-  max-height: calc(100vh - 120px) !important;
-  min-height: calc(100vh - 120px) !important;
+  max-height: calc(100dvh - 120px) !important;
+  min-height: 0 !important;
   background-color: #ffffff !important;
   color: #111111 !important;
   z-index: 99999 !important;
@@ -577,8 +576,8 @@ details.menu-open > .menu-drawer__backdrop {
     max-width: 86vw !important;
     height: calc(100vh - 56px) !important;
     height: calc(100dvh - 56px) !important;
-    max-height: calc(100vh - 56px) !important;
-    min-height: calc(100vh - 56px) !important;
+    max-height: calc(100dvh - 56px) !important;
+    min-height: 0 !important;
     padding: 12px 16px 24px !important;
     -webkit-overflow-scrolling: touch !important;
     touch-action: pan-y !important;
@@ -860,8 +859,28 @@ html, body {
   box-sizing: border-box !important;
 }
 
+.header-inline-search-mobile {
+  display: none !important;
+}
+
+.header-drawer .menu-drawer ul.menu-drawer__submenu-links {
+  padding-inline-start: 14px !important;
+}
+
+.menu-drawer__menu-item {
+  min-height: 44px;
+  overflow-wrap: anywhere;
+}
+
 /* 9. Mobile Responsiveness (Phone < 990px) */
 @media screen and (max-width: 989px) {
+  .header-inline-search-desktop {
+    display: none !important;
+  }
+
+  .header-inline-search-mobile {
+    display: inline-flex !important;
+  }
   #header-group,
   .header-section,
   #header-component,

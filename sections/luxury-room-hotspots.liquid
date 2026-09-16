@@ -97,11 +97,12 @@
           style="top: {{ block.settings.top_pos }}%; left: {{ block.settings.left_pos }}%;"
           {{ block.shopify_attributes }}
         >
-          <div class="lux-hotspot-pin-dot"></div>
+          <button type="button" class="lux-hotspot-trigger" aria-expanded="false" aria-controls="Hotspot-{{ section.id }}-{{ block.id }}" aria-label="{{ prod.title | default: block.settings.title | escape }}"><span class="lux-hotspot-pin-dot"></span></button>
 
           <!-- Floating Glass Popover -->
           <div
             class="lux-hotspot-card"
+            id="Hotspot-{{ section.id }}-{{ block.id }}"
             style="
               {% if block.settings.left_pos > 50 %}
                 right: 0; left: auto;

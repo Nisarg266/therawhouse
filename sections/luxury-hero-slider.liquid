@@ -3,9 +3,19 @@
   Cinematic full-bleed slider with Ken Burns zoom, progress timer, glassmorphic badges, dual luxury buttons.
 {%- endcomment -%}
 
+{% liquid
+  assign image_only = true
+  for block in section.blocks
+    if block.settings.heading != blank or block.settings.subheading != blank or block.settings.button_label != blank
+      assign image_only = false
+      break
+    endif
+  endfor
+%}
+
 <div
   id="LuxuryHero-{{ section.id }}"
-  class="lux-hero"
+  class="lux-hero{% if image_only %} lux-hero--image-only{% endif %}"
   data-autoplay="{{ section.settings.autoplay }}"
   data-autoplay-speed="{{ section.settings.autoplay_speed | times: 1000 }}"
   style="
@@ -87,7 +97,7 @@
 
         {% if block.settings.heading != blank or block.settings.subheading != blank or block.settings.button_label != blank %}
           <div class="lux-hero__content-container">
-            <div class="lux-hero__content-box" style="text-align: center; margin: 0 auto;">
+            <div class="lux-hero__content-box" style="text-align: {{ align }}; {{ margin_style }}">
 
               {% if block.settings.subheading != blank %}
                 <span class="lux-hero__pre-title">{{ block.settings.subheading }}</span>

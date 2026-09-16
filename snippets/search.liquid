@@ -1,5 +1,8 @@
 {%- doc -%}
   Renders the header inline expandable pill search bar with clean search icon.
+
+  @param {string} [style] - Search display style.
+  @param {string} [class] - Additional wrapper classes.
 {%- enddoc -%}
 
 {% unless style == 'none' %}
@@ -8,10 +11,22 @@
       <div class="header-inline-search-pill">
         <button
           type="submit"
-          class="header-inline-search-icon-btn"
+          class="header-inline-search-icon-btn header-inline-search-desktop"
           aria-label="{{ 'content.search' | t }}"
         >
           <svg class="header-inline-search-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </button>
+        <button
+          type="button"
+          class="header-inline-search-icon-btn header-inline-search-mobile"
+          on:click="#search-modal/showDialog"
+          aria-label="{{ 'content.search' | t }}"
+          aria-haspopup="dialog"
+        >
+          <svg class="header-inline-search-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
             <circle cx="11" cy="11" r="8"></circle>
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
           </svg>

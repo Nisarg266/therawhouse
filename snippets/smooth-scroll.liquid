@@ -19,6 +19,12 @@
     scroll-behavior: smooth !important;
     -webkit-overflow-scrolling: touch !important;
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    html, body, .page-wrapper {
+      scroll-behavior: auto !important;
+    }
+  }
 </style>
 
 <script>
@@ -38,40 +44,51 @@
 
     // Smooth Anchor and Internal Link Navigation
     document.addEventListener('click', function(e) {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
       const anchor = e.target.closest('a[href^="#"]');
       if (!anchor) return;
       const href = anchor.getAttribute('href');
       if (!href || href === '#') return;
 
-      const targetElem = document.querySelector(href);
+      let targetId;
+      try {
+        targetId = decodeURIComponent(href.slice(1));
+      } catch {
+        return;
+      }
+      const targetElem = document.getElementById(targetId);
       if (targetElem) {
         e.preventDefault();
         const headerOffset = parseInt(getComputedStyle(document.body).getPropertyValue('--header-height')) || 120;
         const container = getScrollContainer();
+        const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth';
 
         if (container === window) {
           const targetPosition = targetElem.getBoundingClientRect().top + window.pageYOffset - headerOffset;
           window.scrollTo({
             top: targetPosition,
-            behavior: 'smooth'
+            behavior
           });
         } else {
-          const targetPosition = targetElem.getBoundingClientRect().top + container.scrollTop - headerOffset;
+          const targetPosition = targetElem.getBoundingClientRect().top - container.getBoundingClientRect().top + container.scrollTop - headerOffset;
           container.scrollTo({
             top: targetPosition,
-            behavior: 'smooth'
+            behavior
           });
         }
+        if (!targetElem.hasAttribute('tabindex')) targetElem.setAttribute('tabindex', '-1');
+        targetElem.focus({ preventScroll: true });
       }
     });
 
     // Ensure smooth scroll-to-top function is globally accessible
     window.scrollToTopSmooth = function() {
       const container = getScrollContainer();
+      const behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth';
       if (container === window) {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo({ top: 0, behavior });
       } else {
-        container.scrollTo({ top: 0, behavior: 'smooth' });
+        container.scrollTo({ top: 0, behavior });
       }
     };
   })();

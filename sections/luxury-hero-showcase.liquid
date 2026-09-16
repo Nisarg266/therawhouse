@@ -78,7 +78,7 @@
         </div>
 
         <div class="lux-hero__content-container">
-          <div class="lux-hero__content-box" style="text-align: center; margin: 0 auto;">
+            <div class="lux-hero__content-box" style="text-align: {{ align }}; {{ margin_style }}">
 
             {% if block.settings.subheading != blank %}
               <span class="lux-hero__pre-title">{{ block.settings.subheading }}</span>

@@ -77,9 +77,9 @@
     {%- comment -%} 2-Column Editorial Grid with Unified Rows {%- endcomment -%}
     <div class="recommendations-editorial__grid">
       
-      <div class="recommendations-editorial__cards-track">
+      <div class="recommendations-editorial__cards-track" data-editorial-track>
         <!-- ROW 1 - LEFT: Card 1 (Season of the Sun) -->
-        <article class="recommendations-editorial__card">
+        <article class="recommendations-editorial__card" data-editorial-card>
           {% if card_1_title != blank %}
             <h3 class="recommendations-editorial__card-title">{{ card_1_title }}</h3>
           {% endif %}
@@ -108,7 +108,7 @@
         </article>
 
         <!-- ROW 1 - RIGHT: Card 2 (Artist in Residence) -->
-        <article class="recommendations-editorial__card">
+        <article class="recommendations-editorial__card" data-editorial-card>
           {% if card_2_title != blank %}
             <h3 class="recommendations-editorial__card-title">{{ card_2_title }}</h3>
           {% endif %}
@@ -137,7 +137,7 @@
         </article>
 
         <!-- ROW 2 - LEFT: Card 3 (The Art of Fine Living) -->
-        <article class="recommendations-editorial__card">
+        <article class="recommendations-editorial__card" data-editorial-card>
           {% if card_3_title != blank %}
             <h3 class="recommendations-editorial__card-title">{{ card_3_title }}</h3>
           {% endif %}
@@ -166,7 +166,7 @@
         </article>
 
         <!-- ROW 2 - RIGHT: Card 4 (A Life, Collected) -->
-        <article class="recommendations-editorial__card">
+        <article class="recommendations-editorial__card" data-editorial-card>
           {% if card_4_title != blank %}
             <h3 class="recommendations-editorial__card-title">{{ card_4_title }}</h3>
           {% endif %}
@@ -196,11 +196,11 @@
       </div>
 
       <!-- Mobile Slider Dots Indicator -->
-      <div class="recommendations-editorial__mobile-dots" id="RecDots-{{ section_id }}" aria-hidden="true">
-        <span class="recommendations-editorial__dot is-active" data-index="0"></span>
-        <span class="recommendations-editorial__dot" data-index="1"></span>
-        <span class="recommendations-editorial__dot" data-index="2"></span>
-        <span class="recommendations-editorial__dot" data-index="3"></span>
+      <div class="recommendations-editorial__mobile-dots" id="RecDots-{{ section_id }}">
+        <button type="button" class="recommendations-editorial__dot is-active" data-editorial-dot data-index="0" aria-label="Show item 1" aria-current="true"></button>
+        <button type="button" class="recommendations-editorial__dot" data-editorial-dot data-index="1" aria-label="Show item 2" aria-current="false"></button>
+        <button type="button" class="recommendations-editorial__dot" data-editorial-dot data-index="2" aria-label="Show item 3" aria-current="false"></button>
+        <button type="button" class="recommendations-editorial__dot" data-editorial-dot data-index="3" aria-label="Show item 4" aria-current="false"></button>
       </div>
 
       <div class="recommendations-editorial__buttons-row">
@@ -228,49 +228,7 @@
   </div>
 </div>
 
-<script>
-  (function() {
-    const section = document.getElementById('Recommendations-{{ section_id }}');
-    if (!section) return;
-    const track = section.querySelector('.recommendations-editorial__cards-track');
-    const dots = section.querySelectorAll('.recommendations-editorial__dot');
-    if (!track || !dots.length) return;
 
-    let isScrolling;
-    track.addEventListener('scroll', function() {
-      window.clearTimeout(isScrolling);
-      isScrolling = setTimeout(function() {
-        const cards = track.querySelectorAll('.recommendations-editorial__card');
-        if (!cards.length) return;
-        const scrollLeft = track.scrollLeft;
-        let activeIdx = 0;
-        let minDiff = Infinity;
-        cards.forEach((card, idx) => {
-          const diff = Math.abs(card.offsetLeft - scrollLeft);
-          if (diff < minDiff) {
-            minDiff = diff;
-            activeIdx = idx;
-          }
-        });
-        dots.forEach((dot, idx) => {
-          dot.classList.toggle('is-active', idx === activeIdx);
-        });
-      }, 50);
-    }, { passive: true });
-
-    dots.forEach((dot, idx) => {
-      dot.addEventListener('click', function() {
-        const cards = track.querySelectorAll('.recommendations-editorial__card');
-        if (cards[idx]) {
-          track.scrollTo({
-            left: cards[idx].offsetLeft - track.offsetLeft,
-            behavior: 'smooth'
-          });
-        }
-      });
-    });
-  })();
-</script>
 
 {% stylesheet %}
   .recommendations-editorial {
@@ -559,6 +517,11 @@
     }
 
     .recommendations-editorial__dot {
+      box-sizing: content-box !important;
+      padding: 10px 5px !important;
+      border: 0 !important;
+      background-clip: content-box !important;
+      flex-shrink: 0;
       width: 6px !important;
       height: 6px !important;
       border-radius: 50% !important;

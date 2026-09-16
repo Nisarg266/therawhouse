@@ -7,6 +7,25 @@
 (function () {
   'use strict';
 
+  const initialized = new WeakMap();
+  const cleanups = new Map();
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let globalEventsInitialized = false;
+
+  function initializeOnce(element, feature) {
+    const features = initialized.get(element) || new Set();
+    if (features.has(feature)) return false;
+    features.add(feature);
+    initialized.set(element, features);
+    return true;
+  }
+
+  function registerCleanup(element, callback) {
+    const callbacks = cleanups.get(element) || [];
+    callbacks.push(callback);
+    cleanups.set(element, callbacks);
+  }
+
   // 1. SCROLL REVEAL OBSERVER
   function initScrollReveals() {
     const revealElements = document.querySelectorAll(
@@ -18,30 +37,6 @@
       el.classList.add('is-revealed');
     });
 
-    if (typeof IntersectionObserver === 'undefined') return;
-
-    const scrollContainer = document.querySelector('.page-wrapper');
-    const isDesktopContainer = scrollContainer && window.innerWidth >= 990;
-
-    const revealObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-revealed');
-            revealObserver.unobserve(entry.target);
-          }
-        });
-      },
-      {
-        root: isDesktopContainer ? scrollContainer : null,
-        threshold: 0.04,
-        rootMargin: '0px 0px 100px 0px',
-      }
-    );
-
-    revealElements.forEach((el) => {
-      revealObserver.observe(el);
-    });
   }
 
   // 2. HERO SHOWCASE SLIDER
@@ -49,6 +44,7 @@
     const heroSections = document.querySelectorAll('.lux-hero');
 
     heroSections.forEach((hero) => {
+      if (!initializeOnce(hero, 'hero')) return;
       const slides = hero.querySelectorAll('.lux-hero__slide');
       const dots = hero.querySelectorAll('.lux-hero__dot');
       const prevBtn = hero.querySelector('.lux-hero__arrow-btn--prev');
@@ -60,14 +56,19 @@
       let autoplayTimer = null;
       const autoplaySpeed = parseInt(hero.dataset.autoplaySpeed || '6000', 10);
       const isAutoplay = hero.dataset.autoplay === 'true';
+      registerCleanup(hero, () => clearInterval(autoplayTimer));
 
       function goToSlide(index) {
         slides[currentIndex].classList.remove('is-active');
+        slides[currentIndex].inert = true;
+        slides[currentIndex].setAttribute('aria-hidden', 'true');
         if (dots[currentIndex]) dots[currentIndex].classList.remove('is-active');
 
         currentIndex = (index + slides.length) % slides.length;
 
         slides[currentIndex].classList.add('is-active');
+        slides[currentIndex].inert = false;
+        slides[currentIndex].setAttribute('aria-hidden', 'false');
         if (dots[currentIndex]) dots[currentIndex].classList.add('is-active');
 
         resetAutoplay();
@@ -82,8 +83,8 @@
       }
 
       function resetAutoplay() {
-        if (!isAutoplay) return;
         clearInterval(autoplayTimer);
+        if (!isAutoplay || reducedMotion.matches || slides.length < 2) return;
         autoplayTimer = setInterval(nextSlide, autoplaySpeed);
       }
 
@@ -119,6 +120,10 @@
         { passive: true }
       );
 
+      slides.forEach((slide, index) => {
+        slide.inert = index !== currentIndex;
+        slide.setAttribute('aria-hidden', String(index !== currentIndex));
+      });
       resetAutoplay();
     });
   }
@@ -126,6 +131,7 @@
   // 3. TABBED PRODUCTS SWITCHER
   function initTabbedProducts() {
     document.querySelectorAll('.lux-tabbed-section').forEach((section) => {
+      if (!initializeOnce(section, 'tabs')) return;
       const tabBtns = section.querySelectorAll('.lux-tab-btn');
       const tabPanes = section.querySelectorAll('.lux-tab-pane');
 
@@ -148,68 +154,70 @@
 
   // 4. AJAX QUICK ADD TO CART
   function initQuickAdd() {
-    document.addEventListener('click', function (e) {
-      const btn = e.target.closest('.lux-quick-add-btn');
+    document.addEventListener('click', async (event) => {
+      const btn = event.target.closest('.lux-quick-add-btn');
       if (!btn) return;
-
-      e.preventDefault();
+      event.preventDefault();
+      if (btn.disabled || btn.classList.contains('is-loading')) return;
       const variantId = btn.dataset.variantId;
       if (!variantId) return;
 
-      btn.classList.add('is-loading');
       const originalText = btn.innerHTML;
-      btn.innerHTML = `<span>Adding...</span>`;
-
-      fetch('/cart/add.js', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ id: variantId, quantity: 1 }),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          btn.innerHTML = `<span>Added ✓</span>`;
-          btn.style.background = '#28a745';
-
-          // Update cart drawer or cart icon count
-          fetch('/cart.js')
-            .then((r) => r.json())
-            .then((cart) => {
-              const cartBadges = document.querySelectorAll('.cart-count-badge, .cart-button__bubble');
-              cartBadges.forEach((b) => {
-                b.textContent = cart.item_count;
-                b.classList.remove('hidden');
-              });
-
-              // Dispatch global cart event for Shopify theme cart drawer
-              document.dispatchEvent(new CustomEvent('cart:updated', { detail: { cart } }));
-              document.dispatchEvent(new CustomEvent('cart-update', { detail: { cart } }));
-
-              // Try opening cart drawer if available
-              const cartDrawer = document.querySelector('cart-drawer, #cart-drawer, theme-drawer[id="cart-drawer"]');
-              if (cartDrawer && typeof cartDrawer.open === 'function') {
-                cartDrawer.open();
-              } else if (cartDrawer && cartDrawer.show) {
-                cartDrawer.show();
-              } else {
-                const drawerToggle = document.querySelector('.cart-button, [aria-controls="cart-drawer"]');
-                if (drawerToggle) drawerToggle.click();
-              }
-            });
-
-          setTimeout(() => {
-            btn.innerHTML = originalText;
-            btn.style.background = '';
-            btn.classList.remove('is-loading');
-          }, 2000);
-        })
-        .catch((err) => {
-          console.error('Error adding to cart:', err);
-          btn.innerHTML = `<span>Error</span>`;
-          setTimeout(() => {
-            btn.innerHTML = originalText;
-            btn.classList.remove('is-loading');
-          }, 2000);
+      btn.disabled = true;
+      btn.classList.add('is-loading');
+      btn.setAttribute('aria-busy', 'true');
+      btn.textContent = 'Adding...';
+      let deferred;
+      let cartAdded = false;
+      try {
+        const { CartLinesUpdateEvent } = await import('@shopify/events');
+        const root = window.Shopify?.routes?.root || '/';
+        const sectionIds = [...new Set([...document.querySelectorAll('cart-items-component')]
+          .map((element) => element.dataset.sectionId).filter(Boolean))].slice(0, 5);
+        deferred = CartLinesUpdateEvent.createPromise();
+        deferred.promise.catch(() => {});
+        btn.dispatchEvent(new CartLinesUpdateEvent({
+          action: 'add',
+          context: 'product',
+          lines: [{ merchandiseId: variantId, quantity: 1 }],
+          promise: deferred.promise,
+        }));
+        const response = await fetch(root + 'cart/add.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({
+            id: variantId, quantity: 1,
+            sections: sectionIds.join(','), sections_url: window.location.pathname,
+          }),
         });
+        const data = await response.json();
+        if (!response.ok || data.status) {
+          throw new Error(data.description || data.message || 'Unable to add this item.');
+        }
+        cartAdded = true;
+        const cartResponse = await fetch(root + 'cart.js', { headers: { Accept: 'application/json' } });
+        if (!cartResponse.ok) throw new Error('Unable to refresh your cart.');
+        const cart = await cartResponse.json();
+        deferred.resolve({
+          cart: CartLinesUpdateEvent.createCartFromAjaxResponse(cart),
+          detail: { items: cart.items, sections: data.sections, source: 'luxury-quick-add', didError: false },
+        });
+        btn.textContent = 'Added ✓';
+      } catch (error) {
+        deferred?.reject(error);
+        if (cartAdded) {
+          window.location.assign((window.Shopify?.routes?.root || '/') + 'cart');
+          return;
+        }
+        btn.textContent = error.message || 'Unable to add this item.';
+      } finally {
+        btn.removeAttribute('aria-busy');
+        setTimeout(() => {
+          btn.innerHTML = originalText;
+          btn.classList.remove('is-loading');
+          btn.disabled = false;
+        }, 3000);
+      }
     });
   }
 
@@ -219,14 +227,19 @@
 
     function getWishlist() {
       try {
-        return JSON.parse(localStorage.getItem(WISHLIST_KEY) || '[]');
+        const list = JSON.parse(localStorage.getItem(WISHLIST_KEY) || '[]');
+        return Array.isArray(list) ? list : [];
       } catch (e) {
         return [];
       }
     }
 
     function saveWishlist(list) {
-      localStorage.setItem(WISHLIST_KEY, JSON.stringify(list));
+      try {
+        localStorage.setItem(WISHLIST_KEY, JSON.stringify(list));
+      } catch {
+        return;
+      }
       updateWishlistBadges(list.length);
     }
 
@@ -242,6 +255,7 @@
     updateWishlistBadges(saved.length);
 
     document.querySelectorAll('.lux-product-wishlist-btn').forEach((btn) => {
+      if (!initializeOnce(btn, 'wishlist')) return;
       const handle = btn.dataset.productHandle;
       if (handle && saved.includes(handle)) {
         btn.classList.add('is-active');
@@ -265,21 +279,48 @@
   }
 
   // 6. ROOM HOTSPOTS INTERACTION
+  function closeHotspots() {
+    document.querySelectorAll('.lux-hotspot-pin.is-active').forEach((pin) => {
+      pin.classList.remove('is-active');
+      pin.querySelector('button').setAttribute('aria-expanded', 'false');
+    });
+  }
+
   function initRoomHotspots() {
     document.querySelectorAll('.lux-hotspot-pin').forEach((pin) => {
-      pin.addEventListener('click', function (e) {
-        e.stopPropagation();
-        const isActive = this.classList.contains('is-active');
-        document.querySelectorAll('.lux-hotspot-pin').forEach((p) => p.classList.remove('is-active'));
-        if (!isActive) {
-          this.classList.add('is-active');
+      if (!initializeOnce(pin, 'hotspot')) return;
+      const trigger = pin.querySelector('.lux-hotspot-trigger');
+      const card = pin.querySelector('.lux-hotspot-card');
+      const stage = pin.closest('.lux-hotspots-stage');
+      if (!trigger || !card || !stage) return;
+      trigger.addEventListener('click', () => {
+        const wasActive = pin.classList.contains('is-active');
+        closeHotspots();
+        if (wasActive) return;
+        pin.classList.add('is-active');
+        trigger.setAttribute('aria-expanded', 'true');
+        card.style.maxWidth = (stage.clientWidth - 16) + 'px';
+        card.style.right = 'auto';
+        card.style.bottom = 'auto';
+        const bounds = stage.getBoundingClientRect();
+        const origin = pin.getBoundingClientRect();
+        const x = Math.max(bounds.left + 8, Math.min(origin.left, bounds.right - card.offsetWidth - 8));
+        const y = Math.max(bounds.top + 8, Math.min(origin.bottom + 12, bounds.bottom - card.offsetHeight - 8));
+        card.style.left = (x - origin.left - pin.clientLeft) + 'px';
+        card.style.top = (y - origin.top - pin.clientTop) + 'px';
+      });
+      pin.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+          closeHotspots();
+          trigger.focus();
         }
       });
     });
-
-    document.addEventListener('click', function () {
-      document.querySelectorAll('.lux-hotspot-pin').forEach((p) => p.classList.remove('is-active'));
+    if (globalEventsInitialized) return;
+    document.addEventListener('click', (event) => {
+      if (!event.target.closest('.lux-hotspot-pin')) closeHotspots();
     });
+    window.addEventListener('resize', closeHotspots);
   }
 
   // 7. ANIMATED NUMBER COUNTERS
@@ -322,6 +363,12 @@
     );
 
     document.querySelectorAll('.lux-counter-number[data-target]').forEach((counter) => {
+      if (!initializeOnce(counter, 'counter')) return;
+      if (reducedMotion.matches) {
+        counter.textContent = (counter.dataset.prefix || '') + counter.dataset.target + (counter.dataset.suffix || '');
+        return;
+      }
+      registerCleanup(counter, () => counterObserver.unobserve(counter));
       counterObserver.observe(counter);
     });
   }
@@ -331,6 +378,7 @@
     const reviewSections = document.querySelectorAll('.lux-reviews-section');
 
     reviewSections.forEach((section) => {
+      if (!initializeOnce(section, 'reviews')) return;
       const carousel = section.querySelector('.lux-reviews-carousel-outer');
       if (!carousel) return;
 
@@ -341,7 +389,7 @@
       const nextBtn = carousel.querySelector('.lux-reviews-nav-btn--next');
       const dots = section.querySelectorAll('.lux-reviews-dot');
 
-      if (!slides.length) return;
+      if (!slides.length || !viewport || !track) return;
 
       let currentIndex = 0;
       let autoplayTimer = null;
@@ -407,8 +455,8 @@
       }
 
       function resetAutoplay() {
-        if (!isAutoplay) return;
         clearInterval(autoplayTimer);
+        if (!isAutoplay || reducedMotion.matches || getMaxIndex() === 0) return;
         autoplayTimer = setInterval(nextSlide, autoplaySpeed);
       }
 
@@ -476,6 +524,10 @@
       viewport.addEventListener('mouseleave', touchEnd);
 
       window.addEventListener('resize', updateSliderPosition);
+      registerCleanup(section, () => {
+        clearInterval(autoplayTimer);
+        window.removeEventListener('resize', updateSliderPosition);
+      });
 
       updateSliderPosition();
       resetAutoplay();
@@ -509,17 +561,56 @@
     window.addEventListener('load', keepOpen);
   }
 
+  // Shared mobile editorial carousels also initialize after theme-editor reloads.
+  function initEditorialCarousels() {
+    document.querySelectorAll('[data-editorial-track]').forEach((track) => {
+      if (!initializeOnce(track, 'editorial')) return;
+      const section = track.closest('.shopify-section');
+      const cards = [...track.querySelectorAll('[data-editorial-card]')];
+      const dots = [...section.querySelectorAll('[data-editorial-dot]')];
+      if (!cards.length || !dots.length) return;
+      const targetLeft = (card) => {
+        const padding = parseFloat(getComputedStyle(track).paddingLeft) || 0;
+        const left = card.getBoundingClientRect().left - track.getBoundingClientRect().left + track.scrollLeft - padding;
+        return Math.max(0, Math.min(left, track.scrollWidth - track.clientWidth));
+      };
+      function update() {
+        let active = 0;
+        let distance = Infinity;
+        cards.forEach((card, index) => {
+          const diff = Math.abs(targetLeft(card) - track.scrollLeft);
+          if (diff < distance) { active = index; distance = diff; }
+        });
+        const maxScroll = track.scrollWidth - track.clientWidth;
+        if (maxScroll > 0 && track.scrollLeft >= maxScroll - 1) active = cards.length - 1;
+        dots.forEach((dot, index) => {
+          dot.classList.toggle('is-active', index === active);
+          dot.setAttribute('aria-current', String(index === active));
+        });
+      }
+      dots.forEach((dot, index) => dot.addEventListener('click', () => {
+        if (cards[index]) track.scrollTo({ left: targetLeft(cards[index]), behavior: reducedMotion.matches ? 'instant' : 'smooth' });
+      }));
+      track.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+      registerCleanup(track, () => window.removeEventListener('resize', update));
+      update();
+    });
+  }
+
   // INITIALIZE ALL SYSTEMS
   function initAll() {
     initScrollReveals();
     initHeroSliders();
     initTabbedProducts();
-    initQuickAdd();
+    if (!globalEventsInitialized) initQuickAdd();
     initWishlist();
     initRoomHotspots();
     initNumberCounters();
     initReviewsSlider();
-    initCurationTabKeeper();
+    initEditorialCarousels();
+    if (!globalEventsInitialized) initCurationTabKeeper();
+    globalEventsInitialized = true;
   }
 
   if (document.readyState === 'loading') {
@@ -530,5 +621,12 @@
 
   // Re-init on Shopify theme editor section load
   document.addEventListener('shopify:section:load', initAll);
-  document.addEventListener('shopify:section:select', initAll);
+  document.addEventListener('shopify:section:unload', (event) => {
+    for (const [element, callbacks] of cleanups) {
+      if (event.target.contains(element)) {
+        callbacks.forEach((cleanup) => cleanup());
+        cleanups.delete(element);
+      }
+    }
+  });
 })();

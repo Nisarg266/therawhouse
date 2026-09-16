@@ -39,6 +39,30 @@
   --lux-transition-fast: all 0.22s ease;
 }
 
+@media (max-width: 749px) {
+  .new-arrivals-gallery .new-arrivals-gallery__heading,
+  .recommendations-editorial .recommendations-editorial__heading,
+  .fine-prints-showcase .fine-prints-showcase__heading,
+  .the-makers-grid .the-makers-grid__heading {
+    font-size: 15px !important;
+    letter-spacing: 0.08em !important;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lux-hero__image,
+  .lux-marquee-track,
+  .lux-counter-number,
+  .lux-reviews-track,
+  .lux-reveal-fade-up,
+  .lux-reveal-zoom {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
 /* Mobile Viewport Stabilization */
 @media (max-width: 768px) {
   html, body {
@@ -1280,7 +1304,6 @@
   pointer-events: none;
 }
 
-.lux-hotspot-pin:hover .lux-hotspot-card,
 .lux-hotspot-pin.is-active .lux-hotspot-card {
   opacity: 1;
   visibility: visible;
@@ -2223,6 +2246,7 @@
 }
 
 .lux-vip-form {
+  flex-wrap: wrap;
   display: flex;
   align-items: center;
   max-width: 500px;
@@ -2242,6 +2266,7 @@
 }
 
 .lux-vip-input {
+  min-width: 0;
   flex: 1;
   border: none;
   outline: none;
@@ -2279,6 +2304,7 @@
 }
 
 .lux-vip-trust-note {
+  flex-wrap: wrap;
   margin-top: 22px;
   display: flex;
   align-items: center;
@@ -3511,3 +3537,33 @@ product-recommendations-component .text-block h3::after,
 
 
 
+
+.lux-vip-feedback { flex-basis: 100%; overflow-wrap: anywhere; }
+
+/* Keep popovers inside the room image and expose pins to touch and keyboard users. */
+.lux-hotspot-trigger { position: absolute; width: 44px; height: 44px; display: grid; place-items: center; padding: 0; border: 0; background: transparent; cursor: pointer; border-radius: 50%; }
+.lux-hotspot-pin.is-active { z-index: 30; }
+.lux-hotspot-card, .lux-hotspot-pin.is-active .lux-hotspot-card { transform: none; transition: opacity 0.2s ease; }
+.lux-hotspot-card-details { min-width: 0; overflow-wrap: anywhere; }
+/* Artwork containing its own typography must remain uncropped at every width. */
+.lux-hero--image-only .lux-hero__slider {
+  display: grid;
+  height: auto;
+  min-height: 0;
+}
+.lux-hero--image-only .lux-hero__slide {
+  grid-area: 1 / 1;
+  position: relative;
+  height: auto;
+}
+.lux-hero--image-only .lux-hero__media-wrap {
+  position: relative;
+  height: auto;
+}
+.lux-hero--image-only .lux-hero__image {
+  display: block;
+  height: auto;
+  object-fit: contain;
+  transform: none;
+}
+[data-editorial-track] { scroll-padding-inline: 18px; }

@@ -48,7 +48,7 @@
                       {% assign h_upper = block.settings.heading | upcase %}
                       {% if h_upper contains 'ABOUT' %}
                         <li><a href="/pages/about-us" class="custom-footer__link">OUR STORY</a></li>
-                        <li><a href="/collections/all" class="custom-footer__link">MAKERS</a></li>
+                        <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link">MAKERS</a></li>
                         <li><a href="/blogs/news" class="custom-footer__link">JOURNAL</a></li>
                         <li><a href="/pages/contact" class="custom-footer__link">PRESS & EVENTS</a></li>
                         <li><a href="/policies/privacy-policy" class="custom-footer__link">PRIVACY POLICY</a></li>
@@ -56,8 +56,8 @@
                       {% elsif h_upper contains 'SERVICE' %}
                         <li><a href="/pages/contact" class="custom-footer__link">CONCIERGE</a></li>
                         <li><a href="/pages/contact" class="custom-footer__link">THOT B2B</a></li>
-                        <li><a href="/collections/all" class="custom-footer__link">INTERIORS</a></li>
-                        <li><a href="/collections/all" class="custom-footer__link">GIFTING SERVICES</a></li>
+                        <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link">INTERIORS</a></li>
+                        <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link">GIFTING SERVICES</a></li>
                         <li><a href="/policies/shipping-policy" class="custom-footer__link">SHIPPING & RETURNS</a></li>
                         <li><a href="/policies/terms-of-service" class="custom-footer__link">TERMS & CONDITIONS</a></li>
                       {% else %}
@@ -94,12 +94,14 @@
                     {{ block.settings.subtext }}
                   </p>
                 {% endif %}
-                {% form 'customer', class: 'custom-footer__newsletter-form' %}
+                {% assign newsletter_id = 'FooterNewsletter-' | append: section.id | append: block.id %}
+                {% form 'customer', id: newsletter_id, class: 'custom-footer__newsletter-form' %}
                   <input type="hidden" name="contact[tags]" value="newsletter, footer-vip">
                   <div class="custom-footer__newsletter-field-wrapper">
                     <input
                       type="email"
                       name="contact[email]"
+                      aria-label="{{ 'blocks.email_signup.label' | t }}"
                       class="custom-footer__newsletter-input"
                       placeholder="{{ block.settings.placeholder | default: 'Enter your email ID' }}"
                       required
@@ -109,6 +111,9 @@
                       {{ block.settings.button_text | default: 'SUBSCRIBE' }}
                     </button>
                   </div>
+                  {% if form.errors %}
+                    <div class="custom-footer__form-message" role="alert">{{ form.errors | default_errors }}</div>
+                  {% endif %}
                   {% if form.posted_successfully? %}
                     <p class="custom-footer__form-message custom-footer__form-message--success">
                       ✓ Welcome to The Raw House.
@@ -203,12 +208,14 @@
             Subscribe for confidential previews of newly acquired original canvases, rare bronze sculptures, and private exhibition vernissages.
           </p>
 
-          {% form 'customer', class: 'custom-footer__newsletter-form' %}
+          {% assign newsletter_id = 'FooterNewsletter-' | append: section.id %}
+          {% form 'customer', id: newsletter_id, class: 'custom-footer__newsletter-form' %}
             <input type="hidden" name="contact[tags]" value="newsletter, footer-vip">
             <div class="custom-footer__newsletter-field-wrapper">
               <input
                 type="email"
                 name="contact[email]"
+                aria-label="{{ 'blocks.email_signup.label' | t }}"
                 class="custom-footer__newsletter-input"
                 placeholder="{{ section.settings.newsletter_placeholder | default: 'Enter your email address...' }}"
                 required
@@ -218,6 +225,9 @@
                 {{ section.settings.newsletter_button_text | default: 'JOIN' }}
               </button>
             </div>
+            {% if form.errors %}
+              <div class="custom-footer__form-message" role="alert">{{ form.errors | default_errors }}</div>
+            {% endif %}
             {% if form.posted_successfully? %}
               <p class="custom-footer__form-message custom-footer__form-message--success">
                 ✓ Thank you for subscribing to The Raw House.
@@ -374,7 +384,7 @@
   /* Top Columns Grid: 3 columns matching THOT */
   .custom-footer__top-row {
     display: grid !important;
-    grid-template-columns: repeat(3, 1fr) !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: clamp(24px, 5vw, 64px);
     padding-bottom: 36px;
     border-bottom: 1px solid #e5e5e5 !important;
@@ -435,6 +445,7 @@
   }
 
   .custom-footer__text-content {
+    overflow-wrap: anywhere;
     font-size: 12px;
     line-height: 1.6;
     color: #555555 !important;
@@ -468,6 +479,7 @@
 
   .custom-footer__newsletter-input {
     flex: 1 !important;
+    min-width: 0;
     background: transparent !important;
     border: none !important;
     outline: none !important;
@@ -627,14 +639,13 @@
     }
 
     .custom-footer__top-row {
-      display: flex;
-      flex-direction: column;
+      grid-template-columns: minmax(0, 1fr);
       gap: 0;
       padding-bottom: 24px;
     }
 
     .custom-footer__col {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      border-bottom: 1px solid #e5e5e5;
     }
 
     .custom-footer__col:last-child {
@@ -659,15 +670,14 @@
 
     /* Collapsible Content */
     .custom-footer__accordion-content {
-      max-height: 0;
-      overflow: hidden;
-      opacity: 0;
-      transition: max-height 0.35s ease, opacity 0.35s ease;
+      display: block;
+    }
+
+    .custom-footer__col.is-collapsible:not(.is-open) .custom-footer__accordion-content {
+      display: none;
     }
 
     .custom-footer__col.is-open .custom-footer__accordion-content {
-      max-height: 480px;
-      opacity: 1;
       padding-bottom: 16px;
     }
 
@@ -724,19 +734,19 @@
 
 <script>
   (function() {
+    if (window.__rawHouseFooterInitialized) return;
+    window.__rawHouseFooterInitialized = true;
     function initFooterAccordions() {
-      if (window.innerWidth > 768) {
-        // Expand all on desktop
-        document.querySelectorAll('.custom-footer__col').forEach(function(col) {
-          col.classList.remove('is-open');
-        });
-        return;
-      }
       document.querySelectorAll('.custom-footer__accordion-trigger').forEach(function(btn) {
+        var col = btn.closest('.custom-footer__col');
+        if (!col) return;
+        col.classList.add('is-collapsible');
+        btn.setAttribute('aria-expanded', String(window.innerWidth > 768 || col.classList.contains('is-open')));
         if (btn.dataset.accordionInit) return;
         btn.dataset.accordionInit = 'true';
         btn.addEventListener('click', function(e) {
           e.preventDefault();
+          if (window.innerWidth > 768) return;
           var col = this.closest('.custom-footer__col');
           if (!col) return;
           var isExpanded = this.getAttribute('aria-expanded') === 'true';

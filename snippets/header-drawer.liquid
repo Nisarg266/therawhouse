@@ -56,7 +56,7 @@
       "
     >
       <div class="menu-drawer__header">
-        <span class="menu-drawer__header-title">COLLABORATIONS</span>
+        <span class="menu-drawer__header-title">{{ 'accessibility.menu' | t }}</span>
       </div>
 
       {%- comment -%} Editorial Feature Gallery Card (Screenshot Match) {%- endcomment -%}
@@ -73,7 +73,7 @@
         </div>
         <div class="menu-drawer__editorial-info">
           <h3 class="menu-drawer__editorial-title">THE HOUSE OF THINGS GALLERY</h3>
-          <a href="/pages/gallery" class="menu-drawer__editorial-link">Visit Us</a>
+          <a href="{{ pages.gallery.url | default: pages.about-us.url | default: routes.root_url }}" class="menu-drawer__editorial-link">Visit Us</a>
         </div>
       </div>
 
@@ -89,15 +89,30 @@
           class="menu-drawer__menu has-submenu"
           role="list"
         >
-          {% liquid
-            assign default_menu_items = 'VIEW ALL EDITS,INTERIORS,GIFTS,ART CONSULTANCY,B2B,CONCIERGE,JOURNAL' | split: ','
-          %}
-          {% for item_title in default_menu_items %}
+          {% for link in block_settings.menu.links %}
             <li class="menu-drawer__list-item--flat">
-              <a href="{{ routes.all_products_collection_url }}" class="menu-drawer__menu-item">
-                <span class="menu-drawer__menu-item-text">{{ item_title }}</span>
+              <a href="{{ link.url }}" class="menu-drawer__menu-item"{% if link.current %} aria-current="page"{% endif %}>
+                <span class="menu-drawer__menu-item-text">{{ link.title | escape }}</span>
               </a>
+              {% if link.links != blank %}
+                <ul class="menu-drawer__submenu-links" role="list">
+                  {% for child_link in link.links %}
+                    <li>
+                      <a href="{{ child_link.url }}" class="menu-drawer__menu-item"{% if child_link.current %} aria-current="page"{% endif %}>{{ child_link.title | escape }}</a>
+                      {% if child_link.links != blank %}
+                        <ul class="menu-drawer__submenu-links" role="list">
+                          {% for grandchild_link in child_link.links %}
+                            <li><a href="{{ grandchild_link.url }}" class="menu-drawer__menu-item"{% if grandchild_link.current %} aria-current="page"{% endif %}>{{ grandchild_link.title | escape }}</a></li>
+                          {% endfor %}
+                        </ul>
+                      {% endif %}
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
             </li>
+          {% else %}
+            <li class="menu-drawer__list-item--flat"><a href="{{ routes.all_products_collection_url }}" class="menu-drawer__menu-item">{{ 'actions.continue_shopping' | t }}</a></li>
           {% endfor %}
         </ul>
       </nav>

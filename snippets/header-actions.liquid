@@ -6,7 +6,7 @@
   @param {object} [section] - The section object providing settings such as actions_font.
   @param {block} [block] - The block object, used for Shopify editor attributes.
   @param {string} [display_style] - Controls display mode for header actions: 'icon' or 'text'.
-  @param {string} [customer_account_menu] - The menu handle passed to the shopify-account component.
+  @param {linklist} [customer_account_menu] - The customer account navigation menu.
 
   @example
   {% render 'header-actions', section: section %}
@@ -64,7 +64,10 @@
     assign show_wishlist = false
   endif
 
-  assign wishlist_page_url = section.settings.wishlist_url | default: '/pages/wishlist'
+  assign wishlist_page_url = section.settings.wishlist_url | default: pages.wishlist.url
+  if wishlist_page_url == blank
+    assign show_wishlist = false
+  endif
 %}
 
 {% capture wishlist_icon %}
@@ -105,7 +108,7 @@
   {{- block.shopify_attributes -}}
 >
   {% if show_account %}
-    {% if shop.customer_accounts_enabled %}
+    {% if shop.customer_accounts_enabled and customer_account_menu.links != blank %}
       {% liquid
         assign account_actions_style = ''
         if display_style == 'text' and section

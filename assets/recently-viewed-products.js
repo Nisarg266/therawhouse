@@ -12,17 +12,27 @@ export class RecentlyViewed {
    * @param {string} productId - The ID of the product to add.
    */
   static addProduct(productId) {
+    productId = String(productId);
+    if (!/^\d+$/.test(productId)) return;
     let viewedProducts = this.getProducts();
 
     viewedProducts = viewedProducts.filter((/** @type {string} */ id) => id !== productId);
     viewedProducts.unshift(productId);
     viewedProducts = viewedProducts.slice(0, this.#MAX_PRODUCTS);
 
-    localStorage.setItem(this.#STORAGE_KEY, JSON.stringify(viewedProducts));
+    try {
+      localStorage.setItem(this.#STORAGE_KEY, JSON.stringify(viewedProducts));
+    } catch {
+      return;
+    }
   }
 
   static clearProducts() {
-    localStorage.removeItem(this.#STORAGE_KEY);
+    try {
+      localStorage.removeItem(this.#STORAGE_KEY);
+    } catch {
+      return;
+    }
   }
 
   /**
@@ -30,6 +40,12 @@ export class RecentlyViewed {
    * @returns {string[]} The list of viewed products.
    */
   static getProducts() {
-    return JSON.parse(localStorage.getItem(this.#STORAGE_KEY) || '[]');
+    try {
+      const products = JSON.parse(localStorage.getItem(this.#STORAGE_KEY) || '[]');
+      if (!Array.isArray(products)) return [];
+      return products.map(String).filter((id) => /^\d+$/.test(id)).slice(0, this.#MAX_PRODUCTS);
+    } catch {
+      return [];
+    }
   }
 }
