@@ -1,0 +1,644 @@
+{%- comment -%}
+  Renders "THE ATELIER PROMISE" immersive full-width editorial banner with trust feature columns.
+{%- endcomment -%}
+
+{% liquid
+  assign section_id = section.id
+  assign subheading = section.settings.subheading | default: 'the'
+  assign heading = section.settings.heading | default: 'A T E L I E R   P R O M I S E'
+  assign statement = section.settings.statement
+  assign bg_image = section.settings.background_image
+  assign button_label = section.settings.button_label
+  assign button_link = section.settings.button_link | default: '/collections/all'
+  assign show_ornament = section.settings.show_ornament
+  assign min_height = section.settings.min_height | default: 480
+  assign max_width = section.settings.max_width | default: 1080
+  assign padding_top = section.settings.padding_top | default: 64
+  assign padding_bottom = section.settings.padding_bottom | default: 64
+%}
+
+<div
+  id="AtelierPromise-{{ section_id }}"
+  class="atelier-promise section-{{ section_id }}"
+  style="
+    --apx-bg: {{ section.settings.background_color | default: '#17130e' }};
+    --apx-text-color: {{ section.settings.text_color | default: '#f4efe6' }};
+    --apx-accent-color: {{ section.settings.accent_color | default: '#c9a870' }};
+    --apx-overlay-color: {{ section.settings.overlay_color | default: '#000000' }};
+    --apx-overlay-opacity: {{ section.settings.overlay_opacity | default: 55 | divided_by: 100.0 }};
+    --apx-min-height: {{ min_height }}px;
+    --apx-max-width: {{ max_width }}px;
+    --apx-padding-top: {{ padding_top }}px;
+    --apx-padding-bottom: {{ padding_bottom }}px;
+  "
+  {{ section.shopify_attributes }}
+>
+  {%- comment -%} Background Media {%- endcomment -%}
+  <div class="atelier-promise__media" aria-hidden="true">
+    {% if bg_image != blank %}
+      {{
+        bg_image
+        | image_url: width: 2000
+        | image_tag:
+          class: 'atelier-promise__img',
+          loading: 'lazy',
+          alt: '',
+          sizes: '100vw',
+          widths: '600, 900, 1200, 1600, 2000'
+      }}
+    {% else %}
+      <img
+        src="{{ 'hero-lighting-art-3.jpg' | asset_url }}"
+        alt=""
+        class="atelier-promise__img"
+        loading="lazy"
+        width="1376"
+        height="768"
+      >
+    {% endif %}
+  </div>
+
+  <div class="atelier-promise__container">
+    {%- comment -%} Header {%- endcomment -%}
+    <div class="atelier-promise__header">
+      {% if subheading != blank %}
+        <span class="atelier-promise__subheading">{{ subheading }}</span>
+      {% endif %}
+      {% if heading != blank %}
+        <h2 class="atelier-promise__heading">{{ heading }}</h2>
+      {% endif %}
+    </div>
+
+    {%- comment -%} Statement {%- endcomment -%}
+    {% if statement != blank %}
+      <p class="atelier-promise__statement">{{ statement }}</p>
+    {% endif %}
+
+    {%- comment -%} Ornament Divider {%- endcomment -%}
+    {% if show_ornament %}
+      <div class="atelier-promise__ornament" aria-hidden="true">
+        <span class="atelier-promise__ornament-line"></span>
+        <span class="atelier-promise__ornament-diamond"></span>
+        <span class="atelier-promise__ornament-line"></span>
+      </div>
+    {% endif %}
+
+    {%- comment -%} Feature Columns {%- endcomment -%}
+    <div class="atelier-promise__features">
+      {% for block in section.blocks %}
+        <div class="atelier-promise__feature" {{ block.shopify_attributes }}>
+          <span class="atelier-promise__feature-icon">
+            {%- case block.settings.icon -%}
+              {%- when 'shield' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M12 3l7 3v5c0 4.6-3 7.6-7 9.2C8 18.6 5 15.6 5 11V6l7-3z"/>
+                  <path d="M9 11.6l2 2 4-4.4"/>
+                </svg>
+              {%- when 'package' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z"/>
+                  <path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/>
+                </svg>
+              {%- when 'globe' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="12" cy="12" r="9"/>
+                  <path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/>
+                </svg>
+              {%- when 'sparkle' -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3z"/>
+                  <path d="M19 16l.9 2.1L22 19l-2.1.9L19 22l-.9-2.1L16 19l2.1-.9L19 16z"/>
+                </svg>
+              {%- else -%}
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M6 3h12l4 6-10 12L2 9l4-6z"/>
+                  <path d="M2 9h20M12 21L8 9l4-6 4 6-4 12"/>
+                </svg>
+            {%- endcase -%}
+          </span>
+          {% if block.settings.label != blank %}
+            <h3 class="atelier-promise__feature-label">{{ block.settings.label }}</h3>
+          {% endif %}
+          {% if block.settings.text != blank %}
+            <p class="atelier-promise__feature-text">{{ block.settings.text }}</p>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+
+    {%- comment -%} Call To Action {%- endcomment -%}
+    {% if button_label != blank %}
+      <div class="atelier-promise__footer">
+        <a href="{{ button_link }}" class="atelier-promise__button">
+          {{ button_label }}
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 12h16M14 6l6 6-6 6"/>
+          </svg>
+        </a>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .atelier-promise {
+    position: relative;
+    background-color: var(--apx-bg, #17130e);
+    color: var(--apx-text-color, #f4efe6);
+    width: 100%;
+    min-height: var(--apx-min-height, 560px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding-block-start: var(--apx-padding-top, 84px);
+    padding-block-end: var(--apx-padding-bottom, 84px);
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .atelier-promise__media {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    overflow: hidden;
+  }
+
+  .atelier-promise__media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: var(--apx-overlay-color, #000000);
+    opacity: var(--apx-overlay-opacity, 0.55);
+  }
+
+  .atelier-promise__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    animation: apxSlowZoom 26s ease-in-out infinite alternate;
+  }
+
+  @keyframes apxSlowZoom {
+    from { transform: scale(1); }
+    to { transform: scale(1.07); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .atelier-promise__img { animation: none; }
+  }
+
+  .atelier-promise__container {
+    position: relative;
+    max-width: var(--apx-max-width, 1080px);
+    width: 100%;
+    margin-inline: auto;
+    padding-inline: 24px;
+    box-sizing: border-box;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .atelier-promise__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .atelier-promise__subheading {
+    font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif !important;
+    font-style: italic !important;
+    font-size: 22px !important;
+    color: var(--apx-accent-color, #c9a870) !important;
+    margin-bottom: 2px !important;
+    letter-spacing: 0.02em !important;
+    opacity: 0.95 !important;
+    line-height: 1.1 !important;
+  }
+
+  .atelier-promise__heading {
+    font-size: 18px !important;
+    letter-spacing: 0.32em !important;
+    font-weight: 500 !important;
+    text-transform: uppercase !important;
+    color: var(--apx-text-color, #f4efe6) !important;
+    margin: 0 !important;
+    line-height: 1.2 !important;
+  }
+
+  .atelier-promise__statement {
+    font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+    font-size: 22px;
+    line-height: 1.5;
+    font-weight: 400;
+    color: var(--apx-text-color, #f4efe6);
+    max-width: 640px;
+    margin: 10px 0 0 0;
+    letter-spacing: 0.01em;
+    opacity: 0.96;
+  }
+
+  .atelier-promise__ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 14px;
+  }
+
+  .atelier-promise__ornament-line {
+    display: block;
+    width: 56px;
+    height: 1px;
+    background-color: var(--apx-accent-color, #c9a870);
+    opacity: 0.7;
+  }
+
+  .atelier-promise__ornament-diamond {
+    display: block;
+    width: 7px;
+    height: 7px;
+    border: 1px solid var(--apx-accent-color, #c9a870);
+    transform: rotate(45deg);
+  }
+
+  .atelier-promise__features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    width: 100%;
+    margin-top: 20px;
+    padding-top: 22px;
+    border-top: 1px solid rgba(244, 239, 230, 0.18);
+  }
+
+  .atelier-promise__feature {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .atelier-promise__feature-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    border: 1px solid rgba(201, 168, 112, 0.55);
+    border-radius: 50%;
+    color: var(--apx-accent-color, #c9a870);
+    margin-bottom: 10px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  .atelier-promise__feature:hover .atelier-promise__feature-icon {
+    background-color: var(--apx-accent-color, #c9a870);
+    color: var(--apx-bg, #17130e);
+  }
+
+  .atelier-promise__feature-icon svg {
+    width: 20px;
+    height: 20px;
+    display: block;
+  }
+
+  .atelier-promise__feature-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--apx-text-color, #f4efe6);
+    margin: 0 0 8px 0;
+    line-height: 1.4;
+  }
+
+  .atelier-promise__feature-text {
+    font-size: 12.5px;
+    line-height: 1.65;
+    color: var(--apx-text-color, #f4efe6);
+    opacity: 0.78;
+    margin: 0;
+    max-width: 280px;
+    letter-spacing: 0.02em;
+  }
+
+  .atelier-promise__footer {
+    margin-top: 24px;
+  }
+
+  .atelier-promise__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 13px 30px;
+    border: 1px solid var(--apx-accent-color, #c9a870);
+    color: var(--apx-text-color, #f4efe6);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    text-decoration: none;
+    background-color: transparent;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  }
+
+  .atelier-promise__button svg {
+    width: 14px;
+    height: 14px;
+    transition: transform 0.3s ease;
+  }
+
+  .atelier-promise__button:hover {
+    background-color: var(--apx-accent-color, #c9a870);
+    color: var(--apx-bg, #17130e);
+  }
+
+  .atelier-promise__button:hover svg {
+    transform: translateX(4px);
+  }
+
+  /* Mobile Responsive */
+  @media screen and (max-width: 767px) {
+    .atelier-promise {
+      min-height: 0 !important;
+      padding-block-start: clamp(48px, 9vw, 64px) !important;
+      padding-block-end: clamp(48px, 9vw, 64px) !important;
+    }
+
+    .atelier-promise__container {
+      padding-inline: 20px !important;
+    }
+
+    .atelier-promise__statement {
+      font-size: 18px !important;
+      margin-top: 10px !important;
+    }
+
+    .atelier-promise__ornament {
+      margin-top: 12px !important;
+    }
+
+    .atelier-promise__features {
+      grid-template-columns: 1fr !important;
+      gap: 0 !important;
+      margin-top: 16px !important;
+      padding-top: 4px !important;
+      border-top: 0 !important;
+    }
+
+    .atelier-promise__feature {
+      text-align: left !important;
+      align-items: flex-start !important;
+      flex-direction: row !important;
+      gap: 16px;
+      padding: 13px 0 !important;
+      border-top: 1px solid rgba(244, 239, 230, 0.14) !important;
+    }
+
+    .atelier-promise__feature-icon {
+      flex-shrink: 0;
+      width: 40px !important;
+      height: 40px !important;
+      margin-bottom: 0 !important;
+    }
+
+    .atelier-promise__feature-icon svg {
+      width: 17px !important;
+      height: 17px !important;
+    }
+
+    .atelier-promise__feature-label {
+      margin-bottom: 4px !important;
+    }
+
+    .atelier-promise__feature-text {
+      max-width: none !important;
+    }
+
+    .atelier-promise__footer {
+      margin-top: 22px !important;
+    }
+
+    .atelier-promise__button {
+      width: 100%;
+      padding: 14px 24px !important;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Atelier Promise",
+  "tag": "section",
+  "class": "section-atelier-promise",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Background"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background Image",
+      "info": "Falls back to the lighting art banner image if empty."
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Overlay Opacity",
+      "default": 55
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Script Subheading",
+      "default": "the"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "A T E L I E R   P R O M I S E"
+    },
+    {
+      "type": "textarea",
+      "id": "statement",
+      "label": "Statement",
+      "default": "Every piece that reaches your home is hand-selected at the atelier, certified for provenance, and delivered with the same reverence the masters poured into making it."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_ornament",
+      "label": "Show Ornament Divider",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Call To Action"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "DISCOVER THE HOUSE"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Styling & Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Fallback Background",
+      "default": "#17130e"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#f4efe6"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color",
+      "default": "#c9a870"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "min_height",
+      "min": 380,
+      "max": 860,
+      "step": 20,
+      "unit": "px",
+      "label": "Minimum Height (Desktop)",
+      "default": 480
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 500,
+      "max": 1600,
+      "step": 20,
+      "unit": "px",
+      "label": "Container Max Width",
+      "default": 1080
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 24,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 24,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "shield", "label": "Shield / Authenticity" },
+            { "value": "package", "label": "Package / Delivery" },
+            { "value": "diamond", "label": "Diamond / Curation" },
+            { "value": "globe", "label": "Globe / Worldwide" },
+            { "value": "sparkle", "label": "Sparkle / Bespoke" }
+          ],
+          "default": "shield"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "CERTIFIED AUTHENTICITY"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Description",
+          "default": "Each artwork and object arrives with a signed certificate of provenance."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Atelier Promise",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "shield",
+            "label": "CERTIFIED AUTHENTICITY",
+            "text": "Each artwork and object arrives with a signed certificate of provenance."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "package",
+            "label": "WHITE-GLOVE DELIVERY",
+            "text": "Museum-grade packing and doorstep installation, handled by specialists."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "icon": "diamond",
+            "label": "BESPOKE CURATION",
+            "text": "Personal advisory to help you collect pieces that belong to your story."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

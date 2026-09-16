@@ -71,6 +71,65 @@
         "overlay_opacity": 0
       }
     },
+    "product_catalog": {
+      "type": "luxury-product-catalog",
+      "blocks": {
+        "catalog_image_1": { "type": "catalog_image", "settings": { "link": "shopify://collections/all", "show_view_icon": true } },
+        "catalog_image_2": { "type": "catalog_image", "settings": { "link": "shopify://collections/all", "show_view_icon": true } },
+        "catalog_image_3": { "type": "catalog_image", "settings": { "link": "shopify://collections/all", "show_view_icon": true } },
+        "catalog_image_4": { "type": "catalog_image", "settings": { "link": "shopify://collections/all", "show_view_icon": true } },
+        "catalog_image_5": { "type": "catalog_image", "settings": { "link": "shopify://collections/all", "show_view_icon": true } },
+        "catalog_image_6": { "type": "catalog_image", "settings": { "link": "shopify://collections/all", "show_view_icon": true } },
+        "catalog_image_7": { "type": "catalog_image", "settings": { "link": "shopify://collections/all", "show_view_icon": true } },
+        "catalog_image_8": { "type": "catalog_image", "settings": { "link": "shopify://collections/all", "show_view_icon": true } },
+        "catalog_image_9": { "type": "catalog_image", "settings": { "link": "shopify://collections/all", "show_view_icon": true } },
+        "catalog_image_10": { "type": "catalog_image", "settings": { "link": "shopify://collections/all", "show_view_icon": true } },
+        "catalog_image_11": { "type": "catalog_image", "settings": { "link": "shopify://collections/all", "show_view_icon": true } },
+        "catalog_image_12": { "type": "catalog_image", "settings": { "link": "shopify://collections/all", "show_view_icon": true } }
+      },
+      "block_order": [
+        "catalog_image_1",
+        "catalog_image_2",
+        "catalog_image_3",
+        "catalog_image_4",
+        "catalog_image_5",
+        "catalog_image_6",
+        "catalog_image_7",
+        "catalog_image_8",
+        "catalog_image_9",
+        "catalog_image_10",
+        "catalog_image_11",
+        "catalog_image_12"
+      ],
+      "settings": {
+        "subheading": "the",
+        "heading": "C A T A L O G",
+        "heading_size": 20,
+        "heading_letter_spacing": "0.35em",
+        "show_underline": true,
+        "description": "Browse our catalogs — tap any cover to open.",
+        "open_links_new_tab": true,
+        "layout_style": "collage",
+        "collage_tile_height": 230,
+        "full_width": true,
+        "columns_desktop": 6,
+        "columns_mobile": "2",
+        "gap": 16,
+        "image_ratio": "portrait",
+        "hover_effect": "zoom",
+        "card_radius": 0,
+        "max_width": 1400,
+        "padding_top": 44,
+        "padding_bottom": 48,
+        "view_all_text": "VIEW FULL CATALOG",
+        "view_all_link": "shopify://collections/all",
+        "background_color": "#ffffff",
+        "card_bg_color": "#f7f6f2",
+        "heading_color": "#1a1a1a",
+        "text_color": "#4a4a4a",
+        "accent_color": "#b08d57"
+      }
+    },
     "new_arrivals": {
       "type": "new-arrivals-gallery",
       "settings": {
@@ -200,6 +259,57 @@
         "padding_bottom": 64
       }
     },
+    "atelier_promise": {
+      "type": "atelier-promise",
+      "blocks": {
+        "feature_1": {
+          "type": "feature",
+          "settings": {
+            "icon": "shield",
+            "label": "CERTIFIED AUTHENTICITY",
+            "text": "Each artwork and object arrives with a signed certificate of provenance."
+          }
+        },
+        "feature_2": {
+          "type": "feature",
+          "settings": {
+            "icon": "package",
+            "label": "WHITE-GLOVE DELIVERY",
+            "text": "Museum-grade packing and doorstep installation, handled by specialists."
+          }
+        },
+        "feature_3": {
+          "type": "feature",
+          "settings": {
+            "icon": "diamond",
+            "label": "BESPOKE CURATION",
+            "text": "Personal advisory to help you collect pieces that belong to your story."
+          }
+        }
+      },
+      "block_order": [
+        "feature_1",
+        "feature_2",
+        "feature_3"
+      ],
+      "settings": {
+        "subheading": "the",
+        "heading": "A T E L I E R   P R O M I S E",
+        "statement": "Every piece that reaches your home is hand-selected at the atelier, certified for provenance, and delivered with the same reverence the masters poured into making it.",
+        "show_ornament": true,
+        "button_label": "DISCOVER THE HOUSE",
+        "button_link": "shopify://collections/all",
+        "overlay_color": "#000000",
+        "overlay_opacity": 55,
+        "background_color": "#17130e",
+        "text_color": "#f4efe6",
+        "accent_color": "#c9a870",
+        "min_height": 480,
+        "max_width": 1080,
+        "padding_top": 64,
+        "padding_bottom": 64
+      }
+    },
     "brand_statement": {
       "type": "brand-manifesto",
       "settings": {
@@ -300,10 +410,12 @@
   },
   "order": [
     "hero_slider",
+    "product_catalog",
     "new_arrivals",
     "recommendations",
     "fine_prints",
     "the_makers",
+    "atelier_promise",
     "brand_statement",
     "press_and_quote"
   ]

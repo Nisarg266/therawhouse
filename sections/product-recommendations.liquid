@@ -41,7 +41,7 @@
   data-product-id="{{ section.settings.product.id | default: product.id }}"
   data-intent="{{ section.settings.recommendation_type }}"
   data-testid="product-recommendations-section"
-  data-recommendations-performed="{{ recommendations.performed }}"
+  data-recommendations-performed="true"
   data-hydration-key="product-recommendations-{{ section.id }}"
   {{ section.shopify_attributes }}
 >
@@ -74,15 +74,15 @@
     </div>
 
     {% liquid
-      assign current_product_id = section.settings.product.id | default: closest.product.id | default: product.id
       assign target_max = section.settings.max_products | default: 6
       assign rendered_count = 0
+      assign current_product_id = section.settings.product.id | default: product.id
       assign rendered_ids = current_product_id | append: ''
     %}
     {% capture list_items %}
       {% if recommendations.performed and recommendations.products_count > 0 %}
-        {% for rec_product in recommendations.products limit: target_max %}
-          {% if rec_product != blank and rec_product.id != blank %}
+        {% for rec_product in recommendations.products %}
+          {% if rec_product != blank and rec_product.id != blank and rec_product.featured_image != blank %}
             {% assign p_id_str = rec_product.id | append: '' %}
             {% unless rendered_ids contains p_id_str %}
               {% assign rendered_ids = rendered_ids | append: ',' | append: p_id_str %}
@@ -96,13 +96,16 @@
                 %}
               </div>
               <!--@list/split-->
+              {% if rendered_count >= target_max %}
+                {% break %}
+              {% endif %}
             {% endunless %}
           {% endif %}
         {% endfor %}
       {% endif %}
 
       {% if rendered_count < target_max %}
-        {% for cat_product in collections.all.products %}
+        {% for cat_product in collections['material-passage'].products %}
           {% if cat_product != blank and cat_product.id != blank and cat_product.featured_image != blank %}
             {% assign p_id_str = cat_product.id | append: '' %}
             {% unless rendered_ids contains p_id_str %}
@@ -126,8 +129,56 @@
       {% endif %}
 
       {% if rendered_count < target_max %}
-        {% for cat_product in collections.all.products limit: 30 %}
-          {% if cat_product != blank and cat_product.id != blank %}
+        {% for cat_product in collections['vivaarta-design'].products %}
+          {% if cat_product != blank and cat_product.id != blank and cat_product.featured_image != blank %}
+            {% assign p_id_str = cat_product.id | append: '' %}
+            {% unless rendered_ids contains p_id_str %}
+              {% assign rendered_ids = rendered_ids | append: ',' | append: p_id_str %}
+              {% assign rendered_count = rendered_count | plus: 1 %}
+              <div class="resource-list__item">
+                {% content_for 'block',
+                  type: '_product-card',
+                  id: 'static-product-card',
+                  closest.product: cat_product,
+                  product_view_context: 'recommendation'
+                %}
+              </div>
+              <!--@list/split-->
+              {% if rendered_count >= target_max %}
+                {% break %}
+              {% endif %}
+            {% endunless %}
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+
+      {% if rendered_count < target_max %}
+        {% for cat_product in collections['kauri-ventures'].products %}
+          {% if cat_product != blank and cat_product.id != blank and cat_product.featured_image != blank %}
+            {% assign p_id_str = cat_product.id | append: '' %}
+            {% unless rendered_ids contains p_id_str %}
+              {% assign rendered_ids = rendered_ids | append: ',' | append: p_id_str %}
+              {% assign rendered_count = rendered_count | plus: 1 %}
+              <div class="resource-list__item">
+                {% content_for 'block',
+                  type: '_product-card',
+                  id: 'static-product-card',
+                  closest.product: cat_product,
+                  product_view_context: 'recommendation'
+                %}
+              </div>
+              <!--@list/split-->
+              {% if rendered_count >= target_max %}
+                {% break %}
+              {% endif %}
+            {% endunless %}
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+
+      {% if rendered_count < target_max %}
+        {% for cat_product in collections['all'].products %}
+          {% if cat_product != blank and cat_product.id != blank and cat_product.featured_image != blank %}
             {% assign p_id_str = cat_product.id | append: '' %}
             {% unless rendered_ids contains p_id_str %}
               {% assign rendered_ids = rendered_ids | append: ',' | append: p_id_str %}

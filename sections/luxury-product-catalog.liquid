@@ -1,0 +1,739 @@
+{%- comment -%}
+  THE RAW HOUSE - CATALOG GALLERY
+  Full-width clickable image catalog. Each image links to any URL — page, product, or PDF (Content > Files).
+{%- endcomment -%}
+
+{% liquid
+  assign section_id = section.id
+  assign cols_desktop = section.settings.columns_desktop | default: 6 | plus: 0
+  assign cols_md = cols_desktop | at_most: 4
+  assign cols_sm = cols_desktop | at_most: 3
+
+  assign fb_imgs = 'art-painting-gold-canvas.jpg~~art-sculpture-marble-bust.jpg~~fine-print-1.jpg~~art-decor-ceramic-statue.jpg~~art-painting-abstract-oil.jpg~~art-sculpture-bronze-figure.jpg~~fine-print-2.jpg~~art-print-limited-edition.jpg~~art-painting-expressionist.jpg~~art-sculpture-rodin-thinker.jpg~~art-painting-water-lilies.jpg~~art-sculpture-venus-milo.jpg' | split: '~~'
+
+  if section.settings.open_links_new_tab
+    assign link_target = ' target="_blank" rel="noopener noreferrer"'
+  else
+    assign link_target = ''
+  endif
+%}
+
+<div
+  id="CatalogGallery-{{ section_id }}"
+  class="lpc-section section-{{ section_id }}"
+  style="
+    --lpc-bg: {{ section.settings.background_color | default: '#ffffff' }};
+    --lpc-card-bg: {{ section.settings.card_bg_color | default: '#f7f6f2' }};
+    --lpc-heading-color: {{ section.settings.heading_color | default: '#1a1a1a' }};
+    --lpc-text-color: {{ section.settings.text_color | default: '#4a4a4a' }};
+    --lpc-accent: {{ section.settings.accent_color | default: '#b08d57' }};
+    --lpc-cols: {{ cols_desktop }};
+    --lpc-cols-md: {{ cols_md }};
+    --lpc-cols-sm: {{ cols_sm }};
+    --lpc-cols-mobile: {{ section.settings.columns_mobile | default: 2 }};
+    --lpc-gap: {{ section.settings.gap | default: 20 }}px;
+    --lpc-max-width: {{ section.settings.max_width | default: 1400 }}px;
+    --lpc-pt: {{ section.settings.padding_top | default: 44 }}px;
+    --lpc-pb: {{ section.settings.padding_bottom | default: 48 }}px;
+    --lpc-ratio: {% case section.settings.image_ratio %}{% when 'square' %}1 / 1{% when 'landscape' %}4 / 3{% when 'wide' %}16 / 9{% else %}3 / 4{% endcase %};
+    --lpc-hs: {{ section.settings.heading_size | default: 20 }}px;
+    --lpc-ls: {{ section.settings.heading_letter_spacing | default: '0.35em' }};
+    --lpc-radius: {{ section.settings.card_radius | default: 0 }}px;
+    --lpc-tile-h: {{ section.settings.collage_tile_height | default: 230 }}px;
+  "
+  {{ section.shopify_attributes }}
+>
+  <div class="lpc-container{% unless section.settings.full_width %} lpc-container--boxed{% endunless %}">
+
+    {%- comment -%} Header {%- endcomment -%}
+    <div class="lpc-header">
+      {% if section.settings.subheading != blank %}
+        <span class="lpc-subheading">{{ section.settings.subheading }}</span>
+      {% endif %}
+      {% if section.settings.heading != blank %}
+        <h2 class="lpc-heading">{{ section.settings.heading }}</h2>
+      {% endif %}
+      {% if section.settings.show_underline %}
+        <div class="lpc-underline" aria-hidden="true"></div>
+      {% endif %}
+      {% if section.settings.description != blank %}
+        <p class="lpc-description">{{ section.settings.description }}</p>
+      {% endif %}
+    </div>
+
+    {%- comment -%} Image Grid {%- endcomment -%}
+    <div class="lpc-grid{% if section.settings.layout_style == 'collage' %} lpc-grid--collage{% endif %}">
+      {% for block in section.blocks %}
+        {% assign fb_index = forloop.index0 | modulo: 12 %}
+        <a
+          href="{{ block.settings.link | default: '/collections/all' }}"
+          class="lpc-card lpc-hover-{{ block.settings.hover_effect | default: section.settings.hover_effect | default: 'zoom' }}"
+          {% if block.settings.link == blank %}tabindex="-1" aria-disabled="true"{% endif %}
+          {{ link_target }}
+          aria-label="{{ block.settings.alt | default: 'Catalog image' | escape }}"
+          {{ block.shopify_attributes }}
+        >
+          <div class="lpc-card__media">
+            {% if block.settings.image != blank %}
+              {{
+                block.settings.image
+                | image_url: width: 1200
+                | image_tag:
+                  class: 'lpc-card__img',
+                  loading: 'lazy',
+                  alt: block.settings.alt,
+                  widths: '400, 600, 800, 1000, 1200'
+              }}
+            {% else %}
+              <img
+                src="{{ fb_imgs[fb_index] | asset_url }}"
+                alt="{{ block.settings.alt | default: 'Catalog image' | escape }}"
+                class="lpc-card__img"
+                loading="lazy"
+                width="600"
+                height="800"
+              >
+            {% endif %}
+
+            {% if block.settings.show_view_icon %}
+              <span class="lpc-card__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 12h16M14 6l6 6-6 6"/>
+                </svg>
+              </span>
+            {% endif %}
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+
+    {%- comment -%} Footer Link {%- endcomment -%}
+    {% if section.settings.view_all_text != blank %}
+      <div class="lpc-footer">
+        <a href="{{ section.settings.view_all_link | default: '/collections/all' }}" class="lpc-view-all"{{ link_target }}>
+          {{ section.settings.view_all_text }}
+        </a>
+      </div>
+    {% endif %}
+
+  </div>
+</div>
+
+{% stylesheet %}
+  .lpc-section {
+    background-color: var(--lpc-bg, #ffffff);
+    width: 100%;
+    padding-block-start: var(--lpc-pt, 44px);
+    padding-block-end: var(--lpc-pb, 48px);
+    box-sizing: border-box;
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  .lpc-container {
+    width: 100%;
+    padding-inline: clamp(16px, 2.5vw, 32px);
+    box-sizing: border-box;
+  }
+
+  .lpc-container--boxed {
+    max-width: var(--lpc-max-width, 1400px);
+    margin-inline: auto;
+  }
+
+  .lpc-header {
+    text-align: center;
+    margin-block-end: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lpc-subheading {
+    font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif !important;
+    font-style: italic !important;
+    font-size: 22px !important;
+    color: var(--lpc-heading-color, #1a1a1a) !important;
+    margin-bottom: 2px !important;
+    letter-spacing: 0.02em !important;
+    opacity: 0.9 !important;
+    line-height: 1.1 !important;
+  }
+
+  .lpc-heading {
+    font-size: var(--lpc-hs, 20px) !important;
+    letter-spacing: var(--lpc-ls, 0.35em) !important;
+    font-weight: 500 !important;
+    text-transform: uppercase !important;
+    color: var(--lpc-heading-color, #1a1a1a) !important;
+    margin: 0 !important;
+    line-height: 1.2 !important;
+  }
+
+  .lpc-underline {
+    width: 44px;
+    height: 1.5px;
+    background-color: var(--lpc-heading-color, #111111);
+    margin-top: 6px;
+  }
+
+  .lpc-description {
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: var(--lpc-text-color, #4a4a4a);
+    max-width: min(520px, 92%);
+    margin: 8px 0 0 0;
+    letter-spacing: 0.015em;
+  }
+
+  .lpc-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--lpc-cols, 6), 1fr);
+    gap: var(--lpc-gap, 16px);
+    width: 100%;
+  }
+
+  /* ---------------- Collage Layout ---------------- */
+  .lpc-grid--collage {
+    grid-auto-flow: row dense;
+    grid-auto-rows: var(--lpc-tile-h, 230px);
+  }
+
+  .lpc-grid--collage > .lpc-card {
+    grid-column: span 2;
+    grid-row: span 1;
+    height: 100%;
+  }
+
+  .lpc-grid--collage .lpc-card__media {
+    aspect-ratio: auto;
+    height: 100%;
+  }
+
+  /* Big feature tiles */
+  .lpc-grid--collage > .lpc-card:nth-child(1),
+  .lpc-grid--collage > .lpc-card:nth-child(8) {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  /* Small accent tiles */
+  .lpc-grid--collage > .lpc-card:nth-child(3),
+  .lpc-grid--collage > .lpc-card:nth-child(4),
+  .lpc-grid--collage > .lpc-card:nth-child(6),
+  .lpc-grid--collage > .lpc-card:nth-child(7) {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+
+  .lpc-card {
+    display: block;
+    text-decoration: none;
+    border-radius: var(--lpc-radius, 0);
+  }
+
+  .lpc-card__media {
+    position: relative;
+    width: 100%;
+    aspect-ratio: var(--lpc-ratio, 3 / 4);
+    overflow: hidden;
+    background-color: var(--lpc-card-bg, #f7f6f2);
+    border-radius: var(--lpc-radius, 0);
+  }
+
+  .lpc-card__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease;
+  }
+
+  .lpc-hover-zoom:hover .lpc-card__img {
+    transform: scale(1.05);
+  }
+
+  .lpc-hover-lift {
+    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.45s ease;
+  }
+
+  .lpc-hover-lift:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 40px -18px rgba(0, 0, 0, 0.28);
+  }
+
+  .lpc-hover-fade .lpc-card__img {
+    opacity: 0.88;
+  }
+
+  .lpc-hover-fade:hover .lpc-card__img {
+    opacity: 1;
+    transform: scale(1.02);
+  }
+
+  .lpc-card__icon {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background-color: rgba(26, 26, 26, 0.82);
+    color: #ffffff;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .lpc-card:hover .lpc-card__icon,
+  .lpc-card:focus-visible .lpc-card__icon {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .lpc-card__icon svg {
+    width: 15px;
+    height: 15px;
+    display: block;
+  }
+
+  .lpc-footer {
+    text-align: center;
+    margin-top: 22px;
+  }
+
+  .lpc-view-all {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--lpc-heading-color, #111111);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    transition: opacity 0.2s ease;
+  }
+
+  .lpc-view-all:hover {
+    opacity: 0.7;
+  }
+
+  /* ---------------- Fully Responsive Breakpoints ---------------- */
+
+  /* Small laptop / large tablet (<= 1199px) */
+  @media screen and (max-width: 1199px) {
+    .lpc-grid {
+      grid-template-columns: repeat(var(--lpc-cols-md, 4), 1fr) !important;
+      gap: calc(var(--lpc-gap, 16px) * 0.85) !important;
+    }
+
+    .lpc-grid--collage {
+      grid-auto-rows: 200px !important;
+    }
+  }
+
+  /* Tablet (<= 989px) */
+  @media screen and (max-width: 989px) {
+    .lpc-container {
+      padding-inline: clamp(16px, 3vw, 22px) !important;
+    }
+
+    .lpc-header {
+      margin-block-end: 12px !important;
+    }
+
+    .lpc-grid {
+      grid-template-columns: repeat(var(--lpc-cols-sm, 3), 1fr) !important;
+      gap: calc(var(--lpc-gap, 16px) * 0.7) !important;
+    }
+
+    /* Collage: 4-column variant on tablet */
+    .lpc-grid--collage {
+      grid-template-columns: repeat(4, 1fr) !important;
+      grid-auto-rows: 170px !important;
+    }
+  }
+
+  /* Mobile (<= 749px) */
+  @media screen and (max-width: 749px) {
+    .lpc-section {
+      padding-block-start: clamp(24px, 5vw, 34px) !important;
+      padding-block-end: clamp(26px, 5vw, 36px) !important;
+    }
+
+    .lpc-header {
+      margin-block-end: 10px !important;
+    }
+
+    .lpc-subheading {
+      font-size: 18px !important;
+    }
+
+    .lpc-description {
+      font-size: 12.5px !important;
+      max-width: 100% !important;
+    }
+
+    .lpc-grid {
+      grid-template-columns: repeat(var(--lpc-cols-mobile, 2), 1fr) !important;
+      gap: 12px !important;
+    }
+
+    /* Collage: clean uniform grid on mobile */
+    .lpc-grid--collage {
+      grid-auto-rows: auto !important;
+    }
+
+    .lpc-grid--collage > .lpc-card {
+      grid-column: span 1 !important;
+      grid-row: span 1 !important;
+      height: auto !important;
+    }
+
+    .lpc-grid--collage .lpc-card__media {
+      aspect-ratio: var(--lpc-ratio, 3 / 4) !important;
+      height: auto !important;
+    }
+
+    .lpc-card__icon {
+      width: 28px !important;
+      height: 28px !important;
+      right: 8px !important;
+      bottom: 8px !important;
+    }
+
+    .lpc-card__icon svg {
+      width: 13px !important;
+      height: 13px !important;
+    }
+
+    .lpc-footer {
+      margin-top: 18px !important;
+    }
+  }
+
+  /* Small mobile (<= 480px) */
+  @media screen and (max-width: 480px) {
+    .lpc-grid {
+      gap: 10px !important;
+    }
+  }
+
+  /* Touch devices: icon always visible */
+  @media (hover: none) {
+    .lpc-card__icon {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Accessibility: reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .lpc-card,
+    .lpc-card__img {
+      transition: none !important;
+    }
+
+    .lpc-hover-lift:hover {
+      transform: none !important;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Catalog Gallery",
+  "tag": "section",
+  "class": "section-catalog-gallery",
+  "max_blocks": 24,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Header"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Script Subheading",
+      "default": "the"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "C A T A L O G"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 14,
+      "max": 36,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading Size",
+      "default": 20
+    },
+    {
+      "type": "text",
+      "id": "heading_letter_spacing",
+      "label": "Heading Letter Spacing",
+      "default": "0.35em"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_underline",
+      "label": "Show Underline",
+      "default": true
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description (optional)",
+      "default": "Browse our catalogs — tap any cover to open."
+    },
+    {
+      "type": "header",
+      "content": "Links"
+    },
+    {
+      "type": "checkbox",
+      "id": "open_links_new_tab",
+      "label": "Open Links In New Tab",
+      "info": "Recommended when linking to PDF files.",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "layout_style",
+      "label": "Layout Style",
+      "options": [
+        { "value": "collage", "label": "Collage (Mixed Tile Sizes)" },
+        { "value": "grid", "label": "Uniform Grid" }
+      ],
+      "default": "collage"
+    },
+    {
+      "type": "range",
+      "id": "collage_tile_height",
+      "min": 140,
+      "max": 400,
+      "step": 10,
+      "unit": "px",
+      "label": "Collage Tile Height",
+      "info": "Base row height of the collage. Big tiles are double.",
+      "default": 230
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full Width Section",
+      "info": "Uncheck to contain the grid inside a max width.",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "label": "Columns (Desktop)",
+      "default": 6
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Columns (Mobile)",
+      "options": [
+        { "value": "2", "label": "2 Columns" },
+        { "value": "1", "label": "1 Column" }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "min": 4,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "label": "Grid Gap",
+      "default": 16
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Image Ratio",
+      "options": [
+        { "value": "portrait", "label": "Portrait (3:4)" },
+        { "value": "square", "label": "Square (1:1)" },
+        { "value": "landscape", "label": "Landscape (4:3)" },
+        { "value": "wide", "label": "Wide (16:9)" }
+      ],
+      "default": "portrait"
+    },
+    {
+      "type": "select",
+      "id": "hover_effect",
+      "label": "Hover Effect",
+      "options": [
+        { "value": "zoom", "label": "Zoom" },
+        { "value": "lift", "label": "Lift / Shadow" },
+        { "value": "fade", "label": "Fade Reveal" },
+        { "value": "none", "label": "None" }
+      ],
+      "default": "zoom"
+    },
+    {
+      "type": "range",
+      "id": "card_radius",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "label": "Image Corner Radius",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 500,
+      "max": 1800,
+      "step": 20,
+      "unit": "px",
+      "label": "Boxed Max Width",
+      "info": "Only used when Full Width is off.",
+      "default": 1400
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 44
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 48
+    },
+    {
+      "type": "header",
+      "content": "Footer Link"
+    },
+    {
+      "type": "text",
+      "id": "view_all_text",
+      "label": "Footer Link Label",
+      "default": "VIEW FULL CATALOG"
+    },
+    {
+      "type": "url",
+      "id": "view_all_link",
+      "label": "Footer Link URL"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_bg_color",
+      "label": "Image Placeholder Background",
+      "default": "#f7f6f2"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#4a4a4a"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color",
+      "default": "#b08d57"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "catalog_image",
+      "name": "Catalog Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "Falls back to a demo image if empty."
+        },
+        {
+          "type": "text",
+          "id": "link",
+          "label": "Link URL",
+          "info": "Paste any URL — a page, product, or PDF file link (Shopify Admin > Content > Files).",
+          "default": "/collections/all"
+        },
+        {
+          "type": "text",
+          "id": "alt",
+          "label": "Alt Text (accessibility)"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_view_icon",
+          "label": "Show Arrow Icon On Hover",
+          "default": true
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Catalog Gallery",
+      "blocks": [
+        { "type": "catalog_image" },
+        { "type": "catalog_image" },
+        { "type": "catalog_image" },
+        { "type": "catalog_image" },
+        { "type": "catalog_image" },
+        { "type": "catalog_image" },
+        { "type": "catalog_image" },
+        { "type": "catalog_image" },
+        { "type": "catalog_image" },
+        { "type": "catalog_image" },
+        { "type": "catalog_image" },
+        { "type": "catalog_image" }
+      ]
+    }
+  ]
+}
+{% endschema %}
