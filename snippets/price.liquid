@@ -58,8 +58,19 @@
     assign use_currency = true
   endif
 
+  assign use_inr_symbol = false
+  assign active_currency = cart.currency.iso_code | default: localization.country.currency.iso_code
+  if template.name == 'collection' and active_currency == 'INR'
+    assign use_inr_symbol = true
+  endif
+
   # Format all prices
-  if use_currency
+  if use_inr_symbol
+    assign price = price | money_without_currency | prepend: '₹'
+    assign compare_at_price = compare_at_price | money_without_currency | prepend: '₹'
+    assign price_min = price_min | money_without_currency | prepend: '₹'
+    assign price_max = price_max | money_without_currency | prepend: '₹'
+  elsif use_currency
     assign price = price | money_with_currency
     assign compare_at_price = compare_at_price | money_with_currency
     assign price_min = price_min | money_with_currency
@@ -113,7 +124,9 @@
   {% endif %}
   {%- if selected_variant.unit_price and show_unit_price %}
     {%- liquid
-      if use_currency
+      if use_inr_symbol
+        assign unit_price = selected_variant.unit_price | money_without_currency | prepend: '₹'
+      elsif use_currency
         assign unit_price = selected_variant.unit_price | money_with_currency
       else
         assign unit_price = selected_variant.unit_price | money

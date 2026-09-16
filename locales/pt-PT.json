@@ -121,6 +121,7 @@
     "zoom_media": "Ampliar conteúdo multimédia {{ index }}"
   },
   "content": {
+    "no_image": "Sem imagem",
     "reviews": "avaliações",
     "language": "Idioma",
     "localization_region_and_language": "Região e idioma",

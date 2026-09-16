@@ -1,0 +1,15 @@
+{%- doc -%}
+  Formats cart amounts in the active currency, using the rupee symbol for INR.
+  @param {number} amount - Amount in currency subunits.
+  @param {boolean} [show_currency] - Include the currency code for other currencies.
+{%- enddoc -%}
+{%- liquid
+  assign active_currency = cart.currency.iso_code | default: localization.country.currency.iso_code
+  if active_currency == 'INR'
+    echo amount | money_without_currency | prepend: '₹'
+  elsif show_currency
+    echo amount | money_with_currency
+  else
+    echo amount | money
+  endif
+-%}

@@ -57,7 +57,7 @@
           {%- if section.settings.button_text != blank -%}
             <a
               href="{{ section.settings.button_url | default: '/collections/all' }}"
-              class="about-narrative__btn about-narrative__btn--{{ section.settings.button_style | default: 'solid_dark' }}"
+              class="about-narrative__btn about-narrative__btn--{{ section.settings.button_style | default: 'solid_dark' }} art-button"
               {% if section.settings.button_open_new_tab %}target="_blank" rel="noopener noreferrer"{% endif %}
             >
               <span>{{ section.settings.button_text }}</span>

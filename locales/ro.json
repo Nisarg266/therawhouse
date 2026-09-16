@@ -121,6 +121,7 @@
     "zoom_media": "Fă zoom pe elementul media {{ index }}"
   },
   "content": {
+    "no_image": "Fără imagine",
     "reviews": "recenzii",
     "language": "Limba",
     "localization_region_and_language": "Regiunea și limba",

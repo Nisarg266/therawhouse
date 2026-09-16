@@ -123,6 +123,7 @@
     "zoom_media": "Powiększenie multimediów {{ index }}"
   },
   "content": {
+    "no_image": "Brak zdjęcia",
     "reviews": "recenzje",
     "language": "Język",
     "localization_region_and_language": "Region i język",

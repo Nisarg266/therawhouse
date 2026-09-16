@@ -166,7 +166,7 @@ details.menu-open .header-drawer-icon--close {
   height: 38px !important;
   background: #f8f7f5 !important;
   border: 1px solid #e8e5e0 !important;
-  border-radius: 9999px !important;
+  border-radius: 0 !important;
   padding: 0 14px !important;
   gap: 8px !important;
   cursor: pointer !important;
@@ -383,6 +383,44 @@ header-actions {
 .cart-icon:hover .cart-bubble {
   background: #c5a880 !important;
   transform: scale(1.12) !important;
+}
+
+#header-component .header-actions__action {
+  width: 44px !important;
+  height: 44px !important;
+  flex-shrink: 0;
+  padding: 0;
+  overflow: visible;
+  transform: none !important;
+}
+
+#header-component .header-actions__cart-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  overflow: visible;
+}
+
+#header-component .header-actions__cart-icon svg {
+  mask: none;
+}
+
+#header-component .header-actions__cart-icon .cart-bubble {
+  top: 0 !important;
+  right: 0 !important;
+  width: max-content;
+  min-width: 18px !important;
+  height: 18px !important;
+  padding-inline: 4px !important;
+  box-shadow: none !important;
+  transform: none;
+}
+
+#header-component .cart-bubble__text {
+  font-size: 10px;
+  line-height: 1;
 }
 
 /* 6. Bottom Navigation Row (Order: 2) */

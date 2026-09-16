@@ -119,6 +119,7 @@
     "zoom_media": "Medyayı yakınlaştır: {{ index }}"
   },
   "content": {
+    "no_image": "Görsel yok",
     "reviews": "değerlendirme",
     "language": "Dil",
     "localization_region_and_language": "Bölge ve dil",

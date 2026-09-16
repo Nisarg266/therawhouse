@@ -119,6 +119,7 @@
     "zoom_media": "Μεγέθυνση πολυμέσου {{ index }}"
   },
   "content": {
+    "no_image": "Χωρίς εικόνα",
     "reviews": "κριτικές",
     "no_results_found": "Δεν βρέθηκαν αποτελέσματα",
     "language": "Γλώσσα",

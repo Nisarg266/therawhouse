@@ -119,6 +119,7 @@
     "zoom_media": "Perbesar media {{ index }}"
   },
   "content": {
+    "no_image": "Tidak ada gambar",
     "reviews": "ulasan",
     "language": "Bahasa",
     "localization_region_and_language": "Wilayah dan bahasa",

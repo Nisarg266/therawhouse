@@ -3,7 +3,7 @@
 {% render 'button-custom-styles', block_settings: block_settings, block_id: block.id %}
 <button
   type="submit"
-  class="button submit-button size-style {{ block_settings.style_class }} {{ block_settings.style_class }}--{{ block.id }}"
+  class="button submit-button size-style {{ block_settings.style_class }} {{ block_settings.style_class }}--{{ block.id }} art-button"
   style="{% render 'size-style', settings: block_settings %}"
   {{ block.shopify_attributes }}
 >

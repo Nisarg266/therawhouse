@@ -18,7 +18,7 @@
           class="cart-totals__original-value cart-secondary-typography"
           data-testid="cart-subtotal-value"
         >
-          {{- cart.items_subtotal_price | money -}}
+          {%- render 'cart-money', amount: cart.items_subtotal_price -%}
         </span>
       </span>
       <ul
@@ -33,7 +33,7 @@
               {{ discount.title | escape }}
             </span>
             <span class="cart-discounts__value cart-secondary-typography"
-              >-{{ discount.total_allocated_amount | money -}}
+              >-{%- render 'cart-money', amount: discount.total_allocated_amount -%}
             </span>
           </li>
         {%- endfor -%}
@@ -161,7 +161,7 @@
                       >
                       <button
                         type="submit"
-                        class="button cart-discount__button"
+                        class="button cart-discount__button art-button"
                       >
                         {{ 'actions.apply' | t }}
                       </button>
@@ -220,11 +220,9 @@
   {% endif %}
 
   {%- liquid
-    if settings.currency_code_enabled_cart_total
-      assign total_price = cart.total_price | money_with_currency
-    else
-      assign total_price = cart.total_price | money
-    endif
+    capture total_price
+      render 'cart-money', amount: cart.total_price, show_currency: settings.currency_code_enabled_cart_total
+    endcapture
   -%}
 
   <div class="cart-totals__container{% if settings.show_installments %} cart-totals__container--has-installments{% endif %}">
@@ -261,7 +259,7 @@
   <button
     type="submit"
     id="checkout"
-    class="cart__checkout-button button"
+    class="cart__checkout-button button art-button"
     name="checkout"
     {% if cart == empty %}
       disabled

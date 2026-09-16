@@ -123,6 +123,7 @@
     "zoom_media": "Přiblížit média {{ index }}"
   },
   "content": {
+    "no_image": "Žádný obrázek",
     "reviews": "recen.",
     "language": "Jazyk",
     "localization_region_and_language": "Oblast a jazyk",

@@ -1,5 +1,5 @@
 {% doc %}
-  Renders the predictive search empty state
+  Renders the predictive search empty state with recommendations and curated products
 
   @param {number} shadow_opacity - shadow opacity for the empty state container shadow
   @param {string} products_test_id - a playwright test id, used to differentiate empty state from 'real' search results
@@ -18,9 +18,48 @@
 >
   {% if load_empty_state %}
     <div class="predictive-search-results__inner">
+      <!-- Recommendations Section -->
+      <div class="predictive-search-empty-recommendations" style="margin-bottom: 24px; padding-inline: var(--padding-xl, 20px);">
+        <h4 class="predictive-search-results__title" style="font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #666666; margin-bottom: 12px;">
+          RECOMMENDATIONS
+        </h4>
+        <ul class="predictive-search-results__list predictive-search-results__wrapper predictive-search-results__wrapper-queries list-unstyled" style="display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0;">
+          <li class="predictive-search-results__card--query">
+            <a class="pills__pill predictive-search-results__pill" href="{{ routes.search_url }}?q=Archival+Fine+Prints">
+              <span>Archival Fine Prints</span>
+            </a>
+          </li>
+          <li class="predictive-search-results__card--query">
+            <a class="pills__pill predictive-search-results__pill" href="{{ routes.search_url }}?q=Bronze+%26+Marble+Sculptures">
+              <span>Bronze & Marble Sculptures</span>
+            </a>
+          </li>
+          <li class="predictive-search-results__card--query">
+            <a class="pills__pill predictive-search-results__pill" href="{{ routes.search_url }}?q=Original+Oil+Paintings">
+              <span>Original Oil Paintings</span>
+            </a>
+          </li>
+          <li class="predictive-search-results__card--query">
+            <a class="pills__pill predictive-search-results__pill" href="{{ routes.search_url }}?q=New+Arrivals">
+              <span>New Arrivals</span>
+            </a>
+          </li>
+          <li class="predictive-search-results__card--query">
+            <a class="pills__pill predictive-search-results__pill" href="{{ routes.search_url }}?q=Best+Sellers">
+              <span>Best Sellers</span>
+            </a>
+          </li>
+          <li class="predictive-search-results__card--query">
+            <a class="pills__pill predictive-search-results__pill" href="{{ routes.search_url }}?q=3D+Sajawat+Art">
+              <span>3D Sajawat Art</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
       {% liquid
         assign collection = settings.empty_state_collection | default: collections.all
-        assign default_title = 'content.search_results_resource_products' | t
+        assign default_title = 'RECOMMENDED PRODUCTS'
         assign title = settings.empty_state_collection.title | default: default_title
       %}
       {% paginate collection.products by 4 %}

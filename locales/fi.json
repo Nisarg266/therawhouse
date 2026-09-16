@@ -119,6 +119,7 @@
     "zoom_media": "Lähennä mediasisältö: {{ index }}"
   },
   "content": {
+    "no_image": "Ei kuvaa",
     "reviews": "arvostelua",
     "language": "Kieli",
     "localization_region_and_language": "Alue ja kieli",

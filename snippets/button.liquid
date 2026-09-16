@@ -19,6 +19,7 @@
     href="{{ link }}"
   {% endif %}
   class="
+    {% if block_settings.style_class == 'button-unstyled' %}art-link{% else %}art-button{% endif %}
     size-style
     {{ block_settings.style_class }}
     {{ block_settings.style_class }}--{{ block.id }}

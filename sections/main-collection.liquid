@@ -92,6 +92,52 @@
   </results-list>
 </collection-component>
 
+{% stylesheet %}
+  collection-component .product-grid__card.product-grid__card {
+    /* Override the legacy equal-height card flex rule. */
+    display: grid !important;
+    grid-template-rows: auto 1fr auto;
+    gap: 8px;
+    align-items: start;
+  }
+
+  collection-component [ref='productTitleLink'] {
+    display: block;
+    min-width: 0;
+    width: 100%;
+    margin-top: 8px;
+  }
+
+  collection-component [ref='productTitleLink'] .text-block,
+  collection-component .product-grid__card product-price {
+    width: 100%;
+    max-width: none;
+    margin: 0 !important;
+    padding: 0;
+    text-align: left;
+    font: 400 14px/1.5 var(--font-body--family, sans-serif) !important;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  collection-component [ref='productTitleLink'] .text-block {
+    display: block !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: visible !important;
+    -webkit-line-clamp: unset !important;
+  }
+
+  collection-component [ref='productTitleLink'] p { margin: 0; overflow-wrap: anywhere; }
+  collection-component .product-grid__card product-price { align-self: end; font-weight: 500 !important; }
+  collection-component .product-grid__card [ref='priceContainer'] { font: inherit; display: flex; flex-wrap: wrap; gap: 4px 8px; }
+
+  @media (max-width: 749px) {
+    collection-component [ref='productTitleLink'] .text-block,
+    collection-component .product-grid__card product-price { font-size: 12px !important; }
+  }
+{% endstylesheet %}
+
 {% schema %}
 {
   "name": "t:names.collection_container",

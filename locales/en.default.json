@@ -161,6 +161,7 @@
     }
   },
   "content": {
+    "no_image": "No image",
     "cancel": "Cancel",
     "discount": "Discount",
     "account_title": "Account",

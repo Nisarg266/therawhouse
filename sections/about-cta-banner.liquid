@@ -62,7 +62,7 @@
         {%- if section.settings.primary_btn_text != blank -%}
           <a
             href="{{ section.settings.primary_btn_url | default: '/collections/all' }}"
-            class="about-cta__btn about-cta__btn--primary about-cta__btn--style-{{ section.settings.primary_btn_style | default: 'white_solid' }}"
+            class="about-cta__btn about-cta__btn--primary about-cta__btn--style-{{ section.settings.primary_btn_style | default: 'white_solid' }} art-button"
             {% if section.settings.primary_btn_new_tab %}target="_blank" rel="noopener noreferrer"{% endif %}
           >
             <span>{{ section.settings.primary_btn_text }}</span>
@@ -76,7 +76,7 @@
         {%- if section.settings.secondary_btn_text != blank -%}
           <a
             href="{{ section.settings.secondary_btn_url | default: '/pages/contact' }}"
-            class="about-cta__btn about-cta__btn--secondary about-cta__btn--style-{{ section.settings.secondary_btn_style | default: 'white_outline' }}"
+            class="about-cta__btn about-cta__btn--secondary about-cta__btn--style-{{ section.settings.secondary_btn_style | default: 'white_outline' }} art-button"
             {% if section.settings.secondary_btn_new_tab %}target="_blank" rel="noopener noreferrer"{% endif %}
           >
             <span>{{ section.settings.secondary_btn_text }}</span>

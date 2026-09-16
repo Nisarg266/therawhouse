@@ -371,7 +371,7 @@
           <div class="quick-order-list-total__actions">
             <a
               href="{{ routes.cart_url }}"
-              class="quick-order-list__button button-secondary"
+              class="quick-order-list__button button-secondary art-button"
             >
               <span class="quick-order-list__button-text">{{ 'content.view_cart' | t }}</span>
             </a>
@@ -451,7 +451,7 @@
         </span>
         <div class="quick-order-list-total__confirmation-buttons">
           <button
-            class="quick-order-list__button-confirm button-secondary"
+            class="quick-order-list__button-confirm button-secondary art-button"
             type="button"
             data-action="remove"
             on:click="quick-order-list-component/onRemoveAll"
@@ -459,7 +459,7 @@
             {{ 'content.remove_all' | t }}
           </button>
           <button
-            class="quick-order-list__button-cancel button button--unstyled"
+            class="quick-order-list__button-cancel button button--unstyled art-button"
             type="button"
             data-action="cancel"
             on:click="quick-order-list-component/hideRemoveAllConfirmation"

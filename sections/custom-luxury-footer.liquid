@@ -55,7 +55,7 @@
                         <li><a href="/pages/contact" class="custom-footer__link">CONTACT US</a></li>
                       {% elsif h_upper contains 'SERVICE' %}
                         <li><a href="/pages/contact" class="custom-footer__link">CONCIERGE</a></li>
-                        <li><a href="/pages/contact" class="custom-footer__link">THOT B2B</a></li>
+                        <li><a href="/pages/contact" class="custom-footer__link">TRADE & ARCHITECTS (B2B)</a></li>
                         <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link">INTERIORS</a></li>
                         <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link">GIFTING SERVICES</a></li>
                         <li><a href="/policies/shipping-policy" class="custom-footer__link">SHIPPING & RETURNS</a></li>
@@ -124,7 +124,7 @@
                 <div class="custom-footer__concierge-block">
                   <h5 class="custom-footer__col-heading custom-footer__col-heading--concierge">{{ section.settings.concierge_heading | default: 'CONCIERGE' }}</h5>
                   <p class="custom-footer__concierge-text">
-                    {{ section.settings.concierge_text | default: '+91 80030 11110 / concierge@thehouseofthings.com' }}
+                    {{ section.settings.concierge_text | default: '+91 80030 11110 / concierge@therawhouse.com' }}
                   </p>
                 </div>
               </div>
@@ -237,7 +237,7 @@
 
           <div class="custom-footer__concierge-block">
             <h5 class="custom-footer__concierge-heading">{{ section.settings.concierge_heading | default: 'PRIVATE CONCIERGE' }}</h5>
-            <p class="custom-footer__concierge-text">{{ section.settings.concierge_text | default: '+1 (800) 729-4687 / concierge@therawhouse.com' }}</p>
+            <p class="custom-footer__concierge-text">{{ section.settings.concierge_text | default: '+91 80030 11110 / concierge@therawhouse.com' }}</p>
           </div>
         </div>
       {% endif %}
@@ -318,9 +318,27 @@
 
     <!-- Bottom Row: Copyright & Legal -->
     <div class="custom-footer__bottom-row">
-      <p class="custom-footer__copyright">
-        &copy; {{ 'now' | date: '%Y' }} {{ section.settings.copyright_text | default: 'The Raw House Atelier Pvt Ltd. All rights reserved.' }}
-      </p>
+      <div class="custom-footer__bottom-content">
+        <p class="custom-footer__copyright">
+          &copy; {{ 'now' | date: '%Y' }} {{ section.settings.copyright_text | default: 'The Raw House Living Pvt Ltd. All rights reserved.' }}
+        </p>
+        {% if section.settings.show_credits != false %}
+          <span class="custom-footer__bottom-divider" aria-hidden="true">&bull;</span>
+          <p class="custom-footer__credits">
+            {{ section.settings.credits_prefix | default: 'Mindfully made by' }}
+            <a
+              href="{{ section.settings.credits_url | default: 'https://scraft.studio/' }}"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="{{ section.settings.credits_title | default: 'SCRAFT - E-commerce growth, SEO & software studio' }}"
+              aria-label="{{ section.settings.credits_title | default: 'SCRAFT - E-commerce growth, SEO & software studio' }}"
+              class="custom-footer__credit-link"
+            >
+              {{- section.settings.credits_label | default: 'Scraft' -}}
+            </a>
+          </p>
+        {% endif %}
+      </div>
     </div>
   </div>
 </footer>
@@ -342,7 +360,7 @@
     box-sizing: border-box;
   }
 
-  /* Brand Header (Hidden by default to match THOT) */
+  /* Brand Header (Hidden by default) */
   .custom-footer__brand-header {
     text-align: center;
     padding-bottom: 28px;
@@ -381,7 +399,7 @@
     margin: 0;
   }
 
-  /* Top Columns Grid: 3 columns matching THOT */
+  /* Top Columns Grid: 3 columns */
   .custom-footer__top-row {
     display: grid !important;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -612,11 +630,41 @@
     text-align: center;
   }
 
-  .custom-footer__copyright {
+  .custom-footer__bottom-content {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px 12px;
+    margin: 0 auto;
+  }
+
+  .custom-footer__copyright,
+  .custom-footer__credits {
     font-size: 10.5px !important;
     letter-spacing: 0.04em !important;
     color: #777777 !important;
-    margin: 0;
+    margin: 0 !important;
+    line-height: 1.5;
+  }
+
+  .custom-footer__bottom-divider {
+    color: #aaaaaa;
+    font-size: 9px;
+    user-select: none;
+  }
+
+  .custom-footer__credit-link {
+    color: #555555 !important;
+    text-decoration: underline !important;
+    text-underline-offset: 2.5px;
+    text-decoration-thickness: 1px;
+    transition: color 0.2s ease, text-decoration-color 0.2s ease;
+  }
+
+  .custom-footer__credit-link:hover {
+    color: #000000 !important;
+    text-decoration-color: #000000;
   }
 
   /* ==========================================================================
@@ -728,6 +776,15 @@
 
     .custom-footer__social-icons {
       justify-content: center;
+    }
+
+    .custom-footer__bottom-content {
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .custom-footer__bottom-divider {
+      display: none;
     }
   }
 </style>
@@ -848,7 +905,7 @@
       "type": "text",
       "id": "concierge_text",
       "label": "Concierge Contact Text",
-      "default": "+1 (800) 729-4687 / concierge@therawhouse.com"
+      "default": "+91 80030 11110 / concierge@therawhouse.com"
     },
     {
       "type": "header",
@@ -890,6 +947,39 @@
       "id": "copyright_text",
       "label": "Copyright Text",
       "default": "The Raw House Living Pvt Ltd. All rights reserved."
+    },
+    {
+      "type": "header",
+      "content": "Credits & Attribution"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_credits",
+      "label": "Show Developer/Agency Credit",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "credits_prefix",
+      "label": "Credits Prefix",
+      "default": "Mindfully made by"
+    },
+    {
+      "type": "text",
+      "id": "credits_label",
+      "label": "Credits Link Label",
+      "default": "Scraft"
+    },
+    {
+      "type": "url",
+      "id": "credits_url",
+      "label": "Credits Link URL"
+    },
+    {
+      "type": "text",
+      "id": "credits_title",
+      "label": "Credits Link Title",
+      "default": "SCRAFT - E-commerce growth, SEO & software studio"
     },
     {
       "type": "range",

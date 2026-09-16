@@ -1,48 +1,1187 @@
 {%- doc -%}
-  Renders the header inline expandable pill search bar with clean search icon.
+  Renders the header search bar with luxury editorial dropdown of recommendations and products.
 
   @param {string} [style] - Search display style.
   @param {string} [class] - Additional wrapper classes.
 {%- enddoc -%}
 
 {% unless style == 'none' %}
-  <div class="header-inline-search-wrapper{% if class != blank %} {{ class | strip }}{% endif %}">
-    <form action="{{ routes.search_url }}" method="get" role="search" class="header-inline-search-form">
-      <div class="header-inline-search-pill">
+  {% liquid
+    assign rec_collection = settings.empty_state_collection | default: collections['all']
+    if rec_collection == blank or rec_collection.products_count == 0
+      assign rec_collection = collections.first
+    endif
+    assign currency_symbol = cart.currency.symbol | default: '₹'
+  %}
+
+  <div
+    class="header-inline-search-wrapper{% if class != blank %} {{ class | strip }}{% endif %}"
+    id="HeaderSearchWrapper"
+    data-routes-search="{{ routes.search_url }}"
+    data-routes-predictive="{{ routes.predictive_search_url }}"
+    data-currency-symbol="{{ currency_symbol }}"
+  >
+    <form action="{{ routes.search_url }}" method="get" role="search" class="header-inline-search-form" id="HeaderSearchForm">
+      <div
+        class="header-inline-search-pill"
+        id="HeaderSearchPill"
+        role="combobox"
+        aria-haspopup="listbox"
+        aria-expanded="false"
+        aria-controls="HeaderSearchDropdown"
+      >
+        <!-- Single clean search icon button -->
         <button
           type="submit"
-          class="header-inline-search-icon-btn header-inline-search-desktop"
+          class="header-inline-search-icon-btn"
+          id="HeaderSearchBtn"
           aria-label="{{ 'content.search' | t }}"
         >
-          <svg class="header-inline-search-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg class="header-inline-search-svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="11" cy="11" r="8"></circle>
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
           </svg>
         </button>
-        <button
-          type="button"
-          class="header-inline-search-icon-btn header-inline-search-mobile"
-          on:click="#search-modal/showDialog"
-          aria-label="{{ 'content.search' | t }}"
-          aria-haspopup="dialog"
-        >
-          <svg class="header-inline-search-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
-        </button>
+
         <input
           type="search"
           name="q"
+          id="HeaderSearchInput"
           class="header-inline-search-input"
-          placeholder="What are you looking for?"
+          placeholder="Search collections, art..."
           aria-label="{{ 'content.search' | t }}"
           autocomplete="off"
           autocorrect="off"
           autocapitalize="off"
           spellcheck="false"
         >
+
+        <button
+          type="button"
+          class="header-inline-search-clear-btn"
+          id="HeaderSearchClearBtn"
+          aria-label="Clear search input"
+          hidden
+        >
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Backdrop for click-outside dismissal -->
+      <div class="header-search-backdrop" id="HeaderSearchBackdrop" hidden></div>
+
+      <!-- Luxury Search Dropdown -->
+      <div
+        class="header-search-dropdown"
+        id="HeaderSearchDropdown"
+        role="listbox"
+        aria-label="Search results and recommendations"
+        tabindex="-1"
+        hidden
+      >
+        <!-- Mobile Search Input Bar (only on small screens) -->
+        <div class="header-search-mobile-bar">
+          <div class="header-search-mobile-bar__inner">
+            <svg class="header-search-mobile-bar__icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input
+              type="search"
+              class="header-search-mobile-bar__input"
+              id="HeaderSearchMobileInput"
+              placeholder="Search collections, art..."
+              autocomplete="off"
+              autocorrect="off"
+              autocapitalize="off"
+              spellcheck="false"
+            >
+            <button type="button" class="header-search-mobile-bar__clear" id="HeaderSearchMobileClear" hidden aria-label="Clear search">
+              &times;
+            </button>
+          </div>
+          <button type="button" class="header-search-mobile-bar__close" id="HeaderSearchMobileClose" aria-label="Close search">
+            Cancel
+          </button>
+        </div>
+
+        <div class="header-search-dropdown__content" id="HeaderSearchDropdownContent">
+          <!-- State A: Default View (Recommendations & Curated Products when tapped) -->
+          <div class="header-search-dropdown__default-view" id="HeaderSearchDefaultView">
+            
+            <!-- Recommendations Section -->
+            <div class="header-search-section header-search-section--recommendations">
+              <span class="header-search-section__label">POPULAR SEARCHES</span>
+              <div class="header-search-tags">
+                <button type="button" class="header-search-tag" data-query="Archival Fine Prints">Archival Fine Prints</button>
+                <button type="button" class="header-search-tag" data-query="Bronze & Marble Sculptures">Bronze & Marble Sculptures</button>
+                <button type="button" class="header-search-tag" data-query="Original Oil Paintings">Original Oil Paintings</button>
+                <button type="button" class="header-search-tag" data-query="New Arrivals">New Arrivals</button>
+                <button type="button" class="header-search-tag" data-query="Best Sellers">Best Sellers</button>
+                <button type="button" class="header-search-tag" data-query="3D Sajawat Art">3D Sajawat Art</button>
+              </div>
+            </div>
+
+            <div class="header-search-divider"></div>
+
+            <!-- Curated Products Section -->
+            <div class="header-search-section header-search-section--products">
+              <span class="header-search-section__label">CURATED SELECTION</span>
+              <div class="header-search-products-list">
+                {% liquid
+                  assign shown_count = 0
+                  assign fallback_images = 'fine-print-1.jpg,art-painting-abstract-oil.jpg,art-sculpture-bronze-figure.jpg,fine-print-2.jpg' | split: ','
+                %}
+                {% if rec_collection != blank and rec_collection.products.size > 0 %}
+                  {% for product in rec_collection.products %}
+                    {% if shown_count >= 4 %}
+                      {% break %}
+                    {% endif %}
+                    
+                    {% liquid
+                      assign prod_image = product.featured_media.preview_image | default: product.featured_image
+                      assign fallback_idx = shown_count | modulo: fallback_images.size
+                      assign fallback_img = fallback_images[fallback_idx] | asset_url
+                    %}
+                    
+                    <a href="{{ product.url }}" class="header-search-product-row">
+                      <div class="header-search-product-row__image-wrap">
+                        {% if prod_image != blank %}
+                          <img
+                            src="{{ prod_image | image_url: width: 120 }}"
+                            alt="{{ product.title | escape }}"
+                            loading="lazy"
+                            width="52"
+                            height="52"
+                            class="header-search-product-row__image"
+                          >
+                        {% else %}
+                          <img
+                            src="{{ fallback_img }}"
+                            alt="{{ product.title | escape }}"
+                            loading="lazy"
+                            width="52"
+                            height="52"
+                            class="header-search-product-row__image"
+                          >
+                        {% endif %}
+                      </div>
+                      <div class="header-search-product-row__info">
+                        {% assign vendor_clean = product.vendor | default: 'The Raw House' %}
+                        {% if vendor_clean == 'therawhouse' or vendor_clean == 'TheRawHouse' or vendor_clean == 'THE RAW HOUSE' %}
+                          {% assign vendor_clean = 'The Raw House Collection' %}
+                        {% endif %}
+                        <span class="header-search-product-row__vendor">{{ vendor_clean }}</span>
+                        <h5 class="header-search-product-row__title">{{ product.title }}</h5>
+                        {% if product.price > 0 %}
+                          <span class="header-search-product-row__price">{{ product.price | money }}</span>
+                        {% else %}
+                          <span class="header-search-product-row__inquire">Price Upon Request</span>
+                        {% endif %}
+                      </div>
+                      <span class="header-search-product-row__arrow" aria-hidden="true">&rarr;</span>
+                    </a>
+                    {% assign shown_count = shown_count | plus: 1 %}
+                  {% endfor %}
+                {% else %}
+                  <!-- Fallback Curated Luxury Products with High-End Photography -->
+                  <a href="{{ routes.all_products_collection_url }}" class="header-search-product-row">
+                    <div class="header-search-product-row__image-wrap">
+                      <img src="{{ 'fine-print-1.jpg' | asset_url }}" alt="Radha and Krishna" width="52" height="52" class="header-search-product-row__image">
+                    </div>
+                    <div class="header-search-product-row__info">
+                      <span class="header-search-product-row__vendor">By Mahaveer Swami</span>
+                      <h5 class="header-search-product-row__title">Radha and Krishna</h5>
+                      <span class="header-search-product-row__price">₹ 3,900.00</span>
+                    </div>
+                    <span class="header-search-product-row__arrow" aria-hidden="true">&rarr;</span>
+                  </a>
+                  <a href="{{ routes.all_products_collection_url }}" class="header-search-product-row">
+                    <div class="header-search-product-row__image-wrap">
+                      <img src="{{ 'fine-print-2.jpg' | asset_url }}" alt="Pink Flower Deep Plate" width="52" height="52" class="header-search-product-row__image">
+                    </div>
+                    <div class="header-search-product-row__info">
+                      <span class="header-search-product-row__vendor">By Mon Dimora</span>
+                      <h5 class="header-search-product-row__title">Pink Flower Deep Plate - Bitossi</h5>
+                      <span class="header-search-product-row__price">₹ 5,900.00</span>
+                    </div>
+                    <span class="header-search-product-row__arrow" aria-hidden="true">&rarr;</span>
+                  </a>
+                  <a href="{{ routes.all_products_collection_url }}" class="header-search-product-row">
+                    <div class="header-search-product-row__image-wrap">
+                      <img src="{{ 'fine-print-3.jpg' | asset_url }}" alt="The Blueroom Hand Printed Wallpaper" width="52" height="52" class="header-search-product-row__image">
+                    </div>
+                    <div class="header-search-product-row__info">
+                      <span class="header-search-product-row__vendor">By Oldhand Designs</span>
+                      <h5 class="header-search-product-row__title">The Blueroom Hand Printed Wallpaper</h5>
+                      <span class="header-search-product-row__price">₹ 13,000.00</span>
+                    </div>
+                    <span class="header-search-product-row__arrow" aria-hidden="true">&rarr;</span>
+                  </a>
+                  <a href="{{ routes.all_products_collection_url }}" class="header-search-product-row">
+                    <div class="header-search-product-row__image-wrap">
+                      <img src="{{ 'art-sculpture-bronze-figure.jpg' | asset_url }}" alt="Bronze Form Sculpture" width="52" height="52" class="header-search-product-row__image">
+                    </div>
+                    <div class="header-search-product-row__info">
+                      <span class="header-search-product-row__vendor">The Raw House Studio</span>
+                      <h5 class="header-search-product-row__title">Bronze Form Sculpture</h5>
+                      <span class="header-search-product-row__price">₹ 8,500.00</span>
+                    </div>
+                    <span class="header-search-product-row__arrow" aria-hidden="true">&rarr;</span>
+                  </a>
+                {% endif %}
+              </div>
+            </div>
+
+            <!-- Understated Editorial Footer Link -->
+            <div class="header-search-footer">
+              <a href="{{ routes.all_products_collection_url }}" class="header-search-editorial-link">
+                <span>VIEW ALL ARTWORK &amp; OBJECTS</span>
+                <span class="header-search-editorial-link__arrow" aria-hidden="true">&rarr;</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- State B: Dynamic Live Predictive Results View -->
+          <div class="header-search-dropdown__results-view" id="HeaderSearchResultsView" hidden>
+            <div class="header-search-loading" id="HeaderSearchLoading" hidden>
+              <div class="header-search-loading__spinner"></div>
+              <span>Searching collection...</span>
+            </div>
+            <div class="header-search-results-container" id="HeaderSearchResultsContainer"></div>
+          </div>
+
+        </div>
       </div>
     </form>
   </div>
+
+  <style>
+    /* --------------------------------------------------
+       Header Search Bar & Editorial Luxury Dropdown
+       -------------------------------------------------- */
+    .header-inline-search-wrapper {
+      position: relative !important;
+      display: inline-flex !important;
+      align-items: center !important;
+    }
+
+    .header-inline-search-pill {
+      position: relative !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      height: 38px !important;
+      background: #f8f7f5 !important;
+      border: 1px solid #e8e5e0 !important;
+      border-radius: 0 !important;
+      padding: 0 14px !important;
+      gap: 8px !important;
+      cursor: pointer !important;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+
+    .header-inline-search-pill:hover,
+    .header-inline-search-pill:focus-within,
+    .header-inline-search-pill[aria-expanded="true"] {
+      background: #ffffff !important;
+      border-color: #c5a880 !important;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05) !important;
+    }
+
+    .header-inline-search-icon-btn {
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      background: transparent !important;
+      border: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      width: 16px !important;
+      height: 16px !important;
+      cursor: pointer !important;
+      color: #555555 !important;
+      flex-shrink: 0 !important;
+      outline: none !important;
+      transition: color 0.25s ease !important;
+    }
+
+    .header-inline-search-icon-btn:hover {
+      color: #c5a880 !important;
+    }
+
+    .header-inline-search-svg {
+      width: 15px !important;
+      height: 15px !important;
+      display: block !important;
+      stroke: currentColor !important;
+      stroke-width: 1.8 !important;
+      fill: none !important;
+      flex-shrink: 0 !important;
+    }
+
+    .header-inline-search-input {
+      border: none !important;
+      background: transparent !important;
+      outline: none !important;
+      font-family: "Inter", sans-serif !important;
+      font-size: 12px !important;
+      color: #111111 !important;
+      width: 150px !important;
+      padding: 0 0 0 6px !important;
+      margin: 0 !important;
+      transition: width 0.3s ease !important;
+    }
+
+    .header-inline-search-pill:focus-within .header-inline-search-input,
+    .header-inline-search-pill:hover .header-inline-search-input,
+    .header-inline-search-pill[aria-expanded="true"] .header-inline-search-input {
+      width: 190px !important;
+    }
+
+    .header-inline-search-input::placeholder {
+      color: #888888 !important;
+      font-size: 11.5px !important;
+      letter-spacing: 0.02em !important;
+    }
+
+    .header-inline-search-clear-btn {
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: 17px !important;
+      height: 17px !important;
+      border-radius: 0 !important;
+      border: none !important;
+      background: #e6e3dc !important;
+      color: #555555 !important;
+      cursor: pointer !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      flex-shrink: 0 !important;
+      transition: all 0.2s ease !important;
+    }
+
+    .header-inline-search-clear-btn:hover {
+      background: #111111 !important;
+      color: #ffffff !important;
+    }
+
+    .header-inline-search-clear-btn[hidden] {
+      display: none !important;
+    }
+
+    /* Backdrop Click Dismissal */
+    .header-search-backdrop {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      height: 100dvh !important;
+      z-index: 99998 !important;
+      background: transparent !important;
+    }
+
+    .header-search-backdrop[hidden] {
+      display: none !important;
+    }
+
+    @media screen and (max-width: 989px) {
+      .header-search-backdrop {
+        background: rgba(0, 0, 0, 0.35) !important;
+        backdrop-filter: blur(2px) !important;
+        -webkit-backdrop-filter: blur(2px) !important;
+      }
+    }
+
+    /* Dropdown Shell (Desktop) */
+    .header-search-dropdown {
+      position: absolute !important;
+      top: calc(100% + 8px) !important;
+      left: 0 !important;
+      width: 440px !important;
+      max-width: 92vw !important;
+      background: #ffffff !important;
+      border: 1px solid #ebe7e0 !important;
+      border-radius: 0 !important;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.03) !important;
+      z-index: 999999 !important;
+      overflow: hidden !important;
+      display: flex !important;
+      flex-direction: column !important;
+      max-height: min(560px, 80vh) !important;
+      animation: headerSearchFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+    }
+
+    .header-search-dropdown[hidden] {
+      display: none !important;
+    }
+
+    @keyframes headerSearchFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Dropdown Shell (Mobile Full-Width Drawer under Header) */
+    @media screen and (max-width: 989px) {
+      .header-search-dropdown {
+        position: fixed !important;
+        top: 56px !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        width: 100vw !important;
+        max-width: 100vw !important;
+        height: calc(100dvh - 56px) !important;
+        max-height: calc(100dvh - 56px) !important;
+        background: #ffffff !important;
+        border-radius: 0 !important;
+        border: none !important;
+        border-top: 1px solid #eae7e1 !important;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.16) !important;
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        animation: headerSearchSlideDown 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+      }
+    }
+
+    @keyframes headerSearchSlideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-6px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Mobile Search Bar */
+    .header-search-mobile-bar {
+      display: none !important;
+    }
+
+    @media screen and (max-width: 989px) {
+      .header-search-mobile-bar {
+        display: flex !important;
+        align-items: center !important;
+        padding: 12px 16px !important;
+        background: #faf9f7 !important;
+        border-bottom: 1px solid #ede8e1 !important;
+        gap: 12px !important;
+        flex-shrink: 0 !important;
+      }
+
+      .header-search-mobile-bar__inner {
+        display: flex !important;
+        align-items: center !important;
+        flex: 1 !important;
+        background: #ffffff !important;
+        border: 1px solid #dcd7cf !important;
+        border-radius: 0 !important;
+        padding: 0 12px !important;
+        height: 38px !important;
+        gap: 8px !important;
+      }
+
+      .header-search-mobile-bar__icon {
+        width: 15px !important;
+        height: 15px !important;
+        color: #777777 !important;
+        flex-shrink: 0 !important;
+      }
+
+      .header-search-mobile-bar__input {
+        flex: 1 !important;
+        border: none !important;
+        background: transparent !important;
+        outline: none !important;
+        font-family: "Inter", sans-serif !important;
+        font-size: 13px !important;
+        color: #111111 !important;
+        padding: 0 !important;
+      }
+
+      .header-search-mobile-bar__clear {
+        background: transparent !important;
+        border: none !important;
+        font-size: 18px !important;
+        color: #888888 !important;
+        cursor: pointer !important;
+        padding: 0 !important;
+        line-height: 1 !important;
+      }
+
+      .header-search-mobile-bar__close {
+        background: transparent !important;
+        border: none !important;
+        font-family: "Inter", sans-serif !important;
+        font-size: 12px !important;
+        font-weight: 600 !important;
+        color: #111111 !important;
+        cursor: pointer !important;
+        padding: 4px 6px !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.08em !important;
+        flex-shrink: 0 !important;
+      }
+    }
+
+    /* Dropdown Inner Content */
+    .header-search-dropdown__content {
+      padding: 18px 18px 16px !important;
+      overflow-y: auto !important;
+      flex: 1 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 16px !important;
+    }
+
+    /* Section Labels */
+    .header-search-section {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 10px !important;
+    }
+
+    .header-search-section__label {
+      font-family: "Inter", sans-serif !important;
+      font-size: 10px !important;
+      font-weight: 500 !important;
+      letter-spacing: 0.16em !important;
+      text-transform: uppercase !important;
+      color: #999999 !important;
+      margin: 0 !important;
+      line-height: 1 !important;
+    }
+
+    /* Delicate Divider */
+    .header-search-divider {
+      height: 1px !important;
+      background: #f2efe9 !important;
+      width: 100% !important;
+      margin: 2px 0 !important;
+    }
+
+    /* Clean Recommendation Tags (Understated Luxury) */
+    .header-search-tags {
+      display: flex !important;
+      flex-wrap: wrap !important;
+      gap: 6px !important;
+    }
+
+    .header-search-tag {
+      display: inline-flex !important;
+      align-items: center !important;
+      padding: 5px 12px !important;
+      background: #fbfaf8 !important;
+      border: 1px solid #e5e1d8 !important;
+      border-radius: 0 !important;
+      font-family: "Inter", sans-serif !important;
+      font-size: 11px !important;
+      font-weight: 400 !important;
+      color: #333333 !important;
+      text-decoration: none !important;
+      cursor: pointer !important;
+      transition: all 0.2s ease !important;
+      white-space: nowrap !important;
+      outline: none !important;
+    }
+
+    .header-search-tag:hover,
+    .header-search-tag:focus-visible {
+      background: #111111 !important;
+      color: #ffffff !important;
+      border-color: #111111 !important;
+    }
+
+    /* Product Rows */
+    .header-search-products-list {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 2px !important;
+    }
+
+    .header-search-product-row {
+      display: flex !important;
+      align-items: center !important;
+      gap: 12px !important;
+      padding: 7px 8px !important;
+      border-radius: 0 !important;
+      text-decoration: none !important;
+      background: transparent !important;
+      transition: all 0.18s ease !important;
+      position: relative !important;
+    }
+
+    .header-search-product-row:hover,
+    .header-search-product-row:focus-visible {
+      background: #faf8f5 !important;
+    }
+
+    .header-search-product-row__image-wrap {
+      width: 50px !important;
+      height: 50px !important;
+      border-radius: 0 !important;
+      overflow: hidden !important;
+      background: #f4f2ee !important;
+      flex-shrink: 0 !important;
+      border: 1px solid #eae6df !important;
+    }
+
+    .header-search-product-row__image {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      display: block !important;
+      transition: transform 0.3s ease !important;
+    }
+
+    .header-search-product-row:hover .header-search-product-row__image {
+      transform: scale(1.05) !important;
+    }
+
+    .header-search-product-row__info {
+      flex: 1 !important;
+      min-width: 0 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 2px !important;
+    }
+
+    .header-search-product-row__vendor {
+      font-family: "Inter", sans-serif !important;
+      font-size: 9px !important;
+      font-weight: 500 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.12em !important;
+      color: #999999 !important;
+      line-height: 1.2 !important;
+    }
+
+    .header-search-product-row__title {
+      font-family: "Inter", sans-serif !important;
+      font-size: 12.5px !important;
+      font-weight: 500 !important;
+      color: #111111 !important;
+      margin: 0 !important;
+      line-height: 1.3 !important;
+      white-space: nowrap !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+    }
+
+    .header-search-product-row__price {
+      font-family: "Inter", sans-serif !important;
+      font-size: 11.5px !important;
+      font-weight: 500 !important;
+      color: #111111 !important;
+    }
+
+    .header-search-product-row__inquire {
+      font-family: "Inter", sans-serif !important;
+      font-size: 11px !important;
+      font-style: italic !important;
+      color: #888888 !important;
+    }
+
+    .header-search-product-row__arrow {
+      font-size: 13px !important;
+      color: #c5a880 !important;
+      opacity: 0 !important;
+      transform: translateX(-4px) !important;
+      transition: all 0.2s ease !important;
+      padding-right: 4px !important;
+    }
+
+    .header-search-product-row:hover .header-search-product-row__arrow,
+    .header-search-product-row:focus-visible .header-search-product-row__arrow {
+      opacity: 1 !important;
+      transform: translateX(0) !important;
+    }
+
+    /* Editorial Footer Link */
+    .header-search-footer {
+      margin-top: 2px !important;
+      padding-top: 10px !important;
+      border-top: 1px solid #f2efe9 !important;
+      display: flex !important;
+      justify-content: flex-end !important;
+    }
+
+    .header-search-editorial-link {
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 6px !important;
+      font-family: "Inter", sans-serif !important;
+      font-size: 10px !important;
+      font-weight: 600 !important;
+      letter-spacing: 0.16em !important;
+      text-transform: uppercase !important;
+      color: #222222 !important;
+      text-decoration: none !important;
+      padding: 4px 0 !important;
+      transition: color 0.2s ease !important;
+    }
+
+    .header-search-editorial-link:hover {
+      color: #c5a880 !important;
+    }
+
+    .header-search-editorial-link__arrow {
+      transition: transform 0.2s ease !important;
+    }
+
+    .header-search-editorial-link:hover .header-search-editorial-link__arrow {
+      transform: translateX(3px) !important;
+    }
+
+    /* Loading Spinner */
+    .header-search-loading {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 10px !important;
+      padding: 24px !important;
+      color: #888888 !important;
+      font-family: "Inter", sans-serif !important;
+      font-size: 12px !important;
+      letter-spacing: 0.04em !important;
+    }
+
+    .header-search-loading[hidden] {
+      display: none !important;
+    }
+
+    .header-search-loading__spinner {
+      width: 16px !important;
+      height: 16px !important;
+      border: 1.5px solid #e5e1d8 !important;
+      border-top-color: #c5a880 !important;
+      border-radius: 50% !important;
+      animation: headerSearchSpin 0.7s linear infinite !important;
+    }
+
+    @keyframes headerSearchSpin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* No Results Message */
+    .header-search-no-results {
+      text-align: center !important;
+      padding: 16px 8px 8px !important;
+      font-family: "Inter", sans-serif !important;
+    }
+
+    .header-search-no-results__text {
+      font-size: 13px !important;
+      color: #222222 !important;
+      margin: 0 0 4px 0 !important;
+    }
+
+    .header-search-no-results__subtext {
+      font-size: 11.5px !important;
+      color: #888888 !important;
+      margin: 0 !important;
+    }
+  </style>
+
+  <script>
+    (function() {
+      function initHeaderSearch() {
+        const wrapper = document.getElementById('HeaderSearchWrapper');
+        if (!wrapper || wrapper.dataset.searchReady === 'true') return;
+        wrapper.dataset.searchReady = 'true';
+
+        const form = document.getElementById('HeaderSearchForm');
+        const pill = document.getElementById('HeaderSearchPill');
+        const input = document.getElementById('HeaderSearchInput');
+        const clearBtn = document.getElementById('HeaderSearchClearBtn');
+        const searchBtn = document.getElementById('HeaderSearchBtn');
+        const dropdown = document.getElementById('HeaderSearchDropdown');
+        const backdrop = document.getElementById('HeaderSearchBackdrop');
+        const defaultView = document.getElementById('HeaderSearchDefaultView');
+        const resultsView = document.getElementById('HeaderSearchResultsView');
+        const resultsContainer = document.getElementById('HeaderSearchResultsContainer');
+        const loadingEl = document.getElementById('HeaderSearchLoading');
+        const mobileInput = document.getElementById('HeaderSearchMobileInput');
+        const mobileClear = document.getElementById('HeaderSearchMobileClear');
+        const mobileClose = document.getElementById('HeaderSearchMobileClose');
+
+        if (!dropdown || !input) return;
+
+        const searchUrl = wrapper.dataset.routesSearch || '/search';
+        const predictiveUrl = wrapper.dataset.routesPredictive || '/search/suggest';
+        const currencySymbol = wrapper.dataset.currencySymbol || '₹';
+
+        let isOpen = false;
+        let debounceTimer = null;
+        let activeAbortController = null;
+
+        function isMobileScreen() {
+          return window.innerWidth <= 989;
+        }
+
+        function openDropdown() {
+          if (isOpen) return;
+          isOpen = true;
+          dropdown.removeAttribute('hidden');
+          backdrop.removeAttribute('hidden');
+          pill.setAttribute('aria-expanded', 'true');
+          document.body.classList.add('header-search-is-active');
+
+          if (isMobileScreen() && mobileInput) {
+            setTimeout(() => mobileInput.focus(), 60);
+          }
+
+          const currentVal = (input.value || '').trim();
+          if (!currentVal) {
+            showDefaultView();
+          } else {
+            showResultsView();
+            executeSearch(currentVal);
+          }
+        }
+
+        function closeDropdown() {
+          if (!isOpen) return;
+          isOpen = false;
+          dropdown.setAttribute('hidden', '');
+          backdrop.setAttribute('hidden', '');
+          pill.setAttribute('aria-expanded', 'false');
+          document.body.classList.remove('header-search-is-active');
+          if (activeAbortController) {
+            activeAbortController.abort();
+            activeAbortController = null;
+          }
+        }
+
+        function showDefaultView() {
+          defaultView.removeAttribute('hidden');
+          resultsView.setAttribute('hidden', '');
+          loadingEl.setAttribute('hidden', '');
+        }
+
+        function showResultsView() {
+          defaultView.setAttribute('hidden', '');
+          resultsView.removeAttribute('hidden');
+        }
+
+        function syncInputs(val) {
+          if (input && input.value !== val) input.value = val;
+          if (mobileInput && mobileInput.value !== val) mobileInput.value = val;
+          const hasVal = val.length > 0;
+          if (clearBtn) clearBtn.hidden = !hasVal;
+          if (mobileClear) mobileClear.hidden = !hasVal;
+        }
+
+        function handleInputChange(val) {
+          const trimmed = val.trim();
+          syncInputs(val);
+
+          if (!trimmed) {
+            showDefaultView();
+            return;
+          }
+
+          showResultsView();
+          loadingEl.removeAttribute('hidden');
+          resultsContainer.innerHTML = '';
+
+          clearTimeout(debounceTimer);
+          debounceTimer = setTimeout(() => {
+            executeSearch(trimmed);
+          }, 180);
+        }
+
+        async function executeSearch(query) {
+          if (activeAbortController) {
+            activeAbortController.abort();
+          }
+          activeAbortController = new AbortController();
+          const signal = activeAbortController.signal;
+
+          loadingEl.removeAttribute('hidden');
+
+          try {
+            const endpoint = `${predictiveUrl}.json?q=${encodeURIComponent(query)}&resources[type]=product,collection,query&resources[options][unavailable_products]=hide`;
+            const res = await fetch(endpoint, { signal });
+            if (!res.ok) throw new Error('Search failed');
+            const data = await res.json();
+
+            if (signal.aborted) return;
+            loadingEl.setAttribute('hidden', '');
+            renderResults(data, query);
+          } catch (err) {
+            if (err.name === 'AbortError') return;
+            loadingEl.setAttribute('hidden', '');
+            renderFallbackResults(query);
+          }
+        }
+
+        function escapeHtml(str) {
+          if (!str) return '';
+          return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+        }
+
+        function formatPrice(val) {
+          if (val === undefined || val === null || val === '') return '';
+          const num = typeof val === 'number' ? val : parseFloat(String(val).replace(/[^0-9.]/g, ''));
+          if (isNaN(num) || num <= 0) return '';
+          const formatted = num.toLocaleString('en-IN', {
+            maximumFractionDigits: 2,
+            minimumFractionDigits: num % 1 !== 0 ? 2 : 0
+          });
+          const sym = currencySymbol.trim();
+          return `${sym} ${formatted}`;
+        }
+
+        function renderResults(data, query) {
+          const results = (data && data.resources && data.resources.results) || {};
+          const products = results.products || [];
+          const queries = results.queries || [];
+          const collections = results.collections || [];
+
+          if (products.length === 0 && queries.length === 0 && collections.length === 0) {
+            renderNoResults(query);
+            return;
+          }
+
+          let html = '';
+
+          // Queries / Suggestions
+          if (queries.length > 0) {
+            html += `
+              <div class="header-search-section">
+                <span class="header-search-section__label">SUGGESTIONS</span>
+                <div class="header-search-tags">
+                  ${queries.map(q => `
+                    <button type="button" class="header-search-tag" data-query="${escapeHtml(q.text)}">
+                      ${q.styled_text || escapeHtml(q.text)}
+                    </button>
+                  `).join('')}
+                </div>
+              </div>
+              <div class="header-search-divider"></div>
+            `;
+          }
+
+          // Products
+          if (products.length > 0) {
+            html += `
+              <div class="header-search-section">
+                <span class="header-search-section__label">PRODUCTS</span>
+                <div class="header-search-products-list">
+                  ${products.map(p => {
+                    const priceFormatted = formatPrice(p.price);
+                    const vendorName = p.vendor && p.vendor.toLowerCase() !== 'therawhouse' ? escapeHtml(p.vendor) : 'The Raw House';
+                    return `
+                      <a href="${p.url}" class="header-search-product-row">
+                        <div class="header-search-product-row__image-wrap">
+                          ${p.image ? `<img src="${p.image}" alt="${escapeHtml(p.title)}" width="50" height="50" class="header-search-product-row__image" loading="lazy">` : `
+                            <div style="width:100%;height:100%;background:#f4f2ee;"></div>
+                          `}
+                        </div>
+                        <div class="header-search-product-row__info">
+                          <span class="header-search-product-row__vendor">${vendorName}</span>
+                          <h5 class="header-search-product-row__title">${escapeHtml(p.title)}</h5>
+                          ${priceFormatted ? `<span class="header-search-product-row__price">${priceFormatted}</span>` : `<span class="header-search-product-row__inquire">Price Upon Request</span>`}
+                        </div>
+                        <span class="header-search-product-row__arrow" aria-hidden="true">&rarr;</span>
+                      </a>
+                    `;
+                  }).join('')}
+                </div>
+              </div>
+            `;
+          }
+
+          // Collections
+          if (collections.length > 0) {
+            html += `
+              <div class="header-search-divider"></div>
+              <div class="header-search-section">
+                <span class="header-search-section__label">COLLECTIONS</span>
+                <div class="header-search-tags">
+                  ${collections.map(c => `
+                    <a href="${c.url}" class="header-search-tag">
+                      ${escapeHtml(c.title)}
+                    </a>
+                  `).join('')}
+                </div>
+              </div>
+            `;
+          }
+
+          // View All Footer Link
+          html += `
+            <div class="header-search-footer">
+              <a href="${searchUrl}?q=${encodeURIComponent(query)}" class="header-search-editorial-link">
+                <span>VIEW ALL RESULTS FOR "${escapeHtml(query)}"</span>
+                <span class="header-search-editorial-link__arrow" aria-hidden="true">&rarr;</span>
+              </a>
+            </div>
+          `;
+
+          resultsContainer.innerHTML = html;
+          bindTagClicks(resultsContainer);
+        }
+
+        function renderNoResults(query) {
+          resultsContainer.innerHTML = `
+            <div class="header-search-no-results">
+              <p class="header-search-no-results__text">No results found for "<strong>${escapeHtml(query)}</strong>"</p>
+              <p class="header-search-no-results__subtext">Explore popular searches instead:</p>
+            </div>
+            <div class="header-search-section" style="margin-top: 10px;">
+              <div class="header-search-tags">
+                <button type="button" class="header-search-tag" data-query="Archival Fine Prints">Archival Fine Prints</button>
+                <button type="button" class="header-search-tag" data-query="Bronze & Marble Sculptures">Bronze & Marble Sculptures</button>
+                <button type="button" class="header-search-tag" data-query="Original Oil Paintings">Original Oil Paintings</button>
+                <button type="button" class="header-search-tag" data-query="New Arrivals">New Arrivals</button>
+                <button type="button" class="header-search-tag" data-query="Best Sellers">Best Sellers</button>
+              </div>
+            </div>
+          `;
+          bindTagClicks(resultsContainer);
+        }
+
+        function renderFallbackResults(query) {
+          resultsContainer.innerHTML = `
+            <div class="header-search-footer" style="margin-top:0; border-top:none;">
+              <a href="${searchUrl}?q=${encodeURIComponent(query)}" class="header-search-editorial-link">
+                <span>SEARCH FOR "${escapeHtml(query)}"</span>
+                <span class="header-search-editorial-link__arrow" aria-hidden="true">&rarr;</span>
+              </a>
+            </div>
+          `;
+        }
+
+        function bindTagClicks(container) {
+          if (!container) return;
+          const tags = container.querySelectorAll('.header-search-tag[data-query]');
+          tags.forEach(tagBtn => {
+            tagBtn.addEventListener('click', (e) => {
+              e.preventDefault();
+              const q = tagBtn.dataset.query;
+              if (!q) return;
+              syncInputs(q);
+              showResultsView();
+              executeSearch(q);
+              if (input && !isMobileScreen()) input.focus();
+            });
+          });
+        }
+
+        // Event Listeners
+        input.addEventListener('focus', () => openDropdown());
+        input.addEventListener('click', () => openDropdown());
+        input.addEventListener('input', (e) => handleInputChange(e.target.value));
+
+        // Pill click opens dropdown on mobile and desktop
+        pill.addEventListener('click', (e) => {
+          if (e.target !== clearBtn && !clearBtn.contains(e.target)) {
+            openDropdown();
+          }
+        });
+
+        // Search Button click
+        searchBtn.addEventListener('click', (e) => {
+          const q = input.value.trim();
+          if (!q) {
+            e.preventDefault();
+            openDropdown();
+            if (isMobileScreen() && mobileInput) {
+              setTimeout(() => mobileInput.focus(), 60);
+            } else {
+              input.focus();
+            }
+          }
+        });
+
+        // Clear Buttons
+        clearBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          syncInputs('');
+          showDefaultView();
+          input.focus();
+        });
+
+        if (mobileClear) {
+          mobileClear.addEventListener('click', (e) => {
+            e.preventDefault();
+            syncInputs('');
+            showDefaultView();
+            mobileInput.focus();
+          });
+        }
+
+        // Mobile Input
+        if (mobileInput) {
+          mobileInput.addEventListener('input', (e) => handleInputChange(e.target.value));
+          mobileInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+              e.preventDefault();
+              const q = mobileInput.value.trim();
+              if (q) window.location.href = `${searchUrl}?q=${encodeURIComponent(q)}`;
+            }
+          });
+        }
+
+        // Mobile Close Button
+        if (mobileClose) {
+          mobileClose.addEventListener('click', (e) => {
+            e.preventDefault();
+            closeDropdown();
+          });
+        }
+
+        // Backdrop Click
+        backdrop.addEventListener('click', () => closeDropdown());
+
+        // Click Outside Dropdown
+        document.addEventListener('click', (e) => {
+          if (!isOpen) return;
+          if (!wrapper.contains(e.target) && !backdrop.contains(e.target)) {
+            closeDropdown();
+          }
+        });
+
+        // Keyboard Shortcuts (Escape to close)
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && isOpen) {
+            closeDropdown();
+          }
+        });
+
+        // Bind initial recommendation tags in default view
+        bindTagClicks(defaultView);
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initHeaderSearch);
+      } else {
+        initHeaderSearch();
+      }
+
+      document.addEventListener('shopify:section:load', initHeaderSearch);
+    })();
+  </script>
 {% endunless %}

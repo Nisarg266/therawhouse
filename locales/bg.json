@@ -119,6 +119,7 @@
     "zoom_media": "Увеличаване на мултимедия {{ index }}"
   },
   "content": {
+    "no_image": "Няма изображение",
     "reviews": "мнения",
     "language": "Език",
     "localization_region_and_language": "Регион и език",

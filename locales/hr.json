@@ -121,6 +121,7 @@
     "zoom_media": "Zoom medijskog sadržaja {{ index }}"
   },
   "content": {
+    "no_image": "Nema slike",
     "reviews": "recenzije",
     "no_results_found": "Nema pronađenih rezultata",
     "language": "Jezik",

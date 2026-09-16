@@ -119,6 +119,7 @@
     "zoom_media": "Zooma media {{ index }}"
   },
   "content": {
+    "no_image": "Ingen bild",
     "reviews": "recensioner",
     "language": "Språk",
     "localization_region_and_language": "Region och språk",

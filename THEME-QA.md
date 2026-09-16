@@ -66,3 +66,38 @@ Browser checks cover the sampled pages and sizes in the preview, not every produ
 - Verified product image pagination, lazy-loaded recommendations finishing, mobile drawer fit, product tabs showing one panel, and review-slider movement.
 
 Additional limits: News currently has no visible articles, so article detail was not browser-tested. Gift-card and locked-password screens were statically validated only. Newsletter/contact submissions were not sent; Shopify hCaptcha reported a browser/network restriction during input interaction. Product Arq Cabinet displays an option named and valued "Default Title", which needs catalog cleanup. Account API menu fallback and product/currency data issues listed above remain. No live publication or checkout was performed.
+
+## Unified art-store button system
+
+- Centralized the button design in `assets/art-buttons.css`, loaded through the shared stylesheet snippet. The reusable classes are `art-button`, `art-button--secondary`, and `art-link`.
+- Primary actions use charcoal and warm ivory; secondary actions use a fine outline; editorial links use a consistent underline. Dark image sections use inverse ivory variants.
+- Shared 48px minimum button height, 2px corners, 11px medium-weight typography, 0.12em letter spacing, consistent padding, no raised shadows or hover jumps. Long labels can wrap instead of clipping. Editorial links retain a 44px touch area.
+- Standardized product/sticky purchase actions, unbranded Buy it now, cart checkout/discount/empty-state actions, search results action, contact/newsletter/comment/password forms, gift-card actions, and custom editorial/about sections. Shopify wallet buttons keep their provider branding and use the supported height/radius properties.
+- Added consistent hover, keyboard focus, disabled, and loading appearances. Sticky mobile add-to-cart keeps its compact icon while preserving an accessible text label.
+- Browser-checked eight routes at 320, 768, and 1440 pixels, plus seven optional section presets at those widths. No clipped button labels or document overflow. Confirmed add-to-cart and removal; the test cart was restored to empty. Form submissions and checkout were not sent.
+- Theme Check: zero errors, one existing header-settings-count advisory. All 30 changed theme files passed the Shopify skill validator; whitespace checks passed.
+- Hero banners contain some button graphics baked into the artwork. Those pixels remain unchanged and do not inherit CSS; the actual HTML controls now share the button system. Changes were not published to the live theme.
+
+## Collection card cleanup
+
+- Removed Quick Add rendering and its card behavior flag on collection templates.
+- Aligned full-width titles and price rows, removed the legacy title clamp on collection cards, and normalized spacing and responsive typography.
+- Collection prices use the rupee symbol when the active currency is INR, including compare-at, range, and unit prices; numeric amounts and other currencies are preserved.
+- Standard product cards without media show a neutral No image placeholder, with translations in all 31 storefront locales and accessible product links.
+- Browser checks at 320, 768, 1280, and 1440 pixels confirmed aligned title/price rows, mobile wrapping, no horizontal overflow, no collection Quick Add, and intact cards with real images.
+- All 36 changed Liquid/locale files passed the skill validator. Theme Check: zero errors, one existing header settings-count warning. Targeted whitespace checks passed. Changes are in the development theme, not published live.
+
+## Minimal overlay mini cart
+
+- Cart now opts into modal overlay mode on all viewport widths, with a dimmed backdrop and no page-wrapper squeeze. Existing saved sidebar state no longer restores the cart after navigation.
+- Added a 460px desktop drawer and full-width phone layout, warm neutral surfaces, simpler close/count controls, neat product rows, missing-image placeholders, and a separated checkout summary using the shared button system.
+- Removed duplicate unit/line price display for a single undiscounted item. Cart amounts use the rupee symbol for INR; other currencies keep their existing formatting settings.
+- Summary adapts when the viewport is resized, allowing the entire content area to scroll on short screens.
+- Browser-verified empty and populated states, unchanged page width, modal/scroll-lock behavior, Escape/focus restoration, backdrop and close-button dismissal, stock-limit messaging, and removal back to empty. Checked 320px, 768px (400px height), 1280px, and 1440px widths. Test cart restored to empty; checkout was not submitted.
+- Seven changed theme files passed the Shopify validator. JavaScript syntax and targeted whitespace checks passed. Theme Check: zero errors, one existing header settings-count advisory. Not published live.
+
+## Header icon clipping
+
+- Matched the header action hit areas to their 44px cart icon container, allowed visible overflow, moved the count badge inside that area, and removed the SVG cutout mask and hover scaling.
+- Verified the populated cart badge and complete bag icon at 320, 768, and 1280 pixels; no clipping ancestors or horizontal page overflow on the narrow mobile layout. Temporary test item removed afterward.
+- Updated CSS passed the Shopify validator and targeted whitespace check. Development theme only.

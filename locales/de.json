@@ -119,6 +119,7 @@
     "zoom_media": "Medien {{ index }} zoomen"
   },
   "content": {
+    "no_image": "Kein Bild",
     "reviews": "Reviews",
     "language": "Sprache",
     "localization_region_and_language": "Region und Sprache",

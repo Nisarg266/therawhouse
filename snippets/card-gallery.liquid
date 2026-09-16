@@ -204,15 +204,14 @@
       {%- endif -%}
     </a>
   {% elsif product != blank and product.media.size == 0 %}
-    <div class="product-card-gallery__title-placeholder">
-      <a
-        class="contents"
-        ref="cardGalleryLink"
-        href="{{ product.url }}"
-      >
-        <span class="title-text">{{- product.title -}}</span>
-      </a>
-    </div>
+    <a
+      class="product-card-gallery__no-image"
+      ref="cardGalleryLink"
+      href="{{ product.url }}"
+      aria-label="{{ product.title | escape }}"
+    >
+      <span>{{ 'content.no_image' | t }}</span>
+    </a>
   {% elsif product == blank %}
     {% liquid
       capture placeholder_image
@@ -258,154 +257,18 @@
     aspect-ratio: var(--gallery-aspect-ratio, var(--ratio));
   }
 
-  .product-card-gallery__title-placeholder {
-    padding: var(--padding-md);
-    font-size: var(--font-size--2xl);
-    line-height: var(--line-height--display-loose);
-    word-break: break-word;
-    color: var(--color-foreground);
-    background-color: rgb(var(--color-foreground-rgb) / var(--opacity-5));
-    aspect-ratio: var(--gallery-aspect-ratio);
-    border-radius: var(--product-corner-radius);
-    display: block;
-  }
-
-  .product-card-gallery__title-placeholder .title-text {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 5;
-    line-clamp: 5;
-    overflow: hidden;
-  }
-
-  .card-gallery[data-image-ratio='landscape'] .product-card-gallery__title-placeholder .title-text {
-    -webkit-line-clamp: 3;
-    line-clamp: 3;
-  }
-
-  @media screen and (min-width: 750px) {
-    .product-grid[data-product-card-size='extra-large'] .product-card-gallery__title-placeholder {
-      padding: var(--padding-3xl);
-      font-size: var(--font-size--3xl);
-    }
-
-    .product-grid[data-product-card-size='large'] .product-card-gallery__title-placeholder {
-      padding: var(--padding-2xl);
-      font-size: var(--font-size--2xl);
-    }
-
-    .product-grid[data-product-card-size='medium'] .product-card-gallery__title-placeholder {
-      padding: var(--padding-xl);
-      font-size: var(--font-size--xl);
-    }
-
-    .product-grid[data-product-card-size='small'] .product-card-gallery__title-placeholder {
-      padding: var(--padding-sm);
-      font-size: var(--font-size--lg);
-    }
-
-    .product-grid[data-product-card-size='extra-large']
-      .card-gallery.card-gallery--badge-top-right
-      .product-card-gallery__title-placeholder {
-      padding-right: calc(var(--padding-3xl) + 50px);
-    }
-
-    .product-grid[data-product-card-size='large']
-      .card-gallery.card-gallery--badge-top-right
-      .product-card-gallery__title-placeholder {
-      padding-right: calc(var(--padding-2xl) + 50px);
-    }
-
-    .product-grid[data-product-card-size='medium']
-      .card-gallery.card-gallery--badge-top-right
-      .product-card-gallery__title-placeholder {
-      padding-right: calc(var(--padding-xl) + 50px);
-    }
-
-    .product-grid[data-product-card-size='small']
-      .card-gallery.card-gallery--badge-top-right
-      .product-card-gallery__title-placeholder {
-      padding-right: calc(var(--padding-sm) + 50px);
-    }
-
-    .product-grid[data-product-card-size='extra-large']
-      .card-gallery.card-gallery--badge-top-left
-      .product-card-gallery__title-placeholder {
-      padding-top: calc(var(--padding-3xl) + 40px);
-    }
-
-    .product-grid[data-product-card-size='large']
-      .card-gallery.card-gallery--badge-top-left
-      .product-card-gallery__title-placeholder {
-      padding-top: calc(var(--padding-2xl) + 40px);
-    }
-
-    .product-grid[data-product-card-size='medium']
-      .card-gallery.card-gallery--badge-top-left
-      .product-card-gallery__title-placeholder {
-      padding-top: calc(var(--padding-xl) + 40px);
-    }
-
-    .product-grid[data-product-card-size='small']
-      .card-gallery.card-gallery--badge-top-left
-      .product-card-gallery__title-placeholder {
-      padding-top: calc(var(--padding-sm) + 40px);
-    }
-
-    .product-grid[data-product-card-size='extra-large']
-      .card-gallery.card-gallery--badge-bottom-left
-      .product-card-gallery__title-placeholder {
-      padding-bottom: calc(var(--padding-3xl) + 40px);
-    }
-
-    .product-grid[data-product-card-size='large']
-      .card-gallery.card-gallery--badge-bottom-left
-      .product-card-gallery__title-placeholder {
-      padding-bottom: calc(var(--padding-2xl) + 40px);
-    }
-
-    .product-grid[data-product-card-size='medium']
-      .card-gallery.card-gallery--badge-bottom-left
-      .product-card-gallery__title-placeholder {
-      padding-bottom: calc(var(--padding-xl) + 40px);
-    }
-
-    .product-grid[data-product-card-size='small']
-      .card-gallery.card-gallery--badge-bottom-left
-      .product-card-gallery__title-placeholder {
-      padding-bottom: calc(var(--padding-sm) + 40px);
-    }
-  }
-
-  @media screen and (max-width: 749px) {
-    .product-card-gallery__title-placeholder {
-      font-size: var(--font-size--xl);
-      padding: var(--padding-md);
-    }
-
-    .product-grid[data-product-card-size]
-      .card-gallery.card-gallery--badge-top-right
-      .product-card-gallery__title-placeholder {
-      padding-right: calc(var(--padding-sm) + 50px);
-    }
-
-    .product-grid[data-product-card-size]
-      .card-gallery.card-gallery--badge-top-left
-      .product-card-gallery__title-placeholder {
-      padding-top: calc(var(--padding-sm) + 40px);
-    }
-
-    .product-grid[data-product-card-size]
-      .card-gallery.card-gallery--badge-bottom-left
-      .product-card-gallery__title-placeholder {
-      padding-bottom: calc(var(--padding-sm) + 40px);
-    }
-  }
-
-  [product-grid-view='zoom-out'] .card-gallery .product-card-gallery__title-placeholder {
-    /* stylelint-disable-next-line declaration-no-important */
-    padding: var(--padding-xs) !important;
-    font-size: var(--font-size--xs);
+  .product-card-gallery__no-image {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    aspect-ratio: var(--gallery-aspect-ratio, 1);
+    padding: 20px;
+    background: #f5f4f0;
+    color: #767168;
+    font: 400 12px/1.5 var(--font-body--family, sans-serif);
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    text-align: center;
   }
 
   [product-grid-view='zoom-out'] .card-gallery .slideshow-control {

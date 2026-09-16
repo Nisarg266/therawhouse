@@ -52,7 +52,7 @@
             {%- if block.settings.button_text != blank -%}
               <a
                 href="{{ block.settings.button_url | default: '/pages/contact' }}"
-                class="about-services__card-btn about-services__card-btn--{{ section.settings.button_style | default: 'outline_dark' }}"
+                class="about-services__card-btn about-services__card-btn--{{ section.settings.button_style | default: 'outline_dark' }} art-button art-button--secondary"
                 {% if block.settings.button_open_new_tab %}target="_blank" rel="noopener noreferrer"{% endif %}
               >
                 <span>{{ block.settings.button_text }}</span>
@@ -75,7 +75,7 @@
             <li>Custom Finishes & Noble Materials</li>
             <li>Worldwide White-Glove Installation</li>
           </ul>
-          <a href="/pages/contact" class="about-services__card-btn">
+          <a href="/pages/contact" class="about-services__card-btn art-button art-button--secondary">
             <span>INQUIRE WITH STYLIST</span>
             <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
           </a>
@@ -90,7 +90,7 @@
             <li>Site-Specific Commissioned Pieces</li>
             <li>Certificates of Authenticity Included</li>
           </ul>
-          <a href="/pages/contact" class="about-services__card-btn">
+          <a href="/pages/contact" class="about-services__card-btn art-button art-button--secondary">
             <span>DISCOVER ART ADVISORY</span>
             <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
           </a>
@@ -105,7 +105,7 @@
             <li>Direct Artisan Atelier Collaboration</li>
             <li>Priority Expedited Global Freight</li>
           </ul>
-          <a href="/pages/contact" class="about-services__card-btn">
+          <a href="/pages/contact" class="about-services__card-btn art-button art-button--secondary">
             <span>JOIN TRADE PROGRAM</span>
             <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
           </a>

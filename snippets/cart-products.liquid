@@ -64,7 +64,7 @@
     {%- endif -%}
 
     <a
-      class="button cart-items__empty-button"
+      class="button cart-items__empty-button art-button"
       href="{{ settings.empty_cart_button_link | default: routes.all_products_collection_url }}"
     >
       <span class="button-text">
@@ -98,7 +98,7 @@
             role="caption"
           >
             {{ 'content.cart_total' | t }}
-            <span>{{ cart.total_price | money_with_currency }}</span>
+            <span>{%- render 'cart-money', amount: cart.total_price, show_currency: true -%}</span>
           </caption>
 
           <thead
@@ -178,6 +178,10 @@
                       {%- liquid
                         echo item.image | image_url: width: 250 | image_tag: class: 'cart-items__media-image border-style', style: border_override
                       -%}
+                    </a>
+                  {%- elsif context == 'drawer' -%}
+                    <a href="{{ item.url }}" class="cart-items__media-container cart-items__media-placeholder" aria-label="{{ item.product.title | escape }}">
+                      {{ 'content.no_image' | t }}
                     </a>
                   {%- endif %}
                 </td>
@@ -295,17 +299,17 @@
                     {%- endif -%}
                   </div>
 
-                  <div class="cart-items__unit-price-wrapper">
+                  <div class="cart-items__unit-price-wrapper"{% if context == 'drawer' and item.quantity == 1 and item.original_price == item.final_price %}{% unless item.variant.compare_at_price > item.original_price %} hidden{% endunless %}{% endif %}>
                     <div>
                       {% if item.original_price != item.final_price %}
                         <span class="visually-hidden">{{ 'content.price_sale' | t }}</span>
-                        <span>{{ item.final_price | money }}</span>
+                        <span>{%- render 'cart-money', amount: item.final_price -%}</span>
                         <span class="visually-hidden">{{ 'content.price_regular' | t }}</span>
                         <s class="compare-at-price">
                           {% if item.variant.compare_at_price > item.original_price %}
-                            {{ item.variant.compare_at_price | money }}
+                            {%- render 'cart-money', amount: item.variant.compare_at_price -%}
                           {% else %}
-                            {{ item.original_price | money }}
+                            {%- render 'cart-money', amount: item.original_price -%}
                           {% endif %}
                         </s>
                       {% else %}
@@ -315,11 +319,11 @@
                           <span class="visually-hidden">{{ 'content.price' | t }}</span>
                         {% endif %}
 
-                        <span>{{ item.original_price | money }}</span>
+                        <span>{%- render 'cart-money', amount: item.original_price -%}</span>
 
                         {% if item.variant.compare_at_price > item.original_price %}
                           <span class="visually-hidden">{{ 'content.price_regular' | t }}</span>
-                          <s class="compare-at-price">{{ item.variant.compare_at_price | money }}</s>
+                          <s class="compare-at-price">{%- render 'cart-money', amount: item.variant.compare_at_price -%}</s>
                         {% endif %}
                       {% endif %}
                     </div>
@@ -385,13 +389,12 @@
                   </div>
                 </td>
                 {%- liquid
-                  if settings.currency_code_enabled_cart_items
-                    assign price = item.final_line_price | money_with_currency
-                    assign unit_price = item.unit_price | money_with_currency
-                  else
-                    assign price = item.final_line_price | money
-                    assign unit_price = item.unit_price | money
-                  endif
+                  capture price
+                    render 'cart-money', amount: item.final_line_price, show_currency: settings.currency_code_enabled_cart_items
+                  endcapture
+                  capture unit_price
+                    render 'cart-money', amount: item.unit_price, show_currency: settings.currency_code_enabled_cart_items
+                  endcapture
                 -%}
                 <td
                   class="cart-items__price cart-secondary-typography"

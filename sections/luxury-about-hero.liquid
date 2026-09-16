@@ -74,7 +74,7 @@
 
       <div class="lux-about-hero-actions">
         {% if section.settings.button_text != blank %}
-          <a href="{{ section.settings.button_link | default: routes.all_products_collection_url }}" class="lux-about-hero-btn" style="background: var(--about-hero-accent);">
+          <a href="{{ section.settings.button_link | default: routes.all_products_collection_url }}" class="lux-about-hero-btn art-button" style="background: var(--about-hero-accent);">
             <span>{{ section.settings.button_text }}</span>
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -84,7 +84,7 @@
         {% endif %}
 
         {% if section.settings.button_2_text != blank %}
-          <a href="{{ section.settings.button_2_link | default: routes.all_products_collection_url }}" class="lux-about-hero-btn" style="background: transparent; color: #ffffff; border: 1px solid rgba(255,255,255,0.4);">
+          <a href="{{ section.settings.button_2_link | default: routes.all_products_collection_url }}" class="lux-about-hero-btn art-button art-button--secondary" style="background: transparent; color: #ffffff; border: 1px solid rgba(255,255,255,0.4);">
             <span>{{ section.settings.button_2_text }}</span>
           </a>
         {% endif %}

@@ -119,6 +119,7 @@
     "zoom_media": "Zoom medie {{ index }}"
   },
   "content": {
+    "no_image": "Intet billede",
     "reviews": "anmeldelser",
     "language": "Sprog",
     "localization_region_and_language": "Område og sprog",

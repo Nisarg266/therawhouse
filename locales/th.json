@@ -119,6 +119,7 @@
     "zoom_media": "ซูมสื่อ {{ index }}"
   },
   "content": {
+    "no_image": "ไม่มีรูปภาพ",
     "reviews": "รีวิว",
     "language": "ภาษา",
     "localization_region_and_language": "ภูมิภาคและภาษา",

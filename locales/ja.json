@@ -119,6 +119,7 @@
     "zoom_media": "ズームメディア {{ index }}"
   },
   "content": {
+    "no_image": "画像なし",
     "reviews": "レビュー",
     "language": "言語",
     "localization_region_and_language": "地域と言語",

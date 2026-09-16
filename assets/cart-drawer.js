@@ -18,6 +18,10 @@ class CartDrawerComponent extends Component {
   /** @type {number} */
   #summaryThreshold = 0.5;
 
+  #resizeObserver = new ResizeObserver(() => {
+    if (this.#themeDrawer?.isOpen) this.#updateStickyState();
+  });
+
   /** @type {import('@theme/theme-drawer').ThemeDrawer | null} */
   get #themeDrawer() {
     return /** @type {import('@theme/theme-drawer').ThemeDrawer | null} */ (this.closest('theme-drawer'));
@@ -32,6 +36,7 @@ class CartDrawerComponent extends Component {
     super.connectedCallback();
     document.addEventListener(StandardEvents.cartLinesUpdate, this.#handleCartLinesUpdate);
     this.#themeDrawer?.addEventListener(DrawerOpenEvent.eventName, this.#handleDrawerOpen);
+    if (this.#dialog) this.#resizeObserver.observe(this.#dialog);
 
     // The restore path sets [open] before this module loads, so the
     // theme-drawer:open event will have already fired. Use the attribute
@@ -45,6 +50,7 @@ class CartDrawerComponent extends Component {
     super.disconnectedCallback();
     document.removeEventListener(StandardEvents.cartLinesUpdate, this.#handleCartLinesUpdate);
     this.#themeDrawer?.removeEventListener(DrawerOpenEvent.eventName, this.#handleDrawerOpen);
+    this.#resizeObserver.disconnect();
   }
 
   /**

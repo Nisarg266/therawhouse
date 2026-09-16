@@ -121,6 +121,7 @@
     "zoom_media": "Zoom media {{ index }}"
   },
   "content": {
+    "no_image": "Nessuna immagine",
     "reviews": "recensioni",
     "no_results_found": "Nessun risultato trovato",
     "language": "Lingua",
