@@ -95,8 +95,14 @@
     {{ fallback_text }}
   </div>
 {% elsif plain_text != blank %}
+  {% liquid
+    assign clean_text = block.settings.text
+    if is_rte
+      assign clean_text = clean_text | replace: '<br><br>', '</p><p>' | replace: '<br /><br />', '</p><p>' | replace: '<br/><br/>', '</p><p>' | replace: '<br>', ' ' | replace: '<br/>', ' ' | replace: '<br />', ' '
+    endif
+  %}
   <{{ element }} {{ attributes | strip_newlines | strip }}>
-    {{ block.settings.text }}
+    {{ clean_text }}
   </{{ element }}>
 {% endif %}
 

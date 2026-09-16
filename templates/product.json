@@ -9,17 +9,17 @@
           "settings": {
             "media_presentation": "grid",
             "media_columns": "two",
-            "image_gap": 8,
+            "image_gap": 12,
             "large_first_image": true,
-            "slideshow_controls_style": "counter",
+            "slideshow_controls_style": "thumbnails",
             "slideshow_mobile_controls_style": "dots",
             "thumbnail_position": "bottom",
             "thumbnail_width": 64,
-            "thumbnail_radius": 0,
+            "thumbnail_radius": 4,
             "aspect_ratio": "adapt",
             "constrain_to_viewport": true,
             "media_fit": "contain",
-            "media_radius": 0,
+            "media_radius": 4,
             "extend_media": false,
             "zoom": true,
             "video_loop": false,
@@ -41,7 +41,7 @@
             "custom_width_mobile": 100,
             "height": "fit",
             "details_position": "flex-start",
-            "gap": 20,
+            "gap": 12,
             "sticky_details_desktop": true,
             "background_media": "none",
             "background_color": "",
@@ -52,8 +52,8 @@
             "border_opacity": 100,
             "border_color": "",
             "border_radius": 0,
-            "padding-block-start": 12,
-            "padding-block-end": 24,
+            "padding-block-start": 0,
+            "padding-block-end": 12,
             "padding-inline-start": 0,
             "padding-inline-end": 0
           },
@@ -65,11 +65,11 @@
                 "content_direction": "column",
                 "vertical_on_mobile": true,
                 "horizontal_alignment": "flex-start",
-                "vertical_alignment": "center",
+                "vertical_alignment": "flex-start",
                 "align_baseline": false,
                 "horizontal_alignment_flex_direction_column": "flex-start",
-                "vertical_alignment_flex_direction_column": "center",
-                "gap": 10,
+                "vertical_alignment_flex_direction_column": "flex-start",
+                "gap": 4,
                 "width": "fill",
                 "custom_width": 100,
                 "width_mobile": "fill",
@@ -107,7 +107,7 @@
                     "alignment": "left",
                     "type_preset": "paragraph",
                     "font": "var(--font-body--family)",
-                    "font_size": "0.78rem",
+                    "font_size": "0.74rem",
                     "line_height": "normal",
                     "letter_spacing": "0.18em",
                     "case": "none",
@@ -131,9 +131,9 @@
                     "alignment": "left",
                     "type_preset": "h2",
                     "font": "var(--font-body--family)",
-                    "font_size": "1.85rem",
-                    "line_height": "1.2",
-                    "letter_spacing": "0.02em",
+                    "font_size": "2.1rem",
+                    "line_height": "1.18",
+                    "letter_spacing": "-0.01em",
                     "case": "none",
                     "wrap": "pretty",
                     "text_color": "",
@@ -157,12 +157,12 @@
                     "width": "100%",
                     "alignment": "left",
                     "font": "var(--font-body--family)",
-                    "font_size": "1.3rem",
+                    "font_size": "1.4rem",
                     "line_height": "normal",
                     "letter_spacing": "normal",
                     "case": "none",
                     "text_color": "",
-                    "padding-block-start": 4,
+                    "padding-block-start": 0,
                     "padding-block-end": 0,
                     "padding-inline-start": 0,
                     "padding-inline-end": 0
@@ -175,19 +175,6 @@
                 "text_xrnftG",
                 "price_tVjtKg"
               ]
-            },
-            "divider_VJhene": {
-              "type": "_divider",
-              "name": "t:names.divider",
-              "settings": {
-                "thickness": 1,
-                "corner_radius": "square",
-                "divider_color": "#edeae3",
-                "width_percent": 100,
-                "padding-block-start": 4,
-                "padding-block-end": 4
-              },
-              "blocks": {}
             },
             "variant_picker_R3rGDr": {
               "type": "variant-picker",
@@ -204,8 +191,8 @@
                 "custom_selected_variant_text": "#ffffff",
                 "custom_selected_variant_border": "#111111",
                 "alignment": "left",
-                "padding-block-start": 4,
-                "padding-block-end": 4,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
               },
@@ -232,8 +219,8 @@
                 "input_border_color": "#d8d4cb",
                 "border_width": 1,
                 "border_radius": 0,
-                "padding-block-start": 4,
-                "padding-block-end": 12,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
                 "padding-inline-start": 0,
                 "padding-inline-end": 0
               },
@@ -291,7 +278,7 @@
                     "desc_content": {
                       "type": "text",
                       "settings": {
-                        "text": "<p>{{ closest.product.description }}</p>",
+                        "text": "{{ closest.product.description }}",
                         "width": "100%",
                         "max_width": "normal",
                         "alignment": "left"
@@ -301,85 +288,15 @@
                   "block_order": [
                     "desc_content"
                   ]
-                },
-                "row_craft": {
-                  "type": "_accordion-row",
-                  "settings": {
-                    "heading": "Materials & Specifications",
-                    "open_by_default": false,
-                    "icon": "none"
-                  },
-                  "blocks": {
-                    "craft_content": {
-                      "type": "text",
-                      "settings": {
-                        "text": "<p><strong>Handcrafted Finish:</strong> Curated with traditional craftsmanship techniques.<br><strong>Provenance:</strong> Verified atelier piece from The Raw House curated masters.<br><strong>Care Instructions:</strong> Clean gently with a soft, dry natural microfiber cloth. Avoid direct excessive sunlight or chemical solvents.</p>",
-                        "width": "100%",
-                        "max_width": "normal",
-                        "alignment": "left"
-                      }
-                    }
-                  },
-                  "block_order": [
-                    "craft_content"
-                  ]
-                },
-                "row_delivery": {
-                  "type": "_accordion-row",
-                  "settings": {
-                    "heading": "White Glove Delivery & Transit",
-                    "open_by_default": false,
-                    "icon": "none"
-                  },
-                  "blocks": {
-                    "delivery_content": {
-                      "type": "text",
-                      "settings": {
-                        "text": "<p>Complimentary insured white-glove transit across India & worldwide on all fine collections. Includes custom protective crating, scheduled appointment, and room-of-choice placement.</p>",
-                        "width": "100%",
-                        "max_width": "normal",
-                        "alignment": "left"
-                      }
-                    }
-                  },
-                  "block_order": [
-                    "delivery_content"
-                  ]
-                },
-                "row_authenticity": {
-                  "type": "_accordion-row",
-                  "settings": {
-                    "heading": "Certificate of Authenticity",
-                    "open_by_default": false,
-                    "icon": "none"
-                  },
-                  "blocks": {
-                    "auth_content": {
-                      "type": "text",
-                      "settings": {
-                        "text": "<p>Every acquisition is accompanied by an individual Certificate of Authenticity signed and stamped by the atelier curator, guaranteeing authentic provenance and heirloom artistry.</p>",
-                        "width": "100%",
-                        "max_width": "normal",
-                        "alignment": "left"
-                      }
-                    }
-                  },
-                  "block_order": [
-                    "auth_content"
-                  ]
                 }
               },
               "block_order": [
-                "row_curation",
-                "row_craft",
-                "row_delivery",
-                "row_authenticity"
+                "row_curation"
               ]
             }
           },
           "block_order": [
             "group_icgrde",
-            "divider_VJhene",
             "variant_picker_R3rGDr",
             "buy_buttons_eYQEYi",
             "accordion_tabs"
@@ -390,79 +307,38 @@
       "settings": {
         "content_width": "content-center-aligned",
         "desktop_media_position": "left",
-        "equal_columns": false,
+        "equal_columns": true,
         "limit_details_width": false,
-        "gap": 48,
+        "gap": 36,
         "enable_sticky_add_to_cart": true,
         "background_color": "#ffffff",
-        "padding-block-start": 24,
-        "padding-block-end": 36
-      }
-    },
-    "luxury_trust": {
-      "type": "luxury-trust-features",
-      "blocks": {
-        "trust_1": {
-          "type": "feature",
-          "settings": {
-            "icon": "authenticity",
-            "title": "CERTIFIED PROVENANCE",
-            "subtitle": "Individually certified provenance with signed curator seal"
-          }
-        },
-        "trust_2": {
-          "type": "feature",
-          "settings": {
-            "icon": "delivery",
-            "title": "WHITE GLOVE TRANSIT",
-            "subtitle": "Insured climate packaging & room-of-choice placement"
-          }
-        },
-        "trust_3": {
-          "type": "feature",
-          "settings": {
-            "icon": "bespoke",
-            "title": "BESPOKE SIZING & FINISH",
-            "subtitle": "Custom dimensions crafted to your spatial requirements"
-          }
-        },
-        "trust_4": {
-          "type": "feature",
-          "settings": {
-            "icon": "concierge",
-            "title": "CURATOR CONCIERGE",
-            "subtitle": "1-on-1 personal assistance for art & interior advising"
-          }
-        }
-      },
-      "block_order": [
-        "trust_1",
-        "trust_2",
-        "trust_3",
-        "trust_4"
-      ],
-      "settings": {
-        "color_scheme_preset": "warm",
-        "padding_top": 36,
-        "padding_bottom": 36
+        "padding-block-start": 16,
+        "padding-block-end": 20
       }
     },
     "craftsmanship_story": {
       "type": "luxury-craftsmanship-story",
       "settings": {
-        "color_scheme_preset": "light",
+        "color_scheme_preset": "warm",
         "subheading": "THE RAW HOUSE ATELIER",
         "heading": "Bespoke Artistry & Timeless Provenance",
         "story_text": "Every object in our atelier tells a story of authentic craftsmanship, time-honored techniques, and contemporary form. We collaborate with master artisans and heritage curators to bring museum-grade masterworks into refined living spaces.",
         "badge_number": "100%",
         "badge_label": "ARTISAN HANDCRAFTED",
-        "metric_1_number": "200+",
-        "metric_1_label": "Hours of Hand Craftsmanship",
-        "metric_2_number": "100%",
-        "metric_2_label": "Natural Organic Materials",
+        "counter_1_number": 2400,
+        "counter_1_suffix": "+",
+        "counter_1_label": "Paintings & Artworks Curated",
+        "counter_2_number": 140,
+        "counter_2_suffix": "+",
+        "counter_2_label": "Master Artists & Sculptors",
+        "counter_3_number": 35,
+        "counter_3_suffix": "+",
+        "counter_3_label": "Museum Exhibitions",
         "media_position": "left",
-        "padding_top": 48,
-        "padding_bottom": 52
+        "button_label": "DISCOVER THE ATELIER",
+        "button_link": "shopify:\/\/collections\/all",
+        "padding_top": 44,
+        "padding_bottom": 48
       }
     },
     "product_recommendations_qggXJq": {
@@ -472,16 +348,16 @@
           "type": "text",
           "name": "t:names.header",
           "settings": {
-            "text": "<h3>Complementary Curations</h3>",
+            "text": "<h3>CURATED ATELIER COMPANIONS</h3>",
             "width": "100%",
             "max_width": "normal",
             "alignment": "center",
             "type_preset": "h3",
             "font": "var(--font-body--family)",
-            "font_size": "1rem",
+            "font_size": "1.25rem",
             "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
+            "letter_spacing": "0.12em",
+            "case": "uppercase",
             "wrap": "pretty",
             "background": false,
             "background_color": "#00000026",
@@ -590,12 +466,12 @@
         "product": "{{ closest.product }}",
         "recommendation_type": "related",
         "layout_type": "grid",
-        "carousel_on_mobile": true,
-        "max_products": 4,
-        "columns": 4,
+        "carousel_on_mobile": false,
+        "max_products": 6,
+        "columns": 3,
         "mobile_columns": "2",
-        "columns_gap": 20,
-        "rows_gap": 28,
+        "columns_gap": 24,
+        "rows_gap": 32,
         "icons_style": "arrow",
         "icons_shape": "none",
         "section_width": "page-width",
@@ -610,14 +486,13 @@
       "settings": {
         "heading": "A little bit of us",
         "text": "The House of Things is a destination for design, artistry and craftsmanship, curated for a life artfully lived.",
-        "padding_top": 44,
-        "padding_bottom": 52
+        "padding_top": 24,
+        "padding_bottom": 28
       }
     }
   },
   "order": [
     "main",
-    "luxury_trust",
     "craftsmanship_story",
     "product_recommendations_qggXJq",
     "brand_statement"

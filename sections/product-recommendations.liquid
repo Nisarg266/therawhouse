@@ -73,120 +73,146 @@
       {% content_for 'blocks' %}
     </div>
 
-    {%- if recommendations.performed or section.settings.product == blank -%}
-      {% liquid
-        if section.settings.product == blank
-          assign products = null
-          # Onboarding mode: Show placeholder products
-          for i in (1..section.settings.max_products)
-            assign products = products | append: ', '
-            assign products = products | split: ','
-          endfor
-        elsif recommendations.performed and recommendations.products_count == 0
-          # No recommendations found, pull from catalog
-          if section.settings.recommendation_type == 'related'
-            assign products = collections.all.products | reject: 'id', section.settings.product.id
-          elsif section.settings.recommendation_type == 'complementary'
-            # Do not recommend the All collection as complementary products
-            assign products = null
-          endif
-
-        else
-          assign products = recommendations.products
-        endif
-      %}
-      {% capture list_items %}
-        {% for product in products limit: section.settings.max_products %}
-          <div class="resource-list__item">
-            {% content_for 'block',
-              type: '_product-card',
-              id: 'static-product-card',
-              closest.product: product,
-              product_view_context: 'recommendation'
-            %}
-          </div>
-          {% unless forloop.last %}
-            <!--@list/split-->
-          {% endunless %}
+    {% liquid
+      assign current_product_id = section.settings.product.id | default: closest.product.id | default: product.id
+      assign target_max = section.settings.max_products | default: 6
+      assign rendered_count = 0
+      assign rendered_ids = current_product_id | append: ''
+    %}
+    {% capture list_items %}
+      {% if recommendations.performed and recommendations.products_count > 0 %}
+        {% for rec_product in recommendations.products limit: target_max %}
+          {% if rec_product != blank and rec_product.id != blank %}
+            {% assign p_id_str = rec_product.id | append: '' %}
+            {% unless rendered_ids contains p_id_str %}
+              {% assign rendered_ids = rendered_ids | append: ',' | append: p_id_str %}
+              {% assign rendered_count = rendered_count | plus: 1 %}
+              <div class="resource-list__item">
+                {% content_for 'block',
+                  type: '_product-card',
+                  id: 'static-product-card',
+                  closest.product: rec_product,
+                  product_view_context: 'recommendation'
+                %}
+              </div>
+              <!--@list/split-->
+            {% endunless %}
+          {% endif %}
         {% endfor %}
-      {% endcapture %}
+      {% endif %}
 
+      {% if rendered_count < target_max %}
+        {% for cat_product in collections.all.products limit: 30 %}
+          {% if cat_product != blank and cat_product.id != blank %}
+            {% assign p_id_str = cat_product.id | append: '' %}
+            {% unless rendered_ids contains p_id_str %}
+              {% assign rendered_ids = rendered_ids | append: ',' | append: p_id_str %}
+              {% assign rendered_count = rendered_count | plus: 1 %}
+              <div class="resource-list__item">
+                {% content_for 'block',
+                  type: '_product-card',
+                  id: 'static-product-card',
+                  closest.product: cat_product,
+                  product_view_context: 'recommendation'
+                %}
+              </div>
+              <!--@list/split-->
+              {% if rendered_count >= target_max %}
+                {% break %}
+              {% endif %}
+            {% endunless %}
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+
+      {% if rendered_count < target_max %}
+        {% for coll in collections %}
+          {% for cat_product in coll.products limit: 12 %}
+            {% if cat_product != blank and cat_product.id != blank %}
+              {% assign p_id_str = cat_product.id | append: '' %}
+              {% unless rendered_ids contains p_id_str %}
+                {% assign rendered_ids = rendered_ids | append: ',' | append: p_id_str %}
+                {% assign rendered_count = rendered_count | plus: 1 %}
+                <div class="resource-list__item">
+                  {% content_for 'block',
+                    type: '_product-card',
+                    id: 'static-product-card',
+                    closest.product: cat_product,
+                    product_view_context: 'recommendation'
+                  %}
+                </div>
+                <!--@list/split-->
+                {% if rendered_count >= target_max %}
+                  {% break %}
+                {% endif %}
+              {% endunless %}
+            {% endif %}
+          {% endfor %}
+          {% if rendered_count >= target_max %}
+            {% break %}
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    {% endcapture %}
+
+    {% liquid
+      assign slide_content = list_items | strip
+      assign slides = slide_content | split: '<!--@list/split-->'
+      assign has_recommendations = 'true'
+    %}
+
+    <div
+      class="
+        resource-list
+        {% if section.settings.layout_type == 'carousel' %}
+          force-full-width
+        {% endif %}
+        {% if section.settings.carousel_on_mobile and section.settings.layout_type != 'carousel' %}
+          hidden--mobile
+        {% endif %}
+        {{ classes }}
+      "
+      {% if section.settings.layout_type == 'grid' %}
+        data-testid="resource-list-grid"
+      {% endif %}
+      data-has-recommendations="{{ has_recommendations }}"
+    >
+      {% case section.settings.layout_type %}
+        {% when 'grid' %}
+          {{ list_items }}
+        {% when 'carousel' %}
+          {% render 'resource-list-carousel',
+            ref: 'resourceListCarousel',
+            slides: slides,
+            slide_count: rendered_count,
+            settings: section.settings
+          %}
+      {% endcase %}
+    </div>
+
+    {% if section.settings.carousel_on_mobile and section.settings.layout_type != 'carousel' %}
       {% liquid
-        # Create an array from the list items to be used in the carousel
-        assign slide_content = list_items | strip
-        assign slides = slide_content | split: '<!--@list/split-->'
-
-        if products != blank and products.size > 0
-          assign has_recommendations = 'true'
-        else
-          assign has_recommendations = 'false'
-        endif
+        assign mobile_carousel_gap = section.settings.columns_gap
       %}
-
       <div
         class="
           resource-list
-          {% if section.settings.layout_type == 'carousel' %}
-            force-full-width
-          {% endif %}
-          {% if section.settings.carousel_on_mobile and section.settings.layout_type != 'carousel' %}
-            hidden--mobile
-          {% endif %}
-          {{ classes }}
+          hidden--desktop
+          force-full-width
         "
-        {% if section.settings.layout_type == 'grid' %}
-          data-testid="resource-list-grid"
-        {% endif %}
-        data-has-recommendations="{{ has_recommendations }}"
+        style="
+          --resource-list-gap: {{ mobile_carousel_gap }}px;
+          --column-count: {{ section.settings.columns }};
+        "
       >
-        {% case section.settings.layout_type %}
-          {% when 'grid' %}
-            {{ list_items }}
-          {% when 'carousel' %}
-            {% render 'resource-list-carousel',
-              ref: 'resourceListCarousel',
-              slides: slides,
-              slide_count: recommendations.products.size,
-              settings: section.settings
-            %}
-        {% endcase %}
-      </div>
-
-      {% if section.settings.carousel_on_mobile and section.settings.layout_type != 'carousel' %}
-        {% liquid
-          assign mobile_carousel_gap = section.settings.columns_gap
+        {% render 'resource-list-carousel',
+          ref: 'resourceListCarouselMobile',
+          slides: slides,
+          slide_count: rendered_count,
+          settings: section.settings
         %}
-        <div
-          class="
-            resource-list
-            hidden--desktop
-            force-full-width
-          "
-          style="
-            --resource-list-gap: {{ mobile_carousel_gap }}px;
-            --column-count: {{ section.settings.columns }};
-          "
-        >
-          {% render 'resource-list-carousel',
-            ref: 'resourceListCarouselMobile',
-            slides: slides,
-            slide_count: recommendations.products.size,
-            settings: section.settings
-          %}
-        </div>
-      {% endif %}
-    {%- else -%}
-      <div
-        class="resource-list resource-list--grid"
-      >
-        {% for i in (1..section.settings.columns) %}
-          <div
-            class="product-recommendations__skeleton-item"
-            aria-label="{{ 'accessibility.loading_product_recommendations' | t }}"
-          ></div>
-        {% endfor %}
       </div>
-    {%- endif -%}
+    {% endif %}
   </div>
 </product-recommendations>
 

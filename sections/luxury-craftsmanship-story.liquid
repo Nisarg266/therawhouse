@@ -59,14 +59,25 @@
   <div class="lux-craft-container" style="{% if section.settings.media_position == 'right' %}direction: rtl;{% endif %}">
     <!-- Visual Column -->
     <div class="lux-craft-media-wrap lux-reveal-zoom" style="direction: ltr;">
-      {% if section.settings.image != blank %}
+      {% liquid
+        assign current_prod = closest.product | default: product
+        assign story_image = null
+        if section.settings.image != blank
+          assign story_image = section.settings.image
+        elsif current_prod != blank and current_prod.images.size > 1
+          assign story_image = current_prod.images[1]
+        elsif current_prod != blank and current_prod.featured_image != blank
+          assign story_image = current_prod.featured_image
+        endif
+      %}
+      {% if story_image != blank %}
         {{
-          section.settings.image
+          story_image
           | image_url: width: 1200
           | image_tag:
             class: 'lux-craft-img',
             loading: 'eager',
-            alt: section.settings.heading
+            alt: section.settings.heading | default: current_prod.title
         }}
       {% elsif section.settings.default_asset != blank %}
         <img
@@ -74,13 +85,13 @@
           alt="Artisan Craftsmanship"
           class="lux-craft-img"
           loading="eager"
-          onerror="this.onerror=null;this.src='{{ 'maker-gallery-3.jpg' | asset_url }}';"
+          onerror="this.onerror=null;this.src='{{ 'the-raw-house-editorial-lifestyle.png' | asset_url }}';"
           width="800"
           height="800"
         >
       {% else %}
         <img
-          src="{{ 'maker-gallery-3.jpg' | asset_url }}"
+          src="{{ 'the-raw-house-editorial-lifestyle.png' | asset_url }}"
           alt="Artisan Craftsmanship"
           class="lux-craft-img"
           loading="eager"

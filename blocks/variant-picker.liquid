@@ -5,11 +5,27 @@
   if request.visual_preview_mode and product_resource == blank
     assign product_resource = collections.all.products.first
   endif
+
+  assign has_real_variants = true
+  if product_resource.has_only_default_variant
+    assign has_real_variants = false
+  elsif product_resource.variants.size <= 1
+    assign first_var_title = product_resource.variants.first.title | downcase
+    if first_var_title == 'default title' or first_var_title == 'default' or first_var_title == ''
+      assign has_real_variants = false
+    endif
+  endif
+  if product_resource.options_with_values.size == 1
+    assign first_opt_val = product_resource.options_with_values.first.values.first | downcase
+    if first_opt_val == 'default title' or first_opt_val == 'default'
+      assign has_real_variants = false
+    endif
+  endif
 -%}
 
-{% unless product_resource == blank %}
+{% if has_real_variants and product_resource != blank %}
   {% render 'variant-main-picker', product_resource: product_resource, section: section, product: product %}
-{% endunless %}
+{% endif %}
 
 {% schema %}
 {

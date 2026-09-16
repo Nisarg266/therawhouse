@@ -6,43 +6,54 @@
   {% assign is_curation = true %}
 {% endif %}
 
-{% capture accordion_row_children %}
-  <details
-    class="details{% if is_curation %} is-curation-tab{% endif %}"
-    data-testid="accordion-details"
-    {% if is_curation %}
-      open
-      declarative-open
-    {% endif %}
-    {{ block.shopify_attributes }}
-  >
-    <summary class="details__header">
-      {% render 'icon-or-image',
-        icon: block_settings.icon,
-        image_upload: block_settings.image_upload,
-        width: block_settings.width,
-        class_name: 'details__icon'
-      %}
-      {{ block_settings.heading }}
-      <span class="svg-wrapper icon-caret icon-animated">
-        {{- 'icon-caret.svg' | inline_asset_content -}}
-      </span>
-      <span class="svg-wrapper icon-plus">
-        {{- 'icon-plus.svg' | inline_asset_content -}}
-      </span>
-    </summary>
-
-    <div class="details-content">
-      {% content_for 'blocks' %}
-    </div>
-  </details>
+{% capture inner_blocks %}
+  {% content_for 'blocks' %}
 {% endcapture %}
-{% render 'accordion-custom-component',
-  children: accordion_row_children,
-  open: is_curation,
-  open_by_default_on_desktop: is_curation,
-  open_by_default_on_mobile: is_curation
-%}
+{% assign inner_stripped = inner_blocks | strip_html | strip_newlines | strip %}
+{% assign has_media_content = false %}
+{% if inner_blocks contains '<img' or inner_blocks contains '<iframe' or inner_blocks contains '<table' or inner_blocks contains '<svg' %}
+  {% assign has_media_content = true %}
+{% endif %}
+
+{% if inner_stripped != blank or has_media_content %}
+  {% capture accordion_row_children %}
+    <details
+      class="details{% if is_curation %} is-curation-tab{% endif %}"
+      data-testid="accordion-details"
+      {% if is_curation %}
+        open
+        declarative-open
+      {% endif %}
+      {{ block.shopify_attributes }}
+    >
+      <summary class="details__header">
+        {% render 'icon-or-image',
+          icon: block_settings.icon,
+          image_upload: block_settings.image_upload,
+          width: block_settings.width,
+          class_name: 'details__icon'
+        %}
+        {{ block_settings.heading }}
+        <span class="svg-wrapper icon-caret icon-animated">
+          {{- 'icon-caret.svg' | inline_asset_content -}}
+        </span>
+        <span class="svg-wrapper icon-plus">
+          {{- 'icon-plus.svg' | inline_asset_content -}}
+        </span>
+      </summary>
+
+      <div class="details-content">
+        {{ inner_blocks }}
+      </div>
+    </details>
+  {% endcapture %}
+  {% render 'accordion-custom-component',
+    children: accordion_row_children,
+    open: is_curation,
+    open_by_default_on_desktop: is_curation,
+    open_by_default_on_mobile: is_curation
+  %}
+{% endif %}
 
 {% schema %}
 {

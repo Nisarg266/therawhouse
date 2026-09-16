@@ -31,6 +31,7 @@
   {% render 'fly-to-cart-styles' %}
 
   {% liquid
+    assign product = closest.product | default: product
     assign current_variant = product.selected_or_first_available_variant
     # Get the initial quantity based on quantity rules
     assign initial_quantity = current_variant.quantity_rule.min | default: 1
@@ -80,6 +81,14 @@
           assign has_single_option = true
         endif
 
+        assign is_default_variant = false
+        assign variant_title_down = current_variant.title | downcase
+        if product.has_only_default_variant
+          assign is_default_variant = true
+        elsif variant_title_down == 'default title' or product.variants.size <= 1
+          assign is_default_variant = true
+        endif
+
         if image_to_show == blank
           assign has_image = false
         else
@@ -89,7 +98,7 @@
       <div
         class="sticky-add-to-cart__info"
         data-has-image="{{ has_image }}"
-        data-singleton="{{ product.has_only_default_variant }}"
+        data-singleton="{{ is_default_variant }}"
         data-single-option="{{ has_single_option }}"
       >
         <p
@@ -98,20 +107,14 @@
         >
           {{ product.title | escape }}
         </p>
-        <div
-          class="sticky-add-to-cart__variant"
-          data-testid="sticky-variant-title"
-          {% if product.has_only_default_variant %}
-            style="display: none;"
-          {% endif %}
-        >
-          {% unless product.has_only_default_variant %}
-            {% if current_variant != blank %}
-              {% assign variant_title = current_variant.title | escape %}
-            {% endif %}
-            {{ variant_title }}
-          {% endunless %}
-        </div>
+        {% unless is_default_variant %}
+          <div
+            class="sticky-add-to-cart__variant"
+            data-testid="sticky-variant-title"
+          >
+            {{ current_variant.title | escape }}
+          </div>
+        {% endunless %}
       </div>
 
       <div
