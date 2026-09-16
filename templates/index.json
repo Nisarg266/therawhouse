@@ -15,6 +15,7 @@
         "slide_1": {
           "type": "slide",
           "settings": {
+            "image": "shopify://shop_images/53680494-2a4f-43c4-92dc-e8a0a8fba65f.png",
             "default_asset": "hero-slide-1.jpg",
             "subheading": "",
             "heading": "",
@@ -29,6 +30,7 @@
         "slide_2": {
           "type": "slide",
           "settings": {
+            "image": "shopify://shop_images/3c2a8f52-358c-4ff6-9e88-f0e441cc7b80.png",
             "default_asset": "hero-slide-2.jpg",
             "subheading": "",
             "heading": "",
@@ -43,6 +45,7 @@
         "slide_3": {
           "type": "slide",
           "settings": {
+            "image": "shopify://shop_images/68ea042e-b783-454a-9600-bc049ce2595e.png",
             "default_asset": "hero-slide-3.jpg",
             "subheading": "",
             "heading": "",
