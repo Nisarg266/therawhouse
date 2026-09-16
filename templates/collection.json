@@ -4,6 +4,8 @@
       "type": "collection-hero-banner",
       "settings": {
         "subheading": "the",
+        "show_breadcrumbs": true,
+        "show_collection_nav": true,
         "show_underline": true,
         "show_count": true,
         "fallback_description": "A curated edit of museum-grade artifacts, contemporary canvas art, and timeless furniture pieces designed for a life artfully lived.",
@@ -128,13 +130,58 @@
         "mobile_product_card_size": "small",
         "product_grid_width": "centered",
         "full_width_on_mobile": false,
-        "columns_gap_horizontal": 24,
-        "columns_gap_vertical": 36,
+        "columns_gap_horizontal": 20,
+        "columns_gap_vertical": 32,
         "padding-inline-start": 0,
         "padding-inline-end": 0,
         "background_color": "#ffffff",
-        "padding-block-start": 16,
+        "padding-block-start": 12,
         "padding-block-end": 48
+      }
+    },
+    "related_collections": {
+      "type": "luxury-collection-showcase",
+      "blocks": {
+        "rc_paintings": {
+          "type": "collection-card",
+          "settings": {
+            "title": "Original Oil Paintings",
+            "subtitle": "Hand-painted canvas masterworks",
+            "default_asset": "art-painting-abstract-oil.jpg"
+          }
+        },
+        "rc_sculptures": {
+          "type": "collection-card",
+          "settings": {
+            "title": "Bronze & Marble Sculptures",
+            "subtitle": "Cast & carved heirloom forms",
+            "default_asset": "art-sculpture-rodin-thinker.jpg"
+          }
+        },
+        "rc_models": {
+          "type": "collection-card",
+          "settings": {
+            "title": "3D Sajawat & Art Models",
+            "subtitle": "Architectural decorative objects",
+            "default_asset": "art-sculpture-modern-model.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "rc_paintings",
+        "rc_sculptures",
+        "rc_models"
+      ],
+      "settings": {
+        "color_scheme_preset": "warm",
+        "subheading": "CONTINUE THE JOURNEY",
+        "heading": "Explore Other Collections",
+        "show_piece_count": true,
+        "button_label": "VIEW ALL COLLECTIONS",
+        "desktop_columns": 3,
+        "mobile_columns": "1",
+        "padding_top": 36,
+        "padding_bottom": 40
       }
     },
     "luxury_trust": {
@@ -198,6 +245,7 @@
   "order": [
     "collection_hero",
     "main",
+    "related_collections",
     "luxury_trust",
     "brand_manifesto"
   ]

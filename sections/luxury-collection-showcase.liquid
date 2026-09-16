@@ -1,0 +1,829 @@
+{%- comment -%}
+  THE RAW HOUSE - CURATED COLLECTIONS SHOWCASE
+  Editorial gallery-catalog style collection cards for product & landing pages.
+  Pairs with the global luxury-ui-engine scroll reveal system.
+{%- endcomment -%}
+
+{% liquid
+  assign scheme = section.settings.color_scheme_preset | default: 'warm'
+
+  case scheme
+    when 'dark'
+      assign bg_color = '#161616'
+      assign text_color = '#ffffff'
+      assign muted_color = 'rgba(255,255,255,0.62)'
+      assign border_color = 'rgba(255,255,255,0.12)'
+      assign gold_color = '#c5a880'
+      assign gold_hover = '#dfc49e'
+      assign media_bg = '#212121'
+    when 'obsidian'
+      assign bg_color = '#0b0b0b'
+      assign text_color = '#ffffff'
+      assign muted_color = 'rgba(255,255,255,0.58)'
+      assign border_color = 'rgba(197,168,128,0.22)'
+      assign gold_color = '#c5a880'
+      assign gold_hover = '#dfc49e'
+      assign media_bg = '#161513'
+    when 'light'
+      assign bg_color = '#ffffff'
+      assign text_color = '#111111'
+      assign muted_color = '#6b665c'
+      assign border_color = '#eae6de'
+      assign gold_color = '#b38b4d'
+      assign gold_hover = '#967035'
+      assign media_bg = '#f4f2ec'
+    else
+      assign bg_color = '#f9f8f5'
+      assign text_color = '#111111'
+      assign muted_color = '#726b60'
+      assign border_color = '#e8e4dc'
+      assign gold_color = '#b38b4d'
+      assign gold_hover = '#967035'
+      assign media_bg = '#efede6'
+  endcase
+
+  if section.settings.custom_bg_color != blank and section.settings.custom_bg_color != 'rgba(0,0,0,0)'
+    assign bg_color = section.settings.custom_bg_color
+  endif
+  if section.settings.custom_text_color != blank and section.settings.custom_text_color != 'rgba(0,0,0,0)'
+    assign text_color = section.settings.custom_text_color
+  endif
+
+  assign cols = section.settings.desktop_columns | default: 3
+  assign cols_mobile = section.settings.mobile_columns | default: '1'
+%}
+
+<div
+  id="LuxuryCollections-{{ section.id }}"
+  class="lux-collections-section"
+  style="
+    --lcs-bg: {{ bg_color }};
+    --lcs-text: {{ text_color }};
+    --lcs-muted: {{ muted_color }};
+    --lcs-border: {{ border_color }};
+    --lcs-gold: {{ gold_color }};
+    --lcs-gold-hover: {{ gold_hover }};
+    --lcs-media-bg: {{ media_bg }};
+    --lcs-cols: {{ cols }};
+    --lcs-cols-mobile: {{ cols_mobile }};
+    --lcs-pt: {{ section.settings.padding_top | default: 36 }}px;
+    --lcs-pb: {{ section.settings.padding_bottom | default: 40 }}px;
+    background: var(--lcs-bg);
+    color: var(--lcs-text);
+    padding-top: var(--lcs-pt);
+    padding-bottom: var(--lcs-pb);
+    border-top: 1px solid var(--lcs-border);
+    border-bottom: 1px solid var(--lcs-border);
+  "
+  {{ section.shopify_attributes }}
+>
+  <div class="lux-collections__container">
+    {% if section.settings.heading != blank or section.settings.subheading != blank %}
+      <header class="lux-collections__header lux-reveal-fade-up">
+        {% if section.settings.subheading != blank %}
+          <p class="lux-collections__eyebrow">{{ section.settings.subheading }}</p>
+        {% endif %}
+        {% if section.settings.heading != blank %}
+          <h2 class="lux-collections__heading">{{ section.settings.heading }}</h2>
+        {% endif %}
+        <div class="lux-collections__ornament" aria-hidden="true">
+          <span class="lux-collections__ornament-line"></span>
+          <span class="lux-collections__ornament-diamond">&#9670;</span>
+          <span class="lux-collections__ornament-line"></span>
+        </div>
+        {% if section.settings.intro_text != blank %}
+          <p class="lux-collections__intro">{{ section.settings.intro_text }}</p>
+        {% endif %}
+      </header>
+    {% endif %}
+
+    <div class="lux-collections__grid lux-stagger-parent lux-reveal-fade-up">
+      {% if section.blocks.size > 0 %}
+        {% for block in section.blocks %}
+          {% liquid
+            assign col = block.settings.collection
+
+            if col != blank and collection != blank and col.handle == collection.handle
+              continue
+            endif
+
+            assign card_title = block.settings.title
+            assign card_link = block.settings.link
+
+            if col != blank
+              if card_title == blank
+                assign card_title = col.title
+              endif
+              if card_link == blank
+                assign card_link = col.url
+              endif
+            endif
+
+            if card_title == blank
+              assign card_title = 'Curated Selection'
+            endif
+            if card_link == blank
+              assign card_link = routes.all_products_collection_url
+            endif
+
+            assign piece_count = ''
+            if col != blank and section.settings.show_piece_count != false
+              assign qty = col.products_count
+              if qty == 1
+                assign piece_count = '1 Piece'
+              else
+                assign piece_count = qty | append: ' Pieces'
+              endif
+            endif
+          %}
+          <a href="{{ card_link }}" class="lux-colcard lux-stagger-child" {{ block.shopify_attributes }}>
+            <div class="lux-colcard__media">
+              {% if forloop.index < 10 %}
+                {% assign index_label = forloop.index | prepend: '0' %}
+              {% else %}
+                {% assign index_label = forloop.index %}
+              {% endif %}
+              <span class="lux-colcard__index">N&deg; {{ index_label }}</span>
+
+              {% if block.settings.image != blank %}
+                {{
+                  block.settings.image
+                  | image_url: width: 900
+                  | image_tag:
+                    class: 'lux-colcard__img',
+                    loading: 'lazy',
+                    widths: '380, 560, 760, 900',
+                    alt: card_title
+                }}
+              {% elsif col != blank and col.featured_image != blank %}
+                {{
+                  col.featured_image
+                  | image_url: width: 900
+                  | image_tag:
+                    class: 'lux-colcard__img',
+                    loading: 'lazy',
+                    widths: '380, 560, 760, 900',
+                    alt: card_title
+                }}
+              {% elsif col != blank and col.products_count > 0 and col.products.first.featured_image != blank %}
+                {{
+                  col.products.first.featured_image
+                  | image_url: width: 900
+                  | image_tag:
+                    class: 'lux-colcard__img',
+                    loading: 'lazy',
+                    widths: '380, 560, 760, 900',
+                    alt: card_title
+                }}
+              {% elsif block.settings.default_asset != blank %}
+                <img
+                  src="{{ block.settings.default_asset | asset_url }}"
+                  alt="{{ card_title | escape }}"
+                  class="lux-colcard__img"
+                  loading="lazy"
+                  width="450"
+                  height="563"
+                  onerror="this.onerror=null;this.src='{{ 'art-painting-gold-canvas.jpg' | asset_url }}';"
+                >
+              {% else %}
+                {{ 'lifestyle-1' | placeholder_svg_tag: 'lux-colcard__img lux-colcard__img--placeholder' }}
+              {% endif %}
+              <div class="lux-colcard__veil" aria-hidden="true"></div>
+            </div>
+
+            <div class="lux-colcard__body">
+              <span class="lux-colcard__rule" aria-hidden="true"></span>
+              <h3 class="lux-colcard__title">{{ card_title }}</h3>
+              {% if piece_count != '' or block.settings.subtitle != blank %}
+                <p class="lux-colcard__meta">
+                  {% if piece_count != '' %}{{ piece_count | upcase }}{% endif %}
+                  {% if piece_count != '' and block.settings.subtitle != blank %}
+                    <span class="lux-colcard__meta-dot">&middot;</span>
+                  {% endif %}
+                  {% if block.settings.subtitle != blank %}{{ block.settings.subtitle | upcase }}{% endif %}
+                </p>
+              {% endif %}
+              <span class="lux-colcard__cta">
+                <span>{{ block.settings.cta_label | default: 'Discover' }}</span>
+                <svg class="lux-colcard__cta-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </span>
+            </div>
+          </a>
+        {% endfor %}
+      {% else %}
+        {%- comment -%} Default preview cards when no blocks are added {%- endcomment -%}
+        <a href="{{ routes.all_products_collection_url }}" class="lux-colcard lux-stagger-child">
+          <div class="lux-colcard__media">
+            <span class="lux-colcard__index">N&deg; 01</span>
+            <img
+              src="{{ 'art-painting-abstract-oil.jpg' | asset_url }}"
+              alt="Original Oil Paintings"
+              class="lux-colcard__img"
+              loading="lazy"
+              width="450"
+              height="563"
+              onerror="this.onerror=null;this.src='{{ 'art-painting-gold-canvas.jpg' | asset_url }}';"
+            >
+            <div class="lux-colcard__veil" aria-hidden="true"></div>
+          </div>
+          <div class="lux-colcard__body">
+            <span class="lux-colcard__rule" aria-hidden="true"></span>
+            <h3 class="lux-colcard__title">Original Oil Paintings</h3>
+            <p class="lux-colcard__meta">Hand-Painted Canvas Masterworks</p>
+            <span class="lux-colcard__cta">
+              <span>Discover</span>
+              <svg class="lux-colcard__cta-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </span>
+          </div>
+        </a>
+
+        <a href="{{ routes.all_products_collection_url }}" class="lux-colcard lux-stagger-child">
+          <div class="lux-colcard__media">
+            <span class="lux-colcard__index">N&deg; 02</span>
+            <img
+              src="{{ 'art-sculpture-rodin-thinker.jpg' | asset_url }}"
+              alt="Bronze & Marble Sculptures"
+              class="lux-colcard__img"
+              loading="lazy"
+              width="450"
+              height="563"
+              onerror="this.onerror=null;this.src='{{ 'art-painting-gold-canvas.jpg' | asset_url }}';"
+            >
+            <div class="lux-colcard__veil" aria-hidden="true"></div>
+          </div>
+          <div class="lux-colcard__body">
+            <span class="lux-colcard__rule" aria-hidden="true"></span>
+            <h3 class="lux-colcard__title">Bronze &amp; Marble Sculptures</h3>
+            <p class="lux-colcard__meta">Cast &amp; Carved Heirloom Forms</p>
+            <span class="lux-colcard__cta">
+              <span>Discover</span>
+              <svg class="lux-colcard__cta-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </span>
+          </div>
+        </a>
+
+        <a href="{{ routes.all_products_collection_url }}" class="lux-colcard lux-stagger-child">
+          <div class="lux-colcard__media">
+            <span class="lux-colcard__index">N&deg; 03</span>
+            <img
+              src="{{ 'art-sculpture-modern-model.jpg' | asset_url }}"
+              alt="3D Sajawat & Art Models"
+              class="lux-colcard__img"
+              loading="lazy"
+              width="450"
+              height="563"
+              onerror="this.onerror=null;this.src='{{ 'art-painting-gold-canvas.jpg' | asset_url }}';"
+            >
+            <div class="lux-colcard__veil" aria-hidden="true"></div>
+          </div>
+          <div class="lux-colcard__body">
+            <span class="lux-colcard__rule" aria-hidden="true"></span>
+            <h3 class="lux-colcard__title">3D Sajawat &amp; Art Models</h3>
+            <p class="lux-colcard__meta">Architectural Decorative Objects</p>
+            <span class="lux-colcard__cta">
+              <span>Discover</span>
+              <svg class="lux-colcard__cta-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </span>
+          </div>
+        </a>
+      {% endif %}
+    </div>
+
+    {% if section.settings.button_label != blank %}
+      <div class="lux-collections__footer lux-reveal-fade-up">
+        <a href="{{ section.settings.button_link | default: routes.collections_url }}" class="lux-collections__button">
+          <span>{{ section.settings.button_label }}</span>
+          <svg class="lux-collections__button-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .lux-collections-section {
+    width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+
+  .lux-collections__container {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 32px;
+    box-sizing: border-box;
+  }
+
+  /* --- Header --- */
+  .lux-collections__header {
+    text-align: center;
+    margin-bottom: clamp(26px, 3.4vw, 40px);
+  }
+
+  .lux-collections__eyebrow {
+    font-family: var(--lux-font-body, "Inter", -apple-system, sans-serif);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--lcs-gold);
+    margin: 0 0 10px;
+  }
+
+  .lux-collections__heading {
+    font-family: var(--lux-font-heading, "Playfair Display", Georgia, serif);
+    font-size: clamp(23px, 3vw, 33px);
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    line-height: 1.2;
+    color: var(--lcs-text);
+    margin: 0;
+  }
+
+  .lux-collections__ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    max-width: 240px;
+    margin: 16px auto 0;
+  }
+
+  .lux-collections__ornament-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--lcs-gold), transparent);
+    opacity: 0.55;
+  }
+
+  .lux-collections__ornament-diamond {
+    color: var(--lcs-gold);
+    font-size: 8px;
+    line-height: 1;
+    opacity: 0.85;
+  }
+
+  .lux-collections__intro {
+    font-family: var(--lux-font-body, "Inter", -apple-system, sans-serif);
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: var(--lcs-muted);
+    max-width: 560px;
+    margin: 14px auto 0;
+  }
+
+  /* --- Grid --- */
+  .lux-collections__grid {
+    display: grid;
+    grid-template-columns: repeat(var(--lcs-cols, 3), minmax(0, 1fr));
+    column-gap: clamp(20px, 2.6vw, 32px);
+    row-gap: clamp(30px, 3.4vw, 44px);
+  }
+
+  /* --- Card --- */
+  .lux-colcard {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .lux-colcard__media {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    border-radius: 4px;
+    background: var(--lcs-media-bg);
+  }
+
+  .lux-colcard__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .lux-colcard__img--placeholder {
+    padding: 12%;
+    box-sizing: border-box;
+  }
+
+  .lux-colcard:hover .lux-colcard__img {
+    transform: scale(1.055);
+  }
+
+  .lux-colcard__veil {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.3) 100%);
+    opacity: 0.8;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+  }
+
+  .lux-colcard:hover .lux-colcard__veil {
+    opacity: 1;
+  }
+
+  .lux-colcard__index {
+    position: absolute;
+    top: 14px;
+    left: 16px;
+    z-index: 2;
+    font-family: var(--lux-font-heading, "Playfair Display", Georgia, serif);
+    font-style: italic;
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    color: #ffffff;
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.45);
+  }
+
+  .lux-colcard__body {
+    padding-top: 15px;
+  }
+
+  .lux-colcard__rule {
+    display: block;
+    width: 26px;
+    height: 1px;
+    background: var(--lcs-gold);
+    margin-bottom: 11px;
+    transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .lux-colcard:hover .lux-colcard__rule {
+    width: 62px;
+  }
+
+  .lux-colcard__title {
+    font-family: var(--lux-font-heading, "Playfair Display", Georgia, serif);
+    font-size: clamp(16px, 1.5vw, 19px);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    line-height: 1.3;
+    color: var(--lcs-text);
+    margin: 0;
+  }
+
+  .lux-colcard__meta {
+    font-family: var(--lux-font-body, "Inter", -apple-system, sans-serif);
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    line-height: 1.7;
+    color: var(--lcs-muted);
+    margin: 5px 0 0;
+  }
+
+  .lux-colcard__meta-dot {
+    margin: 0 5px;
+    opacity: 0.6;
+  }
+
+  .lux-colcard__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-top: 11px;
+    font-family: var(--lux-font-body, "Inter", -apple-system, sans-serif);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--lcs-gold);
+    opacity: 0.9;
+    transition: opacity 0.25s ease, color 0.25s ease;
+  }
+
+  .lux-colcard:hover .lux-colcard__cta {
+    opacity: 1;
+    color: var(--lcs-gold-hover);
+  }
+
+  .lux-colcard__cta-arrow {
+    transition: transform 0.25s ease;
+  }
+
+  .lux-colcard:hover .lux-colcard__cta-arrow {
+    transform: translateX(3px);
+  }
+
+  /* --- Footer button --- */
+  .lux-collections__footer {
+    text-align: center;
+    margin-top: clamp(28px, 3.4vw, 42px);
+  }
+
+  .lux-collections__button {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 11px 26px;
+    border: 1px solid var(--lcs-gold);
+    border-radius: 3px;
+    background: transparent;
+    color: var(--lcs-gold);
+    font-family: var(--lux-font-body, "Inter", -apple-system, sans-serif);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.25s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .lux-collections__button:hover {
+    background: var(--lcs-gold);
+    color: var(--lcs-bg);
+    transform: translateY(-1px);
+  }
+
+  .lux-collections__button-arrow {
+    transition: transform 0.25s ease;
+  }
+
+  .lux-collections__button:hover .lux-collections__button-arrow {
+    transform: translateX(3px);
+  }
+
+  /* --- Tablet --- */
+  @media screen and (max-width: 1024px) {
+    .lux-collections__container {
+      padding: 0 24px;
+    }
+
+    .lux-collections__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  /* --- Phone --- */
+  @media screen and (max-width: 600px) {
+    .lux-collections__container {
+      padding: 0 18px;
+    }
+
+    .lux-collections__grid {
+      grid-template-columns: repeat(var(--lcs-cols-mobile, 1), minmax(0, 1fr));
+      row-gap: 28px;
+    }
+
+    .lux-colcard__media {
+      aspect-ratio: 1 / 1;
+    }
+
+    .lux-colcard__index {
+      top: 12px;
+      left: 13px;
+      font-size: 12.5px;
+    }
+
+    .lux-colcard__body {
+      padding-top: 13px;
+    }
+
+    .lux-colcard__title {
+      font-size: 16px;
+    }
+
+    .lux-colcard__meta {
+      font-size: 10px;
+    }
+
+    .lux-collections__button {
+      width: 100%;
+      max-width: 320px;
+      justify-content: center;
+      padding: 12px 22px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lux-colcard__img,
+    .lux-colcard__rule,
+    .lux-colcard__cta-arrow,
+    .lux-collections__button,
+    .lux-collections__button-arrow {
+      transition: none !important;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Curated Collections",
+  "tag": "section",
+  "class": "section-luxury-collections",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Color Scheme"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme_preset",
+      "label": "Color Scheme",
+      "options": [
+        { "value": "light", "label": "Light Clean (White)" },
+        { "value": "warm", "label": "Warm Atelier (Ivory)" },
+        { "value": "dark", "label": "Dark Contemporary (#161616)" },
+        { "value": "obsidian", "label": "Obsidian Luxury (#0b0b0b)" }
+      ],
+      "default": "warm"
+    },
+    {
+      "type": "color",
+      "id": "custom_bg_color",
+      "label": "Custom Background Color"
+    },
+    {
+      "type": "color",
+      "id": "custom_text_color",
+      "label": "Custom Text Color"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading Label",
+      "default": "THE ATELIER UNIVERSE"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "Explore Curated Collections"
+    },
+    {
+      "type": "textarea",
+      "id": "intro_text",
+      "label": "Intro Text (Optional)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_piece_count",
+      "label": "Show Piece Count",
+      "info": "Displays the number of pieces when a Shopify collection is selected.",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Footer Button Label",
+      "default": "VIEW ALL COLLECTIONS"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Footer Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Layout & Spacing"
+    },
+    {
+      "type": "range",
+      "id": "desktop_columns",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "label": "Desktop Columns",
+      "default": 3
+    },
+    {
+      "type": "select",
+      "id": "mobile_columns",
+      "label": "Mobile Columns",
+      "options": [
+        { "value": "1", "label": "1 column" },
+        { "value": "2", "label": "2 columns" }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom",
+      "default": 40
+    }
+  ],
+  "max_blocks": 6,
+  "blocks": [
+    {
+      "type": "collection-card",
+      "name": "Collection Card",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Shopify Collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Custom Image",
+          "info": "Overrides the collection image."
+        },
+        {
+          "type": "text",
+          "id": "default_asset",
+          "label": "Fallback Asset Filename",
+          "info": "Theme asset used when no collection or image is set."
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title Override"
+        },
+        {
+          "type": "text",
+          "id": "subtitle",
+          "label": "Subtitle",
+          "default": "Curated atelier selection"
+        },
+        {
+          "type": "text",
+          "id": "cta_label",
+          "label": "CTA Label",
+          "default": "Discover"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link Override"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Curated Collections",
+      "blocks": [
+        {
+          "type": "collection-card",
+          "settings": {
+            "title": "Original Oil Paintings",
+            "subtitle": "Hand-painted canvas masterworks",
+            "default_asset": "art-painting-abstract-oil.jpg"
+          }
+        },
+        {
+          "type": "collection-card",
+          "settings": {
+            "title": "Bronze & Marble Sculptures",
+            "subtitle": "Cast & carved heirloom forms",
+            "default_asset": "art-sculpture-rodin-thinker.jpg"
+          }
+        },
+        {
+          "type": "collection-card",
+          "settings": {
+            "title": "3D Sajawat & Art Models",
+            "subtitle": "Architectural decorative objects",
+            "default_asset": "art-sculpture-modern-model.jpg"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

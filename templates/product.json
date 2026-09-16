@@ -641,6 +641,51 @@
         "padding-block-end": 16
       }
     },
+    "curated_collections": {
+      "type": "luxury-collection-showcase",
+      "blocks": {
+        "col_paintings": {
+          "type": "collection-card",
+          "settings": {
+            "title": "Original Oil Paintings",
+            "subtitle": "Hand-painted canvas masterworks",
+            "default_asset": "art-painting-abstract-oil.jpg"
+          }
+        },
+        "col_sculptures": {
+          "type": "collection-card",
+          "settings": {
+            "title": "Bronze & Marble Sculptures",
+            "subtitle": "Cast & carved heirloom forms",
+            "default_asset": "art-sculpture-rodin-thinker.jpg"
+          }
+        },
+        "col_models": {
+          "type": "collection-card",
+          "settings": {
+            "title": "3D Sajawat & Art Models",
+            "subtitle": "Architectural decorative objects",
+            "default_asset": "art-sculpture-modern-model.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "col_paintings",
+        "col_sculptures",
+        "col_models"
+      ],
+      "settings": {
+        "color_scheme_preset": "warm",
+        "subheading": "THE ATELIER UNIVERSE",
+        "heading": "Explore Curated Collections",
+        "show_piece_count": true,
+        "button_label": "VIEW ALL COLLECTIONS",
+        "desktop_columns": 3,
+        "mobile_columns": "1",
+        "padding_top": 36,
+        "padding_bottom": 40
+      }
+    },
     "brand_statement": {
       "type": "brand-manifesto",
       "settings": {
@@ -665,6 +710,7 @@
     "main",
     "craftsmanship_story",
     "product_recommendations_qggXJq",
+    "curated_collections",
     "brand_statement"
   ]
 }

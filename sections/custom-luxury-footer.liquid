@@ -13,8 +13,8 @@
   id="CustomFooter-{{ section.id }}"
   class="custom-luxury-footer custom-luxury-footer--{{ color_scheme }} color-custom-{{ section.id }}"
   style="
-    --footer-padding-top: {{ section.settings.padding_top | default: 64 }}px;
-    --footer-padding-bottom: {{ section.settings.padding_bottom | default: 36 }}px;
+    --footer-padding-top: {{ section.settings.padding_top | default: 48 }}px;
+    --footer-padding-bottom: {{ section.settings.padding_bottom | default: 28 }}px;
     --footer-max-width: {{ section.settings.max_width | default: 1240 }}px;
   "
   {{ section.shopify_attributes }}
@@ -513,8 +513,8 @@
   /* --- 1. BRAND PRESTIGE HEADER --- */
   .custom-footer__brand-header {
     text-align: center;
-    padding-bottom: 36px;
-    margin-bottom: 36px;
+    padding-bottom: 22px;
+    margin-bottom: 24px;
     position: relative;
   }
 
@@ -522,12 +522,12 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 44px;
-    height: 44px;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
     border: 1px solid var(--flx-gold);
     color: var(--flx-gold);
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     box-shadow: 0 0 16px rgba(197, 168, 128, 0.15);
     transition: transform 0.3s ease, border-color 0.3s ease;
   }
@@ -547,20 +547,21 @@
 
   .custom-footer__brand-title {
     font-family: var(--lux-font-heading, "Playfair Display", Georgia, serif);
-    font-size: 20px;
+    font-size: 21px;
     font-weight: 500;
-    letter-spacing: 0.26em;
+    letter-spacing: 0.24em;
     text-transform: uppercase;
     color: var(--flx-heading);
-    margin: 0 0 6px;
+    margin: 0 0 5px;
   }
 
   .custom-footer__brand-tagline {
-    font-size: 11.5px;
+    font-size: 12.5px;
     color: var(--flx-muted);
-    letter-spacing: 0.1em;
+    letter-spacing: 0.09em;
     text-transform: uppercase;
-    margin: 0 0 16px;
+    line-height: 1.6;
+    margin: 0 0 12px;
   }
 
   .custom-footer__brand-ornament {
@@ -590,20 +591,20 @@
   .custom-footer__top-row {
     display: grid !important;
     grid-template-columns: 1fr 1fr 1.35fr;
-    gap: clamp(32px, 5vw, 64px);
-    padding-bottom: 40px;
+    gap: clamp(24px, 4vw, 48px);
+    padding-bottom: 28px;
     border-bottom: 1px solid var(--flx-border) !important;
     align-items: start;
   }
 
   .custom-footer__col-heading {
     font-family: var(--lux-font-body, "Inter", sans-serif) !important;
-    font-size: 12px !important;
+    font-size: 12.5px !important;
     font-weight: 600 !important;
     letter-spacing: 0.18em !important;
     text-transform: uppercase !important;
     color: var(--flx-heading) !important;
-    margin: 0 0 18px !important;
+    margin: 0 0 14px !important;
     display: flex !important;
     align-items: center !important;
     gap: 8px !important;
@@ -642,12 +643,12 @@
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 11px;
+    gap: 9px;
   }
 
   .custom-footer__link {
-    font-size: 11.5px !important;
-    letter-spacing: 0.08em !important;
+    font-size: 12.5px !important;
+    letter-spacing: 0.07em !important;
     text-transform: uppercase !important;
     color: var(--flx-link) !important;
     text-decoration: none !important;
@@ -676,8 +677,8 @@
   }
 
   .custom-footer__text-content {
-    font-size: 12.5px;
-    line-height: 1.65;
+    font-size: 13px;
+    line-height: 1.6;
     color: var(--flx-muted) !important;
     margin: 0;
   }
@@ -687,21 +688,21 @@
     background: var(--flx-card-bg);
     border: 1px solid var(--flx-card-border);
     border-radius: 6px;
-    padding: 22px;
+    padding: 18px;
     box-sizing: border-box;
-    margin-bottom: 18px;
+    margin-bottom: 14px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   }
 
   .custom-footer__col-heading--newsletter {
-    margin-bottom: 8px !important;
+    margin-bottom: 7px !important;
   }
 
   .custom-footer__newsletter-desc {
-    font-size: 12px;
+    font-size: 13px;
     line-height: 1.55;
     color: var(--flx-muted) !important;
-    margin: 0 0 16px;
+    margin: 0 0 12px;
   }
 
   .custom-footer__newsletter-field-wrapper {
@@ -727,7 +728,7 @@
     border: none !important;
     outline: none !important;
     padding: 9px 12px !important;
-    font-size: 12px !important;
+    font-size: 13px !important;
     color: var(--flx-input-text) !important;
     font-family: inherit !important;
     letter-spacing: 0.02em !important;
@@ -744,7 +745,7 @@
     border: none !important;
     border-radius: 3px !important;
     padding: 9px 16px !important;
-    font-size: 11px !important;
+    font-size: 11.5px !important;
     font-weight: 600 !important;
     letter-spacing: 0.14em !important;
     text-transform: uppercase !important;
@@ -769,14 +770,14 @@
   }
 
   .custom-footer__privacy-note {
-    font-size: 10.5px;
+    font-size: 11px;
     color: var(--flx-muted);
     letter-spacing: 0.03em;
-    margin: 8px 0 0;
+    margin: 7px 0 0;
   }
 
   .custom-footer__form-message {
-    font-size: 11.5px;
+    font-size: 12px;
     margin-top: 8px;
     font-weight: 500;
   }
@@ -794,7 +795,7 @@
     background: var(--flx-card-bg);
     border: 1px solid var(--flx-card-border);
     border-radius: 6px;
-    padding: 16px 20px;
+    padding: 13px 18px;
     box-sizing: border-box;
   }
 
@@ -802,7 +803,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
   }
 
   .custom-footer__concierge-icon {
@@ -812,7 +813,7 @@
 
   .custom-footer__col-heading--concierge {
     margin: 0 !important;
-    font-size: 11px !important;
+    font-size: 11.5px !important;
     letter-spacing: 0.16em !important;
   }
 
@@ -820,8 +821,8 @@
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 8px 12px;
-    font-size: 11.5px;
+    gap: 6px 12px;
+    font-size: 12.5px;
   }
 
   .custom-footer__concierge-link {
@@ -849,8 +850,8 @@
   }
 
   .custom-footer__whatsapp-wrap {
-    margin-top: 12px;
-    padding-top: 10px;
+    margin-top: 9px;
+    padding-top: 8px;
     border-top: 1px dashed var(--flx-border);
   }
 
@@ -858,7 +859,7 @@
     display: inline-flex;
     align-items: center;
     gap: 7px;
-    font-size: 11.5px;
+    font-size: 12.5px;
     font-weight: 500;
     color: #25d366 !important;
     text-decoration: none !important;
@@ -876,21 +877,21 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 24px 0;
+    padding: 18px 0;
     border-bottom: 1px solid var(--flx-border) !important;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 16px;
   }
 
   .custom-footer__sub-heading-wrap {
     display: flex;
     align-items: center;
     gap: 12px;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
   }
 
   .custom-footer__sub-heading {
-    font-size: 11px !important;
+    font-size: 11.5px !important;
     font-weight: 600 !important;
     letter-spacing: 0.16em !important;
     text-transform: uppercase !important;
@@ -902,7 +903,7 @@
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    font-size: 9px;
+    font-size: 9.5px;
     letter-spacing: 0.1em;
     color: var(--flx-gold);
     opacity: 0.9;
@@ -918,8 +919,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    height: 28px;
-    padding: 2px 10px;
+    height: 26px;
+    padding: 2px 9px;
     background: var(--flx-badge-bg) !important;
     border: 1px solid var(--flx-badge-border) !important;
     border-radius: 4px;
@@ -945,7 +946,7 @@
   }
 
   .custom-footer__social-col .custom-footer__sub-heading {
-    margin-bottom: 10px !important;
+    margin-bottom: 8px !important;
   }
 
   .custom-footer__social-icons {
@@ -990,7 +991,7 @@
     color: var(--flx-link) !important;
     padding: 7px 14px !important;
     border-radius: 4px !important;
-    font-size: 10px !important;
+    font-size: 10.5px !important;
     font-weight: 600 !important;
     letter-spacing: 0.16em !important;
     text-transform: uppercase !important;
@@ -1014,7 +1015,7 @@
 
   /* --- 5. BOTTOM LEGAL ROW --- */
   .custom-footer__bottom-row {
-    padding-top: 22px;
+    padding-top: 16px;
     text-align: center;
   }
 
@@ -1023,13 +1024,13 @@
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 8px 14px;
+    gap: 6px 12px;
     margin: 0 auto;
   }
 
   .custom-footer__copyright,
   .custom-footer__credits {
-    font-size: 11px !important;
+    font-size: 12px !important;
     letter-spacing: 0.04em !important;
     color: var(--flx-muted) !important;
     margin: 0 !important;
@@ -1043,7 +1044,7 @@
   }
 
   .custom-footer__policy-link {
-    font-size: 11px;
+    font-size: 12px;
     color: var(--flx-muted);
     text-decoration: none;
     letter-spacing: 0.04em;
@@ -1077,38 +1078,65 @@
   }
 
   /* ==========================================================================
+     TABLET REFINEMENT (769px - 1024px)
+     ========================================================================== */
+
+  @media screen and (min-width: 769px) and (max-width: 1024px) {
+    .custom-footer__container {
+      padding: 0 24px;
+    }
+
+    .custom-footer__top-row {
+      grid-template-columns: 1fr 1fr !important;
+      gap: 24px 32px !important;
+    }
+
+    .custom-footer__col--newsletter {
+      grid-column: 1 / -1;
+    }
+
+    .custom-footer__middle-row {
+      gap: 14px;
+    }
+  }
+
+  /* ==========================================================================
      MOBILE (PHONE) POLISH & ACCORDION SYSTEM (max-width: 768px)
      ========================================================================== */
 
   @media screen and (max-width: 768px) {
     .custom-luxury-footer {
-      padding-top: 36px;
-      padding-bottom: 28px;
+      padding-top: 32px;
+      padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
     }
 
     .custom-footer__container {
-      padding: 0 20px;
+      padding: 0 16px;
     }
 
     .custom-footer__brand-header {
-      padding-bottom: 24px;
-      margin-bottom: 24px;
+      padding-bottom: 18px;
+      margin-bottom: 18px;
     }
 
     .custom-footer__brand-title {
-      font-size: 17px;
-      letter-spacing: 0.2em;
+      font-size: 18px;
+      letter-spacing: 0.18em;
     }
 
     .custom-footer__brand-tagline {
-      font-size: 10.5px;
-      letter-spacing: 0.06em;
+      font-size: 11.5px;
+      letter-spacing: 0.05em;
+      line-height: 1.7;
+      max-width: 34ch;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .custom-footer__top-row {
       grid-template-columns: minmax(0, 1fr) !important;
       gap: 0 !important;
-      padding-bottom: 20px;
+      padding-bottom: 12px;
     }
 
     .custom-footer__col {
@@ -1121,14 +1149,14 @@
 
     /* Accordion Touch Bar */
     .custom-footer__accordion-trigger {
-      padding: 16px 0;
+      padding: 14px 0;
       cursor: pointer;
       min-height: 48px;
       box-sizing: border-box;
     }
 
     .custom-footer__col-heading {
-      font-size: 12.5px !important;
+      font-size: 13px !important;
       letter-spacing: 0.16em !important;
       margin: 0 !important;
     }
@@ -1148,7 +1176,7 @@
     }
 
     .custom-footer__col.is-open .custom-footer__accordion-content {
-      padding-bottom: 18px;
+      padding-bottom: 16px;
     }
 
     .custom-footer__col.is-open .custom-footer__accordion-icon {
@@ -1156,24 +1184,24 @@
     }
 
     .custom-footer__links-list {
-      gap: 12px;
-      padding-left: 12px;
+      gap: 10px;
+      padding-left: 10px;
     }
 
     .custom-footer__link {
-      font-size: 12px !important;
-      padding: 4px 0;
+      font-size: 13px !important;
+      padding: 3px 0;
     }
 
     /* VIP Newsletter Card on Phone */
     .custom-footer__col--newsletter {
-      padding: 24px 0 10px;
+      padding: 18px 0 4px;
       border-bottom: none;
     }
 
     .custom-footer__newsletter-card {
-      padding: 18px;
-      margin-bottom: 16px;
+      padding: 16px;
+      margin-bottom: 14px;
     }
 
     .custom-footer__newsletter-field-wrapper {
@@ -1189,26 +1217,28 @@
       background: var(--flx-input-bg) !important;
       border: 1px solid var(--flx-input-border) !important;
       border-radius: 4px !important;
-      padding: 11px 14px !important;
+      padding: 12px 14px !important;
+      font-size: 16px !important;
       box-sizing: border-box !important;
     }
 
     .custom-footer__newsletter-btn {
       width: 100% !important;
       justify-content: center !important;
-      padding: 12px 18px !important;
+      padding: 12px 16px !important;
+      font-size: 12px !important;
       border-radius: 4px !important;
     }
 
     /* Concierge Card on Phone */
     .custom-footer__concierge-card {
-      padding: 16px;
+      padding: 14px;
     }
 
     .custom-footer__concierge-channels {
       flex-direction: column;
       align-items: flex-start;
-      gap: 10px;
+      gap: 8px;
     }
 
     .custom-footer__channel-divider {
@@ -1220,8 +1250,8 @@
       flex-direction: column;
       align-items: center;
       text-align: center;
-      gap: 22px;
-      padding: 24px 0;
+      gap: 18px;
+      padding: 20px 0;
     }
 
     .custom-footer__payment-col,
@@ -1235,7 +1265,7 @@
 
     .custom-footer__sub-heading-wrap {
       flex-direction: column;
-      gap: 6px;
+      gap: 5px;
     }
 
     .custom-footer__payment-icons {
@@ -1250,21 +1280,22 @@
     }
 
     .custom-footer__social-badge {
-      width: 36px !important;
-      height: 36px !important;
+      width: 38px !important;
+      height: 38px !important;
     }
 
     .custom-footer__back-to-top {
       width: 100%;
-      max-width: 200px;
+      max-width: 220px;
       justify-content: center;
-      padding: 10px 16px !important;
+      padding: 11px 16px !important;
+      font-size: 11px !important;
     }
 
     /* Bottom Row on Phone */
     .custom-footer__bottom-content {
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
     }
 
     .custom-footer__bottom-divider {
@@ -1274,6 +1305,7 @@
     .custom-footer__policy-links {
       flex-wrap: wrap;
       justify-content: center;
+      gap: 6px 10px;
     }
   }
 </style>
@@ -1533,7 +1565,7 @@
       "step": 4,
       "unit": "px",
       "label": "Top Padding",
-      "default": 64
+      "default": 48
     },
     {
       "type": "range",
@@ -1543,7 +1575,7 @@
       "step": 4,
       "unit": "px",
       "label": "Bottom Padding",
-      "default": 36
+      "default": 28
     }
   ],
   "blocks": [

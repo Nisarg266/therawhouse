@@ -75,6 +75,17 @@
   <!-- Foreground Content Container with ambient glass card -->
   <div class="collection-hero-editorial__container">
     <div class="collection-hero-editorial__glass-card">
+      <!-- Breadcrumbs -->
+      {% if section.settings.show_breadcrumbs != false %}
+        <nav class="collection-hero-editorial__breadcrumbs" aria-label="Breadcrumb">
+          <a href="{{ routes.root_url }}" class="collection-hero-editorial__crumb">Home</a>
+          <span class="collection-hero-editorial__crumb-sep" aria-hidden="true">/</span>
+          <a href="{{ routes.collections_url }}" class="collection-hero-editorial__crumb">Collections</a>
+          <span class="collection-hero-editorial__crumb-sep" aria-hidden="true">/</span>
+          <span class="collection-hero-editorial__crumb collection-hero-editorial__crumb--current" aria-current="page">{{ heading }}</span>
+        </nav>
+      {% endif %}
+
       <!-- Breadcrumb / Pre-title -->
       {% if subheading != blank %}
         <span class="collection-hero-editorial__subheading">{{ subheading }}</span>
@@ -111,6 +122,26 @@
         </div>
       {% endif %}
     </div>
+
+    <!-- Collection Navigation Chips -->
+    {% if section.settings.show_collection_nav != false %}
+      <nav class="collection-hero-editorial__collnav" aria-label="Collection navigation">
+        <div class="collection-hero-editorial__collnav-track">
+          {% assign nav_count = 0 %}
+          {% for nav_col in collections %}
+            {% if nav_col.handle != collection.handle and nav_count < 8 %}
+              {% assign nav_count = nav_count | plus: 1 %}
+              <a href="{{ nav_col.url }}" class="collection-hero-editorial__chip">
+                {{ nav_col.title }}
+              </a>
+            {% endif %}
+          {% endfor %}
+          <a href="{{ routes.collections_url }}" class="collection-hero-editorial__chip collection-hero-editorial__chip--all">
+            All Collections
+          </a>
+        </div>
+      </nav>
+    {% endif %}
   </div>
 </div>
 
@@ -188,9 +219,114 @@
     margin-inline: auto;
     padding-inline: 20px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 20px;
     box-sizing: border-box;
+  }
+
+  /* --- Breadcrumbs --- */
+  .collection-hero-editorial__breadcrumbs {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 9px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    animation: luxFadeIn 0.8s ease-out 0.1s both;
+  }
+
+  .collection-hero-editorial__crumb {
+    color: rgba(255, 255, 255, 0.68);
+    text-decoration: none;
+    transition: color 0.25s ease;
+  }
+
+  a.collection-hero-editorial__crumb:hover {
+    color: var(--che-accent-color, #c5a880);
+  }
+
+  .collection-hero-editorial__crumb--current {
+    color: #ffffff;
+  }
+
+  .collection-hero-editorial__crumb-sep {
+    color: var(--che-accent-color, #c5a880);
+    opacity: 0.7;
+    font-size: 9px;
+  }
+
+  /* --- Collection Navigation Chips --- */
+  .collection-hero-editorial__collnav {
+    width: 100%;
+    max-width: 100%;
+    animation: luxFadeIn 0.8s ease-out 0.8s both;
+  }
+
+  .collection-hero-editorial__collnav-track {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 4px 2px 8px;
+    margin-inline: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .collection-hero-editorial__collnav-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .collection-hero-editorial__chip {
+    flex-shrink: 0;
+    scroll-snap-align: start;
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+    padding: 7px 15px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.07);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: rgba(255, 255, 255, 0.82);
+    text-decoration: none;
+    font-family: 'Inter', -apple-system, sans-serif;
+    font-size: 9.5px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    transition: border-color 0.25s ease, color 0.25s ease, background-color 0.25s ease, transform 0.25s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .collection-hero-editorial__chip:hover {
+    border-color: var(--che-accent-color, #c5a880);
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.14);
+    transform: translateY(-1px);
+  }
+
+  .collection-hero-editorial__chip--all {
+    border-style: dashed;
+    color: var(--che-accent-color, #c5a880);
+  }
+
+  .collection-hero-editorial__chip--all:hover {
+    border-style: solid;
+    border-color: var(--che-accent-color, #c5a880);
+    color: #ffffff;
   }
 
   .collection-hero-editorial__glass-card {
@@ -377,6 +513,105 @@
       padding: 6px 14px !important;
       letter-spacing: 0.16em !important;
     }
+
+    .collection-hero-editorial__breadcrumbs {
+      font-size: 9px;
+      gap: 7px;
+      margin-bottom: 10px;
+    }
+
+    .collection-hero-editorial__collnav-track {
+      justify-content: flex-start;
+      gap: 7px;
+    }
+
+    .collection-hero-editorial__chip {
+      font-size: 9px;
+      padding: 7px 13px;
+      letter-spacing: 0.12em;
+    }
+  }
+
+  /* ==========================================================================
+     NATIVE COLLECTION PAGE POLISH LAYER
+     Refines the Horizon product grid, facets, count and badges.
+     Loaded only on the collection template (hero section dependency).
+     All native Liquid/JS functionality remains untouched.
+     ========================================================================== */
+
+  /* --- Facets bar: filter & sort labels --- */
+  .facets-block-wrapper .facets__label,
+  .sorting-filter .facets__label {
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.14em !important;
+    text-transform: uppercase !important;
+  }
+
+  .facets-block-wrapper .facets__summary {
+    gap: 8px;
+  }
+
+  /* --- Product count --- */
+  .products-count-wrapper span[role='status'],
+  .products-count-wrapper span {
+    font-size: 11px !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.16em !important;
+    text-transform: uppercase !important;
+    color: var(--che-accent-color, #b38b4d) !important;
+  }
+
+  /* --- Product cards: media zoom + title affordance --- */
+  .main-collection-grid .product-card .product-media__image {
+    transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+
+  .main-collection-grid .product-card:hover .product-media__image {
+    transform: scale(1.04) !important;
+  }
+
+  .main-collection-grid .product-card .rte p[role='heading'] {
+    transition: color 0.25s ease;
+  }
+
+  @media (hover: hover) {
+    .main-collection-grid .product-card:hover .rte p[role='heading'] {
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 4px;
+      text-decoration-color: rgba(179, 139, 77, 0.55);
+    }
+  }
+
+  /* --- Badges: sale & sold out --- */
+  .main-collection-grid .product-badges__badge {
+    font-family: 'Inter', -apple-system, sans-serif !important;
+    font-size: 9.5px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.14em !important;
+    text-transform: uppercase !important;
+    border-radius: 3px !important;
+  }
+
+  .main-collection-grid .product-badges__badge.color-custom-badge-sale {
+    background: #c5a880 !important;
+    color: #141414 !important;
+    border: 1px solid rgba(179, 139, 77, 0.45);
+  }
+
+  .main-collection-grid .product-badges__badge.color-custom-badge-sold-out {
+    background: rgba(17, 17, 17, 0.72) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .main-collection-grid .product-card .product-media__image {
+      transition: none !important;
+    }
   }
 {% endstylesheet %}
 
@@ -410,6 +645,20 @@
       "unit": "px",
       "label": "Minimum Banner Height",
       "default": 380
+    },
+    {
+      "type": "checkbox",
+      "id": "show_breadcrumbs",
+      "label": "Show Breadcrumbs",
+      "info": "Home / Collections / Collection title",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_collection_nav",
+      "label": "Show Collection Navigation Chips",
+      "info": "Quick links to other collections under the hero card.",
+      "default": true
     },
     {
       "type": "text",
