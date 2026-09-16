@@ -102,8 +102,8 @@
       {% endif %}
 
       {% if rendered_count < target_max %}
-        {% for cat_product in collections.all.products limit: 30 %}
-          {% if cat_product != blank and cat_product.id != blank %}
+        {% for cat_product in collections.all.products %}
+          {% if cat_product != blank and cat_product.id != blank and cat_product.featured_image != blank %}
             {% assign p_id_str = cat_product.id | append: '' %}
             {% unless rendered_ids contains p_id_str %}
               {% assign rendered_ids = rendered_ids | append: ',' | append: p_id_str %}
@@ -126,30 +126,25 @@
       {% endif %}
 
       {% if rendered_count < target_max %}
-        {% for coll in collections %}
-          {% for cat_product in coll.products limit: 12 %}
-            {% if cat_product != blank and cat_product.id != blank %}
-              {% assign p_id_str = cat_product.id | append: '' %}
-              {% unless rendered_ids contains p_id_str %}
-                {% assign rendered_ids = rendered_ids | append: ',' | append: p_id_str %}
-                {% assign rendered_count = rendered_count | plus: 1 %}
-                <div class="resource-list__item">
-                  {% content_for 'block',
-                    type: '_product-card',
-                    id: 'static-product-card',
-                    closest.product: cat_product,
-                    product_view_context: 'recommendation'
-                  %}
-                </div>
-                <!--@list/split-->
-                {% if rendered_count >= target_max %}
-                  {% break %}
-                {% endif %}
-              {% endunless %}
-            {% endif %}
-          {% endfor %}
-          {% if rendered_count >= target_max %}
-            {% break %}
+        {% for cat_product in collections.all.products limit: 30 %}
+          {% if cat_product != blank and cat_product.id != blank %}
+            {% assign p_id_str = cat_product.id | append: '' %}
+            {% unless rendered_ids contains p_id_str %}
+              {% assign rendered_ids = rendered_ids | append: ',' | append: p_id_str %}
+              {% assign rendered_count = rendered_count | plus: 1 %}
+              <div class="resource-list__item">
+                {% content_for 'block',
+                  type: '_product-card',
+                  id: 'static-product-card',
+                  closest.product: cat_product,
+                  product_view_context: 'recommendation'
+                %}
+              </div>
+              <!--@list/split-->
+              {% if rendered_count >= target_max %}
+                {% break %}
+              {% endif %}
+            {% endunless %}
           {% endif %}
         {% endfor %}
       {% endif %}

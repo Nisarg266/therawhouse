@@ -20,12 +20,8 @@
             "media_columns": "two",
             "image_gap": 12,
             "large_first_image": true,
-<<<<<<< HEAD
-            "slideshow_controls_style": "thumbnails",
-=======
             "icons_style": "arrow",
-            "slideshow_controls_style": "counter",
->>>>>>> 0be36a922391c6c8acf5571229b458b79563442f
+            "slideshow_controls_style": "thumbnails",
             "slideshow_mobile_controls_style": "dots",
             "thumbnail_position": "bottom",
             "thumbnail_width": 64,
@@ -339,12 +335,7 @@
                   "settings": {
                     "heading": "MATERIALS & SPECIFICATIONS",
                     "open_by_default": false,
-<<<<<<< HEAD
                     "row_content": "<p>Each piece is meticulously handcrafted with sustainably harvested seasoned natural wood, precision-milled solid brass fixtures, and archival artisanal finishes. Dimensions, finishes, and custom bespoke specifications are available upon request.</p>",
-                    "icon": "none"
-                  },
-                  "blocks": {}
-=======
                     "icon": "none",
                     "width": 20
                   },
@@ -378,19 +369,13 @@
                   "block_order": [
                     "craft_content"
                   ]
->>>>>>> 0be36a922391c6c8acf5571229b458b79563442f
                 },
                 "row_delivery": {
                   "type": "_accordion-row",
                   "settings": {
                     "heading": "WHITE GLOVE DELIVERY & TRANSIT",
                     "open_by_default": false,
-<<<<<<< HEAD
                     "row_content": "<p>Complimentary insured white-glove transit across India. Every artifact is individually crated, climate-sealed, and delivered with full provenance documentation and transit insurance.</p>",
-                    "icon": "none"
-                  },
-                  "blocks": {}
-=======
                     "icon": "none",
                     "width": 20
                   },
@@ -424,19 +409,13 @@
                   "block_order": [
                     "delivery_content"
                   ]
->>>>>>> 0be36a922391c6c8acf5571229b458b79563442f
                 },
                 "row_authenticity": {
                   "type": "_accordion-row",
                   "settings": {
                     "heading": "CERTIFICATE OF AUTHENTICITY",
                     "open_by_default": false,
-<<<<<<< HEAD
                     "row_content": "<p>Every acquisition from The Raw House Atelier includes a serialized Certificate of Authenticity signed by the master artisan and curator, guaranteeing origin, craftsmanship lineage, and heirloom authenticity.</p>",
-                    "icon": "none"
-                  },
-                  "blocks": {}
-=======
                     "icon": "none",
                     "width": 20
                   },
@@ -470,7 +449,6 @@
                   "block_order": [
                     "auth_content"
                   ]
->>>>>>> 0be36a922391c6c8acf5571229b458b79563442f
                 }
               },
               "block_order": [
@@ -497,12 +475,8 @@
         "gap": 36,
         "enable_sticky_add_to_cart": true,
         "background_color": "#ffffff",
-<<<<<<< HEAD
-        "padding-block-start": 16,
-        "padding-block-end": 20
-=======
-        "padding-block-start": 24,
-        "padding-block-end": 36
+        "padding-block-start": 20,
+        "padding-block-end": 28
       }
     },
     "luxury_trust": {
@@ -565,28 +539,22 @@
         "text_alignment": "left",
         "padding_top": 36,
         "padding_bottom": 36
->>>>>>> 0be36a922391c6c8acf5571229b458b79563442f
       }
     },
     "craftsmanship_story": {
       "type": "luxury-craftsmanship-story",
       "settings": {
-<<<<<<< HEAD
-        "color_scheme_preset": "warm",
-=======
         "color_scheme_preset": "light",
         "custom_bg_color": "",
         "custom_text_color": "",
         "custom_accent_color": "",
         "media_position": "left",
->>>>>>> 0be36a922391c6c8acf5571229b458b79563442f
         "subheading": "THE RAW HOUSE ATELIER",
         "heading": "Bespoke Artistry & Timeless Provenance",
         "story_text": "Every object in our atelier tells a story of authentic craftsmanship, time-honored techniques, and contemporary form. We collaborate with master artisans and heritage curators to bring museum-grade masterworks into refined living spaces.",
         "default_asset": "art-atelier-artist-studio.jpg",
         "badge_number": "100%",
         "badge_label": "ARTISAN HANDCRAFTED",
-<<<<<<< HEAD
         "counter_1_number": 2400,
         "counter_1_suffix": "+",
         "counter_1_label": "Paintings & Artworks Curated",
@@ -596,17 +564,10 @@
         "counter_3_number": 35,
         "counter_3_suffix": "+",
         "counter_3_label": "Museum Exhibitions",
-        "media_position": "left",
         "button_label": "DISCOVER THE ATELIER",
         "button_link": "shopify:\/\/collections\/all",
         "padding_top": 44,
         "padding_bottom": 48
-=======
-        "button_label": "DISCOVER THE ATELIER",
-        "button_link": "",
-        "padding_top": 48,
-        "padding_bottom": 52
->>>>>>> 0be36a922391c6c8acf5571229b458b79563442f
       }
     },
     "product_recommendations_qggXJq": {
@@ -744,7 +705,7 @@
         "rows_gap": 32,
         "icons_style": "arrow",
         "icons_shape": "none",
-        "section_width": "page-width",
+        "section_width": "full-width",
         "gap": 24,
         "background_color": "#ffffff",
         "padding-block-start": 44,
@@ -756,10 +717,6 @@
       "settings": {
         "heading": "A little bit of us",
         "text": "The House of Things is a destination for design, artistry and craftsmanship, curated for a life artfully lived.",
-<<<<<<< HEAD
-        "padding_top": 24,
-        "padding_bottom": 28
-=======
         "facebook_url": "",
         "instagram_url": "",
         "pinterest_url": "",
@@ -772,12 +729,12 @@
         "max_width": 680,
         "padding_top": 44,
         "padding_bottom": 52
->>>>>>> 0be36a922391c6c8acf5571229b458b79563442f
       }
     }
   },
   "order": [
     "main",
+    "luxury_trust",
     "craftsmanship_story",
     "product_recommendations_qggXJq",
     "brand_statement"
