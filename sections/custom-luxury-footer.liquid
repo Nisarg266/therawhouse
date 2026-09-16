@@ -1,12 +1,17 @@
 {%- comment -%}
-  THE RAW HOUSE - LUXURY ATELIER FOOTER
-  Fully customizable OS 2.0 block architecture with interactive mobile accordions,
-  VIP newsletter subscription, concierge contacts, payment badges, and social links.
+  THE RAW HOUSE - ULTRA-LUXURY ATELIER FOOTER
+  World-class luxury architecture supporting both Atelier Noir (dark) and Museum Linen (light)
+  with interactive mobile accordions, VIP Collectors newsletter, direct concierge channels,
+  verified payment methods, curated social links, and smooth back-to-top.
 {%- endcomment -%}
+
+{% liquid
+  assign color_scheme = section.settings.color_scheme | default: 'parchment'
+%}
 
 <footer
   id="CustomFooter-{{ section.id }}"
-  class="custom-luxury-footer color-custom-{{ section.id }}"
+  class="custom-luxury-footer custom-luxury-footer--{{ color_scheme }} color-custom-{{ section.id }}"
   style="
     --footer-padding-top: {{ section.settings.padding_top | default: 64 }}px;
     --footer-padding-bottom: {{ section.settings.padding_bottom | default: 36 }}px;
@@ -16,10 +21,20 @@
 >
   <div class="custom-footer__container">
     {% if section.settings.show_brand_header %}
+      <!-- Brand Prestige Header -->
       <div class="custom-footer__brand-header">
-        <div class="custom-footer__monogram">TRH</div>
+        <div class="custom-footer__emblem" aria-hidden="true">
+          <span class="custom-footer__emblem-text">TRH</span>
+        </div>
         <h3 class="custom-footer__brand-title">{{ section.settings.brand_name | default: 'THE RAW HOUSE' }}</h3>
-        <p class="custom-footer__brand-tagline">{{ section.settings.brand_tagline | default: 'Contemporary Fine Art Paintings, 3D Sculptural Models & Museum Curations' }}</p>
+        <p class="custom-footer__brand-tagline">
+          {{ section.settings.brand_tagline | default: 'Contemporary Fine Art Paintings, 3D Sculptural Models & Museum Curations' }}
+        </p>
+        <div class="custom-footer__brand-ornament" aria-hidden="true">
+          <span class="custom-footer__ornament-line"></span>
+          <span class="custom-footer__ornament-diamond">◆</span>
+          <span class="custom-footer__ornament-line"></span>
+        </div>
       </div>
     {% endif %}
 
@@ -31,8 +46,11 @@
             {% when 'menu' %}
               <div class="custom-footer__col custom-footer__col--menu" {{ block.shopify_attributes }}>
                 <button type="button" class="custom-footer__accordion-trigger" aria-expanded="false">
-                  <span class="custom-footer__col-heading">{{ block.settings.heading | default: 'EXPLORE' }}</span>
-                  <svg class="custom-footer__accordion-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <span class="custom-footer__col-heading">
+                    <span class="custom-footer__heading-accent"></span>
+                    {{ block.settings.heading | default: 'EXPLORE' }}
+                  </span>
+                  <svg class="custom-footer__accordion-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="6 9 12 15 18 9"></polyline>
                   </svg>
                 </button>
@@ -41,30 +59,33 @@
                     {% if block.settings.menu != blank %}
                       {% for link in block.settings.menu.links %}
                         <li>
-                          <a href="{{ link.url }}" class="custom-footer__link">{{ link.title }}</a>
+                          <a href="{{ link.url }}" class="custom-footer__link">
+                            <span class="custom-footer__link-bullet">›</span>
+                            <span>{{ link.title }}</span>
+                          </a>
                         </li>
                       {% endfor %}
                     {% else %}
                       {% assign h_upper = block.settings.heading | upcase %}
                       {% if h_upper contains 'ABOUT' %}
-                        <li><a href="/pages/about-us" class="custom-footer__link">OUR STORY</a></li>
-                        <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link">MAKERS</a></li>
-                        <li><a href="/blogs/news" class="custom-footer__link">JOURNAL</a></li>
-                        <li><a href="/pages/contact" class="custom-footer__link">PRESS & EVENTS</a></li>
-                        <li><a href="/policies/privacy-policy" class="custom-footer__link">PRIVACY POLICY</a></li>
-                        <li><a href="/pages/contact" class="custom-footer__link">CONTACT US</a></li>
+                        <li><a href="/pages/about-us" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>OUR STORY</span></a></li>
+                        <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>MAKERS & ATELIER</span></a></li>
+                        <li><a href="/blogs/news" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>THE JOURNAL</span></a></li>
+                        <li><a href="/pages/contact" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>PRESS & EXHIBITIONS</span></a></li>
+                        <li><a href="/policies/privacy-policy" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>PRIVACY POLICY</span></a></li>
+                        <li><a href="/pages/contact" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>CONTACT ATELIER</span></a></li>
                       {% elsif h_upper contains 'SERVICE' %}
-                        <li><a href="/pages/contact" class="custom-footer__link">CONCIERGE</a></li>
-                        <li><a href="/pages/contact" class="custom-footer__link">TRADE & ARCHITECTS (B2B)</a></li>
-                        <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link">INTERIORS</a></li>
-                        <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link">GIFTING SERVICES</a></li>
-                        <li><a href="/policies/shipping-policy" class="custom-footer__link">SHIPPING & RETURNS</a></li>
-                        <li><a href="/policies/terms-of-service" class="custom-footer__link">TERMS & CONDITIONS</a></li>
+                        <li><a href="/pages/contact" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>PRIVATE CONCIERGE</span></a></li>
+                        <li><a href="/pages/contact" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>TRADE & ARCHITECTS (B2B)</span></a></li>
+                        <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>BESPOKE INTERIORS</span></a></li>
+                        <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>WHITE GLOVE COMMISSIONS</span></a></li>
+                        <li><a href="/policies/shipping-policy" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>SHIPPING & TRANSIT</span></a></li>
+                        <li><a href="/policies/terms-of-service" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>TERMS & AUTHENTICITY</span></a></li>
                       {% else %}
-                        <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link">Original Oil Paintings</a></li>
-                        <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link">Bronze & Marble Sculptures</a></li>
-                        <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link">3D Sajawat Art Models</a></li>
-                        <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link">Archival Fine Prints</a></li>
+                        <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>Original Oil Paintings</span></a></li>
+                        <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>Bronze & Marble Sculptures</span></a></li>
+                        <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>3D Sajawat Art Models</span></a></li>
+                        <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>Archival Fine Prints</span></a></li>
                       {% endif %}
                     {% endif %}
                   </ul>
@@ -74,73 +95,120 @@
             {% when 'text' %}
               <div class="custom-footer__col custom-footer__col--text" {{ block.shopify_attributes }}>
                 <button type="button" class="custom-footer__accordion-trigger" aria-expanded="false">
-                  <span class="custom-footer__col-heading">{{ block.settings.heading | default: 'ABOUT' }}</span>
-                  <svg class="custom-footer__accordion-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <span class="custom-footer__col-heading">
+                    <span class="custom-footer__heading-accent"></span>
+                    {{ block.settings.heading | default: 'ABOUT THE ATELIER' }}
+                  </span>
+                  <svg class="custom-footer__accordion-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="6 9 12 15 18 9"></polyline>
                   </svg>
                 </button>
                 <div class="custom-footer__accordion-content">
                   <p class="custom-footer__text-content">
-                    {{ block.settings.text | default: 'Dedicated to museum-grade original canvas paintings, hand-cast bronze statuettes, and architectural decorative models.' }}
+                    {{ block.settings.text | default: 'Dedicated to museum-grade original canvas paintings, hand-cast bronze statuettes, and architectural decorative models crafted with singular intention.' }}
                   </p>
                 </div>
               </div>
 
             {% when 'newsletter' %}
               <div class="custom-footer__col custom-footer__col--newsletter" {{ block.shopify_attributes }}>
-                <h4 class="custom-footer__col-heading">{{ block.settings.heading | default: 'BE THE FIRST TO KNOW' }}</h4>
-                {% if block.settings.subtext != blank %}
+                <div class="custom-footer__newsletter-card">
+                  <h4 class="custom-footer__col-heading custom-footer__col-heading--newsletter">
+                    <span class="custom-footer__heading-accent"></span>
+                    {{ block.settings.heading | default: 'BE THE FIRST TO KNOW' }}
+                  </h4>
                   <p class="custom-footer__newsletter-desc">
-                    {{ block.settings.subtext }}
+                    {{ block.settings.subtext | default: 'Sign up for privileged access to rare salon collections, exhibition previews, and bespoke atelier releases.' }}
                   </p>
-                {% endif %}
-                {% assign newsletter_id = 'FooterNewsletter-' | append: section.id | append: block.id %}
-                {% form 'customer', id: newsletter_id, class: 'custom-footer__newsletter-form' %}
-                  <input type="hidden" name="contact[tags]" value="newsletter, footer-vip">
-                  <div class="custom-footer__newsletter-field-wrapper">
-                    <input
-                      type="email"
-                      name="contact[email]"
-                      aria-label="{{ 'blocks.email_signup.label' | t }}"
-                      class="custom-footer__newsletter-input"
-                      placeholder="{{ block.settings.placeholder | default: 'Enter your email ID' }}"
-                      required
-                      autocomplete="email"
-                    >
-                    <button type="submit" class="custom-footer__newsletter-btn">
-                      {{ block.settings.button_text | default: 'SUBSCRIBE' }}
-                    </button>
-                  </div>
-                  {% if form.errors %}
-                    <div class="custom-footer__form-message" role="alert">{{ form.errors | default_errors }}</div>
-                  {% endif %}
-                  {% if form.posted_successfully? %}
-                    <p class="custom-footer__form-message custom-footer__form-message--success">
-                      ✓ Welcome to The Raw House.
-                    </p>
-                  {% endif %}
-                {% endform %}
+                  {% assign newsletter_id = 'FooterNewsletter-' | append: section.id | append: block.id %}
+                  {% form 'customer', id: newsletter_id, class: 'custom-footer__newsletter-form' %}
+                    <input type="hidden" name="contact[tags]" value="newsletter, footer-vip">
+                    <div class="custom-footer__newsletter-field-wrapper">
+                      <input
+                        type="email"
+                        name="contact[email]"
+                        aria-label="{{ 'blocks.email_signup.label' | t }}"
+                        class="custom-footer__newsletter-input"
+                        placeholder="{{ block.settings.placeholder | default: 'Enter your email address...' }}"
+                        required
+                        autocomplete="email"
+                      >
+                      <button type="submit" class="custom-footer__newsletter-btn">
+                        <span>{{ block.settings.button_text | default: 'SUBSCRIBE' }}</span>
+                        <svg class="custom-footer__btn-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                          <line x1="5" y1="12" x2="19" y2="12"></line>
+                          <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                      </button>
+                    </div>
+                    {% if form.errors %}
+                      <div class="custom-footer__form-message custom-footer__form-message--error" role="alert">
+                        {{ form.errors | default_errors }}
+                      </div>
+                    {% endif %}
+                    {% if form.posted_successfully? %}
+                      <p class="custom-footer__form-message custom-footer__form-message--success">
+                        ✓ Welcome to The Raw House. Your invitation is confirmed.
+                      </p>
+                    {% endif %}
+                  {% endform %}
+                  <p class="custom-footer__privacy-note">Strictly confidential. No spam, ever.</p>
+                </div>
 
-                <div class="custom-footer__concierge-block">
-                  <h5 class="custom-footer__col-heading custom-footer__col-heading--concierge">{{ section.settings.concierge_heading | default: 'CONCIERGE' }}</h5>
-                  <p class="custom-footer__concierge-text">
-                    {{ section.settings.concierge_text | default: '+91 80030 11110 / concierge@therawhouse.com' }}
-                  </p>
+                <!-- Upgraded Private Concierge Card -->
+                <div class="custom-footer__concierge-card">
+                  <div class="custom-footer__concierge-header">
+                    <svg class="custom-footer__concierge-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                    <h5 class="custom-footer__col-heading custom-footer__col-heading--concierge">
+                      {{ section.settings.concierge_heading | default: 'PRIVATE ART CONCIERGE' }}
+                    </h5>
+                  </div>
+                  <div class="custom-footer__concierge-channels">
+                    <a href="tel:+918003011110" class="custom-footer__concierge-link" title="Call Concierge">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                      </svg>
+                      <span>+91 80030 11110</span>
+                    </a>
+                    <span class="custom-footer__channel-divider">•</span>
+                    <a href="mailto:concierge@therawhouse.com" class="custom-footer__concierge-link" title="Email Concierge">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                        <polyline points="22,6 12,13 2,6"></polyline>
+                      </svg>
+                      <span>concierge@therawhouse.com</span>
+                    </a>
+                  </div>
+                  {% if section.settings.whatsapp_url != blank %}
+                    <div class="custom-footer__whatsapp-wrap">
+                      <a href="{{ section.settings.whatsapp_url }}" target="_blank" rel="noopener noreferrer" class="custom-footer__whatsapp-btn">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+                        </svg>
+                        <span>Chat with Private Concierge</span>
+                      </a>
+                    </div>
+                  {% endif %}
                 </div>
               </div>
 
             {% when 'concierge' %}
               <div class="custom-footer__col custom-footer__col--concierge" {{ block.shopify_attributes }}>
                 <button type="button" class="custom-footer__accordion-trigger" aria-expanded="false">
-                  <span class="custom-footer__col-heading">{{ block.settings.heading | default: 'PRIVATE ART CONCIERGE' }}</span>
-                  <svg class="custom-footer__accordion-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <span class="custom-footer__col-heading">
+                    <span class="custom-footer__heading-accent"></span>
+                    {{ block.settings.heading | default: 'PRIVATE ART CONCIERGE' }}
+                  </span>
+                  <svg class="custom-footer__accordion-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="6 9 12 15 18 9"></polyline>
                   </svg>
                 </button>
                 <div class="custom-footer__accordion-content">
                   <div class="custom-footer__concierge-info">
-                    <p><strong>Advisory Hours:</strong> {{ block.settings.hours | default: 'Mon - Sat: 9am - 7pm EST' }}</p>
-                    <p><strong>Direct Hotline:</strong> <a href="tel:{{ block.settings.phone | default: '+18007294687' }}">{{ block.settings.phone_display | default: '+1 (800) 729-4687' }}</a></p>
+                    <p><strong>Advisory Hours:</strong> {{ block.settings.hours | default: 'Mon - Sat: 10am - 7pm IST' }}</p>
+                    <p><strong>Direct Hotline:</strong> <a href="tel:{{ block.settings.phone | default: '+918003011110' }}">{{ block.settings.phone_display | default: '+91 80030 11110' }}</a></p>
                     <p><strong>Inquiries:</strong> <a href="mailto:{{ block.settings.email | default: 'concierge@therawhouse.com' }}">{{ block.settings.email | default: 'concierge@therawhouse.com' }}</a></p>
                   </div>
                 </div>
@@ -148,96 +216,88 @@
           {% endcase %}
         {% endfor %}
       {% else %}
-        <!-- Default Presets when No Blocks Added in Customizer -->
-        <!-- Column 1: The Atelier Menu -->
+        <!-- Default Presets when No Blocks Added -->
         <div class="custom-footer__col custom-footer__col--menu">
           <button type="button" class="custom-footer__accordion-trigger" aria-expanded="false">
-            <span class="custom-footer__col-heading">{{ section.settings.about_heading | default: 'THE ATELIER' }}</span>
-            <svg class="custom-footer__accordion-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <span class="custom-footer__col-heading">
+              <span class="custom-footer__heading-accent"></span>
+              {{ section.settings.about_heading | default: 'THE ATELIER' }}
+            </span>
+            <svg class="custom-footer__accordion-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
           </button>
           <div class="custom-footer__accordion-content">
             <ul class="custom-footer__links-list" role="list">
-              {% if section.settings.about_menu != blank %}
-                {% for link in section.settings.about_menu.links %}
-                  <li><a href="{{ link.url }}" class="custom-footer__link">{{ link.title }}</a></li>
-                {% endfor %}
-              {% else %}
-                <li><a href="/pages/about-us" class="custom-footer__link">OUR STORY & PHILOSOPHY</a></li>
-                <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link">ORIGINAL OIL PAINTINGS</a></li>
-                <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link">BRONZE & MARBLE SCULPTURES</a></li>
-                <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link">3D SAJAWAT ART MODELS</a></li>
-                <li><a href="/blogs/news" class="custom-footer__link">COLLECTORS JOURNAL</a></li>
-                <li><a href="/pages/contact" class="custom-footer__link">CONTACT & ATELIER</a></li>
-              {% endif %}
+              <li><a href="/pages/about-us" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>OUR STORY & PHILOSOPHY</span></a></li>
+              <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>ORIGINAL OIL PAINTINGS</span></a></li>
+              <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>BRONZE & MARBLE SCULPTURES</span></a></li>
+              <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>3D SAJAWAT ART MODELS</span></a></li>
+              <li><a href="/blogs/news" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>COLLECTORS JOURNAL</span></a></li>
+              <li><a href="/pages/contact" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>CONTACT & ATELIER</span></a></li>
             </ul>
           </div>
         </div>
 
-        <!-- Column 2: Client Services Menu -->
         <div class="custom-footer__col custom-footer__col--menu">
           <button type="button" class="custom-footer__accordion-trigger" aria-expanded="false">
-            <span class="custom-footer__col-heading">{{ section.settings.services_heading | default: 'CLIENT SERVICES' }}</span>
-            <svg class="custom-footer__accordion-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <span class="custom-footer__col-heading">
+              <span class="custom-footer__heading-accent"></span>
+              {{ section.settings.services_heading | default: 'CLIENT SERVICES' }}
+            </span>
+            <svg class="custom-footer__accordion-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
           </button>
           <div class="custom-footer__accordion-content">
             <ul class="custom-footer__links-list" role="list">
-              {% if section.settings.services_menu != blank %}
-                {% for link in section.settings.services_menu.links %}
-                  <li><a href="{{ link.url }}" class="custom-footer__link">{{ link.title }}</a></li>
-                {% endfor %}
-              {% else %}
-                <li><a href="/pages/concierge" class="custom-footer__link">PRIVATE ART ADVISORY</a></li>
-                <li><a href="/pages/b2b" class="custom-footer__link">TRADE & ARCHITECTS (B2B)</a></li>
-                <li><a href="/pages/commissions" class="custom-footer__link">BESPOKE COMMISSIONS</a></li>
-                <li><a href="/policies/shipping-policy" class="custom-footer__link">WHITE GLOVE CRATING & TRANSIT</a></li>
-                <li><a href="/policies/terms-of-service" class="custom-footer__link">AUTHENTICITY & PROVENANCE</a></li>
-                <li><a href="/policies/privacy-policy" class="custom-footer__link">PRIVACY POLICY</a></li>
-              {% endif %}
+              <li><a href="/pages/contact" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>PRIVATE ART ADVISORY</span></a></li>
+              <li><a href="/pages/contact" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>TRADE & ARCHITECTS (B2B)</span></a></li>
+              <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>BESPOKE COMMISSIONS</span></a></li>
+              <li><a href="/policies/shipping-policy" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>WHITE GLOVE CRATING & TRANSIT</span></a></li>
+              <li><a href="/policies/terms-of-service" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>AUTHENTICITY & PROVENANCE</span></a></li>
+              <li><a href="/policies/privacy-policy" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>PRIVACY POLICY</span></a></li>
             </ul>
           </div>
         </div>
 
-        <!-- Column 3: Newsletter & Concierge -->
         <div class="custom-footer__col custom-footer__col--newsletter">
-          <h4 class="custom-footer__col-heading">{{ section.settings.newsletter_heading | default: 'THE COLLECTORS CIRCLE' }}</h4>
-          <p class="custom-footer__newsletter-desc">
-            Subscribe for confidential previews of newly acquired original canvases, rare bronze sculptures, and private exhibition vernissages.
-          </p>
-
-          {% assign newsletter_id = 'FooterNewsletter-' | append: section.id %}
-          {% form 'customer', id: newsletter_id, class: 'custom-footer__newsletter-form' %}
-            <input type="hidden" name="contact[tags]" value="newsletter, footer-vip">
-            <div class="custom-footer__newsletter-field-wrapper">
-              <input
-                type="email"
-                name="contact[email]"
-                aria-label="{{ 'blocks.email_signup.label' | t }}"
-                class="custom-footer__newsletter-input"
-                placeholder="{{ section.settings.newsletter_placeholder | default: 'Enter your email address...' }}"
-                required
-                autocomplete="email"
-              >
-              <button type="submit" class="custom-footer__newsletter-btn">
-                {{ section.settings.newsletter_button_text | default: 'JOIN' }}
-              </button>
-            </div>
-            {% if form.errors %}
-              <div class="custom-footer__form-message" role="alert">{{ form.errors | default_errors }}</div>
-            {% endif %}
-            {% if form.posted_successfully? %}
-              <p class="custom-footer__form-message custom-footer__form-message--success">
-                ✓ Thank you for subscribing to The Raw House.
-              </p>
-            {% endif %}
-          {% endform %}
-
-          <div class="custom-footer__concierge-block">
-            <h5 class="custom-footer__concierge-heading">{{ section.settings.concierge_heading | default: 'PRIVATE CONCIERGE' }}</h5>
-            <p class="custom-footer__concierge-text">{{ section.settings.concierge_text | default: '+91 80030 11110 / concierge@therawhouse.com' }}</p>
+          <div class="custom-footer__newsletter-card">
+            <h4 class="custom-footer__col-heading custom-footer__col-heading--newsletter">
+              <span class="custom-footer__heading-accent"></span>
+              {{ section.settings.newsletter_heading | default: 'THE COLLECTORS CIRCLE' }}
+            </h4>
+            <p class="custom-footer__newsletter-desc">
+              Subscribe for confidential previews of newly acquired original canvases, rare bronze sculptures, and private exhibition vernissages.
+            </p>
+            {% assign newsletter_id = 'FooterNewsletter-' | append: section.id %}
+            {% form 'customer', id: newsletter_id, class: 'custom-footer__newsletter-form' %}
+              <input type="hidden" name="contact[tags]" value="newsletter, footer-vip">
+              <div class="custom-footer__newsletter-field-wrapper">
+                <input
+                  type="email"
+                  name="contact[email]"
+                  aria-label="{{ 'blocks.email_signup.label' | t }}"
+                  class="custom-footer__newsletter-input"
+                  placeholder="{{ section.settings.newsletter_placeholder | default: 'Enter your email address...' }}"
+                  required
+                  autocomplete="email"
+                >
+                <button type="submit" class="custom-footer__newsletter-btn">
+                  <span>{{ section.settings.newsletter_button_text | default: 'JOIN' }}</span>
+                  <svg class="custom-footer__btn-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </button>
+              </div>
+              {% if form.posted_successfully? %}
+                <p class="custom-footer__form-message custom-footer__form-message--success">
+                  ✓ Welcome to The Raw House. Your invitation is confirmed.
+                </p>
+              {% endif %}
+            {% endform %}
+            <p class="custom-footer__privacy-note">Strictly confidential. No spam, ever.</p>
           </div>
         </div>
       {% endif %}
@@ -245,30 +305,41 @@
 
     <!-- Middle Row: Payment Badges, Socials & Back to Top -->
     <div class="custom-footer__middle-row">
-      <!-- Payment Badges -->
+      <!-- Payment Badges & Trust -->
       <div class="custom-footer__payment-col">
-        <h4 class="custom-footer__sub-heading">{{ section.settings.payment_heading | default: 'PAYMENT METHODS' }}</h4>
-        <div class="custom-footer__payment-icons">
-          <span class="custom-footer__payment-item" title="PayPal">
-            <svg class="payment-icon" viewBox="0 0 64 24" fill="none" style="width: 48px; height: 18px;">
-              <text x="2" y="17" font-family="'Helvetica Neue', Arial, sans-serif" font-size="14" font-style="italic" font-weight="700" fill="#003087">Pay<tspan fill="#0079C1">Pal</tspan></text>
+        <div class="custom-footer__sub-heading-wrap">
+          <h4 class="custom-footer__sub-heading">{{ section.settings.payment_heading | default: 'PAYMENT METHODS' }}</h4>
+          <span class="custom-footer__ssl-badge">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C9.243 2 7 4.243 7 7v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7c0-2.757-2.243-5-5-5zM9 7c0-1.654 1.346-3 3-3s3 1.346 3 3v3H9V7zm3 10a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
             </svg>
+            <span>256-BIT SSL ENCRYPTED</span>
           </span>
+        </div>
+        <div class="custom-footer__payment-icons">
           <span class="custom-footer__payment-item" title="Visa">
-            <svg class="payment-icon" viewBox="0 0 54 24" fill="none" style="width: 44px; height: 18px;">
-              <text x="2" y="17" font-family="'Helvetica Neue', Arial, sans-serif" font-size="14" font-style="italic" font-weight="800" fill="#1A1F71" letter-spacing="1">VISA</text>
+            <svg viewBox="0 0 54 24" fill="none" style="width: 42px; height: 16px;">
+              <text x="2" y="17" font-family="'Inter', -apple-system, sans-serif" font-size="14" font-style="italic" font-weight="800" fill="currentColor" letter-spacing="1">VISA</text>
             </svg>
           </span>
           <span class="custom-footer__payment-item" title="Mastercard">
-            <svg class="payment-icon" viewBox="0 0 38 24" fill="none" style="width: 32px; height: 18px;">
+            <svg viewBox="0 0 38 24" fill="none" style="width: 32px; height: 18px;">
               <circle cx="13" cy="12" r="9" fill="#EB001B"/>
               <circle cx="23" cy="12" r="9" fill="#F79E1B" fill-opacity="0.88"/>
             </svg>
           </span>
-          <span class="custom-footer__payment-item" title="Amex">
-            <svg class="payment-icon" viewBox="0 0 50 24" fill="none" style="width: 42px; height: 18px;">
+          <span class="custom-footer__payment-item" title="American Express">
+            <svg viewBox="0 0 50 24" fill="none" style="width: 40px; height: 18px;">
               <rect width="48" height="20" rx="3" fill="#006FCF"/>
-              <text x="6" y="14" font-family="'Helvetica Neue', Arial, sans-serif" font-size="10" font-weight="700" fill="#ffffff">AMEX</text>
+              <text x="6" y="14" font-family="'Inter', -apple-system, sans-serif" font-size="10" font-weight="700" fill="#ffffff">AMEX</text>
+            </svg>
+          </span>
+          <span class="custom-footer__payment-item" title="UPI & Net Banking">
+            <span class="custom-footer__text-badge">UPI</span>
+          </span>
+          <span class="custom-footer__payment-item" title="PayPal">
+            <svg viewBox="0 0 64 24" fill="none" style="width: 46px; height: 16px;">
+              <text x="2" y="17" font-family="'Inter', -apple-system, sans-serif" font-size="13" font-style="italic" font-weight="700" fill="currentColor">Pay<tspan fill="#0079C1">Pal</tspan></text>
             </svg>
           </span>
         </div>
@@ -276,17 +347,10 @@
 
       <!-- Social Icons -->
       <div class="custom-footer__social-col">
-        <h4 class="custom-footer__sub-heading">{{ section.settings.social_heading | default: 'CONNECT & EXHIBITIONS' }}</h4>
+        <h4 class="custom-footer__sub-heading">{{ section.settings.social_heading | default: 'FIND US ONLINE' }}</h4>
         <div class="custom-footer__social-icons">
-          {% if section.settings.facebook_url != blank %}
-            <a href="{{ section.settings.facebook_url }}" target="_blank" rel="noopener" class="custom-footer__social-badge" aria-label="Facebook">
-              <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
-                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-              </svg>
-            </a>
-          {% endif %}
           {% if section.settings.instagram_url != blank %}
-            <a href="{{ section.settings.instagram_url }}" target="_blank" rel="noopener" class="custom-footer__social-badge" aria-label="Instagram">
+            <a href="{{ section.settings.instagram_url }}" target="_blank" rel="noopener noreferrer" class="custom-footer__social-badge" aria-label="Instagram">
               <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
                 <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
@@ -294,11 +358,25 @@
               </svg>
             </a>
           {% endif %}
+          {% if section.settings.facebook_url != blank %}
+            <a href="{{ section.settings.facebook_url }}" target="_blank" rel="noopener noreferrer" class="custom-footer__social-badge" aria-label="Facebook">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
+                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+              </svg>
+            </a>
+          {% endif %}
           {% if section.settings.pinterest_url != blank or section.settings.twitter_url != blank %}
             {% assign x_url = section.settings.twitter_url | default: section.settings.pinterest_url %}
-            <a href="{{ x_url }}" target="_blank" rel="noopener" class="custom-footer__social-badge" aria-label="X">
+            <a href="{{ x_url }}" target="_blank" rel="noopener noreferrer" class="custom-footer__social-badge" aria-label="X">
               <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor">
                 <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+              </svg>
+            </a>
+          {% endif %}
+          {% if section.settings.whatsapp_url != blank %}
+            <a href="{{ section.settings.whatsapp_url }}" target="_blank" rel="noopener noreferrer" class="custom-footer__social-badge custom-footer__social-badge--whatsapp" aria-label="WhatsApp Concierge">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
+                <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
               </svg>
             </a>
           {% endif %}
@@ -306,14 +384,16 @@
       </div>
 
       <!-- Back to Top Button -->
-      <div class="custom-footer__top-button-col">
-        <button type="button" class="custom-footer__back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">
-          <span>Back to Top</span>
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="18 15 12 9 6 15"></polyline>
-          </svg>
-        </button>
-      </div>
+      {% if section.settings.show_back_to_top != false %}
+        <div class="custom-footer__top-button-col">
+          <button type="button" class="custom-footer__back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});" aria-label="Back to Top">
+            <span>BACK TO TOP</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="18 15 12 9 6 15"></polyline>
+            </svg>
+          </button>
+        </div>
+      {% endif %}
     </div>
 
     <!-- Bottom Row: Copyright & Legal -->
@@ -322,6 +402,14 @@
         <p class="custom-footer__copyright">
           &copy; {{ 'now' | date: '%Y' }} {{ section.settings.copyright_text | default: 'The Raw House Living Pvt Ltd. All rights reserved.' }}
         </p>
+        <span class="custom-footer__bottom-divider" aria-hidden="true">&bull;</span>
+        <div class="custom-footer__policy-links">
+          <a href="/policies/privacy-policy" class="custom-footer__policy-link">Privacy Policy</a>
+          <span class="custom-footer__policy-dot">&bull;</span>
+          <a href="/policies/terms-of-service" class="custom-footer__policy-link">Terms of Service</a>
+          <span class="custom-footer__policy-dot">&bull;</span>
+          <a href="/policies/shipping-policy" class="custom-footer__policy-link">Shipping & Returns</a>
+        </div>
         {% if section.settings.show_credits != false %}
           <span class="custom-footer__bottom-divider" aria-hidden="true">&bull;</span>
           <p class="custom-footer__credits">
@@ -344,86 +432,196 @@
 </footer>
 
 <style>
+  /* ==========================================================================
+     THE RAW HOUSE - LUXURY ARCHITECTURAL FOOTER DESIGN SYSTEM
+     ========================================================================== */
+
   .custom-luxury-footer {
-    background: #f7f7f7 !important;
-    color: #111111 !important;
-    padding-top: var(--footer-padding-top, 48px);
-    padding-bottom: var(--footer-padding-bottom, 36px);
-    border-top: 1px solid #e5e5e5 !important;
     position: relative;
+    padding-top: var(--footer-padding-top, 64px);
+    padding-bottom: var(--footer-padding-bottom, 36px);
+    box-sizing: border-box;
+    font-family: var(--lux-font-body, "Inter", -apple-system, sans-serif);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  /* --- ATELIER NOIR PALETTE (Deep Obsidian Luxury - Default) --- */
+  .custom-luxury-footer--noir {
+    --flx-bg: #11100e;
+    --flx-card-bg: #191816;
+    --flx-card-border: rgba(197, 168, 128, 0.2);
+    --flx-border: rgba(255, 255, 255, 0.08);
+    --flx-border-accent: rgba(197, 168, 128, 0.4);
+    --flx-heading: #fcfbf9;
+    --flx-text: #eae5dc;
+    --flx-muted: #9e978c;
+    --flx-gold: #c5a880;
+    --flx-gold-hover: #dfc49e;
+    --flx-link: #b5afa4;
+    --flx-link-hover: #ffffff;
+    --flx-input-bg: rgba(255, 255, 255, 0.05);
+    --flx-input-border: rgba(255, 255, 255, 0.16);
+    --flx-input-text: #ffffff;
+    --flx-input-placeholder: #7c766d;
+    --flx-btn-bg: #c5a880;
+    --flx-btn-text: #11100e;
+    --flx-btn-hover: #dfc49e;
+    --flx-badge-bg: rgba(255, 255, 255, 0.06);
+    --flx-badge-border: rgba(255, 255, 255, 0.12);
+    --flx-badge-text: #eae5dc;
+    background: var(--flx-bg) !important;
+    color: var(--flx-text) !important;
+    border-top: 1px solid var(--flx-border-accent) !important;
+  }
+
+  /* --- MUSEUM PARCHMENT PALETTE (Warm Alabaster Light - Default) --- */
+  .custom-luxury-footer--parchment {
+    --flx-bg: #f9f8f5;
+    --flx-card-bg: #ffffff;
+    --flx-card-border: #ede8df;
+    --flx-border: #eae6de;
+    --flx-border-accent: #c5a880;
+    --flx-heading: #121110;
+    --flx-text: #242220;
+    --flx-muted: #726b60;
+    --flx-gold: #b38b4d;
+    --flx-gold-hover: #967035;
+    --flx-link: #524d45;
+    --flx-link-hover: #000000;
+    --flx-input-bg: #ffffff;
+    --flx-input-border: #dcd7ce;
+    --flx-input-text: #121110;
+    --flx-input-placeholder: #8c857a;
+    --flx-btn-bg: #121110;
+    --flx-btn-text: #ffffff;
+    --flx-btn-hover: #b38b4d;
+    --flx-badge-bg: #ffffff;
+    --flx-badge-border: #dedad0;
+    --flx-badge-text: #121110;
+    background: var(--flx-bg) !important;
+    color: var(--flx-text) !important;
+    border-top: 1px solid var(--flx-border) !important;
   }
 
   .custom-footer__container {
-    max-width: var(--footer-max-width, 1140px);
+    max-width: var(--footer-max-width, 1240px);
     margin: 0 auto;
-    padding: 0 24px;
+    padding: 0 32px;
     box-sizing: border-box;
   }
 
-  /* Brand Header (Hidden by default) */
+  /* --- 1. BRAND PRESTIGE HEADER --- */
   .custom-footer__brand-header {
     text-align: center;
-    padding-bottom: 28px;
-    margin-bottom: 28px;
-    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 36px;
+    margin-bottom: 36px;
+    position: relative;
   }
 
-  .custom-footer__monogram {
+  .custom-footer__emblem {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
-    border: 1px solid #111111;
-    color: #111111;
-    font-size: 12px;
+    border: 1px solid var(--flx-gold);
+    color: var(--flx-gold);
+    margin-bottom: 12px;
+    box-shadow: 0 0 16px rgba(197, 168, 128, 0.15);
+    transition: transform 0.3s ease, border-color 0.3s ease;
+  }
+
+  .custom-footer__emblem:hover {
+    transform: scale(1.06);
+    border-color: var(--flx-gold-hover);
+  }
+
+  .custom-footer__emblem-text {
+    font-family: var(--lux-font-heading, "Playfair Display", Georgia, serif);
+    font-size: 13px;
     font-weight: 600;
     letter-spacing: 0.14em;
-    margin-bottom: 10px;
+    padding-left: 2px;
   }
 
   .custom-footer__brand-title {
-    font-size: 16px;
+    font-family: var(--lux-font-heading, "Playfair Display", Georgia, serif);
+    font-size: 20px;
     font-weight: 500;
-    letter-spacing: 0.22em;
+    letter-spacing: 0.26em;
     text-transform: uppercase;
-    color: #111111;
-    margin: 0 0 4px;
+    color: var(--flx-heading);
+    margin: 0 0 6px;
   }
 
   .custom-footer__brand-tagline {
     font-size: 11.5px;
-    color: #555555;
-    letter-spacing: 0.04em;
-    margin: 0;
+    color: var(--flx-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin: 0 0 16px;
   }
 
-  /* Top Columns Grid: 3 columns */
+  .custom-footer__brand-ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    max-width: 240px;
+    margin: 0 auto;
+  }
+
+  .custom-footer__ornament-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--flx-gold), transparent);
+    opacity: 0.5;
+  }
+
+  .custom-footer__ornament-diamond {
+    color: var(--flx-gold);
+    font-size: 8px;
+    line-height: 1;
+    opacity: 0.8;
+  }
+
+  /* --- 2. TOP COLUMNS GRID --- */
   .custom-footer__top-row {
     display: grid !important;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: clamp(24px, 5vw, 64px);
-    padding-bottom: 36px;
-    border-bottom: 1px solid #e5e5e5 !important;
+    grid-template-columns: 1fr 1fr 1.35fr;
+    gap: clamp(32px, 5vw, 64px);
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--flx-border) !important;
+    align-items: start;
   }
 
   .custom-footer__col-heading {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
-    font-size: 11.5px !important;
+    font-family: var(--lux-font-body, "Inter", sans-serif) !important;
+    font-size: 12px !important;
     font-weight: 600 !important;
-    letter-spacing: 0.16em !important;
+    letter-spacing: 0.18em !important;
     text-transform: uppercase !important;
-    color: #111111 !important;
-    margin: 0 0 16px !important;
-    display: block !important;
+    color: var(--flx-heading) !important;
+    margin: 0 0 18px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+  }
+
+  .custom-footer__heading-accent {
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--flx-gold);
   }
 
   .custom-footer__accordion-trigger {
     background: transparent;
     border: none;
     padding: 0;
-    color: #111111 !important;
+    color: inherit;
     text-align: left;
     width: 100%;
     cursor: default;
@@ -434,7 +632,8 @@
 
   .custom-footer__accordion-icon {
     display: none;
-    color: #111111 !important;
+    color: var(--flx-gold);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .custom-footer__links-list {
@@ -443,157 +642,310 @@
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 9px;
+    gap: 11px;
   }
 
   .custom-footer__link {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
-    font-size: 11px !important;
+    font-size: 11.5px !important;
     letter-spacing: 0.08em !important;
     text-transform: uppercase !important;
-    color: #555555 !important;
+    color: var(--flx-link) !important;
     text-decoration: none !important;
-    transition: color 0.2s ease, transform 0.2s ease;
-    display: inline-block;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+
+  .custom-footer__link-bullet {
+    color: var(--flx-gold);
+    font-size: 11px;
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: all 0.25s ease;
   }
 
   .custom-footer__link:hover {
-    color: #000000 !important;
-    transform: translateX(2px);
+    color: var(--flx-link-hover) !important;
+    transform: translateX(4px);
+  }
+
+  .custom-footer__link:hover .custom-footer__link-bullet {
+    opacity: 1;
+    transform: translateX(0);
   }
 
   .custom-footer__text-content {
-    overflow-wrap: anywhere;
-    font-size: 12px;
-    line-height: 1.6;
-    color: #555555 !important;
+    font-size: 12.5px;
+    line-height: 1.65;
+    color: var(--flx-muted) !important;
     margin: 0;
   }
 
-  /* Newsletter Block */
+  /* --- 3. NEWSLETTER & CONCIERGE CARDS --- */
+  .custom-footer__newsletter-card {
+    background: var(--flx-card-bg);
+    border: 1px solid var(--flx-card-border);
+    border-radius: 6px;
+    padding: 22px;
+    box-sizing: border-box;
+    margin-bottom: 18px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  .custom-footer__col-heading--newsletter {
+    margin-bottom: 8px !important;
+  }
+
   .custom-footer__newsletter-desc {
-    font-size: 11.5px;
-    line-height: 1.5;
-    color: #555555 !important;
-    margin: 0 0 12px;
+    font-size: 12px;
+    line-height: 1.55;
+    color: var(--flx-muted) !important;
+    margin: 0 0 16px;
   }
 
   .custom-footer__newsletter-field-wrapper {
     display: flex !important;
     align-items: center !important;
-    background: transparent !important;
-    border: none !important;
-    border-bottom: 1px solid #111111 !important;
-    border-radius: 0 !important;
-    overflow: visible !important;
-    margin-bottom: 18px !important;
-    transition: border-color 0.25s ease;
+    background: var(--flx-input-bg) !important;
+    border: 1px solid var(--flx-input-border) !important;
+    border-radius: 4px !important;
+    padding: 3px !important;
+    box-sizing: border-box;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
   }
 
   .custom-footer__newsletter-field-wrapper:focus-within {
-    border-bottom-color: #000000 !important;
-    box-shadow: none !important;
+    border-color: var(--flx-gold) !important;
+    box-shadow: 0 0 0 2px rgba(197, 168, 128, 0.25) !important;
   }
 
   .custom-footer__newsletter-input {
-    flex: 1 !important;
+    flex: 1 1 auto !important;
     min-width: 0;
     background: transparent !important;
     border: none !important;
     outline: none !important;
-    padding: 6px 0 !important;
-    font-size: 11.5px !important;
-    color: #111111 !important;
+    padding: 9px 12px !important;
+    font-size: 12px !important;
+    color: var(--flx-input-text) !important;
     font-family: inherit !important;
     letter-spacing: 0.02em !important;
   }
 
   .custom-footer__newsletter-input::placeholder {
-    color: #888888 !important;
+    color: var(--flx-input-placeholder) !important;
   }
 
   .custom-footer__newsletter-btn {
-    background: transparent !important;
-    color: #111111 !important;
+    flex-shrink: 0 !important;
+    background: var(--flx-btn-bg) !important;
+    color: var(--flx-btn-text) !important;
     border: none !important;
-    padding: 6px 0 !important;
+    border-radius: 3px !important;
+    padding: 9px 16px !important;
     font-size: 11px !important;
     font-weight: 600 !important;
-    letter-spacing: 0.16em !important;
+    letter-spacing: 0.14em !important;
     text-transform: uppercase !important;
-    text-decoration: underline !important;
-    text-underline-offset: 4px !important;
     cursor: pointer !important;
-    transition: opacity 0.2s ease !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    transition: background-color 0.25s ease, transform 0.2s ease !important;
   }
 
   .custom-footer__newsletter-btn:hover {
-    background: transparent !important;
-    color: #111111 !important;
-    opacity: 0.6 !important;
+    background: var(--flx-btn-hover) !important;
+    transform: translateY(-1px);
   }
 
-  .custom-footer__form-message--success {
-    color: #111111 !important;
-    font-size: 11px;
-    margin-top: 6px;
+  .custom-footer__btn-arrow {
+    transition: transform 0.2s ease;
+  }
+
+  .custom-footer__newsletter-btn:hover .custom-footer__btn-arrow {
+    transform: translateX(2px);
+  }
+
+  .custom-footer__privacy-note {
+    font-size: 10.5px;
+    color: var(--flx-muted);
+    letter-spacing: 0.03em;
+    margin: 8px 0 0;
+  }
+
+  .custom-footer__form-message {
+    font-size: 11.5px;
+    margin-top: 8px;
     font-weight: 500;
   }
 
-  /* Concierge under Newsletter */
-  .custom-footer__concierge-block {
-    padding-top: 14px;
-    border-top: none !important;
+  .custom-footer__form-message--success {
+    color: var(--flx-gold) !important;
+  }
+
+  .custom-footer__form-message--error {
+    color: #e57373 !important;
+  }
+
+  /* --- CONCIERGE CARD --- */
+  .custom-footer__concierge-card {
+    background: var(--flx-card-bg);
+    border: 1px solid var(--flx-card-border);
+    border-radius: 6px;
+    padding: 16px 20px;
+    box-sizing: border-box;
+  }
+
+  .custom-footer__concierge-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .custom-footer__concierge-icon {
+    color: var(--flx-gold);
+    flex-shrink: 0;
   }
 
   .custom-footer__col-heading--concierge {
-    font-size: 11px !important;
-    margin-bottom: 6px !important;
-  }
-
-  .custom-footer__concierge-text {
-    font-size: 11px !important;
-    line-height: 1.5 !important;
-    color: #555555 !important;
-    letter-spacing: 0.04em !important;
     margin: 0 !important;
+    font-size: 11px !important;
+    letter-spacing: 0.16em !important;
   }
 
-  /* Middle Row: Payment Methods & Socials */
+  .custom-footer__concierge-channels {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px 12px;
+    font-size: 11.5px;
+  }
+
+  .custom-footer__concierge-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--flx-link) !important;
+    text-decoration: none !important;
+    transition: color 0.2s ease;
+  }
+
+  .custom-footer__concierge-link:hover {
+    color: var(--flx-gold) !important;
+  }
+
+  .custom-footer__concierge-link svg {
+    color: var(--flx-gold);
+    flex-shrink: 0;
+  }
+
+  .custom-footer__channel-divider {
+    color: var(--flx-muted);
+    font-size: 8px;
+    user-select: none;
+  }
+
+  .custom-footer__whatsapp-wrap {
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--flx-border);
+  }
+
+  .custom-footer__whatsapp-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 11.5px;
+    font-weight: 500;
+    color: #25d366 !important;
+    text-decoration: none !important;
+    letter-spacing: 0.04em;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .custom-footer__whatsapp-btn:hover {
+    opacity: 0.85;
+    transform: translateX(2px);
+  }
+
+  /* --- 4. MIDDLE ROW: PAYMENT, SOCIALS, BACK TO TOP --- */
   .custom-footer__middle-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 24px 0;
-    border-bottom: 1px solid #e5e5e5 !important;
+    border-bottom: 1px solid var(--flx-border) !important;
     flex-wrap: wrap;
     gap: 20px;
   }
 
+  .custom-footer__sub-heading-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+
   .custom-footer__sub-heading {
-    font-size: 10.5px !important;
+    font-size: 11px !important;
     font-weight: 600 !important;
     letter-spacing: 0.16em !important;
     text-transform: uppercase !important;
-    color: #111111 !important;
-    margin: 0 0 10px !important;
+    color: var(--flx-heading) !important;
+    margin: 0 !important;
+  }
+
+  .custom-footer__ssl-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--flx-gold);
+    opacity: 0.9;
   }
 
   .custom-footer__payment-icons {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
   }
 
   .custom-footer__payment-item {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    height: 26px;
-    padding: 2px 8px;
-    background: #ffffff !important;
-    border: 1px solid #e0e0e0 !important;
-    border-radius: 3px;
+    height: 28px;
+    padding: 2px 10px;
+    background: var(--flx-badge-bg) !important;
+    border: 1px solid var(--flx-badge-border) !important;
+    border-radius: 4px;
+    color: var(--flx-badge-text) !important;
+    transition: border-color 0.2s ease;
+  }
+
+  .custom-footer__payment-item:hover {
+    border-color: var(--flx-gold) !important;
+  }
+
+  .custom-footer__text-badge {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--flx-gold);
+  }
+
+  .custom-footer__social-col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .custom-footer__social-col .custom-footer__sub-heading {
+    margin-bottom: 10px !important;
   }
 
   .custom-footer__social-icons {
@@ -603,82 +955,139 @@
   }
 
   .custom-footer__social-badge {
-    width: 28px !important;
-    height: 28px !important;
+    width: 32px !important;
+    height: 32px !important;
     border-radius: 50% !important;
-    background: #1a1a1a !important;
-    border: none !important;
+    background: var(--flx-badge-bg) !important;
+    border: 1px solid var(--flx-badge-border) !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    color: #ffffff !important;
+    color: var(--flx-badge-text) !important;
     text-decoration: none !important;
-    transition: transform 0.2s ease, opacity 0.2s ease !important;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
   }
 
   .custom-footer__social-badge:hover {
-    transform: scale(1.1) !important;
-    opacity: 0.8 !important;
+    transform: translateY(-2px) scale(1.08) !important;
+    border-color: var(--flx-gold) !important;
+    color: var(--flx-gold) !important;
+    box-shadow: 0 4px 12px rgba(197, 168, 128, 0.2) !important;
+  }
+
+  .custom-footer__social-badge--whatsapp:hover {
+    color: #25d366 !important;
+    border-color: #25d366 !important;
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.25) !important;
   }
 
   .custom-footer__back-to-top {
-    display: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    background: transparent !important;
+    border: 1px solid var(--flx-badge-border) !important;
+    color: var(--flx-link) !important;
+    padding: 7px 14px !important;
+    border-radius: 4px !important;
+    font-size: 10px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.16em !important;
+    text-transform: uppercase !important;
+    cursor: pointer !important;
+    transition: all 0.25s ease !important;
   }
 
+  .custom-footer__back-to-top:hover {
+    color: var(--flx-gold) !important;
+    border-color: var(--flx-gold) !important;
+    transform: translateY(-2px);
+  }
+
+  .custom-footer__back-to-top svg {
+    transition: transform 0.2s ease;
+  }
+
+  .custom-footer__back-to-top:hover svg {
+    transform: translateY(-2px);
+  }
+
+  /* --- 5. BOTTOM LEGAL ROW --- */
   .custom-footer__bottom-row {
-    padding-top: 18px;
+    padding-top: 22px;
     text-align: center;
   }
 
   .custom-footer__bottom-content {
-    display: inline-flex;
+    display: flex;
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 8px 12px;
+    gap: 8px 14px;
     margin: 0 auto;
   }
 
   .custom-footer__copyright,
   .custom-footer__credits {
-    font-size: 10.5px !important;
+    font-size: 11px !important;
     letter-spacing: 0.04em !important;
-    color: #777777 !important;
+    color: var(--flx-muted) !important;
     margin: 0 !important;
     line-height: 1.5;
   }
 
+  .custom-footer__policy-links {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .custom-footer__policy-link {
+    font-size: 11px;
+    color: var(--flx-muted);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: color 0.2s ease;
+  }
+
+  .custom-footer__policy-link:hover {
+    color: var(--flx-gold);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .custom-footer__policy-dot,
   .custom-footer__bottom-divider {
-    color: #aaaaaa;
-    font-size: 9px;
+    color: var(--flx-muted);
+    font-size: 8px;
+    opacity: 0.5;
     user-select: none;
   }
 
   .custom-footer__credit-link {
-    color: #555555 !important;
+    color: var(--flx-gold) !important;
     text-decoration: underline !important;
-    text-underline-offset: 2.5px;
+    text-underline-offset: 3px;
     text-decoration-thickness: 1px;
-    transition: color 0.2s ease, text-decoration-color 0.2s ease;
+    transition: opacity 0.2s ease;
   }
 
   .custom-footer__credit-link:hover {
-    color: #000000 !important;
-    text-decoration-color: #000000;
+    opacity: 0.8;
   }
 
   /* ==========================================================================
-     MOBILE (PHONE) PERFECTION & INTERACTIVE ACCORDIONS
+     MOBILE (PHONE) POLISH & ACCORDION SYSTEM (max-width: 768px)
      ========================================================================== */
 
   @media screen and (max-width: 768px) {
     .custom-luxury-footer {
       padding-top: 36px;
-      padding-bottom: 24px;
+      padding-bottom: 28px;
     }
 
     .custom-footer__container {
-      padding: 0 16px;
+      padding: 0 20px;
     }
 
     .custom-footer__brand-header {
@@ -686,39 +1095,52 @@
       margin-bottom: 24px;
     }
 
+    .custom-footer__brand-title {
+      font-size: 17px;
+      letter-spacing: 0.2em;
+    }
+
+    .custom-footer__brand-tagline {
+      font-size: 10.5px;
+      letter-spacing: 0.06em;
+    }
+
     .custom-footer__top-row {
-      grid-template-columns: minmax(0, 1fr);
-      gap: 0;
-      padding-bottom: 24px;
+      grid-template-columns: minmax(0, 1fr) !important;
+      gap: 0 !important;
+      padding-bottom: 20px;
     }
 
     .custom-footer__col {
-      border-bottom: 1px solid #e5e5e5;
+      border-bottom: 1px solid var(--flx-border);
     }
 
     .custom-footer__col:last-child {
       border-bottom: none;
     }
 
-    /* Accordion Interactive Trigger */
+    /* Accordion Touch Bar */
     .custom-footer__accordion-trigger {
       padding: 16px 0;
       cursor: pointer;
+      min-height: 48px;
+      box-sizing: border-box;
     }
 
     .custom-footer__col-heading {
-      font-size: 13.5px;
-      letter-spacing: 0.14em;
-      margin: 0;
+      font-size: 12.5px !important;
+      letter-spacing: 0.16em !important;
+      margin: 0 !important;
     }
 
     .custom-footer__accordion-icon {
-      display: block;
+      display: block !important;
     }
 
     /* Collapsible Content */
     .custom-footer__accordion-content {
       display: block;
+      transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
     }
 
     .custom-footer__col.is-collapsible:not(.is-open) .custom-footer__accordion-content {
@@ -726,7 +1148,7 @@
     }
 
     .custom-footer__col.is-open .custom-footer__accordion-content {
-      padding-bottom: 16px;
+      padding-bottom: 18px;
     }
 
     .custom-footer__col.is-open .custom-footer__accordion-icon {
@@ -734,30 +1156,72 @@
     }
 
     .custom-footer__links-list {
-      gap: 10px;
+      gap: 12px;
+      padding-left: 12px;
     }
 
     .custom-footer__link {
-      font-size: 11px;
-      padding: 2px 0;
+      font-size: 12px !important;
+      padding: 4px 0;
     }
 
-    /* Newsletter On Mobile (Always Expanded for Conversion) */
+    /* VIP Newsletter Card on Phone */
     .custom-footer__col--newsletter {
-      padding: 20px 0 10px;
+      padding: 24px 0 10px;
       border-bottom: none;
     }
 
-    .custom-footer__col--newsletter .custom-footer__col-heading {
-      margin-bottom: 10px;
+    .custom-footer__newsletter-card {
+      padding: 18px;
+      margin-bottom: 16px;
     }
 
+    .custom-footer__newsletter-field-wrapper {
+      flex-direction: column;
+      background: transparent !important;
+      border: none !important;
+      gap: 8px;
+      padding: 0 !important;
+    }
+
+    .custom-footer__newsletter-input {
+      width: 100% !important;
+      background: var(--flx-input-bg) !important;
+      border: 1px solid var(--flx-input-border) !important;
+      border-radius: 4px !important;
+      padding: 11px 14px !important;
+      box-sizing: border-box !important;
+    }
+
+    .custom-footer__newsletter-btn {
+      width: 100% !important;
+      justify-content: center !important;
+      padding: 12px 18px !important;
+      border-radius: 4px !important;
+    }
+
+    /* Concierge Card on Phone */
+    .custom-footer__concierge-card {
+      padding: 16px;
+    }
+
+    .custom-footer__concierge-channels {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .custom-footer__channel-divider {
+      display: none;
+    }
+
+    /* Middle Row on Phone */
     .custom-footer__middle-row {
       flex-direction: column;
       align-items: center;
       text-align: center;
-      gap: 18px;
-      padding: 20px 0;
+      gap: 22px;
+      padding: 24px 0;
     }
 
     .custom-footer__payment-col,
@@ -769,41 +1233,68 @@
       align-items: center;
     }
 
-    .custom-footer__payment-icons {
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .custom-footer__social-icons {
-      justify-content: center;
-    }
-
-    .custom-footer__bottom-content {
+    .custom-footer__sub-heading-wrap {
       flex-direction: column;
       gap: 6px;
     }
 
+    .custom-footer__payment-icons {
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .custom-footer__social-icons {
+      justify-content: center;
+      gap: 12px;
+    }
+
+    .custom-footer__social-badge {
+      width: 36px !important;
+      height: 36px !important;
+    }
+
+    .custom-footer__back-to-top {
+      width: 100%;
+      max-width: 200px;
+      justify-content: center;
+      padding: 10px 16px !important;
+    }
+
+    /* Bottom Row on Phone */
+    .custom-footer__bottom-content {
+      flex-direction: column;
+      gap: 8px;
+    }
+
     .custom-footer__bottom-divider {
       display: none;
+    }
+
+    .custom-footer__policy-links {
+      flex-wrap: wrap;
+      justify-content: center;
     }
   }
 </style>
 
 <script>
   (function() {
-    if (window.__rawHouseFooterInitialized) return;
-    window.__rawHouseFooterInitialized = true;
     function initFooterAccordions() {
-      document.querySelectorAll('.custom-footer__accordion-trigger').forEach(function(btn) {
+      var triggers = document.querySelectorAll('.custom-footer__accordion-trigger');
+      triggers.forEach(function(btn) {
         var col = btn.closest('.custom-footer__col');
         if (!col) return;
         col.classList.add('is-collapsible');
-        btn.setAttribute('aria-expanded', String(window.innerWidth > 768 || col.classList.contains('is-open')));
+        var isDesktop = window.innerWidth > 768;
+        btn.setAttribute('aria-expanded', String(isDesktop || col.classList.contains('is-open')));
+
         if (btn.dataset.accordionInit) return;
         btn.dataset.accordionInit = 'true';
+
         btn.addEventListener('click', function(e) {
-          e.preventDefault();
           if (window.innerWidth > 768) return;
+          e.preventDefault();
           var col = this.closest('.custom-footer__col');
           if (!col) return;
           var isExpanded = this.getAttribute('aria-expanded') === 'true';
@@ -818,7 +1309,13 @@
     } else {
       initFooterAccordions();
     }
-    window.addEventListener('resize', initFooterAccordions);
+
+    var resizeTimer;
+    window.addEventListener('resize', function() {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(initFooterAccordions, 150);
+    });
+
     document.addEventListener('shopify:section:load', initFooterAccordions);
   })();
 </script>
@@ -829,6 +1326,26 @@
   "tag": "section",
   "class": "section-custom-luxury-footer",
   "settings": [
+    {
+      "type": "header",
+      "content": "Luxury Styling & Color Palette"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme",
+      "label": "Color Palette",
+      "options": [
+        {
+          "value": "noir",
+          "label": "Atelier Noir (Deep Luxury Dark - Recommended)"
+        },
+        {
+          "value": "parchment",
+          "label": "Museum Warm Linen (Warm Ivory Light)"
+        }
+      ],
+      "default": "noir"
+    },
     {
       "type": "header",
       "content": "Brand Header (Top Banner)"
@@ -896,6 +1413,10 @@
       "default": "JOIN"
     },
     {
+      "type": "header",
+      "content": "Private Art Concierge"
+    },
+    {
       "type": "text",
       "id": "concierge_heading",
       "label": "Concierge Heading",
@@ -908,6 +1429,12 @@
       "default": "+91 80030 11110 / concierge@therawhouse.com"
     },
     {
+      "type": "text",
+      "id": "whatsapp_url",
+      "label": "WhatsApp Concierge URL",
+      "default": "https://wa.me/918003011110"
+    },
+    {
       "type": "header",
       "content": "Payment Methods & Social"
     },
@@ -915,18 +1442,13 @@
       "type": "text",
       "id": "payment_heading",
       "label": "Payment Heading",
-      "default": "PAYMENT & VERIFICATION"
+      "default": "PAYMENT METHODS"
     },
     {
       "type": "text",
       "id": "social_heading",
       "label": "Social Heading",
-      "default": "CONNECT & EXHIBITIONS"
-    },
-    {
-      "type": "url",
-      "id": "facebook_url",
-      "label": "Facebook URL"
+      "default": "FIND US ONLINE"
     },
     {
       "type": "url",
@@ -935,8 +1457,19 @@
     },
     {
       "type": "url",
+      "id": "facebook_url",
+      "label": "Facebook URL"
+    },
+    {
+      "type": "url",
       "id": "pinterest_url",
       "label": "Pinterest / X URL"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_back_to_top",
+      "label": "Show Back to Top Button",
+      "default": true
     },
     {
       "type": "header",
@@ -971,9 +1504,10 @@
       "default": "Scraft"
     },
     {
-      "type": "url",
+      "type": "text",
       "id": "credits_url",
-      "label": "Credits Link URL"
+      "label": "Credits Link URL",
+      "default": "https://scraft.studio/"
     },
     {
       "type": "text",
@@ -1057,13 +1591,13 @@
           "type": "text",
           "id": "heading",
           "label": "Heading",
-          "default": "THE COLLECTORS CIRCLE"
+          "default": "BE THE FIRST TO KNOW"
         },
         {
           "type": "textarea",
           "id": "subtext",
           "label": "Subtext",
-          "default": "Subscribe for private invitations to salon exhibitions, newly acquired canvases, and bespoke sculpture catalogues."
+          "default": "Sign up for privileged access to rare salon collections, exhibition previews, and bespoke atelier releases."
         },
         {
           "type": "text",
@@ -1075,7 +1609,7 @@
           "type": "text",
           "id": "button_text",
           "label": "Button Text",
-          "default": "JOIN"
+          "default": "SUBSCRIBE"
         }
       ]
     },
@@ -1094,24 +1628,24 @@
           "type": "text",
           "id": "hours",
           "label": "Advisory Hours",
-          "default": "Mon - Sat: 9am - 7pm EST"
+          "default": "Mon - Sat: 10am - 7pm IST"
         },
         {
           "type": "text",
           "id": "phone",
-          "label": "Phone Number (Raw)",
-          "default": "+18007294687"
+          "label": "Phone Number (Digits)",
+          "default": "+918003011110"
         },
         {
           "type": "text",
           "id": "phone_display",
-          "label": "Phone Number (Display)",
-          "default": "+1 (800) 729-4687"
+          "label": "Phone Display",
+          "default": "+91 80030 11110"
         },
         {
           "type": "text",
           "id": "email",
-          "label": "Email Address",
+          "label": "Email",
           "default": "concierge@therawhouse.com"
         }
       ]
@@ -1124,19 +1658,19 @@
         {
           "type": "menu",
           "settings": {
-            "heading": "THE ATELIER"
+            "heading": "ABOUT"
           }
         },
         {
           "type": "menu",
           "settings": {
-            "heading": "CLIENT SERVICES"
+            "heading": "SERVICES"
           }
         },
         {
           "type": "newsletter",
           "settings": {
-            "heading": "THE COLLECTORS CIRCLE"
+            "heading": "BE THE FIRST TO KNOW"
           }
         }
       ]

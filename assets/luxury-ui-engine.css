@@ -3343,13 +3343,17 @@ body {
 
 /* Quantity Selector Refinement */
 .product-details .quantity-selector {
-  border: 1px solid #d8d4cb !important;
-  border-radius: 2px !important;
+  border: 1px solid #dcd8cf !important;
+  border-radius: 4px !important;
   background: #faf9f6 !important;
   height: 48px !important;
-  display: inline-flex !important;
+  display: flex !important;
+  flex-direction: row !important;
   align-items: center !important;
+  justify-content: space-between !important;
   transition: border-color 0.25s ease !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
 }
 
 .product-details .quantity-selector:focus-within {
@@ -3357,27 +3361,35 @@ body {
 }
 
 .product-details .quantity-selector button {
-  width: 44px !important;
+  width: 36px !important;
+  min-width: 36px !important;
+  max-width: 36px !important;
   height: 100% !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
   color: #111111 !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
   transition: background-color 0.2s ease !important;
 }
 
-.product-details .quantity-selector button:hover {
-  background: #edeae3 !important;
+.product-details .quantity-selector button:not(:disabled):hover {
+  background: rgba(0, 0, 0, 0.05) !important;
 }
 
 .product-details .quantity-selector input {
-  font-family: var(--lux-font-body) !important;
-  font-size: 14px !important;
-  font-weight: 500 !important;
+  font-family: var(--lux-font-body, "Inter", sans-serif) !important;
+  font-size: 0.95rem !important;
+  font-weight: 600 !important;
   text-align: center !important;
   border: none !important;
   background: transparent !important;
-  width: 48px !important;
+  flex: 1 1 auto !important;
+  width: 100% !important;
   color: #111111 !important;
 }
 
@@ -4145,6 +4157,31 @@ variant-picker:empty,
   transform: scale(0.9) !important;
 }
 
+.quantity-selector .quantity-minus:disabled,
+.quantity-selector .quantity-minus[disabled],
+.quantity-selector .quantity-plus:disabled,
+.quantity-selector .quantity-plus[disabled],
+.quantity-selector button:disabled,
+.quantity-selector button[disabled] {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  opacity: 0.32 !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+  border-radius: 0 !important;
+}
+
+.quantity-selector .quantity-minus:disabled:hover,
+.quantity-selector .quantity-plus:disabled:hover,
+.quantity-selector button:disabled:hover,
+.quantity-selector button[disabled]:hover {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
 .quantity-selector input[type='number'] {
   font-family: var(--lux-font-body, "Inter", sans-serif) !important;
   font-size: 0.95rem !important;
@@ -4215,11 +4252,11 @@ variant-picker:empty,
 .product-details .add-to-cart-button:disabled,
 .product-form-buttons .add-to-cart-button:disabled,
 .product-form-buttons button[type='submit'][disabled],
-.product-details button[disabled],
+.product-details button[type='submit'][disabled],
 .product-details .add-to-cart-button:disabled:hover,
 .product-form-buttons .add-to-cart-button:disabled:hover,
 .product-form-buttons button[type='submit'][disabled]:hover,
-.product-details button[disabled]:hover,
+.product-details button[type='submit'][disabled]:hover,
 .product-details .add-to-cart-button[disabled]:hover,
 .product-form-buttons .add-to-cart-button[disabled]:hover {
   width: 100% !important;
@@ -5114,11 +5151,11 @@ media-gallery.media-gallery--grid .product-media-gallery__grid {
   .product-details .add-to-cart-button:disabled,
   .product-form-buttons .add-to-cart-button:disabled,
   .product-form-buttons button[type="submit"][disabled],
-  .product-details button[disabled],
+  .product-details button[type="submit"][disabled],
   .product-details .add-to-cart-button:disabled:hover,
   .product-form-buttons .add-to-cart-button:disabled:hover,
   .product-form-buttons button[type="submit"][disabled]:hover,
-  .product-details button[disabled]:hover,
+  .product-details button[type="submit"][disabled]:hover,
   .product-details .add-to-cart-button[disabled]:hover,
   .product-form-buttons .add-to-cart-button[disabled]:hover {
     width: 100% !important;
@@ -6304,11 +6341,11 @@ dialog.quick-add-modal,
 .product-details .add-to-cart-button:disabled,
 .product-form-buttons .add-to-cart-button:disabled,
 .product-form-buttons button[type="submit"][disabled],
-.product-details button[disabled],
+.product-details button[type="submit"][disabled],
 .product-details .add-to-cart-button:disabled:hover,
 .product-form-buttons .add-to-cart-button:disabled:hover,
 .product-form-buttons button[type="submit"][disabled]:hover,
-.product-details button[disabled]:hover,
+.product-details button[type="submit"][disabled]:hover,
 .product-details .add-to-cart-button[disabled]:hover,
 .product-form-buttons .add-to-cart-button[disabled]:hover {
   width: 100% !important;
@@ -6876,5 +6913,243 @@ button.cart__checkout-button.art-button,
   .cart-items__price,
   .cart-items__price .price {
     font-size: 16px !important;
+  }
+}
+
+/* ---- Product page: tighter mid-page rhythm (phone) ---- */
+@media screen and (max-width: 749px) {
+  /* Smaller gap between the product image and the details text */
+  .product-information .product-information__grid,
+  .product-information__grid {
+    row-gap: 12px !important;
+  }
+
+  /* The wallet (accelerated checkout) block reserves 48px even when empty;
+     auto height collapses the gap in preview and still fits live wallet buttons */
+  .product-details .accelerated-checkout-block,
+  .product-details .shopify-payment-button {
+    min-height: 0 !important;
+    height: auto !important;
+    margin-block: 6px 0 !important;
+    padding: 0 !important;
+  }
+
+  .product-details .lux-product-micro-trust {
+    margin-top: 8px !important;
+  }
+}
+
+/* ---- Product page: tight unified vertical rhythm (phone) ---- */
+@media screen and (max-width: 749px) {
+  .product-details .text-block {
+    padding-block: 0 !important;
+    margin-block: 0 !important;
+  }
+
+  .product-details h1 {
+    margin-top: 5px !important;
+    margin-bottom: 3px !important;
+  }
+
+  .product-details product-price {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  .product-details variant-picker {
+    margin-top: 8px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .product-details variant-picker legend {
+    font-size: 11px !important;
+    letter-spacing: 0.1em !important;
+    text-transform: uppercase !important;
+    color: #8b857a !important;
+    margin-bottom: 6px !important;
+  }
+
+  .product-details .buy-buttons-block {
+    margin-top: 0 !important;
+  }
+
+  .product-details .accordion {
+    margin-top: 2px !important;
+  }
+}
+
+/* Final rhythm tune-up: header block gaps (phone) */
+@media screen and (max-width: 749px) {
+  .product-details .group-block-content {
+    row-gap: 8px !important;
+  }
+
+  .product-details variant-picker {
+    margin-top: 4px !important;
+    margin-bottom: 4px !important;
+  }
+
+  .product-details variant-picker fieldset {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .product-details product-price .text-block,
+  .product-details product-price {
+    padding-block-start: 0 !important;
+  }
+}
+
+/* ---- Phone: extra-tight spacing pass (user request) ---- */
+@media screen and (max-width: 749px) {
+  .product-information .product-information__grid,
+  .product-information__grid {
+    row-gap: 8px !important;
+  }
+
+  .product-information {
+    padding-bottom: 16px !important;
+  }
+
+  .product-details .group-block-content {
+    row-gap: 6px !important;
+  }
+
+  .product-details rte-formatter,
+  .product-details .group-block .text-block {
+    padding-block: 0 !important;
+    margin-block: 0 !important;
+  }
+
+  .product-details h1 {
+    margin-top: 2px !important;
+    margin-bottom: 2px !important;
+  }
+
+  .product-details product-price {
+    margin: 0 !important;
+    padding-block: 0 !important;
+  }
+
+  .product-details variant-picker {
+    margin-top: 4px !important;
+    margin-bottom: 4px !important;
+  }
+
+  .product-details .product-form-buttons {
+    margin-top: 2px !important;
+    margin-bottom: 2px !important;
+  }
+
+  .product-details .accelerated-checkout-block {
+    margin-block: 4px 0 !important;
+  }
+
+  .product-details .lux-product-micro-trust {
+    margin-top: 6px !important;
+    padding: 10px 14px !important;
+    gap: 6px !important;
+  }
+
+  .product-details .accordion {
+    margin-top: 0 !important;
+  }
+
+  .accordion .details__header {
+    padding-block: 10px !important;
+  }
+}
+
+/* Last micro-pass: kill residual padding inside price/variant wrappers (phone) */
+@media screen and (max-width: 749px) {
+  .product-details product-price .text-block,
+  .product-details product-price [ref='priceContainer'] {
+    padding-block: 0 !important;
+    margin-block: 0 !important;
+  }
+
+  .product-details variant-picker,
+  .product-details variant-picker form,
+  .product-details variant-picker fieldset {
+    padding-block-start: 0 !important;
+  }
+
+  .product-details .buy-buttons-block form,
+  .product-details .buy-buttons-block .product-form-component {
+    margin-block: 0 !important;
+  }
+}
+
+/* ---- Phone: tighten space above/below the quantity + ADD TO CART row ---- */
+@media screen and (max-width: 749px) {
+  .product-details variant-picker {
+    margin-bottom: 0 !important;
+  }
+
+  .product-details .product-form-buttons {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  .product-details .buy-buttons-block {
+    margin-top: 2px !important;
+  }
+
+  .product-details .shopify-payment-button,
+  .product-details .shopify-payment-button__button,
+  .product-details .accelerated-checkout-block > * {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  .product-details .accelerated-checkout-block {
+    margin-block: 4px 0 !important;
+  }
+}
+
+/* ---- Phone: remove the wallet-button strip under ADD TO CART ----
+   In the dev preview this "Buy it now" wallet renders as an invisible skeleton
+   and reads as dead space; on phones ADD TO CART is the single primary action. */
+@media screen and (max-width: 749px) {
+  .product-details .accelerated-checkout-block,
+  .product-details .shopify-payment-button {
+    display: none !important;
+  }
+
+  .product-details .lux-product-micro-trust {
+    margin-top: 6px !important;
+  }
+}
+
+/* ---- Phone: reduce empty space between page sections ---- */
+@media screen and (max-width: 749px) {
+  /* Product section bottom */
+  .product-information,
+  .product-information.section {
+    padding-block-end: 8px !important;
+  }
+
+  /* Craftsmanship story section */
+  .lux-craft-section {
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+  }
+
+  .lux-craft-container {
+    padding-inline: 16px !important;
+  }
+
+  /* Curated companions (recommendations) section */
+  product-recommendations .section,
+  .product-recommendations.section {
+    padding-block-start: 12px !important;
+    padding-block-end: 12px !important;
+  }
+
+  /* Brand statement section */
+  .brand-manifesto.section,
+  [class*="brand-manifesto"].section {
+    padding-block-start: 12px !important;
+    padding-block-end: 14px !important;
   }
 }
