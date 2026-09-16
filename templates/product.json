@@ -555,17 +555,8 @@
         "default_asset": "art-atelier-artist-studio.jpg",
         "badge_number": "100%",
         "badge_label": "ARTISAN HANDCRAFTED",
-        "counter_1_number": 2400,
-        "counter_1_suffix": "+",
-        "counter_1_label": "Paintings & Artworks Curated",
-        "counter_2_number": 140,
-        "counter_2_suffix": "+",
-        "counter_2_label": "Master Artists & Sculptors",
-        "counter_3_number": 35,
-        "counter_3_suffix": "+",
-        "counter_3_label": "Museum Exhibitions",
         "button_label": "DISCOVER THE ATELIER",
-        "button_link": "shopify:\/\/collections\/all",
+        "button_link": "shopify://collections/all",
         "padding_top": 44,
         "padding_bottom": 48
       }
