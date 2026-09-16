@@ -60,7 +60,7 @@
 
   assign use_inr_symbol = false
   assign active_currency = cart.currency.iso_code | default: localization.country.currency.iso_code
-  if template.name == 'collection' and active_currency == 'INR'
+  if active_currency == 'INR'
     assign use_inr_symbol = true
   endif
 

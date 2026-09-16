@@ -22,7 +22,7 @@
             "large_first_image": true,
             "icons_style": "arrow",
             "slideshow_controls_style": "thumbnails",
-            "slideshow_mobile_controls_style": "dots",
+            "slideshow_mobile_controls_style": "thumbnails",
             "thumbnail_position": "bottom",
             "thumbnail_width": 64,
             "thumbnail_radius": 4,
@@ -494,15 +494,9 @@
         "badge_number": "100%",
         "badge_label": "ARTISAN HANDCRAFTED",
         "button_label": "DISCOVER THE ATELIER",
-<<<<<<< HEAD
         "button_link": "shopify:\/\/collections\/all",
         "padding_top": 24,
         "padding_bottom": 24
-=======
-        "button_link": "shopify://collections/all",
-        "padding_top": 44,
-        "padding_bottom": 48
->>>>>>> 4a266f15d69ad97db7157cf08cc41801b742ea95
       }
     },
     "product_recommendations_qggXJq": {

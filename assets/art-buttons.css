@@ -84,12 +84,15 @@
   opacity: 1 !important;
 }
 
-:is(.art-button, .shopify-payment-button__button--unbranded):not(.quick-add__button):is(:disabled, [aria-disabled='true']) {
+:is(.art-button, .shopify-payment-button__button--unbranded):not(.quick-add__button):is(:disabled, [aria-disabled='true']),
+:is(.art-button, .shopify-payment-button__button--unbranded):not(.quick-add__button):is(:disabled, [aria-disabled='true']):hover {
   background: #e7e3dc !important;
   border-color: #d4cec3 !important;
   color: #6b655c !important;
   opacity: 1 !important;
-  cursor: not-allowed;
+  cursor: not-allowed !important;
+  transform: none !important;
+  box-shadow: none !important;
 }
 
 .art-button:is([aria-busy='true'], .is-loading) { cursor: wait; }
