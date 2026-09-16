@@ -1059,3 +1059,11 @@ html, body {
     display: none !important;
   }
 }
+
+/* Hide mobile menu/drawer toggle on desktop */
+@media screen and (min-width: 990px) {
+  .header-drawer,
+  .header__icon--menu {
+    display: none !important;
+  }
+}
