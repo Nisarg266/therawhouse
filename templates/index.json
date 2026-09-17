@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero_slider": {
@@ -314,6 +323,11 @@
         "color_accent": "#b08d57",
         "color_muted": "",
         "color_border": "",
+        "btn_bg": "",
+        "btn_text": "",
+        "btn_border": "",
+        "btn_bg_hover": "",
+        "btn_text_hover": "",
         "btn_style": "outline",
         "btn_height": 46,
         "btn_px": 26,
@@ -425,6 +439,7 @@
         "card_4"
       ],
       "settings": {
+        "layout_style": "split",
         "eyebrow": "the",
         "heading": "R E C O M M E N D A T I O N S",
         "intro": "",
@@ -1011,6 +1026,7 @@
         "press_5",
         "press_6"
       ],
+      "disabled": true,
       "settings": {
         "heading": "Featured In",
         "show_ornament": true,
