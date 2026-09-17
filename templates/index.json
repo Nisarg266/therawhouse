@@ -767,6 +767,7 @@
       "blocks": {
         "maker_1": {
           "type": "maker",
+          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/ARIYETH_resized_236x314.66_no_stretch.png",
             "image_mobile": "shopify://shop_images/2bfa87ac-9e47-4b14-917d-647373998777.png",
@@ -786,8 +787,8 @@
             "image": "shopify://shop_images/Copy_of_MAHA01W_236x314.66_no_stretch.jpg",
             "image_mobile": "shopify://shop_images/8d9abdff-ddc9-4356-81c1-535cd9a17daf.png",
             "default_asset": "maker-2.jpg",
-            "name": "MAHA 03 SCULPTURE",
-            "subtitle": "",
+            "name": "Priyadarshini Rathore",
+            "subtitle": "Co-founder · Curation & Design",
             "location": "",
             "badge": "",
             "badge_bg": "#b08d57",
@@ -801,8 +802,8 @@
             "image": "shopify://shop_images/Copy_of_Rudhi6_236x314.66_no_stretch.jpg",
             "image_mobile": "shopify://shop_images/68d54ede-1a46-48d8-b605-7ca5ddd0ca73.png",
             "default_asset": "maker-3.jpg",
-            "name": "SHILA STAMBH SCULPTURE",
-            "subtitle": "",
+            "name": "Pranali Pandya",
+            "subtitle": "Co-founder · Architecture & Design",
             "location": "",
             "badge": "",
             "badge_bg": "#b08d57",
@@ -812,6 +813,7 @@
         },
         "maker_4": {
           "type": "maker",
+          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/37bdab04-4579-4915-b2e9-120a2518de22.png",
             "image_mobile": "shopify://shop_images/45c0c903-f42c-4cea-b80d-0abfa67f5114.png",
