@@ -3148,7 +3148,7 @@ body {
 }
 
 /* ==========================================================================
-   HOMEPAGE GLOBAL OVERRIDES — thehouseofthings.com style
+   HOMEPAGE GLOBAL OVERRIDES — The Raw House Luxury Aesthetic
    ========================================================================== */
 
 /* ── Global page background ──────────────────────────────────────────────── */
@@ -3169,7 +3169,7 @@ body {
   padding: 0 !important;
 }
 
-/* ── Section headings: Cormorant Garamond, clean, like THOT ─────────────── */
+/* ── Section headings: Cormorant Garamond, clean luxury editorial ────────── */
 .lux-section-heading {
   font-family: "Cormorant Garamond", "Playfair Display", "Didot", Georgia, serif !important;
   font-size: clamp(22px, 3vw, 32px) !important;
@@ -3226,7 +3226,7 @@ body {
   border-bottom-color: #111 !important;
 }
 
-/* ── Product card: clean white, thehouseofthings.com style ──────────────── */
+/* ── Product card: clean white, The Raw House gallery aesthetic ──────────── */
 .lux-product-card,
 .product-card-wrapper {
   background: #ffffff !important;

@@ -1,5 +1,5 @@
 /**
- * The House of Things - Luxury Scroll Reveal & Slider Touch Observer
+ * The Raw House - Luxury Scroll Reveal & Slider Touch Observer
  * Adds smooth IntersectionObserver reveals, parallax nuances, and mobile touch slider controls.
  */
 document.addEventListener('DOMContentLoaded', () => {
