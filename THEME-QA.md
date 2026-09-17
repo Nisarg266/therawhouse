@@ -2,6 +2,21 @@
 
 Changes are in the local theme and its existing development preview. The live theme was not published.
 
+## Product page LUXP design system — 17 September 2026
+
+Rebuilt the custom product-page sections on a shared, Theme-Editor-driven design system (`assets/luxp.css` plus `luxp-scheme`, `luxp-typo`, `luxp-image`, `luxp-icon` snippets). The native `product-information` and `product-recommendations` sections were left untouched.
+
+- **Product Story & Metrics** (`luxury-craftsmanship-story`): split layout with separate desktop/mobile images, floating badge (position/colors/size), metric blocks rendered as static numbers (removed the animated JS counters), icon highlight blocks, full typography/color/spacing/button controls.
+- **Curated Collections** (`luxury-collection-showcase`): collection card blocks with desktop/mobile image, badge, index numbering, per-section card styling (border/radius/shadow/align/ratios) and grid controls for desktop/tablet/mobile.
+- **Brand Statement** (`brand-manifesto`): modular social icon blocks (platform icons or uploaded images) with shape/color/size controls; typography and color scheme controls.
+- **Icon Feature Cards** (`luxury-assurance-icons`, new): per-card icon (16 built-in SVGs or upload), optional card image with mobile variant, badge, link, per-card style and visibility overrides.
+- **No motion by default**: every LUXP section opts out of `art-motion.js` via `data-art-motion="off"` and neutralizes the theme-wide link transition. An optional per-section "Enable subtle motion" toggle (default off) gates all hover/transition effects behind `.luxp-anim`.
+- Fixed schema validation against Shopify's upload rules: letter-spacing ranges converted to selects, line-height steps to 0.1, small column/border ranges to selects, mobile padding ranges to even steps, removed UTF-8 BOMs introduced by a PowerShell pass.
+- Validated with `shopify theme check`: 0 errors; 5 `ExcessiveSettingsCount` advisories on the four rebuilt sections (merchant-requested control density, same advisory class as the existing header section).
+- Browser-checked the product page at 1440/1280/1024/834/768/430/414/393/390: no horizontal overflow, no out-of-viewport elements, no broken images, no clipped text, badge positioned inside the media box, grid columns stepping 3→2→1 (collections) and 4→2→2 (assurance), mobile heading size override active, zero transitions/animations inside LUXP sections.
+- Home, collections, and a second product page render clean after the stylesheet registration change; add-to-cart, variants, and native sections untouched.
+
+
 ## Validation
 
 - Shopify CLI 4.8.0 `shopify theme check`: **0 errors, 1 advisory warning**.

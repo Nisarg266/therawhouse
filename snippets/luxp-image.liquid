@@ -1,0 +1,116 @@
+{%- comment -%}
+  LUXP — Responsive image with separate desktop / mobile sources.
+
+  Renders a <picture> with a mobile <source> when a dedicated mobile image is
+  provided, otherwise a single responsive image. Falls back to a theme asset
+  filename, then to a placeholder. Width/height attributes are always emitted
+  to prevent layout shift. No cropping is applied by this snippet — the
+  wrapper (.luxp-media) controls aspect ratio and object-fit.
+
+  Accepts:
+  - image: {Object} Image object (desktop / default)
+  - image_mobile: {Object} Image object used below 750px (optional)
+  - alt: {String} Alt text
+  - class: {String} Extra class for the <img>
+  - loading: {String} lazy (default) | eager
+  - sizes: {String} srcset sizes attribute
+  - fallback: {String} Theme asset filename used when no image is uploaded
+  - fallback_alt: {String} Alt for the fallback image
+
+  Usage:
+  {% render 'luxp-image',
+    image: block.settings.image,
+    image_mobile: block.settings.image_mobile,
+    alt: block.settings.title,
+    class: 'luxp-card__img',
+    fallback: block.settings.default_asset
+  %}
+
+  @module luxp-image
+{%- endcomment -%}
+
+{%- liquid
+  assign img_loading = loading | default: 'lazy'
+  assign img_sizes = sizes | default: '(min-width: 1024px) 33vw, (min-width: 750px) 50vw, 100vw'
+  assign img_alt = alt | escape
+  assign has_mobile = false
+  if image_mobile != blank and image != blank and image_mobile != image
+    assign has_mobile = true
+  endif
+-%}
+
+{%- if image != blank -%}
+  {%- if has_mobile -%}
+    <picture>
+      <source
+        media="(max-width: 749px)"
+        srcset="
+          {{ image_mobile | image_url: width: 375 }} 375w,
+          {{ image_mobile | image_url: width: 555 }} 555w,
+          {{ image_mobile | image_url: width: 750 }} 750w
+        "
+        sizes="100vw"
+        width="{{ image_mobile.width }}"
+        height="{{ image_mobile.height }}"
+      >
+      <source
+        media="(min-width: 750px)"
+        srcset="
+          {{ image | image_url: width: 550 }} 550w,
+          {{ image | image_url: width: 750 }} 750w,
+          {{ image | image_url: width: 1100 }} 1100w,
+          {{ image | image_url: width: 1500 }} 1500w
+        "
+        sizes="{{ img_sizes }}"
+        width="{{ image.width }}"
+        height="{{ image.height }}"
+      >
+      <img
+        src="{{ image | image_url: width: 1100 }}"
+        alt="{{ img_alt }}"
+        loading="{{ img_loading }}"
+        decoding="async"
+        width="{{ image.width }}"
+        height="{{ image.height }}"
+        class="{{ class }}"
+      >
+    </picture>
+  {%- else -%}
+    {{
+      image
+      | image_url: width: 1500
+      | image_tag:
+        widths: '375, 555, 750, 1100, 1500',
+        sizes: img_sizes,
+        alt: img_alt,
+        class: class,
+        loading: img_loading,
+        decoding: 'async'
+    }}
+  {%- endif -%}
+{%- elsif image_mobile != blank -%}
+  {{
+    image_mobile
+    | image_url: width: 750
+    | image_tag:
+      widths: '375, 555, 750',
+      sizes: '100vw',
+      alt: img_alt,
+      class: class,
+      loading: img_loading,
+      decoding: 'async'
+  }}
+{%- elsif fallback != blank -%}
+  <img
+    src="{{ fallback | asset_url }}"
+    alt="{{ fallback_alt | default: img_alt }}"
+    loading="{{ img_loading }}"
+    decoding="async"
+    width="800"
+    height="800"
+    class="{{ class }}"
+    onerror="this.onerror=null;this.src='{{ 'art-painting-gold-canvas.jpg' | asset_url }}';"
+  >
+{%- else -%}
+  {{ 'lifestyle-1' | placeholder_svg_tag: class }}
+{%- endif -%}

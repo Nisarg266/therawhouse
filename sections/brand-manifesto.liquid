@@ -1,307 +1,328 @@
 {%- comment -%}
-  Renders the "A little bit of us" brand statement section with social media icons.
+  THE RAW HOUSE — BRAND STATEMENT & SOCIAL (LUXP design system)
+  Centered brand statement with modular social icon blocks. Fully
+  configurable from the Theme Editor. Ships completely static.
+
+  @module brand-manifesto
 {%- endcomment -%}
 
-{% liquid
-  assign section_id = section.id
-  assign heading = section.settings.heading | default: 'A little bit of us'
-  assign text = section.settings.text | default: 'The House of Things is a destination for design, artistry and craftsmanship, curated for a life artfully lived.'
-  assign max_width = section.settings.max_width | default: 680
-  assign padding_top = section.settings.padding_top | default: 56
-  assign padding_bottom = section.settings.padding_bottom | default: 64
+{%- liquid
+  assign s = section.settings
 
-  assign facebook_url = section.settings.facebook_url | default: 'https://facebook.com'
-  assign instagram_url = section.settings.instagram_url | default: 'https://instagram.com'
-  assign pinterest_url = section.settings.pinterest_url
-  assign twitter_url = section.settings.twitter_url | default: 'https://twitter.com'
-%}
+  assign social_bg = s.social_bg
+  if social_bg == blank or social_bg == 'rgba(0,0,0,0)'
+    assign social_bg = 'transparent'
+  endif
+  assign social_fg = s.social_fg
+  if social_fg == blank or social_fg == 'rgba(0,0,0,0)'
+    assign social_fg = 'var(--luxp-fg)'
+  endif
+  assign social_border = s.social_border
+  if social_border == blank or social_border == 'rgba(0,0,0,0)'
+    assign social_border = 'transparent'
+  endif
+
+  assign social_radius = '999px'
+  if s.social_shape == 'square'
+    assign social_radius = '4px'
+  elsif s.social_shape == 'none'
+    assign social_radius = '0px'
+  endif
+-%}
+
+{%- capture luxp_colors -%}
+  {%- render 'luxp-scheme',
+    preset: s.color_preset,
+    bg: s.color_bg,
+    heading: s.color_heading,
+    text: s.color_text,
+    accent: s.color_accent,
+    muted: s.color_muted,
+    border: s.color_border
+  -%}
+{%- endcapture -%}
+
+{%- capture luxp_typo -%}{%- render 'luxp-typo', s: s -%}{%- endcapture -%}
 
 <div
-  id="BrandManifesto-{{ section_id }}"
-  class="brand-manifesto section-{{ section_id }}"
+  class="luxp-section luxp-manifesto {% if s.container_mode == 'full' %}luxp-section--full{% endif %} {% if s.enable_animations %}luxp-anim{% endif %} {{ s.custom_class }}"
   style="
-    --bm-bg: {{ section.settings.background_color | default: '#ffffff' }};
-    --bm-heading-color: {{ section.settings.heading_color | default: '#1a1a1a' }};
-    --bm-text-color: {{ section.settings.text_color | default: '#4a4a4a' }};
-    --bm-icon-bg: {{ section.settings.icon_bg_color | default: '#2b2b2b' }};
-    --bm-icon-color: {{ section.settings.icon_color | default: '#ffffff' }};
-    --bm-max-width: {{ max_width }}px;
-    --bm-padding-top: {{ padding_top }}px;
-    --bm-padding-bottom: {{ padding_bottom }}px;
+    {{ luxp_colors }}
+    {{ luxp_typo }}
+    --luxp-pt: {{ s.padding_top | default: 48 }}px;
+    --luxp-pb: {{ s.padding_bottom | default: 52 }}px;
+    --luxp-pt-m: {{ s.padding_top_m | default: 36 }}px;
+    --luxp-pb-m: {{ s.padding_bottom_m | default: 40 }}px;
+    --luxp-cw: {{ s.container_max | default: 760 }}px;
+    --luxp-px: {{ s.container_padding | default: 32 }}px;
+    --luxp-px-m: {{ s.container_padding_m | default: 20 }}px;
+    --luxp-content-track: {% if s.text_align == 'left' %}flex-start{% else %}center{% endif %};
+    --luxp-text-align: {{ s.text_align | default: 'center' }};
+    --luxp-content-gap: {{ s.content_gap | default: 14 }}px;
+    --luxp-content-gap-m: {{ s.content_gap_m | default: 12 }}px;
+    --luxp-heading-mw: {{ s.heading_max_width | default: 100 }}%;
+    --luxp-body-mw: {{ s.body_max_width | default: 100 }}%;
+    --luxp-ornament-color: var(--luxp-accent);
+    --luxp-social-size: {{ s.social_size | default: 36 }}px;
+    --luxp-social-radius: {{ social_radius }};
+    --luxp-social-bg: {{ social_bg }};
+    --luxp-social-fg: {{ social_fg }};
+    --luxp-social-bw: {{ s.social_border_width | default: 0 }}px;
+    --luxp-social-border: {{ social_border }};
+    --luxp-social-gap: {{ s.social_gap | default: 12 }}px;
+    --luxp-social-mt: {{ s.social_mt | default: 20 }}px;
+    --luxp-social-bg-h: {% if s.social_bg_hover != blank and s.social_bg_hover != 'rgba(0,0,0,0)' %}{{ s.social_bg_hover }}{% else %}var(--luxp-accent){% endif %};
+    --luxp-social-fg-h: {% if s.social_fg_hover != blank and s.social_fg_hover != 'rgba(0,0,0,0)' %}{{ s.social_fg_hover }}{% else %}#ffffff{% endif %};
   "
+  {% if s.anchor_id != blank %}id="{{ s.anchor_id }}"{% endif %}
+  data-art-motion="off"
   {{ section.shopify_attributes }}
 >
-  <div class="brand-manifesto__container">
-    
-    {% if heading != blank %}
-      <h2 class="brand-manifesto__heading">{{ heading }}</h2>
-    {% endif %}
-
-    {% if text != blank %}
-      <div class="brand-manifesto__text">{{ text }}</div>
-    {% endif %}
-
-    <div class="brand-manifesto__socials">
-      {% if facebook_url != blank %}
-        <a href="{{ facebook_url }}" class="brand-manifesto__social-link" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-          <svg class="brand-manifesto__icon" viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
-            <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/>
-          </svg>
-        </a>
+  <div class="luxp-container">
+    <div class="luxp-split__content {% if s.text_align != 'left' %}luxp-split__content--center{% endif %} luxp-manifesto__inner">
+      {% if s.eyebrow != blank %}
+        <p class="luxp-eyebrow">{{ s.eyebrow }}</p>
       {% endif %}
 
-      {% if instagram_url != blank %}
-        <a href="{{ instagram_url }}" class="brand-manifesto__social-link" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-          <svg class="brand-manifesto__icon" viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
-            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-          </svg>
-        </a>
+      {% if s.heading != blank %}
+        <h2 class="luxp-heading">{{ s.heading }}</h2>
       {% endif %}
 
-      {% if pinterest_url != blank %}
-        <a href="{{ pinterest_url }}" class="brand-manifesto__social-link" target="_blank" rel="noopener noreferrer" aria-label="Pinterest">
-          <svg class="brand-manifesto__icon" viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
-            <path d="M12 0c-6.627 0-12 5.372-12 12 0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738.098.119.112.224.083.345-.09.375-.291 1.199-.332 1.357-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146 1.124.347 2.317.535 3.554.535 6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z"/>
-          </svg>
-        </a>
+      {% if s.show_ornament %}
+        <div class="luxp-ornament" aria-hidden="true">
+          <span class="luxp-ornament__line"></span>
+          <span class="luxp-ornament__gem">&#9670;</span>
+          <span class="luxp-ornament__line"></span>
+        </div>
       {% endif %}
 
-      {% if twitter_url != blank %}
-        <a href="{{ twitter_url }}" class="brand-manifesto__social-link" target="_blank" rel="noopener noreferrer" aria-label="X">
-          <svg class="brand-manifesto__icon" viewBox="0 0 24 24" width="12" height="12" fill="currentColor">
-            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-          </svg>
-        </a>
+      {% if s.body != blank %}
+        <div class="luxp-body">{{ s.body }}</div>
+      {% endif %}
+
+      {% if section.blocks.size > 0 %}
+        <div class="luxp-socials" style="margin-top: var(--luxp-social-mt);">
+          {% for block in section.blocks %}
+            {%- liquid
+              assign social_href = block.settings.link
+            -%}
+            {%- if block.settings.icon_image != blank -%}
+              <a
+                href="{{ social_href }}"
+                class="luxp-social {% if s.social_shape == 'none' %}luxp-social--bare{% endif %}"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="{{ block.settings.label | default: 'Follow us' | escape }}"
+                {{ block.shopify_attributes }}
+              >
+                {{
+                  block.settings.icon_image
+                  | image_url: width: 96
+                  | image_tag:
+                    alt: block.settings.label,
+                    loading: 'lazy',
+                    decoding: 'async',
+                    widths: '48, 96'
+                }}
+              </a>
+            {%- else -%}
+              <a
+                href="{{ social_href }}"
+                class="luxp-social {% if s.social_shape == 'none' %}luxp-social--bare{% endif %}"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="{{ block.settings.label | escape }}"
+                {{ block.shopify_attributes }}
+              >
+                {%- case block.settings.platform -%}
+                  {%- when 'facebook' -%}
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg>
+                  {%- when 'instagram' -%}
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                  {%- when 'pinterest' -%}
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 0c-6.627 0-12 5.372-12 12 0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738.098.119.112.224.083.345-.09.375-.291 1.199-.332 1.357-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146 1.124.347 2.317.535 3.554.535 6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z"/></svg>
+                  {%- when 'x' -%}
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                  {%- when 'youtube' -%}
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.121 2.136c1.871.505 9.377.505 9.377.505s7.505 0 9.376-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                  {%- when 'whatsapp' -%}
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.297-.497.1-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                  {%- else -%}
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9.5"/><path d="M2.5 12h19"/><path d="M12 2.5c2.7 2.7 4 5.9 4 9.5s-1.3 6.8-4 9.5c-2.7-2.7-4-5.9-4-9.5s1.3-6.8 4-9.5z"/></svg>
+                {%- endcase -%}
+              </a>
+            {%- endif -%}
+          {% endfor %}
+        </div>
       {% endif %}
     </div>
-
   </div>
 </div>
 
-{% stylesheet %}
-  .brand-manifesto {
-    background-color: var(--bm-bg, #ffffff);
-    width: 100%;
-    padding-block-start: var(--bm-padding-top, 24px);
-    padding-block-end: var(--bm-padding-bottom, 48px);
-    box-sizing: border-box;
-    display: block !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-  }
-
-  .brand-manifesto__container {
-    max-width: var(--bm-max-width, 680px);
-    margin-inline: auto;
-    padding-inline: 24px;
-    box-sizing: border-box;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .brand-manifesto__heading {
-    font-family: Georgia, 'Playfair Display', 'Times New Roman', serif;
-    font-size: 28px;
-    font-weight: 400;
-    color: var(--bm-heading-color, #1a1a1a);
-    margin: 0 0 10px 0;
-    line-height: 1.25;
-    letter-spacing: 0.01em;
-  }
-
-  @media screen and (min-width: 750px) {
-    .brand-manifesto__heading {
-      font-size: 32px;
-    }
-  }
-
-  .brand-manifesto__text {
-    font-size: 14px;
-    line-height: 1.65;
-    color: var(--bm-text-color, #4a4a4a);
-    max-width: 620px;
-    margin: 0 0 18px 0;
-    font-weight: 400;
-    letter-spacing: 0.015em;
-  }
-
-  .brand-manifesto__socials {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
-  }
-
-  .brand-manifesto__social-link {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background-color: var(--bm-icon-bg, #2b2b2b);
-    color: var(--bm-icon-color, #ffffff);
-    text-decoration: none;
-    transition: transform 0.2s ease, opacity 0.2s ease;
-  }
-
-  .brand-manifesto__social-link:hover {
-    transform: scale(1.1);
-    opacity: 0.85;
-  }
-
-  .brand-manifesto__icon {
-    display: block;
-    width: 14px;
-    height: 14px;
-  }
-
-  /* Mobile Responsive Spacing Normalization */
-  @media screen and (max-width: 767px) {
-    .brand-manifesto {
-      padding-block-start: clamp(24px, 5vw, 32px) !important;
-      padding-block-end: clamp(26px, 5vw, 34px) !important;
-    }
-
-    .brand-manifesto__container {
-      padding-inline: 20px !important;
-    }
-
-    .brand-manifesto__heading {
-      font-size: 23px !important;
-      margin-bottom: 8px !important;
-    }
-
-    .brand-manifesto__text {
-      font-size: 13px !important;
-      line-height: 1.6 !important;
-      margin-bottom: 16px !important;
-    }
-
-    .brand-manifesto__social-link {
-      width: 32px !important;
-      height: 32px !important;
-    }
-  }
-{% endstylesheet %}
-
 {% schema %}
 {
-  "name": "Brand Manifesto",
+  "name": "Brand Statement",
   "tag": "section",
   "class": "section-brand-manifesto",
+  "max_blocks": 8,
   "settings": [
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow / subheading" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "A little bit of us" },
+    { "type": "richtext", "id": "body", "label": "Statement text", "default": "<p>The House of Things is a destination for design, artistry and craftsmanship, curated for a life artfully lived.</p>" },
+    { "type": "checkbox", "id": "show_ornament", "label": "Show ornament divider", "default": false },
+
+    { "type": "header", "content": "Layout" },
+    { "type": "select", "id": "text_align", "label": "Text alignment", "options": [
+      { "value": "center", "label": "Center" },
+      { "value": "left", "label": "Left" }
+    ], "default": "center" },
+    { "type": "select", "id": "container_mode", "label": "Container mode", "options": [
+      { "value": "fixed", "label": "Container (max width)" },
+      { "value": "full", "label": "Full width" }
+    ], "default": "fixed" },
+    { "type": "range", "id": "container_max", "min": 480, "max": 1200, "step": 20, "unit": "px", "label": "Content max width", "default": 760 },
+    { "type": "range", "id": "content_gap", "min": 6, "max": 30, "step": 2, "unit": "px", "label": "Content spacing — desktop", "default": 14 },
+    { "type": "range", "id": "content_gap_m", "min": 6, "max": 24, "step": 2, "unit": "px", "label": "Content spacing — mobile", "default": 12 },
+
+    { "type": "header", "content": "Typography — Eyebrow" },
+    { "type": "select", "id": "eyebrow_font", "label": "Font family", "options": [
+      { "value": "heading", "label": "Theme heading font" },
+      { "value": "body", "label": "Theme body font" },
+      { "value": "subheading", "label": "Theme subheading font" },
+      { "value": "accent", "label": "Theme accent font" },
+      { "value": "serif", "label": "Serif (Georgia)" }
+    ], "default": "body" },
+    { "type": "range", "id": "eyebrow_size", "min": 9, "max": 16, "step": 1, "unit": "px", "label": "Font size — desktop", "default": 11 },
+    { "type": "range", "id": "eyebrow_size_m", "min": 9, "max": 16, "step": 1, "unit": "px", "label": "Font size — mobile", "default": 10 },
+    { "type": "select", "id": "eyebrow_weight", "label": "Font weight", "options": [
+      { "value": "400", "label": "Regular 400" },
+      { "value": "500", "label": "Medium 500" },
+      { "value": "600", "label": "Semibold 600" },
+      { "value": "700", "label": "Bold 700" }
+    ], "default": "600" },
+    { "type": "select", "id": "eyebrow_ls", "label": "Letter spacing", "options": [ { "value": "0em", "label": "None" }, { "value": "0.01em", "label": "0.01em" }, { "value": "0.02em", "label": "0.02em" }, { "value": "0.03em", "label": "0.03em" }, { "value": "0.04em", "label": "0.04em" }, { "value": "0.05em", "label": "0.05em" }, { "value": "0.06em", "label": "0.06em" }, { "value": "0.08em", "label": "0.08em" }, { "value": "0.1em", "label": "0.1em" }, { "value": "0.12em", "label": "0.12em" }, { "value": "0.14em", "label": "0.14em" }, { "value": "0.16em", "label": "0.16em" }, { "value": "0.18em", "label": "0.18em" }, { "value": "0.2em", "label": "0.2em" }, { "value": "0.22em", "label": "0.22em" }, { "value": "0.26em", "label": "0.26em" }, { "value": "0.3em", "label": "0.3em" }, { "value": "0.35em", "label": "0.35em" }, { "value": "0.4em", "label": "0.4em" } ], "default": "0.22em" },
+    { "type": "select", "id": "eyebrow_transform", "label": "Text transform", "options": [
+      { "value": "uppercase", "label": "Uppercase" },
+      { "value": "none", "label": "None" }
+    ], "default": "uppercase" },
+
+    { "type": "header", "content": "Typography — Heading" },
+    { "type": "select", "id": "heading_font", "label": "Font family", "options": [
+      { "value": "heading", "label": "Theme heading font" },
+      { "value": "body", "label": "Theme body font" },
+      { "value": "subheading", "label": "Theme subheading font" },
+      { "value": "accent", "label": "Theme accent font" },
+      { "value": "serif", "label": "Serif (Georgia)" }
+    ], "default": "serif" },
+    { "type": "range", "id": "heading_size", "min": 18, "max": 64, "step": 1, "unit": "px", "label": "Font size — desktop", "default": 30 },
+    { "type": "range", "id": "heading_size_m", "min": 16, "max": 40, "step": 1, "unit": "px", "label": "Font size — mobile", "default": 23 },
+    { "type": "select", "id": "heading_weight", "label": "Font weight", "options": [
+      { "value": "300", "label": "Light 300" },
+      { "value": "400", "label": "Regular 400" },
+      { "value": "500", "label": "Medium 500" },
+      { "value": "600", "label": "Semibold 600" }
+    ], "default": "400" },
+    { "type": "range", "id": "heading_lh", "min": 1, "max": 1.8, "step": 0.1, "label": "Line height", "default": 1.3 },
+    { "type": "select", "id": "heading_ls", "label": "Letter spacing", "options": [ { "value": "0em", "label": "None" }, { "value": "0.01em", "label": "0.01em" }, { "value": "0.02em", "label": "0.02em" }, { "value": "0.03em", "label": "0.03em" }, { "value": "0.04em", "label": "0.04em" }, { "value": "0.05em", "label": "0.05em" }, { "value": "0.06em", "label": "0.06em" }, { "value": "0.08em", "label": "0.08em" }, { "value": "0.1em", "label": "0.1em" }, { "value": "0.12em", "label": "0.12em" }, { "value": "0.14em", "label": "0.14em" }, { "value": "0.16em", "label": "0.16em" }, { "value": "0.18em", "label": "0.18em" }, { "value": "0.2em", "label": "0.2em" }, { "value": "0.22em", "label": "0.22em" }, { "value": "0.26em", "label": "0.26em" }, { "value": "0.3em", "label": "0.3em" }, { "value": "0.35em", "label": "0.35em" }, { "value": "0.4em", "label": "0.4em" } ], "default": "0.02em" },
+    { "type": "select", "id": "heading_transform", "label": "Text transform", "options": [
+      { "value": "none", "label": "None" },
+      { "value": "uppercase", "label": "Uppercase" },
+      { "value": "capitalize", "label": "Capitalize" }
+    ], "default": "none" },
+    { "type": "range", "id": "heading_max_width", "min": 40, "max": 100, "step": 5, "unit": "%", "label": "Max width", "default": 100 },
+
+    { "type": "header", "content": "Typography — Body" },
+    { "type": "select", "id": "body_font", "label": "Font family", "options": [
+      { "value": "body", "label": "Theme body font" },
+      { "value": "heading", "label": "Theme heading font" },
+      { "value": "subheading", "label": "Theme subheading font" },
+      { "value": "serif", "label": "Serif (Georgia)" }
+    ], "default": "body" },
+    { "type": "range", "id": "body_size", "min": 12, "max": 22, "step": 1, "unit": "px", "label": "Font size — desktop", "default": 14 },
+    { "type": "range", "id": "body_size_m", "min": 12, "max": 20, "step": 1, "unit": "px", "label": "Font size — mobile", "default": 13 },
+    { "type": "select", "id": "body_weight", "label": "Font weight", "options": [
+      { "value": "300", "label": "Light 300" },
+      { "value": "400", "label": "Regular 400" },
+      { "value": "500", "label": "Medium 500" }
+    ], "default": "400" },
+    { "type": "range", "id": "body_lh", "min": 1.3, "max": 2.1, "step": 0.1, "label": "Line height", "default": 1.7 },
+    { "type": "select", "id": "body_ls", "label": "Letter spacing", "options": [ { "value": "0em", "label": "None" }, { "value": "0.01em", "label": "0.01em" }, { "value": "0.02em", "label": "0.02em" }, { "value": "0.03em", "label": "0.03em" }, { "value": "0.04em", "label": "0.04em" }, { "value": "0.05em", "label": "0.05em" }, { "value": "0.06em", "label": "0.06em" }, { "value": "0.08em", "label": "0.08em" }, { "value": "0.1em", "label": "0.1em" }, { "value": "0.12em", "label": "0.12em" }, { "value": "0.14em", "label": "0.14em" }, { "value": "0.16em", "label": "0.16em" }, { "value": "0.18em", "label": "0.18em" }, { "value": "0.2em", "label": "0.2em" }, { "value": "0.22em", "label": "0.22em" }, { "value": "0.26em", "label": "0.26em" }, { "value": "0.3em", "label": "0.3em" }, { "value": "0.35em", "label": "0.35em" }, { "value": "0.4em", "label": "0.4em" } ], "default": "0.01em" },
+    { "type": "range", "id": "body_max_width", "min": 40, "max": 100, "step": 5, "unit": "%", "label": "Max width", "default": 100 },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "select", "id": "color_preset", "label": "Color scheme preset", "options": [
+      { "value": "light", "label": "Light Clean (White)" },
+      { "value": "warm", "label": "Warm Atelier (Ivory)" },
+      { "value": "dark", "label": "Dark Contemporary" },
+      { "value": "obsidian", "label": "Obsidian Gold" }
+    ], "default": "light" },
+    { "type": "color", "id": "color_bg", "label": "Background color override", "default": "#ffffff" },
+    { "type": "color", "id": "color_heading", "label": "Heading color override", "default": "#1a1a1a" },
+    { "type": "color", "id": "color_text", "label": "Body text override", "default": "#4a4a4a" },
+    { "type": "color", "id": "color_accent", "label": "Accent color override", "default": "#b38b4d" },
+    { "type": "color", "id": "color_muted", "label": "Muted text override" },
+    { "type": "color", "id": "color_border", "label": "Border color override" },
+
+    { "type": "header", "content": "Social icons" },
+    { "type": "range", "id": "social_size", "min": 24, "max": 56, "step": 2, "unit": "px", "label": "Icon size", "default": 36 },
+    { "type": "select", "id": "social_shape", "label": "Icon shape", "options": [
+      { "value": "circle", "label": "Circle" },
+      { "value": "square", "label": "Rounded square" },
+      { "value": "none", "label": "None (icon only)" }
+    ], "default": "circle" },
+    { "type": "color", "id": "social_bg", "label": "Icon background", "default": "#2b2b2b" },
+    { "type": "color", "id": "social_fg", "label": "Icon color", "default": "#ffffff" },
+    { "type": "select", "id": "social_border_width", "label": "Icon border width", "options": [ { "value": "0", "label": "None" }, { "value": "1", "label": "1px" }, { "value": "2", "label": "2px" } ], "default": "0" },
+    { "type": "color", "id": "social_border", "label": "Icon border color" },
+    { "type": "color", "id": "social_bg_hover", "label": "Hover background", "info": "Blank uses the accent color." },
+    { "type": "color", "id": "social_fg_hover", "label": "Hover icon color", "info": "Blank uses white." },
+    { "type": "range", "id": "social_gap", "min": 6, "max": 28, "step": 2, "unit": "px", "label": "Gap between icons", "default": 12 },
+    { "type": "range", "id": "social_mt", "min": 0, "max": 48, "step": 2, "unit": "px", "label": "Space above icons", "default": 20 },
+
+    { "type": "header", "content": "Spacing" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding top — desktop", "default": 48 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding bottom — desktop", "default": 52 },
+    { "type": "range", "id": "padding_top_m", "min": 0, "max": 88, "step": 4, "unit": "px", "label": "Padding top — mobile", "default": 36 },
+    { "type": "range", "id": "padding_bottom_m", "min": 0, "max": 88, "step": 4, "unit": "px", "label": "Padding bottom — mobile", "default": 40 },
+    { "type": "range", "id": "container_padding", "min": 0, "max": 64, "step": 2, "unit": "px", "label": "Container side padding — desktop", "default": 32 },
+    { "type": "range", "id": "container_padding_m", "min": 0, "max": 32, "step": 2, "unit": "px", "label": "Container side padding — mobile", "default": 20 },
+
+    { "type": "header", "content": "Animation" },
+    { "type": "checkbox", "id": "enable_animations", "label": "Enable subtle motion", "info": "Off by default — the section renders completely static.", "default": false },
+
+    { "type": "header", "content": "Advanced" },
+    { "type": "text", "id": "anchor_id", "label": "Anchor ID" },
+    { "type": "text", "id": "custom_class", "label": "Custom CSS class" }
+  ],
+  "blocks": [
     {
-      "type": "text",
-      "id": "heading",
-      "label": "Heading",
-      "default": "A little bit of us"
-    },
-    {
-      "type": "textarea",
-      "id": "text",
-      "label": "Statement Text",
-      "default": "The House of Things is a destination for design, artistry and craftsmanship, curated for a life artfully lived."
-    },
-    {
-      "type": "header",
-      "content": "Social Media Links"
-    },
-    {
-      "type": "url",
-      "id": "facebook_url",
-      "label": "Facebook URL"
-    },
-    {
-      "type": "url",
-      "id": "instagram_url",
-      "label": "Instagram URL"
-    },
-    {
-      "type": "url",
-      "id": "pinterest_url",
-      "label": "Pinterest URL"
-    },
-    {
-      "type": "url",
-      "id": "twitter_url",
-      "label": "Twitter / X URL"
-    },
-    {
-      "type": "header",
-      "content": "Styling & Colors"
-    },
-    {
-      "type": "color",
-      "id": "heading_color",
-      "label": "Heading Color",
-      "default": "#1a1a1a"
-    },
-    {
-      "type": "color",
-      "id": "text_color",
-      "label": "Text Color",
-      "default": "#4a4a4a"
-    },
-    {
-      "type": "color",
-      "id": "icon_bg_color",
-      "label": "Icon Circle Color",
-      "default": "#2b2b2b"
-    },
-    {
-      "type": "color",
-      "id": "icon_color",
-      "label": "Icon Symbol Color",
-      "default": "#ffffff"
-    },
-    {
-      "type": "color",
-      "id": "background_color",
-      "label": "Section Background",
-      "default": "#ffffff"
-    },
-    {
-      "type": "range",
-      "id": "max_width",
-      "min": 400,
-      "max": 1000,
-      "step": 20,
-      "unit": "px",
-      "label": "Text Max Width",
-      "default": 680
-    },
-    {
-      "type": "range",
-      "id": "padding_top",
-      "min": 0,
-      "max": 120,
-      "step": 4,
-      "unit": "px",
-      "label": "Padding Top",
-      "default": 56
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom",
-      "min": 0,
-      "max": 120,
-      "step": 4,
-      "unit": "px",
-      "label": "Padding Bottom",
-      "default": 64
+      "type": "social-link",
+      "name": "Social Icon",
+      "settings": [
+        { "type": "select", "id": "platform", "label": "Platform", "options": [
+          { "value": "facebook", "label": "Facebook" },
+          { "value": "instagram", "label": "Instagram" },
+          { "value": "pinterest", "label": "Pinterest" },
+          { "value": "x", "label": "X (Twitter)" },
+          { "value": "youtube", "label": "YouTube" },
+          { "value": "whatsapp", "label": "WhatsApp" },
+          { "value": "globe", "label": "Website" }
+        ], "default": "instagram" },
+        { "type": "image_picker", "id": "icon_image", "label": "Custom icon image", "info": "Overrides the built-in platform icon." },
+        { "type": "url", "id": "link", "label": "Link" },
+        { "type": "text", "id": "label", "label": "Accessibility label", "default": "Follow us" }
+      ]
     }
   ],
   "presets": [
     {
-      "name": "Brand Manifesto",
-      "settings": {
-        "heading": "A little bit of us",
-        "text": "The House of Things is a destination for design, artistry and craftsmanship, curated for a life artfully lived."
-      }
+      "name": "Brand Statement",
+      "blocks": [
+        { "type": "social-link", "settings": { "platform": "facebook", "label": "Facebook" } },
+        { "type": "social-link", "settings": { "platform": "instagram", "label": "Instagram" } },
+        { "type": "social-link", "settings": { "platform": "pinterest", "label": "Pinterest" } }
+      ]
     }
   ]
 }

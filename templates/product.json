@@ -481,22 +481,52 @@
     },
     "craftsmanship_story": {
       "type": "luxury-craftsmanship-story",
+      "blocks": {
+        "metric_1": {
+          "type": "metric",
+          "settings": {
+            "number": "2400",
+            "suffix": "+",
+            "label": "Paintings & Artworks Curated"
+          }
+        },
+        "metric_2": {
+          "type": "metric",
+          "settings": {
+            "number": "140",
+            "suffix": "+",
+            "label": "Master Artists & Sculptors"
+          }
+        },
+        "metric_3": {
+          "type": "metric",
+          "settings": {
+            "number": "35",
+            "suffix": "+",
+            "label": "Museum Exhibitions"
+          }
+        }
+      },
+      "block_order": [
+        "metric_1",
+        "metric_2",
+        "metric_3"
+      ],
       "settings": {
-        "color_scheme_preset": "light",
-        "custom_bg_color": "",
-        "custom_text_color": "",
-        "custom_accent_color": "",
+        "color_preset": "light",
         "media_position": "left",
-        "subheading": "THE RAW HOUSE ATELIER",
+        "eyebrow": "THE RAW HOUSE ATELIER",
         "heading": "Bespoke Artistry & Timeless Provenance",
-        "story_text": "Every object in our atelier tells a story of authentic craftsmanship, time-honored techniques, and contemporary form. We collaborate with master artisans and heritage curators to bring museum-grade masterworks into refined living spaces.",
+        "body": "<p>Every object in our atelier tells a story of authentic craftsmanship, time-honored techniques, and contemporary form. We collaborate with master artisans and heritage curators to bring museum-grade masterworks into refined living spaces.</p>",
         "default_asset": "art-atelier-artist-studio.jpg",
         "badge_number": "100%",
         "badge_label": "ARTISAN HANDCRAFTED",
-        "button_label": "DISCOVER THE ATELIER",
-        "button_link": "shopify:\/\/collections\/all",
+        "btn_label": "DISCOVER THE ATELIER",
+        "btn_link": "shopify://collections/all",
         "padding_top": 24,
-        "padding_bottom": 24
+        "padding_bottom": 24,
+        "padding_top_m": 20,
+        "padding_bottom_m": 24
       }
     },
     "product_recommendations_qggXJq": {
@@ -641,6 +671,59 @@
         "padding-block-end": 16
       }
     },
+    "assurance_icons": {
+      "type": "luxury-assurance-icons",
+      "blocks": {
+        "feature_authenticity": {
+          "type": "feature",
+          "settings": {
+            "icon": "certificate",
+            "title": "Certified Authenticity",
+            "text": "Every piece arrives with a signed certificate of authenticity and provenance record."
+          }
+        },
+        "feature_delivery": {
+          "type": "feature",
+          "settings": {
+            "icon": "truck",
+            "title": "White-Glove Delivery",
+            "text": "Complimentary insured, room-of-choice delivery on every acquisition."
+          }
+        },
+        "feature_support": {
+          "type": "feature",
+          "settings": {
+            "icon": "hand",
+            "title": "Artisan Support",
+            "text": "Direct access to our curators for placement, care, and commissions."
+          }
+        },
+        "feature_guarantee": {
+          "type": "feature",
+          "settings": {
+            "icon": "shield",
+            "title": "Lifetime Guarantee",
+            "text": "Museum-grade materials and craftsmanship, guaranteed for life."
+          }
+        }
+      },
+      "block_order": [
+        "feature_authenticity",
+        "feature_delivery",
+        "feature_support",
+        "feature_guarantee"
+      ],
+      "settings": {
+        "color_preset": "light",
+        "eyebrow": "THE ATELIER PROMISE",
+        "heading": "Acquire with Complete Confidence",
+        "columns": 4,
+        "columns_tablet": 2,
+        "columns_mobile": "2",
+        "padding_top": 28,
+        "padding_bottom": 28
+      }
+    },
     "curated_collections": {
       "type": "luxury-collection-showcase",
       "blocks": {
@@ -675,32 +758,58 @@
         "col_models"
       ],
       "settings": {
-        "color_scheme_preset": "warm",
-        "subheading": "THE ATELIER UNIVERSE",
+        "color_preset": "warm",
+        "eyebrow": "THE ATELIER UNIVERSE",
         "heading": "Explore Curated Collections",
         "show_piece_count": true,
-        "button_label": "VIEW ALL COLLECTIONS",
-        "desktop_columns": 3,
-        "mobile_columns": "1",
+        "btn_label": "VIEW ALL COLLECTIONS",
+        "columns": 3,
+        "columns_mobile": "1",
         "padding_top": 36,
         "padding_bottom": 40
       }
     },
     "brand_statement": {
       "type": "brand-manifesto",
+      "blocks": {
+        "social_facebook": {
+          "type": "social-link",
+          "settings": {
+            "platform": "facebook",
+            "label": "Facebook"
+          }
+        },
+        "social_instagram": {
+          "type": "social-link",
+          "settings": {
+            "platform": "instagram",
+            "label": "Instagram"
+          }
+        },
+        "social_x": {
+          "type": "social-link",
+          "settings": {
+            "platform": "x",
+            "label": "X (Twitter)"
+          }
+        }
+      },
+      "block_order": [
+        "social_facebook",
+        "social_instagram",
+        "social_x"
+      ],
       "settings": {
         "heading": "A little bit of us",
-        "text": "The House of Things is a destination for design, artistry and craftsmanship, curated for a life artfully lived.",
-        "facebook_url": "",
-        "instagram_url": "",
-        "pinterest_url": "",
-        "twitter_url": "",
-        "heading_color": "#1a1a1a",
-        "text_color": "#4a4a4a",
-        "icon_bg_color": "#2b2b2b",
-        "icon_color": "#ffffff",
-        "background_color": "#ffffff",
-        "max_width": 680,
+        "body": "<p>The House of Things is a destination for design, artistry and craftsmanship, curated for a life artfully lived.</p>",
+        "color_preset": "light",
+        "color_bg": "#ffffff",
+        "color_heading": "#1a1a1a",
+        "color_text": "#4a4a4a",
+        "color_accent": "#b38b4d",
+        "social_bg": "#2b2b2b",
+        "social_fg": "#ffffff",
+        "container_max": 680,
         "padding_top": 16,
         "padding_bottom": 24
       }
@@ -710,6 +819,7 @@
     "main",
     "craftsmanship_story",
     "product_recommendations_qggXJq",
+    "assurance_icons",
     "curated_collections",
     "brand_statement"
   ]

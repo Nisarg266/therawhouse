@@ -1,796 +1,517 @@
 {%- comment -%}
-  THE RAW HOUSE - CURATED COLLECTIONS SHOWCASE
-  Editorial gallery-catalog style collection cards for product & landing pages.
-  Pairs with the global luxury-ui-engine scroll reveal system.
+  THE RAW HOUSE — CURATED COLLECTIONS GRID (LUXP design system)
+  Editorial collection cards with desktop/mobile images, badge, index
+  numbering, grid and card styling — all controlled from the Theme Editor.
+  Ships completely static (no motion).
+
+  @module luxury-collection-showcase
 {%- endcomment -%}
 
-{% liquid
-  assign scheme = section.settings.color_scheme_preset | default: 'warm'
+{%- liquid
+  assign s = section.settings
 
-  case scheme
-    when 'dark'
-      assign bg_color = '#161616'
-      assign text_color = '#ffffff'
-      assign muted_color = 'rgba(255,255,255,0.62)'
-      assign border_color = 'rgba(255,255,255,0.12)'
-      assign gold_color = '#c5a880'
-      assign gold_hover = '#dfc49e'
-      assign media_bg = '#212121'
-    when 'obsidian'
-      assign bg_color = '#0b0b0b'
-      assign text_color = '#ffffff'
-      assign muted_color = 'rgba(255,255,255,0.58)'
-      assign border_color = 'rgba(197,168,128,0.22)'
-      assign gold_color = '#c5a880'
-      assign gold_hover = '#dfc49e'
-      assign media_bg = '#161513'
-    when 'light'
-      assign bg_color = '#ffffff'
-      assign text_color = '#111111'
-      assign muted_color = '#6b665c'
-      assign border_color = '#eae6de'
-      assign gold_color = '#b38b4d'
-      assign gold_hover = '#967035'
-      assign media_bg = '#f4f2ec'
-    else
-      assign bg_color = '#f9f8f5'
-      assign text_color = '#111111'
-      assign muted_color = '#726b60'
-      assign border_color = '#e8e4dc'
-      assign gold_color = '#b38b4d'
-      assign gold_hover = '#967035'
-      assign media_bg = '#efede6'
-  endcase
-
-  if section.settings.custom_bg_color != blank and section.settings.custom_bg_color != 'rgba(0,0,0,0)'
-    assign bg_color = section.settings.custom_bg_color
-  endif
-  if section.settings.custom_text_color != blank and section.settings.custom_text_color != 'rgba(0,0,0,0)'
-    assign text_color = section.settings.custom_text_color
+  assign ratio_css = '4 / 5'
+  if s.image_ratio == '1/1'
+    assign ratio_css = '1 / 1'
+  elsif s.image_ratio == '3/4'
+    assign ratio_css = '3 / 4'
+  elsif s.image_ratio == '4/3'
+    assign ratio_css = '4 / 3'
+  elsif s.image_ratio == '3/2'
+    assign ratio_css = '3 / 2'
+  elsif s.image_ratio == '16/10'
+    assign ratio_css = '16 / 10'
+  elsif s.image_ratio == 'auto'
+    assign ratio_css = 'auto'
   endif
 
-  assign cols = section.settings.desktop_columns | default: 3
-  assign cols_mobile = section.settings.mobile_columns | default: '1'
-%}
+  assign ratio_m_css = '4 / 5'
+  if s.image_ratio_m == '1/1'
+    assign ratio_m_css = '1 / 1'
+  elsif s.image_ratio_m == '3/4'
+    assign ratio_m_css = '3 / 4'
+  elsif s.image_ratio_m == '4/3'
+    assign ratio_m_css = '4 / 3'
+  elsif s.image_ratio_m == '4/5'
+    assign ratio_m_css = '4 / 5'
+  elsif s.image_ratio_m == '3/2'
+    assign ratio_m_css = '3 / 2'
+  endif
+  if s.image_ratio_m == blank
+    assign ratio_m_css = ratio_css
+  endif
+
+  assign shadow_css = 'none'
+  if s.card_shadow == 'subtle'
+    assign shadow_css = '0 2px 12px rgba(0, 0, 0, 0.06)'
+  elsif s.card_shadow == 'medium'
+    assign shadow_css = '0 8px 28px rgba(0, 0, 0, 0.12)'
+  endif
+
+  assign card_bg = s.card_bg
+  if card_bg == blank or card_bg == 'rgba(0,0,0,0)'
+    assign card_bg = 'transparent'
+  endif
+  assign card_border = s.card_border_color
+  if card_border == blank or card_border == 'rgba(0,0,0,0)'
+    assign card_border = 'var(--luxp-border)'
+  endif
+  assign cardtitle_color = s.cardtitle_color
+  if cardtitle_color == blank or cardtitle_color == 'rgba(0,0,0,0)'
+    assign cardtitle_color = 'var(--luxp-fg)'
+  endif
+  assign cardmeta_color = s.cardmeta_color
+  if cardmeta_color == blank or cardmeta_color == 'rgba(0,0,0,0)'
+    assign cardmeta_color = 'var(--luxp-muted)'
+  endif
+  assign card_cta_color = s.card_cta_color
+  if card_cta_color == blank or card_cta_color == 'rgba(0,0,0,0)'
+    assign card_cta_color = 'var(--luxp-accent)'
+  endif
+
+  assign header_track = 'center'
+  if s.header_align == 'left'
+    assign header_track = 'flex-start'
+  endif
+-%}
+
+{%- capture luxp_colors -%}
+  {%- render 'luxp-scheme',
+    preset: s.color_preset,
+    bg: s.color_bg,
+    heading: s.color_heading,
+    text: s.color_text,
+    accent: s.color_accent,
+    muted: s.color_muted,
+    border: s.color_border,
+    btn_bg: s.btn_bg,
+    btn_text: s.btn_text,
+    btn_border: s.btn_border,
+    btn_bg_hover: s.btn_bg_hover,
+    btn_text_hover: s.btn_text_hover
+  -%}
+{%- endcapture -%}
+
+{%- capture luxp_typo -%}{%- render 'luxp-typo', s: s -%}{%- endcapture -%}
 
 <div
-  id="LuxuryCollections-{{ section.id }}"
-  class="lux-collections-section"
+  class="luxp-section luxp-collections {% if s.container_mode == 'full' %}luxp-section--full{% endif %} {% if s.enable_animations %}luxp-anim{% endif %} {% if s.enable_animations and s.card_hover == 'zoom' %}luxp-hover-zoom{% endif %} {% if s.enable_animations and s.card_hover == 'lift' %}luxp-hover-lift{% endif %} {% if s.enable_animations and s.card_hover == 'border' %}luxp-hover-border{% endif %} {{ s.custom_class }}"
   style="
-    --lcs-bg: {{ bg_color }};
-    --lcs-text: {{ text_color }};
-    --lcs-muted: {{ muted_color }};
-    --lcs-border: {{ border_color }};
-    --lcs-gold: {{ gold_color }};
-    --lcs-gold-hover: {{ gold_hover }};
-    --lcs-media-bg: {{ media_bg }};
-    --lcs-cols: {{ cols }};
-    --lcs-cols-mobile: {{ cols_mobile }};
-    --lcs-pt: {{ section.settings.padding_top | default: 36 }}px;
-    --lcs-pb: {{ section.settings.padding_bottom | default: 40 }}px;
-    background: var(--lcs-bg);
-    color: var(--lcs-text);
-    padding-top: var(--lcs-pt);
-    padding-bottom: var(--lcs-pb);
-    border-top: 1px solid var(--lcs-border);
-    border-bottom: 1px solid var(--lcs-border);
+    {{ luxp_colors }}
+    {{ luxp_typo }}
+    --luxp-pt: {{ s.padding_top | default: 36 }}px;
+    --luxp-pb: {{ s.padding_bottom | default: 40 }}px;
+    --luxp-pt-m: {{ s.padding_top_m | default: 32 }}px;
+    --luxp-pb-m: {{ s.padding_bottom_m | default: 36 }}px;
+    --luxp-cw: {{ s.container_max | default: 1240 }}px;
+    --luxp-px: {{ s.container_padding | default: 32 }}px;
+    --luxp-px-m: {{ s.container_padding_m | default: 18 }}px;
+    --luxp-header-track: {{ header_track }};
+    --luxp-header-align: {{ s.header_align | default: 'center' }};
+    --luxp-header-gap: {{ s.header_gap | default: 10 }}px;
+    --luxp-header-mb: {{ s.header_mb | default: 34 }}px;
+    --luxp-ornament-color: var(--luxp-accent);
+    --luxp-cols: {{ s.columns | default: 3 }};
+    --luxp-cols-t: {{ s.columns_tablet | default: 2 }};
+    --luxp-cols-m: {{ s.columns_mobile | default: 1 }};
+    --luxp-cgap: {{ s.col_gap | default: 28 }}px;
+    --luxp-rgap: {{ s.row_gap | default: 36 }}px;
+    --luxp-cgap-m: {{ s.col_gap_m | default: 16 }}px;
+    --luxp-rgap-m: {{ s.row_gap_m | default: 28 }}px;
+    --luxp-card-bg: {{ card_bg }};
+    --luxp-card-border: {{ card_border }};
+    --luxp-card-bw: {{ s.card_border_width | default: 0 }}px;
+    --luxp-card-radius: {{ s.card_radius | default: 0 }}px;
+    --luxp-card-shadow: {{ shadow_css }};
+    --luxp-card-body-pt: {{ s.card_body_pt | default: 15 }}px;
+    --luxp-card-align: {{ s.card_align | default: 'left' }};
+    --luxp-card-gap: {{ s.card_gap | default: 6 }}px;
+    --luxp-card-rule-w: {{ s.card_rule_width | default: 26 }}px;
+    --luxp-cardtitle-color: {{ cardtitle_color }};
+    --luxp-cardtitle-size: {{ s.cardtitle_size | default: 18 }}px;
+    --luxp-cardtitle-size-m: {{ s.cardtitle_size_m | default: 16 }}px;
+    --luxp-cardmeta-color: {{ cardmeta_color }};
+    --luxp-cardmeta-size: {{ s.cardmeta_size | default: 10.5 }}px;
+    --luxp-card-cta-color: {{ card_cta_color }};
+    --luxp-card-cta-mt: {{ s.card_cta_mt | default: 6 }}px;
+    --luxp-media-ratio: {{ ratio_css }};
+    --luxp-media-ratio-m: {{ ratio_m_css }};
+    --luxp-media-fit: {{ s.image_fit | default: 'cover' }};
+    --luxp-media-radius: 0px;
+    --luxp-media-bg: var(--luxp-border);
+    --luxp-pill-bg: {{ s.badge_bg | default: '#b38b4d' }};
+    --luxp-pill-fg: {{ s.badge_text_color | default: '#ffffff' }};
+    --luxp-footer-mt: {{ s.footer_mt | default: 38 }}px;
+    --luxp-footer-mt-m: {{ s.footer_mt_m | default: 30 }}px;
+    --luxp-footer-justify: {% if s.header_align == 'left' %}flex-start{% else %}center{% endif %};
   "
+  {% if s.anchor_id != blank %}id="{{ s.anchor_id }}"{% endif %}
+  data-art-motion="off"
   {{ section.shopify_attributes }}
 >
-  <div class="lux-collections__container">
-    {% if section.settings.heading != blank or section.settings.subheading != blank %}
-      <header class="lux-collections__header lux-reveal-fade-up">
-        {% if section.settings.subheading != blank %}
-          <p class="lux-collections__eyebrow">{{ section.settings.subheading }}</p>
+  <div class="luxp-container">
+    {% if s.eyebrow != blank or s.heading != blank or s.intro != blank or s.show_ornament %}
+      <header class="luxp-header luxp-header--{{ s.header_align | default: 'center' }}">
+        {% if s.eyebrow != blank %}
+          <p class="luxp-eyebrow">{{ s.eyebrow }}</p>
         {% endif %}
-        {% if section.settings.heading != blank %}
-          <h2 class="lux-collections__heading">{{ section.settings.heading }}</h2>
+        {% if s.heading != blank %}
+          <h2 class="luxp-heading">{{ s.heading }}</h2>
         {% endif %}
-        <div class="lux-collections__ornament" aria-hidden="true">
-          <span class="lux-collections__ornament-line"></span>
-          <span class="lux-collections__ornament-diamond">&#9670;</span>
-          <span class="lux-collections__ornament-line"></span>
-        </div>
-        {% if section.settings.intro_text != blank %}
-          <p class="lux-collections__intro">{{ section.settings.intro_text }}</p>
+        {% if s.show_ornament %}
+          <div class="luxp-ornament" aria-hidden="true">
+            <span class="luxp-ornament__line"></span>
+            <span class="luxp-ornament__gem">&#9670;</span>
+            <span class="luxp-ornament__line"></span>
+          </div>
+        {% endif %}
+        {% if s.intro != blank %}
+          <div class="luxp-body luxp-header__intro">{{ s.intro }}</div>
         {% endif %}
       </header>
     {% endif %}
 
-    <div class="lux-collections__grid lux-stagger-parent lux-reveal-fade-up">
-      {% if section.blocks.size > 0 %}
-        {% for block in section.blocks %}
-          {% liquid
-            assign col = block.settings.collection
+    <div class="luxp-grid">
+      {% for block in section.blocks %}
+        {%- liquid
+          assign col = block.settings.collection
+          assign card_title = block.settings.title
+          assign card_link = block.settings.link
 
-            if col != blank and collection != blank and col.handle == collection.handle
-              continue
-            endif
-
-            assign card_title = block.settings.title
-            assign card_link = block.settings.link
-
-            if col != blank
-              if card_title == blank
-                assign card_title = col.title
-              endif
-              if card_link == blank
-                assign card_link = col.url
-              endif
-            endif
-
+          if col != blank
             if card_title == blank
-              assign card_title = 'Curated Selection'
+              assign card_title = col.title
             endif
             if card_link == blank
-              assign card_link = routes.all_products_collection_url
+              assign card_link = col.url
             endif
+          endif
 
-            assign piece_count = ''
-            if col != blank and section.settings.show_piece_count != false
-              assign qty = col.products_count
-              if qty == 1
-                assign piece_count = '1 Piece'
-              else
-                assign piece_count = qty | append: ' Pieces'
-              endif
+          if card_title == blank
+            assign card_title = 'Curated Selection'
+          endif
+          if card_link == blank
+            assign card_link = routes.all_products_collection_url
+          endif
+
+          assign card_image = block.settings.image
+          if card_image == blank and col != blank and col.featured_image != blank
+            assign card_image = col.featured_image
+          endif
+          if card_image == blank and col != blank and col.products_count > 0 and col.products.first.featured_image != blank
+            assign card_image = col.products.first.featured_image
+          endif
+
+          assign piece_count = ''
+          if col != blank and s.show_piece_count
+            assign qty = col.products_count
+            if qty == 1
+              assign piece_count = '1 Piece'
+            else
+              assign piece_count = qty | append: ' Pieces'
             endif
-          %}
-          <a href="{{ card_link }}" class="lux-colcard lux-stagger-child" {{ block.shopify_attributes }}>
-            <div class="lux-colcard__media">
-              {% if forloop.index < 10 %}
-                {% assign index_label = forloop.index | prepend: '0' %}
-              {% else %}
-                {% assign index_label = forloop.index %}
-              {% endif %}
-              <span class="lux-colcard__index">N&deg; {{ index_label }}</span>
-
-              {% if block.settings.image != blank %}
-                {{
-                  block.settings.image
-                  | image_url: width: 900
-                  | image_tag:
-                    class: 'lux-colcard__img',
-                    loading: 'lazy',
-                    widths: '380, 560, 760, 900',
-                    alt: card_title
-                }}
-              {% elsif col != blank and col.featured_image != blank %}
-                {{
-                  col.featured_image
-                  | image_url: width: 900
-                  | image_tag:
-                    class: 'lux-colcard__img',
-                    loading: 'lazy',
-                    widths: '380, 560, 760, 900',
-                    alt: card_title
-                }}
-              {% elsif col != blank and col.products_count > 0 and col.products.first.featured_image != blank %}
-                {{
-                  col.products.first.featured_image
-                  | image_url: width: 900
-                  | image_tag:
-                    class: 'lux-colcard__img',
-                    loading: 'lazy',
-                    widths: '380, 560, 760, 900',
-                    alt: card_title
-                }}
-              {% elsif block.settings.default_asset != blank %}
-                <img
-                  src="{{ block.settings.default_asset | asset_url }}"
-                  alt="{{ card_title | escape }}"
-                  class="lux-colcard__img"
-                  loading="lazy"
-                  width="450"
-                  height="563"
-                  onerror="this.onerror=null;this.src='{{ 'art-painting-gold-canvas.jpg' | asset_url }}';"
-                >
-              {% else %}
-                {{ 'lifestyle-1' | placeholder_svg_tag: 'lux-colcard__img lux-colcard__img--placeholder' }}
-              {% endif %}
-              <div class="lux-colcard__veil" aria-hidden="true"></div>
-            </div>
-
-            <div class="lux-colcard__body">
-              <span class="lux-colcard__rule" aria-hidden="true"></span>
-              <h3 class="lux-colcard__title">{{ card_title }}</h3>
-              {% if piece_count != '' or block.settings.subtitle != blank %}
-                <p class="lux-colcard__meta">
-                  {% if piece_count != '' %}{{ piece_count | upcase }}{% endif %}
-                  {% if piece_count != '' and block.settings.subtitle != blank %}
-                    <span class="lux-colcard__meta-dot">&middot;</span>
-                  {% endif %}
-                  {% if block.settings.subtitle != blank %}{{ block.settings.subtitle | upcase }}{% endif %}
-                </p>
-              {% endif %}
-              <span class="lux-colcard__cta">
-                <span>{{ block.settings.cta_label | default: 'Discover' }}</span>
-                <svg class="lux-colcard__cta-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <line x1="5" y1="12" x2="19" y2="12"></line>
-                  <polyline points="12 5 19 12 12 19"></polyline>
-                </svg>
+          endif
+        -%}
+        <a href="{{ card_link }}" class="luxp-card" {{ block.shopify_attributes }}>
+          <div class="luxp-media {% if s.image_ratio == 'auto' %}luxp-media--auto{% endif %} {% if s.image_fit == 'contain' %}luxp-media--contain{% endif %}">
+            {% if s.show_index %}
+              {% assign index_label = forloop.index | prepend: '00' | slice: -2, 2 %}
+              <span class="luxp-colcard__index" aria-hidden="true">N&deg; {{ index_label }}</span>
+            {% endif %}
+            {% if block.settings.badge != blank %}
+              <span class="luxp-colcard__pill luxp-pill">{{ block.settings.badge }}</span>
+            {% endif %}
+            {% render 'luxp-image',
+              image: card_image,
+              image_mobile: block.settings.image_mobile,
+              alt: card_title,
+              class: 'luxp-colcard__img',
+              loading: 'lazy',
+              sizes: '(min-width: 1024px) 33vw, (min-width: 750px) 50vw, 100vw',
+              fallback: block.settings.default_asset
+            %}
+            {% if s.show_veil %}
+              <div class="luxp-colcard__veil" aria-hidden="true"></div>
+            {% endif %}
+          </div>
+          <div class="luxp-card__body {% if s.card_align == 'center' %}luxp-card__body--center{% endif %}">
+            {% if s.show_card_rule %}
+              <span class="luxp-card__rule" aria-hidden="true"></span>
+            {% endif %}
+            <h3 class="luxp-card__title">{{ card_title }}</h3>
+            {% if piece_count != '' or block.settings.subtitle != blank %}
+              <p class="luxp-card__meta">
+                {% if piece_count != '' %}{{ piece_count | upcase }}{% endif %}
+                {% if piece_count != '' and block.settings.subtitle != blank %}
+                  <span class="luxp-card__meta-dot">&middot;</span>
+                {% endif %}
+                {% if block.settings.subtitle != blank %}{{ block.settings.subtitle | upcase }}{% endif %}
+              </p>
+            {% endif %}
+            {% if block.settings.cta_label != blank %}
+              <span class="luxp-card__cta">
+                <span>{{ block.settings.cta_label }}</span>
+                {% render 'luxp-icon', icon: 'arrow', class: 'luxp-btn__arrow' %}
               </span>
-            </div>
-          </a>
-        {% endfor %}
-      {% else %}
-        {%- comment -%} Default preview cards when no blocks are added {%- endcomment -%}
-        <a href="{{ routes.all_products_collection_url }}" class="lux-colcard lux-stagger-child">
-          <div class="lux-colcard__media">
-            <span class="lux-colcard__index">N&deg; 01</span>
-            <img
-              src="{{ 'art-painting-abstract-oil.jpg' | asset_url }}"
-              alt="Original Oil Paintings"
-              class="lux-colcard__img"
-              loading="lazy"
-              width="450"
-              height="563"
-              onerror="this.onerror=null;this.src='{{ 'art-painting-gold-canvas.jpg' | asset_url }}';"
-            >
-            <div class="lux-colcard__veil" aria-hidden="true"></div>
-          </div>
-          <div class="lux-colcard__body">
-            <span class="lux-colcard__rule" aria-hidden="true"></span>
-            <h3 class="lux-colcard__title">Original Oil Paintings</h3>
-            <p class="lux-colcard__meta">Hand-Painted Canvas Masterworks</p>
-            <span class="lux-colcard__cta">
-              <span>Discover</span>
-              <svg class="lux-colcard__cta-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-                <polyline points="12 5 19 12 12 19"></polyline>
-              </svg>
-            </span>
+            {% endif %}
           </div>
         </a>
-
-        <a href="{{ routes.all_products_collection_url }}" class="lux-colcard lux-stagger-child">
-          <div class="lux-colcard__media">
-            <span class="lux-colcard__index">N&deg; 02</span>
-            <img
-              src="{{ 'art-sculpture-rodin-thinker.jpg' | asset_url }}"
-              alt="Bronze & Marble Sculptures"
-              class="lux-colcard__img"
-              loading="lazy"
-              width="450"
-              height="563"
-              onerror="this.onerror=null;this.src='{{ 'art-painting-gold-canvas.jpg' | asset_url }}';"
-            >
-            <div class="lux-colcard__veil" aria-hidden="true"></div>
-          </div>
-          <div class="lux-colcard__body">
-            <span class="lux-colcard__rule" aria-hidden="true"></span>
-            <h3 class="lux-colcard__title">Bronze &amp; Marble Sculptures</h3>
-            <p class="lux-colcard__meta">Cast &amp; Carved Heirloom Forms</p>
-            <span class="lux-colcard__cta">
-              <span>Discover</span>
-              <svg class="lux-colcard__cta-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-                <polyline points="12 5 19 12 12 19"></polyline>
-              </svg>
-            </span>
-          </div>
-        </a>
-
-        <a href="{{ routes.all_products_collection_url }}" class="lux-colcard lux-stagger-child">
-          <div class="lux-colcard__media">
-            <span class="lux-colcard__index">N&deg; 03</span>
-            <img
-              src="{{ 'art-sculpture-modern-model.jpg' | asset_url }}"
-              alt="3D Sajawat & Art Models"
-              class="lux-colcard__img"
-              loading="lazy"
-              width="450"
-              height="563"
-              onerror="this.onerror=null;this.src='{{ 'art-painting-gold-canvas.jpg' | asset_url }}';"
-            >
-            <div class="lux-colcard__veil" aria-hidden="true"></div>
-          </div>
-          <div class="lux-colcard__body">
-            <span class="lux-colcard__rule" aria-hidden="true"></span>
-            <h3 class="lux-colcard__title">3D Sajawat &amp; Art Models</h3>
-            <p class="lux-colcard__meta">Architectural Decorative Objects</p>
-            <span class="lux-colcard__cta">
-              <span>Discover</span>
-              <svg class="lux-colcard__cta-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-                <polyline points="12 5 19 12 12 19"></polyline>
-              </svg>
-            </span>
-          </div>
-        </a>
-      {% endif %}
+      {% endfor %}
     </div>
 
-    {% if section.settings.button_label != blank %}
-      <div class="lux-collections__footer lux-reveal-fade-up">
-        <a href="{{ section.settings.button_link | default: routes.collections_url }}" class="lux-collections__button">
-          <span>{{ section.settings.button_label }}</span>
-          <svg class="lux-collections__button-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-            <polyline points="12 5 19 12 12 19"></polyline>
-          </svg>
+    {% if s.btn_label != blank %}
+      <div class="luxp-footer">
+        <a
+          href="{{ s.btn_link | default: routes.collections_url }}"
+          class="luxp-btn {% if s.btn_style == 'outline' %}luxp-btn--outline{% endif %} {% if s.btn_width == 'full' %}luxp-btn--full{% endif %} {% if s.btn_mobile_full %}luxp-btn--mobile-full{% endif %}"
+        >
+          {{ s.btn_label }}
+          {% if s.btn_arrow %}
+            {% render 'luxp-icon', icon: 'arrow', class: 'luxp-btn__arrow' %}
+          {% endif %}
         </a>
       </div>
     {% endif %}
   </div>
 </div>
 
-{% stylesheet %}
-  .lux-collections-section {
-    width: 100%;
-    overflow: hidden;
-    box-sizing: border-box;
-  }
-
-  .lux-collections__container {
-    max-width: 1240px;
-    margin: 0 auto;
-    padding: 0 32px;
-    box-sizing: border-box;
-  }
-
-  /* --- Header --- */
-  .lux-collections__header {
-    text-align: center;
-    margin-bottom: clamp(26px, 3.4vw, 40px);
-  }
-
-  .lux-collections__eyebrow {
-    font-family: var(--lux-font-body, "Inter", -apple-system, sans-serif);
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    color: var(--lcs-gold);
-    margin: 0 0 10px;
-  }
-
-  .lux-collections__heading {
-    font-family: var(--lux-font-heading, "Playfair Display", Georgia, serif);
-    font-size: clamp(23px, 3vw, 33px);
-    font-weight: 400;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    line-height: 1.2;
-    color: var(--lcs-text);
-    margin: 0;
-  }
-
-  .lux-collections__ornament {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    max-width: 240px;
-    margin: 16px auto 0;
-  }
-
-  .lux-collections__ornament-line {
-    flex: 1;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--lcs-gold), transparent);
-    opacity: 0.55;
-  }
-
-  .lux-collections__ornament-diamond {
-    color: var(--lcs-gold);
-    font-size: 8px;
-    line-height: 1;
-    opacity: 0.85;
-  }
-
-  .lux-collections__intro {
-    font-family: var(--lux-font-body, "Inter", -apple-system, sans-serif);
-    font-size: 13.5px;
-    line-height: 1.7;
-    color: var(--lcs-muted);
-    max-width: 560px;
-    margin: 14px auto 0;
-  }
-
-  /* --- Grid --- */
-  .lux-collections__grid {
-    display: grid;
-    grid-template-columns: repeat(var(--lcs-cols, 3), minmax(0, 1fr));
-    column-gap: clamp(20px, 2.6vw, 32px);
-    row-gap: clamp(30px, 3.4vw, 44px);
-  }
-
-  /* --- Card --- */
-  .lux-colcard {
-    display: flex;
-    flex-direction: column;
-    text-decoration: none;
-    color: inherit;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  .lux-colcard__media {
-    position: relative;
-    aspect-ratio: 4 / 5;
-    overflow: hidden;
-    border-radius: 4px;
-    background: var(--lcs-media-bg);
-  }
-
-  .lux-colcard__img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    display: block;
-    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .lux-colcard__img--placeholder {
-    padding: 12%;
-    box-sizing: border-box;
-  }
-
-  .lux-colcard:hover .lux-colcard__img {
-    transform: scale(1.055);
-  }
-
-  .lux-colcard__veil {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.3) 100%);
-    opacity: 0.8;
-    transition: opacity 0.5s ease;
-    pointer-events: none;
-  }
-
-  .lux-colcard:hover .lux-colcard__veil {
-    opacity: 1;
-  }
-
-  .lux-colcard__index {
-    position: absolute;
-    top: 14px;
-    left: 16px;
-    z-index: 2;
-    font-family: var(--lux-font-heading, "Playfair Display", Georgia, serif);
-    font-style: italic;
-    font-size: 14px;
-    letter-spacing: 0.08em;
-    color: #ffffff;
-    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.45);
-  }
-
-  .lux-colcard__body {
-    padding-top: 15px;
-  }
-
-  .lux-colcard__rule {
-    display: block;
-    width: 26px;
-    height: 1px;
-    background: var(--lcs-gold);
-    margin-bottom: 11px;
-    transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .lux-colcard:hover .lux-colcard__rule {
-    width: 62px;
-  }
-
-  .lux-colcard__title {
-    font-family: var(--lux-font-heading, "Playfair Display", Georgia, serif);
-    font-size: clamp(16px, 1.5vw, 19px);
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    line-height: 1.3;
-    color: var(--lcs-text);
-    margin: 0;
-  }
-
-  .lux-colcard__meta {
-    font-family: var(--lux-font-body, "Inter", -apple-system, sans-serif);
-    font-size: 10.5px;
-    font-weight: 500;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    line-height: 1.7;
-    color: var(--lcs-muted);
-    margin: 5px 0 0;
-  }
-
-  .lux-colcard__meta-dot {
-    margin: 0 5px;
-    opacity: 0.6;
-  }
-
-  .lux-colcard__cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    margin-top: 11px;
-    font-family: var(--lux-font-body, "Inter", -apple-system, sans-serif);
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--lcs-gold);
-    opacity: 0.9;
-    transition: opacity 0.25s ease, color 0.25s ease;
-  }
-
-  .lux-colcard:hover .lux-colcard__cta {
-    opacity: 1;
-    color: var(--lcs-gold-hover);
-  }
-
-  .lux-colcard__cta-arrow {
-    transition: transform 0.25s ease;
-  }
-
-  .lux-colcard:hover .lux-colcard__cta-arrow {
-    transform: translateX(3px);
-  }
-
-  /* --- Footer button --- */
-  .lux-collections__footer {
-    text-align: center;
-    margin-top: clamp(28px, 3.4vw, 42px);
-  }
-
-  .lux-collections__button {
-    display: inline-flex;
-    align-items: center;
-    gap: 9px;
-    padding: 11px 26px;
-    border: 1px solid var(--lcs-gold);
-    border-radius: 3px;
-    background: transparent;
-    color: var(--lcs-gold);
-    font-family: var(--lux-font-body, "Inter", -apple-system, sans-serif);
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    text-decoration: none;
-    transition: background-color 0.3s ease, color 0.3s ease, transform 0.25s ease;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  .lux-collections__button:hover {
-    background: var(--lcs-gold);
-    color: var(--lcs-bg);
-    transform: translateY(-1px);
-  }
-
-  .lux-collections__button-arrow {
-    transition: transform 0.25s ease;
-  }
-
-  .lux-collections__button:hover .lux-collections__button-arrow {
-    transform: translateX(3px);
-  }
-
-  /* --- Tablet --- */
-  @media screen and (max-width: 1024px) {
-    .lux-collections__container {
-      padding: 0 24px;
-    }
-
-    .lux-collections__grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
-
-  /* --- Phone --- */
-  @media screen and (max-width: 600px) {
-    .lux-collections__container {
-      padding: 0 18px;
-    }
-
-    .lux-collections__grid {
-      grid-template-columns: repeat(var(--lcs-cols-mobile, 1), minmax(0, 1fr));
-      row-gap: 28px;
-    }
-
-    .lux-colcard__media {
-      aspect-ratio: 1 / 1;
-    }
-
-    .lux-colcard__index {
-      top: 12px;
-      left: 13px;
-      font-size: 12.5px;
-    }
-
-    .lux-colcard__body {
-      padding-top: 13px;
-    }
-
-    .lux-colcard__title {
-      font-size: 16px;
-    }
-
-    .lux-colcard__meta {
-      font-size: 10px;
-    }
-
-    .lux-collections__button {
-      width: 100%;
-      max-width: 320px;
-      justify-content: center;
-      padding: 12px 22px;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .lux-colcard__img,
-    .lux-colcard__rule,
-    .lux-colcard__cta-arrow,
-    .lux-collections__button,
-    .lux-collections__button-arrow {
-      transition: none !important;
-    }
-  }
-{% endstylesheet %}
-
 {% schema %}
 {
   "name": "Curated Collections",
   "tag": "section",
   "class": "section-luxury-collections",
+  "max_blocks": 8,
   "settings": [
-    {
-      "type": "header",
-      "content": "Color Scheme"
-    },
-    {
-      "type": "select",
-      "id": "color_scheme_preset",
-      "label": "Color Scheme",
-      "options": [
-        { "value": "light", "label": "Light Clean (White)" },
-        { "value": "warm", "label": "Warm Atelier (Ivory)" },
-        { "value": "dark", "label": "Dark Contemporary (#161616)" },
-        { "value": "obsidian", "label": "Obsidian Luxury (#0b0b0b)" }
-      ],
-      "default": "warm"
-    },
-    {
-      "type": "color",
-      "id": "custom_bg_color",
-      "label": "Custom Background Color"
-    },
-    {
-      "type": "color",
-      "id": "custom_text_color",
-      "label": "Custom Text Color"
-    },
-    {
-      "type": "header",
-      "content": "Content"
-    },
-    {
-      "type": "text",
-      "id": "subheading",
-      "label": "Subheading Label",
-      "default": "THE ATELIER UNIVERSE"
-    },
-    {
-      "type": "text",
-      "id": "heading",
-      "label": "Section Heading",
-      "default": "Explore Curated Collections"
-    },
-    {
-      "type": "textarea",
-      "id": "intro_text",
-      "label": "Intro Text (Optional)"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_piece_count",
-      "label": "Show Piece Count",
-      "info": "Displays the number of pieces when a Shopify collection is selected.",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "button_label",
-      "label": "Footer Button Label",
-      "default": "VIEW ALL COLLECTIONS"
-    },
-    {
-      "type": "url",
-      "id": "button_link",
-      "label": "Footer Button Link"
-    },
-    {
-      "type": "header",
-      "content": "Layout & Spacing"
-    },
-    {
-      "type": "range",
-      "id": "desktop_columns",
-      "min": 2,
-      "max": 4,
-      "step": 1,
-      "label": "Desktop Columns",
-      "default": 3
-    },
-    {
-      "type": "select",
-      "id": "mobile_columns",
-      "label": "Mobile Columns",
-      "options": [
-        { "value": "1", "label": "1 column" },
-        { "value": "2", "label": "2 columns" }
-      ],
-      "default": "1"
-    },
-    {
-      "type": "range",
-      "id": "padding_top",
-      "min": 0,
-      "max": 80,
-      "step": 4,
-      "unit": "px",
-      "label": "Padding Top",
-      "default": 36
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom",
-      "min": 0,
-      "max": 80,
-      "step": 4,
-      "unit": "px",
-      "label": "Padding Bottom",
-      "default": 40
-    }
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow / subheading", "default": "THE ATELIER UNIVERSE" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Explore Curated Collections" },
+    { "type": "richtext", "id": "intro", "label": "Intro text" },
+    { "type": "checkbox", "id": "show_ornament", "label": "Show ornament divider", "default": true },
+    { "type": "checkbox", "id": "show_piece_count", "label": "Show piece count", "info": "Displays the number of pieces when a Shopify collection is selected.", "default": true },
+    { "type": "select", "id": "header_align", "label": "Header alignment", "options": [
+      { "value": "center", "label": "Center" },
+      { "value": "left", "label": "Left" }
+    ], "default": "center" },
+    { "type": "range", "id": "header_mb", "min": 8, "max": 72, "step": 2, "unit": "px", "label": "Space below header — desktop", "default": 34 },
+    { "type": "range", "id": "header_gap", "min": 4, "max": 24, "step": 2, "unit": "px", "label": "Header element spacing", "default": 10 },
+
+    { "type": "header", "content": "Layout — Grid" },
+    { "type": "select", "id": "container_mode", "label": "Container mode", "options": [
+      { "value": "fixed", "label": "Container (max width)" },
+      { "value": "full", "label": "Full width" }
+    ], "default": "fixed" },
+    { "type": "range", "id": "container_max", "min": 1000, "max": 1600, "step": 20, "unit": "px", "label": "Container max width", "default": 1240 },
+    { "type": "range", "id": "columns", "min": 1, "max": 5, "step": 1, "label": "Columns — desktop", "default": 3 },
+    { "type": "range", "id": "columns_tablet", "min": 1, "max": 4, "step": 1, "label": "Columns — tablet", "default": 2 },
+    { "type": "select", "id": "columns_mobile", "label": "Columns — mobile", "options": [ { "value": "1", "label": "1 column" }, { "value": "2", "label": "2 columns" } ], "default": "1" },
+    { "type": "range", "id": "col_gap", "min": 8, "max": 64, "step": 2, "unit": "px", "label": "Column gap — desktop", "default": 28 },
+    { "type": "range", "id": "row_gap", "min": 8, "max": 80, "step": 2, "unit": "px", "label": "Row gap — desktop", "default": 36 },
+    { "type": "range", "id": "col_gap_m", "min": 8, "max": 40, "step": 2, "unit": "px", "label": "Column gap — mobile", "default": 16 },
+    { "type": "range", "id": "row_gap_m", "min": 8, "max": 48, "step": 2, "unit": "px", "label": "Row gap — mobile", "default": 28 },
+
+    { "type": "header", "content": "Cards" },
+    { "type": "select", "id": "image_ratio", "label": "Card image ratio — desktop", "options": [
+      { "value": "4/5", "label": "Portrait 4:5" },
+      { "value": "1/1", "label": "Square 1:1" },
+      { "value": "3/4", "label": "Portrait 3:4" },
+      { "value": "4/3", "label": "Landscape 4:3" },
+      { "value": "3/2", "label": "Landscape 3:2" },
+      { "value": "16/10", "label": "Wide 16:10" },
+      { "value": "auto", "label": "Natural (no crop)" }
+    ], "default": "4/5" },
+    { "type": "select", "id": "image_ratio_m", "label": "Card image ratio — mobile", "options": [
+      { "value": "4/5", "label": "Portrait 4:5" },
+      { "value": "1/1", "label": "Square 1:1" },
+      { "value": "3/4", "label": "Portrait 3:4" },
+      { "value": "4/3", "label": "Landscape 4:3" },
+      { "value": "3/2", "label": "Landscape 3:2" }
+    ], "default": "1/1" },
+    { "type": "select", "id": "image_fit", "label": "Card image fit", "options": [
+      { "value": "cover", "label": "Cover (fill, may crop)" },
+      { "value": "contain", "label": "Contain (no crop)" }
+    ], "default": "cover" },
+    { "type": "checkbox", "id": "show_veil", "label": "Show gradient veil on images", "default": true },
+    { "type": "checkbox", "id": "show_index", "label": "Show index numbers (N° 01)", "default": true },
+    { "type": "color", "id": "card_bg", "label": "Card background", "info": "Blank = transparent." },
+    { "type": "color", "id": "card_border_color", "label": "Card border color", "info": "Blank uses the scheme border." },
+    { "type": "range", "id": "card_border_width", "min": 0, "max": 3, "step": 1, "unit": "px", "label": "Card border width", "default": 0 },
+    { "type": "range", "id": "card_radius", "min": 0, "max": 24, "step": 1, "unit": "px", "label": "Card corner radius", "default": 4 },
+    { "type": "select", "id": "card_shadow", "label": "Card shadow", "options": [
+      { "value": "none", "label": "None" },
+      { "value": "subtle", "label": "Subtle" },
+      { "value": "medium", "label": "Medium" }
+    ], "default": "none" },
+    { "type": "select", "id": "card_align", "label": "Card text alignment", "options": [
+      { "value": "left", "label": "Left" },
+      { "value": "center", "label": "Center" }
+    ], "default": "left" },
+    { "type": "range", "id": "card_body_pt", "min": 6, "max": 32, "step": 1, "unit": "px", "label": "Space between image and text", "default": 15 },
+    { "type": "range", "id": "card_gap", "min": 2, "max": 16, "step": 1, "unit": "px", "label": "Card text spacing", "default": 6 },
+    { "type": "checkbox", "id": "show_card_rule", "label": "Show accent rule above title", "default": true },
+    { "type": "range", "id": "card_rule_width", "min": 12, "max": 80, "step": 2, "unit": "px", "label": "Accent rule width", "default": 26 },
+
+    { "type": "header", "content": "Typography — Card" },
+    { "type": "range", "id": "cardtitle_size", "min": 12, "max": 28, "step": 1, "unit": "px", "label": "Card title size — desktop", "default": 18 },
+    { "type": "range", "id": "cardtitle_size_m", "min": 12, "max": 24, "step": 1, "unit": "px", "label": "Card title size — mobile", "default": 16 },
+    { "type": "color", "id": "cardtitle_color", "label": "Card title color", "info": "Blank uses the text color." },
+    { "type": "range", "id": "cardmeta_size", "min": 9, "max": 14, "step": 0.5, "unit": "px", "label": "Card meta size", "default": 10.5 },
+    { "type": "color", "id": "cardmeta_color", "label": "Card meta color", "info": "Blank uses the muted color." },
+    { "type": "color", "id": "card_cta_color", "label": "Card link color", "info": "Blank uses the accent color." },
+    { "type": "range", "id": "card_cta_mt", "min": 0, "max": 20, "step": 2, "unit": "px", "label": "Card link top spacing", "default": 6 },
+
+    { "type": "header", "content": "Typography — Eyebrow" },
+    { "type": "select", "id": "eyebrow_font", "label": "Font family", "options": [
+      { "value": "heading", "label": "Theme heading font" },
+      { "value": "body", "label": "Theme body font" },
+      { "value": "subheading", "label": "Theme subheading font" },
+      { "value": "accent", "label": "Theme accent font" },
+      { "value": "serif", "label": "Serif (Georgia)" }
+    ], "default": "body" },
+    { "type": "range", "id": "eyebrow_size", "min": 9, "max": 16, "step": 1, "unit": "px", "label": "Font size — desktop", "default": 11 },
+    { "type": "range", "id": "eyebrow_size_m", "min": 9, "max": 16, "step": 1, "unit": "px", "label": "Font size — mobile", "default": 10 },
+    { "type": "select", "id": "eyebrow_weight", "label": "Font weight", "options": [
+      { "value": "400", "label": "Regular 400" },
+      { "value": "500", "label": "Medium 500" },
+      { "value": "600", "label": "Semibold 600" },
+      { "value": "700", "label": "Bold 700" }
+    ], "default": "600" },
+    { "type": "select", "id": "eyebrow_ls", "label": "Letter spacing", "options": [ { "value": "0em", "label": "None" }, { "value": "0.01em", "label": "0.01em" }, { "value": "0.02em", "label": "0.02em" }, { "value": "0.03em", "label": "0.03em" }, { "value": "0.04em", "label": "0.04em" }, { "value": "0.05em", "label": "0.05em" }, { "value": "0.06em", "label": "0.06em" }, { "value": "0.08em", "label": "0.08em" }, { "value": "0.1em", "label": "0.1em" }, { "value": "0.12em", "label": "0.12em" }, { "value": "0.14em", "label": "0.14em" }, { "value": "0.16em", "label": "0.16em" }, { "value": "0.18em", "label": "0.18em" }, { "value": "0.2em", "label": "0.2em" }, { "value": "0.22em", "label": "0.22em" }, { "value": "0.26em", "label": "0.26em" }, { "value": "0.3em", "label": "0.3em" }, { "value": "0.35em", "label": "0.35em" }, { "value": "0.4em", "label": "0.4em" } ], "default": "0.22em" },
+    { "type": "select", "id": "eyebrow_transform", "label": "Text transform", "options": [
+      { "value": "uppercase", "label": "Uppercase" },
+      { "value": "none", "label": "None" }
+    ], "default": "uppercase" },
+
+    { "type": "header", "content": "Typography — Heading" },
+    { "type": "select", "id": "heading_font", "label": "Font family", "options": [
+      { "value": "heading", "label": "Theme heading font" },
+      { "value": "body", "label": "Theme body font" },
+      { "value": "subheading", "label": "Theme subheading font" },
+      { "value": "accent", "label": "Theme accent font" },
+      { "value": "serif", "label": "Serif (Georgia)" }
+    ], "default": "heading" },
+    { "type": "range", "id": "heading_size", "min": 18, "max": 64, "step": 1, "unit": "px", "label": "Font size — desktop", "default": 30 },
+    { "type": "range", "id": "heading_size_m", "min": 16, "max": 40, "step": 1, "unit": "px", "label": "Font size — mobile", "default": 23 },
+    { "type": "select", "id": "heading_weight", "label": "Font weight", "options": [
+      { "value": "300", "label": "Light 300" },
+      { "value": "400", "label": "Regular 400" },
+      { "value": "500", "label": "Medium 500" },
+      { "value": "600", "label": "Semibold 600" }
+    ], "default": "400" },
+    { "type": "range", "id": "heading_lh", "min": 1, "max": 1.8, "step": 0.1, "label": "Line height", "default": 1.2 },
+    { "type": "select", "id": "heading_ls", "label": "Letter spacing", "options": [ { "value": "0em", "label": "None" }, { "value": "0.01em", "label": "0.01em" }, { "value": "0.02em", "label": "0.02em" }, { "value": "0.03em", "label": "0.03em" }, { "value": "0.04em", "label": "0.04em" }, { "value": "0.05em", "label": "0.05em" }, { "value": "0.06em", "label": "0.06em" }, { "value": "0.08em", "label": "0.08em" }, { "value": "0.1em", "label": "0.1em" }, { "value": "0.12em", "label": "0.12em" }, { "value": "0.14em", "label": "0.14em" }, { "value": "0.16em", "label": "0.16em" }, { "value": "0.18em", "label": "0.18em" }, { "value": "0.2em", "label": "0.2em" }, { "value": "0.22em", "label": "0.22em" }, { "value": "0.26em", "label": "0.26em" }, { "value": "0.3em", "label": "0.3em" }, { "value": "0.35em", "label": "0.35em" }, { "value": "0.4em", "label": "0.4em" } ], "default": "0.08em" },
+    { "type": "select", "id": "heading_transform", "label": "Text transform", "options": [
+      { "value": "uppercase", "label": "Uppercase" },
+      { "value": "none", "label": "None" },
+      { "value": "capitalize", "label": "Capitalize" }
+    ], "default": "uppercase" },
+    { "type": "range", "id": "heading_max_width", "min": 40, "max": 100, "step": 5, "unit": "%", "label": "Max width", "default": 100 },
+
+    { "type": "header", "content": "Typography — Intro / Body" },
+    { "type": "select", "id": "body_font", "label": "Font family", "options": [
+      { "value": "body", "label": "Theme body font" },
+      { "value": "heading", "label": "Theme heading font" },
+      { "value": "subheading", "label": "Theme subheading font" },
+      { "value": "serif", "label": "Serif (Georgia)" }
+    ], "default": "body" },
+    { "type": "range", "id": "body_size", "min": 12, "max": 22, "step": 1, "unit": "px", "label": "Font size — desktop", "default": 14 },
+    { "type": "range", "id": "body_size_m", "min": 12, "max": 20, "step": 1, "unit": "px", "label": "Font size — mobile", "default": 13 },
+    { "type": "select", "id": "body_weight", "label": "Font weight", "options": [
+      { "value": "300", "label": "Light 300" },
+      { "value": "400", "label": "Regular 400" },
+      { "value": "500", "label": "Medium 500" }
+    ], "default": "400" },
+    { "type": "range", "id": "body_lh", "min": 1.3, "max": 2.1, "step": 0.1, "label": "Line height", "default": 1.7 },
+    { "type": "select", "id": "body_ls", "label": "Letter spacing", "options": [ { "value": "0em", "label": "None" }, { "value": "0.01em", "label": "0.01em" }, { "value": "0.02em", "label": "0.02em" }, { "value": "0.03em", "label": "0.03em" }, { "value": "0.04em", "label": "0.04em" }, { "value": "0.05em", "label": "0.05em" }, { "value": "0.06em", "label": "0.06em" }, { "value": "0.08em", "label": "0.08em" }, { "value": "0.1em", "label": "0.1em" }, { "value": "0.12em", "label": "0.12em" }, { "value": "0.14em", "label": "0.14em" }, { "value": "0.16em", "label": "0.16em" }, { "value": "0.18em", "label": "0.18em" }, { "value": "0.2em", "label": "0.2em" }, { "value": "0.22em", "label": "0.22em" }, { "value": "0.26em", "label": "0.26em" }, { "value": "0.3em", "label": "0.3em" }, { "value": "0.35em", "label": "0.35em" }, { "value": "0.4em", "label": "0.4em" } ], "default": "0.01em" },
+    { "type": "range", "id": "body_max_width", "min": 40, "max": 100, "step": 5, "unit": "%", "label": "Max width", "default": 100 },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "select", "id": "color_preset", "label": "Color scheme preset", "options": [
+      { "value": "light", "label": "Light Clean (White)" },
+      { "value": "warm", "label": "Warm Atelier (Ivory)" },
+      { "value": "dark", "label": "Dark Contemporary" },
+      { "value": "obsidian", "label": "Obsidian Gold" }
+    ], "default": "warm" },
+    { "type": "color", "id": "color_bg", "label": "Background color override" },
+    { "type": "color", "id": "color_heading", "label": "Heading color override" },
+    { "type": "color", "id": "color_text", "label": "Text color override" },
+    { "type": "color", "id": "color_accent", "label": "Accent color override" },
+    { "type": "color", "id": "color_muted", "label": "Muted text override" },
+    { "type": "color", "id": "color_border", "label": "Border color override" },
+    { "type": "color", "id": "badge_bg", "label": "Card badge background", "default": "#b38b4d" },
+    { "type": "color", "id": "badge_text_color", "label": "Card badge text", "default": "#ffffff" },
+
+    { "type": "header", "content": "Footer Button" },
+    { "type": "text", "id": "btn_label", "label": "Button label", "default": "VIEW ALL COLLECTIONS" },
+    { "type": "url", "id": "btn_link", "label": "Button link" },
+    { "type": "select", "id": "btn_style", "label": "Button style", "options": [
+      { "value": "solid", "label": "Solid" },
+      { "value": "outline", "label": "Outline" }
+    ], "default": "outline" },
+    { "type": "range", "id": "btn_height", "min": 36, "max": 64, "step": 2, "unit": "px", "label": "Button height", "default": 46 },
+    { "type": "range", "id": "btn_px", "min": 12, "max": 48, "step": 2, "unit": "px", "label": "Button side padding", "default": 26 },
+    { "type": "range", "id": "btn_size", "min": 9, "max": 16, "step": 1, "unit": "px", "label": "Font size — desktop", "default": 11 },
+    { "type": "range", "id": "btn_size_m", "min": 9, "max": 16, "step": 1, "unit": "px", "label": "Font size — mobile", "default": 11 },
+    { "type": "select", "id": "btn_weight", "label": "Font weight", "options": [
+      { "value": "500", "label": "Medium 500" },
+      { "value": "600", "label": "Semibold 600" },
+      { "value": "700", "label": "Bold 700" }
+    ], "default": "600" },
+    { "type": "select", "id": "btn_ls", "label": "Letter spacing", "options": [ { "value": "0em", "label": "None" }, { "value": "0.01em", "label": "0.01em" }, { "value": "0.02em", "label": "0.02em" }, { "value": "0.03em", "label": "0.03em" }, { "value": "0.04em", "label": "0.04em" }, { "value": "0.05em", "label": "0.05em" }, { "value": "0.06em", "label": "0.06em" }, { "value": "0.08em", "label": "0.08em" }, { "value": "0.1em", "label": "0.1em" }, { "value": "0.12em", "label": "0.12em" }, { "value": "0.14em", "label": "0.14em" }, { "value": "0.16em", "label": "0.16em" }, { "value": "0.18em", "label": "0.18em" }, { "value": "0.2em", "label": "0.2em" }, { "value": "0.22em", "label": "0.22em" }, { "value": "0.26em", "label": "0.26em" }, { "value": "0.3em", "label": "0.3em" }, { "value": "0.35em", "label": "0.35em" }, { "value": "0.4em", "label": "0.4em" } ], "default": "0.18em" },
+    { "type": "select", "id": "btn_transform", "label": "Text transform", "options": [
+      { "value": "uppercase", "label": "Uppercase" },
+      { "value": "none", "label": "None" }
+    ], "default": "uppercase" },
+    { "type": "range", "id": "btn_radius", "min": 0, "max": 40, "step": 1, "unit": "px", "label": "Corner radius", "default": 3 },
+    { "type": "range", "id": "btn_border_width", "min": 0, "max": 4, "step": 1, "unit": "px", "label": "Border width", "default": 1 },
+    { "type": "color", "id": "btn_bg", "label": "Background / fill color", "info": "Blank uses the scheme color. Outline style uses this on hover." },
+    { "type": "color", "id": "btn_text", "label": "Text color", "info": "Blank uses the scheme color." },
+    { "type": "color", "id": "btn_border", "label": "Border color", "info": "Blank uses the scheme color." },
+    { "type": "color", "id": "btn_bg_hover", "label": "Hover background", "info": "Blank uses the scheme color." },
+    { "type": "color", "id": "btn_text_hover", "label": "Hover text", "info": "Blank uses the scheme color." },
+    { "type": "checkbox", "id": "btn_arrow", "label": "Show arrow icon", "default": true },
+    { "type": "select", "id": "btn_width", "label": "Button width", "options": [
+      { "value": "auto", "label": "Auto" },
+      { "value": "full", "label": "Full width" }
+    ], "default": "auto" },
+    { "type": "checkbox", "id": "btn_mobile_full", "label": "Full width on mobile", "default": false },
+    { "type": "range", "id": "footer_mt", "min": 8, "max": 72, "step": 2, "unit": "px", "label": "Space above button — desktop", "default": 38 },
+    { "type": "range", "id": "footer_mt_m", "min": 8, "max": 56, "step": 2, "unit": "px", "label": "Space above button — mobile", "default": 30 },
+
+    { "type": "header", "content": "Spacing" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding top — desktop", "default": 36 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding bottom — desktop", "default": 40 },
+    { "type": "range", "id": "padding_top_m", "min": 0, "max": 88, "step": 4, "unit": "px", "label": "Padding top — mobile", "default": 32 },
+    { "type": "range", "id": "padding_bottom_m", "min": 0, "max": 88, "step": 4, "unit": "px", "label": "Padding bottom — mobile", "default": 36 },
+    { "type": "range", "id": "container_padding", "min": 0, "max": 64, "step": 2, "unit": "px", "label": "Container side padding — desktop", "default": 32 },
+    { "type": "range", "id": "container_padding_m", "min": 0, "max": 32, "step": 2, "unit": "px", "label": "Container side padding — mobile", "default": 18 },
+
+    { "type": "header", "content": "Animation" },
+    { "type": "checkbox", "id": "enable_animations", "label": "Enable subtle motion", "info": "Off by default — cards render completely static. When enabled, the hover effect below becomes active.", "default": false },
+    { "type": "select", "id": "card_hover", "label": "Card hover effect", "info": "Requires 'Enable subtle motion' above.", "options": [
+      { "value": "none", "label": "None" },
+      { "value": "zoom", "label": "Image zoom" },
+      { "value": "lift", "label": "Card lift" },
+      { "value": "border", "label": "Border accent" }
+    ], "default": "none" },
+
+    { "type": "header", "content": "Advanced" },
+    { "type": "text", "id": "anchor_id", "label": "Anchor ID" },
+    { "type": "text", "id": "custom_class", "label": "Custom CSS class" }
   ],
-  "max_blocks": 6,
   "blocks": [
     {
       "type": "collection-card",
       "name": "Collection Card",
       "settings": [
-        {
-          "type": "collection",
-          "id": "collection",
-          "label": "Shopify Collection"
-        },
-        {
-          "type": "image_picker",
-          "id": "image",
-          "label": "Custom Image",
-          "info": "Overrides the collection image."
-        },
-        {
-          "type": "text",
-          "id": "default_asset",
-          "label": "Fallback Asset Filename",
-          "info": "Theme asset used when no collection or image is set."
-        },
-        {
-          "type": "text",
-          "id": "title",
-          "label": "Title Override"
-        },
-        {
-          "type": "text",
-          "id": "subtitle",
-          "label": "Subtitle",
-          "default": "Curated atelier selection"
-        },
-        {
-          "type": "text",
-          "id": "cta_label",
-          "label": "CTA Label",
-          "default": "Discover"
-        },
-        {
-          "type": "url",
-          "id": "link",
-          "label": "Link Override"
-        }
+        { "type": "collection", "id": "collection", "label": "Shopify collection" },
+        { "type": "image_picker", "id": "image", "label": "Desktop image", "info": "Overrides the collection image." },
+        { "type": "image_picker", "id": "image_mobile", "label": "Mobile image", "info": "Optional separate image shown below 750px." },
+        { "type": "text", "id": "default_asset", "label": "Fallback asset filename", "info": "Theme asset used when no collection or image is set." },
+        { "type": "text", "id": "title", "label": "Title override" },
+        { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Curated atelier selection" },
+        { "type": "text", "id": "badge", "label": "Badge text", "info": "Optional pill in the image corner." },
+        { "type": "text", "id": "cta_label", "label": "Link label", "default": "Discover" },
+        { "type": "url", "id": "link", "label": "Link override" }
       ]
     }
   ],
@@ -798,30 +519,9 @@
     {
       "name": "Curated Collections",
       "blocks": [
-        {
-          "type": "collection-card",
-          "settings": {
-            "title": "Original Oil Paintings",
-            "subtitle": "Hand-painted canvas masterworks",
-            "default_asset": "art-painting-abstract-oil.jpg"
-          }
-        },
-        {
-          "type": "collection-card",
-          "settings": {
-            "title": "Bronze & Marble Sculptures",
-            "subtitle": "Cast & carved heirloom forms",
-            "default_asset": "art-sculpture-rodin-thinker.jpg"
-          }
-        },
-        {
-          "type": "collection-card",
-          "settings": {
-            "title": "3D Sajawat & Art Models",
-            "subtitle": "Architectural decorative objects",
-            "default_asset": "art-sculpture-modern-model.jpg"
-          }
-        }
+        { "type": "collection-card", "settings": { "title": "Original Oil Paintings", "subtitle": "Hand-painted canvas masterworks", "default_asset": "art-painting-abstract-oil.jpg" } },
+        { "type": "collection-card", "settings": { "title": "Bronze & Marble Sculptures", "subtitle": "Cast & carved heirloom forms", "default_asset": "art-sculpture-rodin-thinker.jpg" } },
+        { "type": "collection-card", "settings": { "title": "3D Sajawat & Art Models", "subtitle": "Architectural decorative objects", "default_asset": "art-sculpture-modern-model.jpg" } }
       ]
     }
   ]
