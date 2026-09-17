@@ -1,18 +1,20 @@
 {%- comment -%}
   Renders the editorial "NEW ARRIVALS" 6-card asymmetrical masonry gallery.
-  Matches reference design: 
+  Wide luxury layout:
   Left Column: 2 Top Squares + 1 Bottom Wide Landscape
-  Right Column: 1 Top Tall Vertical Cabinet + 2 Bottom Squares
+  Right Column: 1 Top Feature + 2 Bottom Squares
 {%- endcomment -%}
 
 {% liquid
   assign section_id = section.id
   assign subheading = section.settings.subheading | default: 'the'
-  assign heading = section.settings.heading | default: 'N E W   A R R I V A L S'
+  assign heading = section.settings.heading | default: 'NEW ARRIVALS'
   assign show_underline = section.settings.show_underline
-  assign gap = section.settings.gap | default: 16
+  assign gap = section.settings.gap | default: 18
   assign corner_radius = section.settings.corner_radius | default: 0
   assign enable_hover_zoom = section.settings.enable_hover_zoom
+  assign full_width = section.settings.full_width
+  assign show_caption = section.settings.show_caption_on_hover
 
   assign card_1_img = section.settings.card_1_image
   assign card_1_link = section.settings.card_1_link
@@ -41,24 +43,24 @@
 
 <div
   id="NewArrivalsGallery-{{ section_id }}"
-  class="new-arrivals-gallery section-{{ section_id }}"
+  class="new-arrivals-gallery section-{{ section_id }}{% if full_width %} new-arrivals-gallery--full{% endif %}"
   style="
     --nag-bg: {{ section.settings.background_color | default: '#ffffff' }};
     --nag-heading-color: {{ section.settings.heading_color | default: '#111111' }};
     --nag-heading-size: {{ section.settings.heading_size | default: 20 }}px;
-    --nag-heading-spacing: {{ section.settings.heading_letter_spacing | default: '0.35em' }};
-    --nag-underline-width: {{ section.settings.underline_width | default: 44 }}px;
+    --nag-heading-spacing: {{ section.settings.heading_letter_spacing | default: '0.5em' }};
+    --nag-underline-width: {{ section.settings.underline_width | default: 48 }}px;
     --nag-underline-color: {{ section.settings.underline_color | default: '#111111' }};
     --nag-gap: {{ gap }}px;
     --nag-radius: {{ corner_radius }}px;
-    --nag-max-width: {{ section.settings.max_width | default: 1280 }}px;
+    --nag-max-width: {{ section.settings.max_width | default: 1680 }}px;
     --nag-padding-top: {{ section.settings.padding_top | default: 60 }}px;
     --nag-padding-bottom: {{ section.settings.padding_bottom | default: 60 }}px;
   "
   {{ section.shopify_attributes }}
 >
   <div class="new-arrivals-gallery__container">
-    
+
     {%- comment -%} Header Title with Script Subheading & Underline {%- endcomment -%}
     <div class="new-arrivals-gallery__header">
       {% if subheading != blank %}
@@ -74,35 +76,37 @@
 
     {%- comment -%} 6-Item Masonry Grid {%- endcomment -%}
     <div class="new-arrivals-gallery__grid">
-      
+
       {%- comment -%} LEFT COLUMN: 2 Top Split Cards + 1 Bottom Large Card {%- endcomment -%}
       <div class="new-arrivals-gallery__column new-arrivals-gallery__column--left">
-        
+
         <!-- Top Split Row (Card 1 & Card 2) -->
         <div class="new-arrivals-gallery__row-split">
-          
+
           <!-- Card 1 -->
-          <div class="new-arrivals-gallery__card new-arrivals-gallery__card--split">
+          <div class="new-arrivals-gallery__card new-arrivals-gallery__card--split" style="--nag-index: 0;">
             {% if card_1_link != blank %}<a href="{{ card_1_link }}" class="new-arrivals-gallery__card-link" aria-label="{{ card_1_alt }}">{% endif %}
-              <div class="new-arrivals-gallery__media{% if enable_hover_zoom %} new-arrivals-gallery__media--zoom{% endif %}">
+              <div class="new-arrivals-gallery__media{% if enable_hover_zoom %} new-arrivals-gallery__media--zoom{% endif %}{% if show_caption %} new-arrivals-gallery__media--caption{% endif %}">
                 {% if card_1_img != blank %}
-                  {{ card_1_img | image_url: width: 1000 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_1_alt }}
+                  {{ card_1_img | image_url: width: 1400 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_1_alt }}
                 {% else %}
                   <img src="{{ 'new-arrival-1.jpg' | asset_url }}" alt="{{ card_1_alt }}" class="new-arrivals-gallery__img" loading="eager" width="600" height="700">
                 {% endif %}
+                {% if show_caption %}<span class="new-arrivals-gallery__caption">{{ card_1_alt }}</span>{% endif %}
               </div>
             {% if card_1_link != blank %}</a>{% endif %}
           </div>
 
           <!-- Card 2 -->
-          <div class="new-arrivals-gallery__card new-arrivals-gallery__card--split">
+          <div class="new-arrivals-gallery__card new-arrivals-gallery__card--split" style="--nag-index: 1;">
             {% if card_2_link != blank %}<a href="{{ card_2_link }}" class="new-arrivals-gallery__card-link" aria-label="{{ card_2_alt }}">{% endif %}
-              <div class="new-arrivals-gallery__media{% if enable_hover_zoom %} new-arrivals-gallery__media--zoom{% endif %}">
+              <div class="new-arrivals-gallery__media{% if enable_hover_zoom %} new-arrivals-gallery__media--zoom{% endif %}{% if show_caption %} new-arrivals-gallery__media--caption{% endif %}">
                 {% if card_2_img != blank %}
-                  {{ card_2_img | image_url: width: 1000 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_2_alt }}
+                  {{ card_2_img | image_url: width: 1400 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_2_alt }}
                 {% else %}
                   <img src="{{ 'new-arrival-2.jpg' | asset_url }}" alt="{{ card_2_alt }}" class="new-arrivals-gallery__img" loading="eager" width="600" height="700">
                 {% endif %}
+                {% if show_caption %}<span class="new-arrivals-gallery__caption">{{ card_2_alt }}</span>{% endif %}
               </div>
             {% if card_2_link != blank %}</a>{% endif %}
           </div>
@@ -110,61 +114,65 @@
         </div>
 
         <!-- Bottom Wide Card 3 -->
-        <div class="new-arrivals-gallery__card new-arrivals-gallery__card--wide">
+        <div class="new-arrivals-gallery__card new-arrivals-gallery__card--wide" style="--nag-index: 2;">
           {% if card_3_link != blank %}<a href="{{ card_3_link }}" class="new-arrivals-gallery__card-link" aria-label="{{ card_3_alt }}">{% endif %}
-            <div class="new-arrivals-gallery__media{% if enable_hover_zoom %} new-arrivals-gallery__media--zoom{% endif %}">
+            <div class="new-arrivals-gallery__media{% if enable_hover_zoom %} new-arrivals-gallery__media--zoom{% endif %}{% if show_caption %} new-arrivals-gallery__media--caption{% endif %}">
               {% if card_3_img != blank %}
-                {{ card_3_img | image_url: width: 1600 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_3_alt }}
+                {{ card_3_img | image_url: width: 2000 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_3_alt }}
               {% else %}
                 <img src="{{ 'new-arrival-3.jpg' | asset_url }}" alt="{{ card_3_alt }}" class="new-arrivals-gallery__img" loading="eager" width="1200" height="910">
               {% endif %}
+              {% if show_caption %}<span class="new-arrivals-gallery__caption">{{ card_3_alt }}</span>{% endif %}
             </div>
           {% if card_3_link != blank %}</a>{% endif %}
         </div>
 
       </div>
 
-      {%- comment -%} RIGHT COLUMN: 1 Top Tall Card + 2 Bottom Split Cards {%- endcomment -%}
+      {%- comment -%} RIGHT COLUMN: 1 Top Feature Card + 2 Bottom Split Cards {%- endcomment -%}
       <div class="new-arrivals-gallery__column new-arrivals-gallery__column--right">
-        
-        <!-- Top Tall Card 4 -->
-        <div class="new-arrivals-gallery__card new-arrivals-gallery__card--tall">
+
+        <!-- Top Feature Card 4 -->
+        <div class="new-arrivals-gallery__card new-arrivals-gallery__card--tall" style="--nag-index: 3;">
           {% if card_4_link != blank %}<a href="{{ card_4_link }}" class="new-arrivals-gallery__card-link" aria-label="{{ card_4_alt }}">{% endif %}
-            <div class="new-arrivals-gallery__media{% if enable_hover_zoom %} new-arrivals-gallery__media--zoom{% endif %}">
+            <div class="new-arrivals-gallery__media{% if enable_hover_zoom %} new-arrivals-gallery__media--zoom{% endif %}{% if show_caption %} new-arrivals-gallery__media--caption{% endif %}">
               {% if card_4_img != blank %}
-                {{ card_4_img | image_url: width: 1200 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_4_alt }}
+                {{ card_4_img | image_url: width: 2000 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_4_alt }}
               {% else %}
                 <img src="{{ 'new-arrival-4.jpg' | asset_url }}" alt="{{ card_4_alt }}" class="new-arrivals-gallery__img" loading="eager" width="1200" height="910">
               {% endif %}
+              {% if show_caption %}<span class="new-arrivals-gallery__caption">{{ card_4_alt }}</span>{% endif %}
             </div>
           {% if card_4_link != blank %}</a>{% endif %}
         </div>
 
         <!-- Bottom Split Row (Card 5 & Card 6) -->
         <div class="new-arrivals-gallery__row-split">
-          
+
           <!-- Card 5 -->
-          <div class="new-arrivals-gallery__card new-arrivals-gallery__card--split">
+          <div class="new-arrivals-gallery__card new-arrivals-gallery__card--split" style="--nag-index: 4;">
             {% if card_5_link != blank %}<a href="{{ card_5_link }}" class="new-arrivals-gallery__card-link" aria-label="{{ card_5_alt }}">{% endif %}
-              <div class="new-arrivals-gallery__media{% if enable_hover_zoom %} new-arrivals-gallery__media--zoom{% endif %}">
+              <div class="new-arrivals-gallery__media{% if enable_hover_zoom %} new-arrivals-gallery__media--zoom{% endif %}{% if show_caption %} new-arrivals-gallery__media--caption{% endif %}">
                 {% if card_5_img != blank %}
-                  {{ card_5_img | image_url: width: 1000 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_5_alt }}
+                  {{ card_5_img | image_url: width: 1400 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_5_alt }}
                 {% else %}
                   <img src="{{ 'new-arrival-5.jpg' | asset_url }}" alt="{{ card_5_alt }}" class="new-arrivals-gallery__img" loading="eager" width="600" height="700">
                 {% endif %}
+                {% if show_caption %}<span class="new-arrivals-gallery__caption">{{ card_5_alt }}</span>{% endif %}
               </div>
             {% if card_5_link != blank %}</a>{% endif %}
           </div>
 
           <!-- Card 6 -->
-          <div class="new-arrivals-gallery__card new-arrivals-gallery__card--split">
+          <div class="new-arrivals-gallery__card new-arrivals-gallery__card--split" style="--nag-index: 5;">
             {% if card_6_link != blank %}<a href="{{ card_6_link }}" class="new-arrivals-gallery__card-link" aria-label="{{ card_6_alt }}">{% endif %}
-              <div class="new-arrivals-gallery__media{% if enable_hover_zoom %} new-arrivals-gallery__media--zoom{% endif %}">
+              <div class="new-arrivals-gallery__media{% if enable_hover_zoom %} new-arrivals-gallery__media--zoom{% endif %}{% if show_caption %} new-arrivals-gallery__media--caption{% endif %}">
                 {% if card_6_img != blank %}
-                  {{ card_6_img | image_url: width: 1000 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_6_alt }}
+                  {{ card_6_img | image_url: width: 1400 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_6_alt }}
                 {% else %}
                   <img src="{{ 'new-arrival-6.jpg' | asset_url }}" alt="{{ card_6_alt }}" class="new-arrivals-gallery__img" loading="eager" width="600" height="700">
                 {% endif %}
+                {% if show_caption %}<span class="new-arrivals-gallery__caption">{{ card_6_alt }}</span>{% endif %}
               </div>
             {% if card_6_link != blank %}</a>{% endif %}
           </div>
@@ -174,16 +182,6 @@
       </div>
 
     </div>
-
-    <!-- Mobile Slider Dots Indicator -->
-    <div class="new-arrivals-gallery__mobile-dots" id="NagDots-{{ section_id }}" aria-hidden="true">
-      <span class="new-arrivals-gallery__dot is-active" data-index="0"></span>
-      <span class="new-arrivals-gallery__dot" data-index="1"></span>
-      <span class="new-arrivals-gallery__dot" data-index="2"></span>
-      <span class="new-arrivals-gallery__dot" data-index="3"></span>
-      <span class="new-arrivals-gallery__dot" data-index="4"></span>
-      <span class="new-arrivals-gallery__dot" data-index="5"></span>
-    </div>
   </div>
 </div>
 
@@ -192,42 +190,24 @@
     const section = document.getElementById('NewArrivalsGallery-{{ section_id }}');
     if (!section) return;
     const grid = section.querySelector('.new-arrivals-gallery__grid');
-    const dots = section.querySelectorAll('.new-arrivals-gallery__dot');
-    if (!grid || !dots.length) return;
+    if (!grid) return;
 
-    let isScrolling;
-    grid.addEventListener('scroll', function() {
-      window.clearTimeout(isScrolling);
-      isScrolling = setTimeout(function() {
-        const cards = section.querySelectorAll('.new-arrivals-gallery__card');
-        if (!cards.length) return;
-        const scrollLeft = grid.scrollLeft;
-        let activeIdx = 0;
-        let minDiff = Infinity;
-        cards.forEach((card, idx) => {
-          const diff = Math.abs(card.offsetLeft - scrollLeft);
-          if (diff < minDiff) {
-            minDiff = diff;
-            activeIdx = idx;
+    /* Scroll-reveal: JS present -> animate cards in; without JS cards stay visible */
+    section.classList.add('nag-js');
+    const cards = section.querySelectorAll('.new-arrivals-gallery__card');
+    if ('IntersectionObserver' in window) {
+      const revealObserver = new IntersectionObserver(function(entries, observer) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-revealed');
+            observer.unobserve(entry.target);
           }
         });
-        dots.forEach((dot, idx) => {
-          dot.classList.toggle('is-active', idx === activeIdx);
-        });
-      }, 50);
-    }, { passive: true });
-
-    dots.forEach((dot, idx) => {
-      dot.addEventListener('click', function() {
-        const cards = section.querySelectorAll('.new-arrivals-gallery__card');
-        if (cards[idx]) {
-          grid.scrollTo({
-            left: cards[idx].offsetLeft - grid.offsetLeft,
-            behavior: 'smooth'
-          });
-        }
-      });
-    });
+      }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+      cards.forEach(function(card) { revealObserver.observe(card); });
+    } else {
+      cards.forEach(function(card) { card.classList.add('is-revealed'); });
+    }
   })();
 </script>
 
@@ -235,8 +215,8 @@
   .new-arrivals-gallery {
     background-color: var(--nag-bg, #ffffff);
     width: 100%;
-    padding-block-start: var(--nag-padding-top, 48px);
-    padding-block-end: var(--nag-padding-bottom, 64px);
+    padding-block-start: var(--nag-padding-top, 60px);
+    padding-block-end: var(--nag-padding-bottom, 72px);
     position: relative;
     box-sizing: border-box;
     display: block !important;
@@ -245,15 +225,20 @@
   }
 
   .new-arrivals-gallery__container {
-    max-width: var(--nag-max-width, 980px) !important;
+    max-width: var(--nag-max-width, 1680px) !important;
     margin-inline: auto !important;
-    padding-inline: 20px !important;
+    padding-inline: clamp(20px, 4vw, 64px) !important;
     box-sizing: border-box !important;
+  }
+
+  /* Full-width mode: break out of the max-width cage, keep a refined side gutter */
+  .new-arrivals-gallery--full .new-arrivals-gallery__container {
+    max-width: none !important;
   }
 
   .new-arrivals-gallery__header {
     text-align: center !important;
-    margin-block-end: 28px !important;
+    margin-block-end: clamp(24px, 3vw, 38px) !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
@@ -261,38 +246,40 @@
   }
 
   .new-arrivals-gallery__subheading {
-    font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif !important;
+    font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, 'Times New Roman', serif !important;
     font-style: italic !important;
-    font-size: 22px !important;
+    font-size: clamp(22px, 2vw, 30px) !important;
     color: var(--nag-heading-color, #111111) !important;
-    margin-bottom: 2px !important;
+    margin-bottom: 4px !important;
     letter-spacing: 0.02em !important;
     opacity: 0.9 !important;
     line-height: 1.1 !important;
   }
 
   .new-arrivals-gallery__heading {
-    font-size: var(--nag-heading-size, 18px) !important;
-    letter-spacing: var(--nag-heading-spacing, 0.32em) !important;
+    font-size: var(--nag-heading-size, 20px) !important;
+    letter-spacing: var(--nag-heading-spacing, 0.5em) !important;
+    /* optical centering: letter-spacing adds a trailing gap after the last glyph */
+    margin: 0 !important;
+    margin-inline-end: calc(-1 * var(--nag-heading-spacing, 0.5em)) !important;
     font-weight: 500 !important;
     text-transform: uppercase !important;
     color: var(--nag-heading-color, #111111) !important;
-    margin: 0 !important;
     line-height: 1.2 !important;
   }
 
   .new-arrivals-gallery__underline {
-    width: var(--nag-underline-width, 36px) !important;
-    height: 1.5px !important;
+    width: var(--nag-underline-width, 48px) !important;
+    height: 1px !important;
     background-color: var(--nag-underline-color, #111111) !important;
-    margin-top: 8px !important;
+    margin-top: 12px !important;
   }
 
-  /* Grid Layout: Desktop 2 Columns with Equal Height Balance */
+  /* Grid Layout: Desktop 2 Columns with aligned bottom edges */
   .new-arrivals-gallery__grid {
     display: grid !important;
     grid-template-columns: 1fr 1fr !important;
-    gap: var(--nag-gap, 14px) !important;
+    gap: var(--nag-gap, 18px) !important;
     width: 100% !important;
     align-items: stretch !important;
   }
@@ -300,36 +287,59 @@
   .new-arrivals-gallery__column {
     display: flex !important;
     flex-direction: column !important;
-    gap: var(--nag-gap, 14px) !important;
+    gap: var(--nag-gap, 18px) !important;
     width: 100% !important;
   }
 
   .new-arrivals-gallery__row-split {
     display: grid !important;
     grid-template-columns: 1fr 1fr !important;
-    gap: var(--nag-gap, 14px) !important;
+    gap: var(--nag-gap, 18px) !important;
     width: 100% !important;
+    height: clamp(240px, 28vh, 380px) !important;
   }
 
   .new-arrivals-gallery__card {
     position: relative !important;
     overflow: hidden !important;
     border-radius: var(--nag-radius, 0px) !important;
-    background-color: #f6f6f6 !important;
+    background-color: #f6f6f4 !important;
     width: 100% !important;
     display: block !important;
   }
 
+  /* Viewport-fit heights: full-width grandeur that still fits one screen (28vh + 42vh rows) */
   .new-arrivals-gallery__card--split {
-    aspect-ratio: 1 / 1.18 !important;
+    aspect-ratio: auto !important;
+    height: 100% !important;
   }
 
-  .new-arrivals-gallery__card--wide {
-    aspect-ratio: 1.32 / 1 !important;
-  }
-
+  .new-arrivals-gallery__card--wide,
   .new-arrivals-gallery__card--tall {
-    aspect-ratio: 1.32 / 1 !important;
+    aspect-ratio: auto !important;
+    height: clamp(320px, 42vh, 520px) !important;
+  }
+
+  /* Scroll-reveal (only animates when JS marks the section) */
+  .nag-js .new-arrivals-gallery__card {
+    opacity: 0;
+    transform: translateY(26px);
+    transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    transition-delay: calc(var(--nag-index, 0) * 90ms);
+    will-change: opacity, transform;
+  }
+
+  .nag-js .new-arrivals-gallery__card.is-revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nag-js .new-arrivals-gallery__card {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+    }
   }
 
   .new-arrivals-gallery__card-link {
@@ -354,92 +364,116 @@
     object-fit: cover !important;
     object-position: center !important;
     display: block !important;
-    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) !important;
   }
 
-  .new-arrivals-gallery__media--zoom:hover .new-arrivals-gallery__img {
-    transform: scale(1.04) !important;
+  .new-arrivals-gallery__media--zoom:hover .new-arrivals-gallery__img,
+  .new-arrivals-gallery__media--zoom:focus-within .new-arrivals-gallery__img {
+    transform: scale(1.05) !important;
   }
 
-  .new-arrivals-gallery__mobile-dots {
-    display: none !important;
+  /* Luxury hover caption with soft bottom veil */
+  .new-arrivals-gallery__caption {
+    position: absolute !important;
+    inset-inline: 0 !important;
+    bottom: 0 !important;
+    z-index: 2 !important;
+    padding: 44px 18px 14px !important;
+    font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif !important;
+    font-style: italic !important;
+    font-size: clamp(15px, 1.1vw, 19px) !important;
+    letter-spacing: 0.03em !important;
+    color: #ffffff !important;
+    text-align: center !important;
+    opacity: 0 !important;
+    transform: translateY(10px) !important;
+    transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    pointer-events: none !important;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.42) 0%, rgba(0, 0, 0, 0) 100%) !important;
   }
 
-  /* Mobile Responsive Touch Slider & Spacing Normalization */
-  @media screen and (max-width: 749px) {
+  .new-arrivals-gallery__media--caption:hover .new-arrivals-gallery__caption,
+  .new-arrivals-gallery__media--caption:focus-within .new-arrivals-gallery__caption {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
+
+  /* Mobile: same editorial collage, stacked in one column (no slider) */
+  @media screen and (max-width: 989px) {
     .new-arrivals-gallery {
-      padding-block-start: clamp(24px, 5vw, 34px) !important;
-      padding-block-end: clamp(26px, 5vw, 36px) !important;
+      padding-block-start: clamp(24px, 5vw, 36px) !important;
+      padding-block-end: clamp(28px, 5vw, 40px) !important;
+    }
+
+    .new-arrivals-gallery__container {
+      padding-inline: clamp(16px, 5vw, 24px) !important;
     }
 
     .new-arrivals-gallery__header {
       margin-block-end: 18px !important;
+      padding-inline: 0 !important;
     }
 
-    .new-arrivals-gallery__container {
-      padding-inline: 18px !important;
-      overflow: hidden !important;
+    .new-arrivals-gallery__subheading {
+      font-size: 22px !important;
     }
 
     .new-arrivals-gallery__grid {
+      display: grid !important;
+      grid-template-columns: 1fr !important;
+      gap: var(--nag-gap, 18px) !important;
+      width: 100% !important;
+    }
+
+    .new-arrivals-gallery__column {
       display: flex !important;
-      flex-direction: row !important;
-      flex-wrap: nowrap !important;
-      overflow-x: auto !important;
-      overflow-y: hidden !important;
-      scroll-snap-type: x mandatory !important;
-      -webkit-overflow-scrolling: touch !important;
-      gap: 12px !important;
-      padding-inline: 18px !important;
-      margin-inline: -18px !important;
-      scrollbar-width: none !important;
-      -ms-overflow-style: none !important;
+      flex-direction: column !important;
+      gap: var(--nag-gap, 18px) !important;
+      width: 100% !important;
     }
 
-    .new-arrivals-gallery__grid::-webkit-scrollbar {
-      display: none !important;
-    }
-
-    .new-arrivals-gallery__column,
     .new-arrivals-gallery__row-split {
-      display: contents !important;
+      display: grid !important;
+      grid-template-columns: 1fr 1fr !important;
+      gap: var(--nag-gap, 18px) !important;
+      width: 100% !important;
+      height: auto !important;
     }
 
     .new-arrivals-gallery__card {
-      flex: 0 0 76% !important;
-      max-width: 290px !important;
-      scroll-snap-align: start !important;
-      scroll-snap-stop: always !important;
-      aspect-ratio: 1 / 1.18 !important;
+      width: 100% !important;
     }
 
-    .new-arrivals-gallery__card--split,
-    .new-arrivals-gallery__card--wide,
+    .new-arrivals-gallery__card--split {
+      aspect-ratio: 1 / 1.12 !important;
+      height: auto !important;
+    }
+
+    .new-arrivals-gallery__card--wide {
+      aspect-ratio: 3 / 2 !important;
+      height: auto !important;
+    }
+
     .new-arrivals-gallery__card--tall {
-      aspect-ratio: 1 / 1.18 !important;
+      aspect-ratio: 1 / 1.05 !important;
+      height: auto !important;
     }
 
-    .new-arrivals-gallery__mobile-dots {
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      gap: 6px !important;
-      margin-top: 16px !important;
+    .new-arrivals-gallery__media {
+      width: 100% !important;
+      height: 100% !important;
+      border-radius: 0 !important;
     }
 
-    .new-arrivals-gallery__dot {
-      width: 6px !important;
-      height: 6px !important;
-      border-radius: 50% !important;
-      background-color: #d8d8d8 !important;
-      cursor: pointer !important;
-      transition: all 0.28s ease !important;
+    .new-arrivals-gallery__img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
     }
 
-    .new-arrivals-gallery__dot.is-active {
-      width: 22px !important;
-      border-radius: 4px !important;
-      background-color: var(--nag-heading-color, #111111) !important;
+    /* no hover on touch: captions stay desktop-only */
+    .new-arrivals-gallery__caption {
+      display: none !important;
     }
   }
 {% endstylesheet %}
@@ -464,7 +498,7 @@
       "type": "text",
       "id": "heading",
       "label": "Main Heading",
-      "default": "N E W   A R R I V A L S"
+      "default": "NEW ARRIVALS"
     },
     {
       "type": "range",
@@ -480,7 +514,7 @@
       "type": "text",
       "id": "heading_letter_spacing",
       "label": "Heading Letter Spacing",
-      "default": "0.35em"
+      "default": "0.5em"
     },
     {
       "type": "color",
@@ -502,7 +536,7 @@
       "step": 2,
       "unit": "px",
       "label": "Underline Width",
-      "default": 44
+      "default": 48
     },
     {
       "type": "color",
@@ -572,7 +606,7 @@
     },
     {
       "type": "header",
-      "content": "Right Column - Top Tall (Card 4)"
+      "content": "Right Column - Top Feature (Card 4)"
     },
     {
       "type": "image_picker",
@@ -635,24 +669,32 @@
       "content": "Layout & Animation Settings"
     },
     {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width (edge to edge)",
+      "info": "Grid stretches across the whole screen with a small side gutter. Turn off to cap it at the max width below.",
+      "default": true
+    },
+    {
       "type": "range",
       "id": "max_width",
-      "min": 500,
-      "max": 1600,
+      "min": 800,
+      "max": 2200,
       "step": 20,
       "unit": "px",
       "label": "Grid Max Width",
-      "default": 1080
+      "info": "Only applies when full width is off.",
+      "default": 1680
     },
     {
       "type": "range",
       "id": "gap",
       "min": 8,
-      "max": 36,
+      "max": 40,
       "step": 2,
       "unit": "px",
       "label": "Image Grid Gap",
-      "default": 14
+      "default": 18
     },
     {
       "type": "range",
@@ -668,6 +710,13 @@
       "type": "checkbox",
       "id": "enable_hover_zoom",
       "label": "Enable Image Hover Zoom",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_caption_on_hover",
+      "label": "Show caption on hover",
+      "info": "Product name fades in over the image with a soft dark veil (desktop only).",
       "default": true
     },
     {
@@ -694,7 +743,7 @@
       "step": 4,
       "unit": "px",
       "label": "Padding Bottom",
-      "default": 64
+      "default": 56
     }
   ],
   "presets": [
@@ -702,10 +751,11 @@
       "name": "New Arrivals Gallery",
       "settings": {
         "subheading": "the",
-        "heading": "N E W   A R R I V A L S",
+        "heading": "NEW ARRIVALS",
         "show_underline": true,
-        "max_width": 1080,
-        "gap": 14
+        "full_width": true,
+        "max_width": 1680,
+        "gap": 18
       }
     }
   ]

@@ -17,7 +17,6 @@
 <script
   src="{{ 'header-drawer.js' | asset_url }}"
   type="module"
-  fetchpriority="low"
 ></script>
 
 <header-drawer
@@ -34,6 +33,8 @@
     <summary
       class="header__icon header__icon--menu header__icon--summary"
       aria-label="{{ 'accessibility.menu' | t }}"
+      aria-expanded="false"
+      role="button"
     >
       <span class="svg-wrapper header-drawer-icon header-drawer-icon--open">
         {{- 'icon-menu.svg' | inline_asset_content -}}
@@ -60,7 +61,7 @@
         <button
           type="button"
           class="menu-drawer__close-button"
-          aria-label="{{ 'accessibility.close' | t }}"
+          aria-label="{{ 'actions.close' | t }}"
         >
           {{- 'icon-close.svg' | inline_asset_content -}}
         </button>
@@ -783,100 +784,3 @@
     transform: none;
   }
 {% endstylesheet %}
-
-<script>
-  (function initHeaderDrawerController() {
-    function setupDrawer() {
-      const details = document.getElementById('Details-menu-drawer-container');
-      if (!details) return;
-
-      const summary = details.querySelector('summary.header__icon--menu');
-      const closeBtn = details.querySelector('.menu-drawer__close-button');
-      const backdrop = details.querySelector('.menu-drawer__backdrop');
-      const links = details.querySelectorAll('.menu-drawer__menu-item, .menu-drawer__editorial-link');
-
-      function openDrawer(e) {
-        if (e) {
-          e.preventDefault();
-          e.stopPropagation();
-        }
-        details.classList.remove('is-closing');
-        details.setAttribute('open', '');
-        void details.offsetWidth;
-        requestAnimationFrame(() => {
-          details.classList.add('is-open', 'menu-open');
-          if (summary) summary.setAttribute('aria-expanded', 'true');
-          if (window.innerWidth < 990) {
-            document.body.style.overflow = 'hidden';
-          }
-        });
-      }
-
-      function closeDrawer(e) {
-        if (e) {
-          e.preventDefault();
-          e.stopPropagation();
-        }
-        if (!details.hasAttribute('open')) return;
-        details.classList.remove('is-open', 'menu-open');
-        details.classList.add('is-closing');
-        if (summary) summary.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
-        document.documentElement.style.overflow = '';
-
-        setTimeout(() => {
-          if (details.classList.contains('is-closing')) {
-            details.removeAttribute('open');
-            details.classList.remove('is-closing');
-          }
-        }, 340);
-      }
-
-      if (summary) {
-        summary.onclick = function(e) {
-          e.preventDefault();
-          e.stopPropagation();
-          if (details.hasAttribute('open') && details.classList.contains('menu-open') && !details.classList.contains('is-closing')) {
-            closeDrawer(e);
-          } else {
-            openDrawer(e);
-          }
-        };
-      }
-
-      if (closeBtn) {
-        closeBtn.onclick = function(e) {
-          e.preventDefault();
-          e.stopPropagation();
-          closeDrawer(e);
-        };
-      }
-
-      if (backdrop) {
-        backdrop.onclick = function(e) {
-          e.preventDefault();
-          e.stopPropagation();
-          closeDrawer(e);
-        };
-      }
-
-      links.forEach((link) => {
-        link.addEventListener('click', () => {
-          closeDrawer();
-        });
-      });
-
-      document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && details.hasAttribute('open')) {
-          closeDrawer();
-        }
-      });
-    }
-
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', setupDrawer);
-    } else {
-      setupDrawer();
-    }
-  })();
-</script>

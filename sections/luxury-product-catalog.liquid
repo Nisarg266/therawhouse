@@ -67,8 +67,8 @@
     --luxp-header-align: {{ s.header_align | default: 'center' }};
     --luxp-header-gap: {{ s.header_gap | default: 10 }}px;
     --luxp-header-mb: {{ s.header_mb | default: 30 }}px;
-    --luxp-tile-h: {{ s.collage_tile_height | default: 240 }}px;
-    --luxp-tile-h-t: {{ s.collage_tile_height_tablet | default: 190 }}px;
+    --luxp-tile-h: {{ s.collage_tile_height | default: 380 }}px;
+    --luxp-tile-h-t: {{ s.collage_tile_height_tablet | default: 280 }}px;
     --luxp-cols: {{ s.columns | default: 6 }};
     --luxp-cols-t: {{ s.columns_tablet | default: 4 }};
     --luxp-cols-m: {{ s.columns_mobile | default: 2 }};
@@ -250,7 +250,7 @@
     transform: scale(1.05);
   }
 
-  /* Subtle arrow icon on hover */
+  /* Subtle transparent arrow icon */
   .luxp-catalog__icon {
     position: absolute;
     right: 14px;
@@ -261,19 +261,26 @@
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background-color: rgba(26, 26, 26, 0.82);
-    color: #ffffff;
+    background-color: transparent !important;
+    background: transparent !important;
+    border: 1px solid rgba(255, 255, 255, 0.75) !important;
+    color: #ffffff !important;
     opacity: 0;
     transform: translateY(6px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transition: opacity 0.3s ease, transform 0.3s ease, background-color 0.25s ease, border-color 0.25s ease;
     z-index: 3;
     pointer-events: none;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
   }
 
   .luxp-catalog__card:hover .luxp-catalog__icon,
   .luxp-catalog__card:focus-visible .luxp-catalog__icon {
     opacity: 1;
     transform: translateY(0);
+    background-color: rgba(255, 255, 255, 0.18) !important;
+    border-color: #ffffff !important;
   }
 
   /* ---------------- Desktop Collage Grid Spanning (min-width: 990px) ---------------- */
@@ -471,8 +478,8 @@
       { "value": "collage", "label": "Collage (Asymmetrical Mixed Sizes)" },
       { "value": "grid", "label": "Uniform Grid" }
     ], "default": "collage" },
-    { "type": "range", "id": "collage_tile_height", "min": 160, "max": 360, "step": 10, "unit": "px", "label": "Collage row height — desktop", "default": 240 },
-    { "type": "range", "id": "collage_tile_height_tablet", "min": 130, "max": 260, "step": 10, "unit": "px", "label": "Collage row height — tablet", "default": 190 },
+    { "type": "range", "id": "collage_tile_height", "min": 160, "max": 600, "step": 10, "unit": "px", "label": "Collage row height — desktop", "default": 380 },
+    { "type": "range", "id": "collage_tile_height_tablet", "min": 130, "max": 450, "step": 10, "unit": "px", "label": "Collage row height — tablet", "default": 280 },
     { "type": "select", "id": "container_mode", "label": "Container mode", "options": [
       { "value": "fixed", "label": "Container (max width)" },
       { "value": "full", "label": "Full width" }
