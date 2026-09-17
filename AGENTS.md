@@ -13,7 +13,7 @@
 - `sections/header.liquid`: Main header section with multi-row layout (top row: drawer toggle, search, logo, actions; bottom row: desktop menu).
 - `snippets/header-row.liquid`: Renders 3-column header layout (`left`, `center`, `right`).
 - `snippets/header-drawer.liquid`: Markup for mobile slide drawer (`<header-drawer>`, `<details id="Details-menu-drawer-container">`, `<summary>`, editorial feature card, navigation links).
-- `assets/header-smart-hide.js`: Mobile smart sticky header controller. On downward scroll (>8px delta), adds `.header--auto-hidden` (`transform: translateY(-102%)`) to hide header; on upward scroll (<-8px delta), removes it to reveal header immediately anywhere on the page. Stays visible near top (`scrollY <= 70`) or when drawer/cart is open. Desktop is completely untouched.
+- `assets/header-smart-hide.js`: Universal smart sticky header controller (Mobile & Desktop). On downward scroll (>8px delta), adds `.header--auto-hidden` (`transform: translateY(-102%)`) to smoothly hide header and maximize content space; on upward scroll (<-8px delta), removes it to smoothly slide header down into view immediately anywhere on the page without having to scroll to top. Stays visible near top (`scrollY <= 70`), when hovered, or when drawer/cart/search is open.
 - `assets/custom-header.css`: Overrides for ultra-luxury header, search pill, zero-gap mobile layout, mobile drawer transitions, smart sticky scroll-up header transitions, and exact mobile logo centering (`.header__column--center { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }` preventing bias from unequal left/right icon clusters).
 
 ### 2. Custom Showcase & Catalog Sections

@@ -1,16 +1,14 @@
 /**
- * THE RAW HOUSE — Smart Sticky Header (Phone / Mobile only: <= 989px)
- * - Scroll down: Header smoothly slides out of view to maximize reading area.
- * - Scroll up: Header immediately slides back down into view so user can access navigation anywhere.
+ * THE RAW HOUSE — Universal Smart Sticky Header (Mobile + Desktop)
+ * - Scroll down: Header smoothly slides out of view to maximize viewing area.
+ * - Scroll up: Header immediately slides back down into view smoothly so user can access navigation anywhere.
  * - Top of page (y <= 70): Always visible in standard position.
- * - Open drawer/cart: Always visible.
- * - Desktop (>= 990px): Completely untouched.
+ * - Hover / Open drawer / cart / search: Always visible.
  */
 (function () {
   var group = document.getElementById('header-group');
   if (!group) return;
 
-  var mq = window.matchMedia('(max-width: 989px)');
   var lastScrollY = 0;
   var isHidden = false;
   var ticking = false;
@@ -32,6 +30,16 @@
     if (document.body.classList.contains('overflow-hidden')) return true;
     var cartDrawer = document.getElementById('cart-drawer');
     if (cartDrawer && cartDrawer.hasAttribute('open')) return true;
+    var searchModal = document.querySelector('search-modal[open], details[id*="search"][open], details[id*="Search"][open]');
+    if (searchModal) return true;
+    return false;
+  }
+
+  function isInteracting() {
+    if (isDrawerOpen()) return true;
+    try {
+      if (group.matches(':hover')) return true;
+    } catch (e) {}
     return false;
   }
 
@@ -44,15 +52,8 @@
   function update() {
     ticking = false;
 
-    // Desktop check: Never hide on desktop
-    if (!mq.matches) {
-      setHidden(false);
-      lastScrollY = getScrollY();
-      return;
-    }
-
-    // Keep visible while menu or cart drawer is open
-    if (isDrawerOpen()) {
+    // Keep visible while menu, cart, or search is open, or when cursor is over header
+    if (isInteracting()) {
       setHidden(false);
       lastScrollY = getScrollY();
       return;
@@ -68,11 +69,11 @@
       return;
     }
 
-    // Scrolling down: Hide header
+    // Scrolling down: Hide header smoothly
     if (delta > scrollThreshold) {
       setHidden(true);
     }
-    // Scrolling up: Reveal header immediately
+    // Scrolling up: Reveal header immediately and smoothly
     else if (delta < -scrollThreshold) {
       setHidden(false);
     }
@@ -89,14 +90,6 @@
 
   window.addEventListener('scroll', onScroll, { passive: true });
   document.addEventListener('scroll', onScroll, { passive: true });
-
-  if (typeof mq.addEventListener === 'function') {
-    mq.addEventListener('change', function () {
-      if (!mq.matches) {
-        setHidden(false);
-      }
-    });
-  }
 
   // Initial position check
   lastScrollY = getScrollY();
