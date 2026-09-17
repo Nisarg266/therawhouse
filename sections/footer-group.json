@@ -18,7 +18,7 @@
           "type": "menu",
           "settings": {
             "heading": "ABOUT",
-            "menu": "",
+            "menu": "footer",
             "columns": "1",
             "show_bullets": true,
             "bullet_symbol": "chevron",
@@ -31,7 +31,7 @@
           "type": "menu",
           "settings": {
             "heading": "SERVICES",
-            "menu": "",
+            "menu": "main-menu",
             "columns": "1",
             "show_bullets": true,
             "bullet_symbol": "chevron",
