@@ -135,7 +135,7 @@
           "settings": {
             "image": "shopify://shop_images/68ea042e-b783-454a-9600-bc049ce2595e_42cdf37b-d7d3-411e-98f4-4701c9d9aa5a.png",
             "image_mobile": "shopify://shop_images/f51ca54e-f381-4b3f-a25d-cb26f89f2db6.png",
-            "default_asset": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/Ahmedabad_Art_Week_Sculpture_Show_Catalogue_compressed.pdf?v=1789589334",
+            "default_asset": "Ahmedabad_Art_Week_Sculpture_Show",
             "alt": "",
             "badge": "",
             "link": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/Ahmedabad_Art_Week_Sculpture_Show_Catalogue_compressed.pdf?v=1789589334",
@@ -147,7 +147,7 @@
           "settings": {
             "image": "shopify://shop_images/IDIKA01016_resized_no_stretch_9ec2df42-08a5-49b7-9557-bbd1fbd87952.png",
             "image_mobile": "shopify://shop_images/IDIKA01016_resized_no_stretch_232a8ccd-654d-4cf1-b1d4-15fcb0050fdc.png",
-            "default_asset": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/E_-_Catalouge_New_Perspective_compressed.pdf?v=1789591020",
+            "default_asset": "raw collectables",
             "alt": "",
             "badge": "",
             "link": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/Raw_Collectables_compressed.pdf?v=1789591025",
