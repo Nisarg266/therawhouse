@@ -117,6 +117,14 @@
         -%}
         <a href="{{ maker_link }}" class="luxp-card" {{ block.shopify_attributes }}>
           <div class="luxp-media {% if s.image_fit == 'contain' %}luxp-media--contain{% endif %}">
+            {% if block.settings.badge != blank %}
+              <span
+                class="luxp-colcard__pill luxp-pill"
+                style="{% if block.settings.badge_bg != blank %}background: {{ block.settings.badge_bg }} !important;{% endif %}{% if block.settings.badge_color != blank %}color: {{ block.settings.badge_color }} !important;{% endif %}"
+              >
+                {{- block.settings.badge -}}
+              </span>
+            {% endif %}
             {% render 'luxp-image',
               image: block.settings.image,
               image_mobile: block.settings.image_mobile,
@@ -128,6 +136,9 @@
             %}
           </div>
           <div class="luxp-card__body {% if s.card_align == 'center' %}luxp-card__body--center{% endif %}">
+            {% if block.settings.location != blank %}
+              <span class="luxp-makers__location" style="font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--luxp-accent); font-weight: 600; display: block; margin-bottom: 3px;">{{ block.settings.location }}</span>
+            {% endif %}
             {% if block.settings.name != blank %}
               <h3 class="luxp-card__title">{{ block.settings.name }}</h3>
             {% endif %}
@@ -330,7 +341,11 @@
         { "type": "image_picker", "id": "image_mobile", "label": "Mobile image", "info": "Optional separate image shown below 750px." },
         { "type": "text", "id": "default_asset", "label": "Fallback asset filename" },
         { "type": "text", "id": "name", "label": "Maker name", "default": "Duffy London" },
-        { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Fun With Design" },
+        { "type": "text", "id": "subtitle", "label": "Subtitle / Discipline", "default": "Fun With Design" },
+        { "type": "text", "id": "location", "label": "Origin / City (Optional)", "info": "e.g. London, UK or Jaipur, India" },
+        { "type": "text", "id": "badge", "label": "Badge pill (Optional)", "info": "e.g. Master Artisan" },
+        { "type": "color", "id": "badge_bg", "label": "Badge Background Color", "default": "#b08d57" },
+        { "type": "color", "id": "badge_color", "label": "Badge Text Color", "default": "#ffffff" },
         { "type": "url", "id": "link", "label": "Link" }
       ]
     }

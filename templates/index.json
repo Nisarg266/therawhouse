@@ -1,12 +1,3 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "hero_slider": {
@@ -354,6 +345,88 @@
     },
     "new_arrivals": {
       "type": "new-arrivals-gallery",
+      "blocks": {
+        "card_1": {
+          "type": "arrival_card",
+          "settings": {
+            "alt": "Vase Calyx-krater By Eichholtz",
+            "designer": "Eichholtz",
+            "price": "",
+            "badge": "",
+            "badge_bg": "#111111",
+            "badge_color": "#ffffff",
+            "link": "shopify://collections/all"
+          }
+        },
+        "card_2": {
+          "type": "arrival_card",
+          "settings": {
+            "alt": "Apsara Candy Jar By Ira Udaipur",
+            "designer": "Ira Udaipur",
+            "price": "",
+            "badge": "",
+            "badge_bg": "#111111",
+            "badge_color": "#ffffff",
+            "link": "shopify://collections/all"
+          }
+        },
+        "card_3": {
+          "type": "arrival_card",
+          "settings": {
+            "alt": "Nico Cladded Console By The Edit",
+            "designer": "The Edit",
+            "price": "",
+            "badge": "",
+            "badge_bg": "#111111",
+            "badge_color": "#ffffff",
+            "link": "shopify://collections/all"
+          }
+        },
+        "card_4": {
+          "type": "arrival_card",
+          "settings": {
+            "alt": "Grain of Time Bar Cabinet By Jagdish Sutar",
+            "designer": "Jagdish Sutar",
+            "price": "",
+            "badge": "",
+            "badge_bg": "#111111",
+            "badge_color": "#ffffff",
+            "link": "shopify://collections/all"
+          }
+        },
+        "card_5": {
+          "type": "arrival_card",
+          "settings": {
+            "alt": "Old Soul Teapot XIII By Eina Ahluwalia",
+            "designer": "Eina Ahluwalia",
+            "price": "",
+            "badge": "",
+            "badge_bg": "#111111",
+            "badge_color": "#ffffff",
+            "link": "shopify://collections/all"
+          }
+        },
+        "card_6": {
+          "type": "arrival_card",
+          "settings": {
+            "alt": "Lagori Round Table Lamp By Yaahvi",
+            "designer": "Yaahvi",
+            "price": "",
+            "badge": "",
+            "badge_bg": "#111111",
+            "badge_color": "#ffffff",
+            "link": "shopify://collections/all"
+          }
+        }
+      },
+      "block_order": [
+        "card_1",
+        "card_2",
+        "card_3",
+        "card_4",
+        "card_5",
+        "card_6"
+      ],
       "settings": {
         "subheading": "the",
         "heading": "NEW ARRIVALS",
@@ -363,18 +436,6 @@
         "show_underline": true,
         "underline_width": 48,
         "underline_color": "#111111",
-        "card_1_link": "shopify://collections/all",
-        "card_1_alt": "Vase Calyx-krater By Eichholtz",
-        "card_2_link": "shopify://collections/all",
-        "card_2_alt": "Apsara Candy Jar By Ira Udaipur",
-        "card_3_link": "shopify://collections/all",
-        "card_3_alt": "Nico Cladded Console By The Edit",
-        "card_4_link": "shopify://collections/all",
-        "card_4_alt": "Grain of Time Bar Cabinet By Jagdish Sutar",
-        "card_5_link": "shopify://collections/all",
-        "card_5_alt": "Old Soul Teapot XIII By Eina Ahluwalia",
-        "card_6_link": "shopify://collections/all",
-        "card_6_alt": "Lagori Round Table Lamp By Yaahvi",
         "full_width": true,
         "max_width": 1680,
         "gap": 18,
@@ -443,14 +504,14 @@
       "settings": {
         "layout_style": "split",
         "eyebrow": "the",
-        "heading": "R E C O M M E N D A T I O N S",
+        "heading": "RECOMMENDATIONS",
         "intro": "",
         "show_ornament": true,
         "header_align": "center",
         "header_mb": 32,
         "header_gap": 10,
         "container_mode": "fixed",
-        "container_max": 1080,
+        "container_max": 1280,
         "columns": 2,
         "columns_tablet": 1,
         "columns_mobile": "1",
@@ -761,127 +822,6 @@
         "custom_class": ""
       }
     },
-    "atelier_promise": {
-      "type": "atelier-promise",
-      "blocks": {
-        "feature_1": {
-          "type": "feature",
-          "settings": {
-            "icon": "certificate",
-            "label": "CERTIFIED AUTHENTICITY",
-            "text": "Each artwork and object arrives with a signed certificate of provenance."
-          }
-        },
-        "feature_2": {
-          "type": "feature",
-          "settings": {
-            "icon": "truck",
-            "label": "WHITE-GLOVE DELIVERY",
-            "text": "Museum-grade packing and doorstep installation, handled by specialists."
-          }
-        },
-        "feature_3": {
-          "type": "feature",
-          "settings": {
-            "icon": "gem",
-            "label": "BESPOKE CURATION",
-            "text": "Personal advisory to help you collect pieces that belong to your story."
-          }
-        }
-      },
-      "block_order": [
-        "feature_1",
-        "feature_2",
-        "feature_3"
-      ],
-      "settings": {
-        "eyebrow": "the",
-        "heading": "A T E L I E R   P R O M I S E",
-        "statement": "<p>Every piece that reaches your home is hand-selected at the atelier, certified for provenance, and delivered with the same reverence the masters poured into making it.</p>",
-        "show_ornament": true,
-        "default_asset": "hero-lighting-art-3.jpg",
-        "image_fit": "cover",
-        "overlay_color": "#000000",
-        "overlay_opacity": 55,
-        "min_height": 480,
-        "min_height_m": 420,
-        "text_align": "center",
-        "content_valign": "center",
-        "container_max": 1080,
-        "content_gap": 18,
-        "content_gap_m": 14,
-        "feature_columns": 3,
-        "feature_columns_m": "1",
-        "feature_gap": 28,
-        "feature_gap_m": 18,
-        "features_margin_top": 16,
-        "feature_label_size": 11,
-        "icon_size": 24,
-        "icon_shape": "none",
-        "icon_padding": 10,
-        "icon_color": "",
-        "icon_bg": "",
-        "icon_border_width": "0",
-        "eyebrow_font": "body",
-        "eyebrow_size": 11,
-        "eyebrow_size_m": 10,
-        "eyebrow_weight": "600",
-        "eyebrow_ls": "0.22em",
-        "eyebrow_transform": "uppercase",
-        "heading_font": "body",
-        "heading_size": 20,
-        "heading_size_m": 17,
-        "heading_weight": "400",
-        "heading_lh": 1.2,
-        "heading_ls": "0.35em",
-        "heading_transform": "none",
-        "heading_max_width": 100,
-        "body_font": "body",
-        "body_size": 15,
-        "body_size_m": 14,
-        "body_weight": "400",
-        "body_lh": 1.8,
-        "body_ls": "0.02em",
-        "body_max_width": 100,
-        "color_preset": "obsidian",
-        "color_bg": "#17130e",
-        "color_heading": "#f4efe6",
-        "color_text": "#f4efe6",
-        "color_accent": "#c9a870",
-        "color_muted": "",
-        "color_border": "",
-        "btn_label": "DISCOVER THE HOUSE",
-        "btn_link": "shopify://collections/all",
-        "btn_style": "solid",
-        "btn_height": 46,
-        "btn_px": 26,
-        "btn_size": 11,
-        "btn_size_m": 11,
-        "btn_weight": "600",
-        "btn_ls": "0.18em",
-        "btn_transform": "uppercase",
-        "btn_radius": 2,
-        "btn_border_width": 1,
-        "btn_bg": "",
-        "btn_text": "",
-        "btn_border": "",
-        "btn_bg_hover": "",
-        "btn_text_hover": "",
-        "btn_arrow": false,
-        "btn_width": "auto",
-        "btn_mobile_full": false,
-        "btn_margin_top": 12,
-        "padding_top": 64,
-        "padding_bottom": 64,
-        "padding_top_m": 48,
-        "padding_bottom_m": 48,
-        "container_padding": 32,
-        "container_padding_m": 20,
-        "enable_animations": false,
-        "anchor_id": "",
-        "custom_class": ""
-      }
-    },
     "brand_statement": {
       "type": "brand-manifesto",
       "blocks": {
@@ -973,6 +913,74 @@
         "anchor_id": "",
         "custom_class": ""
       }
+    },
+    "press_and_quote": {
+      "type": "featured-press-and-quote",
+      "blocks": {
+        "press_1": {
+          "type": "press_logo",
+          "settings": {
+            "title": "Ideal Home"
+          }
+        },
+        "press_2": {
+          "type": "press_logo",
+          "settings": {
+            "title": "GoodHomes India"
+          }
+        },
+        "press_3": {
+          "type": "press_logo",
+          "settings": {
+            "title": "AD"
+          }
+        },
+        "press_4": {
+          "type": "press_logo",
+          "settings": {
+            "title": "VOGUE"
+          }
+        },
+        "press_5": {
+          "type": "press_logo",
+          "settings": {
+            "title": "ELLE DECOR"
+          }
+        },
+        "press_6": {
+          "type": "press_logo",
+          "settings": {
+            "title": "FEMINA"
+          }
+        }
+      },
+      "block_order": [
+        "press_1",
+        "press_2",
+        "press_3",
+        "press_4",
+        "press_5",
+        "press_6"
+      ],
+      "settings": {
+        "heading": "Featured In",
+        "show_ornament": true,
+        "show_quote": true,
+        "quote_line_1": "Nothing haunts us",
+        "quote_line_2": "LIKE THE THINGS",
+        "quote_line_3": "we didn't buy",
+        "show_quote_dividers": true,
+        "quote_color": "#2a2a2a",
+        "divider_color": "#222222",
+        "container_max": 1100,
+        "logo_height": 28,
+        "color_bg": "#ffffff",
+        "color_heading": "#1a1a1a",
+        "padding_top": 44,
+        "padding_bottom": 24,
+        "padding_top_m": 32,
+        "padding_bottom_m": 20
+      }
     }
   },
   "order": [
@@ -982,7 +990,7 @@
     "recommendations",
     "fine_prints",
     "the_makers",
-    "atelier_promise",
-    "brand_statement"
+    "brand_statement",
+    "press_and_quote"
   ]
 }

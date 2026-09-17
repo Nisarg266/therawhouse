@@ -137,7 +137,12 @@
         >
           <div class="luxp-media luxp-catalog__media">
             {% if block.settings.badge != blank %}
-              <span class="luxp-colcard__pill luxp-pill">{{ block.settings.badge }}</span>
+              <span
+                class="luxp-colcard__pill luxp-pill"
+                style="{% if block.settings.badge_bg != blank %}background: {{ block.settings.badge_bg }} !important;{% endif %}{% if block.settings.badge_color != blank %}color: {{ block.settings.badge_color }} !important;{% endif %}"
+              >
+                {{- block.settings.badge -}}
+              </span>
             {% endif %}
             {% render 'luxp-image',
               image: block.settings.image,
@@ -148,11 +153,23 @@
               sizes: '(min-width: 1024px) 33vw, (min-width: 750px) 50vw, 100vw',
               fallback: block.settings.default_asset
             %}
+            {% if block.settings.title != blank or block.settings.subtitle != blank %}
+              <div class="luxp-catalog__caption">
+                {% if block.settings.title != blank %}<span class="luxp-catalog__caption-title">{{ block.settings.title }}</span>{% endif %}
+                {% if block.settings.subtitle != blank %}<span class="luxp-catalog__caption-sub">{{ block.settings.subtitle }}</span>{% endif %}
+              </div>
+            {% endif %}
             {% if block.settings.show_view_icon %}
               <span class="luxp-catalog__icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="15" height="15">
-                  <path d="M7 17L17 7M17 7H7M17 7V17"/>
-                </svg>
+                {% if block.settings.icon_type == 'eye' %}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                {% elsif block.settings.icon_type == 'download' %}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                {% else %}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="15" height="15">
+                    <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                  </svg>
+                {% endif %}
               </span>
             {% endif %}
           </div>
@@ -256,6 +273,46 @@
 
   .luxp-catalog__card:hover .luxp-catalog__img {
     transform: scale(1.05);
+  }
+
+  .luxp-catalog__caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 3;
+    padding: 32px 14px 12px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.68) 0%, transparent 100%);
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    pointer-events: none;
+  }
+
+  .luxp-catalog__card:hover .luxp-catalog__caption,
+  .luxp-catalog__card:focus-within .luxp-catalog__caption {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .luxp-catalog__caption-title {
+    font-family: var(--font-body--family, sans-serif);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #ffffff;
+    line-height: 1.2;
+  }
+
+  .luxp-catalog__caption-sub {
+    font-family: var(--font-body--family, sans-serif);
+    font-size: 11px;
+    color: #d8c29d;
+    letter-spacing: 0.04em;
   }
 
   /* Subtle transparent arrow icon */
@@ -644,10 +701,19 @@
         { "type": "image_picker", "id": "image", "label": "Desktop image" },
         { "type": "image_picker", "id": "image_mobile", "label": "Mobile image", "info": "Optional separate image shown below 750px." },
         { "type": "text", "id": "default_asset", "label": "Fallback asset filename" },
+        { "type": "text", "id": "title", "label": "Card title (Optional)" },
+        { "type": "text", "id": "subtitle", "label": "Card subtitle (Optional)" },
         { "type": "text", "id": "alt", "label": "Alt text", "info": "Also used as the accessible card label." },
         { "type": "text", "id": "badge", "label": "Badge text", "info": "Optional pill in the image corner." },
+        { "type": "color", "id": "badge_bg", "label": "Badge Background Color", "default": "#b08d57" },
+        { "type": "color", "id": "badge_color", "label": "Badge Text Color", "default": "#ffffff" },
         { "type": "url", "id": "link", "label": "Link" },
-        { "type": "checkbox", "id": "show_view_icon", "label": "Show subtle open indicator overlay", "default": true }
+        { "type": "checkbox", "id": "show_view_icon", "label": "Show indicator overlay", "default": true },
+        { "type": "select", "id": "icon_type", "label": "Indicator Icon Style", "options": [
+          { "value": "arrow", "label": "Diagonal Arrow (↗)" },
+          { "value": "eye", "label": "View Eye" },
+          { "value": "download", "label": "Download PDF" }
+        ], "default": "arrow" }
       ]
     },
     {
@@ -657,10 +723,19 @@
         { "type": "image_picker", "id": "image", "label": "Desktop image" },
         { "type": "image_picker", "id": "image_mobile", "label": "Mobile image", "info": "Optional separate image shown below 750px." },
         { "type": "text", "id": "default_asset", "label": "Fallback asset filename" },
+        { "type": "text", "id": "title", "label": "Card title (Optional)" },
+        { "type": "text", "id": "subtitle", "label": "Card subtitle (Optional)" },
         { "type": "text", "id": "alt", "label": "Alt text", "info": "Also used as the accessible card label." },
         { "type": "text", "id": "badge", "label": "Badge text", "info": "Optional pill in the image corner." },
+        { "type": "color", "id": "badge_bg", "label": "Badge Background Color", "default": "#b08d57" },
+        { "type": "color", "id": "badge_color", "label": "Badge Text Color", "default": "#ffffff" },
         { "type": "url", "id": "link", "label": "Link" },
-        { "type": "checkbox", "id": "show_view_icon", "label": "Show subtle open indicator overlay", "default": true }
+        { "type": "checkbox", "id": "show_view_icon", "label": "Show indicator overlay", "default": true },
+        { "type": "select", "id": "icon_type", "label": "Indicator Icon Style", "options": [
+          { "value": "arrow", "label": "Diagonal Arrow (↗)" },
+          { "value": "eye", "label": "View Eye" },
+          { "value": "download", "label": "Download PDF" }
+        ], "default": "arrow" }
       ]
     }
   ],

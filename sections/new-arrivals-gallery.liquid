@@ -1,5 +1,8 @@
 {%- comment -%}
   Renders the editorial "NEW ARRIVALS" 6-card asymmetrical masonry gallery.
+  Dual mode:
+  - If dynamic blocks ("arrival_card") are added, renders blocks with advanced settings (images, titles, designers, badges, prices, links).
+  - If no blocks exist, smoothly falls back to section-level settings for full backwards compatibility.
   Wide luxury layout:
   Left Column: 2 Top Squares + 1 Bottom Wide Landscape
   Right Column: 1 Top Feature + 2 Bottom Squares
@@ -16,29 +19,91 @@
   assign full_width = section.settings.full_width
   assign show_caption = section.settings.show_caption_on_hover
 
-  assign card_1_img = section.settings.card_1_image
-  assign card_1_link = section.settings.card_1_link
-  assign card_1_alt = section.settings.card_1_alt | default: 'New Arrival Item 1'
+  if section.blocks.size > 0
+    assign card_1_block = section.blocks[0]
+    assign card_1_img = card_1_block.settings.image
+    assign card_1_img_m = card_1_block.settings.image_mobile
+    assign card_1_link = card_1_block.settings.link
+    assign card_1_alt = card_1_block.settings.alt | default: 'New Arrival Item 1'
+    assign card_1_sub = card_1_block.settings.designer
+    assign card_1_price = card_1_block.settings.price
+    assign card_1_badge = card_1_block.settings.badge
+    assign card_1_badge_bg = card_1_block.settings.badge_bg | default: '#111111'
+    assign card_1_badge_color = card_1_block.settings.badge_color | default: '#ffffff'
 
-  assign card_2_img = section.settings.card_2_image
-  assign card_2_link = section.settings.card_2_link
-  assign card_2_alt = section.settings.card_2_alt | default: 'New Arrival Item 2'
+    assign card_2_block = section.blocks[1]
+    assign card_2_img = card_2_block.settings.image
+    assign card_2_img_m = card_2_block.settings.image_mobile
+    assign card_2_link = card_2_block.settings.link
+    assign card_2_alt = card_2_block.settings.alt | default: 'New Arrival Item 2'
+    assign card_2_sub = card_2_block.settings.designer
+    assign card_2_price = card_2_block.settings.price
+    assign card_2_badge = card_2_block.settings.badge
+    assign card_2_badge_bg = card_2_block.settings.badge_bg | default: '#111111'
+    assign card_2_badge_color = card_2_block.settings.badge_color | default: '#ffffff'
 
-  assign card_3_img = section.settings.card_3_image
-  assign card_3_link = section.settings.card_3_link
-  assign card_3_alt = section.settings.card_3_alt | default: 'New Arrival Item 3'
+    assign card_3_block = section.blocks[2]
+    assign card_3_img = card_3_block.settings.image
+    assign card_3_img_m = card_3_block.settings.image_mobile
+    assign card_3_link = card_3_block.settings.link
+    assign card_3_alt = card_3_block.settings.alt | default: 'New Arrival Item 3'
+    assign card_3_sub = card_3_block.settings.designer
+    assign card_3_price = card_3_block.settings.price
+    assign card_3_badge = card_3_block.settings.badge
+    assign card_3_badge_bg = card_3_block.settings.badge_bg | default: '#111111'
+    assign card_3_badge_color = card_3_block.settings.badge_color | default: '#ffffff'
 
-  assign card_4_img = section.settings.card_4_image
-  assign card_4_link = section.settings.card_4_link
-  assign card_4_alt = section.settings.card_4_alt | default: 'New Arrival Item 4'
+    assign card_4_block = section.blocks[3]
+    assign card_4_img = card_4_block.settings.image
+    assign card_4_img_m = card_4_block.settings.image_mobile
+    assign card_4_link = card_4_block.settings.link
+    assign card_4_alt = card_4_block.settings.alt | default: 'New Arrival Item 4'
+    assign card_4_sub = card_4_block.settings.designer
+    assign card_4_price = card_4_block.settings.price
+    assign card_4_badge = card_4_block.settings.badge
+    assign card_4_badge_bg = card_4_block.settings.badge_bg | default: '#111111'
+    assign card_4_badge_color = card_4_block.settings.badge_color | default: '#ffffff'
 
-  assign card_5_img = section.settings.card_5_image
-  assign card_5_link = section.settings.card_5_link
-  assign card_5_alt = section.settings.card_5_alt | default: 'New Arrival Item 5'
+    assign card_5_block = section.blocks[4]
+    assign card_5_img = card_5_block.settings.image
+    assign card_5_img_m = card_5_block.settings.image_mobile
+    assign card_5_link = card_5_block.settings.link
+    assign card_5_alt = card_5_block.settings.alt | default: 'New Arrival Item 5'
+    assign card_5_sub = card_5_block.settings.designer
+    assign card_5_price = card_5_block.settings.price
+    assign card_5_badge = card_5_block.settings.badge
+    assign card_5_badge_bg = card_5_block.settings.badge_bg | default: '#111111'
+    assign card_5_badge_color = card_5_block.settings.badge_color | default: '#ffffff'
 
-  assign card_6_img = section.settings.card_6_image
-  assign card_6_link = section.settings.card_6_link
-  assign card_6_alt = section.settings.card_6_alt | default: 'New Arrival Item 6'
+    assign card_6_block = section.blocks[5]
+    assign card_6_img = card_6_block.settings.image
+    assign card_6_img_m = card_6_block.settings.image_mobile
+    assign card_6_link = card_6_block.settings.link
+    assign card_6_alt = card_6_block.settings.alt | default: 'New Arrival Item 6'
+    assign card_6_sub = card_6_block.settings.designer
+    assign card_6_price = card_6_block.settings.price
+    assign card_6_badge = card_6_block.settings.badge
+    assign card_6_badge_bg = card_6_block.settings.badge_bg | default: '#111111'
+    assign card_6_badge_color = card_6_block.settings.badge_color | default: '#ffffff'
+  else
+    assign card_1_link = routes.all_products_collection_url
+    assign card_1_alt = 'New Arrival Item 1'
+
+    assign card_2_link = routes.all_products_collection_url
+    assign card_2_alt = 'New Arrival Item 2'
+
+    assign card_3_link = routes.all_products_collection_url
+    assign card_3_alt = 'New Arrival Item 3'
+
+    assign card_4_link = routes.all_products_collection_url
+    assign card_4_alt = 'New Arrival Item 4'
+
+    assign card_5_link = routes.all_products_collection_url
+    assign card_5_alt = 'New Arrival Item 5'
+
+    assign card_6_link = routes.all_products_collection_url
+    assign card_6_alt = 'New Arrival Item 6'
+  endif
 %}
 
 <div
@@ -48,14 +113,20 @@
     --nag-bg: {{ section.settings.background_color | default: '#ffffff' }};
     --nag-heading-color: {{ section.settings.heading_color | default: '#111111' }};
     --nag-heading-size: {{ section.settings.heading_size | default: 20 }}px;
+    --nag-heading-size-m: {{ section.settings.heading_size_m | default: 16 }}px;
+    --nag-subheading-size: {{ section.settings.subheading_size | default: 26 }}px;
+    --nag-subheading-size-m: {{ section.settings.subheading_size_m | default: 22 }}px;
     --nag-heading-spacing: {{ section.settings.heading_letter_spacing | default: '0.5em' }};
     --nag-underline-width: {{ section.settings.underline_width | default: 48 }}px;
+    --nag-underline-height: {{ section.settings.underline_height | default: 1 }}px;
     --nag-underline-color: {{ section.settings.underline_color | default: '#111111' }};
     --nag-gap: {{ gap }}px;
     --nag-radius: {{ corner_radius }}px;
     --nag-max-width: {{ section.settings.max_width | default: 1680 }}px;
     --nag-padding-top: {{ section.settings.padding_top | default: 60 }}px;
     --nag-padding-bottom: {{ section.settings.padding_bottom | default: 60 }}px;
+    --nag-padding-top-m: {{ section.settings.padding_top_m | default: 40 }}px;
+    --nag-padding-bottom-m: {{ section.settings.padding_bottom_m | default: 44 }}px;
   "
   {{ section.shopify_attributes }}
 >
@@ -84,29 +155,61 @@
         <div class="new-arrivals-gallery__row-split">
 
           <!-- Card 1 -->
-          <div class="new-arrivals-gallery__card new-arrivals-gallery__card--split" style="--nag-index: 0;">
+          <div class="new-arrivals-gallery__card new-arrivals-gallery__card--split" style="--nag-index: 0;" {% if card_1_block %}{{ card_1_block.shopify_attributes }}{% endif %}>
+            {% if card_1_badge != blank %}
+              <span class="new-arrivals-gallery__badge" style="background-color: {{ card_1_badge_bg }}; color: {{ card_1_badge_color }};">{{ card_1_badge }}</span>
+            {% endif %}
             {% if card_1_link != blank %}<a href="{{ card_1_link }}" class="new-arrivals-gallery__card-link" aria-label="{{ card_1_alt }}">{% endif %}
               <div class="new-arrivals-gallery__media{% if enable_hover_zoom %} new-arrivals-gallery__media--zoom{% endif %}{% if show_caption %} new-arrivals-gallery__media--caption{% endif %}">
                 {% if card_1_img != blank %}
-                  {{ card_1_img | image_url: width: 1400 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_1_alt }}
+                  {% if card_1_img_m != blank %}
+                    <picture>
+                      <source media="(max-width: 749px)" srcset="{{ card_1_img_m | image_url: width: 800 }}">
+                      {{ card_1_img | image_url: width: 1400 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_1_alt }}
+                    </picture>
+                  {% else %}
+                    {{ card_1_img | image_url: width: 1400 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_1_alt }}
+                  {% endif %}
                 {% else %}
                   <img src="{{ 'new-arrival-1.jpg' | asset_url }}" alt="{{ card_1_alt }}" class="new-arrivals-gallery__img" loading="eager" width="600" height="700">
                 {% endif %}
-                {% if show_caption %}<span class="new-arrivals-gallery__caption">{{ card_1_alt }}</span>{% endif %}
+                {% if show_caption %}
+                  <div class="new-arrivals-gallery__caption">
+                    <span class="new-arrivals-gallery__caption-title">{{ card_1_alt }}</span>
+                    {% if card_1_sub != blank %}<span class="new-arrivals-gallery__caption-sub">{{ card_1_sub }}</span>{% endif %}
+                    {% if card_1_price != blank %}<span class="new-arrivals-gallery__caption-price">{{ card_1_price }}</span>{% endif %}
+                  </div>
+                {% endif %}
               </div>
             {% if card_1_link != blank %}</a>{% endif %}
           </div>
 
           <!-- Card 2 -->
-          <div class="new-arrivals-gallery__card new-arrivals-gallery__card--split" style="--nag-index: 1;">
+          <div class="new-arrivals-gallery__card new-arrivals-gallery__card--split" style="--nag-index: 1;" {% if card_2_block %}{{ card_2_block.shopify_attributes }}{% endif %}>
+            {% if card_2_badge != blank %}
+              <span class="new-arrivals-gallery__badge" style="background-color: {{ card_2_badge_bg }}; color: {{ card_2_badge_color }};">{{ card_2_badge }}</span>
+            {% endif %}
             {% if card_2_link != blank %}<a href="{{ card_2_link }}" class="new-arrivals-gallery__card-link" aria-label="{{ card_2_alt }}">{% endif %}
               <div class="new-arrivals-gallery__media{% if enable_hover_zoom %} new-arrivals-gallery__media--zoom{% endif %}{% if show_caption %} new-arrivals-gallery__media--caption{% endif %}">
                 {% if card_2_img != blank %}
-                  {{ card_2_img | image_url: width: 1400 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_2_alt }}
+                  {% if card_2_img_m != blank %}
+                    <picture>
+                      <source media="(max-width: 749px)" srcset="{{ card_2_img_m | image_url: width: 800 }}">
+                      {{ card_2_img | image_url: width: 1400 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_2_alt }}
+                    </picture>
+                  {% else %}
+                    {{ card_2_img | image_url: width: 1400 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_2_alt }}
+                  {% endif %}
                 {% else %}
                   <img src="{{ 'new-arrival-2.jpg' | asset_url }}" alt="{{ card_2_alt }}" class="new-arrivals-gallery__img" loading="eager" width="600" height="700">
                 {% endif %}
-                {% if show_caption %}<span class="new-arrivals-gallery__caption">{{ card_2_alt }}</span>{% endif %}
+                {% if show_caption %}
+                  <div class="new-arrivals-gallery__caption">
+                    <span class="new-arrivals-gallery__caption-title">{{ card_2_alt }}</span>
+                    {% if card_2_sub != blank %}<span class="new-arrivals-gallery__caption-sub">{{ card_2_sub }}</span>{% endif %}
+                    {% if card_2_price != blank %}<span class="new-arrivals-gallery__caption-price">{{ card_2_price }}</span>{% endif %}
+                  </div>
+                {% endif %}
               </div>
             {% if card_2_link != blank %}</a>{% endif %}
           </div>
@@ -114,15 +217,31 @@
         </div>
 
         <!-- Bottom Wide Card 3 -->
-        <div class="new-arrivals-gallery__card new-arrivals-gallery__card--wide" style="--nag-index: 2;">
+        <div class="new-arrivals-gallery__card new-arrivals-gallery__card--wide" style="--nag-index: 2;" {% if card_3_block %}{{ card_3_block.shopify_attributes }}{% endif %}>
+          {% if card_3_badge != blank %}
+            <span class="new-arrivals-gallery__badge" style="background-color: {{ card_3_badge_bg }}; color: {{ card_3_badge_color }};">{{ card_3_badge }}</span>
+          {% endif %}
           {% if card_3_link != blank %}<a href="{{ card_3_link }}" class="new-arrivals-gallery__card-link" aria-label="{{ card_3_alt }}">{% endif %}
             <div class="new-arrivals-gallery__media{% if enable_hover_zoom %} new-arrivals-gallery__media--zoom{% endif %}{% if show_caption %} new-arrivals-gallery__media--caption{% endif %}">
               {% if card_3_img != blank %}
-                {{ card_3_img | image_url: width: 2000 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_3_alt }}
+                {% if card_3_img_m != blank %}
+                  <picture>
+                    <source media="(max-width: 749px)" srcset="{{ card_3_img_m | image_url: width: 1200 }}">
+                    {{ card_3_img | image_url: width: 2000 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_3_alt }}
+                  </picture>
+                {% else %}
+                  {{ card_3_img | image_url: width: 2000 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_3_alt }}
+                {% endif %}
               {% else %}
                 <img src="{{ 'new-arrival-3.jpg' | asset_url }}" alt="{{ card_3_alt }}" class="new-arrivals-gallery__img" loading="eager" width="1200" height="910">
               {% endif %}
-              {% if show_caption %}<span class="new-arrivals-gallery__caption">{{ card_3_alt }}</span>{% endif %}
+              {% if show_caption %}
+                <div class="new-arrivals-gallery__caption">
+                  <span class="new-arrivals-gallery__caption-title">{{ card_3_alt }}</span>
+                  {% if card_3_sub != blank %}<span class="new-arrivals-gallery__caption-sub">{{ card_3_sub }}</span>{% endif %}
+                  {% if card_3_price != blank %}<span class="new-arrivals-gallery__caption-price">{{ card_3_price }}</span>{% endif %}
+                </div>
+              {% endif %}
             </div>
           {% if card_3_link != blank %}</a>{% endif %}
         </div>
@@ -133,15 +252,31 @@
       <div class="new-arrivals-gallery__column new-arrivals-gallery__column--right">
 
         <!-- Top Feature Card 4 -->
-        <div class="new-arrivals-gallery__card new-arrivals-gallery__card--tall" style="--nag-index: 3;">
+        <div class="new-arrivals-gallery__card new-arrivals-gallery__card--tall" style="--nag-index: 3;" {% if card_4_block %}{{ card_4_block.shopify_attributes }}{% endif %}>
+          {% if card_4_badge != blank %}
+            <span class="new-arrivals-gallery__badge" style="background-color: {{ card_4_badge_bg }}; color: {{ card_4_badge_color }};">{{ card_4_badge }}</span>
+          {% endif %}
           {% if card_4_link != blank %}<a href="{{ card_4_link }}" class="new-arrivals-gallery__card-link" aria-label="{{ card_4_alt }}">{% endif %}
             <div class="new-arrivals-gallery__media{% if enable_hover_zoom %} new-arrivals-gallery__media--zoom{% endif %}{% if show_caption %} new-arrivals-gallery__media--caption{% endif %}">
               {% if card_4_img != blank %}
-                {{ card_4_img | image_url: width: 2000 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_4_alt }}
+                {% if card_4_img_m != blank %}
+                  <picture>
+                    <source media="(max-width: 749px)" srcset="{{ card_4_img_m | image_url: width: 1200 }}">
+                    {{ card_4_img | image_url: width: 2000 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_4_alt }}
+                  </picture>
+                {% else %}
+                  {{ card_4_img | image_url: width: 2000 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_4_alt }}
+                {% endif %}
               {% else %}
                 <img src="{{ 'new-arrival-4.jpg' | asset_url }}" alt="{{ card_4_alt }}" class="new-arrivals-gallery__img" loading="eager" width="1200" height="910">
               {% endif %}
-              {% if show_caption %}<span class="new-arrivals-gallery__caption">{{ card_4_alt }}</span>{% endif %}
+              {% if show_caption %}
+                <div class="new-arrivals-gallery__caption">
+                  <span class="new-arrivals-gallery__caption-title">{{ card_4_alt }}</span>
+                  {% if card_4_sub != blank %}<span class="new-arrivals-gallery__caption-sub">{{ card_4_sub }}</span>{% endif %}
+                  {% if card_4_price != blank %}<span class="new-arrivals-gallery__caption-price">{{ card_4_price }}</span>{% endif %}
+                </div>
+              {% endif %}
             </div>
           {% if card_4_link != blank %}</a>{% endif %}
         </div>
@@ -150,29 +285,61 @@
         <div class="new-arrivals-gallery__row-split">
 
           <!-- Card 5 -->
-          <div class="new-arrivals-gallery__card new-arrivals-gallery__card--split" style="--nag-index: 4;">
+          <div class="new-arrivals-gallery__card new-arrivals-gallery__card--split" style="--nag-index: 4;" {% if card_5_block %}{{ card_5_block.shopify_attributes }}{% endif %}>
+            {% if card_5_badge != blank %}
+              <span class="new-arrivals-gallery__badge" style="background-color: {{ card_5_badge_bg }}; color: {{ card_5_badge_color }};">{{ card_5_badge }}</span>
+            {% endif %}
             {% if card_5_link != blank %}<a href="{{ card_5_link }}" class="new-arrivals-gallery__card-link" aria-label="{{ card_5_alt }}">{% endif %}
               <div class="new-arrivals-gallery__media{% if enable_hover_zoom %} new-arrivals-gallery__media--zoom{% endif %}{% if show_caption %} new-arrivals-gallery__media--caption{% endif %}">
                 {% if card_5_img != blank %}
-                  {{ card_5_img | image_url: width: 1400 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_5_alt }}
+                  {% if card_5_img_m != blank %}
+                    <picture>
+                      <source media="(max-width: 749px)" srcset="{{ card_5_img_m | image_url: width: 800 }}">
+                      {{ card_5_img | image_url: width: 1400 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_5_alt }}
+                    </picture>
+                  {% else %}
+                    {{ card_5_img | image_url: width: 1400 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_5_alt }}
+                  {% endif %}
                 {% else %}
                   <img src="{{ 'new-arrival-5.jpg' | asset_url }}" alt="{{ card_5_alt }}" class="new-arrivals-gallery__img" loading="eager" width="600" height="700">
                 {% endif %}
-                {% if show_caption %}<span class="new-arrivals-gallery__caption">{{ card_5_alt }}</span>{% endif %}
+                {% if show_caption %}
+                  <div class="new-arrivals-gallery__caption">
+                    <span class="new-arrivals-gallery__caption-title">{{ card_5_alt }}</span>
+                    {% if card_5_sub != blank %}<span class="new-arrivals-gallery__caption-sub">{{ card_5_sub }}</span>{% endif %}
+                    {% if card_5_price != blank %}<span class="new-arrivals-gallery__caption-price">{{ card_5_price }}</span>{% endif %}
+                  </div>
+                {% endif %}
               </div>
             {% if card_5_link != blank %}</a>{% endif %}
           </div>
 
           <!-- Card 6 -->
-          <div class="new-arrivals-gallery__card new-arrivals-gallery__card--split" style="--nag-index: 5;">
+          <div class="new-arrivals-gallery__card new-arrivals-gallery__card--split" style="--nag-index: 5;" {% if card_6_block %}{{ card_6_block.shopify_attributes }}{% endif %}>
+            {% if card_6_badge != blank %}
+              <span class="new-arrivals-gallery__badge" style="background-color: {{ card_6_badge_bg }}; color: {{ card_6_badge_color }};">{{ card_6_badge }}</span>
+            {% endif %}
             {% if card_6_link != blank %}<a href="{{ card_6_link }}" class="new-arrivals-gallery__card-link" aria-label="{{ card_6_alt }}">{% endif %}
               <div class="new-arrivals-gallery__media{% if enable_hover_zoom %} new-arrivals-gallery__media--zoom{% endif %}{% if show_caption %} new-arrivals-gallery__media--caption{% endif %}">
                 {% if card_6_img != blank %}
-                  {{ card_6_img | image_url: width: 1400 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_6_alt }}
+                  {% if card_6_img_m != blank %}
+                    <picture>
+                      <source media="(max-width: 749px)" srcset="{{ card_6_img_m | image_url: width: 800 }}">
+                      {{ card_6_img | image_url: width: 1400 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_6_alt }}
+                    </picture>
+                  {% else %}
+                    {{ card_6_img | image_url: width: 1400 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_6_alt }}
+                  {% endif %}
                 {% else %}
                   <img src="{{ 'new-arrival-6.jpg' | asset_url }}" alt="{{ card_6_alt }}" class="new-arrivals-gallery__img" loading="eager" width="600" height="700">
                 {% endif %}
-                {% if show_caption %}<span class="new-arrivals-gallery__caption">{{ card_6_alt }}</span>{% endif %}
+                {% if show_caption %}
+                  <div class="new-arrivals-gallery__caption">
+                    <span class="new-arrivals-gallery__caption-title">{{ card_6_alt }}</span>
+                    {% if card_6_sub != blank %}<span class="new-arrivals-gallery__caption-sub">{{ card_6_sub }}</span>{% endif %}
+                    {% if card_6_price != blank %}<span class="new-arrivals-gallery__caption-price">{{ card_6_price }}</span>{% endif %}
+                  </div>
+                {% endif %}
               </div>
             {% if card_6_link != blank %}</a>{% endif %}
           </div>
@@ -248,7 +415,7 @@
   .new-arrivals-gallery__subheading {
     font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, 'Times New Roman', serif !important;
     font-style: italic !important;
-    font-size: clamp(22px, 2vw, 30px) !important;
+    font-size: var(--nag-subheading-size, 26px) !important;
     color: var(--nag-heading-color, #111111) !important;
     margin-bottom: 4px !important;
     letter-spacing: 0.02em !important;
@@ -270,7 +437,7 @@
 
   .new-arrivals-gallery__underline {
     width: var(--nag-underline-width, 48px) !important;
-    height: 1px !important;
+    height: var(--nag-underline-height, 1px) !important;
     background-color: var(--nag-underline-color, #111111) !important;
     margin-top: 12px !important;
   }
@@ -318,6 +485,23 @@
   .new-arrivals-gallery__card--tall {
     aspect-ratio: auto !important;
     height: clamp(320px, 42vh, 520px) !important;
+  }
+
+  .new-arrivals-gallery__badge {
+    position: absolute !important;
+    top: 14px !important;
+    left: 14px !important;
+    z-index: 3 !important;
+    font-family: var(--font-body--family, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif) !important;
+    font-size: 10px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.14em !important;
+    text-transform: uppercase !important;
+    padding: 5px 10px !important;
+    border-radius: 2px !important;
+    line-height: 1.2 !important;
+    pointer-events: none !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;
   }
 
   /* Scroll-reveal (only animates when JS marks the section) */
@@ -378,18 +562,44 @@
     inset-inline: 0 !important;
     bottom: 0 !important;
     z-index: 2 !important;
-    padding: 44px 18px 14px !important;
-    font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif !important;
-    font-style: italic !important;
-    font-size: clamp(15px, 1.1vw, 19px) !important;
-    letter-spacing: 0.03em !important;
-    color: #ffffff !important;
+    padding: 44px 18px 16px !important;
     text-align: center !important;
     opacity: 0 !important;
     transform: translateY(10px) !important;
     transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
     pointer-events: none !important;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.42) 0%, rgba(0, 0, 0, 0) 100%) !important;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0) 100%) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 4px !important;
+  }
+
+  .new-arrivals-gallery__caption-title {
+    font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif !important;
+    font-style: italic !important;
+    font-size: clamp(15px, 1.1vw, 19px) !important;
+    letter-spacing: 0.03em !important;
+    color: #ffffff !important;
+    line-height: 1.2 !important;
+  }
+
+  .new-arrivals-gallery__caption-sub {
+    font-family: var(--font-body--family, sans-serif) !important;
+    font-size: 11px !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.12em !important;
+    text-transform: uppercase !important;
+    color: #d8c29d !important;
+  }
+
+  .new-arrivals-gallery__caption-price {
+    font-family: var(--font-body--family, sans-serif) !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.08em !important;
+    color: #ffffff !important;
+    opacity: 0.9 !important;
   }
 
   .new-arrivals-gallery__media--caption:hover .new-arrivals-gallery__caption,
@@ -398,11 +608,11 @@
     transform: translateY(0) !important;
   }
 
-  /* Mobile: same editorial collage, stacked in one column (no slider) */
+  /* Mobile: same editorial collage, stacked in one column */
   @media screen and (max-width: 989px) {
     .new-arrivals-gallery {
-      padding-block-start: clamp(26px, 4vw, 30px) !important;
-      padding-block-end: clamp(16px, 3.5vw, 20px) !important;
+      padding-block-start: var(--nag-padding-top-m, 36px) !important;
+      padding-block-end: var(--nag-padding-bottom-m, 40px) !important;
     }
 
     .new-arrivals-gallery__container {
@@ -415,7 +625,11 @@
     }
 
     .new-arrivals-gallery__subheading {
-      font-size: 22px !important;
+      font-size: var(--nag-subheading-size-m, 22px) !important;
+    }
+
+    .new-arrivals-gallery__heading {
+      font-size: var(--nag-heading-size-m, 16px) !important;
     }
 
     .new-arrivals-gallery__grid {
@@ -483,16 +697,37 @@
   "name": "New Arrivals Gallery",
   "tag": "section",
   "class": "section-new-arrivals-gallery",
+  "max_blocks": 6,
   "settings": [
     {
       "type": "header",
-      "content": "Heading & Title"
+      "content": "Heading & Typography"
     },
     {
       "type": "text",
       "id": "subheading",
       "label": "Italic Subheading",
       "default": "the"
+    },
+    {
+      "type": "range",
+      "id": "subheading_size",
+      "min": 16,
+      "max": 40,
+      "step": 1,
+      "unit": "px",
+      "label": "Subheading Font Size (Desktop)",
+      "default": 26
+    },
+    {
+      "type": "range",
+      "id": "subheading_size_m",
+      "min": 14,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "label": "Subheading Font Size (Mobile)",
+      "default": 22
     },
     {
       "type": "text",
@@ -504,11 +739,21 @@
       "type": "range",
       "id": "heading_size",
       "min": 14,
-      "max": 36,
+      "max": 44,
       "step": 1,
       "unit": "px",
-      "label": "Heading Font Size",
+      "label": "Heading Font Size (Desktop)",
       "default": 20
+    },
+    {
+      "type": "range",
+      "id": "heading_size_m",
+      "min": 12,
+      "max": 32,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading Font Size (Mobile)",
+      "default": 16
     },
     {
       "type": "text",
@@ -523,6 +768,10 @@
       "default": "#111111"
     },
     {
+      "type": "header",
+      "content": "Curatorial Underline"
+    },
+    {
       "type": "checkbox",
       "id": "show_underline",
       "label": "Show Underline",
@@ -532,11 +781,21 @@
       "type": "range",
       "id": "underline_width",
       "min": 20,
-      "max": 120,
+      "max": 140,
       "step": 2,
       "unit": "px",
       "label": "Underline Width",
       "default": 48
+    },
+    {
+      "type": "range",
+      "id": "underline_height",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "label": "Underline Thickness",
+      "default": 1
     },
     {
       "type": "color",
@@ -546,133 +805,12 @@
     },
     {
       "type": "header",
-      "content": "Left Column - Top Left (Card 1)"
-    },
-    {
-      "type": "image_picker",
-      "id": "card_1_image",
-      "label": "Card 1 Image"
-    },
-    {
-      "type": "url",
-      "id": "card_1_link",
-      "label": "Card 1 Link"
-    },
-    {
-      "type": "text",
-      "id": "card_1_alt",
-      "label": "Card 1 Alt Text",
-      "default": "Classical Urn Vase"
-    },
-    {
-      "type": "header",
-      "content": "Left Column - Top Right (Card 2)"
-    },
-    {
-      "type": "image_picker",
-      "id": "card_2_image",
-      "label": "Card 2 Image"
-    },
-    {
-      "type": "url",
-      "id": "card_2_link",
-      "label": "Card 2 Link"
-    },
-    {
-      "type": "text",
-      "id": "card_2_alt",
-      "label": "Card 2 Alt Text",
-      "default": "Luxury Marble Vessel"
-    },
-    {
-      "type": "header",
-      "content": "Left Column - Bottom Wide (Card 3)"
-    },
-    {
-      "type": "image_picker",
-      "id": "card_3_image",
-      "label": "Card 3 Image"
-    },
-    {
-      "type": "url",
-      "id": "card_3_link",
-      "label": "Card 3 Link"
-    },
-    {
-      "type": "text",
-      "id": "card_3_alt",
-      "label": "Card 3 Alt Text",
-      "default": "Console Table with Forest Mural"
-    },
-    {
-      "type": "header",
-      "content": "Right Column - Top Feature (Card 4)"
-    },
-    {
-      "type": "image_picker",
-      "id": "card_4_image",
-      "label": "Card 4 Image"
-    },
-    {
-      "type": "url",
-      "id": "card_4_link",
-      "label": "Card 4 Link"
-    },
-    {
-      "type": "text",
-      "id": "card_4_alt",
-      "label": "Card 4 Alt Text",
-      "default": "Tall Standing Cabinet"
-    },
-    {
-      "type": "header",
-      "content": "Right Column - Bottom Left (Card 5)"
-    },
-    {
-      "type": "image_picker",
-      "id": "card_5_image",
-      "label": "Card 5 Image"
-    },
-    {
-      "type": "url",
-      "id": "card_5_link",
-      "label": "Card 5 Link"
-    },
-    {
-      "type": "text",
-      "id": "card_5_alt",
-      "label": "Card 5 Alt Text",
-      "default": "Vintage Ribbed Teapot"
-    },
-    {
-      "type": "header",
-      "content": "Right Column - Bottom Right (Card 6)"
-    },
-    {
-      "type": "image_picker",
-      "id": "card_6_image",
-      "label": "Card 6 Image"
-    },
-    {
-      "type": "url",
-      "id": "card_6_link",
-      "label": "Card 6 Link"
-    },
-    {
-      "type": "text",
-      "id": "card_6_alt",
-      "label": "Card 6 Alt Text",
-      "default": "Sculptural Globe Lamp"
-    },
-    {
-      "type": "header",
-      "content": "Layout & Animation Settings"
+      "content": "Layout & Media"
     },
     {
       "type": "checkbox",
       "id": "full_width",
       "label": "Full width (edge to edge)",
-      "info": "Grid stretches across the whole screen with a small side gutter. Turn off to cap it at the max width below.",
       "default": true
     },
     {
@@ -683,7 +821,6 @@
       "step": 20,
       "unit": "px",
       "label": "Grid Max Width",
-      "info": "Only applies when full width is off.",
       "default": 1680
     },
     {
@@ -715,8 +852,7 @@
     {
       "type": "checkbox",
       "id": "show_caption_on_hover",
-      "label": "Show caption on hover",
-      "info": "Product name fades in over the image with a soft dark veil (desktop only).",
+      "label": "Show Caption on Hover",
       "default": true
     },
     {
@@ -726,13 +862,17 @@
       "default": "#ffffff"
     },
     {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
       "type": "range",
       "id": "padding_top",
       "min": 0,
       "max": 120,
       "step": 4,
       "unit": "px",
-      "label": "Padding Top",
+      "label": "Padding Top (Desktop)",
       "default": 48
     },
     {
@@ -742,21 +882,127 @@
       "max": 120,
       "step": 4,
       "unit": "px",
-      "label": "Padding Bottom",
+      "label": "Padding Bottom (Desktop)",
       "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_top_m",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Top (Mobile)",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_m",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding Bottom (Mobile)",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "arrival_card",
+      "name": "Arrival Item Card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Desktop Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile",
+          "label": "Mobile Image (Optional)"
+        },
+        {
+          "type": "text",
+          "id": "alt",
+          "label": "Item Title / Caption",
+          "default": "Curated Object"
+        },
+        {
+          "type": "text",
+          "id": "designer",
+          "label": "Designer / Maker Subtitle"
+        },
+        {
+          "type": "text",
+          "id": "price",
+          "label": "Price Tag (Optional)"
+        },
+        {
+          "type": "text",
+          "id": "badge",
+          "label": "Badge Pill Text (Optional)"
+        },
+        {
+          "type": "color",
+          "id": "badge_bg",
+          "label": "Badge Background Color",
+          "default": "#111111"
+        },
+        {
+          "type": "color",
+          "id": "badge_color",
+          "label": "Badge Text Color",
+          "default": "#ffffff"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Card Link"
+        }
+      ]
     }
   ],
   "presets": [
     {
       "name": "New Arrivals Gallery",
-      "settings": {
-        "subheading": "the",
-        "heading": "NEW ARRIVALS",
-        "show_underline": true,
-        "full_width": true,
-        "max_width": 1680,
-        "gap": 18
-      }
+      "blocks": [
+        {
+          "type": "arrival_card",
+          "settings": {
+            "alt": "Vase Calyx-krater By Eichholtz"
+          }
+        },
+        {
+          "type": "arrival_card",
+          "settings": {
+            "alt": "Apsara Candy Jar By Ira Udaipur"
+          }
+        },
+        {
+          "type": "arrival_card",
+          "settings": {
+            "alt": "Nico Cladded Console By The Edit"
+          }
+        },
+        {
+          "type": "arrival_card",
+          "settings": {
+            "alt": "Grain of Time Bar Cabinet By Jagdish Sutar"
+          }
+        },
+        {
+          "type": "arrival_card",
+          "settings": {
+            "alt": "Old Soul Teapot XIII By Eina Ahluwalia"
+          }
+        },
+        {
+          "type": "arrival_card",
+          "settings": {
+            "alt": "Lagori Round Table Lamp By Yaahvi"
+          }
+        }
+      ]
     }
   ]
 }

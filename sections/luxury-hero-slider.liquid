@@ -89,8 +89,18 @@
             fallback: block.settings.default_asset
           %}
         </div>
-        {% if s.overlay_opacity > 0 %}
-          <div class="luxp-hero__overlay" aria-hidden="true"></div>
+        {%- liquid
+          assign slide_overlay_opacity = block.settings.overlay_opacity
+          if slide_overlay_opacity == blank
+            assign slide_overlay_opacity = s.overlay_opacity
+          endif
+          assign slide_overlay_color = block.settings.overlay_color
+          if slide_overlay_color == blank
+            assign slide_overlay_color = s.overlay_color | default: '#000000'
+          endif
+        -%}
+        {% if slide_overlay_opacity > 0 %}
+          <div class="luxp-hero__overlay" style="background-color: {{ slide_overlay_color }}; opacity: {{ slide_overlay_opacity | times: 0.01 }};" aria-hidden="true"></div>
         {% endif %}
 
         {%- assign slide_link = block.settings.button_link | default: block.settings.button_2_link -%}
@@ -103,8 +113,9 @@
         {% endif %}
 
         {% if block.settings.heading != blank or block.settings.description != blank or block.settings.button_label != blank or block.settings.button_2_label != blank %}
+          {%- assign slide_align = block.settings.text_align | default: s.text_align | default: 'center' -%}
           <div class="luxp-container">
-            <div class="luxp-hero__content luxp-hero__content--{{ s.text_align | default: 'center' }}">
+            <div class="luxp-hero__content luxp-hero__content--{{ slide_align }}">
               {% if block.settings.subheading != blank %}
                 <p class="luxp-eyebrow">{{ block.settings.subheading }}</p>
               {% endif %}
@@ -299,7 +310,15 @@
         { "type": "text", "id": "button_label", "label": "Button 1 label" },
         { "type": "url", "id": "button_link", "label": "Button 1 link" },
         { "type": "text", "id": "button_2_label", "label": "Button 2 label" },
-        { "type": "url", "id": "button_2_link", "label": "Button 2 link" }
+        { "type": "url", "id": "button_2_link", "label": "Button 2 link" },
+        { "type": "header", "content": "Slide Overrides (Optional)" },
+        { "type": "color", "id": "overlay_color", "label": "Slide Overlay Color" },
+        { "type": "range", "id": "overlay_opacity", "min": 0, "max": 90, "step": 5, "unit": "%", "label": "Slide Overlay Opacity", "default": 0 },
+        { "type": "select", "id": "text_align", "label": "Content Alignment", "options": [
+          { "value": "center", "label": "Center" },
+          { "value": "left", "label": "Left" },
+          { "value": "right", "label": "Right" }
+        ], "default": "center" }
       ]
     }
   ],
