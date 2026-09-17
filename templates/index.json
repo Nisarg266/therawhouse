@@ -461,43 +461,43 @@
         "card_1": {
           "type": "editorial_card",
           "settings": {
-            "image": "shopify://shop_images/920269d4-d86e-44ea-9ea7-05fc2920f168.png",
-            "image_mobile": "shopify://shop_images/d100891c-b0e0-43dc-b5d0-296feb43aa69_2.png",
+            "image": "",
+            "image_mobile": "",
             "default_asset": "",
-            "badge": "Oneiric",
+            "badge": "Curated",
             "badge_bg": "#b08d57",
             "badge_color": "#ffffff",
-            "title": "Vaayu Console",
+            "title": "Objects With Presence",
             "curator": "",
-            "text": "The console from the Mudra collection takes inspiration from the Vayu element,\nembodying lightness and movement.",
-            "btn_text": "",
-            "link": "shopify://products/vaayu-console"
+            "text": "A quiet edit of sculptural furniture, artful accents, and collected pieces chosen for rooms that feel deeply personal.",
+            "btn_text": "SHOP THE EDIT",
+            "link": "shopify://collections/all"
           }
         },
         "card_2": {
           "type": "editorial_card",
           "settings": {
-            "default_asset": "recommendation-2.jpg",
-            "badge": "",
+            "default_asset": "",
+            "badge": "Journal",
             "badge_bg": "#b08d57",
             "badge_color": "#ffffff",
-            "title": "THE STORY OF THE RAW HOUSE WITH PRIYANKA KHANNA",
+            "title": "A Home, Slowly Collected",
             "curator": "",
-            "text": "Step inside the family home of luxury curator Priyanka Khanna and discover a thoughtfully collected world of art, design, and objects with stories to tell.",
-            "btn_text": "READ THIS JOURNAL",
+            "text": "A Raw House room is never rushed. It is built through texture, craft, memory, and the pleasure of finding the right object at the right time.",
+            "btn_text": "READ THE JOURNAL",
             "link": "shopify://blogs/news"
           }
         },
         "card_3": {
           "type": "editorial_card",
           "settings": {
-            "default_asset": "recommendation-3.jpg",
-            "badge": "",
+            "default_asset": "",
+            "badge": "New Edit",
             "badge_bg": "#b08d57",
             "badge_color": "#ffffff",
-            "title": "THE ART OF FINE LIVING",
+            "title": "For The Artful Table",
             "curator": "",
-            "text": "Built over time and inspired by authenticity, this edit embraces the beauty of layered living - brought to life through thoughtfully curated furniture, art, and accessories.",
+            "text": "Serveware, vessels, and conversation pieces selected for dinners that linger and everyday rituals that deserve beauty.",
             "btn_text": "SHOP THIS EDIT",
             "link": "shopify://collections/all"
           }
@@ -505,14 +505,14 @@
         "card_4": {
           "type": "editorial_card",
           "settings": {
-            "default_asset": "recommendation-4.jpg",
-            "badge": "",
+            "default_asset": "",
+            "badge": "Studio Notes",
             "badge_bg": "#b08d57",
             "badge_color": "#ffffff",
-            "title": "A LIFE, COLLECTED WITH EINA AHLUWALIA",
+            "title": "Materials That Tell Time",
             "curator": "",
-            "text": "Step inside modern-day collector Eina Ahluwalia's space graced with memorable finds and antiques, and discover what makes her collect.",
-            "btn_text": "READ THIS JOURNAL",
+            "text": "From hand-finished surfaces to imperfect natural textures, this is a study in pieces that grow richer as they live with you.",
+            "btn_text": "READ THE JOURNAL",
             "link": "shopify://blogs/news"
           }
         }
@@ -607,12 +607,12 @@
           "type": "product_card",
           "settings": {
             "product": "",
-            "default_asset": "fine-print-1.jpg",
-            "title": "Radha and Krishna",
-            "vendor": "By Mahaveer Swami",
-            "price": "₹3,900.00",
+            "default_asset": "",
+            "title": "Archival Floral Study",
+            "vendor": "By The Raw House",
+            "price": "",
             "compare_at_price": "",
-            "badge": "OPTIONS AVAILABLE",
+            "badge": "COMING SOON",
             "badge_bg": "#b08d57",
             "badge_color": "#ffffff",
             "badge_2": "",
@@ -625,10 +625,10 @@
           "type": "product_card",
           "settings": {
             "product": "",
-            "default_asset": "fine-print-2.jpg",
-            "title": "Pink Flower Deep Plate - Bitossi",
-            "vendor": "By Mon Dimora",
-            "price": "₹5,900.00",
+            "default_asset": "",
+            "title": "Linework Interior Print",
+            "vendor": "By The Raw House",
+            "price": "",
             "compare_at_price": "",
             "badge": "",
             "badge_bg": "#b08d57",
@@ -643,15 +643,15 @@
           "type": "product_card",
           "settings": {
             "product": "",
-            "default_asset": "fine-print-3.jpg",
-            "title": "The Blueroom Hand Printed Wallpaper",
-            "vendor": "By Oldhand Designs",
-            "price": "₹13,000.00",
+            "default_asset": "",
+            "title": "Textile Motif Print",
+            "vendor": "By The Raw House",
+            "price": "",
             "compare_at_price": "",
-            "badge": "OPTIONS AVAILABLE",
+            "badge": "COMING SOON",
             "badge_bg": "#b08d57",
             "badge_color": "#ffffff",
-            "badge_2": "CUSTOMIZABLE",
+            "badge_2": "",
             "badge_2_bg": "#111111",
             "badge_2_color": "#ffffff",
             "link": "shopify://collections/all"
@@ -661,12 +661,12 @@
           "type": "product_card",
           "settings": {
             "product": "",
-            "default_asset": "art-print-limited-edition.jpg",
-            "title": "Lotus In Pichwai Archival Print",
+            "default_asset": "",
+            "title": "Quiet Garden Print",
             "vendor": "By The Raw House Archive",
-            "price": "₹8,500.00",
+            "price": "",
             "compare_at_price": "",
-            "badge": "LIMITED EDITION",
+            "badge": "LIMITED RUN",
             "badge_bg": "#b08d57",
             "badge_color": "#ffffff",
             "badge_2": "",
@@ -763,9 +763,9 @@
         "maker_1": {
           "type": "maker",
           "settings": {
-            "default_asset": "maker-1.jpg",
-            "name": "Duffy London",
-            "subtitle": "Fun With Design",
+            "default_asset": "",
+            "name": "The Carving Studio",
+            "subtitle": "Hand-finished forms in wood and stone",
             "location": "",
             "badge": "",
             "badge_bg": "#b08d57",
@@ -776,9 +776,9 @@
         "maker_2": {
           "type": "maker",
           "settings": {
-            "default_asset": "maker-2.jpg",
-            "name": "Nishita",
-            "subtitle": "Nishita Thakurdas",
+            "default_asset": "",
+            "name": "The Clay Atelier",
+            "subtitle": "Ceramic objects with quiet character",
             "location": "",
             "badge": "",
             "badge_bg": "#b08d57",
@@ -789,9 +789,9 @@
         "maker_3": {
           "type": "maker",
           "settings": {
-            "default_asset": "maker-3.jpg",
-            "name": "Paul Matter",
-            "subtitle": "Nikhil Paul",
+            "default_asset": "",
+            "name": "The Metal Workshop",
+            "subtitle": "Sculptural lighting and crafted details",
             "location": "",
             "badge": "",
             "badge_bg": "#b08d57",
@@ -802,9 +802,9 @@
         "maker_4": {
           "type": "maker",
           "settings": {
-            "default_asset": "maker-4.jpg",
-            "name": "Jay Strongwater",
-            "subtitle": "Hand Enameled Jewels for Home",
+            "default_asset": "",
+            "name": "The Textile Room",
+            "subtitle": "Layered weaves, embroidery, and soft craft",
             "location": "",
             "badge": "",
             "badge_bg": "#b08d57",
@@ -901,8 +901,8 @@
           "type": "feature",
           "settings": {
             "icon": "certificate",
-            "label": "CERTIFIED AUTHENTICITY",
-            "text": "Each artwork and object arrives with a signed certificate of provenance.",
+            "label": "THOUGHTFULLY SOURCED",
+            "text": "Every object is selected for craft, material integrity, and the feeling it brings into a room.",
             "link": ""
           }
         },
@@ -910,8 +910,8 @@
           "type": "feature",
           "settings": {
             "icon": "truck",
-            "label": "WHITE-GLOVE DELIVERY",
-            "text": "Museum-grade packing and doorstep installation, handled by specialists.",
+            "label": "CAREFUL DELIVERY",
+            "text": "Pieces are packed with care and prepared for a smooth arrival at your home.",
             "link": ""
           }
         },
@@ -919,8 +919,8 @@
           "type": "feature",
           "settings": {
             "icon": "gem",
-            "label": "BESPOKE CURATION",
-            "text": "Personal advisory to help you collect pieces that belong to your story.",
+            "label": "PERSONAL CURATION",
+            "text": "Need help choosing? We can guide you toward pieces that sit naturally with your space.",
             "link": ""
           }
         }
@@ -932,10 +932,10 @@
       ],
       "settings": {
         "eyebrow": "the",
-        "heading": "A T E L I E R   P R O M I S E",
-        "statement": "<p>Every piece that reaches your home is hand-selected at the atelier, certified for provenance, and delivered with the same reverence the masters poured into making it.</p>",
+        "heading": "T H E   R A W   H O U S E   P R O M I S E",
+        "statement": "<p>We collect pieces with soul: crafted objects, artful furniture, and details that make a home feel layered, warm, and unmistakably yours.</p>",
         "show_ornament": true,
-        "default_asset": "hero-lighting-art-3.jpg",
+        "default_asset": "",
         "image_fit": "cover",
         "overlay_color": "#000000",
         "overlay_opacity": 75,
@@ -986,7 +986,7 @@
         "color_accent": "#c9a870",
         "color_muted": "",
         "color_border": "",
-        "btn_label": "DISCOVER THE HOUSE",
+        "btn_label": "EXPLORE THE COLLECTION",
         "btn_link": "shopify://collections/all",
         "btn_style": "solid",
         "btn_height": 46,
@@ -1053,8 +1053,8 @@
       ],
       "settings": {
         "eyebrow": "",
-        "heading": "A little bit of us",
-        "body": "<p>The Raw House is a destination for design, artistry and craftsmanship, curated for a life artfully lived.</p>",
+        "heading": "A Little Bit Of Us",
+        "body": "<p>The Raw House brings together crafted furniture, art objects, and collectable details for homes that feel personal, layered, and alive.</p>",
         "show_ornament": false,
         "text_align": "center",
         "container_mode": "fixed",
@@ -1116,42 +1116,42 @@
         "press_1": {
           "type": "press_logo",
           "settings": {
-            "title": "Ideal Home",
+            "title": "THE RAW EDIT",
             "link": ""
           }
         },
         "press_2": {
           "type": "press_logo",
           "settings": {
-            "title": "GoodHomes India",
+            "title": "DESIGN NOTES",
             "link": ""
           }
         },
         "press_3": {
           "type": "press_logo",
           "settings": {
-            "title": "AD",
+            "title": "HOUSE JOURNAL",
             "link": ""
           }
         },
         "press_4": {
           "type": "press_logo",
           "settings": {
-            "title": "VOGUE",
+            "title": "ARTFUL LIVING",
             "link": ""
           }
         },
         "press_5": {
           "type": "press_logo",
           "settings": {
-            "title": "ELLE DECOR",
+            "title": "CRAFT FILES",
             "link": ""
           }
         },
         "press_6": {
           "type": "press_logo",
           "settings": {
-            "title": "FEMINA",
+            "title": "OBJECT STORIES",
             "link": ""
           }
         }
@@ -1166,7 +1166,7 @@
       ],
       "settings": {
         "eyebrow": "",
-        "heading": "FEATURED IN",
+        "heading": "FROM THE HOUSE",
         "show_ornament": true,
         "logos_margin_top": 24,
         "header_gap": 10,
@@ -1177,9 +1177,9 @@
         "logo_weight": "500",
         "logo_ls": "0.14em",
         "show_quote": true,
-        "quote_line_1": "Nothing haunts us",
-        "quote_line_2": "LIKE THE THINGS",
-        "quote_line_3": "we didn't buy",
+        "quote_line_1": "A home feels richer",
+        "quote_line_2": "WHEN EVERY OBJECT",
+        "quote_line_3": "has a story",
         "show_quote_dividers": true,
         "quote_margin_top": 44,
         "quote_gap": 6,
