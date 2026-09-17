@@ -116,6 +116,11 @@
   if btn_text_hover != blank and btn_text_hover != 'rgba(0,0,0,0)'
     assign v_btn_fg_h = btn_text_hover
   endif
+
+  assign v_btn_outline_fg = v_btn_border
+  if btn_text != blank and btn_text != 'rgba(0,0,0,0)'
+    assign v_btn_outline_fg = btn_text
+  endif
 -%}
 --luxp-bg: {{ v_bg }};
 --luxp-fg: {{ v_fg }};
@@ -128,3 +133,4 @@
 --luxp-btn-border: {{ v_btn_border }};
 --luxp-btn-bg-h: {{ v_btn_bg_h }};
 --luxp-btn-fg-h: {{ v_btn_fg_h }};
+--luxp-btn-outline-fg: {{ v_btn_outline_fg }};

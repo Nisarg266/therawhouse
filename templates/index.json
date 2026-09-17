@@ -17,14 +17,9 @@
           "settings": {
             "image": "shopify://shop_images/53680494-2a4f-43c4-92dc-e8a0a8fba65f.png",
             "default_asset": "hero-slide-1.jpg",
-            "subheading": "",
-            "heading": "",
-            "description": "Monumental textured linen canvases, gold leaf impasto, and evocative masterworks by acclaimed contemporary painters.",
-            "content_alignment": "center",
-            "button_label": "",
-            "button_link": "shopify://collections/all",
-            "button_2_label": "VIEW EXHIBITION",
-            "button_2_link": ""
+            "description": "",
+            "button_2_label": "",
+            "button_link": "shopify://collections/all"
           }
         },
         "slide_2": {
@@ -32,14 +27,9 @@
           "settings": {
             "image": "shopify://shop_images/3c2a8f52-358c-4ff6-9e88-f0e441cc7b80.png",
             "default_asset": "hero-slide-2.jpg",
-            "subheading": "",
-            "heading": "",
-            "description": "Monumental textured linen canvases, gold leaf impasto, and evocative masterworks by acclaimed contemporary painters.",
-            "content_alignment": "center",
-            "button_label": "",
-            "button_link": "shopify://blogs/news",
-            "button_2_label": "VIEW EXHIBITION",
-            "button_2_link": ""
+            "description": "",
+            "button_2_label": "",
+            "button_link": "shopify://blogs/news"
           }
         },
         "slide_3": {
@@ -47,14 +37,9 @@
           "settings": {
             "image": "shopify://shop_images/68ea042e-b783-454a-9600-bc049ce2595e.png",
             "default_asset": "hero-slide-3.jpg",
-            "subheading": "",
-            "heading": "",
-            "description": "Monumental textured linen canvases, gold leaf impasto, and evocative masterworks by acclaimed contemporary painters.",
-            "content_alignment": "center",
-            "button_label": "",
-            "button_link": "shopify://collections/all",
-            "button_2_label": "VIEW EXHIBITION",
-            "button_2_link": ""
+            "description": "",
+            "button_2_label": "",
+            "button_link": "shopify://collections/all"
           }
         }
       },
@@ -64,115 +49,30 @@
         "slide_3"
       ],
       "settings": {
-        "color_scheme_preset": "dark",
-        "custom_accent_color": "",
-        "desktop_height": 92,
-        "mobile_height": 70,
+        "color_preset": "dark",
+        "height_desktop": 92,
+        "height_mobile": 70,
         "autoplay": true,
         "autoplay_speed": 6,
-        "overlay_color": "#000000",
-        "overlay_opacity": 0
+        "overlay_opacity": 0,
+        "heading_size": 44
       }
     },
     "product_catalog": {
       "type": "luxury-product-catalog",
       "blocks": {
-        "catalog_image_1": {
-          "type": "catalog_image",
-          "settings": {
-            "link": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/Shrujan_Catalogue_compressed_under_20MB_1.pdf?v=1789588636",
-            "alt": "SHRUJAN",
-            "show_view_icon": true
-          }
-        },
-        "catalog_image_2": {
-          "type": "catalog_image",
-          "settings": {
-            "link": "shopify://collections/all",
-            "alt": "Catalog artwork",
-            "show_view_icon": true
-          }
-        },
-        "catalog_image_3": {
-          "type": "catalog_image",
-          "settings": {
-            "link": "shopify://collections/all",
-            "alt": "Catalog artwork",
-            "show_view_icon": true
-          }
-        },
-        "catalog_image_4": {
-          "type": "catalog_image",
-          "settings": {
-            "link": "shopify://collections/all",
-            "alt": "Catalog artwork",
-            "show_view_icon": true
-          }
-        },
-        "catalog_image_5": {
-          "type": "catalog_image",
-          "settings": {
-            "link": "shopify://collections/all",
-            "alt": "Catalog artwork",
-            "show_view_icon": true
-          }
-        },
-        "catalog_image_6": {
-          "type": "catalog_image",
-          "settings": {
-            "link": "shopify://collections/all",
-            "alt": "Catalog artwork",
-            "show_view_icon": true
-          }
-        },
-        "catalog_image_7": {
-          "type": "catalog_image",
-          "settings": {
-            "link": "shopify://collections/all",
-            "alt": "Catalog artwork",
-            "show_view_icon": true
-          }
-        },
-        "catalog_image_8": {
-          "type": "catalog_image",
-          "settings": {
-            "link": "shopify://collections/all",
-            "alt": "Catalog artwork",
-            "show_view_icon": true
-          }
-        },
-        "catalog_image_9": {
-          "type": "catalog_image",
-          "settings": {
-            "link": "shopify://collections/all",
-            "alt": "Catalog artwork",
-            "show_view_icon": true
-          }
-        },
-        "catalog_image_10": {
-          "type": "catalog_image",
-          "settings": {
-            "link": "shopify://collections/all",
-            "alt": "Catalog artwork",
-            "show_view_icon": true
-          }
-        },
-        "catalog_image_11": {
-          "type": "catalog_image",
-          "settings": {
-            "link": "shopify://collections/all",
-            "alt": "Catalog artwork",
-            "show_view_icon": true
-          }
-        },
-        "catalog_image_12": {
-          "type": "catalog_image",
-          "settings": {
-            "link": "shopify://collections/all",
-            "alt": "Catalog artwork",
-            "show_view_icon": true
-          }
-        }
+        "catalog_image_1": { "type": "catalog_cover", "settings": { "default_asset": "art-painting-gold-canvas.jpg", "link": "shopify://collections/all", "show_view_icon": true } },
+        "catalog_image_2": { "type": "catalog_cover", "settings": { "default_asset": "art-painting-abstract-oil.jpg", "link": "shopify://collections/all", "show_view_icon": true } },
+        "catalog_image_3": { "type": "catalog_cover", "settings": { "default_asset": "fine-print-1.jpg", "link": "shopify://collections/all", "show_view_icon": true } },
+        "catalog_image_4": { "type": "catalog_cover", "settings": { "default_asset": "art-gallery-room-hotspots.jpg", "link": "shopify://collections/all", "show_view_icon": true } },
+        "catalog_image_5": { "type": "catalog_cover", "settings": { "default_asset": "art-painting-expressionist.jpg", "link": "shopify://collections/all", "show_view_icon": true } },
+        "catalog_image_6": { "type": "catalog_cover", "settings": { "default_asset": "fine-print-2.jpg", "link": "shopify://collections/all", "show_view_icon": true } },
+        "catalog_image_7": { "type": "catalog_cover", "settings": { "default_asset": "art-painting-starry-night.jpg", "link": "shopify://collections/all", "show_view_icon": true } },
+        "catalog_image_8": { "type": "catalog_cover", "settings": { "default_asset": "art-painting-pearl.jpg", "link": "shopify://collections/all", "show_view_icon": true } },
+        "catalog_image_9": { "type": "catalog_cover", "settings": { "default_asset": "art-decor-ceramic-statue.jpg", "link": "shopify://collections/all", "show_view_icon": true } },
+        "catalog_image_10": { "type": "catalog_cover", "settings": { "default_asset": "art-painting-water-lilies.jpg", "link": "shopify://collections/all", "show_view_icon": true } },
+        "catalog_image_11": { "type": "catalog_cover", "settings": { "default_asset": "art-sculpture-rodin-thinker.jpg", "link": "shopify://collections/all", "show_view_icon": true } },
+        "catalog_image_12": { "type": "catalog_cover", "settings": { "default_asset": "art-sculpture-venus-milo.jpg", "link": "shopify://collections/all", "show_view_icon": true } }
       },
       "block_order": [
         "catalog_image_1",
@@ -189,28 +89,29 @@
         "catalog_image_12"
       ],
       "settings": {
-        "subheading": "the",
+        "eyebrow": "the",
         "heading": "C A T A L O G",
         "heading_size": 20,
-        "heading_letter_spacing": "0.35em",
-        "show_underline": true,
-        "underline_width": 44,
-        "description": "Browse our catalogs — tap any cover to open.",
+        "heading_ls": "0.35em",
+        "show_ornament": true,
+        "intro": "<p>Browse our catalogs — tap any cover to open.</p>",
         "open_links_new_tab": true,
-        "enable_hover_zoom": true,
+        "container_mode": "full",
+        "columns": 4,
+        "col_gap": 16,
+        "row_gap": 16,
+        "card_radius": 0,
+        "enable_view_more": true,
+        "initial_items": 8,
         "view_more_text": "VIEW MORE",
         "view_less_text": "VIEW LESS",
-        "full_width": true,
-        "gap": 16,
-        "card_radius": 0,
-        "max_width": 1440,
+        "color_bg": "#ffffff",
+        "card_bg": "#f7f6f2",
+        "color_heading": "#1a1a1a",
+        "color_text": "#4a4a4a",
+        "color_accent": "#b08d57",
         "padding_top": 48,
-        "padding_bottom": 64,
-        "background_color": "#ffffff",
-        "card_bg_color": "#f7f6f2",
-        "heading_color": "#1a1a1a",
-        "text_color": "#4a4a4a",
-        "accent_color": "#b08d57"
+        "padding_bottom": 64
       }
     },
     "new_arrivals": {
@@ -218,12 +119,14 @@
       "settings": {
         "subheading": "the",
         "heading": "N E W   A R R I V A L S",
-        "heading_size": 20,
-        "heading_letter_spacing": "0.35em",
-        "heading_color": "#1a1a1a",
         "show_underline": true,
-        "underline_width": 44,
-        "underline_color": "#111111",
+        "background_color": "#ffffff",
+        "heading_color": "#1a1a1a",
+        "gap": 16,
+        "corner_radius": 0,
+        "enable_hover_zoom": true,
+        "padding_top": 60,
+        "padding_bottom": 60,
         "card_1_link": "shopify://collections/all",
         "card_1_alt": "Vase Calyx-krater By Eichholtz",
         "card_2_link": "shopify://collections/all",
@@ -235,109 +138,177 @@
         "card_5_link": "shopify://collections/all",
         "card_5_alt": "Old Soul Teapot XIII By Eina Ahluwalia",
         "card_6_link": "shopify://collections/all",
-        "card_6_alt": "Lagori Round Table Lamp By Yaahvi",
-        "max_width": 1080,
-        "gap": 16,
-        "corner_radius": 0,
-        "enable_hover_zoom": true,
-        "background_color": "#ffffff",
-        "padding_top": 60,
-        "padding_bottom": 60
+        "card_6_alt": "Lagori Round Table Lamp By Yaahvi"
       }
     },
     "recommendations": {
       "type": "recommendations-editorial",
+      "blocks": {
+        "card_1": {
+          "type": "editorial_card",
+          "settings": {
+            "title": "SEASON OF THE SUN",
+            "text": "The art of leisure finds its rhythm in the sweetness of summer. Rugs gather the day's warmth, linens fall easy, and every corner feels more open, less hurried.",
+            "btn_text": "SHOP THIS EDIT",
+            "link": "shopify://collections/all",
+            "default_asset": "recommendation-1.jpg"
+          }
+        },
+        "card_2": {
+          "type": "editorial_card",
+          "settings": {
+            "title": "THE STORY OF THINGS WITH PRIYANKA KHANNA",
+            "text": "Step inside the family home of luxury curator Priyanka Khanna and discover a thoughtfully collected world of art, design, and objects with stories to tell.",
+            "btn_text": "READ THIS JOURNAL",
+            "link": "shopify://blogs/news",
+            "default_asset": "recommendation-2.jpg"
+          }
+        },
+        "card_3": {
+          "type": "editorial_card",
+          "settings": {
+            "title": "THE ART OF FINE LIVING",
+            "text": "Built over time and inspired by authenticity, this edit embraces the beauty of layered living - brought to life through thoughtfully curated furniture, art, and accessories.",
+            "btn_text": "SHOP THIS EDIT",
+            "link": "shopify://collections/all",
+            "default_asset": "recommendation-3.jpg"
+          }
+        },
+        "card_4": {
+          "type": "editorial_card",
+          "settings": {
+            "title": "A LIFE, COLLECTED WITH EINA AHLUWALIA",
+            "text": "Step inside modern-day collector Eina Ahluwalia's space graced with memorable finds and antiques, and discover what makes her collect.",
+            "btn_text": "READ THIS JOURNAL",
+            "link": "shopify://blogs/news",
+            "default_asset": "recommendation-4.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "card_1",
+        "card_2",
+        "card_3",
+        "card_4"
+      ],
       "settings": {
-        "subheading": "the",
+        "eyebrow": "the",
         "heading": "R E C O M M E N D A T I O N S",
-        "show_underline": true,
-        "heading_color": "#1a1a1a",
-        "card_1_title": "SEASON OF THE SUN",
-        "card_1_text": "The art of leisure finds its rhythm in the sweetness of summer. Rugs gather the day's warmth, linens fall easy, and every corner feels more open, less hurried.",
-        "card_1_link": "shopify://collections/all",
-        "card_1_btn_text": "SHOP THIS EDIT",
-        "card_2_title": "THE STORY OF THINGS WITH PRIYANKA KHANNA",
-        "card_2_text": "Step inside the family home of luxury curator Priyanka Khanna and discover a thoughtfully collected world of art, design, and objects with stories to tell.",
-        "card_2_link": "shopify://blogs/news",
-        "card_2_btn_text": "READ THIS JOURNAL",
-        "card_3_title": "THE ART OF FINE LIVING",
-        "card_3_text": "Built over time and inspired by authenticity, this edit embraces the beauty of layered living - brought to life through thoughtfully curated furniture, art, and accessories.",
-        "card_3_link": "shopify://collections/all",
-        "card_3_btn_text": "SHOP THIS EDIT",
-        "card_4_title": "A LIFE, COLLECTED WITH EINA AHLUWALIA",
-        "card_4_text": "Step inside modern-day collector Eina Ahluwalia's space graced with memorable finds and antiques, and discover what makes her collect.",
-        "card_4_link": "shopify://blogs/news",
-        "card_4_btn_text": "READ THIS JOURNAL",
-        "left_col_btn_label": "VIEW ALL EDITS",
-        "left_col_btn_link": "shopify://collections/all",
-        "right_col_btn_label": "VIEW ALL JOURNAL",
-        "right_col_btn_link": "shopify://blogs/news",
-        "max_width": 1080,
-        "gap": 36,
-        "enable_hover_zoom": true,
-        "background_color": "#ffffff",
+        "heading_size": 20,
+        "heading_ls": "0.35em",
+        "show_ornament": true,
+        "color_heading": "#1a1a1a",
+        "container_max": 1080,
+        "columns": 2,
+        "col_gap": 36,
+        "row_gap": 44,
+        "color_bg": "#ffffff",
         "padding_top": 60,
         "padding_bottom": 72
       }
     },
     "fine_prints": {
       "type": "fine-prints-showcase",
+      "blocks": {
+        "card_1": {
+          "type": "product_card",
+          "settings": {
+            "title": "Radha and Krishna",
+            "vendor": "By Mahaveer Swami",
+            "price": "₹3,900.00",
+            "badge": "OPTIONS AVAILABLE",
+            "badge_2": "",
+            "link": "shopify://collections/all",
+            "default_asset": "fine-print-1.jpg"
+          }
+        },
+        "card_2": {
+          "type": "product_card",
+          "settings": {
+            "title": "Pink Flower Deep Plate - Bitossi",
+            "vendor": "By Mon Dimora",
+            "price": "₹5,900.00",
+            "badge": "",
+            "link": "shopify://collections/all",
+            "default_asset": "fine-print-2.jpg"
+          }
+        },
+        "card_3": {
+          "type": "product_card",
+          "settings": {
+            "title": "The Blueroom Hand Printed Wallpaper",
+            "vendor": "By Oldhand Designs",
+            "price": "₹13,000.00",
+            "badge": "OPTIONS AVAILABLE",
+            "badge_2": "CUSTOMIZABLE",
+            "link": "shopify://collections/all",
+            "default_asset": "fine-print-3.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "card_1",
+        "card_2",
+        "card_3"
+      ],
       "settings": {
-        "subheading": "the",
+        "eyebrow": "the",
         "heading": "F I N E   P R I N T S",
-        "show_underline": true,
-        "heading_color": "#1a1a1a",
-        "card_1_title": "Radha and Krishna",
-        "card_1_vendor": "By Mahaveer Swami",
-        "card_1_price": "₹3,900.00",
-        "card_1_badge": "OPTIONS AVAILABLE",
-        "card_1_link": "shopify://collections/all",
-        "card_2_title": "Pink Flower Deep Plate - Bitossi",
-        "card_2_vendor": "By Mon Dimora",
-        "card_2_price": "₹5,900.00",
-        "card_2_badge": "",
-        "card_2_link": "shopify://collections/all",
-        "card_3_title": "The Blueroom Hand Printed Wallpaper",
-        "card_3_vendor": "By Oldhand Designs",
-        "card_3_price": "₹13,000.00",
-        "card_3_badge_1": "OPTIONS AVAILABLE",
-        "card_3_badge_2": "CUSTOMIZABLE",
-        "card_3_link": "shopify://collections/all",
-        "view_all_text": "VIEW ALL",
-        "view_all_link": "shopify://collections/all",
-        "max_width": 1080,
-        "gap": 28,
-        "enable_hover_zoom": true,
-        "background_color": "#ffffff",
+        "heading_size": 20,
+        "heading_ls": "0.35em",
+        "show_ornament": true,
+        "color_heading": "#1a1a1a",
+        "btn_label": "VIEW ALL",
+        "btn_link": "shopify://collections/all",
+        "container_max": 1080,
+        "columns": 3,
+        "col_gap": 28,
+        "row_gap": 40,
+        "color_bg": "#ffffff",
         "padding_top": 60,
         "padding_bottom": 60
       }
     },
     "the_makers": {
       "type": "the-makers-grid",
+      "blocks": {
+        "maker_1": {
+          "type": "maker",
+          "settings": { "name": "Duffy London", "subtitle": "Fun With Design", "link": "shopify://collections/all", "default_asset": "maker-1.jpg" }
+        },
+        "maker_2": {
+          "type": "maker",
+          "settings": { "name": "Nishita", "subtitle": "Nishita Thakurdas", "link": "shopify://collections/all", "default_asset": "maker-2.jpg" }
+        },
+        "maker_3": {
+          "type": "maker",
+          "settings": { "name": "Paul Matter", "subtitle": "Nikhil Paul", "link": "shopify://collections/all", "default_asset": "maker-3.jpg" }
+        },
+        "maker_4": {
+          "type": "maker",
+          "settings": { "name": "Jay Strongwater", "subtitle": "Hand Enameled Jewels for Home", "link": "shopify://collections/all", "default_asset": "maker-4.jpg" }
+        }
+      },
+      "block_order": [
+        "maker_1",
+        "maker_2",
+        "maker_3",
+        "maker_4"
+      ],
       "settings": {
-        "subheading": "the",
+        "eyebrow": "the",
         "heading": "M A K E R S",
-        "show_underline": true,
-        "heading_color": "#1a1a1a",
-        "maker_1_name": "Duffy London",
-        "maker_1_subtitle": "Fun With Design",
-        "maker_1_link": "shopify://collections/all",
-        "maker_2_name": "Nishita",
-        "maker_2_subtitle": "Nishita Thakurdas",
-        "maker_2_link": "shopify://collections/all",
-        "maker_3_name": "Paul Matter",
-        "maker_3_subtitle": "Nikhil Paul",
-        "maker_3_link": "shopify://collections/all",
-        "maker_4_name": "Jay Strongwater",
-        "maker_4_subtitle": "Hand Enameled Jewels for Home",
-        "maker_4_link": "shopify://collections/all",
-        "view_all_text": "VIEW OUR MAKERS",
-        "view_all_link": "shopify://collections/all",
-        "max_width": 1080,
-        "gap": 24,
-        "enable_hover_zoom": true,
-        "background_color": "#ffffff",
+        "heading_size": 20,
+        "heading_ls": "0.35em",
+        "show_ornament": true,
+        "color_heading": "#1a1a1a",
+        "btn_label": "VIEW OUR MAKERS",
+        "btn_link": "shopify://collections/all",
+        "container_max": 1080,
+        "columns": 4,
+        "col_gap": 24,
+        "row_gap": 36,
+        "color_bg": "#ffffff",
         "padding_top": 60,
         "padding_bottom": 64
       }
@@ -348,7 +319,7 @@
         "feature_1": {
           "type": "feature",
           "settings": {
-            "icon": "shield",
+            "icon": "certificate",
             "label": "CERTIFIED AUTHENTICITY",
             "text": "Each artwork and object arrives with a signed certificate of provenance."
           }
@@ -356,7 +327,7 @@
         "feature_2": {
           "type": "feature",
           "settings": {
-            "icon": "package",
+            "icon": "truck",
             "label": "WHITE-GLOVE DELIVERY",
             "text": "Museum-grade packing and doorstep installation, handled by specialists."
           }
@@ -364,7 +335,7 @@
         "feature_3": {
           "type": "feature",
           "settings": {
-            "icon": "diamond",
+            "icon": "gem",
             "label": "BESPOKE CURATION",
             "text": "Personal advisory to help you collect pieces that belong to your story."
           }
@@ -376,38 +347,54 @@
         "feature_3"
       ],
       "settings": {
-        "overlay_color": "#000000",
-        "overlay_opacity": 55,
-        "subheading": "the",
+        "eyebrow": "the",
         "heading": "A T E L I E R   P R O M I S E",
-        "statement": "Every piece that reaches your home is hand-selected at the atelier, certified for provenance, and delivered with the same reverence the masters poured into making it.",
+        "statement": "<p>Every piece that reaches your home is hand-selected at the atelier, certified for provenance, and delivered with the same reverence the masters poured into making it.</p>",
         "show_ornament": true,
-        "button_label": "DISCOVER THE HOUSE",
-        "button_link": "shopify://collections/all",
-        "background_color": "#17130e",
-        "text_color": "#f4efe6",
-        "accent_color": "#c9a870",
+        "btn_label": "DISCOVER THE HOUSE",
+        "btn_link": "shopify://collections/all",
+        "overlay_opacity": 55,
+        "color_bg": "#17130e",
+        "color_heading": "#f4efe6",
+        "color_text": "#f4efe6",
+        "color_accent": "#c9a870",
         "min_height": 480,
-        "max_width": 1080,
+        "container_max": 1080,
         "padding_top": 64,
         "padding_bottom": 64
       }
     },
     "brand_statement": {
       "type": "brand-manifesto",
+      "blocks": {
+        "social_facebook": {
+          "type": "social-link",
+          "settings": { "platform": "facebook", "label": "Facebook", "link": "https://facebook.com/therawhouse" }
+        },
+        "social_instagram": {
+          "type": "social-link",
+          "settings": { "platform": "instagram", "label": "Instagram", "link": "https://instagram.com/therawhouse" }
+        },
+        "social_x": {
+          "type": "social-link",
+          "settings": { "platform": "x", "label": "X (Twitter)", "link": "https://twitter.com" }
+        }
+      },
+      "block_order": [
+        "social_facebook",
+        "social_instagram",
+        "social_x"
+      ],
       "settings": {
         "heading": "A little bit of us",
-        "text": "The House of Things is a destination for design, artistry and craftsmanship, curated for a life artfully lived.",
-        "facebook_url": "https://facebook.com/therawhouse",
-        "instagram_url": "https://instagram.com/therawhouse",
-        "pinterest_url": "",
-        "twitter_url": "https://twitter.com",
-        "heading_color": "#1a1a1a",
-        "text_color": "#4a4a4a",
-        "icon_bg_color": "#2b2b2b",
-        "icon_color": "#ffffff",
-        "background_color": "#ffffff",
-        "max_width": 680,
+        "body": "<p>The House of Things is a destination for design, artistry and craftsmanship, curated for a life artfully lived.</p>",
+        "color_bg": "#ffffff",
+        "color_heading": "#1a1a1a",
+        "color_text": "#4a4a4a",
+        "color_accent": "#b08d57",
+        "social_bg": "#2b2b2b",
+        "social_fg": "#ffffff",
+        "container_max": 680,
         "padding_top": 56,
         "padding_bottom": 64
       }
@@ -415,54 +402,12 @@
     "press_and_quote": {
       "type": "featured-press-and-quote",
       "blocks": {
-        "press_1": {
-          "type": "press_logo",
-          "settings": {
-            "title": "Ideal Home",
-            "custom_svg": "",
-            "link": ""
-          }
-        },
-        "press_2": {
-          "type": "press_logo",
-          "settings": {
-            "title": "GoodHomes India",
-            "custom_svg": "",
-            "link": ""
-          }
-        },
-        "press_3": {
-          "type": "press_logo",
-          "settings": {
-            "title": "AD",
-            "custom_svg": "",
-            "link": ""
-          }
-        },
-        "press_4": {
-          "type": "press_logo",
-          "settings": {
-            "title": "VOGUE",
-            "custom_svg": "",
-            "link": ""
-          }
-        },
-        "press_5": {
-          "type": "press_logo",
-          "settings": {
-            "title": "ELLE DECOR",
-            "custom_svg": "",
-            "link": ""
-          }
-        },
-        "press_6": {
-          "type": "press_logo",
-          "settings": {
-            "title": "FEMINA",
-            "custom_svg": "",
-            "link": ""
-          }
-        }
+        "press_1": { "type": "press_logo", "settings": { "title": "Ideal Home" } },
+        "press_2": { "type": "press_logo", "settings": { "title": "GoodHomes India" } },
+        "press_3": { "type": "press_logo", "settings": { "title": "AD" } },
+        "press_4": { "type": "press_logo", "settings": { "title": "VOGUE" } },
+        "press_5": { "type": "press_logo", "settings": { "title": "ELLE DECOR" } },
+        "press_6": { "type": "press_logo", "settings": { "title": "FEMINA" } }
       },
       "block_order": [
         "press_1",
@@ -474,8 +419,7 @@
       ],
       "settings": {
         "heading": "Featured In",
-        "show_heading_underline": true,
-        "heading_color": "#1a1a1a",
+        "show_ornament": true,
         "show_quote": true,
         "quote_line_1": "Nothing haunts us",
         "quote_line_2": "LIKE THE THINGS",
@@ -483,9 +427,10 @@
         "show_quote_dividers": true,
         "quote_color": "#2a2a2a",
         "divider_color": "#222222",
-        "max_width": 1100,
+        "container_max": 1100,
         "logo_height": 28,
-        "background_color": "#ffffff",
+        "color_bg": "#ffffff",
+        "color_heading": "#1a1a1a",
         "padding_top": 56,
         "padding_bottom": 28
       }

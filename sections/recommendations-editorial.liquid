@@ -121,10 +121,11 @@
             {% if block.settings.badge != blank %}
               <span class="luxp-colcard__pill luxp-pill">{{ block.settings.badge }}</span>
             {% endif %}
+            {%- assign editorial_alt = block.settings.title | default: 'Editorial feature' -%}
             {% render 'luxp-image',
               image: block.settings.image,
               image_mobile: block.settings.image_mobile,
-              alt: block.settings.title | default: 'Editorial feature',
+              alt: editorial_alt,
               class: 'luxp-editorial__img',
               loading: 'lazy',
               sizes: '(min-width: 1024px) 50vw, 100vw',
@@ -188,7 +189,7 @@
     ], "default": "fixed" },
     { "type": "range", "id": "container_max", "min": 800, "max": 1600, "step": 20, "unit": "px", "label": "Container max width", "default": 1080 },
     { "type": "range", "id": "columns", "min": 1, "max": 4, "step": 1, "label": "Columns — desktop", "default": 2 },
-    { "type": "range", "id": "columns_tablet", "min": 1, "max": 3, "step": 1, "label": "Columns — tablet", "default": 1 },
+    { "type": "range", "id": "columns_tablet", "min": 1, "max": 4, "step": 1, "label": "Columns — tablet", "default": 1 },
     { "type": "select", "id": "columns_mobile", "label": "Columns — mobile", "options": [
       { "value": "1", "label": "1 column" },
       { "value": "2", "label": "2 columns" }

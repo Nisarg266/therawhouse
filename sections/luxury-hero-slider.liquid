@@ -93,6 +93,15 @@
           <div class="luxp-hero__overlay" aria-hidden="true"></div>
         {% endif %}
 
+        {%- assign slide_link = block.settings.button_link | default: block.settings.button_2_link -%}
+        {% if block.settings.button_label == blank and block.settings.button_2_label == blank and slide_link != blank %}
+          <a
+            href="{{ slide_link }}"
+            class="luxp-hero__slide-link"
+            aria-label="{{ slide_alt | escape }}"
+          ></a>
+        {% endif %}
+
         {% if block.settings.heading != blank or block.settings.description != blank or block.settings.button_label != blank or block.settings.button_2_label != blank %}
           <div class="luxp-container">
             <div class="luxp-hero__content luxp-hero__content--{{ s.text_align | default: 'center' }}">
@@ -187,7 +196,7 @@
     ], "default": "center" },
     { "type": "range", "id": "content_width", "min": 480, "max": 1200, "step": 20, "unit": "px", "label": "Content max width", "default": 760 },
     { "type": "range", "id": "content_padding_y", "min": 24, "max": 120, "step": 4, "unit": "px", "label": "Content padding — desktop", "default": 64 },
-    { "type": "range", "id": "content_padding_y_m", "min": 16, "max": 90, "step": 4, "unit": "px", "label": "Content padding — mobile", "default": 48 },
+    { "type": "range", "id": "content_padding_y_m", "min": 16, "max": 90, "step": 2, "unit": "px", "label": "Content padding — mobile", "default": 48 },
     { "type": "range", "id": "content_gap", "min": 6, "max": 30, "step": 2, "unit": "px", "label": "Content spacing", "default": 14 },
     { "type": "range", "id": "controls_inset", "min": 8, "max": 40, "step": 2, "unit": "px", "label": "Arrows / dots inset", "default": 18 },
 
@@ -235,7 +244,7 @@
       { "value": "serif", "label": "Serif (Georgia)" }
     ], "default": "body" },
     { "type": "range", "id": "body_size", "min": 12, "max": 22, "step": 1, "unit": "px", "label": "Font size — desktop", "default": 15 },
-    { "type": "range", "id": "body_size_m", "min": 12, "max": 20, "step": 1, "unit": "px", "label": "Font size — mobile", "default": 13.5 },
+    { "type": "range", "id": "body_size_m", "min": 12, "max": 20, "step": 1, "unit": "px", "label": "Font size — mobile", "default": 14 },
     { "type": "select", "id": "body_weight", "label": "Font weight", "options": [
       { "value": "300", "label": "Light 300" },
       { "value": "400", "label": "Regular 400" },
@@ -286,10 +295,10 @@
         { "type": "text", "id": "default_asset", "label": "Fallback asset filename", "info": "Theme asset used when no image is uploaded.", "default": "hero-slide-1.jpg" },
         { "type": "text", "id": "subheading", "label": "Eyebrow / subheading" },
         { "type": "text", "id": "heading", "label": "Heading" },
-        { "type": "textarea", "id": "description", "label": "Description", "default": "Monumental textured linen canvases, gold leaf impasto, and evocative masterworks by acclaimed contemporary painters." },
+        { "type": "textarea", "id": "description", "label": "Description" },
         { "type": "text", "id": "button_label", "label": "Button 1 label" },
         { "type": "url", "id": "button_link", "label": "Button 1 link" },
-        { "type": "text", "id": "button_2_label", "label": "Button 2 label", "default": "VIEW EXHIBITION" },
+        { "type": "text", "id": "button_2_label", "label": "Button 2 label" },
         { "type": "url", "id": "button_2_link", "label": "Button 2 link" }
       ]
     }

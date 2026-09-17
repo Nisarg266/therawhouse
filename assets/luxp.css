@@ -29,7 +29,9 @@
 /* Fully static by default: opt sections out of theme-wide link transitions.
    Motion is re-introduced only under .luxp-anim (merchant opt-in). */
 
-.luxp-section a {
+.luxp-section a,
+.luxp-hero a,
+.luxp-banner a {
   transition: none;
 }
 
@@ -168,14 +170,14 @@
 
 .luxp-btn--outline {
   background: transparent;
-  color: var(--luxp-btn-fg, var(--luxp-accent, #b38b4d));
-  border-color: var(--luxp-btn-border, var(--luxp-accent, #b38b4d));
+  color: var(--luxp-btn-outline-fg, var(--luxp-btn-border, var(--luxp-fg, #111111)));
+  border-color: var(--luxp-btn-border, var(--luxp-fg, #111111));
 }
 
 .luxp-btn--outline:hover {
-  background: var(--luxp-btn-bg-h, var(--luxp-btn-bg, #111111));
+  background: var(--luxp-btn-bg-h, var(--luxp-btn-border, var(--luxp-fg, #111111)));
   color: var(--luxp-btn-fg-h, #ffffff);
-  border-color: var(--luxp-btn-bg-h, var(--luxp-btn-bg, #111111));
+  border-color: var(--luxp-btn-border-h, var(--luxp-btn-bg-h, var(--luxp-btn-border, var(--luxp-fg, #111111))));
 }
 
 .luxp-btn--full {
@@ -758,6 +760,13 @@
   pointer-events: none;
 }
 
+.luxp-hero__slide-link {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: block;
+}
+
 .luxp-hero__content {
   position: relative;
   z-index: 2;
@@ -1102,6 +1111,10 @@
 
 .luxp-toggle-hidden {
   display: none !important;
+}
+
+[data-luxp-collapsible][data-luxp-expanded='true'] .luxp-toggle-hidden {
+  display: block !important;
 }
 
 .luxp-toggle-btn {

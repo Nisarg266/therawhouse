@@ -259,13 +259,14 @@
       {% endfor %}
     </div>
 
-    {% if s.btn_label != blank %}
+    {%- assign showcase_btn_label = s.btn_label | default: s.button_label -%}
+    {% if showcase_btn_label != blank %}
       <div class="luxp-footer">
         <a
-          href="{{ s.btn_link | default: routes.collections_url }}"
+          href="{{ s.btn_link | default: s.button_link | default: routes.collections_url }}"
           class="luxp-btn {% if s.btn_style == 'outline' %}luxp-btn--outline{% endif %} {% if s.btn_width == 'full' %}luxp-btn--full{% endif %} {% if s.btn_mobile_full %}luxp-btn--mobile-full{% endif %}"
         >
-          {{ s.btn_label }}
+          {{ showcase_btn_label }}
           {% if s.btn_arrow %}
             {% render 'luxp-icon', icon: 'arrow', class: 'luxp-btn__arrow' %}
           {% endif %}

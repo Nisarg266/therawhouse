@@ -1,708 +1,403 @@
 {%- comment -%}
-  Renders "THE FINE PRINTS" curated 3-product art & design showcase section.
+  THE RAW HOUSE — FINE PRINTS SHOWCASE (LUXP design system)
+  Product-style card blocks. Each card can pull its image, title, vendor,
+  price and link from a Shopify product, or use manual overrides with
+  separate desktop/mobile images. No hover effects by default.
+
+  @module fine-prints-showcase
 {%- endcomment -%}
 
-{% liquid
-  assign section_id = section.id
-  assign subheading = section.settings.subheading | default: 'the'
-  assign heading = section.settings.heading | default: 'F I N E   P R I N T S'
-  assign show_underline = section.settings.show_underline
-  assign max_width = section.settings.max_width | default: 1080
-  assign gap = section.settings.gap | default: 28
-  assign padding_top = section.settings.padding_top | default: 60
-  assign padding_bottom = section.settings.padding_bottom | default: 60
-  assign view_all_text = section.settings.view_all_text | default: 'VIEW ALL'
-  assign view_all_link = section.settings.view_all_link | default: '/collections/all'
-  assign enable_hover_zoom = section.settings.enable_hover_zoom
+{%- liquid
+  assign s = section.settings
 
-  assign card_1_title = section.settings.card_1_title | default: 'Radha and Krishna'
-  assign card_1_vendor = section.settings.card_1_vendor | default: 'By Mahaveer Swami'
-  assign card_1_price = section.settings.card_1_price | default: '₹3,900.00'
-  assign card_1_badge = section.settings.card_1_badge | default: 'OPTIONS AVAILABLE'
-  assign card_1_img = section.settings.card_1_image
-  assign card_1_link = section.settings.card_1_link | default: '/collections/all'
+  assign ratio_css = '4 / 5'
+  if s.image_ratio == '1/1'
+    assign ratio_css = '1 / 1'
+  elsif s.image_ratio == '3/4'
+    assign ratio_css = '3 / 4'
+  elsif s.image_ratio == '4/3'
+    assign ratio_css = '4 / 3'
+  elsif s.image_ratio == '16/10'
+    assign ratio_css = '16 / 10'
+  endif
 
-  assign card_2_title = section.settings.card_2_title | default: 'Pink Flower Deep Plate - Bitossi'
-  assign card_2_vendor = section.settings.card_2_vendor | default: 'By Mon Dimora'
-  assign card_2_price = section.settings.card_2_price | default: '₹5,900.00'
-  assign card_2_badge = section.settings.card_2_badge | default: ''
-  assign card_2_img = section.settings.card_2_image
-  assign card_2_link = section.settings.card_2_link | default: '/collections/all'
+  assign card_border = s.card_border_color
+  if card_border == blank or card_border == 'rgba(0,0,0,0)'
+    assign card_border = 'var(--luxp-border)'
+  endif
 
-  assign card_3_title = section.settings.card_3_title | default: 'The Blueroom Hand Printed Wallpaper'
-  assign card_3_vendor = section.settings.card_3_vendor | default: 'By Oldhand Designs'
-  assign card_3_price = section.settings.card_3_price | default: '₹13,000.00'
-  assign card_3_badge_1 = section.settings.card_3_badge_1 | default: 'OPTIONS AVAILABLE'
-  assign card_3_badge_2 = section.settings.card_3_badge_2 | default: 'CUSTOMIZABLE'
-  assign card_3_img = section.settings.card_3_image
-  assign card_3_link = section.settings.card_3_link | default: '/collections/all'
-%}
+  assign header_track = 'center'
+  if s.header_align == 'left'
+    assign header_track = 'flex-start'
+  endif
+-%}
+
+{%- capture luxp_colors -%}
+  {%- render 'luxp-scheme',
+    preset: s.color_preset,
+    bg: s.color_bg,
+    heading: s.color_heading,
+    text: s.color_text,
+    accent: s.color_accent,
+    muted: s.color_muted,
+    border: s.color_border
+  -%}
+{%- endcapture -%}
+
+{%- capture luxp_typo -%}{%- render 'luxp-typo', s: s -%}{%- endcapture -%}
 
 <div
-  id="FinePrints-{{ section_id }}"
-  class="fine-prints-showcase section-{{ section_id }}"
+  class="luxp-section luxp-fineprints {% if s.container_mode == 'full' %}luxp-section--full{% endif %} {% if s.enable_animations %}luxp-anim{% endif %} {{ s.custom_class }}"
   style="
-    --fps-bg: {{ section.settings.background_color | default: '#ffffff' }};
-    --fps-heading-color: {{ section.settings.heading_color | default: '#111111' }};
-    --fps-max-width: {{ max_width }}px;
-    --fps-gap: {{ gap }}px;
-    --fps-padding-top: {{ padding_top }}px;
-    --fps-padding-bottom: {{ padding_bottom }}px;
+    {{ luxp_colors }}
+    {{ luxp_typo }}
+    --luxp-pt: {{ s.padding_top | default: 60 }}px;
+    --luxp-pb: {{ s.padding_bottom | default: 60 }}px;
+    --luxp-pt-m: {{ s.padding_top_m | default: 44 }}px;
+    --luxp-pb-m: {{ s.padding_bottom_m | default: 48 }}px;
+    --luxp-cw: {{ s.container_max | default: 1080 }}px;
+    --luxp-px: {{ s.container_padding | default: 32 }}px;
+    --luxp-px-m: {{ s.container_padding_m | default: 16 }}px;
+    --luxp-header-track: {{ header_track }};
+    --luxp-header-align: {{ s.header_align | default: 'center' }};
+    --luxp-header-gap: {{ s.header_gap | default: 10 }}px;
+    --luxp-header-mb: {{ s.header_mb | default: 30 }}px;
+    --luxp-cols: {{ s.columns | default: 3 }};
+    --luxp-cols-t: {{ s.columns_tablet | default: 2 }};
+    --luxp-cols-m: {{ s.columns_mobile | default: 2 }};
+    --luxp-cgap: {{ s.col_gap | default: 28 }}px;
+    --luxp-rgap: {{ s.row_gap | default: 40 }}px;
+    --luxp-cgap-m: {{ s.col_gap_m | default: 12 }}px;
+    --luxp-rgap-m: {{ s.row_gap_m | default: 24 }}px;
+    --luxp-media-ratio: {{ ratio_css }};
+    --luxp-media-fit: {{ s.image_fit | default: 'cover' }};
+    --luxp-media-radius: {{ s.card_radius | default: 0 }}px;
+    --luxp-media-bg: var(--luxp-border);
+    --luxp-card-bg: {% if s.card_bg != blank and s.card_bg != 'rgba(0,0,0,0)' %}{{ s.card_bg }}{% else %}transparent{% endif %};
+    --luxp-card-border: {{ card_border }};
+    --luxp-card-bw: {{ s.card_border_width | default: 0 }}px;
+    --luxp-card-radius: {{ s.card_radius | default: 0 }}px;
+    --luxp-card-shadow: {% if s.card_shadow == 'subtle' %}0 2px 12px rgba(0,0,0,0.06){% elsif s.card_shadow == 'medium' %}0 8px 28px rgba(0,0,0,0.12){% else %}none{% endif %};
+    --luxp-card-body-pt: {{ s.card_body_pt | default: 13 }}px;
+    --luxp-card-align: {{ s.card_align | default: 'left' }};
+    --luxp-card-gap: {{ s.card_gap | default: 4 }}px;
+    --luxp-cardtitle-size: {{ s.cardtitle_size | default: 12.5 }}px;
+    --luxp-cardtitle-size-m: {{ s.cardtitle_size_m | default: 11.5 }}px;
+    --luxp-pill-bg: var(--luxp-accent);
+    --luxp-pill-fg: #ffffff;
+    --luxp-footer-mt: {{ s.footer_mt | default: 32 }}px;
   "
+  {% if s.anchor_id != blank %}id="{{ s.anchor_id }}"{% endif %}
+  data-art-motion="off"
   {{ section.shopify_attributes }}
 >
-  <div class="fine-prints-showcase__container">
-    
-    {%- comment -%} Header Title with Script Subheading & Underline {%- endcomment -%}
-    <div class="fine-prints-showcase__header">
-      {% if subheading != blank %}
-        <span class="fine-prints-showcase__subheading">{{ subheading }}</span>
-      {% endif %}
-      {% if heading != blank %}
-        <h2 class="fine-prints-showcase__heading">{{ heading }}</h2>
-      {% endif %}
-      {% if show_underline %}
-        <div class="fine-prints-showcase__underline" aria-hidden="true"></div>
-      {% endif %}
+  <div class="luxp-container">
+    {% if s.eyebrow != blank or s.heading != blank or s.intro != blank or s.show_ornament %}
+      <header class="luxp-header luxp-header--{{ s.header_align | default: 'center' }}">
+        {% if s.eyebrow != blank %}
+          <p class="luxp-eyebrow">{{ s.eyebrow }}</p>
+        {% endif %}
+        {% if s.heading != blank %}
+          <h2 class="luxp-heading">{{ s.heading }}</h2>
+        {% endif %}
+        {% if s.show_ornament %}
+          <div class="luxp-ornament" aria-hidden="true">
+            <span class="luxp-ornament__line"></span>
+            <span class="luxp-ornament__gem">&#9670;</span>
+            <span class="luxp-ornament__line"></span>
+          </div>
+        {% endif %}
+        {% if s.intro != blank %}
+          <div class="luxp-body luxp-header__intro">{{ s.intro }}</div>
+        {% endif %}
+      </header>
+    {% endif %}
+
+    <div class="luxp-grid">
+      {% for block in section.blocks %}
+        {%- liquid
+          assign p = block.settings.product
+          assign card_image = block.settings.image
+          assign card_title = block.settings.title
+          assign card_vendor = block.settings.vendor
+          assign card_price = block.settings.price
+          assign card_link = block.settings.link
+
+          if p != blank
+            if card_image == blank
+              assign card_image = p.featured_image
+            endif
+            if card_title == blank
+              assign card_title = p.title
+            endif
+            if card_vendor == blank
+              assign card_vendor = p.vendor | prepend: 'By '
+            endif
+            if card_price == blank
+              assign card_price = p.price | money
+            endif
+            if card_link == blank
+              assign card_link = p.url
+            endif
+          endif
+
+          if card_title == blank
+            assign card_title = 'Fine Print'
+          endif
+          if card_link == blank
+            assign card_link = routes.all_products_collection_url
+          endif
+        -%}
+        <a href="{{ card_link }}" class="luxp-card" {{ block.shopify_attributes }}>
+          <div class="luxp-media {% if s.image_fit == 'contain' %}luxp-media--contain{% endif %}">
+            {% if block.settings.badge != blank %}
+              <span class="luxp-colcard__pill luxp-pill">{{ block.settings.badge }}</span>
+            {% endif %}
+            {% if block.settings.badge_2 != blank %}
+              <span class="luxp-colcard__pill luxp-pill luxp-fineprints__pill2">{{ block.settings.badge_2 }}</span>
+            {% endif %}
+            {% render 'luxp-image',
+              image: card_image,
+              image_mobile: block.settings.image_mobile,
+              alt: card_title,
+              class: 'luxp-fineprints__img',
+              loading: 'lazy',
+              sizes: '(min-width: 1024px) 33vw, 50vw',
+              fallback: block.settings.default_asset
+            %}
+          </div>
+          <div class="luxp-card__body {% if s.card_align == 'center' %}luxp-card__body--center{% endif %}">
+            {% if card_title != blank %}
+              <h3 class="luxp-card__title">{{ card_title }}</h3>
+            {% endif %}
+            {% if card_vendor != blank %}
+              <p class="luxp-prodcard__vendor">{{ card_vendor }}</p>
+            {% endif %}
+            {% if card_price != blank %}
+              <p class="luxp-prodcard__price">{{ card_price }}</p>
+            {% endif %}
+          </div>
+        </a>
+      {% endfor %}
     </div>
 
-    {%- comment -%} 3-Product Cards Grid {%- endcomment -%}
-    <div class="fine-prints-showcase__grid" data-editorial-track>
-      
-      <!-- Card 1 -->
-      <article class="fine-prints-showcase__card" data-editorial-card>
-        <div class="fine-prints-showcase__media-wrap{% if enable_hover_zoom %} fine-prints-showcase__media--zoom{% endif %}">
-          <a href="{{ card_1_link }}" class="fine-prints-showcase__media-link" aria-label="{{ card_1_title | escape }}">
-            {% if card_1_img != blank %}
-              {{ card_1_img | image_url: width: 800 | image_tag: class: 'fine-prints-showcase__img', loading: 'lazy', alt: card_1_title }}
-            {% else %}
-              <img src="{{ 'fine-print-1.jpg' | asset_url }}" alt="{{ card_1_title | escape }}" class="fine-prints-showcase__img" loading="eager" width="600" height="600">
-            {% endif %}
-          </a>
-        </div>
-
-        <div class="fine-prints-showcase__info">
-          <div class="fine-prints-showcase__row-top">
-            <h3 class="fine-prints-showcase__product-title">
-              <a href="{{ card_1_link }}">{{ card_1_title }}</a>
-            </h3>
-            <span class="fine-prints-showcase__price">{{ card_1_price }}</span>
-          </div>
-
-          {% if card_1_vendor != blank %}
-            <div class="fine-prints-showcase__vendor">{{ card_1_vendor }}</div>
-          {% endif %}
-
-          {% if card_1_badge != blank %}
-            <div class="fine-prints-showcase__badges">
-              <span class="fine-prints-showcase__badge fine-prints-showcase__badge--outline">{{ card_1_badge }}</span>
-            </div>
-          {% endif %}
-        </div>
-      </article>
-
-      <!-- Card 2 -->
-      <article class="fine-prints-showcase__card" data-editorial-card>
-        <div class="fine-prints-showcase__media-wrap{% if enable_hover_zoom %} fine-prints-showcase__media--zoom{% endif %}">
-          <a href="{{ card_2_link }}" class="fine-prints-showcase__media-link" aria-label="{{ card_2_title | escape }}">
-            {% if card_2_img != blank %}
-              {{ card_2_img | image_url: width: 800 | image_tag: class: 'fine-prints-showcase__img', loading: 'lazy', alt: card_2_title }}
-            {% else %}
-              <img src="{{ 'fine-print-2.jpg' | asset_url }}" alt="{{ card_2_title | escape }}" class="fine-prints-showcase__img" loading="eager" width="600" height="600">
-            {% endif %}
-          </a>
-        </div>
-
-        <div class="fine-prints-showcase__info">
-          <div class="fine-prints-showcase__row-top">
-            <h3 class="fine-prints-showcase__product-title">
-              <a href="{{ card_2_link }}">{{ card_2_title }}</a>
-            </h3>
-            <span class="fine-prints-showcase__price">{{ card_2_price }}</span>
-          </div>
-
-          {% if card_2_vendor != blank %}
-            <div class="fine-prints-showcase__vendor">{{ card_2_vendor }}</div>
-          {% endif %}
-
-          {% if card_2_badge != blank %}
-            <div class="fine-prints-showcase__badges">
-              <span class="fine-prints-showcase__badge fine-prints-showcase__badge--outline">{{ card_2_badge }}</span>
-            </div>
-          {% endif %}
-        </div>
-      </article>
-
-      <!-- Card 3 -->
-      <article class="fine-prints-showcase__card" data-editorial-card>
-        <div class="fine-prints-showcase__media-wrap{% if enable_hover_zoom %} fine-prints-showcase__media--zoom{% endif %}">
-          <a href="{{ card_3_link }}" class="fine-prints-showcase__media-link" aria-label="{{ card_3_title | escape }}">
-            {% if card_3_img != blank %}
-              {{ card_3_img | image_url: width: 800 | image_tag: class: 'fine-prints-showcase__img', loading: 'lazy', alt: card_3_title }}
-            {% else %}
-              <img src="{{ 'fine-print-3.jpg' | asset_url }}" alt="{{ card_3_title | escape }}" class="fine-prints-showcase__img" loading="eager" width="600" height="600">
-            {% endif %}
-          </a>
-        </div>
-
-        <div class="fine-prints-showcase__info">
-          <div class="fine-prints-showcase__row-top">
-            <h3 class="fine-prints-showcase__product-title">
-              <a href="{{ card_3_link }}">{{ card_3_title }}</a>
-            </h3>
-            <span class="fine-prints-showcase__price">{{ card_3_price }}</span>
-          </div>
-
-          {% if card_3_vendor != blank %}
-            <div class="fine-prints-showcase__vendor">{{ card_3_vendor }}</div>
-          {% endif %}
-
-          <div class="fine-prints-showcase__badges">
-            {% if card_3_badge_1 != blank %}
-              <span class="fine-prints-showcase__badge fine-prints-showcase__badge--outline">{{ card_3_badge_1 }}</span>
-            {% endif %}
-            {% if card_3_badge_2 != blank %}
-              <span class="fine-prints-showcase__badge fine-prints-showcase__badge--solid">{{ card_3_badge_2 }}</span>
-            {% endif %}
-          </div>
-        </div>
-      </article>
-
-    </div>
-
-    <!-- Mobile Slider Dots Indicator -->
-    <div class="fine-prints-showcase__mobile-dots" id="FpsDots-{{ section_id }}">
-      <button type="button" class="fine-prints-showcase__dot is-active" data-editorial-dot data-index="0" aria-label="Show item 1" aria-current="true"></button>
-      <button type="button" class="fine-prints-showcase__dot" data-editorial-dot data-index="1" aria-label="Show item 2" aria-current="false"></button>
-      <button type="button" class="fine-prints-showcase__dot" data-editorial-dot data-index="2" aria-label="Show item 3" aria-current="false"></button>
-    </div>
-
-    {%- comment -%} Footer View All Link {%- endcomment -%}
-    {% if view_all_text != blank %}
-      <div class="fine-prints-showcase__footer">
-        <a href="{{ view_all_link }}" class="fine-prints-showcase__view-all art-button art-button--secondary">
-          {{ view_all_text }}
+    {% if s.btn_label != blank %}
+      <div class="luxp-footer">
+        <a
+          href="{{ s.btn_link | default: routes.all_products_collection_url }}"
+          class="luxp-btn {% if s.btn_style == 'outline' %}luxp-btn--outline{% endif %} {% if s.btn_width == 'full' %}luxp-btn--full{% endif %} {% if s.btn_mobile_full %}luxp-btn--mobile-full{% endif %}"
+        >
+          {{ s.btn_label }}
         </a>
       </div>
     {% endif %}
-
   </div>
 </div>
 
-
-
-{% stylesheet %}
-  .fine-prints-showcase {
-    background-color: var(--fps-bg, #ffffff);
-    width: 100%;
-    padding-block-start: var(--fps-padding-top, 24px);
-    padding-block-end: var(--fps-padding-bottom, 20px);
-    box-sizing: border-box;
-    display: block !important;
-    opacity: 1 !important;
-    visibility: visible !important;
+<style>
+  .luxp-fineprints__pill2 {
+    top: 44px;
   }
-
-  .fine-prints-showcase__container {
-    max-width: var(--fps-max-width, 1080px);
-    margin-inline: auto;
-    padding-inline: 24px;
-    box-sizing: border-box;
-  }
-
-  .fine-prints-showcase__header {
-    text-align: center;
-    margin-block-end: 28px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .fine-prints-showcase__subheading {
-    font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif !important;
-    font-style: italic !important;
-    font-size: 22px !important;
-    color: var(--fps-heading-color, #111111) !important;
-    margin-bottom: 2px !important;
-    letter-spacing: 0.02em !important;
-    opacity: 0.9 !important;
-    line-height: 1.1 !important;
-  }
-
-  .fine-prints-showcase__heading {
-    font-size: 18px !important;
-    letter-spacing: 0.32em !important;
-    font-weight: 500 !important;
-    text-transform: uppercase !important;
-    color: var(--fps-heading-color, #111111) !important;
-    margin: 0 !important;
-    line-height: 1.2 !important;
-  }
-
-  .fine-prints-showcase__underline {
-    width: 36px !important;
-    height: 1.5px !important;
-    background-color: var(--fps-heading-color, #111111) !important;
-    margin-top: 8px !important;
-  }
-
-  .fine-prints-showcase__grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--fps-gap, 28px);
-    width: 100%;
-  }
-
-  .fine-prints-showcase__mobile-dots {
-    display: none;
-  }
-
-  .fine-prints-showcase__card {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-  }
-
-  .fine-prints-showcase__media-wrap {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    overflow: hidden;
-    background-color: #f7f7f7;
-    margin-bottom: 12px;
-  }
-
-  .fine-prints-showcase__media-link {
-    display: block;
-    width: 100%;
-    height: 100%;
-  }
-
-  .fine-prints-showcase__img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    display: block;
-    transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .fine-prints-showcase__media--zoom:hover .fine-prints-showcase__img {
-    transform: scale(1.04);
-  }
-
-  .fine-prints-showcase__info {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-  }
-
-  .fine-prints-showcase__row-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 8px;
-    margin-bottom: 3px;
-  }
-
-  .fine-prints-showcase__product-title {
-    font-size: 11.5px;
-    font-weight: 500;
-    color: #111111;
-    margin: 0;
-    line-height: 1.35;
-    flex: 1;
-  }
-
-  .fine-prints-showcase__product-title a {
-    color: inherit;
-    text-decoration: none;
-    transition: opacity 0.2s ease;
-  }
-
-  .fine-prints-showcase__product-title a:hover {
-    opacity: 0.75;
-  }
-
-  .fine-prints-showcase__price {
-    font-size: 11px;
-    font-weight: 500;
-    color: #333333;
-    white-space: nowrap;
-  }
-
-  .fine-prints-showcase__vendor {
-    font-size: 10.5px;
-    color: #888888;
-    margin-bottom: 8px;
-  }
-
-  .fine-prints-showcase__badges {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-    align-items: center;
-    margin-top: 2px;
-  }
-
-  .fine-prints-showcase__badge {
-    font-size: 8.5px;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    padding: 3px 6px;
-    text-transform: uppercase;
-    line-height: 1;
-    display: inline-block;
-  }
-
-  .fine-prints-showcase__badge--outline {
-    border: 1px solid #d4d4d4;
-    color: #666666;
-    background-color: transparent;
-  }
-
-  .fine-prints-showcase__badge--solid {
-    background-color: #111111;
-    color: #ffffff;
-    border: 1px solid #111111;
-  }
-
-  .fine-prints-showcase__footer {
-    text-align: center;
-    margin-top: 20px;
-  }
-
-  .fine-prints-showcase__view-all {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: #111111;
-    text-decoration: underline;
-    text-underline-offset: 4px;
-    transition: opacity 0.2s ease;
-  }
-
-  .fine-prints-showcase__view-all:hover {
-    opacity: 0.7;
-  }
-
-  /* Mobile Responsive Touch Slider & Spacing Normalization */
-  @media screen and (max-width: 639px) {
-    .fine-prints-showcase {
-      padding-block-start: clamp(24px, 5vw, 32px) !important;
-      padding-block-end: clamp(26px, 5vw, 34px) !important;
-    }
-
-    .fine-prints-showcase__container {
-      padding-inline: 18px !important;
-      overflow: hidden !important;
-    }
-
-    .fine-prints-showcase__header {
-      margin-block-end: 18px !important;
-    }
-
-    .fine-prints-showcase__grid {
-      display: flex !important;
-      flex-direction: row !important;
-      flex-wrap: nowrap !important;
-      overflow-x: auto !important;
-      overflow-y: hidden !important;
-      scroll-snap-type: x mandatory !important;
-      -webkit-overflow-scrolling: touch !important;
-      gap: 14px !important;
-      padding-inline: 18px !important;
-      margin-inline: -18px !important;
-      scrollbar-width: none !important;
-      -ms-overflow-style: none !important;
-    }
-
-    .fine-prints-showcase__grid::-webkit-scrollbar {
-      display: none !important;
-    }
-
-    .fine-prints-showcase__card {
-      flex: 0 0 76% !important;
-      max-width: 280px !important;
-      scroll-snap-align: start !important;
-      scroll-snap-stop: always !important;
-    }
-
-    .fine-prints-showcase__media-wrap {
-      aspect-ratio: 1 / 1 !important;
-      margin-bottom: 10px !important;
-    }
-
-    .fine-prints-showcase__mobile-dots {
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      gap: 6px !important;
-      margin-top: 14px !important;
-      margin-bottom: 18px !important;
-    }
-
-    .fine-prints-showcase__dot {
-      box-sizing: content-box !important;
-      padding: 10px 5px !important;
-      border: 0 !important;
-      background-clip: content-box !important;
-      flex-shrink: 0;
-      width: 6px !important;
-      height: 6px !important;
-      border-radius: 50% !important;
-      background-color: #d8d8d8 !important;
-      cursor: pointer !important;
-      transition: all 0.28s ease !important;
-    }
-
-    .fine-prints-showcase__dot.is-active {
-      width: 22px !important;
-      border-radius: 4px !important;
-      background-color: var(--fps-heading-color, #111111) !important;
-    }
-
-    .fine-prints-showcase__footer {
-      margin-top: 10px !important;
-    }
-  }
-{% endstylesheet %}
+</style>
 
 {% schema %}
 {
-  "name": "The Fine Prints",
+  "name": "Fine Prints Showcase",
   "tag": "section",
-  "class": "section-the-fine-prints",
+  "class": "section-luxp-fineprints",
+  "max_blocks": 9,
   "settings": [
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow / subheading", "default": "the" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "F I N E   P R I N T S" },
+    { "type": "richtext", "id": "intro", "label": "Intro text" },
+    { "type": "checkbox", "id": "show_ornament", "label": "Show ornament divider", "default": true },
+    { "type": "select", "id": "header_align", "label": "Header alignment", "options": [
+      { "value": "center", "label": "Center" },
+      { "value": "left", "label": "Left" }
+    ], "default": "center" },
+    { "type": "range", "id": "header_mb", "min": 8, "max": 72, "step": 2, "unit": "px", "label": "Space below header — desktop", "default": 30 },
+    { "type": "range", "id": "header_gap", "min": 4, "max": 24, "step": 2, "unit": "px", "label": "Header element spacing", "default": 10 },
+
+    { "type": "header", "content": "Layout — Grid" },
+    { "type": "select", "id": "container_mode", "label": "Container mode", "options": [
+      { "value": "fixed", "label": "Container (max width)" },
+      { "value": "full", "label": "Full width" }
+    ], "default": "fixed" },
+    { "type": "range", "id": "container_max", "min": 800, "max": 1600, "step": 20, "unit": "px", "label": "Container max width", "default": 1080 },
+    { "type": "range", "id": "columns", "min": 2, "max": 5, "step": 1, "label": "Columns — desktop", "default": 3 },
+    { "type": "range", "id": "columns_tablet", "min": 1, "max": 4, "step": 1, "label": "Columns — tablet", "default": 2 },
+    { "type": "select", "id": "columns_mobile", "label": "Columns — mobile", "options": [
+      { "value": "1", "label": "1 column" },
+      { "value": "2", "label": "2 columns" }
+    ], "default": "2" },
+    { "type": "range", "id": "col_gap", "min": 8, "max": 64, "step": 2, "unit": "px", "label": "Column gap — desktop", "default": 28 },
+    { "type": "range", "id": "row_gap", "min": 8, "max": 80, "step": 2, "unit": "px", "label": "Row gap — desktop", "default": 40 },
+    { "type": "range", "id": "col_gap_m", "min": 4, "max": 40, "step": 2, "unit": "px", "label": "Column gap — mobile", "default": 12 },
+    { "type": "range", "id": "row_gap_m", "min": 4, "max": 56, "step": 2, "unit": "px", "label": "Row gap — mobile", "default": 24 },
+
+    { "type": "header", "content": "Cards" },
+    { "type": "select", "id": "image_ratio", "label": "Card image ratio", "options": [
+      { "value": "4/5", "label": "Portrait 4:5" },
+      { "value": "1/1", "label": "Square 1:1" },
+      { "value": "3/4", "label": "Portrait 3:4" },
+      { "value": "4/3", "label": "Landscape 4:3" },
+      { "value": "16/10", "label": "Wide 16:10" }
+    ], "default": "4/5" },
+    { "type": "select", "id": "image_fit", "label": "Image fit", "options": [
+      { "value": "cover", "label": "Cover (fill, may crop)" },
+      { "value": "contain", "label": "Contain (no crop)" }
+    ], "default": "cover" },
+    { "type": "color", "id": "card_bg", "label": "Card background", "info": "Blank = transparent." },
+    { "type": "color", "id": "card_border_color", "label": "Card border color", "info": "Blank uses the scheme border." },
+    { "type": "range", "id": "card_border_width", "min": 0, "max": 3, "step": 1, "unit": "px", "label": "Card border width", "default": 0 },
+    { "type": "range", "id": "card_radius", "min": 0, "max": 24, "step": 1, "unit": "px", "label": "Card corner radius", "default": 0 },
+    { "type": "select", "id": "card_shadow", "label": "Card shadow", "options": [
+      { "value": "none", "label": "None" },
+      { "value": "subtle", "label": "Subtle" },
+      { "value": "medium", "label": "Medium" }
+    ], "default": "none" },
+    { "type": "select", "id": "card_align", "label": "Card text alignment", "options": [
+      { "value": "left", "label": "Left" },
+      { "value": "center", "label": "Center" }
+    ], "default": "left" },
+    { "type": "range", "id": "card_body_pt", "min": 4, "max": 28, "step": 1, "unit": "px", "label": "Space between image and text", "default": 13 },
+    { "type": "range", "id": "card_gap", "min": 2, "max": 12, "step": 1, "unit": "px", "label": "Card text spacing", "default": 4 },
+    { "type": "range", "id": "cardtitle_size", "min": 10, "max": 18, "step": 0.5, "unit": "px", "label": "Card title size — desktop", "default": 12.5 },
+    { "type": "range", "id": "cardtitle_size_m", "min": 10, "max": 16, "step": 0.5, "unit": "px", "label": "Card title size — mobile", "default": 11.5 },
+
+    { "type": "header", "content": "Typography — Eyebrow" },
+    { "type": "select", "id": "eyebrow_font", "label": "Font family", "options": [
+      { "value": "heading", "label": "Theme heading font" },
+      { "value": "body", "label": "Theme body font" },
+      { "value": "subheading", "label": "Theme subheading font" },
+      { "value": "accent", "label": "Theme accent font" },
+      { "value": "serif", "label": "Serif (Georgia)" }
+    ], "default": "body" },
+    { "type": "range", "id": "eyebrow_size", "min": 9, "max": 16, "step": 1, "unit": "px", "label": "Font size — desktop", "default": 11 },
+    { "type": "range", "id": "eyebrow_size_m", "min": 9, "max": 16, "step": 1, "unit": "px", "label": "Font size — mobile", "default": 10 },
+    { "type": "select", "id": "eyebrow_weight", "label": "Font weight", "options": [
+      { "value": "400", "label": "Regular 400" },
+      { "value": "500", "label": "Medium 500" },
+      { "value": "600", "label": "Semibold 600" },
+      { "value": "700", "label": "Bold 700" }
+    ], "default": "600" },
+    { "type": "select", "id": "eyebrow_ls", "label": "Letter spacing", "options": [ { "value": "0em", "label": "None" }, { "value": "0.1em", "label": "0.1em" }, { "value": "0.18em", "label": "0.18em" }, { "value": "0.22em", "label": "0.22em" }, { "value": "0.3em", "label": "0.3em" } ], "default": "0.22em" },
+    { "type": "select", "id": "eyebrow_transform", "label": "Text transform", "options": [
+      { "value": "uppercase", "label": "Uppercase" },
+      { "value": "none", "label": "None" }
+    ], "default": "uppercase" },
+
+    { "type": "header", "content": "Typography — Heading" },
+    { "type": "select", "id": "heading_font", "label": "Font family", "options": [
+      { "value": "heading", "label": "Theme heading font" },
+      { "value": "body", "label": "Theme body font" },
+      { "value": "subheading", "label": "Theme subheading font" },
+      { "value": "accent", "label": "Theme accent font" },
+      { "value": "serif", "label": "Serif (Georgia)" }
+    ], "default": "body" },
+    { "type": "range", "id": "heading_size", "min": 14, "max": 48, "step": 1, "unit": "px", "label": "Font size — desktop", "default": 20 },
+    { "type": "range", "id": "heading_size_m", "min": 12, "max": 36, "step": 1, "unit": "px", "label": "Font size — mobile", "default": 17 },
+    { "type": "select", "id": "heading_weight", "label": "Font weight", "options": [
+      { "value": "300", "label": "Light 300" },
+      { "value": "400", "label": "Regular 400" },
+      { "value": "500", "label": "Medium 500" },
+      { "value": "600", "label": "Semibold 600" }
+    ], "default": "400" },
+    { "type": "range", "id": "heading_lh", "min": 1, "max": 1.8, "step": 0.1, "label": "Line height", "default": 1.2 },
+    { "type": "select", "id": "heading_ls", "label": "Letter spacing", "options": [ { "value": "0em", "label": "None" }, { "value": "0.1em", "label": "0.1em" }, { "value": "0.2em", "label": "0.2em" }, { "value": "0.25em", "label": "0.25em" }, { "value": "0.3em", "label": "0.3em" }, { "value": "0.35em", "label": "0.35em" } ], "default": "0.35em" },
+    { "type": "select", "id": "heading_transform", "label": "Text transform", "options": [
+      { "value": "none", "label": "None" },
+      { "value": "uppercase", "label": "Uppercase" }
+    ], "default": "none" },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "select", "id": "color_preset", "label": "Color scheme preset", "options": [
+      { "value": "light", "label": "Light Clean (White)" },
+      { "value": "warm", "label": "Warm Atelier (Ivory)" },
+      { "value": "dark", "label": "Dark Contemporary" },
+      { "value": "obsidian", "label": "Obsidian Gold" }
+    ], "default": "light" },
+    { "type": "color", "id": "color_bg", "label": "Background color override", "default": "#ffffff" },
+    { "type": "color", "id": "color_heading", "label": "Heading color override", "default": "#1a1a1a" },
+    { "type": "color", "id": "color_text", "label": "Text color override", "default": "#4a4a4a" },
+    { "type": "color", "id": "color_accent", "label": "Accent color override", "default": "#b08d57" },
+    { "type": "color", "id": "color_muted", "label": "Muted text override" },
+    { "type": "color", "id": "color_border", "label": "Border color override" },
+
+    { "type": "header", "content": "View All Button" },
+    { "type": "text", "id": "btn_label", "label": "Button label", "default": "VIEW ALL" },
+    { "type": "url", "id": "btn_link", "label": "Button link" },
+    { "type": "select", "id": "btn_style", "label": "Button style", "options": [
+      { "value": "solid", "label": "Solid" },
+      { "value": "outline", "label": "Outline" }
+    ], "default": "solid" },
+    { "type": "range", "id": "btn_height", "min": 36, "max": 64, "step": 2, "unit": "px", "label": "Button height", "default": 46 },
+    { "type": "range", "id": "btn_px", "min": 12, "max": 48, "step": 2, "unit": "px", "label": "Button side padding", "default": 26 },
+    { "type": "range", "id": "btn_size", "min": 9, "max": 16, "step": 1, "unit": "px", "label": "Font size — desktop", "default": 11 },
+    { "type": "range", "id": "btn_size_m", "min": 9, "max": 16, "step": 1, "unit": "px", "label": "Font size — mobile", "default": 11 },
+    { "type": "select", "id": "btn_weight", "label": "Font weight", "options": [
+      { "value": "500", "label": "Medium 500" },
+      { "value": "600", "label": "Semibold 600" },
+      { "value": "700", "label": "Bold 700" }
+    ], "default": "600" },
+    { "type": "select", "id": "btn_ls", "label": "Letter spacing", "options": [ { "value": "0.1em", "label": "0.1em" }, { "value": "0.14em", "label": "0.14em" }, { "value": "0.18em", "label": "0.18em" }, { "value": "0.22em", "label": "0.22em" } ], "default": "0.18em" },
+    { "type": "select", "id": "btn_transform", "label": "Text transform", "options": [
+      { "value": "uppercase", "label": "Uppercase" },
+      { "value": "none", "label": "None" }
+    ], "default": "uppercase" },
+    { "type": "range", "id": "btn_radius", "min": 0, "max": 40, "step": 1, "unit": "px", "label": "Corner radius", "default": 2 },
+    { "type": "range", "id": "btn_border_width", "min": 0, "max": 4, "step": 1, "unit": "px", "label": "Border width", "default": 1 },
+    { "type": "select", "id": "btn_width", "label": "Button width", "options": [
+      { "value": "auto", "label": "Auto" },
+      { "value": "full", "label": "Full width" }
+    ], "default": "auto" },
+    { "type": "checkbox", "id": "btn_mobile_full", "label": "Full width on mobile", "default": false },
+    { "type": "range", "id": "footer_mt", "min": 8, "max": 64, "step": 2, "unit": "px", "label": "Space above button", "default": 32 },
+
+    { "type": "header", "content": "Spacing" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding top — desktop", "default": 60 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding bottom — desktop", "default": 60 },
+    { "type": "range", "id": "padding_top_m", "min": 0, "max": 88, "step": 4, "unit": "px", "label": "Padding top — mobile", "default": 44 },
+    { "type": "range", "id": "padding_bottom_m", "min": 0, "max": 88, "step": 4, "unit": "px", "label": "Padding bottom — mobile", "default": 48 },
+    { "type": "range", "id": "container_padding", "min": 0, "max": 64, "step": 2, "unit": "px", "label": "Container side padding — desktop", "default": 32 },
+    { "type": "range", "id": "container_padding_m", "min": 0, "max": 32, "step": 2, "unit": "px", "label": "Container side padding — mobile", "default": 16 },
+
+    { "type": "header", "content": "Animation" },
+    { "type": "checkbox", "id": "enable_animations", "label": "Enable subtle motion", "info": "Off by default — cards render completely static.", "default": false },
+
+    { "type": "header", "content": "Advanced" },
+    { "type": "text", "id": "anchor_id", "label": "Anchor ID" },
+    { "type": "text", "id": "custom_class", "label": "Custom CSS class" }
+  ],
+  "blocks": [
     {
-      "type": "header",
-      "content": "Section Header"
-    },
-    {
-      "type": "text",
-      "id": "subheading",
-      "label": "Script Subheading",
-      "default": "the"
-    },
-    {
-      "type": "text",
-      "id": "heading",
-      "label": "Section Heading",
-      "default": "F I N E   P R I N T S"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_underline",
-      "label": "Show Underline",
-      "default": true
-    },
-    {
-      "type": "color",
-      "id": "heading_color",
-      "label": "Heading Color",
-      "default": "#111111"
-    },
-    {
-      "type": "header",
-      "content": "Product Card 1"
-    },
-    {
-      "type": "image_picker",
-      "id": "card_1_image",
-      "label": "Card 1 Image"
-    },
-    {
-      "type": "text",
-      "id": "card_1_title",
-      "label": "Product Title",
-      "default": "Radha and Krishna"
-    },
-    {
-      "type": "text",
-      "id": "card_1_vendor",
-      "label": "Vendor / Artist",
-      "default": "By Mahaveer Swami"
-    },
-    {
-      "type": "text",
-      "id": "card_1_price",
-      "label": "Price",
-      "default": "₹3,900.00"
-    },
-    {
-      "type": "text",
-      "id": "card_1_badge",
-      "label": "Badge Text",
-      "default": "OPTIONS AVAILABLE"
-    },
-    {
-      "type": "url",
-      "id": "card_1_link",
-      "label": "Product Link"
-    },
-    {
-      "type": "header",
-      "content": "Product Card 2"
-    },
-    {
-      "type": "image_picker",
-      "id": "card_2_image",
-      "label": "Card 2 Image"
-    },
-    {
-      "type": "text",
-      "id": "card_2_title",
-      "label": "Product Title",
-      "default": "Pink Flower Deep Plate - Bitossi"
-    },
-    {
-      "type": "text",
-      "id": "card_2_vendor",
-      "label": "Vendor / Artist",
-      "default": "By Mon Dimora"
-    },
-    {
-      "type": "text",
-      "id": "card_2_price",
-      "label": "Price",
-      "default": "₹5,900.00"
-    },
-    {
-      "type": "text",
-      "id": "card_2_badge",
-      "label": "Badge Text"
-    },
-    {
-      "type": "url",
-      "id": "card_2_link",
-      "label": "Product Link"
-    },
-    {
-      "type": "header",
-      "content": "Product Card 3"
-    },
-    {
-      "type": "image_picker",
-      "id": "card_3_image",
-      "label": "Card 3 Image"
-    },
-    {
-      "type": "text",
-      "id": "card_3_title",
-      "label": "Product Title",
-      "default": "The Blueroom Hand Printed Wallpaper"
-    },
-    {
-      "type": "text",
-      "id": "card_3_vendor",
-      "label": "Vendor / Artist",
-      "default": "By Oldhand Designs"
-    },
-    {
-      "type": "text",
-      "id": "card_3_price",
-      "label": "Price",
-      "default": "₹13,000.00"
-    },
-    {
-      "type": "text",
-      "id": "card_3_badge_1",
-      "label": "Badge 1 (Outline)",
-      "default": "OPTIONS AVAILABLE"
-    },
-    {
-      "type": "text",
-      "id": "card_3_badge_2",
-      "label": "Badge 2 (Solid Black)",
-      "default": "CUSTOMIZABLE"
-    },
-    {
-      "type": "url",
-      "id": "card_3_link",
-      "label": "Product Link"
-    },
-    {
-      "type": "header",
-      "content": "Footer Link"
-    },
-    {
-      "type": "text",
-      "id": "view_all_text",
-      "label": "Footer Link Label",
-      "default": "VIEW ALL"
-    },
-    {
-      "type": "url",
-      "id": "view_all_link",
-      "label": "Footer Link URL"
-    },
-    {
-      "type": "header",
-      "content": "Layout & Styling"
-    },
-    {
-      "type": "range",
-      "id": "max_width",
-      "min": 500,
-      "max": 1600,
-      "step": 20,
-      "unit": "px",
-      "label": "Container Max Width",
-      "default": 1080
-    },
-    {
-      "type": "range",
-      "id": "gap",
-      "min": 12,
-      "max": 48,
-      "step": 4,
-      "unit": "px",
-      "label": "Grid Gap",
-      "default": 28
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_hover_zoom",
-      "label": "Enable Image Hover Zoom",
-      "default": true
-    },
-    {
-      "type": "color",
-      "id": "background_color",
-      "label": "Background Color",
-      "default": "#ffffff"
-    },
-    {
-      "type": "range",
-      "id": "padding_top",
-      "min": 0,
-      "max": 120,
-      "step": 4,
-      "unit": "px",
-      "label": "Padding Top",
-      "default": 56
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom",
-      "min": 0,
-      "max": 120,
-      "step": 4,
-      "unit": "px",
-      "label": "Padding Bottom",
-      "default": 56
+      "type": "product_card",
+      "name": "Product Card",
+      "settings": [
+        { "type": "header", "content": "Source" },
+        { "type": "product", "id": "product", "label": "Shopify product", "info": "Auto-fills image, title, vendor, price and link when set." },
+        { "type": "image_picker", "id": "image", "label": "Desktop image", "info": "Overrides the product image." },
+        { "type": "image_picker", "id": "image_mobile", "label": "Mobile image", "info": "Optional separate image shown below 750px." },
+        { "type": "text", "id": "default_asset", "label": "Fallback asset filename" },
+        { "type": "header", "content": "Content overrides" },
+        { "type": "text", "id": "title", "label": "Title override", "default": "Radha and Krishna" },
+        { "type": "text", "id": "vendor", "label": "Vendor line", "default": "By Mahaveer Swami" },
+        { "type": "text", "id": "price", "label": "Price text override", "info": "Leave blank to use the product's price." },
+        { "type": "text", "id": "badge", "label": "Badge 1", "default": "OPTIONS AVAILABLE" },
+        { "type": "text", "id": "badge_2", "label": "Badge 2" },
+        { "type": "url", "id": "link", "label": "Link override" }
+      ]
     }
   ],
   "presets": [
     {
-      "name": "The Fine Prints",
-      "settings": {
-        "subheading": "the",
-        "heading": "F I N E   P R I N T S",
-        "show_underline": true
-      }
+      "name": "Fine Prints Showcase",
+      "blocks": [
+        { "type": "product_card", "settings": { "title": "Radha and Krishna", "vendor": "By Mahaveer Swami", "badge": "OPTIONS AVAILABLE", "default_asset": "fine-print-1.jpg" } },
+        { "type": "product_card", "settings": { "title": "Pink Flower Deep Plate - Bitossi", "vendor": "By Mon Dimora", "badge": "", "default_asset": "fine-print-2.jpg" } },
+        { "type": "product_card", "settings": { "title": "The Blueroom Hand Printed Wallpaper", "vendor": "By Oldhand Designs", "badge": "OPTIONS AVAILABLE", "badge_2": "CUSTOMIZABLE", "default_asset": "fine-print-3.jpg" } }
+      ]
     }
   ]
 }

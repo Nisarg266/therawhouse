@@ -2,6 +2,21 @@
 
 Changes are in the local theme and its existing development preview. The live theme was not published.
 
+## Home page LUXP rebuild — 17 September 2026
+
+Rebuilt all eight custom home-page sections on the shared LUXP design system (reusing `luxp.css` and the `luxp-scheme`/`luxp-typo`/`luxp-image`/`luxp-icon` snippets from the product-page build, plus a new minimal `assets/luxp.js` runtime registered in `snippets/scripts.liquid`).
+
+- **Hero Slider** (`luxury-hero-slider`): slide blocks with desktop/mobile images and two buttons each; instant slide switching by default (fade only when animations are enabled); accessible arrows/dots/keyboard controls; autoplay pauses for reduced motion, hover, and focus; height, overlay, alignment, and full typography/button controls.
+- **Catalog Grid** (`luxury-product-catalog`): replaced the hardcoded 12-position collage with modular cover blocks (image, mobile image, badge, link, fallback asset) in a uniform configurable grid with an instant view-more/view-less toggle.
+- **New Arrivals / Editorial Recommendations / Fine Prints / Makers**: converted hardcoded section-level card settings into reorderable card blocks (arrival, editorial, product-card with Shopify product auto-fill, maker) with per-section grid D/T/M and card styling. Removed hover-zoom and hover image-swap behavior.
+- **Promise Banner** (`atelier-promise`): image banner with desktop/mobile backgrounds, overlay, feature blocks (icon or uploaded image), statement, and button — all editor-controlled.
+- **Press & Quote** (`featured-press-and-quote`): press logo blocks (image or styled text) plus a three-line pull quote with dividers, typography, and spacing controls.
+- **Brand Statement**: reused the LUXP rebuild from the product-page pass; template settings migrated to the new IDs with social blocks.
+- **No motion**: all sections carry `data-art-motion="off"`; the link-transition neutralizer now covers `.luxp-hero` and `.luxp-banner` in addition to `.luxp-section`. Verified **zero** elements with transitions or animations across every rebuilt section.
+- Schema fixes against Shopify upload validation: ranges that produced fewer than 3 steps (`columns_tablet`, `feature_columns`, `columns_mobile`) converted to wider ranges or selects; a non-grid default corrected.
+- `shopify theme check`: 0 errors; 13 `ExcessiveSettingsCount` advisories across the rebuilt sections (merchant-requested control density).
+- Browser-verified the home page at 1440/1280/1024/834/768/430/414/393/390: no horizontal overflow, no out-of-viewport elements, no broken images, catalog grid stepping 4→3→2, hero height switching 92vh→70vh, view-more reveal/collapse working, slider next/dot navigation working. Home, product, collections, and contact pages render clean; `/pages/about` 404s because no such page exists in the dev store (not a theme error).
+
 ## Product page LUXP design system — 17 September 2026
 
 Rebuilt the custom product-page sections on a shared, Theme-Editor-driven design system (`assets/luxp.css` plus `luxp-scheme`, `luxp-typo`, `luxp-image`, `luxp-icon` snippets). The native `product-information` and `product-recommendations` sections were left untouched.
