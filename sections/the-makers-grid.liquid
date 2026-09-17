@@ -45,7 +45,7 @@
 {%- capture luxp_typo -%}{%- render 'luxp-typo', s: s -%}{%- endcapture -%}
 
 <div
-  class="luxp-section luxp-makers {% if s.container_mode == 'full' %}luxp-section--full{% endif %} {% if s.enable_animations %}luxp-anim{% endif %} {{ s.custom_class }}"
+  class="luxp-section luxp-makers luxp-makers--count-{{ section.blocks.size }} {% if s.container_mode == 'full' %}luxp-section--full{% endif %} {% if s.enable_animations %}luxp-anim{% endif %} {{ s.custom_class }}"
   style="
     {{ luxp_colors }}
     {{ luxp_typo }}
@@ -162,6 +162,22 @@
     {% endif %}
   </div>
 </div>
+
+<style>
+  @media screen and (min-width: 990px) {
+    .luxp-makers--count-2 .luxp-grid {
+      display: flex !important;
+      justify-content: center !important;
+      align-items: flex-start !important;
+      gap: var(--luxp-rgap, 36px) var(--luxp-cgap, 24px) !important;
+    }
+
+    .luxp-makers--count-2 .luxp-grid > .luxp-card {
+      flex: 0 1 calc((100% - (var(--luxp-cgap, 24px) * (var(--luxp-cols, 4) - 1))) / var(--luxp-cols, 4)) !important;
+      max-width: calc((100% - (var(--luxp-cgap, 24px) * (var(--luxp-cols, 4) - 1))) / var(--luxp-cols, 4)) !important;
+    }
+  }
+</style>
 
 {% schema %}
 {

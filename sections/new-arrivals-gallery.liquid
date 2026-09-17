@@ -1,8 +1,5 @@
 {%- comment -%}
-  Renders the editorial "NEW ARRIVALS" 6-card asymmetrical masonry gallery.
-  Dual mode:
-  - If dynamic blocks ("arrival_card") are added, renders blocks with advanced settings (images, titles, designers, badges, prices, links).
-  - If no blocks exist, smoothly falls back to section-level settings for full backwards compatibility.
+  Renders the editorial "NEW ARRIVALS" gallery from selected products.
   Wide luxury layout:
   Left Column: 2 Top Squares + 1 Bottom Wide Landscape
   Right Column: 1 Top Feature + 2 Bottom Squares
@@ -22,68 +19,110 @@
 
   if section.blocks.size > 0
     assign card_1_block = section.blocks[0]
-    assign card_1_img = card_1_block.settings.image
-    assign card_1_img_m = card_1_block.settings.image_mobile
-    assign card_1_link = card_1_block.settings.link
-    assign card_1_alt = card_1_block.settings.alt | default: 'New Arrival Item 1'
-    assign card_1_sub = card_1_block.settings.designer
-    assign card_1_price = card_1_block.settings.price
-    assign card_1_badge = card_1_block.settings.badge
+    assign card_1_product = card_1_block.settings.product
+    assign card_1_img = card_1_product.featured_image
+    assign card_1_img_m = blank
+    assign card_1_link = card_1_product.url
+    assign card_1_alt = card_1_product.title | default: 'Select product'
+    assign card_1_sub = card_1_product.vendor
+    assign card_1_price = blank
+    assign card_1_badge = blank
+    if card_1_product != blank
+      assign card_1_price = card_1_product.price | money
+      if card_1_product.available == false
+        assign card_1_badge = 'Sold out'
+      endif
+    endif
     assign card_1_badge_bg = card_1_block.settings.badge_bg | default: '#111111'
     assign card_1_badge_color = card_1_block.settings.badge_color | default: '#ffffff'
 
     assign card_2_block = section.blocks[1]
-    assign card_2_img = card_2_block.settings.image
-    assign card_2_img_m = card_2_block.settings.image_mobile
-    assign card_2_link = card_2_block.settings.link
-    assign card_2_alt = card_2_block.settings.alt | default: 'New Arrival Item 2'
-    assign card_2_sub = card_2_block.settings.designer
-    assign card_2_price = card_2_block.settings.price
-    assign card_2_badge = card_2_block.settings.badge
+    assign card_2_product = card_2_block.settings.product
+    assign card_2_img = card_2_product.featured_image
+    assign card_2_img_m = blank
+    assign card_2_link = card_2_product.url
+    assign card_2_alt = card_2_product.title | default: 'Select product'
+    assign card_2_sub = card_2_product.vendor
+    assign card_2_price = blank
+    assign card_2_badge = blank
+    if card_2_product != blank
+      assign card_2_price = card_2_product.price | money
+      if card_2_product.available == false
+        assign card_2_badge = 'Sold out'
+      endif
+    endif
     assign card_2_badge_bg = card_2_block.settings.badge_bg | default: '#111111'
     assign card_2_badge_color = card_2_block.settings.badge_color | default: '#ffffff'
 
     assign card_3_block = section.blocks[2]
-    assign card_3_img = card_3_block.settings.image
-    assign card_3_img_m = card_3_block.settings.image_mobile
-    assign card_3_link = card_3_block.settings.link
-    assign card_3_alt = card_3_block.settings.alt | default: 'New Arrival Item 3'
-    assign card_3_sub = card_3_block.settings.designer
-    assign card_3_price = card_3_block.settings.price
-    assign card_3_badge = card_3_block.settings.badge
+    assign card_3_product = card_3_block.settings.product
+    assign card_3_img = card_3_product.featured_image
+    assign card_3_img_m = blank
+    assign card_3_link = card_3_product.url
+    assign card_3_alt = card_3_product.title | default: 'Select product'
+    assign card_3_sub = card_3_product.vendor
+    assign card_3_price = blank
+    assign card_3_badge = blank
+    if card_3_product != blank
+      assign card_3_price = card_3_product.price | money
+      if card_3_product.available == false
+        assign card_3_badge = 'Sold out'
+      endif
+    endif
     assign card_3_badge_bg = card_3_block.settings.badge_bg | default: '#111111'
     assign card_3_badge_color = card_3_block.settings.badge_color | default: '#ffffff'
 
     assign card_4_block = section.blocks[3]
-    assign card_4_img = card_4_block.settings.image
-    assign card_4_img_m = card_4_block.settings.image_mobile
-    assign card_4_link = card_4_block.settings.link
-    assign card_4_alt = card_4_block.settings.alt | default: 'New Arrival Item 4'
-    assign card_4_sub = card_4_block.settings.designer
-    assign card_4_price = card_4_block.settings.price
-    assign card_4_badge = card_4_block.settings.badge
+    assign card_4_product = card_4_block.settings.product
+    assign card_4_img = card_4_product.featured_image
+    assign card_4_img_m = blank
+    assign card_4_link = card_4_product.url
+    assign card_4_alt = card_4_product.title | default: 'Select product'
+    assign card_4_sub = card_4_product.vendor
+    assign card_4_price = blank
+    assign card_4_badge = blank
+    if card_4_product != blank
+      assign card_4_price = card_4_product.price | money
+      if card_4_product.available == false
+        assign card_4_badge = 'Sold out'
+      endif
+    endif
     assign card_4_badge_bg = card_4_block.settings.badge_bg | default: '#111111'
     assign card_4_badge_color = card_4_block.settings.badge_color | default: '#ffffff'
 
     assign card_5_block = section.blocks[4]
-    assign card_5_img = card_5_block.settings.image
-    assign card_5_img_m = card_5_block.settings.image_mobile
-    assign card_5_link = card_5_block.settings.link
-    assign card_5_alt = card_5_block.settings.alt | default: 'New Arrival Item 5'
-    assign card_5_sub = card_5_block.settings.designer
-    assign card_5_price = card_5_block.settings.price
-    assign card_5_badge = card_5_block.settings.badge
+    assign card_5_product = card_5_block.settings.product
+    assign card_5_img = card_5_product.featured_image
+    assign card_5_img_m = blank
+    assign card_5_link = card_5_product.url
+    assign card_5_alt = card_5_product.title | default: 'Select product'
+    assign card_5_sub = card_5_product.vendor
+    assign card_5_price = blank
+    assign card_5_badge = blank
+    if card_5_product != blank
+      assign card_5_price = card_5_product.price | money
+      if card_5_product.available == false
+        assign card_5_badge = 'Sold out'
+      endif
+    endif
     assign card_5_badge_bg = card_5_block.settings.badge_bg | default: '#111111'
     assign card_5_badge_color = card_5_block.settings.badge_color | default: '#ffffff'
 
     assign card_6_block = section.blocks[5]
-    assign card_6_img = card_6_block.settings.image
-    assign card_6_img_m = card_6_block.settings.image_mobile
-    assign card_6_link = card_6_block.settings.link
-    assign card_6_alt = card_6_block.settings.alt | default: 'New Arrival Item 6'
-    assign card_6_sub = card_6_block.settings.designer
-    assign card_6_price = card_6_block.settings.price
-    assign card_6_badge = card_6_block.settings.badge
+    assign card_6_product = card_6_block.settings.product
+    assign card_6_img = card_6_product.featured_image
+    assign card_6_img_m = blank
+    assign card_6_link = card_6_product.url
+    assign card_6_alt = card_6_product.title | default: 'Select product'
+    assign card_6_sub = card_6_product.vendor
+    assign card_6_price = blank
+    assign card_6_badge = blank
+    if card_6_product != blank
+      assign card_6_price = card_6_product.price | money
+      if card_6_product.available == false
+        assign card_6_badge = 'Sold out'
+      endif
+    endif
     assign card_6_badge_bg = card_6_block.settings.badge_bg | default: '#111111'
     assign card_6_badge_color = card_6_block.settings.badge_color | default: '#ffffff'
   else
@@ -169,11 +208,18 @@
           <div class="new-arrivals-slider__track" data-nag-track>
             {% if section.blocks.size > 0 %}
               {% for block in section.blocks %}
-                {% assign card_link = block.settings.link | default: routes.all_products_collection_url %}
-                {% assign card_title = block.settings.alt | default: 'Curated Object' %}
-                {% assign card_sub = block.settings.designer %}
-                {% assign card_price = block.settings.price %}
-                {% assign card_badge = block.settings.badge %}
+                {% assign card_product = block.settings.product %}
+                {% assign card_link = card_product.url | default: routes.all_products_collection_url %}
+                {% assign card_title = card_product.title | default: 'Select product' %}
+                {% assign card_sub = card_product.vendor %}
+                {% assign card_price = blank %}
+                {% assign card_badge = blank %}
+                {% if card_product != blank %}
+                  {% assign card_price = card_product.price | money %}
+                  {% if card_product.available == false %}
+                    {% assign card_badge = 'Sold out' %}
+                  {% endif %}
+                {% endif %}
                 {% assign card_badge_bg = block.settings.badge_bg | default: '#111111' %}
                 {% assign card_badge_color = block.settings.badge_color | default: '#ffffff' %}
 
@@ -184,15 +230,8 @@
                     {% endif %}
                     {% if card_link != blank %}<a href="{{ card_link }}" class="new-arrivals-card__link" aria-label="{{ card_title | escape }}">{% endif %}
                       <div class="new-arrivals-card__media{% if enable_hover_zoom %} new-arrivals-card__media--zoom{% endif %}">
-                        {% if block.settings.image != blank %}
-                          {% if block.settings.image_mobile != blank %}
-                            <picture>
-                              <source media="(max-width: 749px)" srcset="{{ block.settings.image_mobile | image_url: width: 700 }}">
-                              {{ block.settings.image | image_url: width: 900 | image_tag: class: 'new-arrivals-card__img', loading: 'lazy', alt: card_title }}
-                            </picture>
-                          {% else %}
-                            {{ block.settings.image | image_url: width: 900 | image_tag: class: 'new-arrivals-card__img', loading: 'lazy', alt: card_title }}
-                          {% endif %}
+                        {% if card_product.featured_image != blank %}
+                          {{ card_product.featured_image | image_url: width: 900 | image_tag: class: 'new-arrivals-card__img', loading: 'lazy', alt: card_title }}
                         {% else %}
                           {% assign fallback_idx = forloop.index0 | modulo: 6 | plus: 1 %}
                           {% assign fallback_name = 'new-arrival-' | append: fallback_idx | append: '.jpg' %}
@@ -1403,38 +1442,12 @@
   "blocks": [
     {
       "type": "arrival_card",
-      "name": "Arrival Item Card",
+      "name": "Product",
       "settings": [
         {
-          "type": "image_picker",
-          "id": "image",
-          "label": "Desktop Image"
-        },
-        {
-          "type": "image_picker",
-          "id": "image_mobile",
-          "label": "Mobile Image (Optional)"
-        },
-        {
-          "type": "text",
-          "id": "alt",
-          "label": "Item Title / Caption",
-          "default": "Curated Object"
-        },
-        {
-          "type": "text",
-          "id": "designer",
-          "label": "Designer / Maker Subtitle"
-        },
-        {
-          "type": "text",
-          "id": "price",
-          "label": "Price Tag (Optional)"
-        },
-        {
-          "type": "text",
-          "id": "badge",
-          "label": "Badge Pill Text (Optional)"
+          "type": "product",
+          "id": "product",
+          "label": "Product"
         },
         {
           "type": "color",
@@ -1461,40 +1474,22 @@
       "name": "New Arrivals Gallery",
       "blocks": [
         {
-          "type": "arrival_card",
-          "settings": {
-            "alt": "Vase Calyx-krater By Eichholtz"
-          }
+          "type": "arrival_card"
         },
         {
-          "type": "arrival_card",
-          "settings": {
-            "alt": "Apsara Candy Jar By Ira Udaipur"
-          }
+          "type": "arrival_card"
         },
         {
-          "type": "arrival_card",
-          "settings": {
-            "alt": "Nico Cladded Console By The Edit"
-          }
+          "type": "arrival_card"
         },
         {
-          "type": "arrival_card",
-          "settings": {
-            "alt": "Grain of Time Bar Cabinet By Jagdish Sutar"
-          }
+          "type": "arrival_card"
         },
         {
-          "type": "arrival_card",
-          "settings": {
-            "alt": "Old Soul Teapot XIII By Eina Ahluwalia"
-          }
+          "type": "arrival_card"
         },
         {
-          "type": "arrival_card",
-          "settings": {
-            "alt": "Lagori Round Table Lamp By Yaahvi"
-          }
+          "type": "arrival_card"
         }
       ]
     }
