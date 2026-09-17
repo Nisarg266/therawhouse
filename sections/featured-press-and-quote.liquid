@@ -201,25 +201,26 @@
     opacity: 0.8 !important;
   }
 
-  /* Logos: Master 6-Column Editorial Bar */
+  /* Logos: Master Editorial Flex Row (Eliminates Collisions & Overlaps) */
   .luxp-press .luxp-logos {
-    display: grid !important;
-    grid-template-columns: repeat(var(--luxp-logo-cols, 6), minmax(0, 1fr)) !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: clamp(6px, 1.4vw, 18px) !important;
+    gap: 12px clamp(20px, 3.5vw, 48px) !important;
     max-width: 1080px !important;
     margin: 0 auto !important;
     padding-inline: 16px !important;
   }
 
   .luxp-press .luxp-logo {
-    display: flex !important;
+    display: inline-flex !important;
+    flex: 0 0 auto !important;
     align-items: center !important;
     justify-content: center !important;
     text-decoration: none !important;
     min-height: 36px !important;
-    padding: 6px 6px !important;
+    padding: 6px 8px !important;
     border-radius: 3px !important;
     transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1) !important;
     position: relative !important;
@@ -238,8 +239,8 @@
 
   .luxp-press .luxp-logo__text {
     font-family: var(--font-body--family, sans-serif);
-    font-size: clamp(12px, 1.05vw, 14.5px) !important;
-    letter-spacing: clamp(0.14em, 0.18vw, 0.22em) !important;
+    font-size: clamp(12px, 1.05vw, 14px) !important;
+    letter-spacing: clamp(0.12em, 0.16vw, 0.18em) !important;
     font-weight: 500 !important;
     text-transform: uppercase !important;
     color: var(--luxp-logo-color, #2a2825) !important;
@@ -252,37 +253,38 @@
   .luxp-press .luxp-logo__text--vogue {
     font-family: 'Didot', 'Bodoni MT', 'Cinzel', 'Playfair Display', Georgia, serif !important;
     font-weight: 700 !important;
-    letter-spacing: 0.24em !important;
-    font-size: clamp(13px, 1.15vw, 16px) !important;
+    letter-spacing: 0.22em !important;
+    font-size: clamp(13px, 1.15vw, 15.5px) !important;
   }
 
   .luxp-press .luxp-logo__text--ad {
     font-family: 'Cinzel', 'Playfair Display', Georgia, serif !important;
     font-weight: 700 !important;
     letter-spacing: 0.18em !important;
-    font-size: clamp(14px, 1.25vw, 17px) !important;
+    font-size: clamp(14px, 1.2vw, 16.5px) !important;
   }
 
   .luxp-press .luxp-logo__text--elle-decor {
     font-family: 'Cinzel', 'Playfair Display', sans-serif !important;
-    letter-spacing: 0.22em !important;
+    letter-spacing: 0.18em !important;
     font-weight: 500 !important;
   }
 
   .luxp-press .luxp-logo__text--goodhomes-india {
-    letter-spacing: 0.12em !important;
+    letter-spacing: 0.1em !important;
     font-weight: 500 !important;
+    font-size: clamp(11.5px, 0.95vw, 13.5px) !important;
   }
 
   .luxp-press .luxp-logo__text--ideal-home {
     font-family: 'Cormorant Garamond', Georgia, serif !important;
-    letter-spacing: 0.18em !important;
+    letter-spacing: 0.16em !important;
     font-weight: 600 !important;
   }
 
   .luxp-press .luxp-logo__text--femina {
     font-family: 'Cinzel', 'Playfair Display', Georgia, serif !important;
-    letter-spacing: 0.22em !important;
+    letter-spacing: 0.2em !important;
     font-weight: 500 !important;
   }
 
@@ -398,9 +400,11 @@
   /* Tablet Breakpoint: 641px - 989px */
   @media screen and (min-width: 641px) and (max-width: 989px) {
     .luxp-press .luxp-logos {
-      grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-      gap: 12px 18px !important;
-      max-width: 680px !important;
+      display: flex !important;
+      flex-wrap: wrap !important;
+      justify-content: center !important;
+      gap: 12px clamp(16px, 2.5vw, 28px) !important;
+      max-width: 760px !important;
     }
 
     .luxp-press .luxp-quote-plaque {
@@ -416,27 +420,28 @@
   /* Mobile Breakpoint: <= 640px */
   @media screen and (max-width: 640px) {
     .luxp-press .luxp-logos {
-      grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-      gap: 10px 6px !important;
-      padding-inline: 8px !important;
+      display: flex !important;
+      flex-wrap: wrap !important;
+      justify-content: center !important;
+      gap: 10px clamp(12px, 3.2vw, 22px) !important;
+      padding-inline: 12px !important;
+      max-width: 100% !important;
     }
 
     .luxp-press .luxp-logo {
-      min-height: 36px !important;
-      padding: 6px 4px !important;
+      min-height: 32px !important;
+      padding: 4px 6px !important;
     }
 
     .luxp-press .luxp-logo__text {
-      font-size: 11.5px !important;
-      letter-spacing: 0.11em !important;
+      font-size: clamp(10.5px, 2.8vw, 12px) !important;
+      letter-spacing: 0.12em !important;
       text-align: center !important;
     }
 
     .luxp-press .luxp-logo__text--goodhomes-india {
-      font-size: 10px !important;
-      letter-spacing: 0.06em !important;
-      white-space: normal !important;
-      line-height: 1.2 !important;
+      font-size: clamp(9.5px, 2.5vw, 11px) !important;
+      letter-spacing: 0.08em !important;
     }
 
     .luxp-press .luxp-press__bridge {
@@ -475,13 +480,20 @@
   /* Small Mobile Breakpoint: <= 380px */
   @media screen and (max-width: 380px) {
     .luxp-press .luxp-logos {
-      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-      gap: 12px 8px !important;
+      display: flex !important;
+      flex-wrap: wrap !important;
+      justify-content: center !important;
+      gap: 8px 12px !important;
     }
 
     .luxp-press .luxp-logo__text {
-      font-size: 11px !important;
-      letter-spacing: 0.1em !important;
+      font-size: 10px !important;
+      letter-spacing: 0.09em !important;
+    }
+
+    .luxp-press .luxp-logo__text--goodhomes-india {
+      font-size: 9px !important;
+      letter-spacing: 0.06em !important;
     }
 
     .luxp-press .luxp-quote__line--em {
