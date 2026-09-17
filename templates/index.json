@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero_slider": {
@@ -14,7 +23,10 @@
             "button_label": "",
             "button_link": "shopify://collections/all",
             "button_2_label": "",
-            "button_2_link": ""
+            "button_2_link": "",
+            "overlay_color": "",
+            "overlay_opacity": 0,
+            "text_align": "center"
           }
         },
         "slide_2": {
@@ -28,7 +40,10 @@
             "button_label": "",
             "button_link": "shopify://blogs/news",
             "button_2_label": "",
-            "button_2_link": ""
+            "button_2_link": "",
+            "overlay_color": "",
+            "overlay_opacity": 0,
+            "text_align": "center"
           }
         },
         "slide_3": {
@@ -42,7 +57,10 @@
             "button_label": "",
             "button_link": "shopify://collections/all",
             "button_2_label": "",
-            "button_2_link": ""
+            "button_2_link": "",
+            "overlay_color": "",
+            "overlay_opacity": 0,
+            "text_align": "center"
           }
         }
       },
@@ -117,10 +135,15 @@
             "image": "shopify://shop_images/WhatsApp_Image_2026-09-12_at_3.24.52_PM_3.jpg",
             "image_mobile": "shopify://shop_images/b0a01019-09e5-4ec5-8b74-acf840f25671_a0136480-e009-4e72-b7c5-9bd35b45bace.png",
             "default_asset": "Uphaar",
+            "title": "",
+            "subtitle": "",
             "alt": "",
             "badge": "",
+            "badge_bg": "#b08d57",
+            "badge_color": "#ffffff",
             "link": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/Uphaar_collections_compressed.pdf?v=1789591028",
-            "show_view_icon": true
+            "show_view_icon": true,
+            "icon_type": "arrow"
           }
         },
         "catalog_image_2": {
@@ -129,10 +152,15 @@
             "image": "shopify://shop_images/68ea042e-b783-454a-9600-bc049ce2595e_42cdf37b-d7d3-411e-98f4-4701c9d9aa5a.png",
             "image_mobile": "shopify://shop_images/f51ca54e-f381-4b3f-a25d-cb26f89f2db6.png",
             "default_asset": "Ahmedabad_Art_Week_Sculpture_Show",
+            "title": "",
+            "subtitle": "",
             "alt": "",
             "badge": "",
+            "badge_bg": "#b08d57",
+            "badge_color": "#ffffff",
             "link": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/Ahmedabad_Art_Week_Sculpture_Show_Catalogue_compressed.pdf?v=1789589334",
-            "show_view_icon": true
+            "show_view_icon": true,
+            "icon_type": "arrow"
           }
         },
         "catalog_image_3": {
@@ -141,10 +169,15 @@
             "image": "shopify://shop_images/IDIKA01016_resized_no_stretch_9ec2df42-08a5-49b7-9557-bbd1fbd87952.png",
             "image_mobile": "shopify://shop_images/IDIKA01016_resized_no_stretch_232a8ccd-654d-4cf1-b1d4-15fcb0050fdc.png",
             "default_asset": "raw collectables",
+            "title": "",
+            "subtitle": "",
             "alt": "",
             "badge": "",
+            "badge_bg": "#b08d57",
+            "badge_color": "#ffffff",
             "link": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/Raw_Collectables_compressed.pdf?v=1789591025",
-            "show_view_icon": true
+            "show_view_icon": true,
+            "icon_type": "arrow"
           }
         },
         "catalog_image_4": {
@@ -153,20 +186,30 @@
             "image": "shopify://shop_images/9d8490f1-e69a-4f2c-a02c-4f4577ae491c_b48a2ac3-76cf-43a7-a3a2-8942860bb104.png",
             "image_mobile": "shopify://shop_images/5edee94c-2cf7-493d-9cc0-065f9cfa9e2e.png",
             "default_asset": "Shrujan",
+            "title": "",
+            "subtitle": "",
             "alt": "",
             "badge": "",
+            "badge_bg": "#b08d57",
+            "badge_color": "#ffffff",
             "link": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/Shrujan_Catalogue_compressed_under_20MB_1.pdf?v=1789588636",
-            "show_view_icon": true
+            "show_view_icon": true,
+            "icon_type": "arrow"
           }
         },
         "catalog_image_5": {
           "type": "catalog_cover",
           "settings": {
             "default_asset": "lochan",
+            "title": "",
+            "subtitle": "",
             "alt": "",
             "badge": "",
+            "badge_bg": "#b08d57",
+            "badge_color": "#ffffff",
             "link": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/What_Objects_Become_Lochan_Upadhyay___TRH_compressed.pdf?v=1789591024",
-            "show_view_icon": true
+            "show_view_icon": true,
+            "icon_type": "arrow"
           }
         },
         "catalog_image_6": {
@@ -175,10 +218,15 @@
             "image": "shopify://shop_images/85e5ae8b-3a77-4236-bbe0-878d9d9fc816.png",
             "image_mobile": "shopify://shop_images/0a044d04-0686-47e0-90cc-419e24d11489.png",
             "default_asset": "Hinchko",
+            "title": "",
+            "subtitle": "",
             "alt": "",
             "badge": "",
+            "badge_bg": "#b08d57",
+            "badge_color": "#ffffff",
             "link": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/Hinchko_Catalogue_compressed.pdf?v=1789628194",
-            "show_view_icon": true
+            "show_view_icon": true,
+            "icon_type": "arrow"
           }
         },
         "catalog_image_7": {
@@ -187,10 +235,15 @@
             "image": "shopify://shop_images/18cc3612-e2a9-4825-84d6-3318be7f2ab6.png",
             "image_mobile": "shopify://shop_images/912c58bf-3a03-4515-9960-faa8a5057e3b.png",
             "default_asset": "Ahmedabad week",
+            "title": "",
+            "subtitle": "",
             "alt": "",
             "badge": "",
+            "badge_bg": "#b08d57",
+            "badge_color": "#ffffff",
             "link": "shopify://collections/all",
-            "show_view_icon": true
+            "show_view_icon": true,
+            "icon_type": "arrow"
           }
         },
         "catalog_image_8": {
@@ -199,10 +252,15 @@
             "image": "shopify://shop_images/8ee45590-3925-4d5d-b310-7c95df6194ea.png",
             "image_mobile": "shopify://shop_images/b3d62b28-2f50-4300-a6ef-c63c425b7713.png",
             "default_asset": "the future inform",
+            "title": "",
+            "subtitle": "",
             "alt": "",
             "badge": "",
+            "badge_bg": "#b08d57",
+            "badge_color": "#ffffff",
             "link": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/The_Future_in_Form_-_Catalouge_compressed.pdf?v=1789591028",
-            "show_view_icon": true
+            "show_view_icon": true,
+            "icon_type": "arrow"
           }
         },
         "catalog_image_9": {
@@ -211,10 +269,15 @@
             "image": "shopify://shop_images/dunes_resized_604_67x766_38cf7dc2-dcd4-4fc7-aff9-7ae8a75c46db.jpg",
             "image_mobile": "shopify://shop_images/Copy_of_dunes.jpg",
             "default_asset": "material passage",
+            "title": "",
+            "subtitle": "",
             "alt": "",
             "badge": "",
+            "badge_bg": "#b08d57",
+            "badge_color": "#ffffff",
             "link": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/Material_Passage_compressed_20MB.pdf?v=1789643895",
-            "show_view_icon": true
+            "show_view_icon": true,
+            "icon_type": "arrow"
           }
         },
         "catalog_image_10": {
@@ -223,30 +286,45 @@
             "image": "shopify://shop_images/TRP04720.jpg",
             "image_mobile": "shopify://shop_images/TRP04720_resized_604_67x766_4e05c883-e418-4e39-9fbd-e57f15be28ad.jpg",
             "default_asset": "craft colllective",
+            "title": "",
+            "subtitle": "",
             "alt": "",
             "badge": "",
+            "badge_bg": "#b08d57",
+            "badge_color": "#ffffff",
             "link": "shopify://collections/all",
-            "show_view_icon": true
+            "show_view_icon": true,
+            "icon_type": "arrow"
           }
         },
         "catalog_image_11": {
           "type": "catalog_cover",
           "settings": {
             "default_asset": "art-sculpture-rodin-thinker.jpg",
+            "title": "",
+            "subtitle": "",
             "alt": "",
             "badge": "",
+            "badge_bg": "#b08d57",
+            "badge_color": "#ffffff",
             "link": "shopify://collections/all",
-            "show_view_icon": true
+            "show_view_icon": true,
+            "icon_type": "arrow"
           }
         },
         "catalog_image_12": {
           "type": "catalog_cover",
           "settings": {
             "default_asset": "indoor & outdoor",
+            "title": "",
+            "subtitle": "",
             "alt": "",
             "badge": "",
+            "badge_bg": "#b08d57",
+            "badge_color": "#ffffff",
             "link": "shopify://collections/all",
-            "show_view_icon": true
+            "show_view_icon": true,
+            "icon_type": "arrow"
           }
         }
       },
@@ -316,6 +394,11 @@
         "color_accent": "#b08d57",
         "color_muted": "",
         "color_border": "",
+        "btn_bg": "",
+        "btn_text": "",
+        "btn_border": "",
+        "btn_bg_hover": "",
+        "btn_text_hover": "",
         "btn_style": "outline",
         "btn_height": 46,
         "btn_px": 26,
@@ -342,15 +425,22 @@
       "type": "new-arrivals-gallery",
       "settings": {
         "subheading": "THE",
+        "subheading_size": 26,
+        "subheading_size_m": 22,
         "heading": "NEW ARRIVALS",
         "heading_size": 26,
+        "heading_size_m": 16,
         "heading_letter_spacing": "0.38em",
         "heading_color": "#1a1a1a",
         "card_title_size": 17,
+        "card_title_size_m": 15,
         "card_designer_size": 11,
+        "card_price_size": 14,
         "show_underline": true,
         "underline_width": 48,
+        "underline_height": 1,
         "underline_color": "#b08d57",
+        "accent_color": "#b08d57",
         "layout_style": "slider",
         "full_width": false,
         "max_width": 1360,
@@ -360,7 +450,9 @@
         "show_caption_on_hover": true,
         "background_color": "#ffffff",
         "padding_top": 48,
-        "padding_bottom": 56
+        "padding_bottom": 56,
+        "padding_top_m": 36,
+        "padding_bottom_m": 40
       }
     },
     "recommendations": {
@@ -373,7 +465,10 @@
             "image_mobile": "shopify://shop_images/d100891c-b0e0-43dc-b5d0-296feb43aa69_2.png",
             "default_asset": "",
             "badge": "Oneiric",
+            "badge_bg": "#b08d57",
+            "badge_color": "#ffffff",
             "title": "Vaayu Console",
+            "curator": "",
             "text": "The console from the Mudra collection takes inspiration from the Vayu element,\nembodying lightness and movement.",
             "btn_text": "",
             "link": "shopify://products/vaayu-console"
@@ -384,7 +479,10 @@
           "settings": {
             "default_asset": "recommendation-2.jpg",
             "badge": "",
+            "badge_bg": "#b08d57",
+            "badge_color": "#ffffff",
             "title": "THE STORY OF THINGS WITH PRIYANKA KHANNA",
+            "curator": "",
             "text": "Step inside the family home of luxury curator Priyanka Khanna and discover a thoughtfully collected world of art, design, and objects with stories to tell.",
             "btn_text": "READ THIS JOURNAL",
             "link": "shopify://blogs/news"
@@ -395,7 +493,10 @@
           "settings": {
             "default_asset": "recommendation-3.jpg",
             "badge": "",
+            "badge_bg": "#b08d57",
+            "badge_color": "#ffffff",
             "title": "THE ART OF FINE LIVING",
+            "curator": "",
             "text": "Built over time and inspired by authenticity, this edit embraces the beauty of layered living - brought to life through thoughtfully curated furniture, art, and accessories.",
             "btn_text": "SHOP THIS EDIT",
             "link": "shopify://collections/all"
@@ -406,7 +507,10 @@
           "settings": {
             "default_asset": "recommendation-4.jpg",
             "badge": "",
+            "badge_bg": "#b08d57",
+            "badge_color": "#ffffff",
             "title": "A LIFE, COLLECTED WITH EINA AHLUWALIA",
+            "curator": "",
             "text": "Step inside modern-day collector Eina Ahluwalia's space graced with memorable finds and antiques, and discover what makes her collect.",
             "btn_text": "READ THIS JOURNAL",
             "link": "shopify://blogs/news"
@@ -507,8 +611,13 @@
             "title": "Radha and Krishna",
             "vendor": "By Mahaveer Swami",
             "price": "₹3,900.00",
+            "compare_at_price": "",
             "badge": "OPTIONS AVAILABLE",
+            "badge_bg": "#b08d57",
+            "badge_color": "#ffffff",
             "badge_2": "",
+            "badge_2_bg": "#111111",
+            "badge_2_color": "#ffffff",
             "link": "shopify://collections/all"
           }
         },
@@ -520,8 +629,13 @@
             "title": "Pink Flower Deep Plate - Bitossi",
             "vendor": "By Mon Dimora",
             "price": "₹5,900.00",
+            "compare_at_price": "",
             "badge": "",
+            "badge_bg": "#b08d57",
+            "badge_color": "#ffffff",
             "badge_2": "",
+            "badge_2_bg": "#111111",
+            "badge_2_color": "#ffffff",
             "link": "shopify://collections/all"
           }
         },
@@ -533,8 +647,13 @@
             "title": "The Blueroom Hand Printed Wallpaper",
             "vendor": "By Oldhand Designs",
             "price": "₹13,000.00",
+            "compare_at_price": "",
             "badge": "OPTIONS AVAILABLE",
+            "badge_bg": "#b08d57",
+            "badge_color": "#ffffff",
             "badge_2": "CUSTOMIZABLE",
+            "badge_2_bg": "#111111",
+            "badge_2_color": "#ffffff",
             "link": "shopify://collections/all"
           }
         },
@@ -546,8 +665,13 @@
             "title": "Lotus In Pichwai Archival Print",
             "vendor": "By The Raw House Archive",
             "price": "₹8,500.00",
+            "compare_at_price": "",
             "badge": "LIMITED EDITION",
+            "badge_bg": "#b08d57",
+            "badge_color": "#ffffff",
             "badge_2": "",
+            "badge_2_bg": "#111111",
+            "badge_2_color": "#ffffff",
             "link": "shopify://collections/all"
           }
         }
@@ -622,10 +746,10 @@
         "btn_width": "auto",
         "btn_mobile_full": false,
         "footer_mt": 32,
-        "padding_top": 60,
-        "padding_bottom": 60,
-        "padding_top_m": 44,
-        "padding_bottom_m": 48,
+        "padding_top": 12,
+        "padding_bottom": 8,
+        "padding_top_m": 20,
+        "padding_bottom_m": 12,
         "container_padding": 32,
         "container_padding_m": 16,
         "enable_animations": false,
@@ -642,6 +766,10 @@
             "default_asset": "maker-1.jpg",
             "name": "Duffy London",
             "subtitle": "Fun With Design",
+            "location": "",
+            "badge": "",
+            "badge_bg": "#b08d57",
+            "badge_color": "#ffffff",
             "link": "shopify://collections/all"
           }
         },
@@ -651,6 +779,10 @@
             "default_asset": "maker-2.jpg",
             "name": "Nishita",
             "subtitle": "Nishita Thakurdas",
+            "location": "",
+            "badge": "",
+            "badge_bg": "#b08d57",
+            "badge_color": "#ffffff",
             "link": "shopify://collections/all"
           }
         },
@@ -660,6 +792,10 @@
             "default_asset": "maker-3.jpg",
             "name": "Paul Matter",
             "subtitle": "Nikhil Paul",
+            "location": "",
+            "badge": "",
+            "badge_bg": "#b08d57",
+            "badge_color": "#ffffff",
             "link": "shopify://collections/all"
           }
         },
@@ -669,6 +805,10 @@
             "default_asset": "maker-4.jpg",
             "name": "Jay Strongwater",
             "subtitle": "Hand Enameled Jewels for Home",
+            "location": "",
+            "badge": "",
+            "badge_bg": "#b08d57",
+            "badge_color": "#ffffff",
             "link": "shopify://collections/all"
           }
         }
@@ -743,10 +883,10 @@
         "btn_width": "auto",
         "btn_mobile_full": false,
         "footer_mt": 32,
-        "padding_top": 60,
-        "padding_bottom": 64,
-        "padding_top_m": 44,
-        "padding_bottom_m": 48,
+        "padding_top": 28,
+        "padding_bottom": 28,
+        "padding_top_m": 24,
+        "padding_bottom_m": 20,
         "container_padding": 32,
         "container_padding_m": 16,
         "enable_animations": false,
@@ -762,7 +902,8 @@
           "settings": {
             "icon": "certificate",
             "label": "CERTIFIED AUTHENTICITY",
-            "text": "Each artwork and object arrives with a signed certificate of provenance."
+            "text": "Each artwork and object arrives with a signed certificate of provenance.",
+            "link": ""
           }
         },
         "feature_2": {
@@ -770,7 +911,8 @@
           "settings": {
             "icon": "truck",
             "label": "WHITE-GLOVE DELIVERY",
-            "text": "Museum-grade packing and doorstep installation, handled by specialists."
+            "text": "Museum-grade packing and doorstep installation, handled by specialists.",
+            "link": ""
           }
         },
         "feature_3": {
@@ -778,7 +920,8 @@
           "settings": {
             "icon": "gem",
             "label": "BESPOKE CURATION",
-            "text": "Personal advisory to help you collect pieces that belong to your story."
+            "text": "Personal advisory to help you collect pieces that belong to your story.",
+            "link": ""
           }
         }
       },
@@ -956,11 +1099,11 @@
         "social_fg_hover": "",
         "social_gap": 12,
         "social_mt": 20,
-        "padding_top": 56,
-        "padding_bottom": 64,
-        "padding_top_m": 36,
-        "padding_bottom_m": 40,
-        "container_padding": 32,
+        "padding_top": 0,
+        "padding_bottom": 0,
+        "padding_top_m": 12,
+        "padding_bottom_m": 12,
+        "container_padding": 28,
         "container_padding_m": 20,
         "enable_animations": false,
         "anchor_id": "",
@@ -1022,6 +1165,7 @@
         "press_6"
       ],
       "settings": {
+        "eyebrow": "",
         "heading": "FEATURED IN",
         "show_ornament": true,
         "logos_margin_top": 24,
@@ -1037,15 +1181,43 @@
         "quote_line_2": "LIKE THE THINGS",
         "quote_line_3": "we didn't buy",
         "show_quote_dividers": true,
+        "quote_margin_top": 44,
+        "quote_gap": 6,
+        "quote_font": "heading",
+        "quote_size": 34,
+        "quote_size_m": 24,
+        "quote_weight": "400",
+        "quote_lh": 1.2,
+        "quote_ls": "0.02em",
+        "quote_transform": "none",
         "quote_color": "#1a1a1a",
         "divider_color": "#b08d57",
-        "container_max": 1100,
+        "heading_font": "heading",
+        "heading_size": 22,
+        "heading_size_m": 19,
+        "heading_weight": "400",
+        "heading_lh": 1.2,
+        "heading_ls": "0.04em",
+        "heading_transform": "none",
+        "heading_max_width": 100,
+        "color_preset": "light",
         "color_bg": "#ffffff",
         "color_heading": "#1a1a1a",
+        "color_text": "#4a4a4a",
+        "color_accent": "#b08d57",
+        "color_muted": "",
+        "color_border": "",
+        "container_mode": "fixed",
+        "container_max": 1100,
         "padding_top": 20,
         "padding_bottom": 16,
         "padding_top_m": 16,
-        "padding_bottom_m": 12
+        "padding_bottom_m": 12,
+        "container_padding": 32,
+        "container_padding_m": 20,
+        "enable_animations": false,
+        "anchor_id": "",
+        "custom_class": ""
       }
     }
   },
