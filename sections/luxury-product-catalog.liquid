@@ -212,12 +212,15 @@
   }
 
   /* Hidden items (initially items 7+) */
-  .luxp-catalog .luxp-catalog__card.luxp-toggle-hidden {
+  .luxp-catalog:not([data-luxp-expanded='true']) .luxp-catalog__card.luxp-toggle-hidden,
+  .luxp-catalog[data-luxp-expanded='false'] .luxp-catalog__card.luxp-toggle-hidden {
     display: none !important;
   }
 
   /* Expanded items (when View More is clicked inline) */
-  [data-luxp-collapsible][data-luxp-expanded='true'] .luxp-catalog .luxp-catalog__card.luxp-toggle-hidden {
+  .luxp-catalog[data-luxp-expanded='true'] .luxp-catalog__card.luxp-toggle-hidden,
+  [data-luxp-collapsible][data-luxp-expanded='true'].luxp-catalog .luxp-catalog__card.luxp-toggle-hidden,
+  [data-luxp-collapsible][data-luxp-expanded='true'] .luxp-catalog__card.luxp-toggle-hidden {
     display: flex !important;
   }
 

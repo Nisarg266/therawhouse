@@ -200,19 +200,28 @@
         "card_4"
       ],
       "settings": {
+        "layout_style": "split",
         "eyebrow": "the",
-        "heading": "R E C O M M E N D A T I O N S",
+        "heading": "RECOMMENDATIONS",
         "heading_size": 20,
         "heading_ls": "0.35em",
+        "intro": "<p>Edits, stories and conversations from the world of The Raw House — curated slowly, collected forever.</p>",
         "show_ornament": true,
         "color_heading": "#1a1a1a",
-        "container_max": 1080,
+        "color_accent": "#a98344",
+        "container_max": 1220,
         "columns": 2,
-        "col_gap": 36,
-        "row_gap": 44,
+        "columns_tablet": 2,
+        "columns_mobile": "2",
+        "col_gap": 40,
+        "row_gap": 56,
+        "col_gap_m": 16,
+        "row_gap_m": 36,
+        "image_ratio": "4/5",
+        "card_radius": 0,
         "color_bg": "#ffffff",
-        "padding_top": 60,
-        "padding_bottom": 72
+        "padding_top": 64,
+        "padding_bottom": 80
       }
     },
     "fine_prints": {
@@ -321,57 +330,6 @@
         "padding_bottom": 64
       }
     },
-    "atelier_promise": {
-      "type": "atelier-promise",
-      "blocks": {
-        "feature_1": {
-          "type": "feature",
-          "settings": {
-            "icon": "certificate",
-            "label": "CERTIFIED AUTHENTICITY",
-            "text": "Each artwork and object arrives with a signed certificate of provenance."
-          }
-        },
-        "feature_2": {
-          "type": "feature",
-          "settings": {
-            "icon": "truck",
-            "label": "WHITE-GLOVE DELIVERY",
-            "text": "Museum-grade packing and doorstep installation, handled by specialists."
-          }
-        },
-        "feature_3": {
-          "type": "feature",
-          "settings": {
-            "icon": "gem",
-            "label": "BESPOKE CURATION",
-            "text": "Personal advisory to help you collect pieces that belong to your story."
-          }
-        }
-      },
-      "block_order": [
-        "feature_1",
-        "feature_2",
-        "feature_3"
-      ],
-      "settings": {
-        "eyebrow": "the",
-        "heading": "A T E L I E R   P R O M I S E",
-        "statement": "<p>Every piece that reaches your home is hand-selected at the atelier, certified for provenance, and delivered with the same reverence the masters poured into making it.</p>",
-        "show_ornament": true,
-        "btn_label": "DISCOVER THE HOUSE",
-        "btn_link": "shopify://collections/all",
-        "overlay_opacity": 55,
-        "color_bg": "#17130e",
-        "color_heading": "#f4efe6",
-        "color_text": "#f4efe6",
-        "color_accent": "#c9a870",
-        "min_height": 480,
-        "container_max": 1080,
-        "padding_top": 64,
-        "padding_bottom": 64
-      }
-    },
     "brand_statement": {
       "type": "brand-manifesto",
       "blocks": {
@@ -451,7 +409,6 @@
     "recommendations",
     "fine_prints",
     "the_makers",
-    "atelier_promise",
     "brand_statement",
     "press_and_quote"
   ]

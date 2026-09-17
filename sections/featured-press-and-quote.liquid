@@ -144,6 +144,96 @@
   </div>
 </div>
 
+{% stylesheet %}
+  /* ---- Press & Quote redesign (scoped to .luxp-press) ---- */
+
+  /* Heading: quiet letterspaced label */
+  .luxp-press .luxp-heading {
+    text-transform: uppercase !important;
+    letter-spacing: 0.22em !important;
+    margin-inline-end: -0.22em !important;
+    font-weight: 500 !important;
+    font-size: clamp(14px, 1.5vw, 19px) !important;
+  }
+
+  /* Logos: one elegant row on desktop, tidy grid on small screens */
+  .luxp-press .luxp-logos {
+    display: grid !important;
+    grid-template-columns: repeat(6, auto) !important;
+    justify-content: center !important;
+    align-items: center !important;
+    column-gap: clamp(18px, 3.4vw, 48px) !important;
+    row-gap: 22px !important;
+  }
+
+  .luxp-press .luxp-logo {
+    justify-self: center !important;
+    opacity: 0.85;
+    transition: opacity 0.3s ease;
+  }
+
+  .luxp-press .luxp-logo:hover,
+  .luxp-press .luxp-logo:focus-visible {
+    opacity: 1;
+  }
+
+  .luxp-press .luxp-logo__text {
+    font-size: clamp(13px, 1.2vw, 16px) !important;
+    letter-spacing: 0.12em !important;
+    font-weight: 500 !important;
+  }
+
+  /* Quote: editorial serif italic centerpiece */
+  .luxp-press .luxp-quote__line {
+    font-size: clamp(19px, 2vw, 26px) !important;
+    letter-spacing: 0.01em !important;
+  }
+
+  .luxp-press .luxp-quote__line--em {
+    font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, 'Times New Roman', serif !important;
+    font-style: italic !important;
+    font-weight: 400 !important;
+    font-size: clamp(26px, 3.4vw, 42px) !important;
+    letter-spacing: 0.02em !important;
+    line-height: 1.15 !important;
+  }
+
+  .luxp-press .luxp-quote__divider {
+    height: 22px !important;
+    opacity: 0.3 !important;
+  }
+
+  /* Tablet: 3x2 logo grid */
+  @media screen and (max-width: 989px) {
+    .luxp-press .luxp-logos {
+      grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+      column-gap: 12px !important;
+      row-gap: 24px !important;
+    }
+  }
+
+  /* Phone: 2x3 logo grid */
+  @media screen and (max-width: 520px) {
+    .luxp-press .luxp-logos {
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      row-gap: 20px !important;
+    }
+
+    .luxp-press .luxp-logo__text {
+      font-size: 13px !important;
+      letter-spacing: 0.1em !important;
+    }
+
+    .luxp-press .luxp-quote__line {
+      font-size: 19px !important;
+    }
+
+    .luxp-press .luxp-quote__line--em {
+      font-size: 27px !important;
+    }
+  }
+{% endstylesheet %}
+
 {% schema %}
 {
   "name": "Press & Quote",

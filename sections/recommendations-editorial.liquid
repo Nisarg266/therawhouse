@@ -45,16 +45,392 @@
 
 {%- capture luxp_typo -%}{%- render 'luxp-typo', s: s -%}{%- endcapture -%}
 
+<style>
+  .section-luxp-editorial,
+  #shopify-section-{{ section.id }} {
+    background-color: {{ s.color_bg | default: '#ffffff' }};
+  }
+
+  .section-luxp-editorial .luxp-editorial,
+  #shopify-section-{{ section.id }} .luxp-editorial {
+    padding-top: {{ s.padding_top | default: 64 }}px;
+    padding-bottom: {{ s.padding_bottom | default: 80 }}px;
+  }
+
+  @media screen and (max-width: 749px) {
+    .section-luxp-editorial .luxp-editorial,
+    #shopify-section-{{ section.id }} .luxp-editorial {
+      padding-top: {{ s.padding_top_m | default: 40 }}px;
+      padding-bottom: {{ s.padding_bottom_m | default: 48 }}px;
+    }
+  }
+
+  .section-luxp-editorial .luxp-container,
+  #shopify-section-{{ section.id }} .luxp-container {
+    max-width: {{ s.container_max | default: 1220 }}px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: clamp(12px, 3.5vw, 40px);
+    padding-right: clamp(12px, 3.5vw, 40px);
+    box-sizing: border-box;
+  }
+
+  .section-luxp-editorial .luxp-header,
+  #shopify-section-{{ section.id }} .luxp-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-bottom: clamp(24px, 4vw, 44px);
+    gap: 0;
+  }
+
+  .section-luxp-editorial .luxp-eyebrow,
+  #shopify-section-{{ section.id }} .luxp-eyebrow {
+    font-family: var(--font-body--family, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+    font-size: clamp(10px, 0.9vw, 11px);
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: {{ s.color_accent | default: '#a98344' }};
+    margin: 0 0 6px 0;
+    line-height: 1.2;
+  }
+
+  .section-luxp-editorial .luxp-heading,
+  #shopify-section-{{ section.id }} .luxp-heading {
+    font-family: var(--font-heading--family, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, serif);
+    font-size: clamp(14px, 2vw, 22px);
+    font-weight: 400;
+    letter-spacing: clamp(0.18em, 1.8vw, 0.35em);
+    text-transform: uppercase;
+    color: {{ s.color_heading | default: '#1a1a1a' }};
+    margin: 0 0 8px 0;
+    line-height: 1.25;
+  }
+
+  .section-luxp-editorial .luxp-ornament,
+  #shopify-section-{{ section.id }} .luxp-ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: clamp(90px, 12vw, 120px);
+    margin: 2px auto 0;
+  }
+
+  .section-luxp-editorial .luxp-ornament__line,
+  #shopify-section-{{ section.id }} .luxp-ornament__line {
+    flex: 1;
+    height: 1px;
+    background-color: #ded9cf;
+  }
+
+  .section-luxp-editorial .luxp-ornament__gem,
+  #shopify-section-{{ section.id }} .luxp-ornament__gem {
+    color: {{ s.color_accent | default: '#a98344' }};
+    font-size: 7px;
+    line-height: 1;
+    display: inline-block;
+  }
+
+  .section-luxp-editorial .luxp-grid,
+  #shopify-section-{{ section.id }} .luxp-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    column-gap: clamp(12px, 3.2vw, 44px) !important;
+    row-gap: clamp(24px, 4.5vw, 60px) !important;
+    width: 100% !important;
+  }
+
+  @media screen and (max-width: 639px) {
+    .section-luxp-editorial .luxp-grid,
+    #shopify-section-{{ section.id }} .luxp-grid {
+      {% if s.columns_mobile == '1' %}
+        grid-template-columns: 1fr !important;
+        row-gap: 36px !important;
+      {% else %}
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        column-gap: 12px !important;
+        row-gap: 24px !important;
+      {% endif %}
+    }
+  }
+
+  .section-luxp-editorial .luxp-card,
+  #shopify-section-{{ section.id }} .luxp-card {
+    display: flex !important;
+    flex-direction: column !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+  }
+
+  .section-luxp-editorial .luxp-media,
+  #shopify-section-{{ section.id }} .luxp-media {
+    position: relative !important;
+    display: block !important;
+    width: 100% !important;
+    aspect-ratio: {{ ratio_css }} !important;
+    overflow: hidden !important;
+    border-radius: 0 !important;
+    background-color: #f4f1eb !important;
+  }
+
+  .section-luxp-editorial .luxp-media img,
+  #shopify-section-{{ section.id }} .luxp-media img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    border-radius: 0 !important;
+    display: block !important;
+    transition: opacity 0.3s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+
+  .section-luxp-editorial .luxp-card:hover .luxp-media img,
+  #shopify-section-{{ section.id }} .luxp-card:hover .luxp-media img {
+    opacity: 0.96 !important;
+    transform: scale(1.02) !important;
+  }
+
+  .section-luxp-editorial .luxp-editcard__body,
+  #shopify-section-{{ section.id }} .luxp-editcard__body {
+    padding-top: clamp(10px, 1.6vw, 18px) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    text-align: left !important;
+    gap: 0 !important;
+  }
+
+  .section-luxp-editorial .luxp-editcard__title,
+  #shopify-section-{{ section.id }} .luxp-editcard__title {
+    font-family: var(--font-heading--family, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif) !important;
+    font-size: clamp(12px, 1.25vw, 15.5px) !important;
+    font-weight: 700 !important;
+    line-height: 1.35 !important;
+    letter-spacing: 0.08em !important;
+    text-transform: uppercase !important;
+    color: #1f2224 !important;
+    margin: 0 0 clamp(4px, 0.8vw, 8px) 0 !important;
+  }
+
+  .section-luxp-editorial .luxp-editcard__text,
+  #shopify-section-{{ section.id }} .luxp-editcard__text {
+    font-family: var(--font-body--family, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif) !important;
+    font-size: clamp(10.5px, 1.05vw, 13px) !important;
+    font-weight: 400 !important;
+    line-height: 1.6 !important;
+    letter-spacing: 0.01em !important;
+    color: #6e7377 !important;
+    margin: 0 0 clamp(6px, 1vw, 12px) 0 !important;
+    -webkit-font-smoothing: antialiased !important;
+  }
+
+  .section-luxp-editorial .luxp-card__cta,
+  #shopify-section-{{ section.id }} .luxp-card__cta {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    font-family: var(--font-body--family, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif) !important;
+    font-size: clamp(9.5px, 0.95vw, 11.5px) !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.14em !important;
+    text-transform: uppercase !important;
+    color: {{ s.color_accent | default: '#a98344' }} !important;
+    margin-top: 2px !important;
+    text-decoration: none !important;
+    transition: color 0.25s ease !important;
+  }
+
+  .section-luxp-editorial .luxp-card__cta-arrow,
+  #shopify-section-{{ section.id }} .luxp-card__cta-arrow {
+    display: inline-block !important;
+    font-size: 1.15em !important;
+    line-height: 1 !important;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+
+  .section-luxp-editorial .luxp-card:hover .luxp-card__cta-arrow,
+  #shopify-section-{{ section.id }} .luxp-card:hover .luxp-card__cta-arrow {
+    transform: translateX(4px) !important;
+  }
+
+  /* ============================================================
+     SPLIT LAYOUT — sticky heading rail (left) + stacked card deck (right).
+     Each card pins below the previous one; the next card slides up OVER it
+     (previous recedes behind), and after the last card the section scrolls away.
+     ============================================================ */
+  #shopify-section-{{ section.id }} {
+    --split-rail-top: clamp(104px, 12vh, 140px);
+    --deck-offset: 24px;
+  }
+
+  #shopify-section-{{ section.id }} .luxp-split {
+    display: grid;
+    grid-template-columns: minmax(240px, 2fr) 3fr;
+    gap: clamp(36px, 5vw, 88px);
+    width: 100%;
+  }
+
+  #shopify-section-{{ section.id }} .luxp-split__aside {
+    align-self: stretch;
+  }
+
+  #shopify-section-{{ section.id }} .luxp-split__sticky {
+    position: sticky;
+    top: var(--split-rail-top);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  #shopify-section-{{ section.id }} .luxp-split__eyebrow {
+    font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, 'Times New Roman', serif !important;
+    font-style: italic !important;
+    font-size: clamp(28px, 3.2vw, 42px) !important;
+    font-weight: 400 !important;
+    letter-spacing: 0.02em !important;
+    text-transform: none !important;
+    color: {{ s.color_heading | default: '#1a1a1a' }} !important;
+    margin: 0 0 6px 0 !important;
+    line-height: 1.05 !important;
+  }
+
+  #shopify-section-{{ section.id }} .luxp-split__heading {
+    font-size: clamp(15px, 1.5vw, 20px) !important;
+    letter-spacing: clamp(0.2em, 0.32vw, 0.35em) !important;
+    text-align: left !important;
+    margin: 0 0 12px 0 !important;
+    white-space: nowrap;
+  }
+
+  #shopify-section-{{ section.id }} .luxp-split__sticky .luxp-ornament {
+    width: 110px;
+    margin: 2px 0 0 0;
+    justify-content: flex-start;
+  }
+
+  #shopify-section-{{ section.id }} .luxp-split__intro {
+    margin-top: 20px;
+    max-width: 36ch;
+    font-size: 13.5px;
+    line-height: 1.75;
+    color: #6f6a61;
+  }
+
+  #shopify-section-{{ section.id }} .luxp-split__cards {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(28px, 4vw, 56px);
+    width: 100%;
+  }
+
+  #shopify-section-{{ section.id }} .luxp-split__index {
+    display: block;
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.32em;
+    color: {{ s.color_accent | default: '#a98344' }};
+    margin-bottom: 12px;
+  }
+
+  /* Card deck: each card pins a step lower than the previous, so cards stack
+     with a peeking edge while the next one slides up over them. */
+  #shopify-section-{{ section.id }} .luxp-split__card {
+    position: sticky;
+    top: calc(var(--split-rail-top) + var(--card-i, 0) * var(--deck-offset));
+    z-index: calc(1 + var(--card-i, 0));
+    background: {{ s.color_bg | default: '#ffffff' }};
+    box-shadow: 0 18px 44px rgba(24, 18, 8, 0.10);
+    transition:
+      transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+      filter 0.6s ease,
+      box-shadow 0.6s ease;
+    will-change: transform, filter;
+  }
+
+  /* Covered card recedes behind the one stacked over it */
+  #shopify-section-{{ section.id }} .luxp-split__card.is-covered {
+    transform: scale(0.96) translateY(6px);
+    filter: brightness(0.9) saturate(0.95);
+    box-shadow: 0 10px 26px rgba(24, 18, 8, 0.07);
+  }
+
+  /* Compact media so a pinned card + its text fit the viewport */
+  #shopify-section-{{ section.id }} .luxp-split__card .luxp-media {
+    aspect-ratio: 16 / 11;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #shopify-section-{{ section.id }} .luxp-split__card {
+      transition: none !important;
+    }
+  }
+
+  @media screen and (max-width: 989px) {
+    #shopify-section-{{ section.id }} {
+      --split-rail-top: 92px;
+      --deck-offset: 16px;
+    }
+
+    #shopify-section-{{ section.id }} .luxp-split {
+      display: block;
+    }
+
+    #shopify-section-{{ section.id }} .luxp-split__sticky {
+      position: static;
+      align-items: center;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    #shopify-section-{{ section.id }} .luxp-split__eyebrow {
+      font-size: 30px !important;
+    }
+
+    #shopify-section-{{ section.id }} .luxp-split__heading {
+      text-align: center !important;
+      white-space: nowrap;
+    }
+
+    #shopify-section-{{ section.id }} .luxp-split__sticky .luxp-ornament {
+      justify-content: center;
+      margin-inline: auto;
+    }
+
+    #shopify-section-{{ section.id }} .luxp-split__intro {
+      margin-inline: auto;
+      text-align: center;
+    }
+
+    #shopify-section-{{ section.id }} .luxp-split__cards {
+      gap: 24px;
+    }
+
+    #shopify-section-{{ section.id }} .luxp-split__card .luxp-media {
+      aspect-ratio: 1 / 1.02;
+    }
+  }
+</style>
+
 <div
   class="luxp-section luxp-editorial {% if s.container_mode == 'full' %}luxp-section--full{% endif %} {% if s.enable_animations %}luxp-anim{% endif %} {{ s.custom_class }}"
   style="
     {{ luxp_colors }}
     {{ luxp_typo }}
-    --luxp-pt: {{ s.padding_top | default: 60 }}px;
-    --luxp-pb: {{ s.padding_bottom | default: 72 }}px;
+    --luxp-pt: {{ s.padding_top | default: 64 }}px;
+    --luxp-pb: {{ s.padding_bottom | default: 80 }}px;
     --luxp-pt-m: {{ s.padding_top_m | default: 44 }}px;
     --luxp-pb-m: {{ s.padding_bottom_m | default: 52 }}px;
-    --luxp-cw: {{ s.container_max | default: 1080 }}px;
+    --luxp-cw: {{ s.container_max | default: 1220 }}px;
     --luxp-px: {{ s.container_padding | default: 32 }}px;
     --luxp-px-m: {{ s.container_padding_m | default: 16 }}px;
     --luxp-header-track: {{ header_track }};
@@ -62,26 +438,26 @@
     --luxp-header-gap: {{ s.header_gap | default: 10 }}px;
     --luxp-header-mb: {{ s.header_mb | default: 32 }}px;
     --luxp-cols: {{ s.columns | default: 2 }};
-    --luxp-cols-t: {{ s.columns_tablet | default: 1 }};
+    --luxp-cols-t: {{ s.columns_tablet | default: 2 }};
     --luxp-cols-m: {{ s.columns_mobile | default: 1 }};
-    --luxp-cgap: {{ s.col_gap | default: 36 }}px;
-    --luxp-rgap: {{ s.row_gap | default: 44 }}px;
+    --luxp-cgap: {{ s.col_gap | default: 40 }}px;
+    --luxp-rgap: {{ s.row_gap | default: 56 }}px;
     --luxp-cgap-m: {{ s.col_gap_m | default: 16 }}px;
-    --luxp-rgap-m: {{ s.row_gap_m | default: 32 }}px;
+    --luxp-rgap-m: {{ s.row_gap_m | default: 36 }}px;
     --luxp-media-ratio: {{ ratio_css }};
     --luxp-media-fit: {{ s.image_fit | default: 'cover' }};
-    --luxp-media-radius: {{ s.card_radius | default: 0 }}px;
+    --luxp-media-radius: 0px;
     --luxp-media-bg: var(--luxp-border);
-    --luxp-card-bg: {% if s.card_bg != blank and s.card_bg != 'rgba(0,0,0,0)' %}{{ s.card_bg }}{% else %}transparent{% endif %};
-    --luxp-card-border: {{ card_border }};
-    --luxp-card-bw: {{ s.card_border_width | default: 0 }}px;
-    --luxp-card-radius: {{ s.card_radius | default: 0 }}px;
-    --luxp-card-shadow: {% if s.card_shadow == 'subtle' %}0 2px 12px rgba(0,0,0,0.06){% elsif s.card_shadow == 'medium' %}0 8px 28px rgba(0,0,0,0.12){% else %}none{% endif %};
-    --luxp-card-body-pt: {{ s.card_body_pt | default: 16 }}px;
+    --luxp-card-bg: transparent;
+    --luxp-card-border: var(--luxp-border);
+    --luxp-card-bw: 0px;
+    --luxp-card-radius: 0px;
+    --luxp-card-shadow: none;
+    --luxp-card-body-pt: {{ s.card_body_pt | default: 18 }}px;
     --luxp-card-align: {{ s.card_align | default: 'left' }};
     --luxp-card-gap: {{ s.card_gap | default: 8 }}px;
-    --luxp-cardtitle-size: {{ s.cardtitle_size | default: 17 }}px;
-    --luxp-cardtitle-size-m: {{ s.cardtitle_size_m | default: 15 }}px;
+    --luxp-cardtitle-size: {{ s.cardtitle_size | default: 15.5 }}px;
+    --luxp-cardtitle-size-m: {{ s.cardtitle_size_m | default: 14 }}px;
     --luxp-cardmeta-size: {{ s.cardtext_size | default: 13 }}px;
     --luxp-card-cta-color: var(--luxp-accent);
     --luxp-pill-bg: var(--luxp-accent);
@@ -93,7 +469,79 @@
   {{ section.shopify_attributes }}
 >
   <div class="luxp-container">
-    {% if s.eyebrow != blank or s.heading != blank or s.intro != blank or s.show_ornament %}
+    {% if s.layout_style == 'split' %}
+
+      {%- comment -%} Split layout: static heading rail (left) + scrolling cards (right) {%- endcomment -%}
+      <div class="luxp-split">
+        <aside class="luxp-split__aside">
+          <div class="luxp-split__sticky">
+            {% if s.eyebrow != blank %}
+              <p class="luxp-eyebrow luxp-split__eyebrow">{{ s.eyebrow }}</p>
+            {% endif %}
+            {% if s.heading != blank %}
+              <h2 class="luxp-heading luxp-split__heading">{{ s.heading }}</h2>
+            {% endif %}
+            {% if s.show_ornament %}
+              <div class="luxp-ornament" aria-hidden="true">
+                <span class="luxp-ornament__line"></span>
+                <span class="luxp-ornament__gem">&#9670;</span>
+                <span class="luxp-ornament__line"></span>
+              </div>
+            {% endif %}
+            {% if s.intro != blank %}
+              <div class="luxp-body luxp-split__intro">{{ s.intro }}</div>
+            {% endif %}
+          </div>
+        </aside>
+
+        <div class="luxp-split__cards">
+          {% for block in section.blocks %}
+            <a
+              href="{{ block.settings.link | default: routes.all_products_collection_url }}"
+              class="luxp-card luxp-split__card"
+              style="--card-i: {{ forloop.index0 }};"
+              {{ block.shopify_attributes }}
+            >
+              <span class="luxp-split__index" aria-hidden="true">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
+              <div class="luxp-media {% if s.image_fit == 'contain' %}luxp-media--contain{% endif %}">
+                {% if block.settings.badge != blank %}
+                  <span class="luxp-colcard__pill luxp-pill">{{ block.settings.badge }}</span>
+                {% endif %}
+                {%- assign editorial_alt = block.settings.title | default: 'Editorial feature' -%}
+                {% render 'luxp-image',
+                  image: block.settings.image,
+                  image_mobile: block.settings.image_mobile,
+                  alt: editorial_alt,
+                  class: 'luxp-editorial__img',
+                  loading: 'lazy',
+                  sizes: '(min-width: 1024px) 55vw, 100vw',
+                  fallback: block.settings.default_asset
+                %}
+              </div>
+              <div class="luxp-editcard__body {% if s.card_align == 'center' %}luxp-editcard__body--center{% endif %}">
+                {% if block.settings.title != blank %}
+                  <h3 class="luxp-editcard__title">{{ block.settings.title }}</h3>
+                {% endif %}
+                {% if block.settings.text != blank %}
+                  <p class="luxp-editcard__text">{{ block.settings.text }}</p>
+                {% endif %}
+                {% if block.settings.btn_text != blank %}
+                  <span class="luxp-card__cta">
+                    <span class="luxp-card__cta-label">{{ block.settings.btn_text }}</span>
+                    <span class="luxp-card__cta-arrow" aria-hidden="true">
+                      {% render 'luxp-icon', icon: 'arrow', class: 'luxp-btn__arrow' %}
+                    </span>
+                  </span>
+                {% endif %}
+              </div>
+            </a>
+          {% endfor %}
+        </div>
+      </div>
+
+    {% else %}
+
+      {% if s.eyebrow != blank or s.heading != blank or s.intro != blank or s.show_ornament %}
       <header class="luxp-header luxp-header--{{ s.header_align | default: 'center' }}">
         {% if s.eyebrow != blank %}
           <p class="luxp-eyebrow">{{ s.eyebrow }}</p>
@@ -141,14 +589,17 @@
             {% endif %}
             {% if block.settings.btn_text != blank %}
               <span class="luxp-card__cta">
-                <span>{{ block.settings.btn_text }}</span>
-                {% render 'luxp-icon', icon: 'arrow', class: 'luxp-btn__arrow' %}
+                <span class="luxp-card__cta-label">{{ block.settings.btn_text }}</span>
+                <span class="luxp-card__cta-arrow" aria-hidden="true">
+                  {% render 'luxp-icon', icon: 'arrow', class: 'luxp-btn__arrow' %}
+                </span>
               </span>
             {% endif %}
           </div>
         </a>
       {% endfor %}
     </div>
+    {% endif %}
 
     {% if s.btn_label != blank %}
       <div class="luxp-footer">
@@ -163,6 +614,39 @@
   </div>
 </div>
 
+<script>
+  (function () {
+    var root = document.getElementById('shopify-section-{{ section.id }}');
+    if (!root) return;
+    var cards = Array.prototype.slice.call(root.querySelectorAll('.luxp-split__card'));
+    if (cards.length < 2) return;
+
+    /* Deck behaviour: mark a card as covered the moment the next card's top
+       reaches it, so it recedes behind. Works whichever container scrolls
+       (window or .page-wrapper) via scroll capture. */
+    var ticking = false;
+    function update() {
+      ticking = false;
+      for (var i = 0; i < cards.length - 1; i++) {
+        var top = cards[i].getBoundingClientRect().top;
+        var nextTop = cards[i + 1].getBoundingClientRect().top;
+        cards[i].classList.toggle('is-covered', nextTop <= top + 8);
+      }
+    }
+    function onScroll() {
+      if (!ticking) {
+        ticking = true;
+        window.requestAnimationFrame(update);
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true, capture: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    document.addEventListener('DOMContentLoaded', update);
+    update();
+  })();
+</script>
+
 {% schema %}
 {
   "name": "Editorial Recommendations",
@@ -171,8 +655,12 @@
   "max_blocks": 8,
   "settings": [
     { "type": "header", "content": "Content" },
+    { "type": "select", "id": "layout_style", "label": "Layout style", "options": [
+      { "value": "split", "label": "Sticky heading + scrolling cards" },
+      { "value": "grid", "label": "Classic centered grid" }
+    ], "default": "split", "info": "Split: heading stays fixed on the left while cards slide in one-by-one on scroll." },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow / subheading", "default": "the" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "R E C O M M E N D A T I O N S" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "RECOMMENDATIONS" },
     { "type": "richtext", "id": "intro", "label": "Intro text" },
     { "type": "checkbox", "id": "show_ornament", "label": "Show ornament divider", "default": true },
     { "type": "select", "id": "header_align", "label": "Header alignment", "options": [
@@ -187,17 +675,17 @@
       { "value": "fixed", "label": "Container (max width)" },
       { "value": "full", "label": "Full width" }
     ], "default": "fixed" },
-    { "type": "range", "id": "container_max", "min": 800, "max": 1600, "step": 20, "unit": "px", "label": "Container max width", "default": 1080 },
+    { "type": "range", "id": "container_max", "min": 800, "max": 1600, "step": 20, "unit": "px", "label": "Container max width", "default": 1220 },
     { "type": "range", "id": "columns", "min": 1, "max": 4, "step": 1, "label": "Columns — desktop", "default": 2 },
-    { "type": "range", "id": "columns_tablet", "min": 1, "max": 4, "step": 1, "label": "Columns — tablet", "default": 1 },
+    { "type": "range", "id": "columns_tablet", "min": 1, "max": 4, "step": 1, "label": "Columns — tablet", "default": 2 },
     { "type": "select", "id": "columns_mobile", "label": "Columns — mobile", "options": [
       { "value": "1", "label": "1 column" },
       { "value": "2", "label": "2 columns" }
     ], "default": "1" },
-    { "type": "range", "id": "col_gap", "min": 8, "max": 64, "step": 2, "unit": "px", "label": "Column gap — desktop", "default": 36 },
-    { "type": "range", "id": "row_gap", "min": 8, "max": 80, "step": 2, "unit": "px", "label": "Row gap — desktop", "default": 44 },
+    { "type": "range", "id": "col_gap", "min": 8, "max": 64, "step": 2, "unit": "px", "label": "Column gap — desktop", "default": 40 },
+    { "type": "range", "id": "row_gap", "min": 8, "max": 80, "step": 2, "unit": "px", "label": "Row gap — desktop", "default": 56 },
     { "type": "range", "id": "col_gap_m", "min": 8, "max": 40, "step": 2, "unit": "px", "label": "Column gap — mobile", "default": 16 },
-    { "type": "range", "id": "row_gap_m", "min": 8, "max": 56, "step": 2, "unit": "px", "label": "Row gap — mobile", "default": 32 },
+    { "type": "range", "id": "row_gap_m", "min": 8, "max": 56, "step": 2, "unit": "px", "label": "Row gap — mobile", "default": 36 },
 
     { "type": "header", "content": "Cards" },
     { "type": "select", "id": "image_ratio", "label": "Card image ratio", "options": [
@@ -224,12 +712,12 @@
       { "value": "left", "label": "Left" },
       { "value": "center", "label": "Center" }
     ], "default": "left" },
-    { "type": "range", "id": "card_body_pt", "min": 6, "max": 36, "step": 1, "unit": "px", "label": "Space between image and text", "default": 16 },
+    { "type": "range", "id": "card_body_pt", "min": 6, "max": 36, "step": 1, "unit": "px", "label": "Space between image and text", "default": 18 },
     { "type": "range", "id": "card_gap", "min": 2, "max": 16, "step": 1, "unit": "px", "label": "Card text spacing", "default": 8 },
 
     { "type": "header", "content": "Typography — Cards" },
-    { "type": "range", "id": "cardtitle_size", "min": 12, "max": 26, "step": 0.5, "unit": "px", "label": "Card title size — desktop", "default": 17 },
-    { "type": "range", "id": "cardtitle_size_m", "min": 12, "max": 22, "step": 0.5, "unit": "px", "label": "Card title size — mobile", "default": 15 },
+    { "type": "range", "id": "cardtitle_size", "min": 12, "max": 26, "step": 0.5, "unit": "px", "label": "Card title size — desktop", "default": 15.5 },
+    { "type": "range", "id": "cardtitle_size_m", "min": 12, "max": 22, "step": 0.5, "unit": "px", "label": "Card title size — mobile", "default": 14 },
     { "type": "range", "id": "cardtext_size", "min": 11, "max": 18, "step": 0.5, "unit": "px", "label": "Card text size", "default": 13 },
 
     { "type": "header", "content": "Typography — Eyebrow" },
