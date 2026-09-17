@@ -1002,7 +1002,7 @@ slideshow-slides,
   .header__column--left {
     display: inline-flex !important;
     align-items: center !important;
-    gap: 2px !important;
+    gap: 4px !important;
     flex: 0 0 auto !important;
     position: relative !important;
     z-index: 2 !important;
@@ -1010,7 +1010,7 @@ slideshow-slides,
 
   .header__icon--menu,
   .header-drawer summary {
-    width: 34px !important;
+    width: 28px !important;
     height: 38px !important;
     display: inline-flex !important;
     align-items: center !important;
@@ -1032,7 +1032,7 @@ slideshow-slides,
   .header-inline-search-pill,
   .header__search-pill {
     height: 38px !important;
-    width: 34px !important;
+    width: 28px !important;
     padding: 0 !important;
     margin: 0 !important;
     background: transparent !important;
@@ -1050,7 +1050,7 @@ slideshow-slides,
   }
 
   .header-inline-search-icon-btn {
-    width: 34px !important;
+    width: 28px !important;
     height: 38px !important;
     display: inline-flex !important;
     align-items: center !important;
@@ -1137,15 +1137,16 @@ slideshow-slides,
   header-actions {
     display: inline-flex !important;
     align-items: center !important;
-    gap: 2px !important;
+    gap: 4px !important;
   }
 
   .header-actions__action,
   .account-button,
   .cart-icon,
   .wishlist-button,
-  .header-actions__wishlist-icon {
-    width: 34px !important;
+  .header-actions__wishlist-icon,
+  #header-component .header-actions__cart-icon {
+    width: 28px !important;
     height: 38px !important;
     border-radius: 4px !important;
     display: inline-flex !important;
@@ -1184,7 +1185,7 @@ slideshow-slides,
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    width: 34px !important;
+    width: 28px !important;
     height: 38px !important;
     border-radius: 4px !important;
     color: #111111 !important;
@@ -1214,7 +1215,7 @@ slideshow-slides,
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    width: 34px !important;
+    width: 28px !important;
     height: 38px !important;
     min-width: 0 !important;
     padding: 0 !important;
@@ -1226,7 +1227,7 @@ slideshow-slides,
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    width: 34px !important;
+    width: 28px !important;
     height: 38px !important;
     padding: 0 !important;
     margin: 0 !important;
@@ -1379,8 +1380,8 @@ body.menu-drawer-open {
     background: transparent !important;
     box-shadow: none !important;
     border-radius: 50% !important;
-    width: 40px !important;
-    height: 40px !important;
+    width: 28px !important;
+    height: 38px !important;
     padding: 0 !important;
   }
 
