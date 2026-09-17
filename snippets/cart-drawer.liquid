@@ -307,10 +307,25 @@
 
   /* ---------- Header: letterspaced luxury label ---------- */
   #cart-drawer .theme-drawer__header {
+    position: relative;
     min-height: 76px;
     padding-block: 16px;
     border-bottom: 1px solid #e7e3db;
     background: #faf9f6;
+  }
+
+  /* Gold diamond seated on the header hairline — the house motif */
+  #cart-drawer .theme-drawer__header::after {
+    content: '\25C6';
+    position: absolute;
+    left: 50%;
+    bottom: -4px;
+    transform: translateX(-50%);
+    font-size: 6.5px;
+    line-height: 8px;
+    color: #a98344;
+    background: #faf9f6;
+    padding-inline: 12px;
   }
 
   #cart-drawer .theme-drawer__title {
@@ -352,9 +367,28 @@
 
   #cart-drawer .cart-drawer__items {
     flex: 1 1 auto;
-    padding-block: 22px;
+    padding-block: 20px 24px;
     scrollbar-width: thin;
     overscroll-behavior: contain;
+  }
+
+  /* Concierge promise strip above the items */
+  #cart-drawer .cart-drawer__inner:not(.cart-drawer--empty) .cart-drawer__content > .cart-drawer__items:first-child {
+    padding-block-start: 5px;
+  }
+
+  #cart-drawer .cart-drawer__inner:not(.cart-drawer--empty) .cart-drawer__content::before {
+    content: 'Complimentary white-glove delivery on every order';
+    display: block;
+    flex-shrink: 0;
+    text-align: center;
+    font: 500 9.5px/1.4 var(--font-body--family, sans-serif);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #96805c;
+    background: #f5f1e8;
+    border-bottom: 1px solid #ebe5d8;
+    padding: 11px 18px;
   }
 
   /* ---------- Item rows: refined editorial grid ---------- */
@@ -391,6 +425,7 @@
     background: #f0eee8;
     border-radius: 2px;
     overflow: hidden;
+    box-shadow: inset 0 0 0 1px #e7e2d7;
   }
 
   #cart-drawer .cart-items__media-placeholder {
@@ -450,8 +485,40 @@
     padding: 18px var(--theme-drawer-padding) max(22px, env(safe-area-inset-bottom));
     gap: 16px;
     border-top: 1px solid #e7e3db;
-    background: #faf9f6;
+    background: #f6f3ec;
     mask-image: none;
+  }
+
+  /* Gold rule above the checkout actions */
+  #cart-drawer .cart__ctas {
+    position: relative;
+    width: 100%;
+    gap: 10px;
+    padding-top: 14px;
+  }
+
+  #cart-drawer .cart__ctas::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 46px;
+    height: 1px;
+    background: #d5c5a2;
+  }
+
+  /* Quiet trust line beneath checkout */
+  #cart-drawer .cart__ctas::after {
+    content: 'Secure checkout \00B7  Duties & taxes included';
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin-top: 2px;
+    font: 400 9.5px/1.5 var(--font-body--family, sans-serif);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #a89f90;
   }
 
   #cart-drawer .cart-totals { gap: 12px; margin: 0; padding: 0; border: 0; }
@@ -478,11 +545,17 @@
   #cart-drawer .cart-actions { margin: 0; border-top: 0; }
   #cart-drawer .cart-actions summary {
     font-size: 11px !important;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
     color: #8b857a;
   }
-  #cart-drawer .cart__ctas { width: 100%; gap: 10px; }
+  #cart-drawer .cart-actions summary:hover { color: #a98344; }
+
+  /* Gold focus ring on quantity controls */
+  #cart-drawer .quantity-selector:focus-within {
+    border-color: #a98344 !important;
+    box-shadow: 0 0 0 1px #a98344 !important;
+  }
 
   /* Checkout: the centerpiece */
   #cart-drawer .cart__checkout-button {
@@ -512,6 +585,7 @@
 
   /* ---------- Empty state ---------- */
   #cart-drawer .cart-drawer--empty .theme-drawer__header { border: 0; }
+  #cart-drawer .cart-drawer--empty .theme-drawer__header::after { display: none; }
   #cart-drawer .cart-drawer--empty .cart-drawer__content { padding: 24px 28px 84px; gap: 18px; }
   #cart-drawer .cart-drawer--empty .cart-drawer__items { flex: 0 0 auto; padding: 0; overflow: visible; }
   #cart-drawer .cart-drawer__empty-icon {
@@ -532,7 +606,18 @@
     margin-inline-end: 0 !important;
   }
   #cart-drawer .cart-items__wrapper--drawer-empty p { font-size: 12.5px; line-height: 1.7; color: #8b857a; }
-  #cart-drawer .cart-items__empty-button { margin-top: 20px; }
+  #cart-drawer .cart-items__empty-button {
+    margin-top: 20px;
+    border: 1px solid #a98344 !important;
+    color: #a98344 !important;
+    background: transparent !important;
+    letter-spacing: 0.2em;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+  #cart-drawer .cart-items__empty-button:hover {
+    background: #a98344 !important;
+    color: #ffffff !important;
+  }
 
   /* ---------- Phone only: bigger products, roomier rows, softer dim + blur ---------- */
   @media (max-width: 499px) {

@@ -45,7 +45,12 @@
     text: s.color_text,
     accent: s.color_accent,
     muted: s.color_muted,
-    border: s.color_border
+    border: s.color_border,
+    btn_bg: s.btn_bg,
+    btn_text: s.btn_text,
+    btn_border: s.btn_border,
+    btn_bg_hover: s.btn_bg_hover,
+    btn_text_hover: s.btn_text_hover
   -%}
 {%- endcapture -%}
 
@@ -578,13 +583,20 @@
       { "value": "warm", "label": "Warm Atelier (Ivory)" },
       { "value": "dark", "label": "Dark Contemporary" },
       { "value": "obsidian", "label": "Obsidian Gold" }
-    ], "default": "light" },
-    { "type": "color", "id": "color_bg", "label": "Background color override", "default": "#ffffff" },
-    { "type": "color", "id": "color_heading", "label": "Heading color override", "default": "#1a1a1a" },
-    { "type": "color", "id": "color_text", "label": "Text color override", "default": "#4a4a4a" },
-    { "type": "color", "id": "color_accent", "label": "Accent color override", "default": "#b08d57" },
+    ], "default": "light", "info": "Pick a scheme, then fine-tune with the overrides below. Blank overrides follow the preset." },
+    { "type": "color", "id": "color_bg", "label": "Background color override" },
+    { "type": "color", "id": "color_heading", "label": "Heading color override" },
+    { "type": "color", "id": "color_text", "label": "Text color override" },
+    { "type": "color", "id": "color_accent", "label": "Accent color override" },
     { "type": "color", "id": "color_muted", "label": "Muted text override" },
     { "type": "color", "id": "color_border", "label": "Border color override" },
+
+    { "type": "header", "content": "Colors — Advanced (Buttons)" },
+    { "type": "color", "id": "btn_bg", "label": "Button background override" },
+    { "type": "color", "id": "btn_text", "label": "Button text override" },
+    { "type": "color", "id": "btn_border", "label": "Button border override" },
+    { "type": "color", "id": "btn_bg_hover", "label": "Button background — hover override" },
+    { "type": "color", "id": "btn_text_hover", "label": "Button text — hover override" },
 
     { "type": "header", "content": "View More Button" },
     { "type": "select", "id": "btn_style", "label": "Button style", "options": [

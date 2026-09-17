@@ -720,22 +720,41 @@
   overflow: hidden;
   background: var(--luxp-bg, #111111);
   touch-action: pan-y;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.luxp-hero.is-dragging {
+  cursor: grabbing;
 }
 
 .luxp-hero__track {
   position: relative;
+  display: flex !important;
   width: 100%;
   height: var(--luxp-hero-h, 92vh);
+  transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+@media (max-width: 749px) {
+  .luxp-hero__track {
+    height: var(--luxp-hero-h-m, 70vh) !important;
+  }
 }
 
 .luxp-hero__slide {
-  position: absolute;
-  inset: 0;
-  display: none;
+  position: relative !important;
+  flex: 0 0 100% !important;
+  width: 100% !important;
+  height: 100% !important;
+  display: block !important;
+  overflow: hidden;
 }
 
 .luxp-hero__slide--active {
-  display: block;
+  display: block !important;
 }
 
 .luxp-hero__media {
@@ -751,6 +770,9 @@
   object-fit: var(--luxp-hero-fit, cover);
   object-position: center;
   display: block;
+  pointer-events: none;
+  -webkit-user-drag: none;
+  user-drag: none;
 }
 
 .luxp-hero__overlay {
