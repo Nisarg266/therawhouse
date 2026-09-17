@@ -124,6 +124,8 @@
         "catalog_image_2": {
           "type": "catalog_cover",
           "settings": {
+            "image": "shopify://shop_images/68ea042e-b783-454a-9600-bc049ce2595e_42cdf37b-d7d3-411e-98f4-4701c9d9aa5a.png",
+            "image_mobile": "shopify://shop_images/f51ca54e-f381-4b3f-a25d-cb26f89f2db6.png",
             "default_asset": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/Ahmedabad_Art_Week_Sculpture_Show_Catalogue_compressed.pdf?v=1789589334",
             "alt": "",
             "badge": "",
@@ -134,10 +136,12 @@
         "catalog_image_3": {
           "type": "catalog_cover",
           "settings": {
+            "image": "shopify://shop_images/IDIKA01016_resized_no_stretch_9ec2df42-08a5-49b7-9557-bbd1fbd87952.png",
+            "image_mobile": "shopify://shop_images/IDIKA01016_resized_no_stretch_232a8ccd-654d-4cf1-b1d4-15fcb0050fdc.png",
             "default_asset": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/E_-_Catalouge_New_Perspective_compressed.pdf?v=1789591020",
             "alt": "",
             "badge": "",
-            "link": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/E_-_Catalouge_New_Perspective_compressed.pdf?v=1789591020",
+            "link": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/Raw_Collectables_compressed.pdf?v=1789591025",
             "show_view_icon": true
           }
         },
@@ -154,7 +158,7 @@
         "catalog_image_5": {
           "type": "catalog_cover",
           "settings": {
-            "default_asset": "art-painting-expressionist.jpg",
+            "default_asset": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/What_Objects_Become_Lochan_Upadhyay___TRH_compressed.pdf?v=1789591024",
             "alt": "",
             "badge": "",
             "link": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/What_Objects_Become_Lochan_Upadhyay___TRH_compressed.pdf?v=1789591024",
@@ -164,10 +168,12 @@
         "catalog_image_6": {
           "type": "catalog_cover",
           "settings": {
-            "default_asset": "fine-print-2.jpg",
+            "image": "shopify://shop_images/85e5ae8b-3a77-4236-bbe0-878d9d9fc816.png",
+            "image_mobile": "shopify://shop_images/0a044d04-0686-47e0-90cc-419e24d11489.png",
+            "default_asset": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/Hinchko_Catalogue_compressed.pdf?v=1789628194",
             "alt": "",
             "badge": "",
-            "link": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/Raw_Collectables_compressed.pdf?v=1789591025",
+            "link": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/Hinchko_Catalogue_compressed.pdf?v=1789628194",
             "show_view_icon": true
           }
         },
@@ -409,8 +415,8 @@
         "card_4"
       ],
       "settings": {
-        "layout_style": "split",
         "eyebrow": "the",
+<<<<<<< HEAD
         "heading": "RECOMMENDATIONS",
         "heading_size": 20,
         "heading_ls": "0.35em",
@@ -431,6 +437,80 @@
         "color_bg": "#ffffff",
         "padding_top": 64,
         "padding_bottom": 80
+=======
+        "heading": "R E C O M M E N D A T I O N S",
+        "intro": "",
+        "show_ornament": true,
+        "header_align": "center",
+        "header_mb": 32,
+        "header_gap": 10,
+        "container_mode": "fixed",
+        "container_max": 1080,
+        "columns": 2,
+        "columns_tablet": 1,
+        "columns_mobile": "1",
+        "col_gap": 36,
+        "row_gap": 44,
+        "col_gap_m": 16,
+        "row_gap_m": 32,
+        "image_ratio": "4/5",
+        "image_fit": "cover",
+        "card_bg": "",
+        "card_border_color": "",
+        "card_border_width": 0,
+        "card_radius": 0,
+        "card_shadow": "none",
+        "card_align": "left",
+        "card_body_pt": 16,
+        "card_gap": 8,
+        "cardtitle_size": 17,
+        "cardtitle_size_m": 15,
+        "cardtext_size": 13,
+        "eyebrow_font": "body",
+        "eyebrow_size": 11,
+        "eyebrow_size_m": 10,
+        "eyebrow_weight": "600",
+        "eyebrow_ls": "0.22em",
+        "eyebrow_transform": "uppercase",
+        "heading_font": "body",
+        "heading_size": 20,
+        "heading_size_m": 17,
+        "heading_weight": "400",
+        "heading_lh": 1.2,
+        "heading_ls": "0.35em",
+        "heading_transform": "none",
+        "color_preset": "light",
+        "color_bg": "#ffffff",
+        "color_heading": "#1a1a1a",
+        "color_text": "#4a4a4a",
+        "color_accent": "#b08d57",
+        "color_muted": "",
+        "color_border": "",
+        "btn_label": "",
+        "btn_link": "",
+        "btn_style": "solid",
+        "btn_height": 46,
+        "btn_px": 26,
+        "btn_size": 11,
+        "btn_size_m": 11,
+        "btn_weight": "600",
+        "btn_ls": "0.18em",
+        "btn_transform": "uppercase",
+        "btn_radius": 2,
+        "btn_border_width": 1,
+        "btn_width": "auto",
+        "btn_mobile_full": false,
+        "footer_mt": 36,
+        "padding_top": 60,
+        "padding_bottom": 72,
+        "padding_top_m": 44,
+        "padding_bottom_m": 52,
+        "container_padding": 32,
+        "container_padding_m": 16,
+        "enable_animations": false,
+        "anchor_id": "",
+        "custom_class": ""
+>>>>>>> d2a66069e011922b29ab01d274b9edeeda5e4532
       }
     },
     "fine_prints": {
@@ -879,8 +959,8 @@
         "social_fg_hover": "",
         "social_gap": 12,
         "social_mt": 20,
-        "padding_top": 12,
-        "padding_bottom": 8,
+        "padding_top": 56,
+        "padding_bottom": 64,
         "padding_top_m": 36,
         "padding_bottom_m": 40,
         "container_padding": 32,
@@ -944,7 +1024,6 @@
         "press_5",
         "press_6"
       ],
-      "disabled": true,
       "settings": {
         "heading": "Featured In",
         "show_ornament": true,
