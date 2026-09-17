@@ -213,6 +213,20 @@
   .luxp-fineprints__pill2 {
     top: 44px;
   }
+
+  /* Desktop (>= 990px): Strictly 3 cards in 1 row */
+  @media screen and (min-width: 990px) {
+    .luxp-fineprints .luxp-grid > .luxp-card:nth-child(n + 4) {
+      display: none !important;
+    }
+  }
+
+  /* Mobile & Tablet (< 990px): Show 4 cards in 2x2 grid */
+  @media screen and (max-width: 989px) {
+    .luxp-fineprints .luxp-grid > .luxp-card:nth-child(4) {
+      display: flex !important;
+    }
+  }
 </style>
 
 {% schema %}

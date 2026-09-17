@@ -42,15 +42,15 @@
   style="
     {{ luxp_colors }}
     {{ luxp_typo }}
-    --luxp-pt: {{ s.padding_top | default: 56 }}px;
-    --luxp-pb: {{ s.padding_bottom | default: 28 }}px;
-    --luxp-pt-m: {{ s.padding_top_m | default: 44 }}px;
-    --luxp-pb-m: {{ s.padding_bottom_m | default: 24 }}px;
+    --luxp-pt: {{ s.padding_top | default: 20 }}px;
+    --luxp-pb: {{ s.padding_bottom | default: 16 }}px;
+    --luxp-pt-m: {{ s.padding_top_m | default: 16 }}px;
+    --luxp-pb-m: {{ s.padding_bottom_m | default: 14 }}px;
     --luxp-cw: {{ s.container_max | default: 1100 }}px;
     --luxp-px: {{ s.container_padding | default: 32 }}px;
     --luxp-px-m: {{ s.container_padding_m | default: 20 }}px;
-    --luxp-header-gap: {{ s.header_gap | default: 10 }}px;
-    --luxp-header-mb: {{ s.logos_margin_top | default: 24 }}px;
+    --luxp-header-gap: {{ s.header_gap | default: 6 }}px;
+    --luxp-header-mb: {{ s.logos_margin_top | default: 10 }}px;
     --luxp-logos-gap: {{ s.logos_gap | default: 40 }}px;
     --luxp-logo-h: {{ s.logo_height | default: 28 }}px;
     --luxp-logo-opacity: {{ s.logo_opacity | times: 0.01 | default: 1 }};
@@ -81,6 +81,9 @@
   <div class="luxp-container">
     {% if s.heading != blank %}
       <header class="luxp-header luxp-header--center">
+        {% if s.eyebrow != blank %}
+          <p class="luxp-eyebrow">{{ s.eyebrow | upcase }}</p>
+        {% endif %}
         <h2 class="luxp-heading">{{ s.heading }}</h2>
         {% if s.show_ornament %}
           <div class="luxp-ornament" aria-hidden="true">
@@ -93,12 +96,14 @@
     {% endif %}
 
     {% if section.blocks.size > 0 %}
-      <div class="luxp-logos">
+      {%- assign logo_cols = section.blocks.size | at_most: 6 -%}
+      <div class="luxp-logos luxp-logos--count-{{ section.blocks.size }}" style="--luxp-logo-cols: {{ logo_cols }};">
         {% for block in section.blocks %}
+          {%- assign logo_handle = block.settings.title | handleize -%}
           {% if block.settings.link != blank %}
-            <a href="{{ block.settings.link }}" class="luxp-logo" {{ block.shopify_attributes }}>
+            <a href="{{ block.settings.link }}" class="luxp-logo luxp-logo--{{ logo_handle }}" {{ block.shopify_attributes }}>
           {% else %}
-            <span class="luxp-logo" {{ block.shopify_attributes }}>
+            <span class="luxp-logo luxp-logo--{{ logo_handle }}" {{ block.shopify_attributes }}>
           {% endif %}
             {% if block.settings.logo != blank %}
               {{
@@ -111,7 +116,7 @@
                   widths: '120, 240, 360'
               }}
             {% elsif block.settings.title != blank %}
-              <span class="luxp-logo__text">{{ block.settings.title }}</span>
+              <span class="luxp-logo__text luxp-logo__text--{{ logo_handle }}">{{ block.settings.title }}</span>
             {% endif %}
           {% if block.settings.link != blank %}
             </a>
@@ -123,114 +128,364 @@
     {% endif %}
 
     {% if s.show_quote %}
-      <div class="luxp-quote" style="margin-top: {{ s.quote_margin_top | default: 44 }}px;">
-        {% if s.quote_line_1 != blank %}
-          <p class="luxp-quote__line">{{ s.quote_line_1 }}</p>
-        {% endif %}
-        {% if s.show_quote_dividers and s.quote_line_1 != blank and s.quote_line_2 != blank %}
-          <span class="luxp-quote__divider" aria-hidden="true"></span>
-        {% endif %}
-        {% if s.quote_line_2 != blank %}
-          <p class="luxp-quote__line luxp-quote__line--em">{{ s.quote_line_2 }}</p>
-        {% endif %}
-        {% if s.show_quote_dividers and s.quote_line_2 != blank and s.quote_line_3 != blank %}
-          <span class="luxp-quote__divider" aria-hidden="true"></span>
-        {% endif %}
-        {% if s.quote_line_3 != blank %}
-          <p class="luxp-quote__line">{{ s.quote_line_3 }}</p>
-        {% endif %}
+      <div class="luxp-press__bridge" aria-hidden="true">
+        <span class="luxp-press__bridge-line"></span>
+        <span class="luxp-press__bridge-gem">&#9670;</span>
+        <span class="luxp-press__bridge-line"></span>
+      </div>
+
+      <div class="luxp-quote-plaque">
+        <div class="luxp-quote">
+          {% if s.quote_line_1 != blank %}
+            <p class="luxp-quote__line luxp-quote__line--lead">{{ s.quote_line_1 }}</p>
+          {% endif %}
+          {% if s.show_quote_dividers and s.quote_line_1 != blank and s.quote_line_2 != blank %}
+            <span class="luxp-quote__divider" aria-hidden="true"></span>
+          {% endif %}
+          {% if s.quote_line_2 != blank %}
+            <p class="luxp-quote__line luxp-quote__line--em">{{ s.quote_line_2 }}</p>
+          {% endif %}
+          {% if s.show_quote_dividers and s.quote_line_2 != blank and s.quote_line_3 != blank %}
+            <span class="luxp-quote__divider" aria-hidden="true"></span>
+          {% endif %}
+          {% if s.quote_line_3 != blank %}
+            <p class="luxp-quote__line luxp-quote__line--tail">{{ s.quote_line_3 }}</p>
+          {% endif %}
+        </div>
       </div>
     {% endif %}
   </div>
 </div>
 
 {% stylesheet %}
-  /* ---- Press & Quote redesign (scoped to .luxp-press) ---- */
+  /* ---- Ultra-Luxury Press & Editorial Quote System ---- */
 
-  /* Heading: quiet letterspaced label */
-  .luxp-press .luxp-heading {
-    text-transform: uppercase !important;
-    letter-spacing: 0.22em !important;
-    margin-inline-end: -0.22em !important;
-    font-weight: 500 !important;
-    font-size: clamp(14px, 1.5vw, 19px) !important;
+  .luxp-press {
+    position: relative;
   }
 
-  /* Logos: one elegant row on desktop, tidy grid on small screens */
+  /* Section Heading: Quiet, letterspaced prestige title */
+  .luxp-press .luxp-heading {
+    text-transform: uppercase !important;
+    letter-spacing: clamp(0.22em, 0.32vw, 0.35em) !important;
+    margin-inline-end: calc(-1 * clamp(0.22em, 0.32vw, 0.35em)) !important;
+    font-weight: 500 !important;
+    font-size: clamp(15px, 1.6vw, 20px) !important;
+    color: var(--luxp-heading-color, #111111) !important;
+    margin: 0 0 4px 0 !important;
+    line-height: 1.2 !important;
+    text-align: center !important;
+  }
+
+  /* Refined Top Ornament */
+  .luxp-press .luxp-ornament {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    margin: 0 auto 10px !important;
+    width: min(160px, 45vw) !important;
+  }
+
+  .luxp-press .luxp-ornament__line {
+    height: 1px !important;
+    flex: 1 !important;
+    background: linear-gradient(90deg, transparent, var(--luxp-accent, #b08d57), transparent) !important;
+    opacity: 0.65 !important;
+  }
+
+  .luxp-press .luxp-ornament__gem {
+    color: var(--luxp-accent, #b08d57) !important;
+    font-size: 7px !important;
+    line-height: 1 !important;
+    opacity: 0.8 !important;
+  }
+
+  /* Logos: Master 6-Column Editorial Bar */
   .luxp-press .luxp-logos {
     display: grid !important;
-    grid-template-columns: repeat(6, auto) !important;
-    justify-content: center !important;
+    grid-template-columns: repeat(var(--luxp-logo-cols, 6), minmax(0, 1fr)) !important;
     align-items: center !important;
-    column-gap: clamp(18px, 3.4vw, 48px) !important;
-    row-gap: 22px !important;
+    justify-content: center !important;
+    gap: clamp(6px, 1.4vw, 18px) !important;
+    max-width: 1080px !important;
+    margin: 0 auto !important;
+    padding-inline: 16px !important;
   }
 
   .luxp-press .luxp-logo {
-    justify-self: center !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-decoration: none !important;
+    min-height: 36px !important;
+    padding: 6px 6px !important;
+    border-radius: 3px !important;
+    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1) !important;
+    position: relative !important;
     opacity: 0.85;
-    transition: opacity 0.3s ease;
   }
 
   .luxp-press .luxp-logo:hover,
   .luxp-press .luxp-logo:focus-visible {
-    opacity: 1;
+    opacity: 1 !important;
+    transform: translateY(-2px) !important;
+  }
+
+  .luxp-press .luxp-logo:hover .luxp-logo__text {
+    color: var(--luxp-accent, #b08d57) !important;
   }
 
   .luxp-press .luxp-logo__text {
-    font-size: clamp(13px, 1.2vw, 16px) !important;
-    letter-spacing: 0.12em !important;
+    font-family: var(--font-body--family, sans-serif);
+    font-size: clamp(12px, 1.05vw, 14.5px) !important;
+    letter-spacing: clamp(0.14em, 0.18vw, 0.22em) !important;
     font-weight: 500 !important;
     text-transform: uppercase !important;
+    color: var(--luxp-logo-color, #2a2825) !important;
+    white-space: nowrap !important;
+    text-align: center !important;
+    transition: color 0.3s ease !important;
   }
 
-  /* Quote: editorial serif italic centerpiece */
+  /* Bespoke typography signatures for legendary publications */
+  .luxp-press .luxp-logo__text--vogue {
+    font-family: 'Didot', 'Bodoni MT', 'Cinzel', 'Playfair Display', Georgia, serif !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.24em !important;
+    font-size: clamp(13px, 1.15vw, 16px) !important;
+  }
+
+  .luxp-press .luxp-logo__text--ad {
+    font-family: 'Cinzel', 'Playfair Display', Georgia, serif !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.18em !important;
+    font-size: clamp(14px, 1.25vw, 17px) !important;
+  }
+
+  .luxp-press .luxp-logo__text--elle-decor {
+    font-family: 'Cinzel', 'Playfair Display', sans-serif !important;
+    letter-spacing: 0.22em !important;
+    font-weight: 500 !important;
+  }
+
+  .luxp-press .luxp-logo__text--goodhomes-india {
+    letter-spacing: 0.12em !important;
+    font-weight: 500 !important;
+  }
+
+  .luxp-press .luxp-logo__text--ideal-home {
+    font-family: 'Cormorant Garamond', Georgia, serif !important;
+    letter-spacing: 0.18em !important;
+    font-weight: 600 !important;
+  }
+
+  .luxp-press .luxp-logo__text--femina {
+    font-family: 'Cinzel', 'Playfair Display', Georgia, serif !important;
+    letter-spacing: 0.22em !important;
+    font-weight: 500 !important;
+  }
+
+  .luxp-press .luxp-logo img {
+    max-height: var(--luxp-logo-h, 28px) !important;
+    width: auto !important;
+    max-width: 100% !important;
+    object-fit: contain !important;
+    filter: grayscale(100%) !important;
+    opacity: 0.8 !important;
+    transition: all 0.3s ease !important;
+  }
+
+  .luxp-press .luxp-logo:hover img {
+    filter: grayscale(0%) !important;
+    opacity: 1 !important;
+  }
+
+  /* Editorial Bridge Divider */
+  .luxp-press .luxp-press__bridge {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 10px !important;
+    margin: 10px auto !important;
+    max-width: 200px !important;
+  }
+
+  .luxp-press .luxp-press__bridge-line {
+    flex: 1 !important;
+    height: 1px !important;
+    background: linear-gradient(90deg, transparent, rgba(176, 141, 87, 0.45), transparent) !important;
+  }
+
+  .luxp-press .luxp-press__bridge-gem {
+    color: var(--luxp-accent, #b08d57) !important;
+    font-size: 7px !important;
+    line-height: 1 !important;
+    opacity: 0.75 !important;
+  }
+
+  /* Quote Plaque & Vignette */
+  .luxp-press .luxp-quote-plaque {
+    max-width: 640px !important;
+    margin: 0 auto !important;
+    padding: 12px clamp(16px, 3vw, 36px) !important;
+    background: rgba(253, 252, 250, 0.65) !important;
+    border: 1px solid rgba(176, 141, 87, 0.2) !important;
+    border-radius: 3px !important;
+    position: relative !important;
+    box-shadow: 0 4px 20px -6px rgba(0, 0, 0, 0.025) !important;
+  }
+
+  .luxp-press .luxp-quote-plaque::before {
+    content: '' !important;
+    position: absolute !important;
+    inset: 3px !important;
+    border: 1px solid rgba(176, 141, 87, 0.1) !important;
+    pointer-events: none !important;
+    border-radius: 2px !important;
+  }
+
+  .luxp-press .luxp-quote {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+  }
+
   .luxp-press .luxp-quote__line {
-    font-size: clamp(19px, 2vw, 26px) !important;
-    letter-spacing: 0.01em !important;
+    font-family: 'Cormorant Garamond', Georgia, serif !important;
+    font-style: italic !important;
+    font-size: clamp(15px, 1.5vw, 19px) !important;
+    font-weight: 400 !important;
+    letter-spacing: 0.05em !important;
+    color: #635f58 !important;
+    margin: 0 !important;
+    line-height: 1.15 !important;
+  }
+
+  .luxp-press .luxp-quote__line--lead {
+    color: #5c5852 !important;
   }
 
   .luxp-press .luxp-quote__line--em {
     font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, 'Times New Roman', serif !important;
     font-style: italic !important;
-    font-weight: 400 !important;
-    font-size: clamp(26px, 3.4vw, 42px) !important;
-    letter-spacing: 0.02em !important;
-    line-height: 1.15 !important;
+    font-weight: 500 !important;
+    font-size: clamp(26px, 4.2vw, 44px) !important;
+    letter-spacing: 0.07em !important;
+    line-height: 1.05 !important;
+    color: var(--luxp-heading-color, #141414) !important;
+    margin: 2px 0 !important;
+    text-transform: uppercase !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.03) !important;
+  }
+
+  .luxp-press .luxp-quote__line--tail {
+    color: #5c5852 !important;
   }
 
   .luxp-press .luxp-quote__divider {
-    height: 22px !important;
-    opacity: 0.3 !important;
+    display: block !important;
+    margin: 4px auto !important;
+    height: 10px !important;
+    width: 1px !important;
+    background: linear-gradient(180deg, transparent, var(--luxp-accent, #b08d57) 35%, var(--luxp-accent, #b08d57) 65%, transparent) !important;
+    opacity: 0.75 !important;
   }
 
-  /* Tablet: 3x2 logo grid */
-  @media screen and (max-width: 989px) {
+  /* Tablet Breakpoint: 641px - 989px */
+  @media screen and (min-width: 641px) and (max-width: 989px) {
     .luxp-press .luxp-logos {
       grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-      column-gap: 12px !important;
-      row-gap: 24px !important;
-    }
-  }
-
-  /* Phone: 2x3 logo grid */
-  @media screen and (max-width: 520px) {
-    .luxp-press .luxp-logos {
-      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-      row-gap: 20px !important;
+      gap: 12px 18px !important;
+      max-width: 680px !important;
     }
 
-    .luxp-press .luxp-logo__text {
-      font-size: 13px !important;
-      letter-spacing: 0.1em !important;
-    }
-
-    .luxp-press .luxp-quote__line {
-      font-size: 19px !important;
+    .luxp-press .luxp-quote-plaque {
+      max-width: 580px !important;
+      padding: 12px 18px !important;
     }
 
     .luxp-press .luxp-quote__line--em {
-      font-size: 27px !important;
+      font-size: clamp(26px, 4.5vw, 38px) !important;
+    }
+  }
+
+  /* Mobile Breakpoint: <= 640px */
+  @media screen and (max-width: 640px) {
+    .luxp-press .luxp-logos {
+      grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+      gap: 10px 6px !important;
+      padding-inline: 8px !important;
+    }
+
+    .luxp-press .luxp-logo {
+      min-height: 36px !important;
+      padding: 6px 4px !important;
+    }
+
+    .luxp-press .luxp-logo__text {
+      font-size: 11.5px !important;
+      letter-spacing: 0.11em !important;
+      text-align: center !important;
+    }
+
+    .luxp-press .luxp-logo__text--goodhomes-india {
+      font-size: 10px !important;
+      letter-spacing: 0.06em !important;
+      white-space: normal !important;
+      line-height: 1.2 !important;
+    }
+
+    .luxp-press .luxp-press__bridge {
+      margin: 8px auto !important;
+      max-width: 160px !important;
+    }
+
+    .luxp-press .luxp-quote-plaque {
+      max-width: 100% !important;
+      padding: 10px 12px !important;
+      margin-inline: 6px !important;
+    }
+
+    .luxp-press .luxp-quote-plaque::before {
+      inset: 2px !important;
+    }
+
+    .luxp-press .luxp-quote__line {
+      font-size: 14px !important;
+      line-height: 1.15 !important;
+    }
+
+    .luxp-press .luxp-quote__line--em {
+      font-size: clamp(24px, 6.8vw, 32px) !important;
+      letter-spacing: 0.05em !important;
+      margin: 1px 0 !important;
+      line-height: 1.05 !important;
+    }
+
+    .luxp-press .luxp-quote__divider {
+      height: 8px !important;
+      margin: 3px auto !important;
+    }
+  }
+
+  /* Small Mobile Breakpoint: <= 380px */
+  @media screen and (max-width: 380px) {
+    .luxp-press .luxp-logos {
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      gap: 12px 8px !important;
+    }
+
+    .luxp-press .luxp-logo__text {
+      font-size: 11px !important;
+      letter-spacing: 0.1em !important;
+    }
+
+    .luxp-press .luxp-quote__line--em {
+      font-size: 26px !important;
     }
   }
 {% endstylesheet %}
@@ -243,6 +498,7 @@
   "max_blocks": 10,
   "settings": [
     { "type": "header", "content": "Content" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow (Optional)" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Featured In" },
     { "type": "checkbox", "id": "show_ornament", "label": "Show ornament divider", "default": true },
     { "type": "range", "id": "logos_margin_top", "min": 8, "max": 64, "step": 2, "unit": "px", "label": "Space below heading", "default": 24 },

@@ -72,8 +72,8 @@
     --luxp-header-align: {{ s.header_align | default: 'center' }};
     --luxp-header-gap: {{ s.header_gap | default: 10 }}px;
     --luxp-header-mb: {{ s.header_mb | default: 30 }}px;
-    --luxp-tile-h: {{ s.collage_tile_height | default: 380 }}px;
-    --luxp-tile-h-t: {{ s.collage_tile_height_tablet | default: 280 }}px;
+    --luxp-tile-h: {{ s.collage_tile_height | default: 280 }}px;
+    --luxp-tile-h-t: {{ s.collage_tile_height_tablet | default: 220 }}px;
     --luxp-cols: {{ s.columns | default: 6 }};
     --luxp-cols-t: {{ s.columns_tablet | default: 4 }};
     --luxp-cols-m: {{ s.columns_mobile | default: 2 }};
@@ -465,38 +465,177 @@
     }
   }
 
-  /* ---------------- Mobile: Clean 2-column Grid (<= 749px) ---------------- */
+  /* ---------------- Mobile Collage Architecture (<= 749px) ---------------- */
   @media screen and (max-width: 749px) {
+    .luxp-catalog .luxp-header {
+      margin-bottom: 12px !important;
+    }
+
     .luxp-catalog--collage .luxp-catalog__grid {
-      grid-template-columns: repeat(var(--luxp-cols-m, 2), minmax(0, 1fr)) !important;
+      display: grid !important;
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
       grid-auto-rows: auto !important;
-      column-gap: var(--luxp-cgap-m, 12px) !important;
-      row-gap: var(--luxp-rgap-m, 12px) !important;
+      grid-auto-flow: row dense !important;
+      align-items: start !important;
+      column-gap: 8px !important;
+      row-gap: 8px !important;
     }
 
     .luxp-catalog--collage .luxp-catalog__card {
-      grid-column: span 1 !important;
-      grid-row: span 1 !important;
+      position: relative !important;
+      display: block !important;
+      width: 100% !important;
       height: auto !important;
+      min-height: 0 !important;
+      border-radius: var(--luxp-card-radius, 2px) !important;
+      overflow: hidden !important;
+      background: transparent !important;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05) !important;
+      transition: transform 0.25s ease, box-shadow 0.25s ease !important;
+    }
+
+    .luxp-catalog--collage .luxp-catalog__card:active {
+      transform: scale(0.985) !important;
     }
 
     .luxp-catalog--collage .luxp-catalog__media {
-      aspect-ratio: var(--luxp-media-ratio, 3 / 4) !important;
+      position: relative !important;
+      display: block !important;
+      width: 100% !important;
       height: auto !important;
+      max-height: none !important;
+      overflow: hidden !important;
+      border-radius: inherit !important;
     }
 
+    .luxp-catalog--collage .luxp-catalog__media img,
+    .luxp-catalog--collage .luxp-catalog__media picture {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      object-position: center !important;
+      display: block !important;
+    }
+
+    /* --- Mobile Collage Spanning Rhythm (Batch 1: Items 1 to 6) --- */
+    /* Item 1: Full-width Hero Statement Cover (Refined 16:9) */
+    .luxp-catalog--collage .luxp-catalog__card:nth-child(12n + 1) {
+      grid-column: span 2 !important;
+    }
+    .luxp-catalog--collage .luxp-catalog__card:nth-child(12n + 1) .luxp-catalog__media {
+      aspect-ratio: 16 / 9 !important;
+    }
+
+    /* Items 2 & 3: Balanced Portrait Pair (4:5) */
+    .luxp-catalog--collage .luxp-catalog__card:nth-child(12n + 2),
+    .luxp-catalog--collage .luxp-catalog__card:nth-child(12n + 3) {
+      grid-column: span 1 !important;
+    }
+    .luxp-catalog--collage .luxp-catalog__card:nth-child(12n + 2) .luxp-catalog__media,
+    .luxp-catalog--collage .luxp-catalog__card:nth-child(12n + 3) .luxp-catalog__media {
+      aspect-ratio: 4 / 5 !important;
+    }
+
+    /* Items 4 & 5: Balanced Portrait Pair (4:5) */
+    .luxp-catalog--collage .luxp-catalog__card:nth-child(12n + 4),
+    .luxp-catalog--collage .luxp-catalog__card:nth-child(12n + 5) {
+      grid-column: span 1 !important;
+    }
+    .luxp-catalog--collage .luxp-catalog__card:nth-child(12n + 4) .luxp-catalog__media,
+    .luxp-catalog--collage .luxp-catalog__card:nth-child(12n + 5) .luxp-catalog__media {
+      aspect-ratio: 4 / 5 !important;
+    }
+
+    /* Item 6: Full-width Architectural Anchor Showcase (Refined 16:9) */
+    .luxp-catalog--collage .luxp-catalog__card:nth-child(12n + 6) {
+      grid-column: span 2 !important;
+    }
+    .luxp-catalog--collage .luxp-catalog__card:nth-child(12n + 6) .luxp-catalog__media {
+      aspect-ratio: 16 / 9 !important;
+    }
+
+    /* --- Mobile Collage Spanning Rhythm (Batch 2: Items 7 to 12 when expanded) --- */
+    .luxp-catalog--collage .luxp-catalog__card:nth-child(12n + 7),
+    .luxp-catalog--collage .luxp-catalog__card:nth-child(12n + 8) {
+      grid-column: span 1 !important;
+    }
+    .luxp-catalog--collage .luxp-catalog__card:nth-child(12n + 7) .luxp-catalog__media,
+    .luxp-catalog--collage .luxp-catalog__card:nth-child(12n + 8) .luxp-catalog__media {
+      aspect-ratio: 4 / 5 !important;
+    }
+
+    .luxp-catalog--collage .luxp-catalog__card:nth-child(12n + 9) {
+      grid-column: span 2 !important;
+    }
+    .luxp-catalog--collage .luxp-catalog__card:nth-child(12n + 9) .luxp-catalog__media {
+      aspect-ratio: 16 / 9 !important;
+    }
+
+    .luxp-catalog--collage .luxp-catalog__card:nth-child(12n + 10),
+    .luxp-catalog--collage .luxp-catalog__card:nth-child(12n + 11) {
+      grid-column: span 1 !important;
+    }
+    .luxp-catalog--collage .luxp-catalog__card:nth-child(12n + 10) .luxp-catalog__media,
+    .luxp-catalog--collage .luxp-catalog__card:nth-child(12n + 11) .luxp-catalog__media {
+      aspect-ratio: 4 / 5 !important;
+    }
+
+    .luxp-catalog--collage .luxp-catalog__card:nth-child(12n + 12) {
+      grid-column: span 2 !important;
+    }
+    .luxp-catalog--collage .luxp-catalog__card:nth-child(12n + 12) .luxp-catalog__media {
+      aspect-ratio: 16 / 9 !important;
+    }
+
+    .luxp-catalog .luxp-footer {
+      margin-top: 14px !important;
+    }
+
+    /* Floating high-contrast frosted glass arrow button on mobile */
     .luxp-catalog__icon {
+      position: absolute !important;
+      right: 10px !important;
+      bottom: 10px !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
       width: 28px !important;
       height: 28px !important;
-      right: 8px !important;
-      bottom: 8px !important;
+      border-radius: 50% !important;
+      background: rgba(255, 255, 255, 0.94) !important;
+      color: #111111 !important;
+      border: 1px solid rgba(255, 255, 255, 0.98) !important;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.14) !important;
       opacity: 1 !important;
       transform: translateY(0) !important;
+      z-index: 3 !important;
+      pointer-events: none !important;
+      backdrop-filter: blur(8px) !important;
+      -webkit-backdrop-filter: blur(8px) !important;
+      transition: transform 0.2s ease, background-color 0.2s ease !important;
+    }
+
+    .luxp-catalog__card:active .luxp-catalog__icon {
+      transform: scale(1.08) !important;
+      background: #ffffff !important;
     }
 
     .luxp-catalog__icon svg {
       width: 12px !important;
       height: 12px !important;
+      stroke-width: 1.8 !important;
+      color: #111111 !important;
+    }
+
+    /* Uniform Grid fallback if layout_style is set to grid */
+    .luxp-catalog--grid .luxp-catalog__grid {
+      grid-template-columns: repeat(var(--luxp-cols-m, 2), minmax(0, 1fr)) !important;
+    }
+    .luxp-catalog--grid .luxp-catalog__card {
+      grid-column: span 1 !important;
+    }
+    .luxp-catalog--grid .luxp-catalog__media {
+      aspect-ratio: var(--luxp-media-ratio, 3 / 4) !important;
     }
   }
 
@@ -543,13 +682,13 @@
       { "value": "collage", "label": "Collage (Asymmetrical Mixed Sizes)" },
       { "value": "grid", "label": "Uniform Grid" }
     ], "default": "collage" },
-    { "type": "range", "id": "collage_tile_height", "min": 160, "max": 600, "step": 10, "unit": "px", "label": "Collage row height — desktop", "default": 380 },
-    { "type": "range", "id": "collage_tile_height_tablet", "min": 130, "max": 450, "step": 10, "unit": "px", "label": "Collage row height — tablet", "default": 280 },
+    { "type": "range", "id": "collage_tile_height", "min": 160, "max": 600, "step": 10, "unit": "px", "label": "Collage row height — desktop", "default": 280 },
+    { "type": "range", "id": "collage_tile_height_tablet", "min": 130, "max": 450, "step": 10, "unit": "px", "label": "Collage row height — tablet", "default": 220 },
     { "type": "select", "id": "container_mode", "label": "Container mode", "options": [
       { "value": "fixed", "label": "Container (max width)" },
       { "value": "full", "label": "Full width" }
-    ], "default": "full" },
-    { "type": "range", "id": "container_max", "min": 1000, "max": 1600, "step": 20, "unit": "px", "label": "Container max width", "default": 1400 },
+    ], "default": "fixed" },
+    { "type": "range", "id": "container_max", "min": 1000, "max": 1600, "step": 20, "unit": "px", "label": "Container max width", "default": 1360 },
     { "type": "range", "id": "columns", "min": 2, "max": 6, "step": 1, "label": "Columns — desktop (Uniform Grid)", "default": 6 },
     { "type": "range", "id": "columns_tablet", "min": 2, "max": 5, "step": 1, "label": "Columns — tablet", "default": 4 },
     { "type": "select", "id": "columns_mobile", "label": "Columns — mobile", "options": [

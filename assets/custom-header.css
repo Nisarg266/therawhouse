@@ -367,6 +367,11 @@ header-actions {
   stroke-width: 1.3 !important;
 }
 
+.account-button .account-button__text,
+.account-button__text {
+  display: none !important;
+}
+
 /* Cart & Wishlist Bubble Badges */
 .cart-bubble,
 .cart-count-badge,
@@ -995,7 +1000,7 @@ slideshow-slides,
 
   /* --- Left cluster: hamburger + search --- */
   .header__column--left {
-    display: flex !important;
+    display: inline-flex !important;
     align-items: center !important;
     gap: 2px !important;
     flex: 0 0 auto !important;
@@ -1005,28 +1010,38 @@ slideshow-slides,
 
   .header__icon--menu,
   .header-drawer summary {
-    width: 40px !important;
-    height: 40px !important;
+    width: 34px !important;
+    height: 38px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border-radius: 4px !important;
+    background: transparent !important;
+    border: none !important;
   }
 
   .header-drawer-icon svg {
-    width: 21px !important;
-    height: 21px !important;
+    width: 20px !important;
+    height: 20px !important;
+    display: block !important;
   }
 
   /* Compact Search on Mobile: clean icon-only trigger */
   .header-inline-search-pill,
   .header__search-pill {
-    height: 40px !important;
-    width: 40px !important;
+    height: 38px !important;
+    width: 34px !important;
     padding: 0 !important;
+    margin: 0 !important;
     background: transparent !important;
     border: none !important;
     box-shadow: none !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    border-radius: 50% !important;
+    border-radius: 4px !important;
   }
 
   .header-inline-search-pill input,
@@ -1035,14 +1050,20 @@ slideshow-slides,
   }
 
   .header-inline-search-icon-btn {
-    width: 40px !important;
-    height: 40px !important;
+    width: 34px !important;
+    height: 38px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    margin: 0 !important;
   }
 
   .header-inline-search-svg {
-    width: 19px !important;
-    height: 19px !important;
-    stroke-width: 1.6 !important;
+    width: 20px !important;
+    height: 20px !important;
+    stroke-width: 1.4 !important;
+    display: block !important;
   }
 
   /* --- Center: prominent, crisp logo - ABSOLUTELY CENTERED ON SCREEN --- */
@@ -1056,7 +1077,7 @@ slideshow-slides,
     justify-content: center !important;
     text-align: center !important;
     width: max-content !important;
-    max-width: calc(100% - 176px) !important;
+    max-width: calc(100% - 156px) !important;
     height: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
@@ -1091,8 +1112,8 @@ slideshow-slides,
   .header .logo-section__image,
   .header-logo img,
   .header-logo__image {
-    max-height: 46px !important;
-    height: 46px !important;
+    max-height: 44px !important;
+    height: 44px !important;
     width: auto !important;
     object-fit: contain !important;
     -webkit-user-drag: none !important;
@@ -1100,20 +1121,22 @@ slideshow-slides,
     margin: 0 auto !important;
   }
 
-  /* --- Right cluster: wishlist + cart --- */
+  /* --- Right cluster: account + cart --- */
   .header__column--right {
-    display: flex !important;
+    display: inline-flex !important;
     align-items: center !important;
     justify-content: flex-end !important;
     flex: 0 0 auto !important;
     margin-left: auto !important;
-    gap: 2px !important;
+    gap: 0 !important;
     position: relative !important;
     z-index: 2 !important;
   }
 
   .header-actions,
   header-actions {
+    display: inline-flex !important;
+    align-items: center !important;
     gap: 2px !important;
   }
 
@@ -1122,22 +1145,117 @@ slideshow-slides,
   .cart-icon,
   .wishlist-button,
   .header-actions__wishlist-icon {
-    width: 40px !important;
-    height: 40px !important;
-    border-radius: 50% !important;
+    width: 34px !important;
+    height: 38px !important;
+    border-radius: 4px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    color: #111111 !important;
+    cursor: pointer !important;
+    text-decoration: none !important;
+    box-sizing: border-box !important;
+    transition: opacity 0.2s ease, transform 0.2s ease !important;
+  }
+
+  .header__icon--menu:active,
+  .header-inline-search-pill:active,
+  .account-button:active,
+  .header-actions__action:active {
+    opacity: 0.65 !important;
+    transform: scale(0.94) !important;
   }
 
   .cart-icon svg,
   .account-button svg,
   .wishlist-button svg,
   .header-actions__action svg {
-    width: 21px !important;
-    height: 21px !important;
+    width: 20px !important;
+    height: 20px !important;
+    display: block !important;
   }
 
-  /* Keep the bar clean: account lives inside the drawer on phones */
+  /* Mobile account/login button in header bar: clean circular icon button */
   .account-button {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 34px !important;
+    height: 38px !important;
+    border-radius: 4px !important;
+    color: #111111 !important;
+    background: transparent !important;
+    border: none !important;
+    cursor: pointer !important;
+    text-decoration: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    position: relative !important;
+    overflow: visible !important;
+  }
+
+  .account-button shopify-store,
+  shopify-store {
     display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+
+  .account-button .account-button__text,
+  .account-button__text {
+    display: none !important;
+  }
+
+  .account-button shopify-account {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 34px !important;
+    height: 38px !important;
+    min-width: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    line-height: 1 !important;
+  }
+
+  .account-button shopify-account::part(button) {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 34px !important;
+    height: 38px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    color: inherit !important;
+    cursor: pointer !important;
+  }
+
+  .account-button .svg-wrapper,
+  .account-button svg,
+  .account-button .account-button__icon,
+  .account-button shopify-account > span[aria-hidden="true"],
+  .account-button shopify-account > .svg-wrapper {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 20px !important;
+    height: 20px !important;
+    line-height: 1 !important;
+    vertical-align: middle !important;
+    margin: 0 auto !important;
+  }
+
+  .cart-bubble,
+  .cart-count-badge,
+  .header-actions__cart-icon .cart-bubble {
+    top: 1px !important;
+    right: -2px !important;
   }
 
   .header__row--bottom {

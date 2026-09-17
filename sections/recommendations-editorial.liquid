@@ -123,7 +123,7 @@
   #shopify-section-{{ section.id }} .luxp-ornament__line {
     flex: 1;
     height: 1px;
-    background-color: #ded9cf;
+    background-color: {{ s.color_accent | default: '#a98344' }};
   }
 
   .section-luxp-editorial .luxp-ornament__gem,
@@ -311,40 +311,41 @@
   }
 
   #shopify-section-{{ section.id }} .luxp-split__eyebrow {
-    font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, 'Times New Roman', serif !important;
-    font-style: italic !important;
-    font-size: clamp(28px, 3.2vw, 42px) !important;
-    font-weight: 400 !important;
-    letter-spacing: 0.02em !important;
-    text-transform: none !important;
-    color: {{ s.color_heading | default: '#1a1a1a' }} !important;
-    margin: 0 0 6px 0 !important;
-    line-height: 1.05 !important;
+    font-family: var(--font-body--family, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif) !important;
+    font-style: normal !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.24em !important;
+    text-transform: uppercase !important;
+    color: {{ s.color_accent | default: '#a98344' }} !important;
+    margin: 0 0 8px 0 !important;
+    line-height: 1.2 !important;
   }
 
   #shopify-section-{{ section.id }} .luxp-split__heading {
-    font-size: clamp(14px, 1.35vw, 19px) !important;
-    letter-spacing: clamp(0.12em, 0.22vw, 0.26em) !important;
+    font-size: clamp(20px, 2vw, 26px) !important;
+    letter-spacing: clamp(0.16em, 0.24vw, 0.28em) !important;
+    font-weight: 500 !important;
     text-align: left !important;
-    margin: 0 0 12px 0 !important;
+    margin: 0 0 14px 0 !important;
     max-width: 100% !important;
     overflow-wrap: break-word !important;
     word-break: normal !important;
-    line-height: 1.35 !important;
+    line-height: 1.3 !important;
   }
 
   #shopify-section-{{ section.id }} .luxp-split__sticky .luxp-ornament {
-    width: 110px;
+    width: 120px;
     margin: 2px 0 0 0;
     justify-content: flex-start;
   }
 
   #shopify-section-{{ section.id }} .luxp-split__intro {
-    margin-top: 14px;
-    max-width: 38ch;
-    font-size: clamp(13px, 1.1vw, 14px);
-    line-height: 1.7;
-    color: #635f59;
+    margin-top: 16px;
+    max-width: 40ch;
+    font-size: clamp(14.5px, 1.15vw, 16px);
+    line-height: 1.75;
+    color: #555149;
     letter-spacing: 0.01em;
   }
 
@@ -470,7 +471,7 @@
 
   /* Card content body with generous luxury inner padding */
   #shopify-section-{{ section.id }} .luxp-split__card .luxp-editcard__body {
-    padding: clamp(18px, 2vw, 24px) clamp(20px, 2.2vw, 28px) clamp(20px, 2.2vw, 28px) !important;
+    padding: clamp(22px, 2.4vw, 32px) clamp(24px, 2.8vw, 36px) clamp(24px, 2.8vw, 36px) !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: flex-start !important;
@@ -481,7 +482,7 @@
   /* Index / order label inside card body */
   #shopify-section-{{ section.id }} .luxp-split__card .luxp-split__index {
     display: inline-block !important;
-    font-size: 11px !important;
+    font-size: 12px !important;
     font-weight: 600 !important;
     letter-spacing: 0.28em !important;
     color: {{ s.color_accent | default: '#a98344' }} !important;
@@ -492,10 +493,10 @@
   /* Card title */
   #shopify-section-{{ section.id }} .luxp-split__card .luxp-editcard__title {
     font-family: var(--font-heading--family, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif) !important;
-    font-size: clamp(15px, 1.4vw, 18.5px) !important;
+    font-size: clamp(18px, 1.6vw, 22px) !important;
     font-weight: 700 !important;
-    line-height: 1.35 !important;
-    letter-spacing: 0.08em !important;
+    line-height: 1.3 !important;
+    letter-spacing: 0.06em !important;
     text-transform: uppercase !important;
     color: #1a1a1a !important;
     margin: 0 0 clamp(8px, 1vw, 12px) 0 !important;
@@ -504,12 +505,12 @@
   /* Card descriptive text */
   #shopify-section-{{ section.id }} .luxp-split__card .luxp-editcard__text {
     font-family: var(--font-body--family, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif) !important;
-    font-size: clamp(12.5px, 1.05vw, 14px) !important;
+    font-size: clamp(13.5px, 1.1vw, 15px) !important;
     font-weight: 400 !important;
-    line-height: 1.65 !important;
+    line-height: 1.7 !important;
     letter-spacing: 0.01em !important;
-    color: #635f59 !important;
-    margin: 0 0 clamp(12px, 1.2vw, 16px) 0 !important;
+    color: #555149 !important;
+    margin: 0 0 clamp(12px, 1.2vw, 18px) 0 !important;
     max-width: 62ch !important;
     -webkit-font-smoothing: antialiased !important;
   }
@@ -555,16 +556,18 @@
 
   @media screen and (max-width: 989px) {
     #shopify-section-{{ section.id }} {
-      --split-rail-top: 92px;
-      --deck-offset: 16px;
+      --split-rail-top: 0px;
+      --deck-offset: 0px;
     }
 
     #shopify-section-{{ section.id }} .luxp-split {
-      display: block;
+      display: block !important;
     }
 
     #shopify-section-{{ section.id }} .luxp-split__curation {
-      display: none !important;
+      display: flex !important;
+      align-items: center !important;
+      margin: 16px auto 0 !important;
     }
 
     #shopify-section-{{ section.id }} .luxp-split__intro-desktop {
@@ -578,55 +581,123 @@
     }
 
     #shopify-section-{{ section.id }} .luxp-split__sticky {
-      position: static;
-      align-items: center;
-      text-align: center;
-      margin-bottom: 24px;
-      padding-top: 0;
+      position: static !important;
+      align-items: center !important;
+      text-align: center !important;
+      margin-bottom: 28px !important;
+      padding-top: 0 !important;
     }
 
     #shopify-section-{{ section.id }} .luxp-split__eyebrow {
-      font-size: 28px !important;
-      margin-bottom: 4px !important;
-      line-height: 1 !important;
+      font-size: 11.5px !important;
+      letter-spacing: 0.22em !important;
+      text-transform: uppercase !important;
+      font-style: normal !important;
+      color: {{ s.color_accent | default: '#a98344' }} !important;
+      margin-bottom: 6px !important;
+      line-height: 1.2 !important;
     }
 
     #shopify-section-{{ section.id }} .luxp-split__heading {
-      font-size: clamp(13px, 3.8vw, 16px) !important;
-      letter-spacing: clamp(0.12em, 0.2vw, 0.24em) !important;
+      font-size: clamp(18px, 4.8vw, 24px) !important;
+      letter-spacing: clamp(0.14em, 0.22vw, 0.26em) !important;
       text-align: center !important;
       margin-bottom: 8px !important;
       max-width: 100% !important;
       overflow-wrap: break-word !important;
+      line-height: 1.25 !important;
     }
 
     #shopify-section-{{ section.id }} .luxp-split__sticky .luxp-ornament {
-      justify-content: center;
-      margin-inline: auto;
-      width: 76px !important;
-      margin-bottom: 10px !important;
+      justify-content: center !important;
+      margin-inline: auto !important;
+      width: 90px !important;
+      margin-bottom: 12px !important;
     }
 
     #shopify-section-{{ section.id }} .luxp-split__intro {
       margin: 0 auto !important;
       text-align: center !important;
-      max-width: 33ch !important;
-      font-size: 12.5px !important;
-      line-height: 1.62 !important;
-      color: #6e6961 !important;
+      max-width: 44ch !important;
+      font-size: 13.5px !important;
+      line-height: 1.68 !important;
+      color: #635f58 !important;
       letter-spacing: 0.01em !important;
     }
 
     #shopify-section-{{ section.id }} .luxp-split__cards {
-      gap: 28px;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 0 !important;
+      width: 100% !important;
+      position: relative !important;
+    }
+
+    /* Elegant hardware-accelerated mobile card deck stacking animation */
+    #shopify-section-{{ section.id }} .luxp-split__card {
+      position: sticky !important;
+      top: clamp(68px, 9.5vh, 82px) !important;
+      z-index: calc(1 + var(--card-i, 0)) !important;
+      margin-bottom: clamp(28px, 5.5vh, 44px) !important;
+      background: #ffffff !important;
+      border: 1px solid #ede8df !important;
+      border-radius: 4px !important;
+      box-shadow: 0 12px 32px -8px rgba(24, 18, 8, 0.12), 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+      overflow: hidden !important;
+      transition:
+        transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+        opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+        box-shadow 0.45s ease !important;
+      will-change: transform, opacity;
+      pointer-events: auto !important;
+    }
+
+    #shopify-section-{{ section.id }} .luxp-split__card:last-child {
+      margin-bottom: 0 !important;
+    }
+
+    /* Covered card recedes backward smoothly with subtle depth and clean contrast (no heavy blur) */
+    #shopify-section-{{ section.id }} .luxp-split__card.is-covered {
+      transform: scale(0.95) translateY(-8px) !important;
+      opacity: 0.58 !important;
+      filter: brightness(0.9) !important;
+      box-shadow: 0 4px 14px rgba(24, 18, 8, 0.05) !important;
+      pointer-events: none !important;
     }
 
     #shopify-section-{{ section.id }} .luxp-split__card .luxp-media {
-      aspect-ratio: 16 / 12 !important;
+      aspect-ratio: 16 / 10.5 !important;
+      overflow: hidden !important;
+    }
+
+    #shopify-section-{{ section.id }} .luxp-split__card:active .luxp-media img {
+      transform: scale(1.02) !important;
     }
 
     #shopify-section-{{ section.id }} .luxp-split__card .luxp-editcard__body {
-      padding: 20px 20px 24px !important;
+      padding: clamp(16px, 4vw, 22px) clamp(16px, 4vw, 24px) clamp(18px, 4.5vw, 26px) !important;
+    }
+
+    #shopify-section-{{ section.id }} .luxp-split__card .luxp-split__index {
+      font-size: 11px !important;
+      margin-bottom: 6px !important;
+    }
+
+    #shopify-section-{{ section.id }} .luxp-split__card .luxp-editcard__title {
+      font-size: clamp(16px, 4.2vw, 19px) !important;
+      margin-bottom: 8px !important;
+      line-height: 1.3 !important;
+    }
+
+    #shopify-section-{{ section.id }} .luxp-split__card .luxp-editcard__text {
+      font-size: clamp(12.5px, 3.2vw, 14px) !important;
+      line-height: 1.6 !important;
+      margin-bottom: 14px !important;
+    }
+
+    #shopify-section-{{ section.id }} .luxp-split__card:active .luxp-card__cta-arrow {
+      transform: translateX(4px) !important;
     }
   }
 </style>
@@ -687,7 +758,7 @@
         <aside class="luxp-split__aside">
           <div class="luxp-split__sticky">
             {% if s.eyebrow != blank %}
-              <p class="luxp-eyebrow luxp-split__eyebrow">{{ s.eyebrow }}</p>
+              <p class="luxp-eyebrow luxp-split__eyebrow">{{ s.eyebrow | default: 'THE' | upcase }}</p>
             {% endif %}
             {% if s.heading != blank %}
               {%- assign clean_heading = s.heading -%}
@@ -786,7 +857,7 @@
       {% if s.eyebrow != blank or s.heading != blank or s.intro != blank or s.show_ornament %}
       <header class="luxp-header luxp-header--{{ s.header_align | default: 'center' }}">
         {% if s.eyebrow != blank %}
-          <p class="luxp-eyebrow">{{ s.eyebrow }}</p>
+          <p class="luxp-eyebrow">{{ s.eyebrow | default: 'THE' | upcase }}</p>
         {% endif %}
         {% if s.heading != blank %}
           <h2 class="luxp-heading">{{ s.heading }}</h2>
@@ -875,10 +946,12 @@
     var ticking = false;
     function update() {
       ticking = false;
+      var isMobile = window.innerWidth < 990;
+      var threshold = isMobile ? 18 : 26;
       for (var i = 0; i < cards.length - 1; i++) {
         var top = cards[i].getBoundingClientRect().top;
         var nextTop = cards[i + 1].getBoundingClientRect().top;
-        cards[i].classList.toggle('is-covered', nextTop <= top + 26);
+        cards[i].classList.toggle('is-covered', nextTop <= top + threshold);
       }
     }
     function onScroll() {
