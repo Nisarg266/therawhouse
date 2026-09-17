@@ -420,28 +420,6 @@
       "settings": {
         "layout_style": "split",
         "eyebrow": "the",
-<<<<<<< HEAD
-        "heading": "RECOMMENDATIONS",
-        "heading_size": 20,
-        "heading_ls": "0.35em",
-        "intro": "<p>Edits, stories and conversations from the world of The Raw House — curated slowly, collected forever.</p>",
-        "show_ornament": true,
-        "color_heading": "#1a1a1a",
-        "color_accent": "#a98344",
-        "container_max": 1220,
-        "columns": 2,
-        "columns_tablet": 2,
-        "columns_mobile": "2",
-        "col_gap": 40,
-        "row_gap": 56,
-        "col_gap_m": 16,
-        "row_gap_m": 36,
-        "image_ratio": "4/5",
-        "card_radius": 0,
-        "color_bg": "#ffffff",
-        "padding_top": 64,
-        "padding_bottom": 80
-=======
         "heading": "R E C O M M E N D A T I O N S",
         "intro": "",
         "show_ornament": true,
@@ -514,7 +492,6 @@
         "enable_animations": false,
         "anchor_id": "",
         "custom_class": ""
->>>>>>> ec30c5cf95e939a3c0983c86a05383be5f12abb9
       }
     },
     "fine_prints": {
@@ -761,8 +738,6 @@
         "custom_class": ""
       }
     },
-<<<<<<< HEAD
-=======
     "atelier_promise": {
       "type": "atelier-promise",
       "blocks": {
@@ -884,7 +859,6 @@
         "custom_class": ""
       }
     },
->>>>>>> ec30c5cf95e939a3c0983c86a05383be5f12abb9
     "brand_statement": {
       "type": "brand-manifesto",
       "blocks": {
@@ -1031,6 +1005,7 @@
         "press_5",
         "press_6"
       ],
+      "disabled": true,
       "settings": {
         "heading": "Featured In",
         "show_ornament": true,
@@ -1094,6 +1069,7 @@
     "recommendations",
     "fine_prints",
     "the_makers",
+    "atelier_promise",
     "brand_statement",
     "press_and_quote"
   ]
