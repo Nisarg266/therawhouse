@@ -1,361 +1,306 @@
 {%- comment -%}
-  THE RAW HOUSE - LUXURY HERO SHOWCASE SLIDER
-  Cinematic full-bleed slider with Ken Burns zoom, progress timer, glassmorphic badges, dual luxury buttons.
+  THE RAW HOUSE — HERO SLIDER (LUXP design system)
+  Slide blocks with desktop/mobile images, two buttons per slide, overlay,
+  height and control options. Slides switch instantly by default (no fade
+  or slide motion) — fade is available only when animations are enabled.
+
+  @module luxury-hero-slider
 {%- endcomment -%}
 
-{% liquid
-  assign image_only = true
-  for block in section.blocks
-    if block.settings.heading != blank or block.settings.subheading != blank or block.settings.button_label != blank
-      assign image_only = false
-      break
-    endif
-  endfor
-%}
+{%- liquid
+  assign s = section.settings
+
+  assign hero_h = s.height_desktop | default: 92
+  assign hero_h_m = s.height_mobile | default: 70
+  assign overlay_color = s.overlay_color | default: '#000000'
+  assign overlay_alpha = s.overlay_opacity | default: 0 | times: 0.01
+
+  assign hero_valign = 'center'
+  if s.content_valign == 'bottom'
+    assign hero_valign = 'flex-end'
+  elsif s.content_valign == 'top'
+    assign hero_valign = 'flex-start'
+  endif
+-%}
+
+{%- capture luxp_colors -%}
+  {%- render 'luxp-scheme',
+    preset: s.color_preset,
+    bg: s.color_bg,
+    heading: s.color_heading,
+    text: s.color_text,
+    accent: s.color_accent
+  -%}
+{%- endcapture -%}
+
+{%- capture luxp_typo -%}{%- render 'luxp-typo', s: s -%}{%- endcapture -%}
 
 <div
-  id="LuxuryHero-{{ section.id }}"
-  class="lux-hero{% if image_only %} lux-hero--image-only{% endif %}"
-  data-autoplay="{{ section.settings.autoplay }}"
-  data-autoplay-speed="{{ section.settings.autoplay_speed | times: 1000 }}"
+  class="luxp-hero {% if s.enable_animations %}luxp-anim{% endif %} {{ s.custom_class }}"
+  data-luxp-hero
+  data-luxp-autoplay="{{ s.autoplay }}"
+  data-luxp-speed="{{ s.autoplay_speed | default: 6 }}"
+  data-luxp-transition="{% if s.enable_animations %}{{ s.transition }}{% else %}none{% endif %}"
   style="
-    --hero-desktop-height: {{ section.settings.desktop_height }}vh;
-    --hero-mobile-height: {{ section.settings.mobile_height }}vh;
+    {{ luxp_colors }}
+    {{ luxp_typo }}
+    --luxp-hero-h: {{ hero_h }}vh;
+    --luxp-hero-h-m: {{ hero_h_m }}vh;
+    --luxp-hero-fit: {{ s.image_fit | default: 'cover' }};
+    --luxp-overlay-color: {{ overlay_color }};
+    --luxp-overlay-opacity: {{ overlay_alpha }};
+    --luxp-hero-valign: {{ hero_valign }};
+    --luxp-hero-align: {{ s.text_align | default: 'center' }};
+    --luxp-hero-gap: {{ s.content_gap | default: 14 }}px;
+    --luxp-hero-content-w: {{ s.content_width | default: 760 }}px;
+    --luxp-hero-py: {{ s.content_padding_y | default: 64 }}px;
+    --luxp-hero-py-m: {{ s.content_padding_y_m | default: 48 }}px;
+    --luxp-hero-btn-gap: {{ s.btn_gap | default: 12 }}px;
+    --luxp-hero-controls-inset: {{ s.controls_inset | default: 18 }}px;
+    --luxp-hero-btn-bg: {% if s.btn_bg != blank and s.btn_bg != 'rgba(0,0,0,0)' %}{{ s.btn_bg }}{% else %}transparent{% endif %};
+    --luxp-hero-btn-fg: {% if s.btn_text != blank and s.btn_text != 'rgba(0,0,0,0)' %}{{ s.btn_text }}{% else %}#ffffff{% endif %};
+    --luxp-hero-btn-border: {% if s.btn_border != blank and s.btn_border != 'rgba(0,0,0,0)' %}{{ s.btn_border }}{% else %}#ffffff{% endif %};
+    --luxp-hero-btn-bg-h: {% if s.btn_bg_hover != blank and s.btn_bg_hover != 'rgba(0,0,0,0)' %}{{ s.btn_bg_hover }}{% else %}#ffffff{% endif %};
+    --luxp-hero-btn-fg-h: {% if s.btn_text_hover != blank and s.btn_text_hover != 'rgba(0,0,0,0)' %}{{ s.btn_text_hover }}{% else %}#111111{% endif %};
   "
+  {% if s.anchor_id != blank %}id="{{ s.anchor_id }}"{% endif %}
+  data-art-motion="off"
   {{ section.shopify_attributes }}
 >
-  <div class="lux-hero__slider">
+  <div class="luxp-hero__track">
     {% for block in section.blocks %}
-      {% liquid
-        assign img_priority = 'auto'
-        if forloop.first
-          assign img_priority = 'high'
-        endif
-
-        assign align = block.settings.content_alignment | default: 'center'
-        if align == 'center'
-          assign margin_style = 'margin-inline: auto;'
-        elsif align == 'right'
-          assign margin_style = 'margin-left: auto; margin-right: 0;'
-        else
-          assign margin_style = 'margin-right: auto; margin-left: 0;'
-        endif
-      %}
       <div
-        class="lux-hero__slide{% if forloop.first %} is-active{% endif %}"
-        data-slide-index="{{ forloop.index0 }}"
+        class="luxp-hero__slide {% if forloop.first %}luxp-hero__slide--active{% endif %}"
+        data-luxp-slide
+        role="group"
+        aria-roledescription="slide"
+        aria-label="{{ forloop.index }} / {{ section.blocks.size }}"
+        {% unless forloop.first %}inert{% endunless %}
         {{ block.shopify_attributes }}
       >
-        <div class="lux-hero__media-wrap">
-          {% if block.settings.button_link != blank and block.settings.heading == blank and block.settings.button_label == blank %}
-            <a href="{{ block.settings.button_link }}" style="display: block; width: 100%; height: 100%;" aria-label="Explore Curation">
-          {% endif %}
-          {% if block.settings.image != blank %}
-            {{
-              block.settings.image
-              | image_url: width: 2560
-              | image_tag:
-                class: 'lux-hero__image',
-                loading: 'eager',
-                fetchpriority: img_priority,
-                widths: '750, 1100, 1500, 1920, 2560',
-                sizes: '100vw'
-            }}
-          {% elsif block.settings.default_asset != blank %}
-            <img
-              src="{{ block.settings.default_asset | asset_url }}"
-              alt="{{ block.settings.heading | default: 'The House of Things' | escape }}"
-              class="lux-hero__image"
-              loading="eager"
-              fetchpriority="{{ img_priority }}"
-              onerror="this.onerror=null;this.src='{{ 'maker-gallery-1.jpg' | asset_url }}';"
-              width="1920"
-              height="900"
-            >
-          {% else %}
-            <img
-              src="{{ 'maker-gallery-1.jpg' | asset_url }}"
-              alt="Luxury Fine Art Gallery"
-              class="lux-hero__image"
-              loading="eager"
-              fetchpriority="{{ img_priority }}"
-              width="1920"
-              height="900"
-            >
-          {% endif %}
-
-          {% if section.settings.overlay_opacity > 0 %}
-            <div
-              class="lux-hero__overlay"
-              style="background: {{ section.settings.overlay_color }}; opacity: {{ section.settings.overlay_opacity }}%;"
-            ></div>
-          {% endif %}
-          {% if block.settings.button_link != blank and block.settings.heading == blank and block.settings.button_label == blank %}
-            </a>
-          {% endif %}
+        <div class="luxp-hero__media">
+          {%- assign slide_alt = block.settings.heading | default: 'Hero slide' -%}
+          {% render 'luxp-image',
+            image: block.settings.image,
+            image_mobile: block.settings.image_mobile,
+            alt: slide_alt,
+            loading: 'eager',
+            sizes: '100vw',
+            fallback: block.settings.default_asset
+          %}
         </div>
+        {% if s.overlay_opacity > 0 %}
+          <div class="luxp-hero__overlay" aria-hidden="true"></div>
+        {% endif %}
 
-        {% if block.settings.heading != blank or block.settings.subheading != blank or block.settings.button_label != blank %}
-          <div class="lux-hero__content-container">
-            <div class="lux-hero__content-box" style="text-align: {{ align }}; {{ margin_style }}">
-
+        {% if block.settings.heading != blank or block.settings.description != blank or block.settings.button_label != blank or block.settings.button_2_label != blank %}
+          <div class="luxp-container">
+            <div class="luxp-hero__content luxp-hero__content--{{ s.text_align | default: 'center' }}">
               {% if block.settings.subheading != blank %}
-                <span class="lux-hero__pre-title">{{ block.settings.subheading }}</span>
+                <p class="luxp-eyebrow">{{ block.settings.subheading }}</p>
               {% endif %}
-
               {% if block.settings.heading != blank %}
-                <h1 class="lux-hero__heading">{{ block.settings.heading }}</h1>
+                <h1 class="luxp-hero__heading">{{ block.settings.heading }}</h1>
               {% endif %}
-
-              <div class="lux-hero__actions" style="justify-content: center;">
-                {% if block.settings.button_label != blank %}
-                  <a
-                    href="{{ block.settings.button_link | default: routes.all_products_collection_url }}"
-                    class="lux-btn-primary art-button"
-                  >
-                    {{ block.settings.button_label }}
-                  </a>
-                {% endif %}
-              </div>
+              {% if block.settings.description != blank %}
+                <p class="luxp-hero__desc">{{ block.settings.description }}</p>
+              {% endif %}
+              {% if block.settings.button_label != blank or block.settings.button_2_label != blank %}
+                <div class="luxp-hero__buttons">
+                  {% if block.settings.button_label != blank %}
+                    <a
+                      href="{{ block.settings.button_link | default: routes.all_products_collection_url }}"
+                      class="luxp-btn {% if s.btn_mobile_full %}luxp-btn--mobile-full{% endif %}"
+                    >
+                      {{ block.settings.button_label }}
+                    </a>
+                  {% endif %}
+                  {% if block.settings.button_2_label != blank %}
+                    <a
+                      href="{{ block.settings.button_2_link | default: routes.all_products_collection_url }}"
+                      class="luxp-btn {% if s.btn_mobile_full %}luxp-btn--mobile-full{% endif %}"
+                    >
+                      {{ block.settings.button_2_label }}
+                    </a>
+                  {% endif %}
+                </div>
+              {% endif %}
             </div>
           </div>
         {% endif %}
       </div>
     {% endfor %}
+  </div>
 
-    {% if section.blocks.size > 1 %}
-      <!-- Side Arrows (mid-screen) -->
-      <div class="lux-hero__arrows">
-        <button
-          type="button"
-          class="lux-hero__arrow-btn lux-hero__arrow-btn--prev"
-          aria-label="Previous Slide"
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="15 18 9 12 15 6"></polyline>
-          </svg>
-        </button>
-        <button
-          type="button"
-          class="lux-hero__arrow-btn lux-hero__arrow-btn--next"
-          aria-label="Next Slide"
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="9 18 15 12 9 6"></polyline>
-          </svg>
-        </button>
-      </div>
-
-      <!-- Bottom Pagination Dots -->
-      <div class="lux-hero__controls">
-        <div class="lux-hero__pagination">
-          {% for block in section.blocks %}
-            <button
-              type="button"
-              class="lux-hero__dot{% if forloop.first %} is-active{% endif %}"
-              aria-label="Go to slide {{ forloop.index }}"
-            >
-              <div class="lux-hero__dot-progress"></div>
-            </button>
-          {% endfor %}
-        </div>
+  {% if section.blocks.size > 1 %}
+    {% if s.show_arrows %}
+      <button type="button" class="luxp-hero__arrow luxp-hero__arrow--prev" data-luxp-prev aria-label="Previous slide">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M19 12H5"/><path d="M11 6l-6 6 6 6"/></svg>
+      </button>
+      <button type="button" class="luxp-hero__arrow luxp-hero__arrow--next" data-luxp-next aria-label="Next slide">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+      </button>
+    {% endif %}
+    {% if s.show_dots %}
+      <div class="luxp-hero__dots" data-luxp-dots role="tablist" aria-label="Slides">
+        {% for block in section.blocks %}
+          <button type="button" class="luxp-hero__dot {% if forloop.first %}luxp-hero__dot--active{% endif %}" aria-label="Go to slide {{ forloop.index }}"></button>
+        {% endfor %}
       </div>
     {% endif %}
-  </div>
+  {% endif %}
 </div>
 
 {% schema %}
 {
-  "name": "Luxury Hero Slider",
+  "name": "Hero Slider",
   "tag": "section",
-  "class": "section-luxury-hero",
+  "class": "section-luxp-hero",
+  "max_blocks": 6,
   "settings": [
-    {
-      "type": "header",
-      "content": "Color Scheme & Style"
-    },
-    {
-      "type": "select",
-      "id": "color_scheme_preset",
-      "label": "Color Scheme Preset",
-      "options": [
-        { "value": "dark", "label": "Classic Dark (#111111)" },
-        { "value": "obsidian", "label": "Obsidian Gold (#0b0b0b)" },
-        { "value": "gold", "label": "Champagne Bronze" },
-        { "value": "warm", "label": "Warm Atelier" }
-      ],
-      "default": "dark"
-    },
-    {
-      "type": "color",
-      "id": "custom_accent_color",
-      "label": "Custom Gold / Accent Color"
-    },
-    {
-      "type": "header",
-      "content": "Slider Sizing & Autoplay"
-    },
-    {
-      "type": "range",
-      "id": "desktop_height",
-      "min": 60,
-      "max": 100,
-      "step": 2,
-      "unit": "vh",
-      "label": "Desktop Height",
-      "default": 92
-    },
-    {
-      "type": "range",
-      "id": "mobile_height",
-      "min": 50,
-      "max": 90,
-      "step": 2,
-      "unit": "vh",
-      "label": "Mobile Height",
-      "default": 70
-    },
-    {
-      "type": "checkbox",
-      "id": "autoplay",
-      "label": "Enable Autoplay",
-      "default": true
-    },
-    {
-      "type": "range",
-      "id": "autoplay_speed",
-      "min": 3,
-      "max": 10,
-      "step": 1,
-      "unit": "s",
-      "label": "Autoplay Speed",
-      "default": 6
-    },
-    {
-      "type": "header",
-      "content": "Overlay Settings"
-    },
-    {
-      "type": "color",
-      "id": "overlay_color",
-      "label": "Overlay Color",
-      "default": "#000000"
-    },
-    {
-      "type": "range",
-      "id": "overlay_opacity",
-      "min": 0,
-      "max": 80,
-      "step": 5,
-      "unit": "%",
-      "label": "Overlay Opacity",
-      "default": 15
-    }
+    { "type": "header", "content": "Slider Behavior" },
+    { "type": "checkbox", "id": "autoplay", "label": "Autoplay slides", "default": true },
+    { "type": "range", "id": "autoplay_speed", "min": 3, "max": 12, "step": 1, "unit": "s", "label": "Autoplay speed", "default": 6 },
+    { "type": "checkbox", "id": "show_arrows", "label": "Show prev / next arrows", "default": true },
+    { "type": "checkbox", "id": "show_dots", "label": "Show dot indicators", "default": true },
+    { "type": "select", "id": "transition", "label": "Slide transition", "info": "Fade requires 'Enable subtle motion' in the Animation group.", "options": [
+      { "value": "none", "label": "None (instant)" },
+      { "value": "fade", "label": "Fade" }
+    ], "default": "none" },
+
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "height_desktop", "min": 40, "max": 100, "step": 2, "unit": "vh", "label": "Height — desktop", "default": 92 },
+    { "type": "range", "id": "height_mobile", "min": 40, "max": 100, "step": 2, "unit": "vh", "label": "Height — mobile", "default": 70 },
+    { "type": "select", "id": "image_fit", "label": "Image fit", "options": [
+      { "value": "cover", "label": "Cover (fill, may crop)" },
+      { "value": "contain", "label": "Contain (no crop)" }
+    ], "default": "cover" },
+    { "type": "select", "id": "text_align", "label": "Content alignment", "options": [
+      { "value": "center", "label": "Center" },
+      { "value": "left", "label": "Left" },
+      { "value": "right", "label": "Right" }
+    ], "default": "center" },
+    { "type": "select", "id": "content_valign", "label": "Content vertical position", "options": [
+      { "value": "center", "label": "Middle" },
+      { "value": "bottom", "label": "Bottom" },
+      { "value": "top", "label": "Top" }
+    ], "default": "center" },
+    { "type": "range", "id": "content_width", "min": 480, "max": 1200, "step": 20, "unit": "px", "label": "Content max width", "default": 760 },
+    { "type": "range", "id": "content_padding_y", "min": 24, "max": 120, "step": 4, "unit": "px", "label": "Content padding — desktop", "default": 64 },
+    { "type": "range", "id": "content_padding_y_m", "min": 16, "max": 90, "step": 4, "unit": "px", "label": "Content padding — mobile", "default": 48 },
+    { "type": "range", "id": "content_gap", "min": 6, "max": 30, "step": 2, "unit": "px", "label": "Content spacing", "default": 14 },
+    { "type": "range", "id": "controls_inset", "min": 8, "max": 40, "step": 2, "unit": "px", "label": "Arrows / dots inset", "default": 18 },
+
+    { "type": "header", "content": "Overlay & Colors" },
+    { "type": "color", "id": "overlay_color", "label": "Image overlay color", "default": "#000000" },
+    { "type": "range", "id": "overlay_opacity", "min": 0, "max": 90, "step": 5, "unit": "%", "label": "Image overlay opacity", "default": 0 },
+    { "type": "select", "id": "color_preset", "label": "Text color scheme", "options": [
+      { "value": "dark", "label": "Light text (for dark images)" },
+      { "value": "light", "label": "Dark text (for light images)" }
+    ], "default": "dark" },
+    { "type": "color", "id": "color_bg", "label": "Background (while images load)" },
+    { "type": "color", "id": "color_heading", "label": "Heading color override" },
+    { "type": "color", "id": "color_text", "label": "Description color override" },
+    { "type": "color", "id": "color_accent", "label": "Accent color override" },
+
+    { "type": "header", "content": "Typography — Heading" },
+    { "type": "select", "id": "heading_font", "label": "Font family", "options": [
+      { "value": "heading", "label": "Theme heading font" },
+      { "value": "body", "label": "Theme body font" },
+      { "value": "subheading", "label": "Theme subheading font" },
+      { "value": "accent", "label": "Theme accent font" },
+      { "value": "serif", "label": "Serif (Georgia)" }
+    ], "default": "heading" },
+    { "type": "range", "id": "heading_size", "min": 22, "max": 72, "step": 1, "unit": "px", "label": "Font size — desktop", "default": 44 },
+    { "type": "range", "id": "heading_size_m", "min": 18, "max": 44, "step": 1, "unit": "px", "label": "Font size — mobile", "default": 28 },
+    { "type": "select", "id": "heading_weight", "label": "Font weight", "options": [
+      { "value": "300", "label": "Light 300" },
+      { "value": "400", "label": "Regular 400" },
+      { "value": "500", "label": "Medium 500" },
+      { "value": "600", "label": "Semibold 600" }
+    ], "default": "400" },
+    { "type": "range", "id": "heading_lh", "min": 1, "max": 1.6, "step": 0.1, "label": "Line height", "default": 1.2 },
+    { "type": "select", "id": "heading_ls", "label": "Letter spacing", "options": [ { "value": "0em", "label": "None" }, { "value": "0.02em", "label": "0.02em" }, { "value": "0.04em", "label": "0.04em" }, { "value": "0.06em", "label": "0.06em" }, { "value": "0.08em", "label": "0.08em" }, { "value": "0.1em", "label": "0.1em" }, { "value": "0.14em", "label": "0.14em" }, { "value": "0.2em", "label": "0.2em" } ], "default": "0.04em" },
+    { "type": "select", "id": "heading_transform", "label": "Text transform", "options": [
+      { "value": "none", "label": "None" },
+      { "value": "uppercase", "label": "Uppercase" },
+      { "value": "capitalize", "label": "Capitalize" }
+    ], "default": "none" },
+
+    { "type": "header", "content": "Typography — Description" },
+    { "type": "select", "id": "body_font", "label": "Font family", "options": [
+      { "value": "body", "label": "Theme body font" },
+      { "value": "heading", "label": "Theme heading font" },
+      { "value": "subheading", "label": "Theme subheading font" },
+      { "value": "serif", "label": "Serif (Georgia)" }
+    ], "default": "body" },
+    { "type": "range", "id": "body_size", "min": 12, "max": 22, "step": 1, "unit": "px", "label": "Font size — desktop", "default": 15 },
+    { "type": "range", "id": "body_size_m", "min": 12, "max": 20, "step": 1, "unit": "px", "label": "Font size — mobile", "default": 13.5 },
+    { "type": "select", "id": "body_weight", "label": "Font weight", "options": [
+      { "value": "300", "label": "Light 300" },
+      { "value": "400", "label": "Regular 400" },
+      { "value": "500", "label": "Medium 500" }
+    ], "default": "400" },
+    { "type": "range", "id": "body_lh", "min": 1.3, "max": 2.1, "step": 0.1, "label": "Line height", "default": 1.7 },
+    { "type": "select", "id": "body_ls", "label": "Letter spacing", "options": [ { "value": "0em", "label": "None" }, { "value": "0.01em", "label": "0.01em" }, { "value": "0.02em", "label": "0.02em" }, { "value": "0.03em", "label": "0.03em" }, { "value": "0.05em", "label": "0.05em" } ], "default": "0.01em" },
+
+    { "type": "header", "content": "Buttons" },
+    { "type": "range", "id": "btn_height", "min": 36, "max": 64, "step": 2, "unit": "px", "label": "Button height", "default": 46 },
+    { "type": "range", "id": "btn_px", "min": 12, "max": 48, "step": 2, "unit": "px", "label": "Button side padding", "default": 26 },
+    { "type": "range", "id": "btn_size", "min": 9, "max": 16, "step": 1, "unit": "px", "label": "Font size — desktop", "default": 11 },
+    { "type": "range", "id": "btn_size_m", "min": 9, "max": 16, "step": 1, "unit": "px", "label": "Font size — mobile", "default": 11 },
+    { "type": "select", "id": "btn_weight", "label": "Font weight", "options": [
+      { "value": "500", "label": "Medium 500" },
+      { "value": "600", "label": "Semibold 600" },
+      { "value": "700", "label": "Bold 700" }
+    ], "default": "600" },
+    { "type": "select", "id": "btn_ls", "label": "Letter spacing", "options": [ { "value": "0.1em", "label": "0.1em" }, { "value": "0.14em", "label": "0.14em" }, { "value": "0.18em", "label": "0.18em" }, { "value": "0.22em", "label": "0.22em" } ], "default": "0.18em" },
+    { "type": "select", "id": "btn_transform", "label": "Text transform", "options": [
+      { "value": "uppercase", "label": "Uppercase" },
+      { "value": "none", "label": "None" }
+    ], "default": "uppercase" },
+    { "type": "range", "id": "btn_radius", "min": 0, "max": 40, "step": 1, "unit": "px", "label": "Corner radius", "default": 2 },
+    { "type": "range", "id": "btn_border_width", "min": 0, "max": 4, "step": 1, "unit": "px", "label": "Border width", "default": 1 },
+    { "type": "range", "id": "btn_gap", "min": 6, "max": 24, "step": 2, "unit": "px", "label": "Gap between buttons", "default": 12 },
+    { "type": "color", "id": "btn_bg", "label": "Button background", "info": "Blank = transparent." },
+    { "type": "color", "id": "btn_text", "label": "Button text", "info": "Blank = white." },
+    { "type": "color", "id": "btn_border", "label": "Button border", "info": "Blank = white." },
+    { "type": "color", "id": "btn_bg_hover", "label": "Hover background", "info": "Blank = white." },
+    { "type": "color", "id": "btn_text_hover", "label": "Hover text", "info": "Blank = dark." },
+    { "type": "checkbox", "id": "btn_mobile_full", "label": "Full width buttons on mobile", "default": false },
+
+    { "type": "header", "content": "Animation" },
+    { "type": "checkbox", "id": "enable_animations", "label": "Enable subtle motion", "info": "Off by default — slides switch instantly. When on, the fade transition becomes available.", "default": false },
+
+    { "type": "header", "content": "Advanced" },
+    { "type": "text", "id": "anchor_id", "label": "Anchor ID" },
+    { "type": "text", "id": "custom_class", "label": "Custom CSS class" }
   ],
   "blocks": [
     {
       "type": "slide",
-      "name": "Hero Slide",
+      "name": "Slide",
       "settings": [
-        {
-          "type": "image_picker",
-          "id": "image",
-          "label": "Slide Image"
-        },
-        {
-          "type": "text",
-          "id": "default_asset",
-          "label": "Default Asset Fallback",
-          "default": "hero-fine-art-2.jpg"
-        },
-        {
-          "type": "text",
-          "id": "subheading",
-          "label": "Badge / Subheading",
-          "default": "ATELIER EXHIBITION 2026"
-        },
-        {
-          "type": "text",
-          "id": "heading",
-          "label": "Heading",
-          "default": "ORIGINAL OIL PAINTINGS & CANVAS ART"
-        },
-        {
-          "type": "textarea",
-          "id": "description",
-          "label": "Description",
-          "default": "Monumental textured linen canvases, gold leaf impasto, and evocative masterworks by acclaimed contemporary painters."
-        },
-        {
-          "type": "select",
-          "id": "content_alignment",
-          "label": "Content Alignment",
-          "options": [
-            { "value": "left", "label": "Left" },
-            { "value": "center", "label": "Center" },
-            { "value": "right", "label": "Right" }
-          ],
-          "default": "center"
-        },
-        {
-          "type": "text",
-          "id": "button_label",
-          "label": "Primary Button Label",
-          "default": "EXPLORE PAINTINGS"
-        },
-        {
-          "type": "url",
-          "id": "button_link",
-          "label": "Primary Button Link"
-        },
-        {
-          "type": "text",
-          "id": "button_2_label",
-          "label": "Secondary Button Label",
-          "default": "VIEW EXHIBITION"
-        },
-        {
-          "type": "url",
-          "id": "button_2_link",
-          "label": "Secondary Button Link"
-        }
+        { "type": "image_picker", "id": "image", "label": "Desktop image" },
+        { "type": "image_picker", "id": "image_mobile", "label": "Mobile image", "info": "Optional separate image shown below 750px." },
+        { "type": "text", "id": "default_asset", "label": "Fallback asset filename", "info": "Theme asset used when no image is uploaded.", "default": "hero-slide-1.jpg" },
+        { "type": "text", "id": "subheading", "label": "Eyebrow / subheading" },
+        { "type": "text", "id": "heading", "label": "Heading" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "Monumental textured linen canvases, gold leaf impasto, and evocative masterworks by acclaimed contemporary painters." },
+        { "type": "text", "id": "button_label", "label": "Button 1 label" },
+        { "type": "url", "id": "button_link", "label": "Button 1 link" },
+        { "type": "text", "id": "button_2_label", "label": "Button 2 label", "default": "VIEW EXHIBITION" },
+        { "type": "url", "id": "button_2_link", "label": "Button 2 link" }
       ]
     }
   ],
   "presets": [
     {
-      "name": "Luxury Hero Slider",
+      "name": "Hero Slider",
       "blocks": [
-        {
-          "type": "slide",
-          "settings": {
-            "default_asset": "hero-fine-art-2.jpg",
-            "subheading": "Presenting",
-            "heading": "Icons of Contemporary Luxury",
-            "content_alignment": "center",
-            "button_label": "Discover New Arrivals"
-          }
-        },
-        {
-          "type": "slide",
-          "settings": {
-            "default_asset": "art-sculpture-rodin-thinker.jpg",
-            "subheading": "Presenting",
-            "heading": "Bronze & Marble 3D Art Models",
-            "content_alignment": "center",
-            "button_label": "Collect Sculptures"
-          }
-        },
-        {
-          "type": "slide",
-          "settings": {
-            "default_asset": "hero-museum-exhibition-3.jpg",
-            "subheading": "Presenting",
-            "heading": "Museum Masterpieces & Fine Editions",
-            "content_alignment": "center",
-            "button_label": "View Masterpieces"
-          }
-        }
+        { "type": "slide", "settings": { "default_asset": "hero-slide-1.jpg" } },
+        { "type": "slide", "settings": { "default_asset": "hero-slide-2.jpg" } },
+        { "type": "slide", "settings": { "default_asset": "hero-slide-3.jpg" } }
       ]
     }
   ]

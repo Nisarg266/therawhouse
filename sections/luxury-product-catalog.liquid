@@ -1,958 +1,360 @@
 {%- comment -%}
-  THE RAW HOUSE - EDITORIAL CATALOG COLLAGE GALLERY
-  Full-width luxury editorial collage section with:
-  - Initial 6-item asymmetrical collage (matching reference Image 2)
-  - Text-only "VIEW MORE" / "VIEW LESS" interactive button
-  - Revealed 6-item distinct asymmetrical collage (custom complementary layout)
-  - 100% Shopify Schema support for image pickers, links, headings, colors
-  - Fully responsive on desktop and mobile
+  THE RAW HOUSE — CATALOG GRID (LUXP design system)
+  Modular catalog cover blocks with desktop/mobile images, badges and links
+  in a uniform, fully configurable grid. Optional "view more / view less"
+  expansion (instant toggle, no animation).
+
+  @module luxury-product-catalog
 {%- endcomment -%}
 
-{% liquid
-  assign section_id = section.id
-  assign full_width = section.settings.full_width
-  assign total_blocks = section.blocks.size
+{%- liquid
+  assign s = section.settings
 
-  assign fb_imgs = 'art-painting-gold-canvas.jpg~~art-painting-abstract-oil.jpg~~fine-print-1.jpg~~art-gallery-room-hotspots.jpg~~art-painting-expressionist.jpg~~fine-print-2.jpg~~art-painting-starry-night.jpg~~art-painting-pearl.jpg~~art-decor-ceramic-statue.jpg~~art-painting-water-lilies.jpg~~art-sculpture-rodin-thinker.jpg~~art-sculpture-venus-milo.jpg' | split: '~~'
-
-  if section.settings.open_links_new_tab
-    assign link_target = ' target="_blank" rel="noopener noreferrer"'
-  else
-    assign link_target = ''
+  assign ratio_css = '3 / 4'
+  if s.image_ratio == '1/1'
+    assign ratio_css = '1 / 1'
+  elsif s.image_ratio == '4/5'
+    assign ratio_css = '4 / 5'
+  elsif s.image_ratio == '4/3'
+    assign ratio_css = '4 / 3'
+  elsif s.image_ratio == '16/10'
+    assign ratio_css = '16 / 10'
   endif
-%}
+
+  assign card_bg = s.card_bg
+  if card_bg == blank or card_bg == 'rgba(0,0,0,0)'
+    assign card_bg = 'transparent'
+  endif
+  assign card_border = s.card_border_color
+  if card_border == blank or card_border == 'rgba(0,0,0,0)'
+    assign card_border = 'var(--luxp-border)'
+  endif
+
+  assign initial = s.initial_items | default: 8
+  assign header_track = 'center'
+  if s.header_align == 'left'
+    assign header_track = 'flex-start'
+  endif
+-%}
+
+{%- capture luxp_colors -%}
+  {%- render 'luxp-scheme',
+    preset: s.color_preset,
+    bg: s.color_bg,
+    heading: s.color_heading,
+    text: s.color_text,
+    accent: s.color_accent,
+    muted: s.color_muted,
+    border: s.color_border
+  -%}
+{%- endcapture -%}
+
+{%- capture luxp_typo -%}{%- render 'luxp-typo', s: s -%}{%- endcapture -%}
 
 <div
-  id="CatalogGallery-{{ section_id }}"
-  class="lpc-section section-{{ section_id }}"
+  class="luxp-section luxp-catalog {% if s.container_mode == 'full' %}luxp-section--full{% endif %} {% if s.enable_animations %}luxp-anim{% endif %} {{ s.custom_class }}"
   style="
-    --lpc-bg: {{ section.settings.background_color | default: '#ffffff' }};
-    --lpc-card-bg: {{ section.settings.card_bg_color | default: '#f7f6f2' }};
-    --lpc-heading-color: {{ section.settings.heading_color | default: '#1a1a1a' }};
-    --lpc-text-color: {{ section.settings.text_color | default: '#4a4a4a' }};
-    --lpc-accent: {{ section.settings.accent_color | default: '#b08d57' }};
-    --lpc-gap: {{ section.settings.gap | default: 16 }}px;
-    --lpc-max-width: {{ section.settings.max_width | default: 1440 }}px;
-    --lpc-pt: {{ section.settings.padding_top | default: 48 }}px;
-    --lpc-pb: {{ section.settings.padding_bottom | default: 64 }}px;
-    --lpc-hs: {{ section.settings.heading_size | default: 20 }}px;
-    --lpc-ls: {{ section.settings.heading_letter_spacing | default: '0.35em' }};
-    --lpc-underline-w: {{ section.settings.underline_width | default: 44 }}px;
-    --lpc-radius: {{ section.settings.card_radius | default: 0 }}px;
+    {{ luxp_colors }}
+    {{ luxp_typo }}
+    --luxp-pt: {{ s.padding_top | default: 48 }}px;
+    --luxp-pb: {{ s.padding_bottom | default: 64 }}px;
+    --luxp-pt-m: {{ s.padding_top_m | default: 40 }}px;
+    --luxp-pb-m: {{ s.padding_bottom_m | default: 48 }}px;
+    --luxp-cw: {{ s.container_max | default: 1400 }}px;
+    --luxp-px: {{ s.container_padding | default: 32 }}px;
+    --luxp-px-m: {{ s.container_padding_m | default: 16 }}px;
+    --luxp-header-track: {{ header_track }};
+    --luxp-header-align: {{ s.header_align | default: 'center' }};
+    --luxp-header-gap: {{ s.header_gap | default: 10 }}px;
+    --luxp-header-mb: {{ s.header_mb | default: 30 }}px;
+    --luxp-cols: {{ s.columns | default: 4 }};
+    --luxp-cols-t: {{ s.columns_tablet | default: 3 }};
+    --luxp-cols-m: {{ s.columns_mobile | default: 2 }};
+    --luxp-cgap: {{ s.col_gap | default: 16 }}px;
+    --luxp-rgap: {{ s.row_gap | default: 16 }}px;
+    --luxp-cgap-m: {{ s.col_gap_m | default: 12 }}px;
+    --luxp-rgap-m: {{ s.row_gap_m | default: 12 }}px;
+    --luxp-media-ratio: {{ ratio_css }};
+    --luxp-media-fit: {{ s.image_fit | default: 'cover' }};
+    --luxp-media-radius: {{ s.card_radius | default: 0 }}px;
+    --luxp-media-bg: {% if s.card_bg != blank and s.card_bg != 'rgba(0,0,0,0)' %}{{ s.card_bg }}{% else %}#f7f6f2{% endif %};
+    --luxp-card-bg: {{ card_bg }};
+    --luxp-card-border: {{ card_border }};
+    --luxp-card-bw: {{ s.card_border_width | default: 0 }}px;
+    --luxp-card-radius: {{ s.card_radius | default: 0 }}px;
+    --luxp-card-shadow: {% if s.card_shadow == 'subtle' %}0 2px 12px rgba(0,0,0,0.06){% elsif s.card_shadow == 'medium' %}0 8px 28px rgba(0,0,0,0.12){% else %}none{% endif %};
+    --luxp-pill-bg: var(--luxp-accent);
+    --luxp-pill-fg: #ffffff;
+    --luxp-footer-mt: {{ s.footer_mt | default: 28 }}px;
   "
+  data-luxp-collapsible
+  data-luxp-expanded="false"
+  {% if s.anchor_id != blank %}id="{{ s.anchor_id }}"{% endif %}
+  data-art-motion="off"
   {{ section.shopify_attributes }}
 >
-  <div class="lpc-container{% if full_width %} lpc-container--full{% else %} lpc-container--boxed{% endif %}">
-
-    {%- comment -%} Header {%- endcomment -%}
-    <div class="lpc-header">
-      {% if section.settings.subheading != blank %}
-        <span class="lpc-subheading">{{ section.settings.subheading }}</span>
-      {% endif %}
-      {% if section.settings.heading != blank %}
-        <h2 class="lpc-heading">{{ section.settings.heading }}</h2>
-      {% endif %}
-      {% if section.settings.show_underline %}
-        <div class="lpc-underline" aria-hidden="true"></div>
-      {% endif %}
-      {% if section.settings.description != blank %}
-        <p class="lpc-description">{{ section.settings.description }}</p>
-      {% endif %}
-    </div>
-
-    {%- comment -%}
-      ==========================================================================
-      GROUP 1: INITIAL 6-CARD ASYMMETRICAL EDITORIAL COLLAGE
-      Matches Reference Image 2:
-      - Left Column:  Top Split Row (Card 1 & 2) + Bottom Wide Card (Card 3)
-      - Right Column: Top Tall Card (Card 4)     + Bottom Split Row (Card 5 & 6)
-      ==========================================================================
-    {%- endcomment -%}
-    <div class="lpc-collage-group lpc-collage-group--primary" id="LpcGroup1-{{ section_id }}">
-      <div class="lpc-collage-grid">
-
-        {%- comment -%} Left Column (Cards 1, 2, 3) {%- endcomment -%}
-        <div class="lpc-collage-column lpc-collage-column--left">
-          <!-- Top Split Row: Cards 1 & 2 -->
-          <div class="lpc-row-split">
-            {%- assign b1 = section.blocks[0] -%}
-            {%- assign b1_img = b1.settings.image -%}
-            {%- assign b1_link = b1.settings.link | default: '/collections/all' -%}
-            {%- assign b1_alt = b1.settings.alt | default: 'Catalog artwork 1' -%}
-            <a href="{{ b1_link }}" class="lpc-card lpc-card--split" {{ link_target }} aria-label="{{ b1_alt | escape }}" {% if b1 %}{{ b1.shopify_attributes }}{% endif %}>
-              <div class="lpc-card__media{% if section.settings.enable_hover_zoom %} lpc-card__media--zoom{% endif %}">
-                {% if b1_img != blank %}
-                  {{ b1_img | image_url: width: 1000 | image_tag: class: 'lpc-card__img', loading: 'lazy', alt: b1_alt }}
-                {% else %}
-                  <img src="{{ fb_imgs[0] | asset_url }}" alt="{{ b1_alt | escape }}" class="lpc-card__img" loading="eager" width="600" height="700">
-                {% endif %}
-                {% if b1.settings.show_view_icon %}
-                  <span class="lpc-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span>
-                {% endif %}
-              </div>
-            </a>
-
-            {%- assign b2 = section.blocks[1] -%}
-            {%- assign b2_img = b2.settings.image -%}
-            {%- assign b2_link = b2.settings.link | default: '/collections/all' -%}
-            {%- assign b2_alt = b2.settings.alt | default: 'Catalog artwork 2' -%}
-            <a href="{{ b2_link }}" class="lpc-card lpc-card--split" {{ link_target }} aria-label="{{ b2_alt | escape }}" {% if b2 %}{{ b2.shopify_attributes }}{% endif %}>
-              <div class="lpc-card__media{% if section.settings.enable_hover_zoom %} lpc-card__media--zoom{% endif %}">
-                {% if b2_img != blank %}
-                  {{ b2_img | image_url: width: 1000 | image_tag: class: 'lpc-card__img', loading: 'lazy', alt: b2_alt }}
-                {% else %}
-                  <img src="{{ fb_imgs[1] | asset_url }}" alt="{{ b2_alt | escape }}" class="lpc-card__img" loading="eager" width="600" height="700">
-                {% endif %}
-                {% if b2.settings.show_view_icon %}
-                  <span class="lpc-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span>
-                {% endif %}
-              </div>
-            </a>
+  <div class="luxp-container">
+    {% if s.eyebrow != blank or s.heading != blank or s.intro != blank or s.show_ornament %}
+      <header class="luxp-header luxp-header--{{ s.header_align | default: 'center' }}">
+        {% if s.eyebrow != blank %}
+          <p class="luxp-eyebrow">{{ s.eyebrow }}</p>
+        {% endif %}
+        {% if s.heading != blank %}
+          <h2 class="luxp-heading">{{ s.heading }}</h2>
+        {% endif %}
+        {% if s.show_ornament %}
+          <div class="luxp-ornament" aria-hidden="true">
+            <span class="luxp-ornament__line"></span>
+            <span class="luxp-ornament__gem">&#9670;</span>
+            <span class="luxp-ornament__line"></span>
           </div>
-
-          <!-- Bottom Wide Card: Card 3 -->
-          {%- assign b3 = section.blocks[2] -%}
-          {%- assign b3_img = b3.settings.image -%}
-          {%- assign b3_link = b3.settings.link | default: '/collections/all' -%}
-          {%- assign b3_alt = b3.settings.alt | default: 'Catalog artwork 3' -%}
-          <a href="{{ b3_link }}" class="lpc-card lpc-card--wide" {{ link_target }} aria-label="{{ b3_alt | escape }}" {% if b3 %}{{ b3.shopify_attributes }}{% endif %}>
-            <div class="lpc-card__media{% if section.settings.enable_hover_zoom %} lpc-card__media--zoom{% endif %}">
-              {% if b3_img != blank %}
-                {{ b3_img | image_url: width: 1400 | image_tag: class: 'lpc-card__img', loading: 'lazy', alt: b3_alt }}
-              {% else %}
-                <img src="{{ fb_imgs[2] | asset_url }}" alt="{{ b3_alt | escape }}" class="lpc-card__img" loading="eager" width="1200" height="910">
-              {% endif %}
-              {% if b3.settings.show_view_icon %}
-                <span class="lpc-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span>
-              {% endif %}
-            </div>
-          </a>
-        </div>
-
-        {%- comment -%} Right Column (Cards 4, 5, 6) {%- endcomment -%}
-        <div class="lpc-collage-column lpc-collage-column--right">
-          <!-- Top Tall Card: Card 4 -->
-          {%- assign b4 = section.blocks[3] -%}
-          {%- assign b4_img = b4.settings.image -%}
-          {%- assign b4_link = b4.settings.link | default: '/collections/all' -%}
-          {%- assign b4_alt = b4.settings.alt | default: 'Catalog artwork 4' -%}
-          <a href="{{ b4_link }}" class="lpc-card lpc-card--tall" {{ link_target }} aria-label="{{ b4_alt | escape }}" {% if b4 %}{{ b4.shopify_attributes }}{% endif %}>
-            <div class="lpc-card__media{% if section.settings.enable_hover_zoom %} lpc-card__media--zoom{% endif %}">
-              {% if b4_img != blank %}
-                {{ b4_img | image_url: width: 1400 | image_tag: class: 'lpc-card__img', loading: 'lazy', alt: b4_alt }}
-              {% else %}
-                <img src="{{ fb_imgs[3] | asset_url }}" alt="{{ b4_alt | escape }}" class="lpc-card__img" loading="eager" width="1200" height="910">
-              {% endif %}
-              {% if b4.settings.show_view_icon %}
-                <span class="lpc-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span>
-              {% endif %}
-            </div>
-          </a>
-
-          <!-- Bottom Split Row: Cards 5 & 6 -->
-          <div class="lpc-row-split">
-            {%- assign b5 = section.blocks[4] -%}
-            {%- assign b5_img = b5.settings.image -%}
-            {%- assign b5_link = b5.settings.link | default: '/collections/all' -%}
-            {%- assign b5_alt = b5.settings.alt | default: 'Catalog artwork 5' -%}
-            <a href="{{ b5_link }}" class="lpc-card lpc-card--split" {{ link_target }} aria-label="{{ b5_alt | escape }}" {% if b5 %}{{ b5.shopify_attributes }}{% endif %}>
-              <div class="lpc-card__media{% if section.settings.enable_hover_zoom %} lpc-card__media--zoom{% endif %}">
-                {% if b5_img != blank %}
-                  {{ b5_img | image_url: width: 1000 | image_tag: class: 'lpc-card__img', loading: 'lazy', alt: b5_alt }}
-                {% else %}
-                  <img src="{{ fb_imgs[4] | asset_url }}" alt="{{ b5_alt | escape }}" class="lpc-card__img" loading="eager" width="600" height="700">
-                {% endif %}
-                {% if b5.settings.show_view_icon %}
-                  <span class="lpc-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span>
-                {% endif %}
-              </div>
-            </a>
-
-            {%- assign b6 = section.blocks[5] -%}
-            {%- assign b6_img = b6.settings.image -%}
-            {%- assign b6_link = b6.settings.link | default: '/collections/all' -%}
-            {%- assign b6_alt = b6.settings.alt | default: 'Catalog artwork 6' -%}
-            <a href="{{ b6_link }}" class="lpc-card lpc-card--split" {{ link_target }} aria-label="{{ b6_alt | escape }}" {% if b6 %}{{ b6.shopify_attributes }}{% endif %}>
-              <div class="lpc-card__media{% if section.settings.enable_hover_zoom %} lpc-card__media--zoom{% endif %}">
-                {% if b6_img != blank %}
-                  {{ b6_img | image_url: width: 1000 | image_tag: class: 'lpc-card__img', loading: 'lazy', alt: b6_alt }}
-                {% else %}
-                  <img src="{{ fb_imgs[5] | asset_url }}" alt="{{ b6_alt | escape }}" class="lpc-card__img" loading="eager" width="600" height="700">
-                {% endif %}
-                {% if b6.settings.show_view_icon %}
-                  <span class="lpc-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span>
-                {% endif %}
-              </div>
-            </a>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    {%- comment -%}
-      ==========================================================================
-      GROUP 2: REVEALED 6-CARD DISTINCT ASYMMETRICAL EDITORIAL COLLAGE
-      User Request: "us ka bhi different collage hona chahiye"
-      Layout inverted for visual dynamism:
-      - Left Column:  Top Tall Card (Card 7)     + Bottom Split Row (Cards 8 & 9)
-      - Right Column: Top Split Row (Card 10 & 11) + Bottom Wide Card (Card 12)
-      ==========================================================================
-    {%- endcomment -%}
-    {% if total_blocks > 6 or section.blocks.size > 6 or fb_imgs.size > 6 %}
-      <div
-        class="lpc-collage-group lpc-collage-group--secondary lpc-group--revealed is-collapsed"
-        id="LpcGroup2-{{ section_id }}"
-        aria-hidden="true"
-      >
-        <div class="lpc-collage-grid">
-
-          {%- comment -%} Left Column (Cards 7, 8, 9) {%- endcomment -%}
-          <div class="lpc-collage-column lpc-collage-column--left">
-            <!-- Top Tall Card: Card 7 -->
-            {%- assign b7 = section.blocks[6] -%}
-            {%- assign b7_img = b7.settings.image -%}
-            {%- assign b7_link = b7.settings.link | default: '/collections/all' -%}
-            {%- assign b7_alt = b7.settings.alt | default: 'Catalog artwork 7' -%}
-            <a href="{{ b7_link }}" class="lpc-card lpc-card--tall" {{ link_target }} aria-label="{{ b7_alt | escape }}" {% if b7 %}{{ b7.shopify_attributes }}{% endif %}>
-              <div class="lpc-card__media{% if section.settings.enable_hover_zoom %} lpc-card__media--zoom{% endif %}">
-                {% if b7_img != blank %}
-                  {{ b7_img | image_url: width: 1400 | image_tag: class: 'lpc-card__img', loading: 'lazy', alt: b7_alt }}
-                {% else %}
-                  <img src="{{ fb_imgs[6] | asset_url }}" alt="{{ b7_alt | escape }}" class="lpc-card__img" loading="lazy" width="1200" height="910">
-                {% endif %}
-                {% if b7.settings.show_view_icon %}
-                  <span class="lpc-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span>
-                {% endif %}
-              </div>
-            </a>
-
-            <!-- Bottom Split Row: Cards 8 & 9 -->
-            <div class="lpc-row-split">
-              {%- assign b8 = section.blocks[7] -%}
-              {%- assign b8_img = b8.settings.image -%}
-              {%- assign b8_link = b8.settings.link | default: '/collections/all' -%}
-              {%- assign b8_alt = b8.settings.alt | default: 'Catalog artwork 8' -%}
-              <a href="{{ b8_link }}" class="lpc-card lpc-card--split" {{ link_target }} aria-label="{{ b8_alt | escape }}" {% if b8 %}{{ b8.shopify_attributes }}{% endif %}>
-                <div class="lpc-card__media{% if section.settings.enable_hover_zoom %} lpc-card__media--zoom{% endif %}">
-                  {% if b8_img != blank %}
-                    {{ b8_img | image_url: width: 1000 | image_tag: class: 'lpc-card__img', loading: 'lazy', alt: b8_alt }}
-                  {% else %}
-                    <img src="{{ fb_imgs[7] | asset_url }}" alt="{{ b8_alt | escape }}" class="lpc-card__img" loading="lazy" width="600" height="700">
-                  {% endif %}
-                  {% if b8.settings.show_view_icon %}
-                    <span class="lpc-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span>
-                  {% endif %}
-                </div>
-              </a>
-
-              {%- assign b9 = section.blocks[8] -%}
-              {%- assign b9_img = b9.settings.image -%}
-              {%- assign b9_link = b9.settings.link | default: '/collections/all' -%}
-              {%- assign b9_alt = b9.settings.alt | default: 'Catalog artwork 9' -%}
-              <a href="{{ b9_link }}" class="lpc-card lpc-card--split" {{ link_target }} aria-label="{{ b9_alt | escape }}" {% if b9 %}{{ b9.shopify_attributes }}{% endif %}>
-                <div class="lpc-card__media{% if section.settings.enable_hover_zoom %} lpc-card__media--zoom{% endif %}">
-                  {% if b9_img != blank %}
-                    {{ b9_img | image_url: width: 1000 | image_tag: class: 'lpc-card__img', loading: 'lazy', alt: b9_alt }}
-                  {% else %}
-                    <img src="{{ fb_imgs[8] | asset_url }}" alt="{{ b9_alt | escape }}" class="lpc-card__img" loading="lazy" width="600" height="700">
-                  {% endif %}
-                  {% if b9.settings.show_view_icon %}
-                    <span class="lpc-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span>
-                  {% endif %}
-                </div>
-              </a>
-            </div>
-          </div>
-
-          {%- comment -%} Right Column (Cards 10, 11, 12) {%- endcomment -%}
-          <div class="lpc-collage-column lpc-collage-column--right">
-            <!-- Top Split Row: Cards 10 & 11 -->
-            <div class="lpc-row-split">
-              {%- assign b10 = section.blocks[9] -%}
-              {%- assign b10_img = b10.settings.image -%}
-              {%- assign b10_link = b10.settings.link | default: '/collections/all' -%}
-              {%- assign b10_alt = b10.settings.alt | default: 'Catalog artwork 10' -%}
-              <a href="{{ b10_link }}" class="lpc-card lpc-card--split" {{ link_target }} aria-label="{{ b10_alt | escape }}" {% if b10 %}{{ b10.shopify_attributes }}{% endif %}>
-                <div class="lpc-card__media{% if section.settings.enable_hover_zoom %} lpc-card__media--zoom{% endif %}">
-                  {% if b10_img != blank %}
-                    {{ b10_img | image_url: width: 1000 | image_tag: class: 'lpc-card__img', loading: 'lazy', alt: b10_alt }}
-                  {% else %}
-                    <img src="{{ fb_imgs[9] | asset_url }}" alt="{{ b10_alt | escape }}" class="lpc-card__img" loading="lazy" width="600" height="700">
-                  {% endif %}
-                  {% if b10.settings.show_view_icon %}
-                    <span class="lpc-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span>
-                  {% endif %}
-                </div>
-              </a>
-
-              {%- assign b11 = section.blocks[10] -%}
-              {%- assign b11_img = b11.settings.image -%}
-              {%- assign b11_link = b11.settings.link | default: '/collections/all' -%}
-              {%- assign b11_alt = b11.settings.alt | default: 'Catalog artwork 11' -%}
-              <a href="{{ b11_link }}" class="lpc-card lpc-card--split" {{ link_target }} aria-label="{{ b11_alt | escape }}" {% if b11 %}{{ b11.shopify_attributes }}{% endif %}>
-                <div class="lpc-card__media{% if section.settings.enable_hover_zoom %} lpc-card__media--zoom{% endif %}">
-                  {% if b11_img != blank %}
-                    {{ b11_img | image_url: width: 1000 | image_tag: class: 'lpc-card__img', loading: 'lazy', alt: b11_alt }}
-                  {% else %}
-                    <img src="{{ fb_imgs[10] | asset_url }}" alt="{{ b11_alt | escape }}" class="lpc-card__img" loading="lazy" width="600" height="700">
-                  {% endif %}
-                  {% if b11.settings.show_view_icon %}
-                    <span class="lpc-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span>
-                  {% endif %}
-                </div>
-              </a>
-            </div>
-
-            <!-- Bottom Wide Card: Card 12 -->
-            {%- assign b12 = section.blocks[11] -%}
-            {%- assign b12_img = b12.settings.image -%}
-            {%- assign b12_link = b12.settings.link | default: '/collections/all' -%}
-            {%- assign b12_alt = b12.settings.alt | default: 'Catalog artwork 12' -%}
-            <a href="{{ b12_link }}" class="lpc-card lpc-card--wide" {{ link_target }} aria-label="{{ b12_alt | escape }}" {% if b12 %}{{ b12.shopify_attributes }}{% endif %}>
-              <div class="lpc-card__media{% if section.settings.enable_hover_zoom %} lpc-card__media--zoom{% endif %}">
-                {% if b12_img != blank %}
-                  {{ b12_img | image_url: width: 1400 | image_tag: class: 'lpc-card__img', loading: 'lazy', alt: b12_alt }}
-                {% else %}
-                  <img src="{{ fb_imgs[11] | asset_url }}" alt="{{ b12_alt | escape }}" class="lpc-card__img" loading="lazy" width="1200" height="910">
-                {% endif %}
-                {% if b12.settings.show_view_icon %}
-                  <span class="lpc-card__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 12h16M14 6l6 6-6 6"/></svg></span>
-                {% endif %}
-              </div>
-            </a>
-          </div>
-
-        </div>
-      </div>
+        {% endif %}
+        {% if s.intro != blank %}
+          <div class="luxp-body luxp-header__intro">{{ s.intro }}</div>
+        {% endif %}
+      </header>
     {% endif %}
 
-    {%- comment -%}
-      ==========================================================================
-      INTERACTIVE TEXT-ONLY VIEW MORE / VIEW LESS CONTROLLER
-      User Request: "us me ek view more kar niche button add kar doo only text vala"
-      ==========================================================================
-    {%- endcomment -%}
-    {% if total_blocks > 6 or section.blocks.size > 6 or fb_imgs.size > 6 %}
-      <div class="lpc-actions">
+    <div class="luxp-grid">
+      {% for block in section.blocks %}
+        {%- liquid
+          assign cover_alt = block.settings.alt | default: 'Catalog cover'
+          assign cover_link = block.settings.link | default: routes.all_products_collection_url
+        -%}
+        <a
+          href="{{ cover_link }}"
+          class="luxp-card luxp-catalog__card {% if forloop.index > initial %}luxp-toggle-hidden{% endif %}"
+          {% if s.open_links_new_tab %}target="_blank" rel="noopener noreferrer"{% endif %}
+          aria-label="{{ cover_alt | escape }}"
+          {{ block.shopify_attributes }}
+        >
+          <div class="luxp-media">
+            {% if block.settings.badge != blank %}
+              <span class="luxp-colcard__pill luxp-pill">{{ block.settings.badge }}</span>
+            {% endif %}
+            {% render 'luxp-image',
+              image: block.settings.image,
+              image_mobile: block.settings.image_mobile,
+              alt: cover_alt,
+              class: 'luxp-catalog__img',
+              loading: 'lazy',
+              sizes: '(min-width: 1024px) 25vw, (min-width: 750px) 33vw, 50vw',
+              fallback: block.settings.default_asset
+            %}
+            {% if block.settings.show_view_icon %}
+              <span class="luxp-colcard__veil luxp-catalog__veil" aria-hidden="true"></span>
+            {% endif %}
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+
+    {% if s.enable_view_more and section.blocks.size > initial %}
+      <div class="luxp-footer">
         <button
           type="button"
-          class="lpc-view-more-btn"
-          id="LpcToggle-{{ section_id }}"
+          class="luxp-btn {% if s.btn_style == 'outline' %}luxp-btn--outline{% endif %} luxp-toggle-btn"
+          data-luxp-toggle
+          data-luxp-more="{{ s.view_more_text | default: 'VIEW MORE' }}"
+          data-luxp-less="{{ s.view_less_text | default: 'VIEW LESS' }}"
           aria-expanded="false"
-          aria-controls="LpcGroup2-{{ section_id }}"
-          data-text-more="{{ section.settings.view_more_text | default: 'VIEW MORE' | escape }}"
-          data-text-less="{{ section.settings.view_less_text | default: 'VIEW LESS' | escape }}"
         >
-          <span class="lpc-view-more-label">{{ section.settings.view_more_text | default: 'VIEW MORE' }}</span>
-          <span class="lpc-view-more-icon" aria-hidden="true">
-            <svg viewBox="0 0 12 12" width="10" height="10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M2.5 4.5L6 8L9.5 4.5"/>
-            </svg>
-          </span>
+          {{ s.view_more_text | default: 'VIEW MORE' }}
         </button>
       </div>
     {% endif %}
-
   </div>
 </div>
 
-<script>
-  (function() {
-    function initLpcToggle() {
-      var btn = document.getElementById('LpcToggle-{{ section_id }}');
-      var group2 = document.getElementById('LpcGroup2-{{ section_id }}');
-      if (!btn || !group2) return;
-
-      var textMore = btn.getAttribute('data-text-more') || 'VIEW MORE';
-      var textLess = btn.getAttribute('data-text-less') || 'VIEW LESS';
-      var labelSpan = btn.querySelector('.lpc-view-more-label');
-
-      btn.addEventListener('click', function(e) {
-        e.preventDefault();
-        var isExpanded = btn.getAttribute('aria-expanded') === 'true';
-
-        if (isExpanded) {
-          // Collapse
-          group2.classList.remove('is-expanded');
-          group2.classList.add('is-collapsed');
-          group2.setAttribute('aria-hidden', 'true');
-          btn.setAttribute('aria-expanded', 'false');
-          btn.classList.remove('is-active');
-          if (labelSpan) labelSpan.textContent = textMore;
-
-          // Smoothly keep user in comfortable view of group 1
-          var group1 = document.getElementById('LpcGroup1-{{ section_id }}');
-          if (group1) {
-            var rect = group1.getBoundingClientRect();
-            if (rect.bottom < 150) {
-              group1.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-          }
-        } else {
-          // Expand
-          group2.classList.remove('is-collapsed');
-          group2.classList.add('is-expanded');
-          group2.setAttribute('aria-hidden', 'false');
-          btn.setAttribute('aria-expanded', 'true');
-          btn.classList.add('is-active');
-          if (labelSpan) labelSpan.textContent = textLess;
-        }
-      });
-    }
-
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initLpcToggle);
-    } else {
-      initLpcToggle();
-    }
-  })();
-</script>
-
-{% stylesheet %}
-  .lpc-section {
-    background-color: var(--lpc-bg, #ffffff);
-    width: 100%;
-    padding-block-start: var(--lpc-pt, 48px);
-    padding-block-end: var(--lpc-pb, 64px);
-    position: relative;
-    box-sizing: border-box;
-    display: block !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-  }
-
-  .lpc-container {
-    width: 100%;
-    box-sizing: border-box;
-    margin-inline: auto;
-  }
-
-  .lpc-container--full {
-    padding-inline: clamp(14px, 2.5vw, 36px);
-    max-width: 100% !important;
-  }
-
-  .lpc-container--boxed {
-    max-width: var(--lpc-max-width, 1440px) !important;
-    padding-inline: clamp(16px, 3vw, 40px) !important;
-  }
-
-  .lpc-header {
-    text-align: center;
-    margin-block-end: 28px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .lpc-subheading {
-    font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif !important;
-    font-style: italic !important;
-    font-size: 22px !important;
-    color: var(--lpc-heading-color, #1a1a1a) !important;
-    margin-bottom: 2px !important;
-    letter-spacing: 0.02em !important;
-    opacity: 0.9 !important;
-    line-height: 1.1 !important;
-  }
-
-  .lpc-heading {
-    font-size: var(--lpc-hs, 20px) !important;
-    letter-spacing: var(--lpc-ls, 0.35em) !important;
-    font-weight: 500 !important;
-    text-transform: uppercase !important;
-    color: var(--lpc-heading-color, #1a1a1a) !important;
-    margin: 0 !important;
-    line-height: 1.2 !important;
-  }
-
-  .lpc-underline {
-    width: var(--lpc-underline-w, 44px);
-    height: 1.5px;
-    background-color: var(--lpc-heading-color, #111111);
-    margin-top: 8px;
-  }
-
-  .lpc-description {
-    font-size: 13.5px;
-    line-height: 1.6;
-    color: var(--lpc-text-color, #4a4a4a);
-    max-width: min(540px, 92%);
-    margin: 8px 0 0 0;
-    letter-spacing: 0.015em;
-  }
-
-  /* Collage Master Grid: 2 Columns on Desktop with Equal Height Ratio */
-  .lpc-collage-grid {
-    display: grid !important;
-    grid-template-columns: 1fr 1fr !important;
-    gap: var(--lpc-gap, 16px) !important;
-    width: 100% !important;
-    align-items: stretch !important;
-  }
-
-  .lpc-collage-column {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: var(--lpc-gap, 16px) !important;
-    width: 100% !important;
-  }
-
-  .lpc-row-split {
-    display: grid !important;
-    grid-template-columns: 1fr 1fr !important;
-    gap: var(--lpc-gap, 16px) !important;
-    width: 100% !important;
-  }
-
-  /* Individual Card Architecture */
-  .lpc-card {
-    position: relative !important;
-    overflow: hidden !important;
-    border-radius: var(--lpc-radius, 0px) !important;
-    background-color: var(--lpc-card-bg, #f7f6f2) !important;
-    width: 100% !important;
-    display: block !important;
-    text-decoration: none !important;
-    color: inherit !important;
-  }
-
-  .lpc-card--split {
-    aspect-ratio: 1 / 1.18 !important;
-  }
-
-  .lpc-card--wide {
-    aspect-ratio: 1.34 / 1 !important;
-  }
-
-  .lpc-card--tall {
-    aspect-ratio: 1.34 / 1 !important;
-  }
-
-  .lpc-card__media {
-    position: relative !important;
-    width: 100% !important;
-    height: 100% !important;
-    overflow: hidden !important;
-    display: block !important;
-  }
-
-  .lpc-card__img {
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;
-    object-position: center !important;
-    display: block !important;
-    transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1) !important;
-  }
-
-  .lpc-card__media--zoom:hover .lpc-card__img,
-  .lpc-card:hover .lpc-card__img {
-    transform: scale(1.04) !important;
-  }
-
-  .lpc-card__icon {
-    position: absolute;
-    bottom: 14px;
-    right: 14px;
-    width: 32px;
-    height: 32px;
-    background: rgba(255, 255, 255, 0.92);
-    backdrop-filter: blur(4px);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #111111;
-    opacity: 0;
-    transform: translateY(6px);
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .lpc-card__icon svg {
-    width: 16px;
-    height: 16px;
-  }
-
-  .lpc-card:hover .lpc-card__icon {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* Group 2 Revealed State & Smooth Transitions */
-  .lpc-group--revealed {
-    margin-top: var(--lpc-gap, 16px);
-    overflow: hidden;
-    transition: max-height 0.75s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.55s ease, margin-top 0.4s ease;
-  }
-
-  .lpc-group--revealed.is-collapsed {
-    max-height: 0 !important;
-    opacity: 0 !important;
-    margin-top: 0 !important;
-    pointer-events: none !important;
-    visibility: hidden;
-  }
-
-  .lpc-group--revealed.is-expanded {
-    max-height: 4000px !important;
-    opacity: 1 !important;
-    pointer-events: auto !important;
-    visibility: visible;
-  }
-
-  /* Minimalist Luxury Text-Only View More Button */
-  .lpc-actions {
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    margin-top: 32px !important;
-    width: 100% !important;
-  }
-
-  .lpc-view-more-btn {
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 9px !important;
-    background: transparent !important;
-    border: none !important;
-    outline: none !important;
-    padding: 10px 20px !important;
-    cursor: pointer !important;
-    color: var(--lpc-heading-color, #111111) !important;
-    font-family: var(--font-body--family, "Inter", sans-serif) !important;
-    font-size: 0.8rem !important;
-    font-weight: 500 !important;
-    letter-spacing: 0.28em !important;
-    text-transform: uppercase !important;
-    position: relative !important;
-    text-decoration: none !important;
-    transition: color 0.25s ease, transform 0.2s ease !important;
-  }
-
-  .lpc-view-more-btn::after {
-    content: '';
-    position: absolute;
-    bottom: 6px;
-    left: 20px;
-    right: 20px;
-    height: 1px;
-    background-color: currentColor;
-    opacity: 0.4;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-  }
-
-  .lpc-view-more-btn:hover {
-    color: var(--lpc-accent, #b08d57) !important;
-    transform: translateY(-1px);
-  }
-
-  .lpc-view-more-btn:hover::after {
-    opacity: 1;
-    transform: scaleX(1.06);
-  }
-
-  .lpc-view-more-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .lpc-view-more-btn.is-active .lpc-view-more-icon {
-    transform: rotate(180deg);
-  }
-
-  /* Responsive Mobile Adaptations */
-  @media screen and (max-width: 749px) {
-    .lpc-section {
-      padding-block-start: 32px !important;
-      padding-block-end: 44px !important;
-    }
-
-    .lpc-container--full,
-    .lpc-container--boxed {
-      padding-inline: 12px !important;
-    }
-
-    .lpc-header {
-      margin-block-end: 20px !important;
-    }
-
-    .lpc-collage-grid {
-      grid-template-columns: 1fr !important;
-      gap: 12px !important;
-    }
-
-    .lpc-collage-column {
-      gap: 12px !important;
-    }
-
-    .lpc-row-split {
-      gap: 12px !important;
-    }
-
-    .lpc-card--split {
-      aspect-ratio: 1 / 1.14 !important;
-    }
-
-    .lpc-card--wide {
-      aspect-ratio: 1.35 / 1 !important;
-    }
-
-    .lpc-card--tall {
-      aspect-ratio: 1.25 / 1 !important;
-    }
-
-    .lpc-actions {
-      margin-top: 22px !important;
-    }
-
-    .lpc-view-more-btn {
-      font-size: 0.74rem !important;
-      letter-spacing: 0.22em !important;
-      padding: 8px 12px !important;
-    }
-  }
-{% endstylesheet %}
-
 {% schema %}
 {
-  "name": "Editorial Catalog Collage",
+  "name": "Catalog Grid",
   "tag": "section",
-  "class": "section-luxury-catalog",
+  "class": "section-luxp-catalog",
+  "max_blocks": 24,
   "settings": [
-    {
-      "type": "header",
-      "content": "Header Content"
-    },
-    {
-      "type": "text",
-      "id": "subheading",
-      "label": "Subheading (italic script)",
-      "default": "the"
-    },
-    {
-      "type": "text",
-      "id": "heading",
-      "label": "Section Heading",
-      "default": "C A T A L O G"
-    },
-    {
-      "type": "range",
-      "id": "heading_size",
-      "min": 14,
-      "max": 36,
-      "step": 1,
-      "unit": "px",
-      "label": "Heading Font Size",
-      "default": 20
-    },
-    {
-      "type": "text",
-      "id": "heading_letter_spacing",
-      "label": "Heading Letter Spacing",
-      "default": "0.35em"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_underline",
-      "label": "Show Accent Underline",
-      "default": true
-    },
-    {
-      "type": "range",
-      "id": "underline_width",
-      "min": 20,
-      "max": 80,
-      "step": 2,
-      "unit": "px",
-      "label": "Underline Width",
-      "default": 44
-    },
-    {
-      "type": "textarea",
-      "id": "description",
-      "label": "Description Text",
-      "default": "Browse our catalogs — tap any cover to open."
-    },
-    {
-      "type": "header",
-      "content": "Links & Interactivity"
-    },
-    {
-      "type": "checkbox",
-      "id": "open_links_new_tab",
-      "label": "Open Links In New Tab",
-      "info": "Recommended when linking to PDF files.",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_hover_zoom",
-      "label": "Enable Hover Zoom Effect",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "view_more_text",
-      "label": "View More Button Label",
-      "default": "VIEW MORE"
-    },
-    {
-      "type": "text",
-      "id": "view_less_text",
-      "label": "View Less Button Label",
-      "default": "VIEW LESS"
-    },
-    {
-      "type": "header",
-      "content": "Layout & Spacing"
-    },
-    {
-      "type": "checkbox",
-      "id": "full_width",
-      "label": "Full Width Section",
-      "info": "Spans edge to edge across the viewport.",
-      "default": true
-    },
-    {
-      "type": "range",
-      "id": "gap",
-      "min": 6,
-      "max": 32,
-      "step": 2,
-      "unit": "px",
-      "label": "Collage Gap",
-      "default": 16
-    },
-    {
-      "type": "range",
-      "id": "card_radius",
-      "min": 0,
-      "max": 20,
-      "step": 2,
-      "unit": "px",
-      "label": "Image Corner Radius",
-      "default": 0
-    },
-    {
-      "type": "range",
-      "id": "max_width",
-      "min": 900,
-      "max": 1800,
-      "step": 20,
-      "unit": "px",
-      "label": "Boxed Max Width",
-      "info": "Only used when Full Width is disabled.",
-      "default": 1440
-    },
-    {
-      "type": "range",
-      "id": "padding_top",
-      "min": 0,
-      "max": 120,
-      "step": 4,
-      "unit": "px",
-      "label": "Padding Top",
-      "default": 48
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom",
-      "min": 0,
-      "max": 120,
-      "step": 4,
-      "unit": "px",
-      "label": "Padding Bottom",
-      "default": 64
-    },
-    {
-      "type": "header",
-      "content": "Colors"
-    },
-    {
-      "type": "color",
-      "id": "background_color",
-      "label": "Section Background",
-      "default": "#ffffff"
-    },
-    {
-      "type": "color",
-      "id": "card_bg_color",
-      "label": "Image Placeholder Background",
-      "default": "#f7f6f2"
-    },
-    {
-      "type": "color",
-      "id": "heading_color",
-      "label": "Heading Color",
-      "default": "#1a1a1a"
-    },
-    {
-      "type": "color",
-      "id": "text_color",
-      "label": "Text Color",
-      "default": "#4a4a4a"
-    },
-    {
-      "type": "color",
-      "id": "accent_color",
-      "label": "Accent Color",
-      "default": "#b08d57"
-    }
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow / subheading", "default": "the" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "C A T A L O G" },
+    { "type": "richtext", "id": "intro", "label": "Intro text", "default": "<p>Browse our catalogs — tap any cover to open.</p>" },
+    { "type": "checkbox", "id": "show_ornament", "label": "Show ornament divider", "default": true },
+    { "type": "select", "id": "header_align", "label": "Header alignment", "options": [
+      { "value": "center", "label": "Center" },
+      { "value": "left", "label": "Left" }
+    ], "default": "center" },
+    { "type": "range", "id": "header_mb", "min": 8, "max": 72, "step": 2, "unit": "px", "label": "Space below header — desktop", "default": 30 },
+    { "type": "range", "id": "header_gap", "min": 4, "max": 24, "step": 2, "unit": "px", "label": "Header element spacing", "default": 10 },
+    { "type": "checkbox", "id": "open_links_new_tab", "label": "Open catalog links in a new tab", "default": true },
+
+    { "type": "header", "content": "Layout — Grid" },
+    { "type": "select", "id": "container_mode", "label": "Container mode", "options": [
+      { "value": "fixed", "label": "Container (max width)" },
+      { "value": "full", "label": "Full width" }
+    ], "default": "full" },
+    { "type": "range", "id": "container_max", "min": 1000, "max": 1600, "step": 20, "unit": "px", "label": "Container max width", "default": 1400 },
+    { "type": "range", "id": "columns", "min": 2, "max": 6, "step": 1, "label": "Columns — desktop", "default": 4 },
+    { "type": "range", "id": "columns_tablet", "min": 2, "max": 5, "step": 1, "label": "Columns — tablet", "default": 3 },
+    { "type": "select", "id": "columns_mobile", "label": "Columns — mobile", "options": [
+      { "value": "1", "label": "1 column" },
+      { "value": "2", "label": "2 columns" }
+    ], "default": "2" },
+    { "type": "range", "id": "col_gap", "min": 4, "max": 48, "step": 2, "unit": "px", "label": "Column gap — desktop", "default": 16 },
+    { "type": "range", "id": "row_gap", "min": 4, "max": 48, "step": 2, "unit": "px", "label": "Row gap — desktop", "default": 16 },
+    { "type": "range", "id": "col_gap_m", "min": 4, "max": 32, "step": 2, "unit": "px", "label": "Column gap — mobile", "default": 12 },
+    { "type": "range", "id": "row_gap_m", "min": 4, "max": 32, "step": 2, "unit": "px", "label": "Row gap — mobile", "default": 12 },
+
+    { "type": "header", "content": "Cards" },
+    { "type": "select", "id": "image_ratio", "label": "Cover ratio", "options": [
+      { "value": "3/4", "label": "Portrait 3:4" },
+      { "value": "4/5", "label": "Portrait 4:5" },
+      { "value": "1/1", "label": "Square 1:1" },
+      { "value": "4/3", "label": "Landscape 4:3" },
+      { "value": "16/10", "label": "Wide 16:10" }
+    ], "default": "3/4" },
+    { "type": "select", "id": "image_fit", "label": "Image fit", "options": [
+      { "value": "cover", "label": "Cover (fill, may crop)" },
+      { "value": "contain", "label": "Contain (no crop)" }
+    ], "default": "cover" },
+    { "type": "color", "id": "card_bg", "label": "Card / image area background", "default": "#f7f6f2" },
+    { "type": "color", "id": "card_border_color", "label": "Card border color", "info": "Blank uses the scheme border." },
+    { "type": "range", "id": "card_border_width", "min": 0, "max": 3, "step": 1, "unit": "px", "label": "Card border width", "default": 0 },
+    { "type": "range", "id": "card_radius", "min": 0, "max": 24, "step": 1, "unit": "px", "label": "Card corner radius", "default": 0 },
+    { "type": "select", "id": "card_shadow", "label": "Card shadow", "options": [
+      { "value": "none", "label": "None" },
+      { "value": "subtle", "label": "Subtle" },
+      { "value": "medium", "label": "Medium" }
+    ], "default": "none" },
+
+    { "type": "header", "content": "View More / Less" },
+    { "type": "checkbox", "id": "enable_view_more", "label": "Collapse extra covers behind a button", "default": true },
+    { "type": "range", "id": "initial_items", "min": 4, "max": 16, "step": 1, "label": "Covers shown initially", "default": 8 },
+    { "type": "text", "id": "view_more_text", "label": "Expand label", "default": "VIEW MORE" },
+    { "type": "text", "id": "view_less_text", "label": "Collapse label", "default": "VIEW LESS" },
+
+    { "type": "header", "content": "Typography — Eyebrow" },
+    { "type": "select", "id": "eyebrow_font", "label": "Font family", "options": [
+      { "value": "heading", "label": "Theme heading font" },
+      { "value": "body", "label": "Theme body font" },
+      { "value": "subheading", "label": "Theme subheading font" },
+      { "value": "accent", "label": "Theme accent font" },
+      { "value": "serif", "label": "Serif (Georgia)" }
+    ], "default": "body" },
+    { "type": "range", "id": "eyebrow_size", "min": 9, "max": 16, "step": 1, "unit": "px", "label": "Font size — desktop", "default": 11 },
+    { "type": "range", "id": "eyebrow_size_m", "min": 9, "max": 16, "step": 1, "unit": "px", "label": "Font size — mobile", "default": 10 },
+    { "type": "select", "id": "eyebrow_weight", "label": "Font weight", "options": [
+      { "value": "400", "label": "Regular 400" },
+      { "value": "500", "label": "Medium 500" },
+      { "value": "600", "label": "Semibold 600" },
+      { "value": "700", "label": "Bold 700" }
+    ], "default": "600" },
+    { "type": "select", "id": "eyebrow_ls", "label": "Letter spacing", "options": [ { "value": "0em", "label": "None" }, { "value": "0.1em", "label": "0.1em" }, { "value": "0.18em", "label": "0.18em" }, { "value": "0.22em", "label": "0.22em" }, { "value": "0.3em", "label": "0.3em" } ], "default": "0.22em" },
+    { "type": "select", "id": "eyebrow_transform", "label": "Text transform", "options": [
+      { "value": "uppercase", "label": "Uppercase" },
+      { "value": "none", "label": "None" }
+    ], "default": "uppercase" },
+
+    { "type": "header", "content": "Typography — Heading" },
+    { "type": "select", "id": "heading_font", "label": "Font family", "options": [
+      { "value": "heading", "label": "Theme heading font" },
+      { "value": "body", "label": "Theme body font" },
+      { "value": "subheading", "label": "Theme subheading font" },
+      { "value": "accent", "label": "Theme accent font" },
+      { "value": "serif", "label": "Serif (Georgia)" }
+    ], "default": "body" },
+    { "type": "range", "id": "heading_size", "min": 14, "max": 48, "step": 1, "unit": "px", "label": "Font size — desktop", "default": 20 },
+    { "type": "range", "id": "heading_size_m", "min": 12, "max": 36, "step": 1, "unit": "px", "label": "Font size — mobile", "default": 17 },
+    { "type": "select", "id": "heading_weight", "label": "Font weight", "options": [
+      { "value": "300", "label": "Light 300" },
+      { "value": "400", "label": "Regular 400" },
+      { "value": "500", "label": "Medium 500" },
+      { "value": "600", "label": "Semibold 600" }
+    ], "default": "400" },
+    { "type": "range", "id": "heading_lh", "min": 1, "max": 1.8, "step": 0.1, "label": "Line height", "default": 1.2 },
+    { "type": "select", "id": "heading_ls", "label": "Letter spacing", "options": [ { "value": "0em", "label": "None" }, { "value": "0.1em", "label": "0.1em" }, { "value": "0.2em", "label": "0.2em" }, { "value": "0.25em", "label": "0.25em" }, { "value": "0.3em", "label": "0.3em" }, { "value": "0.35em", "label": "0.35em" } ], "default": "0.35em" },
+    { "type": "select", "id": "heading_transform", "label": "Text transform", "options": [
+      { "value": "none", "label": "None" },
+      { "value": "uppercase", "label": "Uppercase" }
+    ], "default": "none" },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "select", "id": "color_preset", "label": "Color scheme preset", "options": [
+      { "value": "light", "label": "Light Clean (White)" },
+      { "value": "warm", "label": "Warm Atelier (Ivory)" },
+      { "value": "dark", "label": "Dark Contemporary" },
+      { "value": "obsidian", "label": "Obsidian Gold" }
+    ], "default": "light" },
+    { "type": "color", "id": "color_bg", "label": "Background color override", "default": "#ffffff" },
+    { "type": "color", "id": "color_heading", "label": "Heading color override", "default": "#1a1a1a" },
+    { "type": "color", "id": "color_text", "label": "Text color override", "default": "#4a4a4a" },
+    { "type": "color", "id": "color_accent", "label": "Accent color override", "default": "#b08d57" },
+    { "type": "color", "id": "color_muted", "label": "Muted text override" },
+    { "type": "color", "id": "color_border", "label": "Border color override" },
+
+    { "type": "header", "content": "View More Button" },
+    { "type": "select", "id": "btn_style", "label": "Button style", "options": [
+      { "value": "solid", "label": "Solid" },
+      { "value": "outline", "label": "Outline" }
+    ], "default": "solid" },
+    { "type": "range", "id": "btn_height", "min": 36, "max": 64, "step": 2, "unit": "px", "label": "Button height", "default": 46 },
+    { "type": "range", "id": "btn_px", "min": 12, "max": 48, "step": 2, "unit": "px", "label": "Button side padding", "default": 26 },
+    { "type": "range", "id": "btn_size", "min": 9, "max": 16, "step": 1, "unit": "px", "label": "Font size — desktop", "default": 11 },
+    { "type": "range", "id": "btn_size_m", "min": 9, "max": 16, "step": 1, "unit": "px", "label": "Font size — mobile", "default": 11 },
+    { "type": "select", "id": "btn_weight", "label": "Font weight", "options": [
+      { "value": "500", "label": "Medium 500" },
+      { "value": "600", "label": "Semibold 600" },
+      { "value": "700", "label": "Bold 700" }
+    ], "default": "600" },
+    { "type": "select", "id": "btn_ls", "label": "Letter spacing", "options": [ { "value": "0.1em", "label": "0.1em" }, { "value": "0.14em", "label": "0.14em" }, { "value": "0.18em", "label": "0.18em" }, { "value": "0.22em", "label": "0.22em" } ], "default": "0.18em" },
+    { "type": "select", "id": "btn_transform", "label": "Text transform", "options": [
+      { "value": "uppercase", "label": "Uppercase" },
+      { "value": "none", "label": "None" }
+    ], "default": "uppercase" },
+    { "type": "range", "id": "btn_radius", "min": 0, "max": 40, "step": 1, "unit": "px", "label": "Corner radius", "default": 2 },
+    { "type": "range", "id": "btn_border_width", "min": 0, "max": 4, "step": 1, "unit": "px", "label": "Border width", "default": 1 },
+    { "type": "range", "id": "footer_mt", "min": 8, "max": 64, "step": 2, "unit": "px", "label": "Space above button", "default": 28 },
+
+    { "type": "header", "content": "Spacing" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding top — desktop", "default": 48 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding bottom — desktop", "default": 64 },
+    { "type": "range", "id": "padding_top_m", "min": 0, "max": 88, "step": 4, "unit": "px", "label": "Padding top — mobile", "default": 40 },
+    { "type": "range", "id": "padding_bottom_m", "min": 0, "max": 88, "step": 4, "unit": "px", "label": "Padding bottom — mobile", "default": 48 },
+    { "type": "range", "id": "container_padding", "min": 0, "max": 64, "step": 2, "unit": "px", "label": "Container side padding — desktop", "default": 32 },
+    { "type": "range", "id": "container_padding_m", "min": 0, "max": 32, "step": 2, "unit": "px", "label": "Container side padding — mobile", "default": 16 },
+
+    { "type": "header", "content": "Animation" },
+    { "type": "checkbox", "id": "enable_animations", "label": "Enable subtle motion", "info": "Off by default — covers render completely static.", "default": false },
+
+    { "type": "header", "content": "Advanced" },
+    { "type": "text", "id": "anchor_id", "label": "Anchor ID" },
+    { "type": "text", "id": "custom_class", "label": "Custom CSS class" }
   ],
   "blocks": [
     {
-      "type": "catalog_image",
-      "name": "Catalog Artwork",
+      "type": "catalog_cover",
+      "name": "Catalog Cover",
       "settings": [
-        {
-          "type": "image_picker",
-          "id": "image",
-          "label": "Artwork Image"
-        },
-        {
-          "type": "text",
-          "id": "link",
-          "label": "Link URL",
-          "info": "Page, product, or PDF file URL.",
-          "default": "/collections/all"
-        },
-        {
-          "type": "text",
-          "id": "alt",
-          "label": "Alt Text (Accessibility)",
-          "default": "Catalog artwork"
-        },
-        {
-          "type": "checkbox",
-          "id": "show_view_icon",
-          "label": "Show Arrow Icon On Hover",
-          "default": false
-        }
+        { "type": "image_picker", "id": "image", "label": "Desktop image" },
+        { "type": "image_picker", "id": "image_mobile", "label": "Mobile image", "info": "Optional separate image shown below 750px." },
+        { "type": "text", "id": "default_asset", "label": "Fallback asset filename" },
+        { "type": "text", "id": "alt", "label": "Alt text", "info": "Also used as the accessible card label." },
+        { "type": "text", "id": "badge", "label": "Badge text", "info": "Optional pill in the image corner." },
+        { "type": "url", "id": "link", "label": "Link" },
+        { "type": "checkbox", "id": "show_view_icon", "label": "Show subtle open indicator overlay", "default": true }
       ]
     }
   ],
   "presets": [
     {
-      "name": "Editorial Catalog Collage",
+      "name": "Catalog Grid",
       "blocks": [
-        { "type": "catalog_image" },
-        { "type": "catalog_image" },
-        { "type": "catalog_image" },
-        { "type": "catalog_image" },
-        { "type": "catalog_image" },
-        { "type": "catalog_image" },
-        { "type": "catalog_image" },
-        { "type": "catalog_image" },
-        { "type": "catalog_image" },
-        { "type": "catalog_image" },
-        { "type": "catalog_image" },
-        { "type": "catalog_image" }
+        { "type": "catalog_cover", "settings": { "default_asset": "art-painting-gold-canvas.jpg" } },
+        { "type": "catalog_cover", "settings": { "default_asset": "art-painting-abstract-oil.jpg" } },
+        { "type": "catalog_cover", "settings": { "default_asset": "fine-print-1.jpg" } },
+        { "type": "catalog_cover", "settings": { "default_asset": "art-gallery-room-hotspots.jpg" } },
+        { "type": "catalog_cover", "settings": { "default_asset": "art-painting-expressionist.jpg" } },
+        { "type": "catalog_cover", "settings": { "default_asset": "fine-print-2.jpg" } },
+        { "type": "catalog_cover", "settings": { "default_asset": "art-painting-starry-night.jpg" } },
+        { "type": "catalog_cover", "settings": { "default_asset": "art-painting-pearl.jpg" } }
       ]
     }
   ]

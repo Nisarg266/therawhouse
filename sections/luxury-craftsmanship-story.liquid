@@ -1,369 +1,633 @@
 {%- comment -%}
-  THE RAW HOUSE - ADVANCED CRAFTSMANSHIP STORY & LIVE METRICS
-  Split-screen brand philosophy section with dynamic counter blocks, media positioning, and advanced color schemes.
+  THE RAW HOUSE — PRODUCT STORY & METRICS (LUXP design system)
+  Split editorial section: desktop/mobile artwork, floating badge, metric
+  blocks (static numbers, no counter animation) and icon highlight blocks.
+  Every visual control lives in the Theme Editor. Ships with zero motion.
+
+  @module luxury-craftsmanship-story
 {%- endcomment -%}
 
-{% liquid
-  assign scheme = section.settings.color_scheme_preset | default: 'obsidian'
-  case scheme
-    when 'dark'
-      assign bg_color = '#181818'
-      assign text_color = '#ffffff'
-      assign accent_color = '#c5a880'
-      assign card_border = 'rgba(255, 255, 255, 0.12)'
-    when 'warm'
-      assign bg_color = '#f9f8f5'
-      assign text_color = '#111111'
-      assign accent_color = '#c5a880'
-      assign card_border = '#e5e1d8'
-    when 'light'
-      assign bg_color = '#ffffff'
-      assign text_color = '#111111'
-      assign accent_color = '#c5a880'
-      assign card_border = '#edeae3'
-    else
-      assign bg_color = '#0e0e0e'
-      assign text_color = '#ffffff'
-      assign accent_color = '#c5a880'
-      assign card_border = 'rgba(197, 168, 128, 0.25)'
-  endcase
+{%- liquid
+  assign s = section.settings
 
-  if section.settings.custom_bg_color != blank and section.settings.custom_bg_color != 'rgba(0,0,0,0)'
-    assign bg_color = section.settings.custom_bg_color
+  assign ratio_css = '4 / 5'
+  if s.media_ratio == '1/1'
+    assign ratio_css = '1 / 1'
+  elsif s.media_ratio == '3/4'
+    assign ratio_css = '3 / 4'
+  elsif s.media_ratio == '4/3'
+    assign ratio_css = '4 / 3'
+  elsif s.media_ratio == '3/2'
+    assign ratio_css = '3 / 2'
+  elsif s.media_ratio == '16/10'
+    assign ratio_css = '16 / 10'
+  elsif s.media_ratio == 'auto'
+    assign ratio_css = 'auto'
   endif
-  if section.settings.custom_text_color != blank and section.settings.custom_text_color != 'rgba(0,0,0,0)'
-    assign text_color = section.settings.custom_text_color
+
+  assign ratio_m_css = ratio_css
+  if s.media_ratio_m == '1/1'
+    assign ratio_m_css = '1 / 1'
+  elsif s.media_ratio_m == '3/4'
+    assign ratio_m_css = '3 / 4'
+  elsif s.media_ratio_m == '4/3'
+    assign ratio_m_css = '4 / 3'
+  elsif s.media_ratio_m == '4/5'
+    assign ratio_m_css = '4 / 5'
+  elsif s.media_ratio_m == '3/2'
+    assign ratio_m_css = '3 / 2'
+  elsif s.media_ratio_m == '1/1'
+    assign ratio_m_css = '1 / 1'
   endif
-  if section.settings.custom_accent_color != blank and section.settings.custom_accent_color != 'rgba(0,0,0,0)'
-    assign accent_color = section.settings.custom_accent_color
+  if s.media_ratio_m == blank
+    assign ratio_m_css = ratio_css
   endif
-%}
+
+  assign split_a = '1fr'
+  assign split_b = '1fr'
+  if s.split_ratio == '55/45'
+    assign split_a = '1.22fr'
+    assign split_b = '1fr'
+  elsif s.split_ratio == '45/55'
+    assign split_a = '1fr'
+    assign split_b = '1.22fr'
+  elsif s.split_ratio == '60/40'
+    assign split_a = '1.5fr'
+    assign split_b = '1fr'
+  endif
+
+  assign valign_css = 'center'
+  if s.valign == 'top'
+    assign valign_css = 'flex-start'
+  endif
+
+  assign icon_radius = '999px'
+  if s.icon_shape == 'square'
+    assign icon_radius = '4px'
+  endif
+
+  assign overlay_color = s.overlay_color | default: '#000000'
+  assign overlay_alpha = s.overlay_opacity | default: 0 | divided_by: 100.0
+
+  assign badge_number_color = s.badge_number_color
+  if badge_number_color == blank or badge_number_color == 'rgba(0,0,0,0)'
+    assign badge_number_color = 'var(--luxp-accent)'
+  endif
+  assign badge_label_color = s.badge_label_color
+  if badge_label_color == blank or badge_label_color == 'rgba(0,0,0,0)'
+    assign badge_label_color = 'var(--luxp-fg)'
+  endif
+
+  assign metric_color = s.metric_color
+  if metric_color == blank or metric_color == 'rgba(0,0,0,0)'
+    assign metric_color = 'var(--luxp-accent)'
+  endif
+  assign metric_label_color = s.metric_label_color
+  if metric_label_color == blank or metric_label_color == 'rgba(0,0,0,0)'
+    assign metric_label_color = 'var(--luxp-muted)'
+  endif
+
+  assign icon_color = s.icon_color
+  if icon_color == blank or icon_color == 'rgba(0,0,0,0)'
+    assign icon_color = 'var(--luxp-accent)'
+  endif
+  assign icon_bg = s.icon_bg
+  if icon_bg == blank
+    assign icon_bg = 'transparent'
+  endif
+  assign icon_border_color = s.icon_border_color
+  if icon_border_color == blank or icon_border_color == 'rgba(0,0,0,0)'
+    assign icon_border_color = 'var(--luxp-border)'
+  endif
+
+  assign highlight_title_color = s.highlight_title_color
+  if highlight_title_color == blank or highlight_title_color == 'rgba(0,0,0,0)'
+    assign highlight_title_color = 'var(--luxp-fg)'
+  endif
+  assign highlight_sub_color = s.highlight_sub_color
+  if highlight_sub_color == blank or highlight_sub_color == 'rgba(0,0,0,0)'
+    assign highlight_sub_color = 'var(--luxp-muted)'
+  endif
+
+  assign metrics_divider_bw = 0
+  if s.metrics_divider
+    assign metrics_divider_bw = 1
+  endif
+
+  assign img_loading = 'lazy'
+  if s.image_eager
+    assign img_loading = 'eager'
+  endif
+-%}
+
+{%- capture luxp_colors -%}
+  {%- render 'luxp-scheme',
+    preset: s.color_preset,
+    bg: s.color_bg,
+    heading: s.color_heading,
+    text: s.color_text,
+    accent: s.color_accent,
+    muted: s.color_muted,
+    border: s.color_border,
+    btn_bg: s.btn_bg,
+    btn_text: s.btn_text,
+    btn_border: s.btn_border,
+    btn_bg_hover: s.btn_bg_hover,
+    btn_text_hover: s.btn_text_hover
+  -%}
+{%- endcapture -%}
+
+{%- capture luxp_typo -%}{%- render 'luxp-typo', s: s -%}{%- endcapture -%}
 
 <div
-  id="LuxuryCraft-{{ section.id }}"
-  class="lux-craft-section lux-craft-scheme-{{ scheme }}"
+  class="luxp-section luxp-craft {% if s.container_mode == 'full' %}luxp-section--full{% endif %} {% if s.enable_animations %}luxp-anim{% endif %} {{ s.custom_class }}"
   style="
-    --craft-bg: {{ bg_color }};
-    --craft-color: {{ text_color }};
-    --craft-accent: {{ accent_color }};
-    --craft-border: {{ card_border }};
-    --craft-pt: {{ section.settings.padding_top | default: 34 }}px;
-    --craft-pb: {{ section.settings.padding_bottom | default: 54 }}px;
-    background: var(--craft-bg);
-    color: var(--craft-color);
-    padding-top: var(--craft-pt);
-    padding-bottom: var(--craft-pb);
+    {{ luxp_colors }}
+    {{ luxp_typo }}
+    --luxp-pt: {{ s.padding_top | default: 40 }}px;
+    --luxp-pb: {{ s.padding_bottom | default: 40 }}px;
+    --luxp-pt-m: {{ s.padding_top_m | default: 32 }}px;
+    --luxp-pb-m: {{ s.padding_bottom_m | default: 32 }}px;
+    --luxp-cw: {{ s.container_max | default: 1240 }}px;
+    --luxp-px: {{ s.container_padding | default: 32 }}px;
+    --luxp-px-m: {{ s.container_padding_m | default: 18 }}px;
+    --luxp-split-a: {{ split_a }};
+    --luxp-split-b: {{ split_b }};
+    --luxp-split-gap: {{ s.split_gap | default: 56 }}px;
+    --luxp-split-gap-m: {{ s.split_gap_m | default: 28 }}px;
+    --luxp-split-valign: {{ valign_css }};
+    --luxp-content-gap: {{ s.content_gap | default: 14 }}px;
+    --luxp-content-gap-m: {{ s.content_gap_m | default: 12 }}px;
+    --luxp-text-align: {{ s.text_align | default: 'left' }};
+    --luxp-media-ratio: {{ ratio_css }};
+    --luxp-media-ratio-m: {{ ratio_m_css }};
+    --luxp-media-fit: {{ s.media_fit | default: 'cover' }};
+    --luxp-media-radius: {{ s.media_radius }}px;
+    --luxp-media-bg: {{ s.media_bg | default: '#f2efe9' }};
+    --luxp-overlay-color: {{ overlay_color }};
+    --luxp-overlay-opacity: {{ overlay_alpha }};
+    --luxp-badge-bg: {{ s.badge_bg | default: 'rgba(255,255,255,0.94)' }};
+    --luxp-badge-size: {{ s.badge_size | default: 24 }}px;
+    --luxp-badge-label-size: {{ s.badge_label_size | default: 9 }}px;
+    --luxp-badge-radius: {{ s.badge_radius | default: 2 }}px;
+    --luxp-badge-inset: {{ s.badge_inset | default: 16 }}px;
+    --luxp-badge-py: {{ s.badge_padding | default: 12 }}px;
+    --luxp-badge-px: {{ s.badge_padding | default: 16 }}px;
+    --luxp-badge-number-color: {{ badge_number_color }};
+    --luxp-badge-label-color: {{ badge_label_color }};
+    --luxp-metrics-cols: {{ s.metrics_cols | default: 3 }};
+    --luxp-metrics-cols-m: {{ s.metrics_cols_m | default: 1 }};
+    --luxp-metrics-gap: {{ s.metrics_gap | default: 20 }}px;
+    --luxp-metrics-gap-m: {{ s.metrics_gap_m | default: 14 }}px;
+    --luxp-metrics-divider-bw: {{ metrics_divider_bw }}px;
+    --luxp-metrics-divider-color: {{ s.metrics_divider_color | default: '#e5e1d8' }};
+    --luxp-metrics-py: {{ s.metrics_py | default: 18 }}px;
+    --luxp-metric-size: {{ s.metric_size | default: 30 }}px;
+    --luxp-metric-size-m: {{ s.metric_size_m | default: 26 }}px;
+    --luxp-metric-color: {{ metric_color }};
+    --luxp-metric-label-size: {{ s.metric_label_size | default: 11 }}px;
+    --luxp-metric-label-color: {{ metric_label_color }};
+    --luxp-highlights-gap: {{ s.highlights_gap | default: 14 }}px;
+    --luxp-icon-size: {{ s.icon_size | default: 22 }}px;
+    --luxp-icon-pad: {{ s.icon_padding | default: 10 }}px;
+    --luxp-icon-bg: {{ icon_bg }};
+    --luxp-icon-fg: {{ icon_color }};
+    --luxp-icon-radius: {{ icon_radius }};
+    --luxp-icon-bw: {{ s.icon_border_width | default: 0 }}px;
+    --luxp-icon-border: {{ icon_border_color }};
+    --luxp-highlight-gap: {{ s.highlight_gap | default: 14 }}px;
+    --luxp-highlight-title-size: {{ s.highlight_title_size | default: 13 }}px;
+    --luxp-highlight-sub-size: {{ s.highlight_sub_size | default: 12.5 }}px;
+    --luxp-highlight-title-color: {{ highlight_title_color }};
+    --luxp-highlight-sub-color: {{ highlight_sub_color }};
+    --luxp-footer-mt: {{ s.btn_margin_top | default: 8 }}px;
+    --luxp-footer-justify: {% if s.text_align == 'center' %}center{% else %}flex-start{% endif %};
   "
+  {% if s.anchor_id != blank %}id="{{ s.anchor_id }}"{% endif %}
+  data-art-motion="off"
   {{ section.shopify_attributes }}
 >
-  <div class="lux-craft-container" style="{% if section.settings.media_position == 'right' %}direction: rtl;{% endif %}">
-    <!-- Visual Column -->
-    <div class="lux-craft-media-wrap lux-reveal-zoom" style="direction: ltr;">
-      {% liquid
-        assign current_prod = closest.product | default: product
-        assign story_image = null
-        if section.settings.image != blank
-          assign story_image = section.settings.image
-        endif
-      %}
-      {% if story_image != blank %}
-        {{
-          story_image
-          | image_url: width: 1200
-          | image_tag:
-            class: 'lux-craft-img',
-            loading: 'eager',
-            alt: section.settings.heading | default: current_prod.title
-        }}
-      {% else %}
-        {% assign atelier_asset = section.settings.default_asset | default: 'art-atelier-artist-studio.jpg' %}
-        <img
-          src="{{ atelier_asset | asset_url }}"
-          alt="Artisan Craftsmanship"
-          class="lux-craft-img"
-          loading="eager"
-          onerror="this.onerror=null;this.src='{{ 'art-atelier-artist-studio.jpg' | asset_url }}';"
-          width="800"
-          height="800"
-        >
-      {% endif %}
-
-      <div class="lux-craft-floating-badge">
-        <div class="lux-craft-badge-number" style="color: var(--craft-accent);">{{ section.settings.badge_number | default: '100%' }}</div>
-        <div class="lux-craft-badge-label">{{ section.settings.badge_label | default: 'ARTISAN HANDCRAFTED' }}</div>
+  <div class="luxp-container">
+    <div
+      class="luxp-split {% if s.media_position == 'right' %}luxp-split--media-right{% endif %} {% if s.mobile_stack == 'text' %}luxp-split--stack-text{% else %}luxp-split--stack-media{% endif %}"
+    >
+      <div class="luxp-split__media">
+        <div class="luxp-media {% if s.media_ratio == 'auto' %}luxp-media--auto{% endif %} {% if s.media_fit == 'contain' %}luxp-media--contain{% endif %}">
+          {% render 'luxp-image',
+            image: s.image,
+            image_mobile: s.image_mobile,
+            alt: s.heading,
+            class: 'luxp-craft__img',
+            loading: img_loading,
+            sizes: '(min-width: 1024px) 50vw, 100vw',
+            fallback: s.default_asset
+          %}
+          {% if s.overlay_opacity > 0 %}
+            <div class="luxp-media__overlay" aria-hidden="true"></div>
+          {% endif %}
+          {% if s.badge_show and s.badge_number != blank %}
+            <div class="luxp-media__badge luxp-media__badge--{{ s.badge_position | default: 'tl' }}">
+              <span class="luxp-badge__number">{{ s.badge_number }}</span>
+              {% if s.badge_label != blank %}
+                <span class="luxp-badge__label">{{ s.badge_label }}</span>
+              {% endif %}
+            </div>
+          {% endif %}
+        </div>
       </div>
-    </div>
 
-    <!-- Story Column -->
-    <div class="lux-craft-content lux-reveal-fade-up" style="direction: ltr;">
-      {% if section.settings.subheading != blank %}
-        <span class="lux-craft-subheading" style="color: var(--craft-accent);">{{ section.settings.subheading }}</span>
-      {% endif %}
+      <div class="luxp-split__content {% if s.text_align == 'center' %}luxp-split__content--center{% endif %}">
+        {% if s.eyebrow != blank %}
+          <p class="luxp-eyebrow">{{ s.eyebrow }}</p>
+        {% endif %}
 
-      <h2 class="lux-craft-heading" style="color: var(--craft-color);">{{ section.settings.heading }}</h2>
+        {% if s.heading != blank %}
+          <h2 class="luxp-heading">{{ s.heading }}</h2>
+        {% endif %}
 
-      <p class="lux-craft-text" style="color: var(--craft-color); opacity: 0.85;">
-        {{ section.settings.story_text }}
-      </p>
+        {% if s.body != blank %}
+          <div class="luxp-body">{{ s.body }}</div>
+        {% endif %}
 
-      <!-- Live Counters Grid (Blocks or Fallback) -->
-      <div class="lux-craft-counters" style="border-color: var(--craft-border);">
-        {% if section.blocks.size > 0 %}
-          {% for block in section.blocks %}
-            <div class="lux-craft-counter-item" {{ block.shopify_attributes }}>
-              <div
-                class="lux-counter-number"
-                data-target="{{ block.settings.number }}"
-                data-suffix="{{ block.settings.suffix }}"
-                style="color: var(--craft-accent);"
-              >
-                0
+        {% assign metrics = section.blocks | where: 'type', 'metric' %}
+        {% if metrics.size > 0 %}
+          <div class="luxp-metrics">
+            {% for block in metrics %}
+              <div class="luxp-metric" {{ block.shopify_attributes }}>
+                <span class="luxp-metric__number">{{ block.settings.number }}{{ block.settings.suffix }}</span>
+                {% if block.settings.label != blank %}
+                  <span class="luxp-metric__label">{{ block.settings.label }}</span>
+                {% endif %}
               </div>
-              <div class="lux-counter-label" style="color: var(--craft-color); opacity: 0.75;">{{ block.settings.label }}</div>
-            </div>
-          {% endfor %}
-        {% else %}
-          <!-- Default Counters -->
-          <div class="lux-craft-counter-item">
-            <div
-              class="lux-counter-number"
-              data-target="{{ section.settings.counter_1_number | default: 2400 }}"
-              data-suffix="{{ section.settings.counter_1_suffix | default: '+' }}"
-              style="color: var(--craft-accent);"
-            >
-              0
-            </div>
-            <div class="lux-counter-label" style="color: var(--craft-color); opacity: 0.75;">{{ section.settings.counter_1_label | default: 'Paintings & Artworks Curated' }}</div>
+            {% endfor %}
           </div>
+        {% endif %}
 
-          <div class="lux-craft-counter-item">
-            <div
-              class="lux-counter-number"
-              data-target="{{ section.settings.counter_2_number | default: 140 }}"
-              data-suffix="{{ section.settings.counter_2_suffix | default: '+' }}"
-              style="color: var(--craft-accent);"
-            >
-              0
-            </div>
-            <div class="lux-counter-label" style="color: var(--craft-color); opacity: 0.75;">{{ section.settings.counter_2_label | default: 'Master Artists & Sculptors' }}</div>
+        {% assign highlights = section.blocks | where: 'type', 'highlight' %}
+        {% if highlights.size > 0 %}
+          <div class="luxp-highlights">
+            {% for block in highlights %}
+              <div
+                class="luxp-highlight {% if s.highlight_icon_position == 'top' %}luxp-highlight--top{% endif %}"
+                {{ block.shopify_attributes }}
+              >
+                {% if block.settings.icon_image != blank %}
+                  <span class="luxp-icon {% if s.icon_shape != 'none' %}luxp-icon--chip{% endif %}">
+                    {{
+                      block.settings.icon_image
+                      | image_url: width: 96
+                      | image_tag:
+                        alt: block.settings.title,
+                        loading: 'lazy',
+                        decoding: 'async',
+                        widths: '48, 96'
+                    }}
+                  </span>
+                {% elsif block.settings.icon != 'none' %}
+                  <span class="luxp-icon {% if s.icon_shape != 'none' %}luxp-icon--chip{% endif %}">
+                    {% render 'luxp-icon', icon: block.settings.icon %}
+                  </span>
+                {% endif %}
+                <div class="luxp-highlight__text">
+                  {% if block.settings.title != blank %}
+                    <h3 class="luxp-highlight__title">{{ block.settings.title }}</h3>
+                  {% endif %}
+                  {% if block.settings.text != blank %}
+                    <p class="luxp-highlight__sub">{{ block.settings.text }}</p>
+                  {% endif %}
+                </div>
+              </div>
+            {% endfor %}
           </div>
+        {% endif %}
 
-          <div class="lux-craft-counter-item">
-            <div
-              class="lux-counter-number"
-              data-target="{{ section.settings.counter_3_number | default: 35 }}"
-              data-suffix="{{ section.settings.counter_3_suffix | default: '+' }}"
-              style="color: var(--craft-accent);"
+        {% if s.btn_label != blank %}
+          <div class="luxp-footer">
+            <a
+              href="{{ s.btn_link | default: routes.all_products_collection_url }}"
+              class="luxp-btn {% if s.btn_style == 'outline' %}luxp-btn--outline{% endif %} {% if s.btn_width == 'full' %}luxp-btn--full{% endif %} {% if s.btn_mobile_full %}luxp-btn--mobile-full{% endif %}"
             >
-              0
-            </div>
-            <div class="lux-counter-label" style="color: var(--craft-color); opacity: 0.75;">{{ section.settings.counter_3_label | default: 'Museum Exhibitions' }}</div>
+              {{ s.btn_label }}
+              {% if s.btn_arrow %}
+                {% render 'luxp-icon', icon: 'arrow', class: 'luxp-btn__arrow' %}
+              {% endif %}
+            </a>
           </div>
         {% endif %}
       </div>
-
-      {% if section.settings.button_label != blank %}
-        <a
-          href="{{ section.settings.button_link | default: routes.all_products_collection_url }}"
-          class="lux-btn-primary art-button"
-        >
-          {{ section.settings.button_label }}
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-            <polyline points="12 5 19 12 12 19"></polyline>
-          </svg>
-        </a>
-      {% endif %}
     </div>
   </div>
 </div>
 
 {% schema %}
 {
-  "name": "Craftsmanship Story",
+  "name": "Product Story & Metrics",
   "tag": "section",
   "class": "section-luxury-craft",
+  "max_blocks": 12,
   "settings": [
-    {
-      "type": "header",
-      "content": "Color Scheme & Style"
-    },
-    {
-      "type": "select",
-      "id": "color_scheme_preset",
-      "label": "Color Scheme Preset",
-      "options": [
-        { "value": "obsidian", "label": "Obsidian Gold (#0e0e0e)" },
-        { "value": "dark", "label": "Dark Contemporary (#181818)" },
-        { "value": "warm", "label": "Warm Atelier (#f9f8f5)" },
-        { "value": "light", "label": "Light Clean (#ffffff)" }
-      ],
-      "default": "obsidian"
-    },
-    {
-      "type": "color",
-      "id": "custom_bg_color",
-      "label": "Custom Background Color"
-    },
-    {
-      "type": "color",
-      "id": "custom_text_color",
-      "label": "Custom Text Color"
-    },
-    {
-      "type": "color",
-      "id": "custom_accent_color",
-      "label": "Custom Gold/Accent Color"
-    },
-    {
-      "type": "header",
-      "content": "Layout & Story Content"
-    },
-    {
-      "type": "select",
-      "id": "media_position",
-      "label": "Media Position",
-      "options": [
-        { "value": "left", "label": "Image Left" },
-        { "value": "right", "label": "Image Right" }
-      ],
-      "default": "left"
-    },
-    {
-      "type": "text",
-      "id": "subheading",
-      "label": "Subheading",
-      "default": "THE ATELIER PHILOSOPHY"
-    },
-    {
-      "type": "text",
-      "id": "heading",
-      "label": "Heading",
-      "default": "WHERE VISIONARY PAINTINGS MEET THREE-DIMENSIONAL SCULPTURES"
-    },
-    {
-      "type": "textarea",
-      "id": "story_text",
-      "label": "Story Text",
-      "default": "The Raw House is an international atelier dedicated to museum-grade original canvas paintings and handcrafted decorative sculptures. Every canvas is layered with rich mineral pigments, gold leaf, and archival linen, while each sculpture is cast in small foundry batches using solid bronze, aged marble, and refined resins."
-    },
-    {
-      "type": "image_picker",
-      "id": "image",
-      "label": "Artisan Image"
-    },
-    {
-      "type": "text",
-      "id": "default_asset",
-      "label": "Default Asset Fallback",
-      "default": "art-atelier-artist-studio.jpg"
-    },
-    {
-      "type": "text",
-      "id": "badge_number",
-      "label": "Floating Badge Number",
-      "default": "100%"
-    },
-    {
-      "type": "text",
-      "id": "badge_label",
-      "label": "Floating Badge Label",
-      "default": "ARTISAN HANDCRAFTED"
-    },
-    {
-      "type": "header",
-      "content": "Call to Action Button"
-    },
-    {
-      "type": "text",
-      "id": "button_label",
-      "label": "Button Label",
-      "default": "DISCOVER THE ATELIER"
-    },
-    {
-      "type": "url",
-      "id": "button_link",
-      "label": "Button Link"
-    },
-    {
-      "type": "header",
-      "content": "Spacing"
-    },
-    {
-      "type": "range",
-      "id": "padding_top",
-      "min": 16,
-      "max": 80,
-      "step": 2,
-      "unit": "px",
-      "label": "Padding Top",
-      "default": 34
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom",
-      "min": 16,
-      "max": 80,
-      "step": 2,
-      "unit": "px",
-      "label": "Padding Bottom",
-      "default": 54
-    }
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow / subheading", "default": "THE ATELIER PHILOSOPHY" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Bespoke Artistry & Timeless Provenance" },
+    { "type": "richtext", "id": "body", "label": "Body text", "default": "<p>Every object in our atelier tells a story of authentic craftsmanship, time-honored techniques, and contemporary form. We collaborate with master artisans and heritage curators to bring museum-grade masterworks into refined living spaces.</p>" },
+
+    { "type": "header", "content": "Images" },
+    { "type": "image_picker", "id": "image", "label": "Desktop image" },
+    { "type": "image_picker", "id": "image_mobile", "label": "Mobile image", "info": "Optional separate image shown below 750px. Falls back to the desktop image." },
+    { "type": "text", "id": "default_asset", "label": "Fallback asset filename", "info": "Theme asset file used when no image is uploaded.", "default": "art-atelier-artist-studio.jpg" },
+    { "type": "select", "id": "media_ratio", "label": "Image aspect ratio (desktop)", "options": [
+      { "value": "4/5", "label": "Portrait 4:5" },
+      { "value": "1/1", "label": "Square 1:1" },
+      { "value": "3/4", "label": "Portrait 3:4" },
+      { "value": "4/3", "label": "Landscape 4:3" },
+      { "value": "3/2", "label": "Landscape 3:2" },
+      { "value": "16/10", "label": "Wide 16:10" },
+      { "value": "auto", "label": "Natural (no crop)" }
+    ], "default": "4/5" },
+    { "type": "select", "id": "media_ratio_m", "label": "Image aspect ratio (mobile)", "options": [
+      { "value": "4/5", "label": "Portrait 4:5" },
+      { "value": "1/1", "label": "Square 1:1" },
+      { "value": "3/4", "label": "Portrait 3:4" },
+      { "value": "4/3", "label": "Landscape 4:3" },
+      { "value": "3/2", "label": "Landscape 3:2" },
+      { "value": "auto", "label": "Natural (no crop)" }
+    ], "default": "4/5" },
+    { "type": "select", "id": "media_fit", "label": "Image fit", "options": [
+      { "value": "cover", "label": "Cover (fill, may crop)" },
+      { "value": "contain", "label": "Contain (no crop)" }
+    ], "default": "cover" },
+    { "type": "range", "id": "media_radius", "min": 0, "max": 32, "step": 1, "unit": "px", "label": "Image corner radius", "default": 0 },
+    { "type": "color", "id": "media_bg", "label": "Image area background", "default": "#f2efe9" },
+    { "type": "color", "id": "overlay_color", "label": "Image overlay color", "default": "#000000" },
+    { "type": "range", "id": "overlay_opacity", "min": 0, "max": 90, "step": 5, "unit": "%", "label": "Image overlay opacity", "default": 0 },
+    { "type": "checkbox", "id": "image_eager", "label": "Load image immediately (eager)", "info": "Enable only when this section is at the top of the page.", "default": false },
+
+    { "type": "header", "content": "Floating badge" },
+    { "type": "checkbox", "id": "badge_show", "label": "Show floating badge on image", "default": true },
+    { "type": "text", "id": "badge_number", "label": "Badge value", "default": "100%" },
+    { "type": "text", "id": "badge_label", "label": "Badge label", "default": "ARTISAN HANDCRAFTED" },
+    { "type": "select", "id": "badge_position", "label": "Badge position", "options": [
+      { "value": "tl", "label": "Top left" },
+      { "value": "tr", "label": "Top right" },
+      { "value": "bl", "label": "Bottom left" },
+      { "value": "br", "label": "Bottom right" }
+    ], "default": "tl" },
+    { "type": "range", "id": "badge_inset", "min": 0, "max": 40, "step": 2, "unit": "px", "label": "Badge inset", "default": 16 },
+    { "type": "range", "id": "badge_padding", "min": 6, "max": 24, "step": 2, "unit": "px", "label": "Badge padding", "default": 12 },
+    { "type": "range", "id": "badge_radius", "min": 0, "max": 20, "step": 1, "unit": "px", "label": "Badge corner radius", "default": 2 },
+    { "type": "range", "id": "badge_size", "min": 16, "max": 40, "step": 1, "unit": "px", "label": "Badge value size", "default": 24 },
+    { "type": "range", "id": "badge_label_size", "min": 8, "max": 12, "step": 1, "unit": "px", "label": "Badge label size", "default": 9 },
+    { "type": "color", "id": "badge_bg", "label": "Badge background", "default": "#ffffff" },
+    { "type": "color", "id": "badge_number_color", "label": "Badge value color", "info": "Blank uses the accent color." },
+    { "type": "color", "id": "badge_label_color", "label": "Badge label color", "info": "Blank uses the text color." },
+
+    { "type": "header", "content": "Layout" },
+    { "type": "select", "id": "media_position", "label": "Image position (desktop)", "options": [
+      { "value": "left", "label": "Image left" },
+      { "value": "right", "label": "Image right" }
+    ], "default": "left" },
+    { "type": "select", "id": "split_ratio", "label": "Column split (desktop)", "options": [
+      { "value": "1/1", "label": "50 / 50" },
+      { "value": "55/45", "label": "55 / 45 (wider image)" },
+      { "value": "45/55", "label": "45 / 55 (wider text)" },
+      { "value": "60/40", "label": "60 / 40 (much wider image)" }
+    ], "default": "1/1" },
+    { "type": "select", "id": "valign", "label": "Vertical alignment", "options": [
+      { "value": "center", "label": "Center" },
+      { "value": "top", "label": "Top" }
+    ], "default": "center" },
+    { "type": "select", "id": "text_align", "label": "Text alignment", "options": [
+      { "value": "left", "label": "Left" },
+      { "value": "center", "label": "Center" }
+    ], "default": "left" },
+    { "type": "select", "id": "mobile_stack", "label": "Mobile stacking order", "options": [
+      { "value": "media", "label": "Image first" },
+      { "value": "text", "label": "Text first" }
+    ], "default": "media" },
+    { "type": "select", "id": "container_mode", "label": "Container mode", "options": [
+      { "value": "fixed", "label": "Container (max width)" },
+      { "value": "full", "label": "Full width" }
+    ], "default": "fixed" },
+    { "type": "range", "id": "container_max", "min": 1000, "max": 1600, "step": 20, "unit": "px", "label": "Container max width", "default": 1240 },
+
+    { "type": "header", "content": "Typography — Eyebrow" },
+    { "type": "select", "id": "eyebrow_font", "label": "Font family", "options": [
+      { "value": "heading", "label": "Theme heading font" },
+      { "value": "body", "label": "Theme body font" },
+      { "value": "subheading", "label": "Theme subheading font" },
+      { "value": "accent", "label": "Theme accent font" },
+      { "value": "serif", "label": "Serif (Georgia)" }
+    ], "default": "body" },
+    { "type": "range", "id": "eyebrow_size", "min": 9, "max": 16, "step": 1, "unit": "px", "label": "Font size — desktop", "default": 11 },
+    { "type": "range", "id": "eyebrow_size_m", "min": 9, "max": 16, "step": 1, "unit": "px", "label": "Font size — mobile", "default": 10 },
+    { "type": "select", "id": "eyebrow_weight", "label": "Font weight", "options": [
+      { "value": "400", "label": "Regular 400" },
+      { "value": "500", "label": "Medium 500" },
+      { "value": "600", "label": "Semibold 600" },
+      { "value": "700", "label": "Bold 700" }
+    ], "default": "600" },
+    { "type": "select", "id": "eyebrow_ls", "label": "Letter spacing", "options": [ { "value": "0em", "label": "None" }, { "value": "0.01em", "label": "0.01em" }, { "value": "0.02em", "label": "0.02em" }, { "value": "0.03em", "label": "0.03em" }, { "value": "0.04em", "label": "0.04em" }, { "value": "0.05em", "label": "0.05em" }, { "value": "0.06em", "label": "0.06em" }, { "value": "0.08em", "label": "0.08em" }, { "value": "0.1em", "label": "0.1em" }, { "value": "0.12em", "label": "0.12em" }, { "value": "0.14em", "label": "0.14em" }, { "value": "0.16em", "label": "0.16em" }, { "value": "0.18em", "label": "0.18em" }, { "value": "0.2em", "label": "0.2em" }, { "value": "0.22em", "label": "0.22em" }, { "value": "0.26em", "label": "0.26em" }, { "value": "0.3em", "label": "0.3em" }, { "value": "0.35em", "label": "0.35em" }, { "value": "0.4em", "label": "0.4em" } ], "default": "0.22em" },
+    { "type": "select", "id": "eyebrow_transform", "label": "Text transform", "options": [
+      { "value": "uppercase", "label": "Uppercase" },
+      { "value": "none", "label": "None" },
+      { "value": "lowercase", "label": "Lowercase" },
+      { "value": "capitalize", "label": "Capitalize" }
+    ], "default": "uppercase" },
+
+    { "type": "header", "content": "Typography — Heading" },
+    { "type": "select", "id": "heading_font", "label": "Font family", "options": [
+      { "value": "heading", "label": "Theme heading font" },
+      { "value": "body", "label": "Theme body font" },
+      { "value": "subheading", "label": "Theme subheading font" },
+      { "value": "accent", "label": "Theme accent font" },
+      { "value": "serif", "label": "Serif (Georgia)" }
+    ], "default": "heading" },
+    { "type": "range", "id": "heading_size", "min": 18, "max": 64, "step": 1, "unit": "px", "label": "Font size — desktop", "default": 34 },
+    { "type": "range", "id": "heading_size_m", "min": 16, "max": 40, "step": 1, "unit": "px", "label": "Font size — mobile", "default": 25 },
+    { "type": "select", "id": "heading_weight", "label": "Font weight", "options": [
+      { "value": "300", "label": "Light 300" },
+      { "value": "400", "label": "Regular 400" },
+      { "value": "500", "label": "Medium 500" },
+      { "value": "600", "label": "Semibold 600" }
+    ], "default": "400" },
+    { "type": "range", "id": "heading_lh", "min": 1, "max": 1.8, "step": 0.1, "label": "Line height", "default": 1.2 },
+    { "type": "select", "id": "heading_ls", "label": "Letter spacing", "options": [ { "value": "0em", "label": "None" }, { "value": "0.01em", "label": "0.01em" }, { "value": "0.02em", "label": "0.02em" }, { "value": "0.03em", "label": "0.03em" }, { "value": "0.04em", "label": "0.04em" }, { "value": "0.05em", "label": "0.05em" }, { "value": "0.06em", "label": "0.06em" }, { "value": "0.08em", "label": "0.08em" }, { "value": "0.1em", "label": "0.1em" }, { "value": "0.12em", "label": "0.12em" }, { "value": "0.14em", "label": "0.14em" }, { "value": "0.16em", "label": "0.16em" }, { "value": "0.18em", "label": "0.18em" }, { "value": "0.2em", "label": "0.2em" }, { "value": "0.22em", "label": "0.22em" }, { "value": "0.26em", "label": "0.26em" }, { "value": "0.3em", "label": "0.3em" }, { "value": "0.35em", "label": "0.35em" }, { "value": "0.4em", "label": "0.4em" } ], "default": "0.02em" },
+    { "type": "select", "id": "heading_transform", "label": "Text transform", "options": [
+      { "value": "none", "label": "None" },
+      { "value": "uppercase", "label": "Uppercase" },
+      { "value": "capitalize", "label": "Capitalize" }
+    ], "default": "none" },
+    { "type": "range", "id": "heading_max_width", "min": 40, "max": 100, "step": 5, "unit": "%", "label": "Max width", "default": 100 },
+
+    { "type": "header", "content": "Typography — Body" },
+    { "type": "select", "id": "body_font", "label": "Font family", "options": [
+      { "value": "body", "label": "Theme body font" },
+      { "value": "heading", "label": "Theme heading font" },
+      { "value": "subheading", "label": "Theme subheading font" },
+      { "value": "serif", "label": "Serif (Georgia)" }
+    ], "default": "body" },
+    { "type": "range", "id": "body_size", "min": 12, "max": 22, "step": 1, "unit": "px", "label": "Font size — desktop", "default": 15 },
+    { "type": "range", "id": "body_size_m", "min": 12, "max": 20, "step": 1, "unit": "px", "label": "Font size — mobile", "default": 14 },
+    { "type": "select", "id": "body_weight", "label": "Font weight", "options": [
+      { "value": "300", "label": "Light 300" },
+      { "value": "400", "label": "Regular 400" },
+      { "value": "500", "label": "Medium 500" }
+    ], "default": "400" },
+    { "type": "range", "id": "body_lh", "min": 1.3, "max": 2.1, "step": 0.1, "label": "Line height", "default": 1.7 },
+    { "type": "select", "id": "body_ls", "label": "Letter spacing", "options": [ { "value": "0em", "label": "None" }, { "value": "0.01em", "label": "0.01em" }, { "value": "0.02em", "label": "0.02em" }, { "value": "0.03em", "label": "0.03em" }, { "value": "0.04em", "label": "0.04em" }, { "value": "0.05em", "label": "0.05em" }, { "value": "0.06em", "label": "0.06em" }, { "value": "0.08em", "label": "0.08em" }, { "value": "0.1em", "label": "0.1em" }, { "value": "0.12em", "label": "0.12em" }, { "value": "0.14em", "label": "0.14em" }, { "value": "0.16em", "label": "0.16em" }, { "value": "0.18em", "label": "0.18em" }, { "value": "0.2em", "label": "0.2em" }, { "value": "0.22em", "label": "0.22em" }, { "value": "0.26em", "label": "0.26em" }, { "value": "0.3em", "label": "0.3em" }, { "value": "0.35em", "label": "0.35em" }, { "value": "0.4em", "label": "0.4em" } ], "default": "0.01em" },
+    { "type": "range", "id": "body_max_width", "min": 40, "max": 100, "step": 5, "unit": "%", "label": "Max width", "default": 100 },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "select", "id": "color_preset", "label": "Color scheme preset", "options": [
+      { "value": "light", "label": "Light Clean (White)" },
+      { "value": "warm", "label": "Warm Atelier (Ivory)" },
+      { "value": "dark", "label": "Dark Contemporary" },
+      { "value": "obsidian", "label": "Obsidian Gold" }
+    ], "default": "light" },
+    { "type": "color", "id": "color_bg", "label": "Background color override" },
+    { "type": "color", "id": "color_heading", "label": "Heading color override" },
+    { "type": "color", "id": "color_text", "label": "Text color override" },
+    { "type": "color", "id": "color_accent", "label": "Accent color override" },
+    { "type": "color", "id": "color_muted", "label": "Muted text override" },
+    { "type": "color", "id": "color_border", "label": "Border color override" },
+
+    { "type": "header", "content": "Metrics" },
+    { "type": "select", "id": "metrics_cols", "label": "Columns — desktop", "options": [ { "value": "2", "label": "2 columns" }, { "value": "3", "label": "3 columns" }, { "value": "4", "label": "4 columns" } ], "default": "3" },
+    { "type": "select", "id": "metrics_cols_m", "label": "Columns — mobile", "options": [ { "value": "1", "label": "1 column" }, { "value": "2", "label": "2 columns" }, { "value": "3", "label": "3 columns" } ], "default": "1" },
+    { "type": "range", "id": "metrics_gap", "min": 12, "max": 40, "step": 2, "unit": "px", "label": "Gap — desktop", "default": 20 },
+    { "type": "range", "id": "metrics_gap_m", "min": 8, "max": 30, "step": 2, "unit": "px", "label": "Gap — mobile", "default": 14 },
+    { "type": "range", "id": "metrics_py", "min": 0, "max": 40, "step": 2, "unit": "px", "label": "Vertical padding", "default": 18 },
+    { "type": "checkbox", "id": "metrics_divider", "label": "Show divider lines", "default": true },
+    { "type": "color", "id": "metrics_divider_color", "label": "Divider color", "default": "#e5e1d8" },
+    { "type": "range", "id": "metric_size", "min": 20, "max": 48, "step": 1, "unit": "px", "label": "Number size — desktop", "default": 30 },
+    { "type": "range", "id": "metric_size_m", "min": 18, "max": 40, "step": 1, "unit": "px", "label": "Number size — mobile", "default": 26 },
+    { "type": "color", "id": "metric_color", "label": "Number color", "info": "Blank uses the accent color." },
+    { "type": "range", "id": "metric_label_size", "min": 9, "max": 14, "step": 1, "unit": "px", "label": "Label size", "default": 11 },
+    { "type": "color", "id": "metric_label_color", "label": "Label color", "info": "Blank uses the muted color." },
+
+    { "type": "header", "content": "Highlight icons" },
+    { "type": "select", "id": "highlight_icon_position", "label": "Icon position", "options": [
+      { "value": "left", "label": "Left of text" },
+      { "value": "top", "label": "Above text" }
+    ], "default": "left" },
+    { "type": "range", "id": "icon_size", "min": 16, "max": 40, "step": 2, "unit": "px", "label": "Icon size", "default": 22 },
+    { "type": "select", "id": "icon_shape", "label": "Icon background shape", "options": [
+      { "value": "none", "label": "None (icon only)" },
+      { "value": "circle", "label": "Circle" },
+      { "value": "square", "label": "Rounded square" }
+    ], "default": "circle" },
+    { "type": "range", "id": "icon_padding", "min": 4, "max": 20, "step": 2, "unit": "px", "label": "Icon chip padding", "default": 10 },
+    { "type": "color", "id": "icon_color", "label": "Icon color", "info": "Blank uses the accent color." },
+    { "type": "color", "id": "icon_bg", "label": "Icon chip background" },
+    { "type": "select", "id": "icon_border_width", "label": "Icon border width", "options": [ { "value": "0", "label": "None" }, { "value": "1", "label": "1px" }, { "value": "2", "label": "2px" } ], "default": "0" },
+    { "type": "color", "id": "icon_border_color", "label": "Icon border color", "info": "Blank uses the section border color." },
+    { "type": "range", "id": "highlights_gap", "min": 8, "max": 30, "step": 2, "unit": "px", "label": "Gap between highlights", "default": 14 },
+    { "type": "range", "id": "highlight_gap", "min": 8, "max": 24, "step": 2, "unit": "px", "label": "Icon to text spacing", "default": 14 },
+    { "type": "range", "id": "highlight_title_size", "min": 11, "max": 18, "step": 1, "unit": "px", "label": "Highlight title size", "default": 13 },
+    { "type": "range", "id": "highlight_sub_size", "min": 11, "max": 18, "step": 0.5, "unit": "px", "label": "Highlight text size", "default": 12.5 },
+    { "type": "color", "id": "highlight_title_color", "label": "Highlight title color", "info": "Blank uses the text color." },
+    { "type": "color", "id": "highlight_sub_color", "label": "Highlight text color", "info": "Blank uses the muted color." },
+
+    { "type": "header", "content": "Button" },
+    { "type": "text", "id": "btn_label", "label": "Button label", "default": "DISCOVER THE ATELIER" },
+    { "type": "url", "id": "btn_link", "label": "Button link" },
+    { "type": "select", "id": "btn_style", "label": "Button style", "options": [
+      { "value": "solid", "label": "Solid" },
+      { "value": "outline", "label": "Outline" }
+    ], "default": "solid" },
+    { "type": "range", "id": "btn_height", "min": 36, "max": 64, "step": 2, "unit": "px", "label": "Button height", "default": 46 },
+    { "type": "range", "id": "btn_px", "min": 12, "max": 48, "step": 2, "unit": "px", "label": "Button side padding", "default": 26 },
+    { "type": "range", "id": "btn_size", "min": 9, "max": 16, "step": 1, "unit": "px", "label": "Font size — desktop", "default": 11 },
+    { "type": "range", "id": "btn_size_m", "min": 9, "max": 16, "step": 1, "unit": "px", "label": "Font size — mobile", "default": 11 },
+    { "type": "select", "id": "btn_weight", "label": "Font weight", "options": [
+      { "value": "500", "label": "Medium 500" },
+      { "value": "600", "label": "Semibold 600" },
+      { "value": "700", "label": "Bold 700" }
+    ], "default": "600" },
+    { "type": "select", "id": "btn_ls", "label": "Letter spacing", "options": [ { "value": "0em", "label": "None" }, { "value": "0.01em", "label": "0.01em" }, { "value": "0.02em", "label": "0.02em" }, { "value": "0.03em", "label": "0.03em" }, { "value": "0.04em", "label": "0.04em" }, { "value": "0.05em", "label": "0.05em" }, { "value": "0.06em", "label": "0.06em" }, { "value": "0.08em", "label": "0.08em" }, { "value": "0.1em", "label": "0.1em" }, { "value": "0.12em", "label": "0.12em" }, { "value": "0.14em", "label": "0.14em" }, { "value": "0.16em", "label": "0.16em" }, { "value": "0.18em", "label": "0.18em" }, { "value": "0.2em", "label": "0.2em" }, { "value": "0.22em", "label": "0.22em" }, { "value": "0.26em", "label": "0.26em" }, { "value": "0.3em", "label": "0.3em" }, { "value": "0.35em", "label": "0.35em" }, { "value": "0.4em", "label": "0.4em" } ], "default": "0.18em" },
+    { "type": "select", "id": "btn_transform", "label": "Text transform", "options": [
+      { "value": "uppercase", "label": "Uppercase" },
+      { "value": "none", "label": "None" }
+    ], "default": "uppercase" },
+    { "type": "range", "id": "btn_radius", "min": 0, "max": 40, "step": 1, "unit": "px", "label": "Corner radius", "default": 2 },
+    { "type": "range", "id": "btn_border_width", "min": 0, "max": 4, "step": 1, "unit": "px", "label": "Border width", "default": 1 },
+    { "type": "color", "id": "btn_bg", "label": "Background color", "info": "Blank uses the scheme color." },
+    { "type": "color", "id": "btn_text", "label": "Text color", "info": "Blank uses the scheme color." },
+    { "type": "color", "id": "btn_border", "label": "Border color", "info": "Blank uses the scheme color." },
+    { "type": "color", "id": "btn_bg_hover", "label": "Hover background", "info": "Blank uses the scheme color." },
+    { "type": "color", "id": "btn_text_hover", "label": "Hover text", "info": "Blank uses the scheme color." },
+    { "type": "checkbox", "id": "btn_arrow", "label": "Show arrow icon", "default": false },
+    { "type": "select", "id": "btn_width", "label": "Button width", "options": [
+      { "value": "auto", "label": "Auto" },
+      { "value": "full", "label": "Full width" }
+    ], "default": "auto" },
+    { "type": "checkbox", "id": "btn_mobile_full", "label": "Full width on mobile", "default": false },
+    { "type": "range", "id": "btn_margin_top", "min": 0, "max": 40, "step": 2, "unit": "px", "label": "Spacing above button", "default": 8 },
+
+    { "type": "header", "content": "Spacing" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding top — desktop", "default": 40 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding bottom — desktop", "default": 40 },
+    { "type": "range", "id": "padding_top_m", "min": 0, "max": 88, "step": 4, "unit": "px", "label": "Padding top — mobile", "default": 32 },
+    { "type": "range", "id": "padding_bottom_m", "min": 0, "max": 88, "step": 4, "unit": "px", "label": "Padding bottom — mobile", "default": 32 },
+    { "type": "range", "id": "container_padding", "min": 0, "max": 64, "step": 2, "unit": "px", "label": "Container side padding — desktop", "default": 32 },
+    { "type": "range", "id": "container_padding_m", "min": 0, "max": 32, "step": 2, "unit": "px", "label": "Container side padding — mobile", "default": 18 },
+    { "type": "range", "id": "split_gap", "min": 24, "max": 96, "step": 4, "unit": "px", "label": "Column gap — desktop", "default": 56 },
+    { "type": "range", "id": "split_gap_m", "min": 12, "max": 48, "step": 2, "unit": "px", "label": "Column gap — mobile", "default": 28 },
+    { "type": "range", "id": "content_gap", "min": 6, "max": 30, "step": 2, "unit": "px", "label": "Content spacing — desktop", "default": 14 },
+    { "type": "range", "id": "content_gap_m", "min": 6, "max": 24, "step": 2, "unit": "px", "label": "Content spacing — mobile", "default": 12 },
+
+    { "type": "header", "content": "Animation" },
+    { "type": "checkbox", "id": "enable_animations", "label": "Enable subtle motion", "info": "Off by default — the section renders completely static. When enabled, only gentle button/card transitions are added.", "default": false },
+
+    { "type": "header", "content": "Advanced" },
+    { "type": "text", "id": "anchor_id", "label": "Anchor ID", "info": "Used for in-page links, e.g. #story" },
+    { "type": "text", "id": "custom_class", "label": "Custom CSS class" }
   ],
   "blocks": [
     {
-      "type": "counter",
-      "name": "Metric Counter Card",
+      "type": "metric",
+      "name": "Metric",
       "settings": [
-        {
-          "type": "text",
-          "id": "number",
-          "label": "Counter Number",
-          "default": "2400"
-        },
-        {
-          "type": "text",
-          "id": "suffix",
-          "label": "Counter Suffix",
-          "default": "+"
-        },
-        {
-          "type": "text",
-          "id": "label",
-          "label": "Counter Label",
-          "default": "Paintings & Artworks Curated"
-        }
+        { "type": "text", "id": "number", "label": "Value", "default": "2400" },
+        { "type": "text", "id": "suffix", "label": "Suffix", "default": "+" },
+        { "type": "text", "id": "label", "label": "Label", "default": "Paintings & Artworks Curated" }
+      ]
+    },
+    {
+      "type": "highlight",
+      "name": "Icon Highlight",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "options": [
+          { "value": "none", "label": "None" },
+          { "value": "star", "label": "Star" },
+          { "value": "gem", "label": "Gem" },
+          { "value": "shield", "label": "Shield" },
+          { "value": "truck", "label": "Truck" },
+          { "value": "leaf", "label": "Leaf" },
+          { "value": "award", "label": "Award" },
+          { "value": "heart", "label": "Heart" },
+          { "value": "crown", "label": "Crown" },
+          { "value": "sparkle", "label": "Sparkle" },
+          { "value": "certificate", "label": "Certificate" },
+          { "value": "globe", "label": "Globe" },
+          { "value": "palette", "label": "Palette" },
+          { "value": "clock", "label": "Clock" },
+          { "value": "ruler", "label": "Ruler" },
+          { "value": "hand", "label": "Hand" }
+        ], "default": "gem" },
+        { "type": "image_picker", "id": "icon_image", "label": "Custom icon image", "info": "Overrides the built-in icon." },
+        { "type": "text", "id": "title", "label": "Title", "default": "Master Artisan Verified" },
+        { "type": "text", "id": "text", "label": "Text", "default": "Every piece is reviewed and signed by our atelier masters." }
       ]
     }
   ],
   "presets": [
     {
-      "name": "Luxury Craftsmanship Story",
+      "name": "Product Story & Metrics",
       "blocks": [
-        {
-          "type": "counter",
-          "settings": {
-            "number": "2400",
-            "suffix": "+",
-            "label": "Paintings & Artworks Curated"
-          }
-        },
-        {
-          "type": "counter",
-          "settings": {
-            "number": "140",
-            "suffix": "+",
-            "label": "Master Artists & Sculptors"
-          }
-        },
-        {
-          "type": "counter",
-          "settings": {
-            "number": "35",
-            "suffix": "+",
-            "label": "Museum Exhibitions"
-          }
-        }
+        { "type": "metric", "settings": { "number": "2400", "suffix": "+", "label": "Paintings & Artworks Curated" } },
+        { "type": "metric", "settings": { "number": "140", "suffix": "+", "label": "Master Artists & Sculptors" } },
+        { "type": "metric", "settings": { "number": "35", "suffix": "+", "label": "Museum Exhibitions" } }
       ]
     }
   ]

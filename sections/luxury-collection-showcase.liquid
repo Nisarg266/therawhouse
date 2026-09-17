@@ -1,0 +1,529 @@
+{%- comment -%}
+  THE RAW HOUSE — CURATED COLLECTIONS GRID (LUXP design system)
+  Editorial collection cards with desktop/mobile images, badge, index
+  numbering, grid and card styling — all controlled from the Theme Editor.
+  Ships completely static (no motion).
+
+  @module luxury-collection-showcase
+{%- endcomment -%}
+
+{%- liquid
+  assign s = section.settings
+
+  assign ratio_css = '4 / 5'
+  if s.image_ratio == '1/1'
+    assign ratio_css = '1 / 1'
+  elsif s.image_ratio == '3/4'
+    assign ratio_css = '3 / 4'
+  elsif s.image_ratio == '4/3'
+    assign ratio_css = '4 / 3'
+  elsif s.image_ratio == '3/2'
+    assign ratio_css = '3 / 2'
+  elsif s.image_ratio == '16/10'
+    assign ratio_css = '16 / 10'
+  elsif s.image_ratio == 'auto'
+    assign ratio_css = 'auto'
+  endif
+
+  assign ratio_m_css = '4 / 5'
+  if s.image_ratio_m == '1/1'
+    assign ratio_m_css = '1 / 1'
+  elsif s.image_ratio_m == '3/4'
+    assign ratio_m_css = '3 / 4'
+  elsif s.image_ratio_m == '4/3'
+    assign ratio_m_css = '4 / 3'
+  elsif s.image_ratio_m == '4/5'
+    assign ratio_m_css = '4 / 5'
+  elsif s.image_ratio_m == '3/2'
+    assign ratio_m_css = '3 / 2'
+  endif
+  if s.image_ratio_m == blank
+    assign ratio_m_css = ratio_css
+  endif
+
+  assign shadow_css = 'none'
+  if s.card_shadow == 'subtle'
+    assign shadow_css = '0 2px 12px rgba(0, 0, 0, 0.06)'
+  elsif s.card_shadow == 'medium'
+    assign shadow_css = '0 8px 28px rgba(0, 0, 0, 0.12)'
+  endif
+
+  assign card_bg = s.card_bg
+  if card_bg == blank or card_bg == 'rgba(0,0,0,0)'
+    assign card_bg = 'transparent'
+  endif
+  assign card_border = s.card_border_color
+  if card_border == blank or card_border == 'rgba(0,0,0,0)'
+    assign card_border = 'var(--luxp-border)'
+  endif
+  assign cardtitle_color = s.cardtitle_color
+  if cardtitle_color == blank or cardtitle_color == 'rgba(0,0,0,0)'
+    assign cardtitle_color = 'var(--luxp-fg)'
+  endif
+  assign cardmeta_color = s.cardmeta_color
+  if cardmeta_color == blank or cardmeta_color == 'rgba(0,0,0,0)'
+    assign cardmeta_color = 'var(--luxp-muted)'
+  endif
+  assign card_cta_color = s.card_cta_color
+  if card_cta_color == blank or card_cta_color == 'rgba(0,0,0,0)'
+    assign card_cta_color = 'var(--luxp-accent)'
+  endif
+
+  assign header_track = 'center'
+  if s.header_align == 'left'
+    assign header_track = 'flex-start'
+  endif
+-%}
+
+{%- capture luxp_colors -%}
+  {%- render 'luxp-scheme',
+    preset: s.color_preset,
+    bg: s.color_bg,
+    heading: s.color_heading,
+    text: s.color_text,
+    accent: s.color_accent,
+    muted: s.color_muted,
+    border: s.color_border,
+    btn_bg: s.btn_bg,
+    btn_text: s.btn_text,
+    btn_border: s.btn_border,
+    btn_bg_hover: s.btn_bg_hover,
+    btn_text_hover: s.btn_text_hover
+  -%}
+{%- endcapture -%}
+
+{%- capture luxp_typo -%}{%- render 'luxp-typo', s: s -%}{%- endcapture -%}
+
+<div
+  class="luxp-section luxp-collections {% if s.container_mode == 'full' %}luxp-section--full{% endif %} {% if s.enable_animations %}luxp-anim{% endif %} {% if s.enable_animations and s.card_hover == 'zoom' %}luxp-hover-zoom{% endif %} {% if s.enable_animations and s.card_hover == 'lift' %}luxp-hover-lift{% endif %} {% if s.enable_animations and s.card_hover == 'border' %}luxp-hover-border{% endif %} {{ s.custom_class }}"
+  style="
+    {{ luxp_colors }}
+    {{ luxp_typo }}
+    --luxp-pt: {{ s.padding_top | default: 36 }}px;
+    --luxp-pb: {{ s.padding_bottom | default: 40 }}px;
+    --luxp-pt-m: {{ s.padding_top_m | default: 32 }}px;
+    --luxp-pb-m: {{ s.padding_bottom_m | default: 36 }}px;
+    --luxp-cw: {{ s.container_max | default: 1240 }}px;
+    --luxp-px: {{ s.container_padding | default: 32 }}px;
+    --luxp-px-m: {{ s.container_padding_m | default: 18 }}px;
+    --luxp-header-track: {{ header_track }};
+    --luxp-header-align: {{ s.header_align | default: 'center' }};
+    --luxp-header-gap: {{ s.header_gap | default: 10 }}px;
+    --luxp-header-mb: {{ s.header_mb | default: 34 }}px;
+    --luxp-ornament-color: var(--luxp-accent);
+    --luxp-cols: {{ s.columns | default: 3 }};
+    --luxp-cols-t: {{ s.columns_tablet | default: 2 }};
+    --luxp-cols-m: {{ s.columns_mobile | default: 1 }};
+    --luxp-cgap: {{ s.col_gap | default: 28 }}px;
+    --luxp-rgap: {{ s.row_gap | default: 36 }}px;
+    --luxp-cgap-m: {{ s.col_gap_m | default: 16 }}px;
+    --luxp-rgap-m: {{ s.row_gap_m | default: 28 }}px;
+    --luxp-card-bg: {{ card_bg }};
+    --luxp-card-border: {{ card_border }};
+    --luxp-card-bw: {{ s.card_border_width | default: 0 }}px;
+    --luxp-card-radius: {{ s.card_radius | default: 0 }}px;
+    --luxp-card-shadow: {{ shadow_css }};
+    --luxp-card-body-pt: {{ s.card_body_pt | default: 15 }}px;
+    --luxp-card-align: {{ s.card_align | default: 'left' }};
+    --luxp-card-gap: {{ s.card_gap | default: 6 }}px;
+    --luxp-card-rule-w: {{ s.card_rule_width | default: 26 }}px;
+    --luxp-cardtitle-color: {{ cardtitle_color }};
+    --luxp-cardtitle-size: {{ s.cardtitle_size | default: 18 }}px;
+    --luxp-cardtitle-size-m: {{ s.cardtitle_size_m | default: 16 }}px;
+    --luxp-cardmeta-color: {{ cardmeta_color }};
+    --luxp-cardmeta-size: {{ s.cardmeta_size | default: 10.5 }}px;
+    --luxp-card-cta-color: {{ card_cta_color }};
+    --luxp-card-cta-mt: {{ s.card_cta_mt | default: 6 }}px;
+    --luxp-media-ratio: {{ ratio_css }};
+    --luxp-media-ratio-m: {{ ratio_m_css }};
+    --luxp-media-fit: {{ s.image_fit | default: 'cover' }};
+    --luxp-media-radius: 0px;
+    --luxp-media-bg: var(--luxp-border);
+    --luxp-pill-bg: {{ s.badge_bg | default: '#b38b4d' }};
+    --luxp-pill-fg: {{ s.badge_text_color | default: '#ffffff' }};
+    --luxp-footer-mt: {{ s.footer_mt | default: 38 }}px;
+    --luxp-footer-mt-m: {{ s.footer_mt_m | default: 30 }}px;
+    --luxp-footer-justify: {% if s.header_align == 'left' %}flex-start{% else %}center{% endif %};
+  "
+  {% if s.anchor_id != blank %}id="{{ s.anchor_id }}"{% endif %}
+  data-art-motion="off"
+  {{ section.shopify_attributes }}
+>
+  <div class="luxp-container">
+    {% if s.eyebrow != blank or s.heading != blank or s.intro != blank or s.show_ornament %}
+      <header class="luxp-header luxp-header--{{ s.header_align | default: 'center' }}">
+        {% if s.eyebrow != blank %}
+          <p class="luxp-eyebrow">{{ s.eyebrow }}</p>
+        {% endif %}
+        {% if s.heading != blank %}
+          <h2 class="luxp-heading">{{ s.heading }}</h2>
+        {% endif %}
+        {% if s.show_ornament %}
+          <div class="luxp-ornament" aria-hidden="true">
+            <span class="luxp-ornament__line"></span>
+            <span class="luxp-ornament__gem">&#9670;</span>
+            <span class="luxp-ornament__line"></span>
+          </div>
+        {% endif %}
+        {% if s.intro != blank %}
+          <div class="luxp-body luxp-header__intro">{{ s.intro }}</div>
+        {% endif %}
+      </header>
+    {% endif %}
+
+    <div class="luxp-grid">
+      {% for block in section.blocks %}
+        {%- liquid
+          assign col = block.settings.collection
+          assign card_title = block.settings.title
+          assign card_link = block.settings.link
+
+          if col != blank
+            if card_title == blank
+              assign card_title = col.title
+            endif
+            if card_link == blank
+              assign card_link = col.url
+            endif
+          endif
+
+          if card_title == blank
+            assign card_title = 'Curated Selection'
+          endif
+          if card_link == blank
+            assign card_link = routes.all_products_collection_url
+          endif
+
+          assign card_image = block.settings.image
+          if card_image == blank and col != blank and col.featured_image != blank
+            assign card_image = col.featured_image
+          endif
+          if card_image == blank and col != blank and col.products_count > 0 and col.products.first.featured_image != blank
+            assign card_image = col.products.first.featured_image
+          endif
+
+          assign piece_count = ''
+          if col != blank and s.show_piece_count
+            assign qty = col.products_count
+            if qty == 1
+              assign piece_count = '1 Piece'
+            else
+              assign piece_count = qty | append: ' Pieces'
+            endif
+          endif
+        -%}
+        <a href="{{ card_link }}" class="luxp-card" {{ block.shopify_attributes }}>
+          <div class="luxp-media {% if s.image_ratio == 'auto' %}luxp-media--auto{% endif %} {% if s.image_fit == 'contain' %}luxp-media--contain{% endif %}">
+            {% if s.show_index %}
+              {% assign index_label = forloop.index | prepend: '00' | slice: -2, 2 %}
+              <span class="luxp-colcard__index" aria-hidden="true">N&deg; {{ index_label }}</span>
+            {% endif %}
+            {% if block.settings.badge != blank %}
+              <span class="luxp-colcard__pill luxp-pill">{{ block.settings.badge }}</span>
+            {% endif %}
+            {% render 'luxp-image',
+              image: card_image,
+              image_mobile: block.settings.image_mobile,
+              alt: card_title,
+              class: 'luxp-colcard__img',
+              loading: 'lazy',
+              sizes: '(min-width: 1024px) 33vw, (min-width: 750px) 50vw, 100vw',
+              fallback: block.settings.default_asset
+            %}
+            {% if s.show_veil %}
+              <div class="luxp-colcard__veil" aria-hidden="true"></div>
+            {% endif %}
+          </div>
+          <div class="luxp-card__body {% if s.card_align == 'center' %}luxp-card__body--center{% endif %}">
+            {% if s.show_card_rule %}
+              <span class="luxp-card__rule" aria-hidden="true"></span>
+            {% endif %}
+            <h3 class="luxp-card__title">{{ card_title }}</h3>
+            {% if piece_count != '' or block.settings.subtitle != blank %}
+              <p class="luxp-card__meta">
+                {% if piece_count != '' %}{{ piece_count | upcase }}{% endif %}
+                {% if piece_count != '' and block.settings.subtitle != blank %}
+                  <span class="luxp-card__meta-dot">&middot;</span>
+                {% endif %}
+                {% if block.settings.subtitle != blank %}{{ block.settings.subtitle | upcase }}{% endif %}
+              </p>
+            {% endif %}
+            {% if block.settings.cta_label != blank %}
+              <span class="luxp-card__cta">
+                <span>{{ block.settings.cta_label }}</span>
+                {% render 'luxp-icon', icon: 'arrow', class: 'luxp-btn__arrow' %}
+              </span>
+            {% endif %}
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+
+    {% if s.btn_label != blank %}
+      <div class="luxp-footer">
+        <a
+          href="{{ s.btn_link | default: routes.collections_url }}"
+          class="luxp-btn {% if s.btn_style == 'outline' %}luxp-btn--outline{% endif %} {% if s.btn_width == 'full' %}luxp-btn--full{% endif %} {% if s.btn_mobile_full %}luxp-btn--mobile-full{% endif %}"
+        >
+          {{ s.btn_label }}
+          {% if s.btn_arrow %}
+            {% render 'luxp-icon', icon: 'arrow', class: 'luxp-btn__arrow' %}
+          {% endif %}
+        </a>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Curated Collections",
+  "tag": "section",
+  "class": "section-luxury-collections",
+  "max_blocks": 8,
+  "settings": [
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow / subheading", "default": "THE ATELIER UNIVERSE" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Explore Curated Collections" },
+    { "type": "richtext", "id": "intro", "label": "Intro text" },
+    { "type": "checkbox", "id": "show_ornament", "label": "Show ornament divider", "default": true },
+    { "type": "checkbox", "id": "show_piece_count", "label": "Show piece count", "info": "Displays the number of pieces when a Shopify collection is selected.", "default": true },
+    { "type": "select", "id": "header_align", "label": "Header alignment", "options": [
+      { "value": "center", "label": "Center" },
+      { "value": "left", "label": "Left" }
+    ], "default": "center" },
+    { "type": "range", "id": "header_mb", "min": 8, "max": 72, "step": 2, "unit": "px", "label": "Space below header — desktop", "default": 34 },
+    { "type": "range", "id": "header_gap", "min": 4, "max": 24, "step": 2, "unit": "px", "label": "Header element spacing", "default": 10 },
+
+    { "type": "header", "content": "Layout — Grid" },
+    { "type": "select", "id": "container_mode", "label": "Container mode", "options": [
+      { "value": "fixed", "label": "Container (max width)" },
+      { "value": "full", "label": "Full width" }
+    ], "default": "fixed" },
+    { "type": "range", "id": "container_max", "min": 1000, "max": 1600, "step": 20, "unit": "px", "label": "Container max width", "default": 1240 },
+    { "type": "range", "id": "columns", "min": 1, "max": 5, "step": 1, "label": "Columns — desktop", "default": 3 },
+    { "type": "range", "id": "columns_tablet", "min": 1, "max": 4, "step": 1, "label": "Columns — tablet", "default": 2 },
+    { "type": "select", "id": "columns_mobile", "label": "Columns — mobile", "options": [ { "value": "1", "label": "1 column" }, { "value": "2", "label": "2 columns" } ], "default": "1" },
+    { "type": "range", "id": "col_gap", "min": 8, "max": 64, "step": 2, "unit": "px", "label": "Column gap — desktop", "default": 28 },
+    { "type": "range", "id": "row_gap", "min": 8, "max": 80, "step": 2, "unit": "px", "label": "Row gap — desktop", "default": 36 },
+    { "type": "range", "id": "col_gap_m", "min": 8, "max": 40, "step": 2, "unit": "px", "label": "Column gap — mobile", "default": 16 },
+    { "type": "range", "id": "row_gap_m", "min": 8, "max": 48, "step": 2, "unit": "px", "label": "Row gap — mobile", "default": 28 },
+
+    { "type": "header", "content": "Cards" },
+    { "type": "select", "id": "image_ratio", "label": "Card image ratio — desktop", "options": [
+      { "value": "4/5", "label": "Portrait 4:5" },
+      { "value": "1/1", "label": "Square 1:1" },
+      { "value": "3/4", "label": "Portrait 3:4" },
+      { "value": "4/3", "label": "Landscape 4:3" },
+      { "value": "3/2", "label": "Landscape 3:2" },
+      { "value": "16/10", "label": "Wide 16:10" },
+      { "value": "auto", "label": "Natural (no crop)" }
+    ], "default": "4/5" },
+    { "type": "select", "id": "image_ratio_m", "label": "Card image ratio — mobile", "options": [
+      { "value": "4/5", "label": "Portrait 4:5" },
+      { "value": "1/1", "label": "Square 1:1" },
+      { "value": "3/4", "label": "Portrait 3:4" },
+      { "value": "4/3", "label": "Landscape 4:3" },
+      { "value": "3/2", "label": "Landscape 3:2" }
+    ], "default": "1/1" },
+    { "type": "select", "id": "image_fit", "label": "Card image fit", "options": [
+      { "value": "cover", "label": "Cover (fill, may crop)" },
+      { "value": "contain", "label": "Contain (no crop)" }
+    ], "default": "cover" },
+    { "type": "checkbox", "id": "show_veil", "label": "Show gradient veil on images", "default": true },
+    { "type": "checkbox", "id": "show_index", "label": "Show index numbers (N° 01)", "default": true },
+    { "type": "color", "id": "card_bg", "label": "Card background", "info": "Blank = transparent." },
+    { "type": "color", "id": "card_border_color", "label": "Card border color", "info": "Blank uses the scheme border." },
+    { "type": "range", "id": "card_border_width", "min": 0, "max": 3, "step": 1, "unit": "px", "label": "Card border width", "default": 0 },
+    { "type": "range", "id": "card_radius", "min": 0, "max": 24, "step": 1, "unit": "px", "label": "Card corner radius", "default": 4 },
+    { "type": "select", "id": "card_shadow", "label": "Card shadow", "options": [
+      { "value": "none", "label": "None" },
+      { "value": "subtle", "label": "Subtle" },
+      { "value": "medium", "label": "Medium" }
+    ], "default": "none" },
+    { "type": "select", "id": "card_align", "label": "Card text alignment", "options": [
+      { "value": "left", "label": "Left" },
+      { "value": "center", "label": "Center" }
+    ], "default": "left" },
+    { "type": "range", "id": "card_body_pt", "min": 6, "max": 32, "step": 1, "unit": "px", "label": "Space between image and text", "default": 15 },
+    { "type": "range", "id": "card_gap", "min": 2, "max": 16, "step": 1, "unit": "px", "label": "Card text spacing", "default": 6 },
+    { "type": "checkbox", "id": "show_card_rule", "label": "Show accent rule above title", "default": true },
+    { "type": "range", "id": "card_rule_width", "min": 12, "max": 80, "step": 2, "unit": "px", "label": "Accent rule width", "default": 26 },
+
+    { "type": "header", "content": "Typography — Card" },
+    { "type": "range", "id": "cardtitle_size", "min": 12, "max": 28, "step": 1, "unit": "px", "label": "Card title size — desktop", "default": 18 },
+    { "type": "range", "id": "cardtitle_size_m", "min": 12, "max": 24, "step": 1, "unit": "px", "label": "Card title size — mobile", "default": 16 },
+    { "type": "color", "id": "cardtitle_color", "label": "Card title color", "info": "Blank uses the text color." },
+    { "type": "range", "id": "cardmeta_size", "min": 9, "max": 14, "step": 0.5, "unit": "px", "label": "Card meta size", "default": 10.5 },
+    { "type": "color", "id": "cardmeta_color", "label": "Card meta color", "info": "Blank uses the muted color." },
+    { "type": "color", "id": "card_cta_color", "label": "Card link color", "info": "Blank uses the accent color." },
+    { "type": "range", "id": "card_cta_mt", "min": 0, "max": 20, "step": 2, "unit": "px", "label": "Card link top spacing", "default": 6 },
+
+    { "type": "header", "content": "Typography — Eyebrow" },
+    { "type": "select", "id": "eyebrow_font", "label": "Font family", "options": [
+      { "value": "heading", "label": "Theme heading font" },
+      { "value": "body", "label": "Theme body font" },
+      { "value": "subheading", "label": "Theme subheading font" },
+      { "value": "accent", "label": "Theme accent font" },
+      { "value": "serif", "label": "Serif (Georgia)" }
+    ], "default": "body" },
+    { "type": "range", "id": "eyebrow_size", "min": 9, "max": 16, "step": 1, "unit": "px", "label": "Font size — desktop", "default": 11 },
+    { "type": "range", "id": "eyebrow_size_m", "min": 9, "max": 16, "step": 1, "unit": "px", "label": "Font size — mobile", "default": 10 },
+    { "type": "select", "id": "eyebrow_weight", "label": "Font weight", "options": [
+      { "value": "400", "label": "Regular 400" },
+      { "value": "500", "label": "Medium 500" },
+      { "value": "600", "label": "Semibold 600" },
+      { "value": "700", "label": "Bold 700" }
+    ], "default": "600" },
+    { "type": "select", "id": "eyebrow_ls", "label": "Letter spacing", "options": [ { "value": "0em", "label": "None" }, { "value": "0.01em", "label": "0.01em" }, { "value": "0.02em", "label": "0.02em" }, { "value": "0.03em", "label": "0.03em" }, { "value": "0.04em", "label": "0.04em" }, { "value": "0.05em", "label": "0.05em" }, { "value": "0.06em", "label": "0.06em" }, { "value": "0.08em", "label": "0.08em" }, { "value": "0.1em", "label": "0.1em" }, { "value": "0.12em", "label": "0.12em" }, { "value": "0.14em", "label": "0.14em" }, { "value": "0.16em", "label": "0.16em" }, { "value": "0.18em", "label": "0.18em" }, { "value": "0.2em", "label": "0.2em" }, { "value": "0.22em", "label": "0.22em" }, { "value": "0.26em", "label": "0.26em" }, { "value": "0.3em", "label": "0.3em" }, { "value": "0.35em", "label": "0.35em" }, { "value": "0.4em", "label": "0.4em" } ], "default": "0.22em" },
+    { "type": "select", "id": "eyebrow_transform", "label": "Text transform", "options": [
+      { "value": "uppercase", "label": "Uppercase" },
+      { "value": "none", "label": "None" }
+    ], "default": "uppercase" },
+
+    { "type": "header", "content": "Typography — Heading" },
+    { "type": "select", "id": "heading_font", "label": "Font family", "options": [
+      { "value": "heading", "label": "Theme heading font" },
+      { "value": "body", "label": "Theme body font" },
+      { "value": "subheading", "label": "Theme subheading font" },
+      { "value": "accent", "label": "Theme accent font" },
+      { "value": "serif", "label": "Serif (Georgia)" }
+    ], "default": "heading" },
+    { "type": "range", "id": "heading_size", "min": 18, "max": 64, "step": 1, "unit": "px", "label": "Font size — desktop", "default": 30 },
+    { "type": "range", "id": "heading_size_m", "min": 16, "max": 40, "step": 1, "unit": "px", "label": "Font size — mobile", "default": 23 },
+    { "type": "select", "id": "heading_weight", "label": "Font weight", "options": [
+      { "value": "300", "label": "Light 300" },
+      { "value": "400", "label": "Regular 400" },
+      { "value": "500", "label": "Medium 500" },
+      { "value": "600", "label": "Semibold 600" }
+    ], "default": "400" },
+    { "type": "range", "id": "heading_lh", "min": 1, "max": 1.8, "step": 0.1, "label": "Line height", "default": 1.2 },
+    { "type": "select", "id": "heading_ls", "label": "Letter spacing", "options": [ { "value": "0em", "label": "None" }, { "value": "0.01em", "label": "0.01em" }, { "value": "0.02em", "label": "0.02em" }, { "value": "0.03em", "label": "0.03em" }, { "value": "0.04em", "label": "0.04em" }, { "value": "0.05em", "label": "0.05em" }, { "value": "0.06em", "label": "0.06em" }, { "value": "0.08em", "label": "0.08em" }, { "value": "0.1em", "label": "0.1em" }, { "value": "0.12em", "label": "0.12em" }, { "value": "0.14em", "label": "0.14em" }, { "value": "0.16em", "label": "0.16em" }, { "value": "0.18em", "label": "0.18em" }, { "value": "0.2em", "label": "0.2em" }, { "value": "0.22em", "label": "0.22em" }, { "value": "0.26em", "label": "0.26em" }, { "value": "0.3em", "label": "0.3em" }, { "value": "0.35em", "label": "0.35em" }, { "value": "0.4em", "label": "0.4em" } ], "default": "0.08em" },
+    { "type": "select", "id": "heading_transform", "label": "Text transform", "options": [
+      { "value": "uppercase", "label": "Uppercase" },
+      { "value": "none", "label": "None" },
+      { "value": "capitalize", "label": "Capitalize" }
+    ], "default": "uppercase" },
+    { "type": "range", "id": "heading_max_width", "min": 40, "max": 100, "step": 5, "unit": "%", "label": "Max width", "default": 100 },
+
+    { "type": "header", "content": "Typography — Intro / Body" },
+    { "type": "select", "id": "body_font", "label": "Font family", "options": [
+      { "value": "body", "label": "Theme body font" },
+      { "value": "heading", "label": "Theme heading font" },
+      { "value": "subheading", "label": "Theme subheading font" },
+      { "value": "serif", "label": "Serif (Georgia)" }
+    ], "default": "body" },
+    { "type": "range", "id": "body_size", "min": 12, "max": 22, "step": 1, "unit": "px", "label": "Font size — desktop", "default": 14 },
+    { "type": "range", "id": "body_size_m", "min": 12, "max": 20, "step": 1, "unit": "px", "label": "Font size — mobile", "default": 13 },
+    { "type": "select", "id": "body_weight", "label": "Font weight", "options": [
+      { "value": "300", "label": "Light 300" },
+      { "value": "400", "label": "Regular 400" },
+      { "value": "500", "label": "Medium 500" }
+    ], "default": "400" },
+    { "type": "range", "id": "body_lh", "min": 1.3, "max": 2.1, "step": 0.1, "label": "Line height", "default": 1.7 },
+    { "type": "select", "id": "body_ls", "label": "Letter spacing", "options": [ { "value": "0em", "label": "None" }, { "value": "0.01em", "label": "0.01em" }, { "value": "0.02em", "label": "0.02em" }, { "value": "0.03em", "label": "0.03em" }, { "value": "0.04em", "label": "0.04em" }, { "value": "0.05em", "label": "0.05em" }, { "value": "0.06em", "label": "0.06em" }, { "value": "0.08em", "label": "0.08em" }, { "value": "0.1em", "label": "0.1em" }, { "value": "0.12em", "label": "0.12em" }, { "value": "0.14em", "label": "0.14em" }, { "value": "0.16em", "label": "0.16em" }, { "value": "0.18em", "label": "0.18em" }, { "value": "0.2em", "label": "0.2em" }, { "value": "0.22em", "label": "0.22em" }, { "value": "0.26em", "label": "0.26em" }, { "value": "0.3em", "label": "0.3em" }, { "value": "0.35em", "label": "0.35em" }, { "value": "0.4em", "label": "0.4em" } ], "default": "0.01em" },
+    { "type": "range", "id": "body_max_width", "min": 40, "max": 100, "step": 5, "unit": "%", "label": "Max width", "default": 100 },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "select", "id": "color_preset", "label": "Color scheme preset", "options": [
+      { "value": "light", "label": "Light Clean (White)" },
+      { "value": "warm", "label": "Warm Atelier (Ivory)" },
+      { "value": "dark", "label": "Dark Contemporary" },
+      { "value": "obsidian", "label": "Obsidian Gold" }
+    ], "default": "warm" },
+    { "type": "color", "id": "color_bg", "label": "Background color override" },
+    { "type": "color", "id": "color_heading", "label": "Heading color override" },
+    { "type": "color", "id": "color_text", "label": "Text color override" },
+    { "type": "color", "id": "color_accent", "label": "Accent color override" },
+    { "type": "color", "id": "color_muted", "label": "Muted text override" },
+    { "type": "color", "id": "color_border", "label": "Border color override" },
+    { "type": "color", "id": "badge_bg", "label": "Card badge background", "default": "#b38b4d" },
+    { "type": "color", "id": "badge_text_color", "label": "Card badge text", "default": "#ffffff" },
+
+    { "type": "header", "content": "Footer Button" },
+    { "type": "text", "id": "btn_label", "label": "Button label", "default": "VIEW ALL COLLECTIONS" },
+    { "type": "url", "id": "btn_link", "label": "Button link" },
+    { "type": "select", "id": "btn_style", "label": "Button style", "options": [
+      { "value": "solid", "label": "Solid" },
+      { "value": "outline", "label": "Outline" }
+    ], "default": "outline" },
+    { "type": "range", "id": "btn_height", "min": 36, "max": 64, "step": 2, "unit": "px", "label": "Button height", "default": 46 },
+    { "type": "range", "id": "btn_px", "min": 12, "max": 48, "step": 2, "unit": "px", "label": "Button side padding", "default": 26 },
+    { "type": "range", "id": "btn_size", "min": 9, "max": 16, "step": 1, "unit": "px", "label": "Font size — desktop", "default": 11 },
+    { "type": "range", "id": "btn_size_m", "min": 9, "max": 16, "step": 1, "unit": "px", "label": "Font size — mobile", "default": 11 },
+    { "type": "select", "id": "btn_weight", "label": "Font weight", "options": [
+      { "value": "500", "label": "Medium 500" },
+      { "value": "600", "label": "Semibold 600" },
+      { "value": "700", "label": "Bold 700" }
+    ], "default": "600" },
+    { "type": "select", "id": "btn_ls", "label": "Letter spacing", "options": [ { "value": "0em", "label": "None" }, { "value": "0.01em", "label": "0.01em" }, { "value": "0.02em", "label": "0.02em" }, { "value": "0.03em", "label": "0.03em" }, { "value": "0.04em", "label": "0.04em" }, { "value": "0.05em", "label": "0.05em" }, { "value": "0.06em", "label": "0.06em" }, { "value": "0.08em", "label": "0.08em" }, { "value": "0.1em", "label": "0.1em" }, { "value": "0.12em", "label": "0.12em" }, { "value": "0.14em", "label": "0.14em" }, { "value": "0.16em", "label": "0.16em" }, { "value": "0.18em", "label": "0.18em" }, { "value": "0.2em", "label": "0.2em" }, { "value": "0.22em", "label": "0.22em" }, { "value": "0.26em", "label": "0.26em" }, { "value": "0.3em", "label": "0.3em" }, { "value": "0.35em", "label": "0.35em" }, { "value": "0.4em", "label": "0.4em" } ], "default": "0.18em" },
+    { "type": "select", "id": "btn_transform", "label": "Text transform", "options": [
+      { "value": "uppercase", "label": "Uppercase" },
+      { "value": "none", "label": "None" }
+    ], "default": "uppercase" },
+    { "type": "range", "id": "btn_radius", "min": 0, "max": 40, "step": 1, "unit": "px", "label": "Corner radius", "default": 3 },
+    { "type": "range", "id": "btn_border_width", "min": 0, "max": 4, "step": 1, "unit": "px", "label": "Border width", "default": 1 },
+    { "type": "color", "id": "btn_bg", "label": "Background / fill color", "info": "Blank uses the scheme color. Outline style uses this on hover." },
+    { "type": "color", "id": "btn_text", "label": "Text color", "info": "Blank uses the scheme color." },
+    { "type": "color", "id": "btn_border", "label": "Border color", "info": "Blank uses the scheme color." },
+    { "type": "color", "id": "btn_bg_hover", "label": "Hover background", "info": "Blank uses the scheme color." },
+    { "type": "color", "id": "btn_text_hover", "label": "Hover text", "info": "Blank uses the scheme color." },
+    { "type": "checkbox", "id": "btn_arrow", "label": "Show arrow icon", "default": true },
+    { "type": "select", "id": "btn_width", "label": "Button width", "options": [
+      { "value": "auto", "label": "Auto" },
+      { "value": "full", "label": "Full width" }
+    ], "default": "auto" },
+    { "type": "checkbox", "id": "btn_mobile_full", "label": "Full width on mobile", "default": false },
+    { "type": "range", "id": "footer_mt", "min": 8, "max": 72, "step": 2, "unit": "px", "label": "Space above button — desktop", "default": 38 },
+    { "type": "range", "id": "footer_mt_m", "min": 8, "max": 56, "step": 2, "unit": "px", "label": "Space above button — mobile", "default": 30 },
+
+    { "type": "header", "content": "Spacing" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding top — desktop", "default": 36 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding bottom — desktop", "default": 40 },
+    { "type": "range", "id": "padding_top_m", "min": 0, "max": 88, "step": 4, "unit": "px", "label": "Padding top — mobile", "default": 32 },
+    { "type": "range", "id": "padding_bottom_m", "min": 0, "max": 88, "step": 4, "unit": "px", "label": "Padding bottom — mobile", "default": 36 },
+    { "type": "range", "id": "container_padding", "min": 0, "max": 64, "step": 2, "unit": "px", "label": "Container side padding — desktop", "default": 32 },
+    { "type": "range", "id": "container_padding_m", "min": 0, "max": 32, "step": 2, "unit": "px", "label": "Container side padding — mobile", "default": 18 },
+
+    { "type": "header", "content": "Animation" },
+    { "type": "checkbox", "id": "enable_animations", "label": "Enable subtle motion", "info": "Off by default — cards render completely static. When enabled, the hover effect below becomes active.", "default": false },
+    { "type": "select", "id": "card_hover", "label": "Card hover effect", "info": "Requires 'Enable subtle motion' above.", "options": [
+      { "value": "none", "label": "None" },
+      { "value": "zoom", "label": "Image zoom" },
+      { "value": "lift", "label": "Card lift" },
+      { "value": "border", "label": "Border accent" }
+    ], "default": "none" },
+
+    { "type": "header", "content": "Advanced" },
+    { "type": "text", "id": "anchor_id", "label": "Anchor ID" },
+    { "type": "text", "id": "custom_class", "label": "Custom CSS class" }
+  ],
+  "blocks": [
+    {
+      "type": "collection-card",
+      "name": "Collection Card",
+      "settings": [
+        { "type": "collection", "id": "collection", "label": "Shopify collection" },
+        { "type": "image_picker", "id": "image", "label": "Desktop image", "info": "Overrides the collection image." },
+        { "type": "image_picker", "id": "image_mobile", "label": "Mobile image", "info": "Optional separate image shown below 750px." },
+        { "type": "text", "id": "default_asset", "label": "Fallback asset filename", "info": "Theme asset used when no collection or image is set." },
+        { "type": "text", "id": "title", "label": "Title override" },
+        { "type": "text", "id": "subtitle", "label": "Subtitle", "default": "Curated atelier selection" },
+        { "type": "text", "id": "badge", "label": "Badge text", "info": "Optional pill in the image corner." },
+        { "type": "text", "id": "cta_label", "label": "Link label", "default": "Discover" },
+        { "type": "url", "id": "link", "label": "Link override" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Curated Collections",
+      "blocks": [
+        { "type": "collection-card", "settings": { "title": "Original Oil Paintings", "subtitle": "Hand-painted canvas masterworks", "default_asset": "art-painting-abstract-oil.jpg" } },
+        { "type": "collection-card", "settings": { "title": "Bronze & Marble Sculptures", "subtitle": "Cast & carved heirloom forms", "default_asset": "art-sculpture-rodin-thinker.jpg" } },
+        { "type": "collection-card", "settings": { "title": "3D Sajawat & Art Models", "subtitle": "Architectural decorative objects", "default_asset": "art-sculpture-modern-model.jpg" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

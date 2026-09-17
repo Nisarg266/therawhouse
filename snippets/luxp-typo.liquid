@@ -1,0 +1,98 @@
+{%- comment -%}
+  LUXP — Shared typography custom-property generator.
+
+  Emits font/typography custom properties for the standard elements
+  (eyebrow, heading, body, button) from standardized setting IDs so every
+  LUXP section shares one typography system. Mobile values (-m) are consumed
+  by assets/luxp.css below 750px.
+
+  Accepts:
+  - s: {Object} section.settings drop (uses standardized IDs)
+
+  Expects these setting IDs in the section schema:
+  eyebrow_font, eyebrow_size, eyebrow_size_m, eyebrow_weight, eyebrow_lh,
+  eyebrow_ls, eyebrow_transform,
+  heading_font, heading_size, heading_size_m, heading_weight, heading_lh,
+  heading_ls, heading_transform, heading_max_width,
+  body_font, body_size, body_size_m, body_weight, body_lh, body_ls,
+  body_max_width,
+  btn_size, btn_size_m, btn_weight, btn_ls, btn_transform, btn_height,
+  btn_px, btn_radius, btn_border_width
+
+  Usage:
+  {% capture luxp_typo %}{% render 'luxp-typo', s: section.settings %}{% endcapture %}
+
+  @module luxp-typo
+{%- endcomment -%}
+
+{%- liquid
+  case s.eyebrow_font
+    when 'body'
+      assign eyebrow_font_var = 'var(--font-body--family)'
+    when 'subheading'
+      assign eyebrow_font_var = 'var(--font-subheading--family)'
+    when 'accent'
+      assign eyebrow_font_var = 'var(--font-accent--family)'
+    when 'serif'
+      assign eyebrow_font_var = "Georgia, 'Times New Roman', serif"
+    else
+      assign eyebrow_font_var = 'var(--font-heading--family)'
+  endcase
+
+  case s.heading_font
+    when 'body'
+      assign heading_font_var = 'var(--font-body--family)'
+    when 'subheading'
+      assign heading_font_var = 'var(--font-subheading--family)'
+    when 'accent'
+      assign heading_font_var = 'var(--font-accent--family)'
+    when 'serif'
+      assign heading_font_var = "Georgia, 'Times New Roman', serif"
+    else
+      assign heading_font_var = 'var(--font-heading--family)'
+  endcase
+
+  case s.body_font
+    when 'heading'
+      assign body_font_var = 'var(--font-heading--family)'
+    when 'subheading'
+      assign body_font_var = 'var(--font-subheading--family)'
+    when 'accent'
+      assign body_font_var = 'var(--font-accent--family)'
+    when 'serif'
+      assign body_font_var = "Georgia, 'Times New Roman', serif"
+    else
+      assign body_font_var = 'var(--font-body--family)'
+  endcase
+-%}
+--luxp-eyebrow-font: {{ eyebrow_font_var }};
+--luxp-eyebrow-size: {{ s.eyebrow_size | default: 11 }}px;
+--luxp-eyebrow-size-m: {{ s.eyebrow_size_m | default: 10 }}px;
+--luxp-eyebrow-weight: {{ s.eyebrow_weight | default: 600 }};
+--luxp-eyebrow-lh: {{ s.eyebrow_lh | default: 1.4 }};
+--luxp-eyebrow-ls: {{ s.eyebrow_ls | default: '0.22em' }};
+--luxp-eyebrow-transform: {{ s.eyebrow_transform | default: 'uppercase' }};
+--luxp-heading-font: {{ heading_font_var }};
+--luxp-heading-size: {{ s.heading_size | default: 32 }}px;
+--luxp-heading-size-m: {{ s.heading_size_m | default: 24 }}px;
+--luxp-heading-weight: {{ s.heading_weight | default: 400 }};
+--luxp-heading-lh: {{ s.heading_lh | default: 1.2 }};
+--luxp-heading-ls: {{ s.heading_ls | default: '0.02em' }};
+--luxp-heading-transform: {{ s.heading_transform | default: 'none' }};
+--luxp-heading-mw: {{ s.heading_max_width | default: 100 }}%;
+--luxp-body-font: {{ body_font_var }};
+--luxp-body-size: {{ s.body_size | default: 15 }}px;
+--luxp-body-size-m: {{ s.body_size_m | default: 14 }}px;
+--luxp-body-weight: {{ s.body_weight | default: 400 }};
+--luxp-body-lh: {{ s.body_lh | default: 1.7 }};
+--luxp-body-ls: {{ s.body_ls | default: '0.01em' }};
+--luxp-body-mw: {{ s.body_max_width | default: 100 }}%;
+--luxp-btn-size: {{ s.btn_size | default: 11 }}px;
+--luxp-btn-size-m: {{ s.btn_size_m | default: 11 }}px;
+--luxp-btn-weight: {{ s.btn_weight | default: 600 }};
+--luxp-btn-ls: {{ s.btn_ls | default: '0.18em' }};
+--luxp-btn-transform: {{ s.btn_transform | default: 'uppercase' }};
+--luxp-btn-h: {{ s.btn_height | default: 46 }}px;
+--luxp-btn-px: {{ s.btn_px | default: 26 }}px;
+--luxp-btn-radius: {{ s.btn_radius | default: 2 }}px;
+--luxp-btn-bw: {{ s.btn_border_width | default: 1 }}px;

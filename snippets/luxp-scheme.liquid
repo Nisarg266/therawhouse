@@ -1,0 +1,130 @@
+{%- comment -%}
+  LUXP — Color scheme resolver (shared design system).
+
+  Resolves a named preset into LUXP color custom properties, then applies any
+  per-section overrides. Render inside a style attribute.
+
+  Accepts:
+  - preset: {String} light | warm | dark | obsidian
+  - bg, heading, text, accent, muted, border          {Color} overrides
+  - btn_bg, btn_text, btn_border                      {Color} overrides
+  - btn_bg_hover, btn_text_hover                      {Color} overrides
+
+  Usage:
+  {% capture luxp_colors %}{% render 'luxp-scheme',
+    preset: section.settings.color_preset,
+    bg: section.settings.color_bg,
+    heading: section.settings.color_heading,
+    text: section.settings.color_text,
+    accent: section.settings.color_accent,
+    muted: section.settings.color_muted,
+    border: section.settings.color_border,
+    btn_bg: section.settings.btn_bg,
+    btn_text: section.settings.btn_text,
+    btn_border: section.settings.btn_border,
+    btn_bg_hover: section.settings.btn_bg_hover,
+    btn_text_hover: section.settings.btn_text_hover
+  %}{% endcapture %}
+
+  @module luxp-scheme
+{%- endcomment -%}
+
+{%- liquid
+  assign p = preset | default: 'light'
+
+  case p
+    when 'warm'
+      assign v_bg = '#f9f8f5'
+      assign v_fg = '#111111'
+      assign v_heading = '#111111'
+      assign v_accent = '#b38b4d'
+      assign v_muted = '#726b60'
+      assign v_border = '#e8e4dc'
+      assign v_btn_bg = '#111111'
+      assign v_btn_fg = '#ffffff'
+      assign v_btn_border = '#111111'
+      assign v_btn_bg_h = '#b38b4d'
+      assign v_btn_fg_h = '#ffffff'
+    when 'dark'
+      assign v_bg = '#181818'
+      assign v_fg = '#f4f2ee'
+      assign v_heading = '#ffffff'
+      assign v_accent = '#c5a880'
+      assign v_muted = '#a8a29a'
+      assign v_border = '#35322d'
+      assign v_btn_bg = '#c5a880'
+      assign v_btn_fg = '#141414'
+      assign v_btn_border = '#c5a880'
+      assign v_btn_bg_h = '#ffffff'
+      assign v_btn_fg_h = '#141414'
+    when 'obsidian'
+      assign v_bg = '#0e0e0e'
+      assign v_fg = '#f4f2ee'
+      assign v_heading = '#ffffff'
+      assign v_accent = '#c5a880'
+      assign v_muted = '#9b968d'
+      assign v_border = '#2a2723'
+      assign v_btn_bg = '#c5a880'
+      assign v_btn_fg = '#101010'
+      assign v_btn_border = '#c5a880'
+      assign v_btn_bg_h = '#ffffff'
+      assign v_btn_fg_h = '#101010'
+    else
+      assign v_bg = '#ffffff'
+      assign v_fg = '#111111'
+      assign v_heading = '#111111'
+      assign v_accent = '#b38b4d'
+      assign v_muted = '#6b665c'
+      assign v_border = '#eae6de'
+      assign v_btn_bg = '#111111'
+      assign v_btn_fg = '#ffffff'
+      assign v_btn_border = '#111111'
+      assign v_btn_bg_h = '#b38b4d'
+      assign v_btn_fg_h = '#ffffff'
+  endcase
+
+  if bg != blank and bg != 'rgba(0,0,0,0)'
+    assign v_bg = bg
+  endif
+  if heading != blank and heading != 'rgba(0,0,0,0)'
+    assign v_heading = heading
+  endif
+  if text != blank and text != 'rgba(0,0,0,0)'
+    assign v_fg = text
+  endif
+  if accent != blank and accent != 'rgba(0,0,0,0)'
+    assign v_accent = accent
+  endif
+  if muted != blank and muted != 'rgba(0,0,0,0)'
+    assign v_muted = muted
+  endif
+  if border != blank and border != 'rgba(0,0,0,0)'
+    assign v_border = border
+  endif
+  if btn_bg != blank and btn_bg != 'rgba(0,0,0,0)'
+    assign v_btn_bg = btn_bg
+  endif
+  if btn_text != blank and btn_text != 'rgba(0,0,0,0)'
+    assign v_btn_fg = btn_text
+  endif
+  if btn_border != blank and btn_border != 'rgba(0,0,0,0)'
+    assign v_btn_border = btn_border
+  endif
+  if btn_bg_hover != blank and btn_bg_hover != 'rgba(0,0,0,0)'
+    assign v_btn_bg_h = btn_bg_hover
+  endif
+  if btn_text_hover != blank and btn_text_hover != 'rgba(0,0,0,0)'
+    assign v_btn_fg_h = btn_text_hover
+  endif
+-%}
+--luxp-bg: {{ v_bg }};
+--luxp-fg: {{ v_fg }};
+--luxp-heading-color: {{ v_heading }};
+--luxp-accent: {{ v_accent }};
+--luxp-muted: {{ v_muted }};
+--luxp-border: {{ v_border }};
+--luxp-btn-bg: {{ v_btn_bg }};
+--luxp-btn-fg: {{ v_btn_fg }};
+--luxp-btn-border: {{ v_btn_border }};
+--luxp-btn-bg-h: {{ v_btn_bg_h }};
+--luxp-btn-fg-h: {{ v_btn_fg_h }};

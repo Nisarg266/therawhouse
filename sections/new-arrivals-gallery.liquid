@@ -1,675 +1,378 @@
 {%- comment -%}
-  Renders the editorial "NEW ARRIVALS" 6-card asymmetrical masonry gallery.
-  Matches reference design: 
-  Left Column: 2 Top Squares + 1 Bottom Wide Landscape
-  Right Column: 1 Top Tall Vertical Cabinet + 2 Bottom Squares
+  THE RAW HOUSE — NEW ARRIVALS GALLERY (LUXP design system)
+  Modular arrival card blocks with desktop/mobile images, badges and links
+  in a fully configurable grid. No hover effects by default.
+
+  @module new-arrivals-gallery
 {%- endcomment -%}
 
-{% liquid
-  assign section_id = section.id
-  assign subheading = section.settings.subheading | default: 'the'
-  assign heading = section.settings.heading | default: 'N E W   A R R I V A L S'
-  assign show_underline = section.settings.show_underline
-  assign gap = section.settings.gap | default: 16
-  assign corner_radius = section.settings.corner_radius | default: 0
-  assign enable_hover_zoom = section.settings.enable_hover_zoom
+{%- liquid
+  assign s = section.settings
 
-  assign card_1_img = section.settings.card_1_image
-  assign card_1_link = section.settings.card_1_link
-  assign card_1_alt = section.settings.card_1_alt | default: 'New Arrival Item 1'
+  assign ratio_css = '4 / 5'
+  if s.image_ratio == '1/1'
+    assign ratio_css = '1 / 1'
+  elsif s.image_ratio == '3/4'
+    assign ratio_css = '3 / 4'
+  elsif s.image_ratio == '4/3'
+    assign ratio_css = '4 / 3'
+  elsif s.image_ratio == '16/10'
+    assign ratio_css = '16 / 10'
+  endif
 
-  assign card_2_img = section.settings.card_2_image
-  assign card_2_link = section.settings.card_2_link
-  assign card_2_alt = section.settings.card_2_alt | default: 'New Arrival Item 2'
+  assign card_border = s.card_border_color
+  if card_border == blank or card_border == 'rgba(0,0,0,0)'
+    assign card_border = 'var(--luxp-border)'
+  endif
 
-  assign card_3_img = section.settings.card_3_image
-  assign card_3_link = section.settings.card_3_link
-  assign card_3_alt = section.settings.card_3_alt | default: 'New Arrival Item 3'
+  assign header_track = 'center'
+  if s.header_align == 'left'
+    assign header_track = 'flex-start'
+  endif
+-%}
 
-  assign card_4_img = section.settings.card_4_image
-  assign card_4_link = section.settings.card_4_link
-  assign card_4_alt = section.settings.card_4_alt | default: 'New Arrival Item 4'
+{%- capture luxp_colors -%}
+  {%- render 'luxp-scheme',
+    preset: s.color_preset,
+    bg: s.color_bg,
+    heading: s.color_heading,
+    text: s.color_text,
+    accent: s.color_accent,
+    muted: s.color_muted,
+    border: s.color_border
+  -%}
+{%- endcapture -%}
 
-  assign card_5_img = section.settings.card_5_image
-  assign card_5_link = section.settings.card_5_link
-  assign card_5_alt = section.settings.card_5_alt | default: 'New Arrival Item 5'
-
-  assign card_6_img = section.settings.card_6_image
-  assign card_6_link = section.settings.card_6_link
-  assign card_6_alt = section.settings.card_6_alt | default: 'New Arrival Item 6'
-%}
+{%- capture luxp_typo -%}{%- render 'luxp-typo', s: s -%}{%- endcapture -%}
 
 <div
-  id="NewArrivalsGallery-{{ section_id }}"
-  class="new-arrivals-gallery section-{{ section_id }}"
+  class="luxp-section luxp-arrivals {% if s.container_mode == 'full' %}luxp-section--full{% endif %} {% if s.enable_animations %}luxp-anim{% endif %} {{ s.custom_class }}"
   style="
-    --nag-bg: {{ section.settings.background_color | default: '#ffffff' }};
-    --nag-heading-color: {{ section.settings.heading_color | default: '#111111' }};
-    --nag-heading-size: {{ section.settings.heading_size | default: 20 }}px;
-    --nag-heading-spacing: {{ section.settings.heading_letter_spacing | default: '0.35em' }};
-    --nag-underline-width: {{ section.settings.underline_width | default: 44 }}px;
-    --nag-underline-color: {{ section.settings.underline_color | default: '#111111' }};
-    --nag-gap: {{ gap }}px;
-    --nag-radius: {{ corner_radius }}px;
-    --nag-max-width: {{ section.settings.max_width | default: 1280 }}px;
-    --nag-padding-top: {{ section.settings.padding_top | default: 60 }}px;
-    --nag-padding-bottom: {{ section.settings.padding_bottom | default: 60 }}px;
+    {{ luxp_colors }}
+    {{ luxp_typo }}
+    --luxp-pt: {{ s.padding_top | default: 60 }}px;
+    --luxp-pb: {{ s.padding_bottom | default: 60 }}px;
+    --luxp-pt-m: {{ s.padding_top_m | default: 44 }}px;
+    --luxp-pb-m: {{ s.padding_bottom_m | default: 48 }}px;
+    --luxp-cw: {{ s.container_max | default: 1080 }}px;
+    --luxp-px: {{ s.container_padding | default: 32 }}px;
+    --luxp-px-m: {{ s.container_padding_m | default: 16 }}px;
+    --luxp-header-track: {{ header_track }};
+    --luxp-header-align: {{ s.header_align | default: 'center' }};
+    --luxp-header-gap: {{ s.header_gap | default: 10 }}px;
+    --luxp-header-mb: {{ s.header_mb | default: 30 }}px;
+    --luxp-cols: {{ s.columns | default: 3 }};
+    --luxp-cols-t: {{ s.columns_tablet | default: 2 }};
+    --luxp-cols-m: {{ s.columns_mobile | default: 2 }};
+    --luxp-cgap: {{ s.col_gap | default: 16 }}px;
+    --luxp-rgap: {{ s.row_gap | default: 16 }}px;
+    --luxp-cgap-m: {{ s.col_gap_m | default: 12 }}px;
+    --luxp-rgap-m: {{ s.row_gap_m | default: 12 }}px;
+    --luxp-media-ratio: {{ ratio_css }};
+    --luxp-media-fit: {{ s.image_fit | default: 'cover' }};
+    --luxp-media-radius: {{ s.card_radius | default: 0 }}px;
+    --luxp-media-bg: var(--luxp-border);
+    --luxp-card-bg: {% if s.card_bg != blank and s.card_bg != 'rgba(0,0,0,0)' %}{{ s.card_bg }}{% else %}transparent{% endif %};
+    --luxp-card-border: {{ card_border }};
+    --luxp-card-bw: {{ s.card_border_width | default: 0 }}px;
+    --luxp-card-radius: {{ s.card_radius | default: 0 }}px;
+    --luxp-card-shadow: {% if s.card_shadow == 'subtle' %}0 2px 12px rgba(0,0,0,0.06){% elsif s.card_shadow == 'medium' %}0 8px 28px rgba(0,0,0,0.12){% else %}none{% endif %};
+    --luxp-card-body-pt: {{ s.card_body_pt | default: 12 }}px;
+    --luxp-card-align: {{ s.card_align | default: 'left' }};
+    --luxp-card-gap: {{ s.card_gap | default: 4 }}px;
+    --luxp-cardtitle-size: {{ s.cardtitle_size | default: 12 }}px;
+    --luxp-cardtitle-size-m: {{ s.cardtitle_size_m | default: 11.5 }}px;
+    --luxp-pill-bg: var(--luxp-accent);
+    --luxp-pill-fg: #ffffff;
+    --luxp-footer-mt: {{ s.footer_mt | default: 28 }}px;
   "
+  {% if s.anchor_id != blank %}id="{{ s.anchor_id }}"{% endif %}
+  data-art-motion="off"
   {{ section.shopify_attributes }}
 >
-  <div class="new-arrivals-gallery__container">
-    
-    {%- comment -%} Header Title with Script Subheading & Underline {%- endcomment -%}
-    <div class="new-arrivals-gallery__header">
-      {% if subheading != blank %}
-        <span class="new-arrivals-gallery__subheading">{{ subheading }}</span>
-      {% endif %}
-      {% if heading != blank %}
-        <h2 class="new-arrivals-gallery__heading">{{ heading }}</h2>
-      {% endif %}
-      {% if show_underline %}
-        <div class="new-arrivals-gallery__underline" aria-hidden="true"></div>
-      {% endif %}
-    </div>
-
-    {%- comment -%} 6-Item Masonry Grid {%- endcomment -%}
-    <div class="new-arrivals-gallery__grid" data-editorial-track>
-      
-      {%- comment -%} LEFT COLUMN: 2 Top Split Cards + 1 Bottom Large Card {%- endcomment -%}
-      <div class="new-arrivals-gallery__column new-arrivals-gallery__column--left">
-        
-        <!-- Top Split Row (Card 1 & Card 2) -->
-        <div class="new-arrivals-gallery__row-split">
-          
-          <!-- Card 1 -->
-          <div class="new-arrivals-gallery__card new-arrivals-gallery__card--split" data-editorial-card>
-            {% if card_1_link != blank %}<a href="{{ card_1_link }}" class="new-arrivals-gallery__card-link" aria-label="{{ card_1_alt }}">{% endif %}
-              <div class="new-arrivals-gallery__media{% if enable_hover_zoom %} new-arrivals-gallery__media--zoom{% endif %}">
-                {% if card_1_img != blank %}
-                  {{ card_1_img | image_url: width: 1000 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_1_alt }}
-                {% else %}
-                  <img src="{{ 'new-arrival-1.jpg' | asset_url }}" alt="{{ card_1_alt }}" class="new-arrivals-gallery__img" loading="eager" width="600" height="700">
-                {% endif %}
-              </div>
-            {% if card_1_link != blank %}</a>{% endif %}
+  <div class="luxp-container">
+    {% if s.eyebrow != blank or s.heading != blank or s.intro != blank or s.show_ornament %}
+      <header class="luxp-header luxp-header--{{ s.header_align | default: 'center' }}">
+        {% if s.eyebrow != blank %}
+          <p class="luxp-eyebrow">{{ s.eyebrow }}</p>
+        {% endif %}
+        {% if s.heading != blank %}
+          <h2 class="luxp-heading">{{ s.heading }}</h2>
+        {% endif %}
+        {% if s.show_ornament %}
+          <div class="luxp-ornament" aria-hidden="true">
+            <span class="luxp-ornament__line"></span>
+            <span class="luxp-ornament__gem">&#9670;</span>
+            <span class="luxp-ornament__line"></span>
           </div>
+        {% endif %}
+        {% if s.intro != blank %}
+          <div class="luxp-body luxp-header__intro">{{ s.intro }}</div>
+        {% endif %}
+      </header>
+    {% endif %}
 
-          <!-- Card 2 -->
-          <div class="new-arrivals-gallery__card new-arrivals-gallery__card--split" data-editorial-card>
-            {% if card_2_link != blank %}<a href="{{ card_2_link }}" class="new-arrivals-gallery__card-link" aria-label="{{ card_2_alt }}">{% endif %}
-              <div class="new-arrivals-gallery__media{% if enable_hover_zoom %} new-arrivals-gallery__media--zoom{% endif %}">
-                {% if card_2_img != blank %}
-                  {{ card_2_img | image_url: width: 1000 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_2_alt }}
-                {% else %}
-                  <img src="{{ 'new-arrival-2.jpg' | asset_url }}" alt="{{ card_2_alt }}" class="new-arrivals-gallery__img" loading="eager" width="600" height="700">
-                {% endif %}
-              </div>
-            {% if card_2_link != blank %}</a>{% endif %}
+    <div class="luxp-grid">
+      {% for block in section.blocks %}
+        {%- liquid
+          assign card_title = block.settings.title
+          assign card_link = block.settings.link | default: routes.all_products_collection_url
+        -%}
+        <a href="{{ card_link }}" class="luxp-card" {{ block.shopify_attributes }}>
+          <div class="luxp-media {% if s.image_fit == 'contain' %}luxp-media--contain{% endif %}">
+            {% if block.settings.badge != blank %}
+              <span class="luxp-colcard__pill luxp-pill">{{ block.settings.badge }}</span>
+            {% endif %}
+            {% render 'luxp-image',
+              image: block.settings.image,
+              image_mobile: block.settings.image_mobile,
+              alt: card_title | default: 'New arrival',
+              class: 'luxp-arrivals__img',
+              loading: 'lazy',
+              sizes: '(min-width: 1024px) 33vw, 50vw',
+              fallback: block.settings.default_asset
+            %}
           </div>
-
-        </div>
-
-        <!-- Bottom Wide Card 3 -->
-        <div class="new-arrivals-gallery__card new-arrivals-gallery__card--wide" data-editorial-card>
-          {% if card_3_link != blank %}<a href="{{ card_3_link }}" class="new-arrivals-gallery__card-link" aria-label="{{ card_3_alt }}">{% endif %}
-            <div class="new-arrivals-gallery__media{% if enable_hover_zoom %} new-arrivals-gallery__media--zoom{% endif %}">
-              {% if card_3_img != blank %}
-                {{ card_3_img | image_url: width: 1600 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_3_alt }}
-              {% else %}
-                <img src="{{ 'new-arrival-3.jpg' | asset_url }}" alt="{{ card_3_alt }}" class="new-arrivals-gallery__img" loading="eager" width="1200" height="910">
+          {% if card_title != blank or block.settings.subtitle != blank %}
+            <div class="luxp-card__body {% if s.card_align == 'center' %}luxp-card__body--center{% endif %}">
+              {% if card_title != blank %}
+                <h3 class="luxp-card__title">{{ card_title }}</h3>
+              {% endif %}
+              {% if block.settings.subtitle != blank %}
+                <p class="luxp-card__meta">{{ block.settings.subtitle }}</p>
               {% endif %}
             </div>
-          {% if card_3_link != blank %}</a>{% endif %}
-        </div>
-
-      </div>
-
-      {%- comment -%} RIGHT COLUMN: 1 Top Tall Card + 2 Bottom Split Cards {%- endcomment -%}
-      <div class="new-arrivals-gallery__column new-arrivals-gallery__column--right">
-        
-        <!-- Top Tall Card 4 -->
-        <div class="new-arrivals-gallery__card new-arrivals-gallery__card--tall" data-editorial-card>
-          {% if card_4_link != blank %}<a href="{{ card_4_link }}" class="new-arrivals-gallery__card-link" aria-label="{{ card_4_alt }}">{% endif %}
-            <div class="new-arrivals-gallery__media{% if enable_hover_zoom %} new-arrivals-gallery__media--zoom{% endif %}">
-              {% if card_4_img != blank %}
-                {{ card_4_img | image_url: width: 1200 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_4_alt }}
-              {% else %}
-                <img src="{{ 'new-arrival-4.jpg' | asset_url }}" alt="{{ card_4_alt }}" class="new-arrivals-gallery__img" loading="eager" width="1200" height="910">
-              {% endif %}
-            </div>
-          {% if card_4_link != blank %}</a>{% endif %}
-        </div>
-
-        <!-- Bottom Split Row (Card 5 & Card 6) -->
-        <div class="new-arrivals-gallery__row-split">
-          
-          <!-- Card 5 -->
-          <div class="new-arrivals-gallery__card new-arrivals-gallery__card--split" data-editorial-card>
-            {% if card_5_link != blank %}<a href="{{ card_5_link }}" class="new-arrivals-gallery__card-link" aria-label="{{ card_5_alt }}">{% endif %}
-              <div class="new-arrivals-gallery__media{% if enable_hover_zoom %} new-arrivals-gallery__media--zoom{% endif %}">
-                {% if card_5_img != blank %}
-                  {{ card_5_img | image_url: width: 1000 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_5_alt }}
-                {% else %}
-                  <img src="{{ 'new-arrival-5.jpg' | asset_url }}" alt="{{ card_5_alt }}" class="new-arrivals-gallery__img" loading="eager" width="600" height="700">
-                {% endif %}
-              </div>
-            {% if card_5_link != blank %}</a>{% endif %}
-          </div>
-
-          <!-- Card 6 -->
-          <div class="new-arrivals-gallery__card new-arrivals-gallery__card--split" data-editorial-card>
-            {% if card_6_link != blank %}<a href="{{ card_6_link }}" class="new-arrivals-gallery__card-link" aria-label="{{ card_6_alt }}">{% endif %}
-              <div class="new-arrivals-gallery__media{% if enable_hover_zoom %} new-arrivals-gallery__media--zoom{% endif %}">
-                {% if card_6_img != blank %}
-                  {{ card_6_img | image_url: width: 1000 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_6_alt }}
-                {% else %}
-                  <img src="{{ 'new-arrival-6.jpg' | asset_url }}" alt="{{ card_6_alt }}" class="new-arrivals-gallery__img" loading="eager" width="600" height="700">
-                {% endif %}
-              </div>
-            {% if card_6_link != blank %}</a>{% endif %}
-          </div>
-
-        </div>
-
-      </div>
-
+          {% endif %}
+        </a>
+      {% endfor %}
     </div>
 
-    <!-- Mobile Slider Dots Indicator -->
-    <div class="new-arrivals-gallery__mobile-dots" id="NagDots-{{ section_id }}">
-      <button type="button" class="new-arrivals-gallery__dot is-active" data-editorial-dot data-index="0" aria-label="Show item 1" aria-current="true"></button>
-      <button type="button" class="new-arrivals-gallery__dot" data-editorial-dot data-index="1" aria-label="Show item 2" aria-current="false"></button>
-      <button type="button" class="new-arrivals-gallery__dot" data-editorial-dot data-index="2" aria-label="Show item 3" aria-current="false"></button>
-      <button type="button" class="new-arrivals-gallery__dot" data-editorial-dot data-index="3" aria-label="Show item 4" aria-current="false"></button>
-      <button type="button" class="new-arrivals-gallery__dot" data-editorial-dot data-index="4" aria-label="Show item 5" aria-current="false"></button>
-      <button type="button" class="new-arrivals-gallery__dot" data-editorial-dot data-index="5" aria-label="Show item 6" aria-current="false"></button>
-    </div>
+    {% if s.btn_label != blank %}
+      <div class="luxp-footer">
+        <a
+          href="{{ s.btn_link | default: routes.all_products_collection_url }}"
+          class="luxp-btn {% if s.btn_style == 'outline' %}luxp-btn--outline{% endif %} {% if s.btn_width == 'full' %}luxp-btn--full{% endif %} {% if s.btn_mobile_full %}luxp-btn--mobile-full{% endif %}"
+        >
+          {{ s.btn_label }}
+        </a>
+      </div>
+    {% endif %}
   </div>
 </div>
-
-
-
-{% stylesheet %}
-  .new-arrivals-gallery {
-    background-color: var(--nag-bg, #ffffff);
-    width: 100%;
-    padding-block-start: var(--nag-padding-top, 48px);
-    padding-block-end: var(--nag-padding-bottom, 64px);
-    position: relative;
-    box-sizing: border-box;
-    display: block !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-  }
-
-  .new-arrivals-gallery__container {
-    max-width: var(--nag-max-width, 980px) !important;
-    margin-inline: auto !important;
-    padding-inline: 20px !important;
-    box-sizing: border-box !important;
-  }
-
-  .new-arrivals-gallery__header {
-    text-align: center !important;
-    margin-block-end: 28px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-  }
-
-  .new-arrivals-gallery__subheading {
-    font-family: 'Cormorant Garamond', Georgia, 'Times New Roman', serif !important;
-    font-style: italic !important;
-    font-size: 22px !important;
-    color: var(--nag-heading-color, #111111) !important;
-    margin-bottom: 2px !important;
-    letter-spacing: 0.02em !important;
-    opacity: 0.9 !important;
-    line-height: 1.1 !important;
-  }
-
-  .new-arrivals-gallery__heading {
-    font-size: var(--nag-heading-size, 18px) !important;
-    letter-spacing: var(--nag-heading-spacing, 0.32em) !important;
-    font-weight: 500 !important;
-    text-transform: uppercase !important;
-    color: var(--nag-heading-color, #111111) !important;
-    margin: 0 !important;
-    line-height: 1.2 !important;
-  }
-
-  .new-arrivals-gallery__underline {
-    width: var(--nag-underline-width, 36px) !important;
-    height: 1.5px !important;
-    background-color: var(--nag-underline-color, #111111) !important;
-    margin-top: 8px !important;
-  }
-
-  /* Grid Layout: Desktop 2 Columns with Equal Height Balance */
-  .new-arrivals-gallery__grid {
-    display: grid !important;
-    grid-template-columns: 1fr 1fr !important;
-    gap: var(--nag-gap, 14px) !important;
-    width: 100% !important;
-    align-items: stretch !important;
-  }
-
-  .new-arrivals-gallery__column {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: var(--nag-gap, 14px) !important;
-    width: 100% !important;
-  }
-
-  .new-arrivals-gallery__row-split {
-    display: grid !important;
-    grid-template-columns: 1fr 1fr !important;
-    gap: var(--nag-gap, 14px) !important;
-    width: 100% !important;
-  }
-
-  .new-arrivals-gallery__card {
-    position: relative !important;
-    overflow: hidden !important;
-    border-radius: var(--nag-radius, 0px) !important;
-    background-color: #f6f6f6 !important;
-    width: 100% !important;
-    display: block !important;
-  }
-
-  .new-arrivals-gallery__card--split {
-    aspect-ratio: 1 / 1.18 !important;
-  }
-
-  .new-arrivals-gallery__card--wide {
-    aspect-ratio: 1.32 / 1 !important;
-  }
-
-  .new-arrivals-gallery__card--tall {
-    aspect-ratio: 1.32 / 1 !important;
-  }
-
-  .new-arrivals-gallery__card-link {
-    display: block !important;
-    width: 100% !important;
-    height: 100% !important;
-    text-decoration: none !important;
-    color: inherit !important;
-  }
-
-  .new-arrivals-gallery__media {
-    position: relative !important;
-    width: 100% !important;
-    height: 100% !important;
-    overflow: hidden !important;
-    display: block !important;
-  }
-
-  .new-arrivals-gallery__img {
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;
-    object-position: center !important;
-    display: block !important;
-    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
-  }
-
-  .new-arrivals-gallery__media--zoom:hover .new-arrivals-gallery__img {
-    transform: scale(1.04) !important;
-  }
-
-  .new-arrivals-gallery__mobile-dots {
-    display: none !important;
-  }
-
-  /* Mobile Responsive Touch Slider & Spacing Normalization */
-  @media screen and (max-width: 749px) {
-    .new-arrivals-gallery {
-      padding-block-start: clamp(24px, 5vw, 34px) !important;
-      padding-block-end: clamp(26px, 5vw, 36px) !important;
-    }
-
-    .new-arrivals-gallery__header {
-      margin-block-end: 18px !important;
-    }
-
-    .new-arrivals-gallery__container {
-      padding-inline: 18px !important;
-      overflow: hidden !important;
-    }
-
-    .new-arrivals-gallery__grid {
-      display: flex !important;
-      flex-direction: row !important;
-      flex-wrap: nowrap !important;
-      overflow-x: auto !important;
-      overflow-y: hidden !important;
-      scroll-snap-type: x mandatory !important;
-      -webkit-overflow-scrolling: touch !important;
-      gap: 12px !important;
-      padding-inline: 18px !important;
-      margin-inline: -18px !important;
-      scrollbar-width: none !important;
-      -ms-overflow-style: none !important;
-    }
-
-    .new-arrivals-gallery__grid::-webkit-scrollbar {
-      display: none !important;
-    }
-
-    .new-arrivals-gallery__column,
-    .new-arrivals-gallery__row-split {
-      display: contents !important;
-    }
-
-    .new-arrivals-gallery__card {
-      flex: 0 0 76% !important;
-      max-width: 290px !important;
-      scroll-snap-align: start !important;
-      scroll-snap-stop: always !important;
-      aspect-ratio: 1 / 1.18 !important;
-    }
-
-    .new-arrivals-gallery__card--split,
-    .new-arrivals-gallery__card--wide,
-    .new-arrivals-gallery__card--tall {
-      aspect-ratio: 1 / 1.18 !important;
-    }
-
-    .new-arrivals-gallery__mobile-dots {
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      gap: 6px !important;
-      margin-top: 16px !important;
-    }
-
-    .new-arrivals-gallery__dot {
-      box-sizing: content-box !important;
-      padding: 10px 5px !important;
-      border: 0 !important;
-      background-clip: content-box !important;
-      flex-shrink: 0;
-      width: 6px !important;
-      height: 6px !important;
-      border-radius: 50% !important;
-      background-color: #d8d8d8 !important;
-      cursor: pointer !important;
-      transition: all 0.28s ease !important;
-    }
-
-    .new-arrivals-gallery__dot.is-active {
-      width: 22px !important;
-      border-radius: 4px !important;
-      background-color: var(--nag-heading-color, #111111) !important;
-    }
-  }
-{% endstylesheet %}
 
 {% schema %}
 {
   "name": "New Arrivals Gallery",
   "tag": "section",
-  "class": "section-new-arrivals-gallery",
+  "class": "section-luxp-arrivals",
+  "max_blocks": 12,
   "settings": [
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow / subheading", "default": "the" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "N E W   A R R I V A L S" },
+    { "type": "richtext", "id": "intro", "label": "Intro text" },
+    { "type": "checkbox", "id": "show_ornament", "label": "Show ornament divider", "default": true },
+    { "type": "select", "id": "header_align", "label": "Header alignment", "options": [
+      { "value": "center", "label": "Center" },
+      { "value": "left", "label": "Left" }
+    ], "default": "center" },
+    { "type": "range", "id": "header_mb", "min": 8, "max": 72, "step": 2, "unit": "px", "label": "Space below header — desktop", "default": 30 },
+    { "type": "range", "id": "header_gap", "min": 4, "max": 24, "step": 2, "unit": "px", "label": "Header element spacing", "default": 10 },
+
+    { "type": "header", "content": "Layout — Grid" },
+    { "type": "select", "id": "container_mode", "label": "Container mode", "options": [
+      { "value": "fixed", "label": "Container (max width)" },
+      { "value": "full", "label": "Full width" }
+    ], "default": "fixed" },
+    { "type": "range", "id": "container_max", "min": 800, "max": 1600, "step": 20, "unit": "px", "label": "Container max width", "default": 1080 },
+    { "type": "range", "id": "columns", "min": 2, "max": 5, "step": 1, "label": "Columns — desktop", "default": 3 },
+    { "type": "range", "id": "columns_tablet", "min": 2, "max": 4, "step": 1, "label": "Columns — tablet", "default": 2 },
+    { "type": "select", "id": "columns_mobile", "label": "Columns — mobile", "options": [
+      { "value": "1", "label": "1 column" },
+      { "value": "2", "label": "2 columns" }
+    ], "default": "2" },
+    { "type": "range", "id": "col_gap", "min": 4, "max": 48, "step": 2, "unit": "px", "label": "Column gap — desktop", "default": 16 },
+    { "type": "range", "id": "row_gap", "min": 4, "max": 60, "step": 2, "unit": "px", "label": "Row gap — desktop", "default": 16 },
+    { "type": "range", "id": "col_gap_m", "min": 4, "max": 32, "step": 2, "unit": "px", "label": "Column gap — mobile", "default": 12 },
+    { "type": "range", "id": "row_gap_m", "min": 4, "max": 40, "step": 2, "unit": "px", "label": "Row gap — mobile", "default": 14 },
+
+    { "type": "header", "content": "Cards" },
+    { "type": "select", "id": "image_ratio", "label": "Card image ratio", "options": [
+      { "value": "4/5", "label": "Portrait 4:5" },
+      { "value": "1/1", "label": "Square 1:1" },
+      { "value": "3/4", "label": "Portrait 3:4" },
+      { "value": "4/3", "label": "Landscape 4:3" },
+      { "value": "16/10", "label": "Wide 16:10" }
+    ], "default": "4/5" },
+    { "type": "select", "id": "image_fit", "label": "Image fit", "options": [
+      { "value": "cover", "label": "Cover (fill, may crop)" },
+      { "value": "contain", "label": "Contain (no crop)" }
+    ], "default": "cover" },
+    { "type": "color", "id": "card_bg", "label": "Card background", "info": "Blank = transparent." },
+    { "type": "color", "id": "card_border_color", "label": "Card border color", "info": "Blank uses the scheme border." },
+    { "type": "range", "id": "card_border_width", "min": 0, "max": 3, "step": 1, "unit": "px", "label": "Card border width", "default": 0 },
+    { "type": "range", "id": "card_radius", "min": 0, "max": 24, "step": 1, "unit": "px", "label": "Card corner radius", "default": 0 },
+    { "type": "select", "id": "card_shadow", "label": "Card shadow", "options": [
+      { "value": "none", "label": "None" },
+      { "value": "subtle", "label": "Subtle" },
+      { "value": "medium", "label": "Medium" }
+    ], "default": "none" },
+    { "type": "select", "id": "card_align", "label": "Card text alignment", "options": [
+      { "value": "left", "label": "Left" },
+      { "value": "center", "label": "Center" }
+    ], "default": "left" },
+    { "type": "range", "id": "card_body_pt", "min": 4, "max": 28, "step": 1, "unit": "px", "label": "Space between image and text", "default": 12 },
+    { "type": "range", "id": "card_gap", "min": 2, "max": 12, "step": 1, "unit": "px", "label": "Card text spacing", "default": 4 },
+    { "type": "range", "id": "cardtitle_size", "min": 10, "max": 18, "step": 0.5, "unit": "px", "label": "Card title size — desktop", "default": 12 },
+    { "type": "range", "id": "cardtitle_size_m", "min": 10, "max": 16, "step": 0.5, "unit": "px", "label": "Card title size — mobile", "default": 11.5 },
+
+    { "type": "header", "content": "Typography — Eyebrow" },
+    { "type": "select", "id": "eyebrow_font", "label": "Font family", "options": [
+      { "value": "heading", "label": "Theme heading font" },
+      { "value": "body", "label": "Theme body font" },
+      { "value": "subheading", "label": "Theme subheading font" },
+      { "value": "accent", "label": "Theme accent font" },
+      { "value": "serif", "label": "Serif (Georgia)" }
+    ], "default": "body" },
+    { "type": "range", "id": "eyebrow_size", "min": 9, "max": 16, "step": 1, "unit": "px", "label": "Font size — desktop", "default": 11 },
+    { "type": "range", "id": "eyebrow_size_m", "min": 9, "max": 16, "step": 1, "unit": "px", "label": "Font size — mobile", "default": 10 },
+    { "type": "select", "id": "eyebrow_weight", "label": "Font weight", "options": [
+      { "value": "400", "label": "Regular 400" },
+      { "value": "500", "label": "Medium 500" },
+      { "value": "600", "label": "Semibold 600" },
+      { "value": "700", "label": "Bold 700" }
+    ], "default": "600" },
+    { "type": "select", "id": "eyebrow_ls", "label": "Letter spacing", "options": [ { "value": "0em", "label": "None" }, { "value": "0.1em", "label": "0.1em" }, { "value": "0.18em", "label": "0.18em" }, { "value": "0.22em", "label": "0.22em" }, { "value": "0.3em", "label": "0.3em" } ], "default": "0.22em" },
+    { "type": "select", "id": "eyebrow_transform", "label": "Text transform", "options": [
+      { "value": "uppercase", "label": "Uppercase" },
+      { "value": "none", "label": "None" }
+    ], "default": "uppercase" },
+
+    { "type": "header", "content": "Typography — Heading" },
+    { "type": "select", "id": "heading_font", "label": "Font family", "options": [
+      { "value": "heading", "label": "Theme heading font" },
+      { "value": "body", "label": "Theme body font" },
+      { "value": "subheading", "label": "Theme subheading font" },
+      { "value": "accent", "label": "Theme accent font" },
+      { "value": "serif", "label": "Serif (Georgia)" }
+    ], "default": "body" },
+    { "type": "range", "id": "heading_size", "min": 14, "max": 48, "step": 1, "unit": "px", "label": "Font size — desktop", "default": 20 },
+    { "type": "range", "id": "heading_size_m", "min": 12, "max": 36, "step": 1, "unit": "px", "label": "Font size — mobile", "default": 17 },
+    { "type": "select", "id": "heading_weight", "label": "Font weight", "options": [
+      { "value": "300", "label": "Light 300" },
+      { "value": "400", "label": "Regular 400" },
+      { "value": "500", "label": "Medium 500" },
+      { "value": "600", "label": "Semibold 600" }
+    ], "default": "400" },
+    { "type": "range", "id": "heading_lh", "min": 1, "max": 1.8, "step": 0.1, "label": "Line height", "default": 1.2 },
+    { "type": "select", "id": "heading_ls", "label": "Letter spacing", "options": [ { "value": "0em", "label": "None" }, { "value": "0.1em", "label": "0.1em" }, { "value": "0.2em", "label": "0.2em" }, { "value": "0.25em", "label": "0.25em" }, { "value": "0.3em", "label": "0.3em" }, { "value": "0.35em", "label": "0.35em" } ], "default": "0.35em" },
+    { "type": "select", "id": "heading_transform", "label": "Text transform", "options": [
+      { "value": "none", "label": "None" },
+      { "value": "uppercase", "label": "Uppercase" }
+    ], "default": "none" },
+
+    { "type": "header", "content": "Typography — Intro / Body" },
+    { "type": "select", "id": "body_font", "label": "Font family", "options": [
+      { "value": "body", "label": "Theme body font" },
+      { "value": "heading", "label": "Theme heading font" },
+      { "value": "serif", "label": "Serif (Georgia)" }
+    ], "default": "body" },
+    { "type": "range", "id": "body_size", "min": 12, "max": 22, "step": 1, "unit": "px", "label": "Font size — desktop", "default": 14 },
+    { "type": "range", "id": "body_size_m", "min": 12, "max": 20, "step": 1, "unit": "px", "label": "Font size — mobile", "default": 13 },
+    { "type": "select", "id": "body_weight", "label": "Font weight", "options": [
+      { "value": "300", "label": "Light 300" },
+      { "value": "400", "label": "Regular 400" },
+      { "value": "500", "label": "Medium 500" }
+    ], "default": "400" },
+    { "type": "range", "id": "body_lh", "min": 1.3, "max": 2.1, "step": 0.1, "label": "Line height", "default": 1.7 },
+    { "type": "select", "id": "body_ls", "label": "Letter spacing", "options": [ { "value": "0em", "label": "None" }, { "value": "0.01em", "label": "0.01em" }, { "value": "0.02em", "label": "0.02em" }, { "value": "0.03em", "label": "0.03em" } ], "default": "0.01em" },
+    { "type": "range", "id": "body_max_width", "min": 40, "max": 100, "step": 5, "unit": "%", "label": "Max width", "default": 100 },
+
+    { "type": "header", "content": "Colors" },
+    { "type": "select", "id": "color_preset", "label": "Color scheme preset", "options": [
+      { "value": "light", "label": "Light Clean (White)" },
+      { "value": "warm", "label": "Warm Atelier (Ivory)" },
+      { "value": "dark", "label": "Dark Contemporary" },
+      { "value": "obsidian", "label": "Obsidian Gold" }
+    ], "default": "light" },
+    { "type": "color", "id": "color_bg", "label": "Background color override", "default": "#ffffff" },
+    { "type": "color", "id": "color_heading", "label": "Heading color override", "default": "#1a1a1a" },
+    { "type": "color", "id": "color_text", "label": "Text color override", "default": "#4a4a4a" },
+    { "type": "color", "id": "color_accent", "label": "Accent color override", "default": "#b08d57" },
+    { "type": "color", "id": "color_muted", "label": "Muted text override" },
+    { "type": "color", "id": "color_border", "label": "Border color override" },
+
+    { "type": "header", "content": "Footer Button" },
+    { "type": "text", "id": "btn_label", "label": "Button label" },
+    { "type": "url", "id": "btn_link", "label": "Button link" },
+    { "type": "select", "id": "btn_style", "label": "Button style", "options": [
+      { "value": "solid", "label": "Solid" },
+      { "value": "outline", "label": "Outline" }
+    ], "default": "solid" },
+    { "type": "range", "id": "btn_height", "min": 36, "max": 64, "step": 2, "unit": "px", "label": "Button height", "default": 46 },
+    { "type": "range", "id": "btn_px", "min": 12, "max": 48, "step": 2, "unit": "px", "label": "Button side padding", "default": 26 },
+    { "type": "range", "id": "btn_size", "min": 9, "max": 16, "step": 1, "unit": "px", "label": "Font size — desktop", "default": 11 },
+    { "type": "range", "id": "btn_size_m", "min": 9, "max": 16, "step": 1, "unit": "px", "label": "Font size — mobile", "default": 11 },
+    { "type": "select", "id": "btn_weight", "label": "Font weight", "options": [
+      { "value": "500", "label": "Medium 500" },
+      { "value": "600", "label": "Semibold 600" },
+      { "value": "700", "label": "Bold 700" }
+    ], "default": "600" },
+    { "type": "select", "id": "btn_ls", "label": "Letter spacing", "options": [ { "value": "0.1em", "label": "0.1em" }, { "value": "0.14em", "label": "0.14em" }, { "value": "0.18em", "label": "0.18em" }, { "value": "0.22em", "label": "0.22em" } ], "default": "0.18em" },
+    { "type": "select", "id": "btn_transform", "label": "Text transform", "options": [
+      { "value": "uppercase", "label": "Uppercase" },
+      { "value": "none", "label": "None" }
+    ], "default": "uppercase" },
+    { "type": "range", "id": "btn_radius", "min": 0, "max": 40, "step": 1, "unit": "px", "label": "Corner radius", "default": 2 },
+    { "type": "range", "id": "btn_border_width", "min": 0, "max": 4, "step": 1, "unit": "px", "label": "Border width", "default": 1 },
+    { "type": "select", "id": "btn_width", "label": "Button width", "options": [
+      { "value": "auto", "label": "Auto" },
+      { "value": "full", "label": "Full width" }
+    ], "default": "auto" },
+    { "type": "checkbox", "id": "btn_mobile_full", "label": "Full width on mobile", "default": false },
+    { "type": "range", "id": "footer_mt", "min": 8, "max": 64, "step": 2, "unit": "px", "label": "Space above button", "default": 28 },
+
+    { "type": "header", "content": "Spacing" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding top — desktop", "default": 60 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding bottom — desktop", "default": 60 },
+    { "type": "range", "id": "padding_top_m", "min": 0, "max": 88, "step": 4, "unit": "px", "label": "Padding top — mobile", "default": 44 },
+    { "type": "range", "id": "padding_bottom_m", "min": 0, "max": 88, "step": 4, "unit": "px", "label": "Padding bottom — mobile", "default": 48 },
+    { "type": "range", "id": "container_padding", "min": 0, "max": 64, "step": 2, "unit": "px", "label": "Container side padding — desktop", "default": 32 },
+    { "type": "range", "id": "container_padding_m", "min": 0, "max": 32, "step": 2, "unit": "px", "label": "Container side padding — mobile", "default": 16 },
+
+    { "type": "header", "content": "Animation" },
+    { "type": "checkbox", "id": "enable_animations", "label": "Enable subtle motion", "info": "Off by default — cards render completely static.", "default": false },
+
+    { "type": "header", "content": "Advanced" },
+    { "type": "text", "id": "anchor_id", "label": "Anchor ID" },
+    { "type": "text", "id": "custom_class", "label": "Custom CSS class" }
+  ],
+  "blocks": [
     {
-      "type": "header",
-      "content": "Heading & Title"
-    },
-    {
-      "type": "text",
-      "id": "subheading",
-      "label": "Italic Subheading",
-      "default": "the"
-    },
-    {
-      "type": "text",
-      "id": "heading",
-      "label": "Main Heading",
-      "default": "N E W   A R R I V A L S"
-    },
-    {
-      "type": "range",
-      "id": "heading_size",
-      "min": 14,
-      "max": 36,
-      "step": 1,
-      "unit": "px",
-      "label": "Heading Font Size",
-      "default": 20
-    },
-    {
-      "type": "text",
-      "id": "heading_letter_spacing",
-      "label": "Heading Letter Spacing",
-      "default": "0.35em"
-    },
-    {
-      "type": "color",
-      "id": "heading_color",
-      "label": "Heading Color",
-      "default": "#111111"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_underline",
-      "label": "Show Underline",
-      "default": true
-    },
-    {
-      "type": "range",
-      "id": "underline_width",
-      "min": 20,
-      "max": 120,
-      "step": 2,
-      "unit": "px",
-      "label": "Underline Width",
-      "default": 44
-    },
-    {
-      "type": "color",
-      "id": "underline_color",
-      "label": "Underline Color",
-      "default": "#111111"
-    },
-    {
-      "type": "header",
-      "content": "Left Column - Top Left (Card 1)"
-    },
-    {
-      "type": "image_picker",
-      "id": "card_1_image",
-      "label": "Card 1 Image"
-    },
-    {
-      "type": "url",
-      "id": "card_1_link",
-      "label": "Card 1 Link"
-    },
-    {
-      "type": "text",
-      "id": "card_1_alt",
-      "label": "Card 1 Alt Text",
-      "default": "Classical Urn Vase"
-    },
-    {
-      "type": "header",
-      "content": "Left Column - Top Right (Card 2)"
-    },
-    {
-      "type": "image_picker",
-      "id": "card_2_image",
-      "label": "Card 2 Image"
-    },
-    {
-      "type": "url",
-      "id": "card_2_link",
-      "label": "Card 2 Link"
-    },
-    {
-      "type": "text",
-      "id": "card_2_alt",
-      "label": "Card 2 Alt Text",
-      "default": "Luxury Marble Vessel"
-    },
-    {
-      "type": "header",
-      "content": "Left Column - Bottom Wide (Card 3)"
-    },
-    {
-      "type": "image_picker",
-      "id": "card_3_image",
-      "label": "Card 3 Image"
-    },
-    {
-      "type": "url",
-      "id": "card_3_link",
-      "label": "Card 3 Link"
-    },
-    {
-      "type": "text",
-      "id": "card_3_alt",
-      "label": "Card 3 Alt Text",
-      "default": "Console Table with Forest Mural"
-    },
-    {
-      "type": "header",
-      "content": "Right Column - Top Tall (Card 4)"
-    },
-    {
-      "type": "image_picker",
-      "id": "card_4_image",
-      "label": "Card 4 Image"
-    },
-    {
-      "type": "url",
-      "id": "card_4_link",
-      "label": "Card 4 Link"
-    },
-    {
-      "type": "text",
-      "id": "card_4_alt",
-      "label": "Card 4 Alt Text",
-      "default": "Tall Standing Cabinet"
-    },
-    {
-      "type": "header",
-      "content": "Right Column - Bottom Left (Card 5)"
-    },
-    {
-      "type": "image_picker",
-      "id": "card_5_image",
-      "label": "Card 5 Image"
-    },
-    {
-      "type": "url",
-      "id": "card_5_link",
-      "label": "Card 5 Link"
-    },
-    {
-      "type": "text",
-      "id": "card_5_alt",
-      "label": "Card 5 Alt Text",
-      "default": "Vintage Ribbed Teapot"
-    },
-    {
-      "type": "header",
-      "content": "Right Column - Bottom Right (Card 6)"
-    },
-    {
-      "type": "image_picker",
-      "id": "card_6_image",
-      "label": "Card 6 Image"
-    },
-    {
-      "type": "url",
-      "id": "card_6_link",
-      "label": "Card 6 Link"
-    },
-    {
-      "type": "text",
-      "id": "card_6_alt",
-      "label": "Card 6 Alt Text",
-      "default": "Sculptural Globe Lamp"
-    },
-    {
-      "type": "header",
-      "content": "Layout & Animation Settings"
-    },
-    {
-      "type": "range",
-      "id": "max_width",
-      "min": 500,
-      "max": 1600,
-      "step": 20,
-      "unit": "px",
-      "label": "Grid Max Width",
-      "default": 1080
-    },
-    {
-      "type": "range",
-      "id": "gap",
-      "min": 8,
-      "max": 36,
-      "step": 2,
-      "unit": "px",
-      "label": "Image Grid Gap",
-      "default": 14
-    },
-    {
-      "type": "range",
-      "id": "corner_radius",
-      "min": 0,
-      "max": 24,
-      "step": 2,
-      "unit": "px",
-      "label": "Corner Radius",
-      "default": 0
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_hover_zoom",
-      "label": "Enable Image Hover Zoom",
-      "default": true
-    },
-    {
-      "type": "color",
-      "id": "background_color",
-      "label": "Section Background",
-      "default": "#ffffff"
-    },
-    {
-      "type": "range",
-      "id": "padding_top",
-      "min": 0,
-      "max": 120,
-      "step": 4,
-      "unit": "px",
-      "label": "Padding Top",
-      "default": 48
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom",
-      "min": 0,
-      "max": 120,
-      "step": 4,
-      "unit": "px",
-      "label": "Padding Bottom",
-      "default": 64
+      "type": "arrival_card",
+      "name": "Arrival Card",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Desktop image" },
+        { "type": "image_picker", "id": "image_mobile", "label": "Mobile image", "info": "Optional separate image shown below 750px." },
+        { "type": "text", "id": "default_asset", "label": "Fallback asset filename" },
+        { "type": "text", "id": "title", "label": "Title", "info": "Also used as the image alt text.", "default": "Vase Calyx-krater By Eichholtz" },
+        { "type": "text", "id": "subtitle", "label": "Subtitle" },
+        { "type": "text", "id": "badge", "label": "Badge text" },
+        { "type": "url", "id": "link", "label": "Link" }
+      ]
     }
   ],
   "presets": [
     {
       "name": "New Arrivals Gallery",
-      "settings": {
-        "subheading": "the",
-        "heading": "N E W   A R R I V A L S",
-        "show_underline": true,
-        "max_width": 1080,
-        "gap": 14
-      }
+      "blocks": [
+        { "type": "arrival_card", "settings": { "title": "Vase Calyx-krater By Eichholtz", "default_asset": "new-arrival-1.jpg" } },
+        { "type": "arrival_card", "settings": { "title": "Apsara Candy Jar By Ira Udaipur", "default_asset": "new-arrival-2.jpg" } },
+        { "type": "arrival_card", "settings": { "title": "Nico Cladded Console By The Edit", "default_asset": "new-arrival-3.jpg" } },
+        { "type": "arrival_card", "settings": { "title": "Grain of Time Bar Cabinet By Jagdish Sutar", "default_asset": "new-arrival-4.jpg" } },
+        { "type": "arrival_card", "settings": { "title": "Old Soul Teapot XIII By Eina Ahluwalia", "default_asset": "new-arrival-5.jpg" } },
+        { "type": "arrival_card", "settings": { "title": "Lagori Round Table Lamp By Yaahvi", "default_asset": "new-arrival-6.jpg" } }
+      ]
     }
   ]
 }
