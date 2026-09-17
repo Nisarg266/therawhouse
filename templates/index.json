@@ -424,6 +424,7 @@
         "card_4"
       ],
       "settings": {
+        "layout_style": "grid",
         "eyebrow": "the",
         "heading": "R E C O M M E N D A T I O N S",
         "intro": "",
@@ -1010,6 +1011,7 @@
         "press_5",
         "press_6"
       ],
+      "disabled": true,
       "settings": {
         "heading": "Featured In",
         "show_ornament": true,
