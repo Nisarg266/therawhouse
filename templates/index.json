@@ -423,6 +423,23 @@
     },
     "new_arrivals": {
       "type": "new-arrivals-gallery",
+      "blocks": {
+        "arrival_card_nej4Ck": {
+          "type": "arrival_card",
+          "settings": {
+            "alt": "Curated Object",
+            "designer": "",
+            "price": "",
+            "badge": "",
+            "badge_bg": "#111111",
+            "badge_color": "#ffffff",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "arrival_card_nej4Ck"
+      ],
       "settings": {
         "subheading": "THE",
         "subheading_size": 26,
@@ -612,7 +629,7 @@
         "card_1": {
           "type": "product_card",
           "settings": {
-            "product": "",
+            "product": "arq-cabinet",
             "default_asset": "fine-print-1.jpg",
             "title": "Radha and Krishna",
             "vendor": "By Mahaveer Swami",
@@ -630,7 +647,7 @@
         "card_2": {
           "type": "product_card",
           "settings": {
-            "product": "",
+            "product": "drushti-pithika-cabinet",
             "default_asset": "fine-print-2.jpg",
             "title": "Pink Flower Deep Plate - Bitossi",
             "vendor": "By Mon Dimora",
@@ -648,7 +665,7 @@
         "card_3": {
           "type": "product_card",
           "settings": {
-            "product": "",
+            "product": "arq-side-board",
             "default_asset": "fine-print-3.jpg",
             "title": "The Blueroom Hand Printed Wallpaper",
             "vendor": "By Oldhand Designs",
@@ -662,31 +679,12 @@
             "badge_2_color": "#ffffff",
             "link": "shopify://collections/all"
           }
-        },
-        "card_4": {
-          "type": "product_card",
-          "settings": {
-            "product": "",
-            "default_asset": "art-print-limited-edition.jpg",
-            "title": "Lotus In Pichwai Archival Print",
-            "vendor": "By The Raw House Archive",
-            "price": "₹8,500.00",
-            "compare_at_price": "",
-            "badge": "LIMITED EDITION",
-            "badge_bg": "#b08d57",
-            "badge_color": "#ffffff",
-            "badge_2": "",
-            "badge_2_bg": "#111111",
-            "badge_2_color": "#ffffff",
-            "link": "shopify://collections/all"
-          }
         }
       },
       "block_order": [
         "card_1",
         "card_2",
-        "card_3",
-        "card_4"
+        "card_3"
       ],
       "settings": {
         "eyebrow": "THE",
@@ -698,7 +696,7 @@
         "header_gap": 10,
         "container_mode": "fixed",
         "container_max": 1080,
-        "columns": 5,
+        "columns": 3,
         "columns_tablet": 2,
         "columns_mobile": "2",
         "col_gap": 28,
