@@ -257,31 +257,21 @@
 
 <div class="cart__ctas">
   <button
-    type="submit"
+    type="button"
     id="checkout"
     class="cart__checkout-button button art-button"
-    name="checkout"
+    onclick="if(window.openCartOrderEnquiryDrawer) { window.openCartOrderEnquiryDrawer(); } else { const d = document.getElementById('LuxCartOrderEnquiryDrawer'); if(d) d.classList.add('is-open'); }"
     {% if cart == empty %}
       disabled
     {% endif %}
-    form="cart-form"
   >
     <span class="button-text">
-      {{ 'content.checkout' | t }}
+      SUBMIT ORDER ENQUIRY
     </span>
   </button>
-
-  {% if additional_checkout_buttons and settings.show_accelerated_checkout_buttons %}
-    <div
-      class="
-        additional-checkout-buttons
-        {% if accelerated_checkout_buttons_layout == 'vertical' %}additional-checkout-buttons--vertical{% endif %}
-      "
-    >
-      {{ content_for_additional_checkout_buttons }}
-    </div>
-  {% endif %}
 </div>
+
+{% render 'cart-enquiry-drawer', cart: cart %}
 
 {% stylesheet %}
   .cart-actions {

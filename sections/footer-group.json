@@ -48,6 +48,7 @@
         "show_brand_header": true,
         "brand_name": "THE RAW HOUSE",
         "brand_tagline": "Contemporary Fine Art Paintings, 3D Sculptural Models & Museum Curations",
+        "show_payment_methods": false,
         "payment_heading": "PAYMENT METHODS",
         "social_heading": "FIND US ONLINE",
         "instagram_url": "https://instagram.com",

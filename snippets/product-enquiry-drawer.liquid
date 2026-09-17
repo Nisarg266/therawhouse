@@ -1,0 +1,695 @@
+{%- doc -%}
+  Renders an ultra-luxury Product Enquiry Drawer / Modal for The Raw House.
+  Enables clients to submit bespoke acquisition and curatorial inquiries without a payment gateway.
+
+  @param {object} product - The product object
+  @param {object} [variant] - The current variant object
+  @param {string} [drawer_id] - Unique DOM ID for the drawer
+{%- enddoc -%}
+
+{%- liquid
+  assign current_variant = variant | default: product.selected_or_first_available_variant
+  assign drawer_dom_id = drawer_id | default: 'LuxProductEnquiryDrawer-' | append: product.id
+  assign form_id = 'LuxProductEnquiryForm-' | append: product.id
+-%}
+
+<div
+  id="{{ drawer_dom_id }}"
+  class="lux-enquiry-drawer"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="{{ drawer_dom_id }}-title"
+  aria-hidden="true"
+  tabindex="-1"
+>
+  <div class="lux-enquiry-drawer__backdrop" data-close-enquiry aria-hidden="true"></div>
+
+  <div class="lux-enquiry-drawer__panel">
+    <!-- Header -->
+    <div class="lux-enquiry-drawer__header">
+      <div class="lux-enquiry-drawer__header-titles">
+        <span class="lux-enquiry-drawer__eyebrow">THE RAW HOUSE ATELIER</span>
+        <h2 id="{{ drawer_dom_id }}-title" class="lux-enquiry-drawer__title">Bespoke Acquisition Inquiry</h2>
+      </div>
+      <button
+        type="button"
+        class="lux-enquiry-drawer__close-btn"
+        data-close-enquiry
+        aria-label="Close inquiry drawer"
+      >
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Curated Product Summary Card -->
+    <div class="lux-enquiry-drawer__product-card">
+      <div class="lux-enquiry-drawer__product-media">
+        {%- if product.featured_image != blank -%}
+          <img
+            src="{{ product.featured_image | image_url: width: 180, height: 180, crop: 'center' }}"
+            alt="{{ product.title | escape }}"
+            loading="lazy"
+            width="80"
+            height="80"
+            class="lux-enquiry-drawer__product-img"
+          >
+        {%- else -%}
+          <div class="lux-enquiry-drawer__product-placeholder">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.2">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              <circle cx="8.5" cy="8.5" r="1.5"></circle>
+              <polyline points="21 15 16 10 5 21"></polyline>
+            </svg>
+          </div>
+        {%- endif -%}
+      </div>
+      <div class="lux-enquiry-drawer__product-details">
+        <span class="lux-enquiry-drawer__product-curator">Curated Atelier Piece</span>
+        <h3 class="lux-enquiry-drawer__product-name">{{ product.title }}</h3>
+        {%- if current_variant.title != blank and current_variant.title != 'Default Title' -%}
+          <span class="lux-enquiry-drawer__product-variant">Option: {{ current_variant.title }}</span>
+        {%- endif -%}
+        <div class="lux-enquiry-drawer__product-badge">
+          <span>◆ White Glove Transit Included</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Inquiry Body & Form -->
+    <div class="lux-enquiry-drawer__body">
+      <p class="lux-enquiry-drawer__intro">
+        Our fine collections are crafted in limited studio ateliers. Please provide your details below and our curatorial desk will provide bespoke pricing, dimensions, and delivery timeline.
+      </p>
+
+      {%- form 'contact', id: form_id, class: 'lux-enquiry-form' -%}
+        <input type="hidden" name="contact[tags]" value="product-inquiry, {{ product.title | handleize }}">
+        <input type="hidden" name="contact[product_title]" value="{{ product.title | escape }}">
+        <input type="hidden" name="contact[product_url]" value="{{ shop.url }}{{ product.url }}">
+        {%- if current_variant -%}
+          <input type="hidden" name="contact[product_variant]" value="{{ current_variant.title | escape }}">
+        {%- endif -%}
+
+        {%- if form.posted_successfully? -%}
+          <div class="lux-enquiry-form__success" role="status" tabindex="-1">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <div>
+              <strong>Inquiry Received with Distinction</strong>
+              <p>Thank you. A dedicated Raw House curator will review your request and reach out within 4 business hours.</p>
+            </div>
+          </div>
+        {%- elsif form.errors -%}
+          <div class="lux-enquiry-form__error" role="alert" tabindex="-1">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <div>
+              <strong>Please check your submission</strong>
+              <p>{{ form.errors | default_errors }}</p>
+            </div>
+          </div>
+        {%- endif -%}
+
+        <div class="lux-enquiry-form__fields">
+          <div class="lux-enquiry-form__group">
+            <label for="{{ form_id }}-name" class="lux-enquiry-form__label">
+              Full Name <span class="lux-enquiry-form__req">*</span>
+            </label>
+            <input
+              type="text"
+              id="{{ form_id }}-name"
+              name="contact[name]"
+              class="lux-enquiry-form__input"
+              placeholder="e.g. Aditya Sharma"
+              value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+              required
+              autocomplete="name"
+            >
+          </div>
+
+          <div class="lux-enquiry-form__row">
+            <div class="lux-enquiry-form__group">
+              <label for="{{ form_id }}-phone" class="lux-enquiry-form__label">
+                Phone / WhatsApp <span class="lux-enquiry-form__req">*</span>
+              </label>
+              <input
+                type="tel"
+                id="{{ form_id }}-phone"
+                name="contact[phone]"
+                class="lux-enquiry-form__input"
+                placeholder="+91 98257 XXXXX"
+                value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
+                required
+                autocomplete="tel"
+              >
+            </div>
+
+            <div class="lux-enquiry-form__group">
+              <label for="{{ form_id }}-email" class="lux-enquiry-form__label">
+                Email Address <span class="lux-enquiry-form__req">*</span>
+              </label>
+              <input
+                type="email"
+                id="{{ form_id }}-email"
+                name="contact[email]"
+                class="lux-enquiry-form__input"
+                placeholder="aditya@example.com"
+                value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+                required
+                autocomplete="email"
+                spellcheck="false"
+                autocapitalize="off"
+              >
+            </div>
+          </div>
+
+          <div class="lux-enquiry-form__group">
+            <label for="{{ form_id }}-city" class="lux-enquiry-form__label">
+              City / Country of Delivery
+            </label>
+            <input
+              type="text"
+              id="{{ form_id }}-city"
+              name="contact[city]"
+              class="lux-enquiry-form__input"
+              placeholder="e.g. Mumbai, New Delhi, Bengaluru, Dubai"
+              autocomplete="address-level2"
+            >
+          </div>
+
+          <div class="lux-enquiry-form__group">
+            <label for="{{ form_id }}-body" class="lux-enquiry-form__label">
+              Bespoke Inquiries / Custom Specifications
+            </label>
+            <textarea
+              id="{{ form_id }}-body"
+              name="contact[body]"
+              rows="3"
+              class="lux-enquiry-form__textarea"
+              placeholder="Please share any requirements regarding room dimensions, finish customizations, or delivery schedule..."
+            >I would like to enquire about acquiring the "{{ product.title | escape }}" for my space. Please share full pricing details and transit schedule.</textarea>
+          </div>
+
+          <button type="submit" class="lux-enquiry-form__submit-btn">
+            <span>SUBMIT PRIVATE INQUIRY</span>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+        </div>
+      {%- endform -%}
+
+      <!-- Direct WhatsApp Action Divider -->
+      <div class="lux-enquiry-drawer__wa-divider">
+        <span>OR CHAT DIRECTLY</span>
+      </div>
+
+      <a
+        href="https://wa.me/918003011110?text={{ 'Hello The Raw House Atelier, I would like to inquire about: ' | append: product.title | append: ' (' | append: shop.url | append: product.url | append: ')' | url_encode }}"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="lux-enquiry-drawer__wa-btn"
+      >
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+          <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+        </svg>
+        <span>Instant Concierge on WhatsApp</span>
+      </a>
+
+      <!-- Trust assurances -->
+      <div class="lux-enquiry-drawer__assurances">
+        <div class="lux-enquiry-drawer__assurance-item">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <polyline points="9 12 11 14 15 10"/>
+          </svg>
+          <span>Authentic Atelier Provenance</span>
+        </div>
+        <div class="lux-enquiry-drawer__assurance-item">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 6v6l4 2"/>
+          </svg>
+          <span>Response within 4 Business Hours</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* ================= LUXURY ENQUIRY DRAWER STYLES ================= */
+  .lux-enquiry-drawer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100dvh;
+    z-index: 9999999;
+    display: flex;
+    justify-content: flex-end;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s 0.35s, opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .lux-enquiry-drawer.is-open {
+    visibility: visible;
+    opacity: 1;
+    transition: visibility 0s 0s, opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .lux-enquiry-drawer__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(10, 10, 10, 0.55);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    cursor: pointer;
+  }
+
+  .lux-enquiry-drawer__panel {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    height: 100%;
+    background: #ffffff;
+    color: #111111;
+    display: flex;
+    flex-direction: column;
+    box-shadow: -10px 0 40px rgba(0, 0, 0, 0.18);
+    transform: translate3d(100%, 0, 0);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 10;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .lux-enquiry-drawer.is-open .lux-enquiry-drawer__panel {
+    transform: translate3d(0, 0, 0);
+  }
+
+  /* Header */
+  .lux-enquiry-drawer__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 28px;
+    border-bottom: 1px solid #f0ede6;
+    background: #faf8f5;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+  }
+
+  .lux-enquiry-drawer__eyebrow {
+    display: block;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    color: #8c8273;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .lux-enquiry-drawer__title {
+    font-size: 1.15rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: #111111;
+    margin: 0;
+    line-height: 1.25;
+  }
+
+  .lux-enquiry-drawer__close-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    color: #444444;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+
+  .lux-enquiry-drawer__close-btn:hover {
+    background: #ece8e1;
+    transform: scale(1.08);
+  }
+
+  /* Product Summary Card */
+  .lux-enquiry-drawer__product-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 28px;
+    background: #faf9f7;
+    border-bottom: 1px solid #ede8e0;
+  }
+
+  .lux-enquiry-drawer__product-media {
+    width: 68px;
+    height: 68px;
+    flex-shrink: 0;
+    border-radius: 3px;
+    overflow: hidden;
+    background: #f0ede8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e2ddd5;
+  }
+
+  .lux-enquiry-drawer__product-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .lux-enquiry-drawer__product-placeholder {
+    color: #a09789;
+  }
+
+  .lux-enquiry-drawer__product-details {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .lux-enquiry-drawer__product-curator {
+    display: block;
+    font-size: 0.65rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #7d7364;
+    margin-bottom: 2px;
+  }
+
+  .lux-enquiry-drawer__product-name {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #111111;
+    margin: 0 0 2px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .lux-enquiry-drawer__product-variant {
+    display: block;
+    font-size: 0.75rem;
+    color: #666666;
+    margin-bottom: 4px;
+  }
+
+  .lux-enquiry-drawer__product-badge {
+    font-size: 0.68rem;
+    font-weight: 500;
+    color: #555046;
+    letter-spacing: 0.05em;
+  }
+
+  /* Body & Form */
+  .lux-enquiry-drawer__body {
+    padding: 24px 28px 36px;
+    flex: 1;
+  }
+
+  .lux-enquiry-drawer__intro {
+    font-size: 0.82rem;
+    line-height: 1.55;
+    color: #555555;
+    margin: 0 0 20px 0;
+  }
+
+  .lux-enquiry-form__fields {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .lux-enquiry-form__group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+  }
+
+  .lux-enquiry-form__row {
+    display: flex;
+    gap: 12px;
+  }
+
+  .lux-enquiry-form__label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #333333;
+  }
+
+  .lux-enquiry-form__req {
+    color: #8c281f;
+  }
+
+  .lux-enquiry-form__input,
+  .lux-enquiry-form__textarea {
+    width: 100%;
+    padding: 12px 14px;
+    background: #ffffff;
+    border: 1px solid #dcd7ce;
+    border-radius: 3px;
+    font-size: 0.88rem;
+    color: #111111;
+    font-family: inherit;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .lux-enquiry-form__input:focus,
+  .lux-enquiry-form__textarea:focus {
+    outline: none;
+    border-color: #111111;
+    box-shadow: 0 0 0 1px #111111;
+  }
+
+  .lux-enquiry-form__textarea {
+    resize: vertical;
+    line-height: 1.45;
+  }
+
+  .lux-enquiry-form__submit-btn {
+    margin-top: 6px;
+    width: 100%;
+    padding: 15px 24px;
+    background: #111111;
+    color: #ffffff;
+    border: 1px solid #111111;
+    border-radius: 3px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: background 0.25s ease, color 0.25s ease, transform 0.15s ease;
+  }
+
+  .lux-enquiry-form__submit-btn:hover {
+    background: #2b2b2b;
+    border-color: #2b2b2b;
+  }
+
+  .lux-enquiry-form__submit-btn:active {
+    transform: scale(0.99);
+  }
+
+  /* Success and error alerts */
+  .lux-enquiry-form__success {
+    display: flex;
+    gap: 12px;
+    padding: 14px 18px;
+    background: #eef6f0;
+    border-left: 3px solid #2e7d32;
+    color: #1b5e20;
+    font-size: 0.82rem;
+    margin-bottom: 16px;
+    border-radius: 2px;
+  }
+
+  .lux-enquiry-form__success p {
+    margin: 4px 0 0 0;
+  }
+
+  .lux-enquiry-form__error {
+    display: flex;
+    gap: 12px;
+    padding: 14px 18px;
+    background: #fdf2f2;
+    border-left: 3px solid #d32f2f;
+    color: #c62828;
+    font-size: 0.82rem;
+    margin-bottom: 16px;
+    border-radius: 2px;
+  }
+
+  .lux-enquiry-form__error p {
+    margin: 4px 0 0 0;
+  }
+
+  /* WhatsApp Action */
+  .lux-enquiry-drawer__wa-divider {
+    display: flex;
+    align-items: center;
+    margin: 22px 0 16px;
+    color: #999999;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    font-weight: 600;
+  }
+
+  .lux-enquiry-drawer__wa-divider::before,
+  .lux-enquiry-drawer__wa-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #e8e4dc;
+  }
+
+  .lux-enquiry-drawer__wa-divider span {
+    padding: 0 12px;
+  }
+
+  .lux-enquiry-drawer__wa-btn {
+    width: 100%;
+    padding: 13px 20px;
+    background: #faf8f5;
+    color: #111111;
+    border: 1px solid #dcd7ce;
+    border-radius: 3px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-decoration: none;
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+
+  .lux-enquiry-drawer__wa-btn:hover {
+    background: #f2eee6;
+    border-color: #25d366;
+    color: #0b5c26;
+  }
+
+  /* Assurances */
+  .lux-enquiry-drawer__assurances {
+    margin-top: 24px;
+    padding-top: 18px;
+    border-top: 1px solid #f0ede6;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .lux-enquiry-drawer__assurance-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.72rem;
+    color: #666054;
+    letter-spacing: 0.04em;
+  }
+
+  @media screen and (max-width: 550px) {
+    .lux-enquiry-form__row {
+      flex-direction: column;
+      gap: 14px;
+    }
+    .lux-enquiry-drawer__panel {
+      max-width: 100%;
+    }
+    .lux-enquiry-drawer__header {
+      padding: 18px 20px;
+    }
+    .lux-enquiry-drawer__product-card {
+      padding: 14px 20px;
+    }
+    .lux-enquiry-drawer__body {
+      padding: 18px 20px 28px;
+    }
+  }
+</style>
+
+<script>
+  (function() {
+    function initEnquiryDrawer() {
+      const drawer = document.getElementById('{{ drawer_dom_id }}');
+      if (!drawer) return;
+
+      // Close handlers
+      const closeButtons = drawer.querySelectorAll('[data-close-enquiry]');
+      closeButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          closeDrawer(drawer);
+        });
+      });
+
+      // ESC key handler
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && drawer.classList.contains('is-open')) {
+          closeDrawer(drawer);
+        }
+      });
+
+      // Check if URL has posted form hash or param
+      if (window.location.search.indexOf('contact_posted=true') !== -1 || window.location.hash === '#contact_form' || drawer.querySelector('.lux-enquiry-form__success')) {
+        openDrawer(drawer);
+      }
+    }
+
+    function openDrawer(drawer) {
+      drawer.classList.add('is-open');
+      drawer.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      const firstInput = drawer.querySelector('input[name="contact[name]"]');
+      if (firstInput) {
+        setTimeout(() => firstInput.focus(), 300);
+      }
+    }
+
+    function closeDrawer(drawer) {
+      drawer.classList.remove('is-open');
+      drawer.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    // Expose global open helper
+    window.openProductEnquiryDrawer = function(drawerId) {
+      const targetId = drawerId || '{{ drawer_dom_id }}';
+      const targetDrawer = document.getElementById(targetId);
+      if (targetDrawer) {
+        openDrawer(targetDrawer);
+      }
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initEnquiryDrawer);
+    } else {
+      initEnquiryDrawer();
+    }
+  })();
+</script>

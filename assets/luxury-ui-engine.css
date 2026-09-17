@@ -4282,6 +4282,52 @@ variant-picker:empty,
   box-sizing: border-box !important;
 }
 
+/* 9b. Bespoke Product Enquiry CTA Button */
+.lux-product-enquiry-cta-wrap {
+  width: 100% !important;
+  margin-top: 8px !important;
+  margin-bottom: 8px !important;
+}
+
+.lux-product-enquiry-btn {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px !important;
+  width: 100% !important;
+  height: 50px !important;
+  min-height: 50px !important;
+  line-height: 48px !important;
+  background: #111111 !important;
+  border: 1px solid #111111 !important;
+  border-radius: 4px !important;
+  color: #ffffff !important;
+  font-family: var(--lux-font-body, "Inter", sans-serif) !important;
+  font-size: 0.82rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.16em !important;
+  text-transform: uppercase !important;
+  cursor: pointer !important;
+  box-sizing: border-box !important;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.lux-product-enquiry-btn:hover {
+  background: #2b2b2b !important;
+  border-color: #2b2b2b !important;
+  color: #ffffff !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15) !important;
+}
+
+.lux-product-enquiry-btn:active {
+  transform: scale(0.99) !important;
+}
+
+.lux-product-enquiry-btn svg {
+  flex-shrink: 0 !important;
+}
+
 /* 10. WhatsApp / Curator Concierge Button */
 .lux-product-concierge-wrap {
   width: 100% !important;

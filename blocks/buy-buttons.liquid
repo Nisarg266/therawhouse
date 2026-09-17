@@ -253,6 +253,24 @@
     </div>
   {%- endif -%}
 
+  {%- unless block_settings.show_enquiry_button == false -%}
+    <div class="lux-product-enquiry-cta-wrap">
+      <button
+        type="button"
+        class="lux-product-enquiry-btn"
+        onclick="if(window.openProductEnquiryDrawer) { window.openProductEnquiryDrawer('LuxProductEnquiryDrawer-{{ product.id }}'); } else { const d = document.getElementById('LuxProductEnquiryDrawer-{{ product.id }}'); if(d) d.classList.add('is-open'); }"
+      >
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8">
+          <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+          <path d="M22 7l-10 7L2 7"></path>
+        </svg>
+        <span>{{ block_settings.enquiry_button_label | default: 'ENQUIRE ABOUT THIS PIECE' }}</span>
+      </button>
+    </div>
+
+    {% render 'product-enquiry-drawer', product: product, variant: variant %}
+  {%- endunless -%}
+
   {%- unless block_settings.show_whatsapp_button == false -%}
     <div class="lux-product-concierge-wrap">
       <a
@@ -448,6 +466,18 @@
     {
       "type": "header",
       "content": "Luxury Concierge & Provenance"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_enquiry_button",
+      "label": "Show Bespoke Enquiry Button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "enquiry_button_label",
+      "label": "Enquiry Button Label",
+      "default": "ENQUIRE ABOUT THIS PIECE"
     },
     {
       "type": "checkbox",

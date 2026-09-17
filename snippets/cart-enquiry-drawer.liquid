@@ -1,0 +1,358 @@
+{%- doc -%}
+  Renders an ultra-luxury Cart Order Enquiry Drawer / Modal for The Raw House.
+  Enables clients to submit curatorial inquiries for all items in their curation without a payment gateway.
+
+  @param {object} cart - The cart object
+  @param {string} [drawer_id] - Unique DOM ID
+{%- enddoc -%}
+
+{%- liquid
+  assign drawer_dom_id = drawer_id | default: 'LuxCartOrderEnquiryDrawer'
+  assign form_id = 'LuxCartOrderEnquiryForm'
+
+  capture cart_items_summary
+    for item in cart.items
+      echo forloop.index | append: '. ' | append: item.product.title
+      if item.variant.title != blank and item.variant.title != 'Default Title'
+        echo ' (' | append: item.variant.title | append: ')'
+      endif
+      echo ' - Qty: ' | append: item.quantity
+      unless forloop.last
+        echo ' | '
+      endunless
+    endfor
+  endcapture
+
+  capture cart_wa_message
+    echo 'Hello The Raw House Atelier, I would like to place an inquiry for my curated selection:'
+    for item in cart.items
+      echo '%0A• ' | append: item.product.title | url_encode
+      if item.variant.title != blank and item.variant.title != 'Default Title'
+        echo '%20(' | append: item.variant.title | url_encode | append: ')'
+      endif
+      echo '%20-%20Qty:%20' | append: item.quantity
+    endfor
+  endcapture
+-%}
+
+<div
+  id="{{ drawer_dom_id }}"
+  class="lux-enquiry-drawer"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="{{ drawer_dom_id }}-title"
+  aria-hidden="true"
+  tabindex="-1"
+>
+  <div class="lux-enquiry-drawer__backdrop" data-close-enquiry aria-hidden="true"></div>
+
+  <div class="lux-enquiry-drawer__panel">
+    <!-- Header -->
+    <div class="lux-enquiry-drawer__header">
+      <div class="lux-enquiry-drawer__header-titles">
+        <span class="lux-enquiry-drawer__eyebrow">THE RAW HOUSE ATELIER</span>
+        <h2 id="{{ drawer_dom_id }}-title" class="lux-enquiry-drawer__title">Bespoke Order Inquiry</h2>
+      </div>
+      <button
+        type="button"
+        class="lux-enquiry-drawer__close-btn"
+        data-close-enquiry
+        aria-label="Close inquiry drawer"
+      >
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Curated Cart Items Preview -->
+    <div class="lux-cart-enquiry__items-preview">
+      <span class="lux-cart-enquiry__preview-label">Selected Pieces ({{ cart.item_count }}):</span>
+      <div class="lux-cart-enquiry__items-list">
+        {%- for item in cart.items -%}
+          <div class="lux-cart-enquiry__item-row">
+            <div class="lux-cart-enquiry__item-thumb">
+              {%- if item.image != blank -%}
+                <img
+                  src="{{ item.image | image_url: width: 100, height: 100, crop: 'center' }}"
+                  alt="{{ item.title | escape }}"
+                  loading="lazy"
+                  width="44"
+                  height="44"
+                >
+              {%- else -%}
+                <div class="lux-cart-enquiry__item-ph"></div>
+              {%- endif -%}
+            </div>
+            <div class="lux-cart-enquiry__item-info">
+              <span class="lux-cart-enquiry__item-title">{{ item.product.title }}</span>
+              <span class="lux-cart-enquiry__item-qty">Quantity: {{ item.quantity }}</span>
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+
+    <!-- Inquiry Body & Form -->
+    <div class="lux-enquiry-drawer__body">
+      <p class="lux-enquiry-drawer__intro">
+        Please enter your contact information. Our curatorial concierge will prepare a personalized portfolio, transit arrangements, and valuation for your selected pieces.
+      </p>
+
+      {%- form 'contact', id: form_id, class: 'lux-enquiry-form' -%}
+        <input type="hidden" name="contact[tags]" value="order-inquiry, multiple-pieces">
+        <input type="hidden" name="contact[curated_pieces]" value="{{ cart_items_summary | escape }}">
+
+        {%- if form.posted_successfully? -%}
+          <div class="lux-enquiry-form__success" role="status" tabindex="-1">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <div>
+              <strong>Order Inquiry Received with Distinction</strong>
+              <p>Thank you. A senior curator from The Raw House will review your curation and reach out within 4 business hours.</p>
+            </div>
+          </div>
+        {%- elsif form.errors -%}
+          <div class="lux-enquiry-form__error" role="alert" tabindex="-1">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <div>
+              <strong>Please check your submission</strong>
+              <p>{{ form.errors | default_errors }}</p>
+            </div>
+          </div>
+        {%- endif -%}
+
+        <div class="lux-enquiry-form__fields">
+          <div class="lux-enquiry-form__group">
+            <label for="{{ form_id }}-name" class="lux-enquiry-form__label">
+              Full Name <span class="lux-enquiry-form__req">*</span>
+            </label>
+            <input
+              type="text"
+              id="{{ form_id }}-name"
+              name="contact[name]"
+              class="lux-enquiry-form__input"
+              placeholder="e.g. Aditya Sharma"
+              value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+              required
+              autocomplete="name"
+            >
+          </div>
+
+          <div class="lux-enquiry-form__row">
+            <div class="lux-enquiry-form__group">
+              <label for="{{ form_id }}-phone" class="lux-enquiry-form__label">
+                Phone / WhatsApp <span class="lux-enquiry-form__req">*</span>
+              </label>
+              <input
+                type="tel"
+                id="{{ form_id }}-phone"
+                name="contact[phone]"
+                class="lux-enquiry-form__input"
+                placeholder="+91 98257 XXXXX"
+                value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
+                required
+                autocomplete="tel"
+              >
+            </div>
+
+            <div class="lux-enquiry-form__group">
+              <label for="{{ form_id }}-email" class="lux-enquiry-form__label">
+                Email Address <span class="lux-enquiry-form__req">*</span>
+              </label>
+              <input
+                type="email"
+                id="{{ form_id }}-email"
+                name="contact[email]"
+                class="lux-enquiry-form__input"
+                placeholder="aditya@example.com"
+                value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+                required
+                autocomplete="email"
+                spellcheck="false"
+                autocapitalize="off"
+              >
+            </div>
+          </div>
+
+          <div class="lux-enquiry-form__group">
+            <label for="{{ form_id }}-city" class="lux-enquiry-form__label">
+              City / State of Delivery
+            </label>
+            <input
+              type="text"
+              id="{{ form_id }}-city"
+              name="contact[city]"
+              class="lux-enquiry-form__input"
+              placeholder="e.g. Mumbai, New Delhi, Bengaluru"
+              autocomplete="address-level2"
+            >
+          </div>
+
+          <div class="lux-enquiry-form__group">
+            <label for="{{ form_id }}-body" class="lux-enquiry-form__label">
+              Special Instructions / Delivery Requirements
+            </label>
+            <textarea
+              id="{{ form_id }}-body"
+              name="contact[body]"
+              rows="3"
+              class="lux-enquiry-form__textarea"
+              placeholder="Please share any project timeline, custom requirements, or transit questions..."
+            >Please provide curatorial consultation, bespoke valuation, and delivery scheduling for my selected pieces:&#10;{{ cart_items_summary }}</textarea>
+          </div>
+
+          <button type="submit" class="lux-enquiry-form__submit-btn">
+            <span>SUBMIT ORDER INQUIRY</span>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+        </div>
+      {%- endform -%}
+
+      <!-- Direct WhatsApp Action Divider -->
+      <div class="lux-enquiry-drawer__wa-divider">
+        <span>OR CHAT DIRECTLY</span>
+      </div>
+
+      <a
+        href="https://wa.me/918003011110?text={{ cart_wa_message }}"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="lux-enquiry-drawer__wa-btn"
+      >
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+          <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+        </svg>
+        <span>Submit Curation via WhatsApp</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .lux-cart-enquiry__items-preview {
+    padding: 16px 28px;
+    background: #faf8f5;
+    border-bottom: 1px solid #ede8e0;
+  }
+
+  .lux-cart-enquiry__preview-label {
+    display: block;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #8c8273;
+    margin-bottom: 10px;
+  }
+
+  .lux-cart-enquiry__items-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 160px;
+    overflow-y: auto;
+  }
+
+  .lux-cart-enquiry__item-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .lux-cart-enquiry__item-thumb {
+    width: 38px;
+    height: 38px;
+    border-radius: 2px;
+    overflow: hidden;
+    background: #eeebe6;
+    flex-shrink: 0;
+  }
+
+  .lux-cart-enquiry__item-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .lux-cart-enquiry__item-ph {
+    width: 100%;
+    height: 100%;
+    background: #e5e0d8;
+  }
+
+  .lux-cart-enquiry__item-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .lux-cart-enquiry__item-title {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: #111111;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .lux-cart-enquiry__item-qty {
+    display: block;
+    font-size: 0.7rem;
+    color: #777777;
+  }
+</style>
+
+<script>
+  (function() {
+    function initCartEnquiryDrawer() {
+      const drawer = document.getElementById('{{ drawer_dom_id }}');
+      if (!drawer) return;
+
+      const closeButtons = drawer.querySelectorAll('[data-close-enquiry]');
+      closeButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          drawer.classList.remove('is-open');
+          drawer.setAttribute('aria-hidden', 'true');
+          document.body.style.overflow = '';
+        });
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && drawer.classList.contains('is-open')) {
+          drawer.classList.remove('is-open');
+          drawer.setAttribute('aria-hidden', 'true');
+          document.body.style.overflow = '';
+        }
+      });
+    }
+
+    window.openCartOrderEnquiryDrawer = function() {
+      const drawer = document.getElementById('{{ drawer_dom_id }}');
+      if (drawer) {
+        drawer.classList.add('is-open');
+        drawer.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        const firstInput = drawer.querySelector('input[name="contact[name]"]');
+        if (firstInput) {
+          setTimeout(() => firstInput.focus(), 300);
+        }
+      }
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initCartEnquiryDrawer);
+    } else {
+      initCartEnquiryDrawer();
+    }
+  })();
+</script>
