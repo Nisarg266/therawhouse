@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "luxury_marquee_top": {
@@ -7,28 +16,28 @@
           "type": "statement",
           "settings": {
             "text": "CRAFTED FURNITURE, ART OBJECTS & COLLECTED DETAILS",
-            "separator": "\u2726"
+            "separator": "✦"
           }
         },
         "statement_2": {
           "type": "statement",
           "settings": {
             "text": "HAND-FINISHED WOOD, BRASS, STONE & NATURAL TEXTURES",
-            "separator": "\u2726"
+            "separator": "✦"
           }
         },
         "statement_3": {
           "type": "statement",
           "settings": {
             "text": "CURATED FOR LAYERED HOMES, STUDIOS & QUIET CORNERS",
-            "separator": "\u2726"
+            "separator": "✦"
           }
         },
         "statement_4": {
           "type": "statement",
           "settings": {
             "text": "WHITE-GLOVE DELIVERY, PLACEMENT SUPPORT & CARE",
-            "separator": "\u2726"
+            "separator": "✦"
           }
         }
       },
@@ -48,13 +57,13 @@
     "luxury_about_hero": {
       "type": "luxury-about-hero",
       "settings": {
-        "badge_text": "THE RAW HOUSE \u2022 CRAFT, CURATION & LIVING ART",
+        "color_scheme_preset": "dark",
+        "badge_text": "THE RAW HOUSE • CRAFT, CURATION & LIVING ART",
         "heading": "A HOME FOR RAW MATERIALS AND QUIET LUXURY",
         "subheading": "We curate furniture, art, and sculptural objects for rooms that feel collected, grounded, and deeply personal.",
         "button_text": "EXPLORE THE COLLECTION",
         "height_desktop": 68,
-        "height_mobile": 480,
-        "color_scheme_preset": "dark"
+        "height_mobile": 480
       }
     },
     "luxury_about_manifesto": {
@@ -94,11 +103,10 @@
         "pillar_3"
       ],
       "settings": {
+        "color_scheme_preset": "light",
         "subheading": "OUR POINT OF VIEW",
         "heading": "THE RAW HOUSE MANIFESTO",
-        "intro_text": "The Raw House began with a simple belief: a home should not look assembled overnight. It should feel layered over time, shaped by craft, texture, memory, and objects that invite touch.",
-        "background_color": "#ffffff",
-        "color_scheme_preset": "light"
+        "intro_text": "The Raw House began with a simple belief: a home should not look assembled overnight. It should feel layered over time, shaped by craft, texture, memory, and objects that invite touch."
       }
     },
     "luxury_about_founder": {
@@ -143,7 +151,7 @@
         "color_scheme_preset": "obsidian",
         "media_position": "left",
         "default_asset": "art-atelier-artist-studio.jpg",
-        "badge_title": "\u2726 RAW HOUSE CURATED",
+        "badge_title": "✦ RAW HOUSE CURATED",
         "badge_subtitle": "Crafted Objects for Artful Living",
         "subheading": "BEHIND THE HOUSE",
         "heading": "A QUIET RESPECT FOR MATERIAL, MAKER AND ROOM",
@@ -163,7 +171,7 @@
           "type": "step",
           "settings": {
             "step_number": "01",
-            "stage_label": "STAGE I \u2022 DISCOVERY",
+            "stage_label": "STAGE I • DISCOVERY",
             "title": "Material-Led Sourcing",
             "description": "We begin with material character: wood grain, patina, proportion, joinery, finish, and the tactile quality that makes a piece worth living with.",
             "default_asset": "art-atelier-artist-studio.jpg"
@@ -173,7 +181,7 @@
           "type": "step",
           "settings": {
             "step_number": "02",
-            "stage_label": "STAGE II \u2022 CURATION",
+            "stage_label": "STAGE II • CURATION",
             "title": "Edited for Real Rooms",
             "description": "Every collection is composed with balance in mind: scale, warmth, contrast, and how each object will sit beside the pieces you already own.",
             "default_asset": "art-sculpture-bronze-figure.jpg"
@@ -183,7 +191,7 @@
           "type": "step",
           "settings": {
             "step_number": "03",
-            "stage_label": "STAGE III \u2022 FINISHING",
+            "stage_label": "STAGE III • FINISHING",
             "title": "Detail, Finish & Care",
             "description": "Before a piece leaves us, we review the finish, surface, fittings, and care guidance so it arrives ready for daily use and long-term keeping.",
             "default_asset": "art-painting-gold-canvas.jpg"
@@ -193,7 +201,7 @@
           "type": "step",
           "settings": {
             "step_number": "04",
-            "stage_label": "STAGE IV \u2022 ARRIVAL",
+            "stage_label": "STAGE IV • ARRIVAL",
             "title": "White-Glove Delivery & Placement",
             "description": "From careful packing to placement support, we help each piece enter the home with the same consideration that went into choosing it.",
             "default_asset": "art-gallery-room-hotspots.jpg"
@@ -207,11 +215,10 @@
         "step_4"
       ],
       "settings": {
+        "color_scheme_preset": "warm",
         "subheading": "THE RAW HOUSE METHOD",
         "heading": "FROM RAW MATERIAL TO LIVED-IN BEAUTY",
-        "intro": "Our process is intentionally unhurried. We choose pieces for material truth, visual calm, and the ability to bring depth to the rooms people actually live in.",
-        "background_color": "#f7f6f2",
-        "color_scheme_preset": "warm"
+        "intro": "Our process is intentionally unhurried. We choose pieces for material truth, visual calm, and the ability to bring depth to the rooms people actually live in."
       }
     },
     "luxury_trust_features": {
@@ -298,25 +305,23 @@
         "review_3"
       ],
       "settings": {
+        "color_scheme_preset": "warm",
         "subheading": "CLIENT NOTES",
         "heading": "ROOMS WITH A SENSE OF SOUL",
-        "background_color": "#fcfbf9",
         "autoplay": true,
         "autoplay_speed": 5,
-        "show_press": true,
-        "color_scheme_preset": "warm"
+        "show_press": true
       }
     },
     "luxury_vip_newsletter": {
       "type": "luxury-vip-newsletter",
       "settings": {
+        "color_scheme_preset": "warm",
         "subheading": "THE RAW HOUSE LETTER",
         "heading": "NEW ARRIVALS, STORIES & CURATED EDITS",
         "text": "Join our list for first looks at new furniture, art objects, styling notes, care guidance, and limited atelier releases.",
         "input_placeholder": "Enter your email address...",
-        "button_label": "JOIN THE LIST",
-        "background_color": "#fcfbf9",
-        "color_scheme_preset": "warm"
+        "button_label": "JOIN THE LIST"
       }
     }
   },

@@ -769,9 +769,11 @@
         "maker_1": {
           "type": "maker",
           "settings": {
+            "image": "shopify://shop_images/ARIYETH_resized_236x314.66_no_stretch.png",
+            "image_mobile": "shopify://shop_images/2bfa87ac-9e47-4b14-917d-647373998777.png",
             "default_asset": "maker-1.jpg",
-            "name": "Duffy London",
-            "subtitle": "Fun With Design",
+            "name": "ARIYETH SCULPTURE",
+            "subtitle": "",
             "location": "",
             "badge": "",
             "badge_bg": "#b08d57",
@@ -782,9 +784,11 @@
         "maker_2": {
           "type": "maker",
           "settings": {
+            "image": "shopify://shop_images/Copy_of_MAHA01W_236x314.66_no_stretch.jpg",
+            "image_mobile": "shopify://shop_images/8d9abdff-ddc9-4356-81c1-535cd9a17daf.png",
             "default_asset": "maker-2.jpg",
-            "name": "Nishita",
-            "subtitle": "Nishita Thakurdas",
+            "name": "MAHA 03 SCULPTURE",
+            "subtitle": "",
             "location": "",
             "badge": "",
             "badge_bg": "#b08d57",
@@ -795,9 +799,11 @@
         "maker_3": {
           "type": "maker",
           "settings": {
+            "image": "shopify://shop_images/Copy_of_Rudhi6_236x314.66_no_stretch.jpg",
+            "image_mobile": "shopify://shop_images/68d54ede-1a46-48d8-b605-7ca5ddd0ca73.png",
             "default_asset": "maker-3.jpg",
-            "name": "Paul Matter",
-            "subtitle": "Nikhil Paul",
+            "name": "SHILA STAMBH SCULPTURE",
+            "subtitle": "",
             "location": "",
             "badge": "",
             "badge_bg": "#b08d57",
@@ -808,9 +814,11 @@
         "maker_4": {
           "type": "maker",
           "settings": {
+            "image": "shopify://shop_images/37bdab04-4579-4915-b2e9-120a2518de22.png",
+            "image_mobile": "shopify://shop_images/45c0c903-f42c-4cea-b80d-0abfa67f5114.png",
             "default_asset": "maker-4.jpg",
-            "name": "Jay Strongwater",
-            "subtitle": "Hand Enameled Jewels for Home",
+            "name": "Nomadic Odyssey",
+            "subtitle": "",
             "location": "",
             "badge": "",
             "badge_bg": "#b08d57",
@@ -827,7 +835,7 @@
       ],
       "settings": {
         "eyebrow": "THE",
-        "heading": "M A K E R S",
+        "heading": "RAW COLLECTABLES",
         "intro": "",
         "show_ornament": true,
         "header_align": "center",
