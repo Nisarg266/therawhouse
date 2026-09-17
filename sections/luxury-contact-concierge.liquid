@@ -1,44 +1,47 @@
 {%- comment -%}
-  THE RAW HOUSE — BESPOKE LUXURY CONTACT & CONCIERGE EXPERIENCE
-  High-end art advisory, bespoke commissions, trade inquiries, and client services.
+  THE RAW HOUSE — BESPOKE MINIMAL LUXURY CONTACT & CONCIERGE
+  Clean, refined, airy, and professional experience for mobile and desktop.
 {%- endcomment -%}
 
 {% liquid
   assign preset = section.settings.color_preset | default: 'warm_editorial'
   case preset
     when 'obsidian_luxury'
-      assign bg_color = '#0d0c0a'
+      assign bg_color = '#0e0d0b'
       assign card_bg = '#161412'
-      assign card_border = 'rgba(223, 186, 126, 0.22)'
-      assign text_color = '#f5f2eb'
+      assign card_border = 'rgba(255, 255, 255, 0.08)'
+      assign card_border_hover = 'rgba(223, 186, 126, 0.4)'
+      assign text_color = '#eae6df'
       assign heading_color = '#ffffff'
-      assign muted_color = '#a6a096'
+      assign muted_color = '#9a9488'
       assign accent_color = '#dfba7e'
-      assign input_bg = '#11100e'
-      assign input_border = 'rgba(223, 186, 126, 0.28)'
+      assign input_bg = '#12110f'
+      assign input_border = 'rgba(255, 255, 255, 0.12)'
     when 'pure_white'
       assign bg_color = '#ffffff'
-      assign card_bg = '#faf8f5'
-      assign card_border = '#e9e4db'
+      assign card_bg = '#faf9f7'
+      assign card_border = '#eeeae3'
+      assign card_border_hover = '#c5a880'
       assign text_color = '#222222'
       assign heading_color = '#111111'
       assign muted_color = '#6b665f'
       assign accent_color = '#c5a880'
       assign input_bg = '#ffffff'
-      assign input_border = '#d8d2c7'
+      assign input_border = '#ded9cf'
     else
       comment
-        Default: warm_editorial (refined luxury light alabaster)
+        Default: warm_editorial (ultra-clean alabaster luxury)
       endcomment
-      assign bg_color = '#fbfaf8'
+      assign bg_color = '#faf9f6'
       assign card_bg = '#ffffff'
-      assign card_border = '#ede8e0'
-      assign text_color = '#2b2723'
-      assign heading_color = '#141210'
-      assign muted_color = '#78726a'
+      assign card_border = '#ede9e2'
+      assign card_border_hover = '#c5a880'
+      assign text_color = '#282521'
+      assign heading_color = '#12110f'
+      assign muted_color = '#767067'
       assign accent_color = '#c5a880'
       assign input_bg = '#faf9f6'
-      assign input_border = '#ded9cf'
+      assign input_border = '#e2ded5'
   endcase
 
   if section.settings.custom_bg != blank and section.settings.custom_bg != 'rgba(0,0,0,0)'
@@ -54,32 +57,31 @@
 
 <section
   id="LuxuryContact-{{ section.id }}"
-  class="lux-contact-section lux-contact-preset--{{ preset }}"
+  class="lux-contact-section"
   style="
     --lc-bg: {{ bg_color }};
     --lc-card-bg: {{ card_bg }};
     --lc-card-border: {{ card_border }};
+    --lc-card-border-hover: {{ card_border_hover }};
     --lc-text: {{ text_color }};
     --lc-heading: {{ heading_color }};
     --lc-muted: {{ muted_color }};
     --lc-accent: {{ accent_color }};
     --lc-input-bg: {{ input_bg }};
     --lc-input-border: {{ input_border }};
-    --lc-pt: {{ section.settings.padding_top | default: 70 }}px;
-    --lc-pb: {{ section.settings.padding_bottom | default: 80 }}px;
-    --lc-pt-m: {{ section.settings.mobile_padding_top | default: 45 }}px;
-    --lc-pb-m: {{ section.settings.mobile_padding_bottom | default: 55 }}px;
+    --lc-pt: {{ section.settings.padding_top | default: 56 }}px;
+    --lc-pb: {{ section.settings.padding_bottom | default: 72 }}px;
+    --lc-pt-m: {{ section.settings.mobile_padding_top | default: 32 }}px;
+    --lc-pb-m: {{ section.settings.mobile_padding_bottom | default: 44 }}px;
   "
 >
   <div class="lux-contact__container">
-    
-    {%- comment -%} ================= PRESTIGE HERO HEADER ================= {%- endcomment -%}
+
+    {%- comment -%} ================= 1. REFINED LUXURY HERO ================= {%- endcomment -%}
     <div class="lux-contact__header">
       {%- if section.settings.eyebrow != blank -%}
         <div class="lux-contact__eyebrow-wrap">
-          <span class="lux-contact__eyebrow-line"></span>
           <span class="lux-contact__eyebrow">{{ section.settings.eyebrow }}</span>
-          <span class="lux-contact__eyebrow-line"></span>
         </div>
       {%- endif -%}
 
@@ -87,10 +89,10 @@
         {{ section.settings.heading | default: 'Connect with The Atelier' }}
       </h1>
 
-      <div class="lux-contact__ornament" aria-hidden="true">
-        <span class="lux-contact__ornament-line"></span>
-        <span class="lux-contact__ornament-gem">◆</span>
-        <span class="lux-contact__ornament-line"></span>
+      <div class="lux-contact__divider" aria-hidden="true">
+        <span class="lux-contact__divider-line"></span>
+        <span class="lux-contact__divider-gem">◆</span>
+        <span class="lux-contact__divider-line"></span>
       </div>
 
       {%- if section.settings.subheading != blank -%}
@@ -98,352 +100,227 @@
           {{ section.settings.subheading }}
         </p>
       {%- endif -%}
-
-      {%- comment -%} Quick Status Strip {%- endcomment -%}
-      <div class="lux-contact__quick-badges">
-        <div class="lux-contact__quick-pill">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-          <span>{{ section.settings.badge_response | default: 'Personal Curator Response within 4 Hours' }}</span>
-        </div>
-        <div class="lux-contact__quick-pill">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-          <span>{{ section.settings.badge_discretion | default: 'Bespoke Confidentiality Guaranteed' }}</span>
-        </div>
-        <div class="lux-contact__quick-pill">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-          <span>{{ section.settings.badge_location | default: 'Private Atelier & Global Shipping' }}</span>
-        </div>
-      </div>
     </div>
 
-    {%- comment -%} ================= 2-COLUMN SPLIT: DIRECT CHANNELS + INQUIRY FORM ================= {%- endcomment -%}
-    <div class="lux-contact__grid">
-      
-      {%- comment -%} LEFT COLUMN: DIRECT CONCIERGE CHANNELS {%- endcomment -%}
-      <div class="lux-contact__channels">
-        
-        <div class="lux-contact__channel-card">
-          <div class="lux-contact__channel-tag">PRIVATE CLIENT ADVISORY</div>
-          <h2 class="lux-contact__channel-title">Art & Decor Concierge</h2>
-          <p class="lux-contact__channel-desc">
-            Direct access to our senior art curators for collection inquiries, personalized framing, provenance dossiers, and room curation.
-          </p>
-          <div class="lux-contact__channel-details">
-            {%- if section.settings.phone != blank -%}
-              <a href="tel:{{ section.settings.phone | replace: ' ', '' }}" class="lux-contact__channel-link">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
-                <span>{{ section.settings.phone }}</span>
-              </a>
-            {%- endif -%}
-            {%- if section.settings.email != blank -%}
-              <a href="mailto:{{ section.settings.email }}" class="lux-contact__channel-link">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-                <span>{{ section.settings.email }}</span>
-              </a>
-            {%- endif -%}
-          </div>
-        </div>
-
-        <div class="lux-contact__channel-card">
-          <div class="lux-contact__channel-tag">TRADE & DESIGNERS</div>
-          <h2 class="lux-contact__channel-title">Architectural & Trade Program</h2>
-          <p class="lux-contact__channel-desc">
-            Tailored services for interior designers, architects, and hospitality procurers. Enjoy exclusive trade pricing, custom sizes, and priority logistics.
-          </p>
-          <div class="lux-contact__channel-details">
-            {%- if section.settings.trade_email != blank -%}
-              <a href="mailto:{{ section.settings.trade_email }}" class="lux-contact__channel-link">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-                <span>{{ section.settings.trade_email }}</span>
-              </a>
-            {%- endif -%}
-            <div class="lux-contact__channel-meta">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-              <span>{{ section.settings.trade_benefit | default: 'Privileged Trade Margins & 3D CAD Assets' }}</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="lux-contact__channel-card">
-          <div class="lux-contact__channel-tag">FLAGSHIP ATELIER</div>
-          <h2 class="lux-contact__channel-title">Studio & Private Viewings</h2>
-          <p class="lux-contact__channel-desc">
-            Experience our monumental canvases, bespoke furniture textures, and lost-wax bronze sculptures in person by private appointment.
-          </p>
-          <div class="lux-contact__channel-details">
-            {%- if section.settings.address != blank -%}
-              <div class="lux-contact__channel-meta">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                <span>{{ section.settings.address | newline_to_br }}</span>
-              </div>
-            {%- endif -%}
-            {%- if section.settings.hours != blank -%}
-              <div class="lux-contact__channel-meta">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                <span>{{ section.settings.hours }}</span>
-              </div>
-            {%- endif -%}
-          </div>
-        </div>
-
-        {%- comment -%} Instant WhatsApp Concierge Button {%- endcomment -%}
-        {%- if section.settings.whatsapp_number != blank -%}
-          <a
-            href="https://wa.me/{{ section.settings.whatsapp_number | replace: '+', '' | replace: ' ', '' }}?text={{ section.settings.whatsapp_message | default: 'Hello The Raw House, I would like to inquire about a curated piece.' | url_encode }}"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="lux-contact__whatsapp-btn"
-          >
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+    {%- comment -%} ================= 2. CLEAN DIRECT CONTACT TILES ================= {%- endcomment -%}
+    <div class="lux-contact__action-tiles">
+      {%- if section.settings.whatsapp_number != blank -%}
+        <a
+          href="https://wa.me/{{ section.settings.whatsapp_number | replace: '+', '' | replace: ' ', '' }}?text={{ section.settings.whatsapp_message | default: 'Hello The Raw House, I would like to inquire about a curated piece.' | url_encode }}"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="lux-contact__tile lux-contact__tile--whatsapp"
+        >
+          <div class="lux-contact__tile-icon lux-contact__tile-icon--wa">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
               <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
             </svg>
-            <div class="lux-contact__whatsapp-text">
-              <span class="lux-contact__whatsapp-title">{{ section.settings.whatsapp_title | default: 'Instant Art Advisory via WhatsApp' }}</span>
-              <span class="lux-contact__whatsapp-sub">{{ section.settings.whatsapp_sub | default: 'Chat directly with our senior curation desk' }}</span>
-            </div>
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-          </a>
-        {%- endif -%}
+          </div>
+          <div class="lux-contact__tile-content">
+            <span class="lux-contact__tile-label">WhatsApp Concierge</span>
+            <span class="lux-contact__tile-value">Chat with Art Advisory</span>
+          </div>
+          <span class="lux-contact__tile-arrow">→</span>
+        </a>
+      {%- endif -%}
 
-      </div>
+      {%- if section.settings.phone != blank -%}
+        <a href="tel:{{ section.settings.phone | replace: ' ', '' }}" class="lux-contact__tile">
+          <div class="lux-contact__tile-icon">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+            </svg>
+          </div>
+          <div class="lux-contact__tile-content">
+            <span class="lux-contact__tile-label">Call Concierge</span>
+            <span class="lux-contact__tile-value">{{ section.settings.phone }}</span>
+          </div>
+          <span class="lux-contact__tile-arrow">→</span>
+        </a>
+      {%- endif -%}
 
-      {%- comment -%} RIGHT COLUMN: BESPOKE ATELIER INQUIRY FORM {%- endcomment -%}
-      <div class="lux-contact__form-card">
-        <div class="lux-contact__form-header">
-          <span class="lux-contact__form-eyebrow">CURATORIAL DOSSIER</span>
-          <h2 class="lux-contact__form-title">{{ section.settings.form_title | default: 'Initiate a Private Inquiry' }}</h2>
-          <p class="lux-contact__form-sub">
-            {{ section.settings.form_sub | default: 'Please complete the inquiry dossier below. Our advisory team will review your requirements and respond promptly.' }}
-          </p>
+      {%- if section.settings.email != blank -%}
+        <a href="mailto:{{ section.settings.email }}" class="lux-contact__tile">
+          <div class="lux-contact__tile-icon">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+          </div>
+          <div class="lux-contact__tile-content">
+            <span class="lux-contact__tile-label">Curatorial Email</span>
+            <span class="lux-contact__tile-value">{{ section.settings.email }}</span>
+          </div>
+          <span class="lux-contact__tile-arrow">→</span>
+        </a>
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} ================= 3. CLEAN & FOCUSED INQUIRY FORM ================= {%- endcomment -%}
+    <div class="lux-contact__form-wrapper">
+      <div class="lux-contact__form-box">
+        <div class="lux-contact__form-intro">
+          <h2 class="lux-contact__form-heading">Send a Private Inquiry</h2>
+          <p class="lux-contact__form-sub">Our curation desk responds within 4 business hours.</p>
         </div>
 
         {%- form 'contact', id: 'ContactForm', class: 'lux-form' -%}
           {%- if form.posted_successfully? -%}
-            <div class="lux-form__alert lux-form__alert--success" role="status" tabindex="-1" autofocus>
-              <div class="lux-form__alert-icon">
-                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
-              </div>
-              <div class="lux-form__alert-body">
-                <h3 class="lux-form__alert-title">Inquiry Received with Distinction</h3>
-                <p class="lux-form__alert-desc">Thank you for contacting The Raw House. Your dossier has been routed to our senior curatorial desk. A curator will reach out to you within 4 business hours.</p>
+            <div class="lux-form__success" role="status" tabindex="-1" autofocus>
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              <div>
+                <strong>Inquiry Sent with Distinction</strong>
+                <p>Thank you for reaching out. A dedicated curator will contact you shortly.</p>
               </div>
             </div>
           {%- elsif form.errors -%}
-            <div class="lux-form__alert lux-form__alert--error" role="alert" tabindex="-1" autofocus>
-              <div class="lux-form__alert-icon">
-                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-              </div>
-              <div class="lux-form__alert-body">
-                <h3 class="lux-form__alert-title">Please Review Required Fields</h3>
-                <p class="lux-form__alert-desc">{{ form.errors | default_errors }}</p>
+            <div class="lux-form__error" role="alert" tabindex="-1" autofocus>
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+              <div>
+                <strong>Please check your information</strong>
+                <p>{{ form.errors | default_errors }}</p>
               </div>
             </div>
           {%- endif -%}
 
-          {%- comment -%} Inquiry Nature Selector {%- endcomment -%}
-          <div class="lux-form__group">
-            <label for="ContactForm-inquiry-type" class="lux-form__label">
-              NATURE OF INQUIRY <span class="lux-form__required">*</span>
-            </label>
-            <div class="lux-form__select-wrap">
-              <select id="ContactForm-inquiry-type" name="contact[Inquiry Type]" class="lux-form__select" required>
-                <option value="Private Art Acquisition" selected>Private Art & Painting Acquisition</option>
-                <option value="Bespoke Furniture & Commission">Bespoke Furniture & Custom Commission</option>
-                <option value="Trade & Interior Designer Program">Architectural & Trade Designer Program</option>
-                <option value="Private Viewing Appointment">Private Studio Viewing & Appointment</option>
-                <option value="White-Glove Delivery & Logistics">White-Glove Delivery & Logistics Support</option>
-                <option value="General Atelier Inquiry">General Atelier Inquiry</option>
-              </select>
-              <svg class="lux-form__select-arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-            </div>
-          </div>
-
-          <div class="lux-form__row">
-            <div class="lux-form__group">
-              <label for="ContactForm-name" class="lux-form__label">
-                FULL NAME <span class="lux-form__required">*</span>
-              </label>
+          <div class="lux-form__grid">
+            <div class="lux-form__field">
+              <label for="ContactForm-name" class="lux-form__label">Your Name <span class="lux-form__req">*</span></label>
               <input
                 type="text"
                 id="ContactForm-name"
                 name="contact[name]"
                 class="lux-form__input"
                 value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
-                placeholder="e.g. Lady Victoria / Mr. Arjun Mehta"
+                placeholder="Full Name"
                 autocomplete="name"
                 required
               >
             </div>
 
-            <div class="lux-form__group">
-              <label for="ContactForm-email" class="lux-form__label">
-                EMAIL ADDRESS <span class="lux-form__required">*</span>
-              </label>
+            <div class="lux-form__field">
+              <label for="ContactForm-email" class="lux-form__label">Email Address <span class="lux-form__req">*</span></label>
               <input
                 type="email"
                 id="ContactForm-email"
                 name="contact[email]"
                 class="lux-form__input"
                 value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
-                placeholder="client@luxuryestate.com"
-                spellcheck="false"
+                placeholder="email@example.com"
                 autocomplete="email"
+                spellcheck="false"
                 autocapitalize="off"
                 required
               >
             </div>
-          </div>
 
-          <div class="lux-form__row">
-            <div class="lux-form__group">
-              <label for="ContactForm-phone" class="lux-form__label">
-                TELEPHONE / WHATSAPP
-              </label>
+            <div class="lux-form__field">
+              <label for="ContactForm-phone" class="lux-form__label">Phone / WhatsApp</label>
               <input
                 type="tel"
                 id="ContactForm-phone"
                 name="contact[phone]"
                 class="lux-form__input"
                 value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
-                placeholder="+91 98765 43210"
+                placeholder="+91 Phone number"
                 autocomplete="tel"
               >
             </div>
 
-            <div class="lux-form__group">
-              <label for="ContactForm-project" class="lux-form__label">
-                PROJECT OR PIECE REFERENCE
-              </label>
-              <input
-                type="text"
-                id="ContactForm-project"
-                name="contact[Project or Piece Name]"
-                class="lux-form__input"
-                placeholder="e.g. Bronze Figure / Penthouse Living"
-              >
+            <div class="lux-form__field">
+              <label for="ContactForm-inquiry-type" class="lux-form__label">Nature of Inquiry</label>
+              <div class="lux-form__select-wrap">
+                <select id="ContactForm-inquiry-type" name="contact[Inquiry Type]" class="lux-form__select">
+                  <option value="General Inquiry" selected>General Atelier Inquiry</option>
+                  <option value="Private Art Acquisition">Art & Painting Acquisition</option>
+                  <option value="Bespoke Furniture">Bespoke Furniture Commission</option>
+                  <option value="Trade & Interior Designer">Architect & Trade Program</option>
+                  <option value="Private Viewing">Private Studio Appointment</option>
+                </select>
+                <svg class="lux-form__select-arrow" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </div>
             </div>
           </div>
 
-          <div class="lux-form__group">
-            <label for="ContactForm-body" class="lux-form__label">
-              MESSAGE & SPECIFICATIONS <span class="lux-form__required">*</span>
-            </label>
+          <div class="lux-form__field">
+            <label for="ContactForm-body" class="lux-form__label">Your Message <span class="lux-form__req">*</span></label>
             <textarea
               id="ContactForm-body"
               name="contact[body]"
-              rows="5"
+              rows="4"
               class="lux-form__textarea"
-              placeholder="Detail your inquiry, intended room dimensions, timeline, or specific artisanal materials you wish to explore..."
+              placeholder="Tell us about the pieces, project dimensions, or services you require..."
               required
             >{%- if form.body -%}{{ form.body }}{%- endif -%}</textarea>
           </div>
 
-          <div class="lux-form__footer">
-            <button type="submit" class="lux-form__submit-btn">
-              <span>SUBMIT INQUIRY</span>
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          <div class="lux-form__submit-row">
+            <button type="submit" class="lux-form__btn">
+              <span>Send Inquiry</span>
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </button>
 
-            <div class="lux-form__privacy">
-              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-              <span>Discretion Guaranteed: Client dossiers and residences are held strictly confidential.</span>
-            </div>
+            <span class="lux-form__security-note">
+              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              Strict Confidentiality Guaranteed
+            </span>
           </div>
         {%- endform -%}
       </div>
-
     </div>
 
-    {%- comment -%} ================= PRESTIGE PILLARS (TRUST GUARANTEES) ================= {%- endcomment -%}
-    <div class="lux-contact__pillars">
-      <div class="lux-contact__pillar">
-        <div class="lux-contact__pillar-icon">
-          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="7" r="4"></circle><path d="M5.5 21a6.5 6.5 0 0 1 13 0"></path><polyline points="16 11 18 13 22 9"></polyline></svg>
-        </div>
-        <h3 class="lux-contact__pillar-title">Senior Curator Guidance</h3>
-        <p class="lux-contact__pillar-desc">Every inquiry is assigned to a dedicated specialist offering bespoke curation and spatial advisory.</p>
+    {%- comment -%} ================= 4. COMPACT ATELIER & STUDIO INFO STRIP ================= {%- endcomment -%}
+    <div class="lux-contact__info-strip">
+      <div class="lux-contact__info-item">
+        <span class="lux-contact__info-title">Atelier Studio</span>
+        <p class="lux-contact__info-text">{{ section.settings.address | default: 'The Raw House Atelier, Luxury Quarter, India' | newline_to_br }}</p>
       </div>
 
-      <div class="lux-contact__pillar">
-        <div class="lux-contact__pillar-icon">
-          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
-        </div>
-        <h3 class="lux-contact__pillar-title">White-Glove Handling</h3>
-        <p class="lux-contact__pillar-desc">Museum-grade wooden crating, insured transit, and premium doorstep installation across prime residences.</p>
+      <div class="lux-contact__info-item">
+        <span class="lux-contact__info-title">Visiting Hours</span>
+        <p class="lux-contact__info-text">{{ section.settings.hours | default: 'Mon – Sat: 10:00 AM – 7:00 PM IST (Sun by appointment)' }}</p>
       </div>
 
-      <div class="lux-contact__pillar">
-        <div class="lux-contact__pillar-icon">
-          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
-        </div>
-        <h3 class="lux-contact__pillar-title">Signed Provenance</h3>
-        <p class="lux-contact__pillar-desc">Each fine art acquisition arrives with a signed physical Certificate of Provenance and master artisan dossier.</p>
-      </div>
-
-      <div class="lux-contact__pillar">
-        <div class="lux-contact__pillar-icon">
-          <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
-        </div>
-        <h3 class="lux-contact__pillar-title">Trade & Architectural Privileges</h3>
-        <p class="lux-contact__pillar-desc">Preferred trade margin tiers, custom size commissions, and priority atelier scheduling for architects.</p>
+      <div class="lux-contact__info-item">
+        <span class="lux-contact__info-title">Trade Program</span>
+        <p class="lux-contact__info-text">Architect & designer privileges via <a href="mailto:{{ section.settings.trade_email | default: 'trade@therawhouse.com' }}">{{ section.settings.trade_email | default: 'trade@therawhouse.com' }}</a></p>
       </div>
     </div>
 
-    {%- comment -%} ================= FREQUENTLY ASKED INQUIRIES (FAQ) ================= {%- endcomment -%}
+    {%- comment -%} ================= 5. STREAMLINED FAQ (OPTIONAL) ================= {%- endcomment -%}
     {%- if section.settings.show_faq -%}
-      <div class="lux-contact__faq">
-        <div class="lux-contact__faq-header">
-          <span class="lux-contact__faq-eyebrow">CURATORIAL CLARIFICATIONS</span>
-          <h2 class="lux-contact__faq-title">Frequently Asked Inquiries</h2>
-          <div class="lux-contact__ornament" aria-hidden="true">
-            <span class="lux-contact__ornament-line"></span>
-            <span class="lux-contact__ornament-gem">◆</span>
-            <span class="lux-contact__ornament-line"></span>
-          </div>
-        </div>
-
+      <div class="lux-contact__faq-wrap">
+        <h3 class="lux-contact__faq-title">Curatorial Inquiries</h3>
         <div class="lux-contact__faq-list">
-          
           <details class="lux-contact__faq-item">
             <summary class="lux-contact__faq-summary">
-              <span class="lux-contact__faq-q">How does bespoke art & custom furniture commissioning work?</span>
-              <span class="lux-contact__faq-toggle">+</span>
+              <span>How does bespoke art & custom commissioning work?</span>
+              <span class="lux-contact__faq-icon">+</span>
             </summary>
-            <div class="lux-contact__faq-answer">
-              <p>Our bespoke process begins with a personal consultation to understand your architectural environment, preferred dimensions, noble materials, and palette. We present concept dossiers, render 3D contextual models, and provide material swatches. Once approved, master artisans at the atelier begin creation with progress updates shared at every stage.</p>
+            <div class="lux-contact__faq-body">
+              <p>We review your space, dimensions, and preferred materials to prepare tailored concept dossiers and samples. Once confirmed, master artisans craft your piece with periodic updates.</p>
             </div>
           </details>
 
           <details class="lux-contact__faq-item">
             <summary class="lux-contact__faq-summary">
-              <span class="lux-contact__faq-q">What are the qualifications for the Trade & Architect Program?</span>
-              <span class="lux-contact__faq-toggle">+</span>
+              <span>What are the qualifications for the Trade Program?</span>
+              <span class="lux-contact__faq-icon">+</span>
             </summary>
-            <div class="lux-contact__faq-answer">
-              <p>We welcome licensed interior designers, architects, hospitality firms, and luxury home builders. To register, submit your firm details or business registration through our inquiry form selecting 'Architectural & Trade Designer Program'. Trade members receive privileged pricing, dedicated project managers, and customized specifications.</p>
+            <div class="lux-contact__faq-body">
+              <p>Licensed architects, interior designers, and hospitality procurers receive exclusive trade tiers, 3D CAD files, and dedicated concierge managers.</p>
             </div>
           </details>
 
           <details class="lux-contact__faq-item">
             <summary class="lux-contact__faq-summary">
-              <span class="lux-contact__faq-q">Can I arrange a private in-home curation or gallery viewing?</span>
-              <span class="lux-contact__faq-toggle">+</span>
+              <span>How does White-Glove delivery and installation work?</span>
+              <span class="lux-contact__faq-icon">+</span>
             </summary>
-            <div class="lux-contact__faq-answer">
-              <p>Yes. For select residences and private collectors, our senior curatorial team conducts private spatial consultations. We can bring curated pieces or high-fidelity physical swatches directly to your property to test lighting, scale, and sightlines.</p>
+            <div class="lux-contact__faq-body">
+              <p>All items are secured in museum-grade wooden crating and delivered via insured luxury transit with scheduled white-glove uncrating and placement.</p>
             </div>
           </details>
-
-          <details class="lux-contact__faq-item">
-            <summary class="lux-contact__faq-summary">
-              <span class="lux-contact__faq-q">What are your White-Glove delivery and installation protocols?</span>
-              <span class="lux-contact__faq-toggle">+</span>
-            </summary>
-            <div class="lux-contact__faq-answer">
-              <p>Every piece is secured in custom-fitted, museum-grade wooden crating and shipped via climate-monitored luxury freight. White-glove service includes scheduled delivery appointments, unpacking in your designated room, professional hanging/placement by art handlers, and complete debris removal.</p>
-            </div>
-          </details>
-
         </div>
       </div>
     {%- endif -%}
@@ -453,7 +330,7 @@
 
 <style>
   /* ============================================================
-     THE RAW HOUSE — LUXURY CONTACT & CONCIERGE STYLES
+     THE RAW HOUSE — CLEAN MINIMAL LUXURY CONTACT STYLES
      ============================================================ */
 
   .lux-contact-section {
@@ -474,277 +351,191 @@
   }
 
   .lux-contact__container {
-    max-width: 1240px;
+    max-width: 960px;
     margin-left: auto;
     margin-right: auto;
-    padding-left: clamp(16px, 4vw, 40px);
-    padding-right: clamp(16px, 4vw, 40px);
+    padding-left: clamp(16px, 3.5vw, 32px);
+    padding-right: clamp(16px, 3.5vw, 32px);
     box-sizing: border-box;
   }
 
   /* Header */
   .lux-contact__header {
     text-align: center;
-    max-width: 820px;
-    margin: 0 auto clamp(40px, 5vw, 64px);
+    max-width: 680px;
+    margin: 0 auto clamp(24px, 4vw, 42px);
   }
 
   .lux-contact__eyebrow-wrap {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 14px;
-    margin-bottom: 12px;
-  }
-
-  .lux-contact__eyebrow-line {
-    width: 28px;
-    height: 1px;
-    background: var(--lc-accent);
-    opacity: 0.6;
+    margin-bottom: 8px;
   }
 
   .lux-contact__eyebrow {
-    font-size: 11px;
+    font-size: 10.5px;
     font-weight: 700;
-    letter-spacing: 0.28em;
+    letter-spacing: 0.26em;
     text-transform: uppercase;
     color: var(--lc-accent);
   }
 
   .lux-contact__heading {
     font-family: var(--font-heading--family, "Cormorant Garamond", Georgia, serif);
-    font-size: clamp(30px, 3.8vw, 48px);
+    font-size: clamp(26px, 3.4vw, 42px);
     font-weight: 400;
-    line-height: 1.18;
-    letter-spacing: 0.04em;
+    line-height: 1.2;
+    letter-spacing: 0.03em;
     color: var(--lc-heading);
     margin: 0 0 10px;
     text-transform: uppercase;
   }
 
-  .lux-contact__ornament {
+  .lux-contact__divider {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
-    margin: 12px auto 16px;
-    max-width: 220px;
+    gap: 10px;
+    margin: 10px auto 14px;
+    max-width: 140px;
   }
 
-  .lux-contact__ornament-line {
+  .lux-contact__divider-line {
     flex: 1;
     height: 1px;
-    background: linear-gradient(90deg, transparent, var(--lc-accent), transparent);
-    opacity: 0.5;
+    background: var(--lc-accent);
+    opacity: 0.4;
   }
 
-  .lux-contact__ornament-gem {
+  .lux-contact__divider-gem {
     color: var(--lc-accent);
-    font-size: 9px;
+    font-size: 8px;
   }
 
   .lux-contact__subheading {
-    font-size: clamp(15px, 1.3vw, 17px);
+    font-size: clamp(13.5px, 1.2vw, 15px);
     font-weight: 400;
-    line-height: 1.75;
+    line-height: 1.65;
     color: var(--lc-muted);
-    margin: 0 0 24px;
+    margin: 0;
   }
 
-  .lux-contact__quick-badges {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 18px;
-  }
-
-  .lux-contact__quick-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 7px 14px;
-    background: var(--lc-card-bg);
-    border: 1px solid var(--lc-card-border);
-    border-radius: 40px;
-    font-size: 11.5px;
-    letter-spacing: 0.04em;
-    color: var(--lc-muted);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
-  }
-
-  .lux-contact__quick-pill svg {
-    color: var(--lc-accent);
-    flex-shrink: 0;
-  }
-
-  /* 2-Column Grid */
-  .lux-contact__grid {
+  /* Action Tiles (Clean 3-Item Direct Contact Bar) */
+  .lux-contact__action-tiles {
     display: grid;
-    grid-template-columns: minmax(320px, 1fr) minmax(440px, 1.45fr);
-    gap: clamp(28px, 4vw, 56px);
-    align-items: start;
-    margin-bottom: clamp(50px, 7vw, 90px);
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-bottom: clamp(24px, 3.5vw, 36px);
   }
 
-  @media screen and (max-width: 991px) {
-    .lux-contact__grid {
+  @media screen and (max-width: 768px) {
+    .lux-contact__action-tiles {
       grid-template-columns: 1fr;
-      gap: 36px;
+      gap: 10px;
     }
   }
 
-  /* Channels (Left Column) */
-  .lux-contact__channels {
+  .lux-contact__tile {
     display: flex;
-    flex-direction: column;
-    gap: 18px;
-  }
-
-  .lux-contact__channel-card {
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
     background: var(--lc-card-bg);
     border: 1px solid var(--lc-card-border);
-    padding: 24px 26px;
     border-radius: 4px;
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.03);
-    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    text-decoration: none;
+    color: inherit;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
   }
 
-  .lux-contact__channel-card:hover {
+  .lux-contact__tile:hover {
+    border-color: var(--lc-card-border-hover);
     transform: translateY(-2px);
-    border-color: var(--lc-accent);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
   }
 
-  .lux-contact__channel-tag {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    color: var(--lc-accent);
-    margin-bottom: 6px;
-  }
-
-  .lux-contact__channel-title {
-    font-family: var(--font-heading--family, "Cormorant Garamond", Georgia, serif);
-    font-size: 21px;
-    font-weight: 500;
-    color: var(--lc-heading);
-    margin: 0 0 8px;
-    line-height: 1.3;
-  }
-
-  .lux-contact__channel-desc {
-    font-size: 13.5px;
-    line-height: 1.6;
-    color: var(--lc-muted);
-    margin: 0 0 16px;
-  }
-
-  .lux-contact__channel-details {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .lux-contact__channel-link,
-  .lux-contact__channel-meta {
+  .lux-contact__tile-icon {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
-    font-size: 13.5px;
-    font-weight: 500;
-    color: var(--lc-heading);
-    text-decoration: none;
-    transition: color 0.2s ease;
-  }
-
-  .lux-contact__channel-link:hover {
-    color: var(--lc-accent);
-  }
-
-  .lux-contact__channel-link svg,
-  .lux-contact__channel-meta svg {
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--lc-bg);
     color: var(--lc-accent);
     flex-shrink: 0;
   }
 
-  /* WhatsApp Action Button */
-  .lux-contact__whatsapp-btn {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 18px 22px;
-    background: #25d366;
-    color: #ffffff !important;
-    text-decoration: none;
-    border-radius: 4px;
-    box-shadow: 0 8px 24px rgba(37, 211, 102, 0.25);
-    transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+  .lux-contact__tile-icon--wa {
+    background: rgba(37, 211, 102, 0.12);
+    color: #25d366;
   }
 
-  .lux-contact__whatsapp-btn:hover {
-    background: #20ba59;
-    transform: translateY(-2px);
-    box-shadow: 0 12px 28px rgba(37, 211, 102, 0.35);
-  }
-
-  .lux-contact__whatsapp-text {
+  .lux-contact__tile-content {
     display: flex;
     flex-direction: column;
     flex: 1;
+    min-width: 0;
   }
 
-  .lux-contact__whatsapp-title {
-    font-size: 13.5px;
+  .lux-contact__tile-label {
+    font-size: 10px;
     font-weight: 700;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
+    color: var(--lc-muted);
+    margin-bottom: 2px;
   }
 
-  .lux-contact__whatsapp-sub {
-    font-size: 11.5px;
-    opacity: 0.92;
+  .lux-contact__tile-value {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--lc-heading);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
-  /* Form Card (Right Column) */
-  .lux-contact__form-card {
+  .lux-contact__tile-arrow {
+    color: var(--lc-accent);
+    font-size: 14px;
+    transition: transform 0.2s ease;
+  }
+
+  .lux-contact__tile:hover .lux-contact__tile-arrow {
+    transform: translateX(3px);
+  }
+
+  /* Form Wrapper & Box */
+  .lux-contact__form-wrapper {
+    margin-bottom: clamp(32px, 5vw, 48px);
+  }
+
+  .lux-contact__form-box {
     background: var(--lc-card-bg);
     border: 1px solid var(--lc-card-border);
-    padding: clamp(26px, 4vw, 44px);
+    padding: clamp(22px, 3.5vw, 36px);
     border-radius: 4px;
-    box-shadow: 0 10px 32px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
   }
 
-  .lux-contact__form-header {
-    margin-bottom: 28px;
-    padding-bottom: 18px;
+  .lux-contact__form-intro {
+    margin-bottom: 22px;
+    padding-bottom: 14px;
     border-bottom: 1px solid var(--lc-card-border);
   }
 
-  .lux-contact__form-eyebrow {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.22em;
-    color: var(--lc-accent);
-    text-transform: uppercase;
-    display: block;
-    margin-bottom: 4px;
-  }
-
-  .lux-contact__form-title {
+  .lux-contact__form-heading {
     font-family: var(--font-heading--family, "Cormorant Garamond", Georgia, serif);
-    font-size: clamp(22px, 2.4vw, 30px);
+    font-size: clamp(20px, 2.2vw, 26px);
     font-weight: 400;
     line-height: 1.25;
     color: var(--lc-heading);
-    margin: 0 0 8px;
+    margin: 0 0 4px;
     text-transform: uppercase;
   }
 
   .lux-contact__form-sub {
-    font-size: 13.5px;
-    line-height: 1.6;
+    font-size: 12.5px;
     color: var(--lc-muted);
     margin: 0;
   }
@@ -753,36 +544,37 @@
   .lux-form {
     display: flex;
     flex-direction: column;
-    gap: 20px;
-  }
-
-  .lux-form__row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
     gap: 16px;
   }
 
+  .lux-form__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
   @media screen and (max-width: 600px) {
-    .lux-form__row {
+    .lux-form__grid {
       grid-template-columns: 1fr;
+      gap: 12px;
     }
   }
 
-  .lux-form__group {
+  .lux-form__field {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 5px;
   }
 
   .lux-form__label {
     font-size: 10.5px;
-    font-weight: 700;
-    letter-spacing: 0.16em;
+    font-weight: 600;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--lc-heading);
   }
 
-  .lux-form__required {
+  .lux-form__req {
     color: var(--lc-accent);
   }
 
@@ -792,28 +584,27 @@
     width: 100%;
     box-sizing: border-box;
     font-family: inherit;
-    font-size: 14px;
+    font-size: 13.5px;
     color: var(--lc-heading);
-    background-color: var(--lc-input-bg);
+    background: var(--lc-input-bg);
     border: 1px solid var(--lc-input-border);
     border-radius: 3px;
-    padding: 12px 14px;
+    padding: 10px 12px;
     outline: none;
-    transition: border-color 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
   }
 
   .lux-form__input:focus,
   .lux-form__select:focus,
   .lux-form__textarea:focus {
     border-color: var(--lc-accent);
-    box-shadow: 0 0 0 3px rgba(197, 168, 128, 0.15);
-    background-color: var(--lc-card-bg);
+    background: var(--lc-card-bg);
   }
 
   .lux-form__input::placeholder,
   .lux-form__textarea::placeholder {
     color: var(--lc-muted);
-    opacity: 0.65;
+    opacity: 0.6;
   }
 
   .lux-form__select-wrap {
@@ -824,13 +615,13 @@
   .lux-form__select {
     appearance: none;
     -webkit-appearance: none;
-    padding-right: 38px;
+    padding-right: 32px;
     cursor: pointer;
   }
 
   .lux-form__select-arrow {
     position: absolute;
-    right: 14px;
+    right: 12px;
     top: 50%;
     transform: translateY(-50%);
     pointer-events: none;
@@ -839,247 +630,208 @@
 
   .lux-form__textarea {
     resize: vertical;
-    min-height: 120px;
-    line-height: 1.6;
+    min-height: 95px;
+    line-height: 1.5;
   }
 
-  /* Form Footer */
-  .lux-form__footer {
+  /* Submit row */
+  .lux-form__submit-row {
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
     gap: 14px;
     margin-top: 6px;
+    flex-wrap: wrap;
   }
 
-  .lux-form__submit-btn {
+  .lux-form__btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
-    padding: 15px 32px;
+    gap: 10px;
+    padding: 13px 28px;
     background: var(--lc-accent);
     color: #111111;
     font-family: inherit;
-    font-size: 12px;
+    font-size: 11.5px;
     font-weight: 700;
-    letter-spacing: 0.22em;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
     border: none;
     border-radius: 3px;
     cursor: pointer;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-    transition: transform 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
   }
 
-  .lux-form__submit-btn:hover {
+  .lux-form__btn:hover {
     background: #d4b88e;
-    transform: translateY(-2px);
-    box-shadow: 0 10px 26px rgba(197, 168, 128, 0.35);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(197, 168, 128, 0.3);
   }
 
-  .lux-form__privacy {
+  .lux-form__security-note {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     font-size: 11px;
     color: var(--lc-muted);
-    line-height: 1.4;
   }
 
-  .lux-form__privacy svg {
+  .lux-form__security-note svg {
     color: var(--lc-accent);
-    flex-shrink: 0;
   }
 
-  /* Form Alerts */
-  .lux-form__alert {
+  @media screen and (max-width: 600px) {
+    .lux-form__submit-row {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 12px;
+    }
+    .lux-form__btn {
+      width: 100%;
+    }
+    .lux-form__security-note {
+      justify-content: center;
+    }
+  }
+
+  /* Alerts */
+  .lux-form__success,
+  .lux-form__error {
     display: flex;
     align-items: flex-start;
-    gap: 14px;
-    padding: 16px 18px;
-    border-radius: 4px;
-    margin-bottom: 20px;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 3px;
+    font-size: 12.5px;
+    line-height: 1.4;
+    margin-bottom: 14px;
   }
 
-  .lux-form__alert--success {
+  .lux-form__success {
     background: rgba(46, 125, 50, 0.08);
-    border: 1px solid rgba(46, 125, 50, 0.3);
-    color: #1e4620;
+    border: 1px solid rgba(46, 125, 50, 0.25);
+    color: #1b4d20;
   }
 
-  .lux-form__alert--error {
+  .lux-form__error {
     background: rgba(211, 47, 47, 0.08);
-    border: 1px solid rgba(211, 47, 47, 0.3);
-    color: #5c1414;
+    border: 1px solid rgba(211, 47, 47, 0.25);
+    color: #5f1515;
   }
 
-  .lux-form__alert-icon svg {
-    flex-shrink: 0;
-  }
-
-  .lux-form__alert-title {
-    font-size: 14px;
-    font-weight: 700;
-    margin: 0 0 4px;
-  }
-
-  .lux-form__alert-desc {
-    font-size: 13px;
-    line-height: 1.5;
-    margin: 0;
-  }
-
-  /* Pillars / Guarantees */
-  .lux-contact__pillars {
+  /* Info Strip (Atelier Studio, Hours, Trade) */
+  .lux-contact__info-strip {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
-    padding: clamp(30px, 4vw, 44px) 0;
+    padding: 22px 0;
     border-top: 1px solid var(--lc-card-border);
-    border-bottom: 1px solid var(--lc-card-border);
-    margin-bottom: clamp(40px, 6vw, 75px);
+    margin-bottom: clamp(28px, 4vw, 44px);
   }
 
-  @media screen and (max-width: 991px) {
-    .lux-contact__pillars {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 24px;
-    }
-  }
-
-  @media screen and (max-width: 550px) {
-    .lux-contact__pillars {
+  @media screen and (max-width: 768px) {
+    .lux-contact__info-strip {
       grid-template-columns: 1fr;
-      gap: 20px;
+      gap: 14px;
+      padding: 18px 0;
     }
   }
 
-  .lux-contact__pillar {
+  .lux-contact__info-item {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    gap: 4px;
   }
 
-  .lux-contact__pillar-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 46px;
-    height: 46px;
-    border-radius: 50%;
-    background: var(--lc-card-bg);
-    border: 1px solid var(--lc-card-border);
+  .lux-contact__info-title {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
     color: var(--lc-accent);
-    margin-bottom: 14px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
   }
 
-  .lux-contact__pillar-title {
-    font-family: var(--font-heading--family, "Cormorant Garamond", Georgia, serif);
-    font-size: 18px;
-    font-weight: 500;
-    color: var(--lc-heading);
-    margin: 0 0 6px;
-    line-height: 1.3;
-  }
-
-  .lux-contact__pillar-desc {
+  .lux-contact__info-text {
     font-size: 12.5px;
-    line-height: 1.6;
+    line-height: 1.55;
     color: var(--lc-muted);
     margin: 0;
   }
 
-  /* FAQ Section */
-  .lux-contact__faq {
-    max-width: 860px;
+  .lux-contact__info-text a {
+    color: var(--lc-heading);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  /* FAQ Accordion (Clean & Minimal) */
+  .lux-contact__faq-wrap {
+    max-width: 720px;
     margin: 0 auto;
-  }
-
-  .lux-contact__faq-header {
-    text-align: center;
-    margin-bottom: 32px;
-  }
-
-  .lux-contact__faq-eyebrow {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.22em;
-    color: var(--lc-accent);
-    text-transform: uppercase;
-    display: block;
-    margin-bottom: 6px;
   }
 
   .lux-contact__faq-title {
     font-family: var(--font-heading--family, "Cormorant Garamond", Georgia, serif);
-    font-size: clamp(24px, 2.8vw, 34px);
+    font-size: clamp(18px, 2vw, 22px);
     font-weight: 400;
     color: var(--lc-heading);
-    margin: 0 0 10px;
+    text-align: center;
+    margin: 0 0 16px;
     text-transform: uppercase;
+    letter-spacing: 0.06em;
   }
 
   .lux-contact__faq-list {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 8px;
   }
 
   .lux-contact__faq-item {
     background: var(--lc-card-bg);
     border: 1px solid var(--lc-card-border);
-    border-radius: 4px;
+    border-radius: 3px;
     overflow: hidden;
-    transition: border-color 0.2s ease;
-  }
-
-  .lux-contact__faq-item[open] {
-    border-color: var(--lc-accent);
   }
 
   .lux-contact__faq-summary {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 16px;
-    padding: 18px 22px;
+    gap: 12px;
+    padding: 13px 16px;
     cursor: pointer;
     user-select: none;
     list-style: none;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--lc-heading);
   }
 
   .lux-contact__faq-summary::-webkit-details-marker {
     display: none;
   }
 
-  .lux-contact__faq-q {
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--lc-heading);
-    line-height: 1.4;
-  }
-
-  .lux-contact__faq-toggle {
-    font-size: 20px;
-    font-weight: 300;
+  .lux-contact__faq-icon {
+    font-size: 16px;
     color: var(--lc-accent);
     transition: transform 0.2s ease;
-    line-height: 1;
   }
 
-  .lux-contact__faq-item[open] .lux-contact__faq-toggle {
+  .lux-contact__faq-item[open] .lux-contact__faq-icon {
     transform: rotate(45deg);
   }
 
-  .lux-contact__faq-answer {
-    padding: 0 22px 20px;
-    font-size: 14px;
-    line-height: 1.7;
+  .lux-contact__faq-body {
+    padding: 0 16px 14px;
+    font-size: 13px;
+    line-height: 1.6;
     color: var(--lc-muted);
   }
 
-  .lux-contact__faq-answer p {
+  .lux-contact__faq-body p {
     margin: 0;
   }
 </style>
@@ -1092,7 +844,7 @@
   "settings": [
     {
       "type": "header",
-      "content": "Color Scheme & Aesthetics"
+      "content": "Color Scheme"
     },
     {
       "type": "select",
@@ -1108,27 +860,27 @@
     {
       "type": "color",
       "id": "custom_bg",
-      "label": "Custom background color override"
+      "label": "Custom background override"
     },
     {
       "type": "color",
       "id": "custom_text",
-      "label": "Custom text color override"
+      "label": "Custom text override"
     },
     {
       "type": "color",
       "id": "custom_accent",
-      "label": "Custom accent color override"
+      "label": "Custom accent override"
     },
     {
       "type": "header",
-      "content": "Curatorial Header"
+      "content": "Header & Narrative"
     },
     {
       "type": "text",
       "id": "eyebrow",
       "label": "Eyebrow tag",
-      "default": "THE RAW HOUSE ATELIER & CONCIERGE"
+      "default": "THE RAW HOUSE • ATELIER & CONCIERGE"
     },
     {
       "type": "text",
@@ -1139,30 +891,12 @@
     {
       "type": "textarea",
       "id": "subheading",
-      "label": "Narrative introduction",
-      "default": "Whether acquiring a curated masterwork, commissioning custom furniture, or seeking trade partnerships, our curators and concierge are dedicated to your vision."
-    },
-    {
-      "type": "text",
-      "id": "badge_response",
-      "label": "Badge 1: Response time",
-      "default": "Personal Curator Response within 4 Hours"
-    },
-    {
-      "type": "text",
-      "id": "badge_discretion",
-      "label": "Badge 2: Discretion",
-      "default": "Bespoke Confidentiality Guaranteed"
-    },
-    {
-      "type": "text",
-      "id": "badge_location",
-      "label": "Badge 3: Location",
-      "default": "Private Atelier & Global Shipping"
+      "label": "Subheading note",
+      "default": "Our curators are available to assist with private acquisitions, bespoke commissions, and interior trade inquiries."
     },
     {
       "type": "header",
-      "content": "Direct Channels (Left Column)"
+      "content": "Direct Contact Channels"
     },
     {
       "type": "text",
@@ -1179,74 +913,40 @@
     {
       "type": "text",
       "id": "trade_email",
-      "label": "Trade & architect email",
+      "label": "Trade & designer email",
       "default": "trade@therawhouse.com"
     },
     {
       "type": "text",
-      "id": "trade_benefit",
-      "label": "Trade benefit note",
-      "default": "Privileged Trade Margins & 3D CAD Assets"
+      "id": "whatsapp_number",
+      "label": "WhatsApp phone number",
+      "default": "+919876543210"
+    },
+    {
+      "type": "text",
+      "id": "whatsapp_message",
+      "label": "WhatsApp prefilled text",
+      "default": "Hello The Raw House, I would like to inquire about a curated piece."
+    },
+    {
+      "type": "header",
+      "content": "Studio Details"
     },
     {
       "type": "textarea",
       "id": "address",
-      "label": "Studio & atelier address",
+      "label": "Studio address",
       "default": "The Raw House Atelier, Studio 12\nLuxury Design Quarter, India"
     },
     {
       "type": "text",
       "id": "hours",
-      "label": "Visiting / advisory hours",
-      "default": "Mon – Sat: 10:00 AM – 7:00 PM IST (Sun: Private Appointment)"
+      "label": "Visiting hours",
+      "default": "Mon – Sat: 10:00 AM – 7:00 PM IST (Sun by appointment)"
     },
     {
       "type": "header",
-      "content": "WhatsApp Concierge Button"
-    },
-    {
-      "type": "text",
-      "id": "whatsapp_number",
-      "label": "WhatsApp phone number (with country code)",
-      "default": "+919876543210"
-    },
-    {
-      "type": "text",
-      "id": "whatsapp_title",
-      "label": "WhatsApp button title",
-      "default": "Instant Art Advisory via WhatsApp"
-    },
-    {
-      "type": "text",
-      "id": "whatsapp_sub",
-      "label": "WhatsApp button subtitle",
-      "default": "Chat directly with our senior curation desk"
-    },
-    {
-      "type": "text",
-      "id": "whatsapp_message",
-      "label": "WhatsApp prefilled message",
-      "default": "Hello The Raw House, I would like to inquire about a curated piece."
-    },
-    {
-      "type": "header",
-      "content": "Inquiry Dossier (Form)"
-    },
-    {
-      "type": "text",
-      "id": "form_title",
-      "label": "Form title",
-      "default": "Initiate a Private Inquiry"
-    },
-    {
-      "type": "textarea",
-      "id": "form_sub",
-      "label": "Form subtitle",
-      "default": "Please complete the inquiry dossier below. Our advisory team will review your requirements and respond promptly."
-    },
-    {
-      "type": "header",
-      "content": "Frequently Asked Inquiries"
+      "content": "Curatorial FAQ"
     },
     {
       "type": "checkbox",
@@ -1262,41 +962,41 @@
       "type": "range",
       "id": "padding_top",
       "min": 20,
-      "max": 140,
-      "step": 5,
+      "max": 120,
+      "step": 4,
       "unit": "px",
       "label": "Top padding — desktop",
-      "default": 70
+      "default": 56
     },
     {
       "type": "range",
       "id": "padding_bottom",
       "min": 20,
-      "max": 140,
-      "step": 5,
+      "max": 120,
+      "step": 4,
       "unit": "px",
       "label": "Bottom padding — desktop",
-      "default": 80
+      "default": 72
     },
     {
       "type": "range",
       "id": "mobile_padding_top",
       "min": 10,
-      "max": 100,
-      "step": 5,
+      "max": 80,
+      "step": 2,
       "unit": "px",
       "label": "Top padding — mobile",
-      "default": 45
+      "default": 32
     },
     {
       "type": "range",
       "id": "mobile_padding_bottom",
       "min": 10,
-      "max": 100,
-      "step": 5,
+      "max": 80,
+      "step": 2,
       "unit": "px",
       "label": "Bottom padding — mobile",
-      "default": 55
+      "default": 44
     }
   ],
   "presets": [

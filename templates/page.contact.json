@@ -1,82 +1,28 @@
 {
   "sections": {
-    "luxury_marquee_top": {
-      "type": "luxury-marquee-ticker",
-      "blocks": {
-        "statement_1": {
-          "type": "statement",
-          "settings": {
-            "text": "PRIVATE ART ADVISORY & ATELIER CONCIERGE",
-            "separator": "✦"
-          }
-        },
-        "statement_2": {
-          "type": "statement",
-          "settings": {
-            "text": "BESPOKE MONUMENTAL PAINTINGS, SCULPTURES & CUSTOM FURNITURE",
-            "separator": "✦"
-          }
-        },
-        "statement_3": {
-          "type": "statement",
-          "settings": {
-            "text": "WORLDWIDE CLIMATE-CONTROLLED CRATING & WHITE-GLOVE INSTALLATION",
-            "separator": "✦"
-          }
-        },
-        "statement_4": {
-          "type": "statement",
-          "settings": {
-            "text": "ARCHITECTURAL & INTERIOR DESIGNER TRADE PRIVILEGES",
-            "separator": "✦"
-          }
-        }
-      },
-      "block_order": [
-        "statement_1",
-        "statement_2",
-        "statement_3",
-        "statement_4"
-      ],
-      "settings": {
-        "color_scheme_preset": "dark",
-        "speed": 35,
-        "font_size": 11.5,
-        "padding_vertical": 12
-      }
-    },
     "luxury_contact_concierge": {
       "type": "luxury-contact-concierge",
       "settings": {
         "color_preset": "warm_editorial",
-        "eyebrow": "THE RAW HOUSE ATELIER & PRIVATE CONCIERGE",
+        "eyebrow": "THE RAW HOUSE • ATELIER & CONCIERGE",
         "heading": "Connect with The Atelier",
-        "subheading": "Whether acquiring a curated masterwork, commissioning custom furniture, or seeking trade partnerships, our curators and concierge are dedicated to your vision.",
-        "badge_response": "Personal Curator Response within 4 Hours",
-        "badge_discretion": "Bespoke Confidentiality Guaranteed",
-        "badge_location": "Private Atelier & Global Shipping",
+        "subheading": "Our curators are available to assist with private acquisitions, bespoke commissions, and interior trade inquiries.",
         "phone": "+91 98765 43210",
         "email": "concierge@therawhouse.com",
         "trade_email": "trade@therawhouse.com",
-        "trade_benefit": "Privileged Trade Margins & 3D CAD Assets",
-        "address": "The Raw House Atelier, Studio 12\nLuxury Design Quarter, India",
-        "hours": "Mon – Sat: 10:00 AM – 7:00 PM IST (Sun: Private Appointment)",
         "whatsapp_number": "+919876543210",
-        "whatsapp_title": "Instant Art Advisory via WhatsApp",
-        "whatsapp_sub": "Chat directly with our senior curation desk",
         "whatsapp_message": "Hello The Raw House, I would like to inquire about a curated piece.",
-        "form_title": "Initiate a Private Inquiry",
-        "form_sub": "Please complete the inquiry dossier below. Our advisory team will review your requirements and respond promptly.",
+        "address": "The Raw House Atelier, Studio 12\nLuxury Design Quarter, India",
+        "hours": "Mon – Sat: 10:00 AM – 7:00 PM IST (Sun by appointment)",
         "show_faq": true,
-        "padding_top": 60,
-        "padding_bottom": 80,
-        "mobile_padding_top": 40,
-        "mobile_padding_bottom": 50
+        "padding_top": 56,
+        "padding_bottom": 72,
+        "mobile_padding_top": 32,
+        "mobile_padding_bottom": 44
       }
     }
   },
   "order": [
-    "luxury_marquee_top",
     "luxury_contact_concierge"
   ]
 }
