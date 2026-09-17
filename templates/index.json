@@ -424,13 +424,46 @@
     "new_arrivals": {
       "type": "new-arrivals-gallery",
       "blocks": {
+        "arrival_card_FTjgiF": {
+          "type": "arrival_card",
+          "settings": {
+            "product": "sarpa-gaja-asandi",
+            "badge_bg": "#111111",
+            "badge_color": "#ffffff",
+            "link": ""
+          }
+        },
+        "arrival_card_kEehjN": {
+          "type": "arrival_card",
+          "settings": {
+            "product": "fold-side-table-uf-st-01",
+            "badge_bg": "#111111",
+            "badge_color": "#ffffff",
+            "link": ""
+          }
+        },
+        "arrival_card_xqb4XA": {
+          "type": "arrival_card",
+          "settings": {
+            "product": "drushti-pithika-cabinet",
+            "badge_bg": "#111111",
+            "badge_color": "#ffffff",
+            "link": ""
+          }
+        },
+        "arrival_card_biLk8i": {
+          "type": "arrival_card",
+          "settings": {
+            "product": "atham-low-console-uf-co-02",
+            "badge_bg": "#111111",
+            "badge_color": "#ffffff",
+            "link": ""
+          }
+        },
         "arrival_card_nej4Ck": {
           "type": "arrival_card",
           "settings": {
-            "alt": "Curated Object",
-            "designer": "",
-            "price": "",
-            "badge": "",
+            "product": "arq-cabinet",
             "badge_bg": "#111111",
             "badge_color": "#ffffff",
             "link": ""
@@ -438,6 +471,10 @@
         }
       },
       "block_order": [
+        "arrival_card_FTjgiF",
+        "arrival_card_kEehjN",
+        "arrival_card_xqb4XA",
+        "arrival_card_biLk8i",
         "arrival_card_nej4Ck"
       ],
       "settings": {
@@ -629,55 +666,19 @@
         "card_1": {
           "type": "product_card",
           "settings": {
-            "product": "arq-cabinet",
-            "default_asset": "fine-print-1.jpg",
-            "title": "Radha and Krishna",
-            "vendor": "By Mahaveer Swami",
-            "price": "₹3,900.00",
-            "compare_at_price": "",
-            "badge": "OPTIONS AVAILABLE",
-            "badge_bg": "#b08d57",
-            "badge_color": "#ffffff",
-            "badge_2": "",
-            "badge_2_bg": "#111111",
-            "badge_2_color": "#ffffff",
-            "link": "shopify://collections/all"
+            "product": "arq-cabinet"
           }
         },
         "card_2": {
           "type": "product_card",
           "settings": {
-            "product": "drushti-pithika-cabinet",
-            "default_asset": "fine-print-2.jpg",
-            "title": "Pink Flower Deep Plate - Bitossi",
-            "vendor": "By Mon Dimora",
-            "price": "₹5,900.00",
-            "compare_at_price": "",
-            "badge": "",
-            "badge_bg": "#b08d57",
-            "badge_color": "#ffffff",
-            "badge_2": "",
-            "badge_2_bg": "#111111",
-            "badge_2_color": "#ffffff",
-            "link": "shopify://collections/all"
+            "product": "drushti-pithika-cabinet"
           }
         },
         "card_3": {
           "type": "product_card",
           "settings": {
-            "product": "arq-side-board",
-            "default_asset": "fine-print-3.jpg",
-            "title": "The Blueroom Hand Printed Wallpaper",
-            "vendor": "By Oldhand Designs",
-            "price": "₹13,000.00",
-            "compare_at_price": "",
-            "badge": "OPTIONS AVAILABLE",
-            "badge_bg": "#b08d57",
-            "badge_color": "#ffffff",
-            "badge_2": "CUSTOMIZABLE",
-            "badge_2_bg": "#111111",
-            "badge_2_color": "#ffffff",
-            "link": "shopify://collections/all"
+            "product": "arq-side-board"
           }
         }
       },
