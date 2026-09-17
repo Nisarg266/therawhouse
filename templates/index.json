@@ -126,7 +126,7 @@
           "settings": {
             "image": "shopify://shop_images/68ea042e-b783-454a-9600-bc049ce2595e_42cdf37b-d7d3-411e-98f4-4701c9d9aa5a.png",
             "image_mobile": "shopify://shop_images/f51ca54e-f381-4b3f-a25d-cb26f89f2db6.png",
-            "default_asset": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/Ahmedabad_Art_Week_Sculpture_Show_Catalogue_compressed.pdf?v=1789589334",
+            "default_asset": "Ahmedabad_Art_Week_Sculpture_Show",
             "alt": "",
             "badge": "",
             "link": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/Ahmedabad_Art_Week_Sculpture_Show_Catalogue_compressed.pdf?v=1789589334",
@@ -138,7 +138,7 @@
           "settings": {
             "image": "shopify://shop_images/IDIKA01016_resized_no_stretch_9ec2df42-08a5-49b7-9557-bbd1fbd87952.png",
             "image_mobile": "shopify://shop_images/IDIKA01016_resized_no_stretch_232a8ccd-654d-4cf1-b1d4-15fcb0050fdc.png",
-            "default_asset": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/E_-_Catalouge_New_Perspective_compressed.pdf?v=1789591020",
+            "default_asset": "raw collectables",
             "alt": "",
             "badge": "",
             "link": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/Raw_Collectables_compressed.pdf?v=1789591025",
@@ -148,10 +148,12 @@
         "catalog_image_4": {
           "type": "catalog_cover",
           "settings": {
-            "default_asset": "art-gallery-room-hotspots.jpg",
+            "image": "shopify://shop_images/9d8490f1-e69a-4f2c-a02c-4f4577ae491c_b48a2ac3-76cf-43a7-a3a2-8942860bb104.png",
+            "image_mobile": "shopify://shop_images/5edee94c-2cf7-493d-9cc0-065f9cfa9e2e.png",
+            "default_asset": "Shrujan",
             "alt": "",
             "badge": "",
-            "link": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/The_Raw_House_-_Indoor_Outdoor_Dialouges_compressed.pdf?v=1789591024",
+            "link": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/Shrujan_Catalogue_compressed_under_20MB_1.pdf?v=1789588636",
             "show_view_icon": true
           }
         },
@@ -170,7 +172,7 @@
           "settings": {
             "image": "shopify://shop_images/85e5ae8b-3a77-4236-bbe0-878d9d9fc816.png",
             "image_mobile": "shopify://shop_images/0a044d04-0686-47e0-90cc-419e24d11489.png",
-            "default_asset": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/Hinchko_Catalogue_compressed.pdf?v=1789628194",
+            "default_asset": "Hinchko",
             "alt": "",
             "badge": "",
             "link": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/Hinchko_Catalogue_compressed.pdf?v=1789628194",
@@ -180,7 +182,9 @@
         "catalog_image_7": {
           "type": "catalog_cover",
           "settings": {
-            "default_asset": "art-painting-starry-night.jpg",
+            "image": "shopify://shop_images/18cc3612-e2a9-4825-84d6-3318be7f2ab6.png",
+            "image_mobile": "shopify://shop_images/912c58bf-3a03-4515-9960-faa8a5057e3b.png",
+            "default_asset": "Ahmedabad week",
             "alt": "",
             "badge": "",
             "link": "shopify://collections/all",
