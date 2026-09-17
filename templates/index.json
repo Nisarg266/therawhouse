@@ -123,10 +123,12 @@
         "catalog_image_1": {
           "type": "catalog_cover",
           "settings": {
-            "default_asset": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/Shrujan_Catalogue_compressed_under_20MB_1.pdf?v=1789588636",
+            "image": "shopify://shop_images/WhatsApp_Image_2026-09-12_at_3.24.52_PM_3.jpg",
+            "image_mobile": "shopify://shop_images/b0a01019-09e5-4ec5-8b74-acf840f25671_a0136480-e009-4e72-b7c5-9bd35b45bace.png",
+            "default_asset": "Uphaar",
             "alt": "",
             "badge": "",
-            "link": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/Shrujan_Catalogue_compressed_under_20MB_1.pdf?v=1789588636",
+            "link": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/Uphaar_collections_compressed.pdf?v=1789591028",
             "show_view_icon": true
           }
         },
@@ -205,10 +207,10 @@
           "settings": {
             "image": "shopify://shop_images/8ee45590-3925-4d5d-b310-7c95df6194ea.png",
             "image_mobile": "shopify://shop_images/b3d62b28-2f50-4300-a6ef-c63c425b7713.png",
-            "default_asset": "art-painting-pearl.jpg",
+            "default_asset": "the future inform",
             "alt": "",
             "badge": "",
-            "link": "shopify://collections/all",
+            "link": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/The_Future_in_Form_-_Catalouge_compressed.pdf?v=1789591028",
             "show_view_icon": true
           }
         },
