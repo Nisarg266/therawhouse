@@ -220,7 +220,9 @@
         "catalog_image_10": {
           "type": "catalog_cover",
           "settings": {
-            "default_asset": "art-painting-water-lilies.jpg",
+            "image": "shopify://shop_images/TRP04720.jpg",
+            "image_mobile": "shopify://shop_images/TRP04720_resized_604_67x766_4e05c883-e418-4e39-9fbd-e57f15be28ad.jpg",
+            "default_asset": "craft colllective",
             "alt": "",
             "badge": "",
             "link": "shopify://collections/all",
