@@ -13,17 +13,18 @@
 - `sections/header.liquid`: Main header section with multi-row layout (top row: drawer toggle, search, logo, actions; bottom row: desktop menu).
 - `snippets/header-row.liquid`: Renders 3-column header layout (`left`, `center`, `right`).
 - `snippets/header-drawer.liquid`: Markup for mobile slide drawer (`<header-drawer>`, `<details id="Details-menu-drawer-container">`, `<summary>`, editorial feature card, navigation links).
-- `assets/header-drawer.js`: Custom Web Component `<header-drawer>` handling drawer open/close lifecycle, scroll locking, and touch/click interactions.
-- `assets/custom-header.css`: Overrides for ultra-luxury header, search pill, zero-gap mobile layout, and mobile drawer transitions.
+- `assets/header-smart-hide.js`: Mobile smart sticky header controller. On downward scroll (>8px delta), adds `.header--auto-hidden` (`transform: translateY(-102%)`) to hide header; on upward scroll (<-8px delta), removes it to reveal header immediately anywhere on the page. Stays visible near top (`scrollY <= 70`) or when drawer/cart is open. Desktop is completely untouched.
+- `assets/custom-header.css`: Overrides for ultra-luxury header, search pill, zero-gap mobile layout, mobile drawer transitions, smart sticky scroll-up header transitions, and exact mobile logo centering (`.header__column--center { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }` preventing bias from unequal left/right icon clusters).
 
 ### 2. Custom Showcase & Catalog Sections
 - `sections/luxury-product-catalog.liquid`: 6-card collage layout with "View More" button to reveal additional items, configurable section height (range: 200px–600px).
 - `sections/new-arrivals-gallery.liquid`: Gallery showcase, full-width edge-to-edge on mobile.
-- `sections/luxury-hero-slider.liquid`: Hero slider section with luxury typography and transitions.
+- `sections/luxury-hero-slider.liquid`: Hero slider section with luxury typography and transitions. Driven by `initHero` in `assets/luxp.js` with hardware-accelerated horizontal track sliding (`transform: translate3d(-index * 100%, 0, 0)`), real-time touch and desktop drag tracking, fluid deceleration snap, swipe link-suppression, and smooth cubic-bezier easing (`cubic-bezier(0.22, 1, 0.36, 1)`).
 - `sections/recommendations-editorial.liquid`: Editorial lifestyle blocks. Supports classic `grid` and interactive `split` layout. In `split` mode:
   - Left rail (`.luxp-split__sticky`): Sticky position `--split-rail-top: clamp(140px, 16vh, 175px)` with top padding for breathing room below sticky header menu; contains eyebrow, title, diamond ornament, curatorial narrative, and curation badge/link.
   - Right cards (`.luxp-split__card`): Grid columns `minmax(250px, 1.15fr) 2fr` (~68% width); internal body padding `clamp(22px, 2.5vw, 34px) clamp(24px, 3vw, 38px)`; cards stack in deck via `position: sticky; top: calc(var(--split-rail-top) + var(--card-i) * var(--deck-offset))`.
   - Scroll blur depth: covered cards receive `.is-covered` (`nextTop <= top + 34`) with `filter: blur(5px) brightness(0.88) saturate(0.92); opacity: 0.65; transform: scale(0.96) translateY(8px)`.
+- Global Smooth Scrolling: Configured in `assets/custom-header.css` via `html { scroll-behavior: smooth !important; }` and `-webkit-overflow-scrolling: touch !important;` across all horizontal scroll tracks.
 - `sections/the-makers-grid.liquid`: Artisan/craftsmanship showcase section.
 
 ### 3. Styling & Global Scripts

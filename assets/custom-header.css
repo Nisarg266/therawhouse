@@ -893,12 +893,29 @@ details[open] .menu-drawer__list-item--flat:nth-child(7) { transition-delay: 0.3
   margin: 0 !important;
 }
 
-/* 8. Zero-Overflow Global Base */
+/* 8. Zero-Overflow Global Base & Smooth Scrolling */
+html {
+  scroll-behavior: smooth !important;
+}
+
 html, body {
   overflow-x: hidden !important;
   max-width: 100vw !important;
   width: 100% !important;
   position: relative !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+
+[data-luxp-hero],
+.luxp-hero,
+.luxp-hero__track,
+.slideshow,
+slideshow-slides,
+.overflow-list,
+[data-overflow-list],
+.about-mobile-slider {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
 }
 
 *, *::before, *::after {
@@ -953,6 +970,7 @@ html, body {
 
   /* --- Top Bar: taller, balanced, crisp luxury white --- */
   .header__row--top {
+    position: relative !important;
     min-height: 64px !important;
     height: 64px !important;
     padding-inline: 14px !important;
@@ -966,12 +984,14 @@ html, body {
   }
 
   .header__row--top .header__columns {
+    position: relative !important;
     display: flex !important;
     justify-content: space-between !important;
     align-items: center !important;
     width: 100% !important;
     max-width: 100% !important;
-    gap: 8px !important;
+    height: 100% !important;
+    gap: 0 !important;
     overflow: visible !important;
     border-radius: 0 !important;
   }
@@ -982,6 +1002,8 @@ html, body {
     align-items: center !important;
     gap: 2px !important;
     flex: 0 0 auto !important;
+    position: relative !important;
+    z-index: 2 !important;
   }
 
   .header__icon--menu,
@@ -1026,13 +1048,33 @@ html, body {
     stroke-width: 1.6 !important;
   }
 
-  /* --- Center: prominent, crisp logo --- */
+  /* --- Center: prominent, crisp logo - ABSOLUTELY CENTERED ON SCREEN --- */
   .header__column--center {
-    flex: 1 1 auto !important;
-    min-width: 0 !important;
-    overflow: hidden !important;
+    position: absolute !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
     text-align: center !important;
-    padding: 0 2px !important;
+    width: max-content !important;
+    max-width: calc(100% - 176px) !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    z-index: 1 !important;
+    pointer-events: auto !important;
+  }
+
+  .header-logo,
+  .header .logo-section,
+  .logo-section__image-wrapper,
+  .header-logo__image-container {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 auto !important;
   }
 
   .header jumbo-text,
@@ -1057,12 +1099,20 @@ html, body {
     width: auto !important;
     object-fit: contain !important;
     -webkit-user-drag: none !important;
+    display: block !important;
+    margin: 0 auto !important;
   }
 
   /* --- Right cluster: wishlist + cart --- */
   .header__column--right {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
     flex: 0 0 auto !important;
+    margin-left: auto !important;
     gap: 2px !important;
+    position: relative !important;
+    z-index: 2 !important;
   }
 
   .header-actions,
@@ -1224,3 +1274,30 @@ body.menu-drawer-open {
   }
 }
 
+
+/* ==========================================================================
+   11. PHONE SMART HEADER — slides away on scroll-down, returns on scroll-up.
+   Desktop is never affected. Toggled by assets/header-smart-hide.js.
+   ========================================================================== */
+@media screen and (max-width: 989px) {
+  #header-group {
+    position: -webkit-sticky !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 99999 !important;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease !important;
+    will-change: transform;
+    transform: translateY(0);
+  }
+
+  #header-group.header--auto-hidden {
+    transform: translateY(-102%) !important;
+    box-shadow: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #header-group.header--auto-hidden {
+    transition: none !important;
+  }
+}
