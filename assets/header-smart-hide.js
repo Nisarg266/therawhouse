@@ -5,6 +5,7 @@
  * - Top of page (y <= 70): Always visible in standard position.
  * - Touch devices: Guarded against stuck :hover states.
  * - Safe against mobile iOS rubber-band bounces and drawer open states.
+ * - Menu Drawer Lock: When drawer is open, header is strictly visible and never transformed.
  */
 (function () {
   var group = document.getElementById('header-group');
@@ -26,8 +27,9 @@
 
   function isDrawerOpen() {
     var drawer = document.getElementById('Details-menu-drawer-container');
-    if (drawer && drawer.hasAttribute('open')) return true;
+    if (drawer && (drawer.hasAttribute('open') || drawer.classList.contains('menu-open') || drawer.classList.contains('is-open'))) return true;
     if (document.body.classList.contains('menu-drawer-open')) return true;
+    if (document.documentElement.classList.contains('menu-drawer-open')) return true;
     if (document.body.classList.contains('overflow-hidden')) return true;
     var cartDrawer = document.getElementById('cart-drawer');
     if (cartDrawer && cartDrawer.hasAttribute('open')) return true;
@@ -47,6 +49,9 @@
   }
 
   function setHidden(hide) {
+    if (hide && isDrawerOpen()) {
+      hide = false;
+    }
     if (hide === isHidden) return;
     isHidden = hide;
     group.classList.toggle('header--auto-hidden', isHidden);
@@ -100,6 +105,29 @@
   document.addEventListener('scroll', onScroll, { passive: true, capture: true });
   window.addEventListener('touchmove', onScroll, { passive: true });
   window.addEventListener('resize', onScroll, { passive: true });
+
+  // Instantly unhide header the millisecond drawer/cart/search opens
+  var drawer = document.getElementById('Details-menu-drawer-container');
+  if (drawer) {
+    drawer.addEventListener('toggle', function () {
+      if (drawer.hasAttribute('open')) {
+        setHidden(false);
+      }
+    });
+  }
+
+  try {
+    var drawerObserver = new MutationObserver(function () {
+      if (isDrawerOpen()) {
+        setHidden(false);
+      }
+    });
+    drawerObserver.observe(document.body, { attributes: true, attributeFilter: ['class', 'style'] });
+    drawerObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class', 'scroll-lock'] });
+    if (drawer) {
+      drawerObserver.observe(drawer, { attributes: true, attributeFilter: ['open', 'class'] });
+    }
+  } catch (e) {}
 
   // Initial position check
   lastScrollY = getScrollY();

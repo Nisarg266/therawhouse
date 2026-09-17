@@ -132,6 +132,16 @@ class HeaderDrawer extends Component {
       summary.setAttribute('aria-expanded', 'true');
     }
 
+    const headerGroup = document.getElementById('header-group');
+    if (headerGroup) {
+      headerGroup.classList.remove('header--auto-hidden');
+    }
+
+    const menuDrawer = this.querySelector('.menu-drawer') || this.refs?.menuDrawer;
+    if (menuDrawer) {
+      menuDrawer.scrollTop = 0;
+    }
+
     // Force layout flush so animation triggers smoothly
     void details.offsetWidth;
 
@@ -141,10 +151,10 @@ class HeaderDrawer extends Component {
       document.body.classList.add('menu-drawer-open');
       document.body.style.overflow = 'hidden';
 
-      // Accessibility: focus close button or drawer header
+      // Accessibility: focus close button or drawer header with preventScroll
       const closeBtn = this.querySelector('.menu-drawer__close-button');
       if (closeBtn) {
-        closeBtn.focus();
+        closeBtn.focus({ preventScroll: true });
       }
     });
   }
@@ -177,7 +187,7 @@ class HeaderDrawer extends Component {
         details.removeAttribute('open');
         details.classList.remove('is-closing');
         if (summary) {
-          summary.focus();
+          summary.focus({ preventScroll: true });
         }
       }
       this.#closingTimer = null;
