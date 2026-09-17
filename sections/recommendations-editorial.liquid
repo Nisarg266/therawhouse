@@ -348,8 +348,8 @@
     position: sticky;
     top: calc(var(--split-rail-top) + var(--card-i, 0) * var(--deck-offset));
     z-index: calc(1 + var(--card-i, 0));
-    background: {{ s.color_bg | default: '#ffffff' }};
-    box-shadow: 0 18px 44px rgba(24, 18, 8, 0.10);
+    background: {{ s.color_bg | default: '#ffffff' }} !important;
+    box-shadow: 0 18px 44px rgba(24, 18, 8, 0.10) !important;
     transition:
       transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
       filter 0.6s ease,
@@ -361,12 +361,12 @@
   #shopify-section-{{ section.id }} .luxp-split__card.is-covered {
     transform: scale(0.96) translateY(6px);
     filter: brightness(0.9) saturate(0.95);
-    box-shadow: 0 10px 26px rgba(24, 18, 8, 0.07);
+    box-shadow: 0 10px 26px rgba(24, 18, 8, 0.07) !important;
   }
 
   /* Compact media so a pinned card + its text fit the viewport */
   #shopify-section-{{ section.id }} .luxp-split__card .luxp-media {
-    aspect-ratio: 16 / 11;
+    aspect-ratio: 16 / 11 !important;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -416,7 +416,7 @@
     }
 
     #shopify-section-{{ section.id }} .luxp-split__card .luxp-media {
-      aspect-ratio: 1 / 1.02;
+      aspect-ratio: 1 / 1.02 !important;
     }
   }
 </style>
@@ -590,9 +590,7 @@
             {% if block.settings.btn_text != blank %}
               <span class="luxp-card__cta">
                 <span class="luxp-card__cta-label">{{ block.settings.btn_text }}</span>
-                <span class="luxp-card__cta-arrow" aria-hidden="true">
-                  {% render 'luxp-icon', icon: 'arrow', class: 'luxp-btn__arrow' %}
-                </span>
+                <span class="luxp-card__cta-arrow" aria-hidden="true">&rarr;</span>
               </span>
             {% endif %}
           </div>
@@ -656,9 +654,9 @@
   "settings": [
     { "type": "header", "content": "Content" },
     { "type": "select", "id": "layout_style", "label": "Layout style", "options": [
-      { "value": "split", "label": "Sticky heading + scrolling cards" },
-      { "value": "grid", "label": "Classic centered grid" }
-    ], "default": "split", "info": "Split: heading stays fixed on the left while cards slide in one-by-one on scroll." },
+      { "value": "grid", "label": "Classic centered grid" },
+      { "value": "split", "label": "Sticky heading + scrolling cards" }
+    ], "default": "grid", "info": "Grid: centered 2-column luxury editorial collage. Split: heading stays fixed on left." },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow / subheading", "default": "the" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "RECOMMENDATIONS" },
     { "type": "richtext", "id": "intro", "label": "Intro text" },
