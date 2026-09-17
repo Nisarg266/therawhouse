@@ -938,7 +938,7 @@
         "default_asset": "hero-lighting-art-3.jpg",
         "image_fit": "cover",
         "overlay_color": "#000000",
-        "overlay_opacity": 55,
+        "overlay_opacity": 75,
         "min_height": 480,
         "min_height_m": 420,
         "text_align": "center",

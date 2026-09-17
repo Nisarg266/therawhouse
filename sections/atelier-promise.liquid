@@ -137,7 +137,7 @@
       {% endif %}
 
       {% if section.blocks.size > 0 %}
-        <div class="luxp-metrics" style="margin-top: {{ s.features_margin_top | default: 16 }}px;">
+        <div class="luxp-metrics" style="margin-top: {{ s.features_margin_top | default: 22 }}px;">
           {% for block in section.blocks %}
             {% if block.settings.link != blank %}
               <a href="{{ block.settings.link }}" class="luxp-metric luxp-metric--link" style="text-decoration: none; color: inherit;" {{ block.shopify_attributes }}>
@@ -162,10 +162,10 @@
                 </span>
               {% endif %}
               {% if block.settings.label != blank %}
-                <span class="luxp-metric__label" style="font-size: {{ s.feature_label_size | default: 11 }}px; letter-spacing: 0.16em; color: var(--luxp-heading-color);">{{ block.settings.label }}</span>
+                <h4 class="luxp-metric__title">{{ block.settings.label }}</h4>
               {% endif %}
               {% if block.settings.text != blank %}
-                <span class="luxp-metric__label" style="text-transform: none; letter-spacing: 0.02em; color: var(--luxp-muted);">{{ block.settings.text }}</span>
+                <p class="luxp-metric__desc">{{ block.settings.text }}</p>
               {% endif %}
             {% if block.settings.link != blank %}
               </a>
@@ -192,6 +192,188 @@
     </div>
   </div>
 </div>
+
+<style>
+  /* ============================================================
+     THE RAW HOUSE — ATELIER PROMISE CONTRAST & LEGIBILITY SYSTEM
+     ============================================================ */
+
+  #AtelierPromise-{{ section.id }},
+  .section-luxp-banner .luxp-banner {
+    position: relative;
+  }
+
+  /* Multi-stop atmospheric luxury dark vignette overlay */
+  #AtelierPromise-{{ section.id }} .luxp-banner__overlay,
+  .section-luxp-banner .luxp-banner__overlay {
+    background:
+      radial-gradient(ellipse at 50% 45%, rgba(14, 12, 10, 0.72) 0%, rgba(6, 5, 4, 0.90) 100%),
+      var(--luxp-overlay-color, #000000) !important;
+    opacity: {{ s.overlay_opacity | default: 75 | times: 0.01 }} !important;
+  }
+
+  /* Eyebrow badge */
+  #AtelierPromise-{{ section.id }} .luxp-eyebrow,
+  .section-luxp-banner .luxp-eyebrow {
+    color: var(--luxp-accent, #dfba7e) !important;
+    font-size: 11.5px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.28em !important;
+    text-transform: uppercase !important;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.95);
+    margin-bottom: 2px;
+  }
+
+  /* Headline with crisp shadow */
+  #AtelierPromise-{{ section.id }} .luxp-heading,
+  .section-luxp-banner .luxp-heading {
+    color: #ffffff !important;
+    font-size: clamp(20px, 2.3vw, 26px) !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.32em !important;
+    text-transform: uppercase !important;
+    text-shadow: 0 3px 14px rgba(0, 0, 0, 0.95), 0 1px 4px rgba(0, 0, 0, 0.9);
+    margin: 0;
+  }
+
+  /* Gem ornament */
+  #AtelierPromise-{{ section.id }} .luxp-ornament__gem,
+  .section-luxp-banner .luxp-ornament__gem {
+    color: var(--luxp-accent, #dfba7e) !important;
+    text-shadow: 0 0 12px rgba(223, 186, 126, 0.6);
+  }
+
+  #AtelierPromise-{{ section.id }} .luxp-ornament__line,
+  .section-luxp-banner .luxp-ornament__line {
+    background: linear-gradient(90deg, transparent, var(--luxp-accent, #dfba7e), transparent) !important;
+    opacity: 0.7;
+  }
+
+  /* Main statement text */
+  #AtelierPromise-{{ section.id }} .luxp-body,
+  #AtelierPromise-{{ section.id }} .luxp-body p,
+  .section-luxp-banner .luxp-body,
+  .section-luxp-banner .luxp-body p {
+    color: #f7f3eb !important;
+    font-size: clamp(15px, 1.45vw, 17px) !important;
+    font-weight: 400 !important;
+    line-height: 1.75 !important;
+    letter-spacing: 0.02em !important;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95), 0 1px 4px rgba(0, 0, 0, 0.9);
+    max-width: 840px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Feature cards grid */
+  #AtelierPromise-{{ section.id }} .luxp-metrics,
+  .section-luxp-banner .luxp-metrics {
+    display: grid !important;
+    grid-template-columns: repeat(var(--luxp-metrics-cols, 3), minmax(0, 1fr)) !important;
+    gap: var(--luxp-metrics-gap, 24px) !important;
+    width: 100% !important;
+    max-width: 1040px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    border: none !important;
+    padding: 0 !important;
+  }
+
+  @media screen and (max-width: 768px) {
+    #AtelierPromise-{{ section.id }} .luxp-metrics,
+    .section-luxp-banner .luxp-metrics {
+      grid-template-columns: repeat(var(--luxp-metrics-cols-m, 1), minmax(0, 1fr)) !important;
+      gap: var(--luxp-metrics-gap-m, 16px) !important;
+    }
+  }
+
+  /* Frosted luxury glass card for each feature */
+  #AtelierPromise-{{ section.id }} .luxp-metric,
+  .section-luxp-banner .luxp-metric {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    padding: 24px 22px !important;
+    background: rgba(18, 15, 12, 0.60) !important;
+    border: 1px solid rgba(223, 186, 126, 0.22) !important;
+    border-radius: 4px !important;
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+    transition: transform 0.3s ease, border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease !important;
+    box-sizing: border-box !important;
+    text-decoration: none !important;
+  }
+
+  #AtelierPromise-{{ section.id }} .luxp-metric:hover,
+  .section-luxp-banner .luxp-metric:hover {
+    background: rgba(26, 21, 17, 0.78) !important;
+    border-color: rgba(223, 186, 126, 0.45) !important;
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.6) !important;
+    transform: translateY(-3px) !important;
+  }
+
+  #AtelierPromise-{{ section.id }} .luxp-metric .luxp-icon,
+  .section-luxp-banner .luxp-metric .luxp-icon {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: var(--luxp-accent, #dfba7e) !important;
+    margin-bottom: 12px !important;
+    filter: drop-shadow(0 2px 8px rgba(223, 186, 126, 0.4)) !important;
+  }
+
+  #AtelierPromise-{{ section.id }} .luxp-metric .luxp-icon svg,
+  .section-luxp-banner .luxp-metric .luxp-icon svg {
+    width: var(--luxp-icon-size, 26px) !important;
+    height: var(--luxp-icon-size, 26px) !important;
+  }
+
+  #AtelierPromise-{{ section.id }} .luxp-metric__title,
+  .section-luxp-banner .luxp-metric__title {
+    font-family: var(--font-body--family, "Inter", -apple-system, sans-serif) !important;
+    font-size: {{ s.feature_label_size | default: 12 }}px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.18em !important;
+    text-transform: uppercase !important;
+    color: #ffffff !important;
+    margin: 0 0 8px !important;
+    line-height: 1.4 !important;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.95) !important;
+  }
+
+  #AtelierPromise-{{ section.id }} .luxp-metric__desc,
+  .section-luxp-banner .luxp-metric__desc {
+    font-family: var(--font-body--family, "Inter", -apple-system, sans-serif) !important;
+    font-size: 13px !important;
+    font-weight: 400 !important;
+    line-height: 1.6 !important;
+    letter-spacing: 0.02em !important;
+    color: rgba(244, 239, 230, 0.92) !important;
+    margin: 0 !important;
+    text-shadow: 0 1px 5px rgba(0, 0, 0, 0.95) !important;
+  }
+
+  /* CTA Button */
+  #AtelierPromise-{{ section.id }} .luxp-btn,
+  .section-luxp-banner .luxp-btn {
+    background: #c5a880 !important;
+    color: #111111 !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.2em !important;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45) !important;
+    transition: all 0.3s ease !important;
+  }
+
+  #AtelierPromise-{{ section.id }} .luxp-btn:hover,
+  .section-luxp-banner .luxp-btn:hover {
+    background: #ffffff !important;
+    color: #111111 !important;
+    box-shadow: 0 8px 25px rgba(197, 168, 128, 0.4) !important;
+    transform: translateY(-2px) !important;
+  }
+</style>
 
 {% schema %}
 {
