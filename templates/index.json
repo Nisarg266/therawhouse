@@ -377,7 +377,7 @@
           "settings": {
             "image": "shopify://shop_images/920269d4-d86e-44ea-9ea7-05fc2920f168.png",
             "image_mobile": "shopify://shop_images/d100891c-b0e0-43dc-b5d0-296feb43aa69_2.png",
-            "default_asset": "recommendation-1.jpg",
+            "default_asset": "",
             "badge": "Oneiric",
             "title": "Vaayu Console",
             "text": "The console from the Mudra collection takes inspiration from the Vayu element,\nembodying lightness and movement.",
