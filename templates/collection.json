@@ -12,12 +12,12 @@
     "collection_hero": {
       "type": "collection-hero-banner",
       "settings": {
-        "show_breadcrumbs": true,
-        "show_collection_nav": true,
-        "subheading": "the",
-        "show_underline": true,
-        "fallback_description": "A curated edit of museum-grade artifacts, contemporary canvas art, and timeless furniture pieces designed for a life artfully lived.",
-        "show_count": true,
+        "show_breadcrumbs": false,
+        "show_collection_nav": false,
+        "subheading": "",
+        "show_underline": false,
+        "fallback_description": "",
+        "show_count": false,
         "background_color": "#111111",
         "heading_color": "#ffffff",
         "accent_color": "#c5a880",

@@ -1,0 +1,187 @@
+{% doc %}
+  Renders the site preloader.
+
+  @example
+  {% render 'site-preloader' %}
+{% enddoc %}
+
+<div
+  id="SitePreloader"
+  class="site-preloader"
+  role="status"
+  aria-live="polite"
+  aria-label="Loading The Raw House"
+>
+  <div class="site-preloader__panel">
+    <span class="site-preloader__eyebrow">The Raw House</span>
+    <span class="site-preloader__mark" aria-hidden="true">
+      <span class="site-preloader__stroke site-preloader__stroke--one"></span>
+      <span class="site-preloader__stroke site-preloader__stroke--two"></span>
+      <span class="site-preloader__stroke site-preloader__stroke--three"></span>
+    </span>
+    <span class="site-preloader__text">Curating raw beauty</span>
+  </div>
+</div>
+
+<style>
+  html.site-preloader-lock,
+  html.site-preloader-lock body {
+    overflow: hidden;
+  }
+
+  .site-preloader {
+    position: fixed;
+    inset: 0;
+    z-index: 2147483647;
+    display: grid;
+    place-items: center;
+    background:
+      radial-gradient(circle at 50% 42%, rgba(179, 139, 77, 0.12), transparent 32%),
+      linear-gradient(135deg, #f8f3ea 0%, #eee4d5 52%, #e4d7c4 100%);
+    color: #1c1712;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.55s ease, visibility 0s linear 0s;
+  }
+
+  .site-preloader.is-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.55s ease, visibility 0s linear 0.55s;
+  }
+
+  .site-preloader__panel {
+    display: grid;
+    justify-items: center;
+    gap: 18px;
+    padding: 30px;
+    text-align: center;
+  }
+
+  .site-preloader__eyebrow {
+    font-family: var(--font-heading--family, Georgia, serif);
+    font-size: clamp(24px, 4vw, 42px);
+    font-weight: 400;
+    letter-spacing: 0.16em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .site-preloader__mark {
+    position: relative;
+    width: 160px;
+    height: 34px;
+    display: block;
+  }
+
+  .site-preloader__stroke {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    display: block;
+    height: 2px;
+    width: 0;
+    border-radius: 999px;
+    background: #8b7048;
+    transform-origin: left center;
+    animation: sitePreloaderStroke 1.25s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  }
+
+  .site-preloader__stroke--one {
+    transform: translate(-50%, -9px) rotate(-3deg);
+  }
+
+  .site-preloader__stroke--two {
+    height: 3px;
+    background: #2a2119;
+    animation-delay: 0.12s;
+    transform: translate(-50%, 0) rotate(1deg);
+  }
+
+  .site-preloader__stroke--three {
+    background: #b38b4d;
+    animation-delay: 0.24s;
+    transform: translate(-50%, 10px) rotate(-1deg);
+  }
+
+  .site-preloader__text {
+    color: rgba(28, 23, 18, 0.72);
+    font-family: var(--font-body--family, sans-serif);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+
+  @keyframes sitePreloaderStroke {
+    0% {
+      width: 0;
+      opacity: 0;
+    }
+    24% {
+      opacity: 1;
+    }
+    58% {
+      width: 132px;
+      opacity: 1;
+    }
+    100% {
+      width: 132px;
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .site-preloader {
+      transition-duration: 0.12s;
+    }
+
+    .site-preloader__stroke {
+      width: 132px;
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  (function () {
+    const root = document.documentElement;
+    const preloader = document.getElementById('SitePreloader');
+    if (!preloader) return;
+
+    root.classList.add('site-preloader-lock');
+
+    const startedAt = Date.now();
+    const minimumVisibleMs = 650;
+    const maximumVisibleMs = 1800;
+
+    function hidePreloader() {
+      const elapsed = Date.now() - startedAt;
+      const delay = Math.max(0, minimumVisibleMs - elapsed);
+
+      window.setTimeout(function () {
+        preloader.classList.add('is-hidden');
+        root.classList.remove('site-preloader-lock');
+        window.setTimeout(function () {
+          preloader.remove();
+        }, 650);
+      }, delay);
+    }
+
+    if (document.readyState === 'complete') {
+      hidePreloader();
+    } else {
+      window.addEventListener('load', hidePreloader, { once: true });
+      window.setTimeout(hidePreloader, maximumVisibleMs);
+    }
+  })();
+</script>
+
+<noscript>
+  <style>
+    .site-preloader {
+      display: none !important;
+    }
+  </style>
+</noscript>

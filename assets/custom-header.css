@@ -510,24 +510,15 @@ header-menu {
   align-items: center !important;
 }
 
-/* Sliding Gold Underline Animation */
+/* Keep desktop navigation clean without hover underline/overline */
 .menu-list__link::after {
-  content: '' !important;
-  position: absolute !important;
-  bottom: 0 !important;
-  left: 0 !important;
-  right: 0 !important;
-  width: 100% !important;
-  height: 2px !important;
-  background: #c5a880 !important;
-  transform: scaleX(0) !important;
-  transform-origin: center !important;
-  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  content: none !important;
+  display: none !important;
 }
 
 .menu-list__link:hover::after,
 .menu-list__link--active::after {
-  transform: scaleX(1) !important;
+  transform: none !important;
 }
 
 .menu-list__link:hover {

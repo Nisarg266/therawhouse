@@ -1,22 +1,8 @@
-{%- comment -%}
-  THE RAW HOUSE - EDITORIAL LUXURY COLLECTION HERO BANNER
-  Matches high-end art gallery aesthetic with rich background image, Ken Burns slow zoom animation,
-  multi-layered vignette overlay, frosted glassmorphism card, cursive pre-title, tracked serif heading,
-  glowing gold underline, crystal-clear typography, and live masterpieces count badge.
-{%- endcomment -%}
-
 {% liquid
   assign section_id = section.id
-  assign subheading = section.settings.subheading | default: 'the'
   assign heading = section.settings.heading
   if heading == blank
     assign heading = collection.title | default: 'Curated Collection'
-  endif
-  assign show_underline = section.settings.show_underline
-  assign show_count = section.settings.show_count
-  assign description = collection.description
-  if description == blank and section.settings.fallback_description != blank
-    assign description = section.settings.fallback_description
   endif
   assign max_width = section.settings.max_width | default: 840
   assign bg_color = section.settings.background_color | default: '#111111'
@@ -47,7 +33,6 @@
   "
   {{ section.shopify_attributes }}
 >
-  <!-- Background Image with Ken Burns animation -->
   <div class="collection-hero-editorial__bg-wrap" aria-hidden="true">
     {% if bg_image != blank %}
       {{
@@ -68,80 +53,15 @@
         height="900"
       >
     {% endif %}
-    <!-- Multi-layered luxury vignette overlay -->
     <div class="collection-hero-editorial__overlay"></div>
   </div>
 
-  <!-- Foreground Content Container with ambient glass card -->
   <div class="collection-hero-editorial__container">
     <div class="collection-hero-editorial__glass-card">
-      <!-- Breadcrumbs -->
-      {% if section.settings.show_breadcrumbs != false %}
-        <nav class="collection-hero-editorial__breadcrumbs" aria-label="Breadcrumb">
-          <a href="{{ routes.root_url }}" class="collection-hero-editorial__crumb">Home</a>
-          <span class="collection-hero-editorial__crumb-sep" aria-hidden="true">/</span>
-          <a href="{{ routes.collections_url }}" class="collection-hero-editorial__crumb">Collections</a>
-          <span class="collection-hero-editorial__crumb-sep" aria-hidden="true">/</span>
-          <span class="collection-hero-editorial__crumb collection-hero-editorial__crumb--current" aria-current="page">{{ heading }}</span>
-        </nav>
-      {% endif %}
-
-      <!-- Breadcrumb / Pre-title -->
-      {% if subheading != blank %}
-        <span class="collection-hero-editorial__subheading">{{ subheading }}</span>
-      {% endif %}
-
-      <!-- Main Spaced Serif Heading -->
       <h1 class="collection-hero-editorial__heading">
         {{ heading }}
       </h1>
-
-      <!-- Gold / Dark Luxury Underline -->
-      {% if show_underline %}
-        <div class="collection-hero-editorial__underline" aria-hidden="true"></div>
-      {% endif %}
-
-      <!-- Editorial Description -->
-      {% if description != blank %}
-        <div class="collection-hero-editorial__desc">
-          {{ description }}
-        </div>
-      {% endif %}
-
-      <!-- Live Masterpieces Count Pill -->
-      {% if show_count %}
-        <div class="collection-hero-editorial__badge-wrap">
-          <span class="collection-hero-editorial__badge">
-            <span class="collection-hero-editorial__badge-dot"></span>
-            {% if collection.products_count == 1 %}
-              1 MASTERPIECE CURATED
-            {% else %}
-              {{ collection.products_count | default: 0 }} MASTERPIECES CURATED
-            {% endif %}
-          </span>
-        </div>
-      {% endif %}
     </div>
-
-    <!-- Collection Navigation Chips -->
-    {% if section.settings.show_collection_nav != false %}
-      <nav class="collection-hero-editorial__collnav" aria-label="Collection navigation">
-        <div class="collection-hero-editorial__collnav-track">
-          {% assign nav_count = 0 %}
-          {% for nav_col in collections %}
-            {% if nav_col.handle != collection.handle and nav_count < 8 %}
-              {% assign nav_count = nav_count | plus: 1 %}
-              <a href="{{ nav_col.url }}" class="collection-hero-editorial__chip">
-                {{ nav_col.title }}
-              </a>
-            {% endif %}
-          {% endfor %}
-          <a href="{{ routes.collections_url }}" class="collection-hero-editorial__chip collection-hero-editorial__chip--all">
-            All Collections
-          </a>
-        </div>
-      </nav>
-    {% endif %}
   </div>
 </div>
 
@@ -332,13 +252,11 @@
   .collection-hero-editorial__glass-card {
     width: 100%;
     max-width: 820px;
-    background: rgba(18, 18, 18, 0.42);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.32), 0 0 0 1px rgba(255, 255, 255, 0.05);
-    border-radius: 4px;
-    padding: clamp(28px, 4.5vw, 44px) clamp(20px, 4vw, 48px);
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 0;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -564,11 +482,13 @@
 
   /* --- Product cards: media zoom + title affordance --- */
   .main-collection-grid .product-card .product-media__image {
-    transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    filter: none !important;
+    image-rendering: auto;
+    transition: none !important;
   }
 
   .main-collection-grid .product-card:hover .product-media__image {
-    transform: scale(1.04) !important;
+    transform: none !important;
   }
 
   .main-collection-grid .product-card .rte p[role='heading'] {

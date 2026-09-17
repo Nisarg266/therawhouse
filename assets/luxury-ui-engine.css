@@ -39,6 +39,65 @@
   --lux-transition-fast: all 0.22s ease;
 }
 
+/* ---- Collection pages: sharp product cards ---- */
+body:has(collection-component) .main-collection-grid .product-grid__item,
+body:has(collection-component) .main-collection-grid product-card,
+body:has(collection-component) .main-collection-grid .product-card,
+body:has(collection-component) .main-collection-grid .product-card__content,
+body:has(collection-component) .main-collection-grid .product-grid__card,
+body:has(collection-component) .main-collection-grid .group-block,
+body:has(collection-component) .main-collection-grid .group-block-content {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+  transform: none !important;
+}
+
+body:has(collection-component) .main-collection-grid .product-grid__card {
+  overflow: visible !important;
+  border: 0 !important;
+  background: transparent !important;
+}
+
+body:has(collection-component) .main-collection-grid .card-gallery,
+body:has(collection-component) .main-collection-grid .product-card-gallery,
+body:has(collection-component) .main-collection-grid .product-media,
+body:has(collection-component) .main-collection-grid .product-media-container,
+body:has(collection-component) .main-collection-grid .product-card__image,
+body:has(collection-component) .main-collection-grid .product-media__image,
+body:has(collection-component) .main-collection-grid .product-card-gallery__no-image {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+  transform: none !important;
+}
+
+body:has(collection-component) .main-collection-grid .card-gallery img,
+body:has(collection-component) .main-collection-grid .product-card img,
+body:has(collection-component) .main-collection-grid .product-media-container img {
+  border-radius: 0 !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+body:has(collection-component) .main-collection-grid .product-badges__badge {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+body:has(collection-component) .main-collection-grid .product-card:hover,
+body:has(collection-component) .main-collection-grid .product-card:hover .card-gallery,
+body:has(collection-component) .main-collection-grid .product-card:hover img {
+  box-shadow: none !important;
+  filter: none !important;
+  -webkit-filter: none !important;
+  transform: none !important;
+}
+
 html,
 body {
   overflow-x: clip !important;

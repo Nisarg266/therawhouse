@@ -6,28 +6,28 @@
         "statement_1": {
           "type": "statement",
           "settings": {
-            "text": "CONTEMPORARY FINE ART GALLERY & SCULPTURAL ATELIER",
+            "text": "CRAFTED FURNITURE, ART OBJECTS & COLLECTED DETAILS",
             "separator": "\u2726"
           }
         },
         "statement_2": {
           "type": "statement",
           "settings": {
-            "text": "MUSEUM-GRADE ORIGINAL OIL PAINTINGS & 3D ART MODELS",
+            "text": "HAND-FINISHED WOOD, BRASS, STONE & NATURAL TEXTURES",
             "separator": "\u2726"
           }
         },
         "statement_3": {
           "type": "statement",
           "settings": {
-            "text": "COMPLIMENTARY WHITE-GLOVE FINE ART DELIVERY & CRATING",
+            "text": "CURATED FOR LAYERED HOMES, STUDIOS & QUIET CORNERS",
             "separator": "\u2726"
           }
         },
         "statement_4": {
           "type": "statement",
           "settings": {
-            "text": "AUTHENTIC BRONZE, CARVED MARBLE & TEXTURED GOLD LEAF",
+            "text": "WHITE-GLOVE DELIVERY, PLACEMENT SUPPORT & CARE",
             "separator": "\u2726"
           }
         }
@@ -48,10 +48,10 @@
     "luxury_about_hero": {
       "type": "luxury-about-hero",
       "settings": {
-        "badge_text": "EST. 2024 \u2022 THE ATELIER & FOUNDRY",
-        "heading": "THE ART OF TIMELESS FORM & PIGMENT",
-        "subheading": "Where monumental oil paintings, lost-wax bronze sculptures, and architectural 3D art models converge into private living galleries.",
-        "button_text": "EXPLORE MASTERPIECES",
+        "badge_text": "THE RAW HOUSE \u2022 CRAFT, CURATION & LIVING ART",
+        "heading": "A HOME FOR RAW MATERIALS AND QUIET LUXURY",
+        "subheading": "We curate furniture, art, and sculptural objects for rooms that feel collected, grounded, and deeply personal.",
+        "button_text": "EXPLORE THE COLLECTION",
         "height_desktop": 68,
         "height_mobile": 480,
         "color_scheme_preset": "dark"
@@ -64,27 +64,27 @@
           "type": "pillar",
           "settings": {
             "numeral": "I",
-            "title": "MONUMENTAL OIL PAINTINGS",
-            "description": "Hand-stretched Belgian linen canvases prepared with traditional gesso ground, layered with rich natural mineral pigments and textured impasto techniques.",
-            "tag": "ORIGINAL OIL CANVASES"
+            "title": "CRAFT WITH PRESENCE",
+            "description": "Every piece is chosen for its material honesty: visible grain, hand-applied finishes, balanced proportions, and the small irregularities that make an object feel alive.",
+            "tag": "WOOD, BRASS, STONE & TEXTURE"
           }
         },
         "pillar_2": {
           "type": "pillar",
           "settings": {
             "numeral": "II",
-            "title": "BRONZE SCULPTURE & 3D MODELS",
-            "description": "Lost-wax cast bronze statuettes, carved marble figures, and three-dimensional architectural decorative models that command tactile reverence.",
-            "tag": "LOST-WAX BRONZE & MARBLE"
+            "title": "CURATED, NOT CROWDED",
+            "description": "Our collections are built slowly: furniture, decor, lighting, artwork, and accents that work together without making a room feel staged or overdone.",
+            "tag": "EDITED HOME CURATION"
           }
         },
         "pillar_3": {
           "type": "pillar",
           "settings": {
             "numeral": "III",
-            "title": "AUTHENTIC PROVENANCE & CARE",
-            "description": "Every acquisition is numbered, registered, and accompanied by a museum certificate of provenance guaranteeing archival longevity for generations.",
-            "tag": "MUSEUM PROVENANCE"
+            "title": "MADE TO LIVE WITH",
+            "description": "The Raw House is for everyday rituals as much as special rooms: pieces with weight, warmth, and longevity that settle beautifully into real homes.",
+            "tag": "HEIRLOOM-READY LIVING"
           }
         }
       },
@@ -94,9 +94,9 @@
         "pillar_3"
       ],
       "settings": {
-        "subheading": "OUR ARTISTIC CALLING",
-        "heading": "THE ATELIER MANIFESTO",
-        "intro_text": "In an era of disposable mass-produced decor, The Raw House was founded on an unapologetic conviction: True art possesses physical weight, tactile soul, and unhurried mastery.",
+        "subheading": "OUR POINT OF VIEW",
+        "heading": "THE RAW HOUSE MANIFESTO",
+        "intro_text": "The Raw House began with a simple belief: a home should not look assembled overnight. It should feel layered over time, shaped by craft, texture, memory, and objects that invite touch.",
         "background_color": "#ffffff",
         "color_scheme_preset": "light"
       }
@@ -107,29 +107,29 @@
         "metric_1": {
           "type": "metric",
           "settings": {
-            "value": "100%",
-            "label": "Hand-Authored"
+            "value": "Slow",
+            "label": "Curated"
           }
         },
         "metric_2": {
           "type": "metric",
           "settings": {
-            "value": "15+",
-            "label": "Impasto Glazes"
+            "value": "Raw",
+            "label": "Materials"
           }
         },
         "metric_3": {
           "type": "metric",
           "settings": {
-            "value": "1200\u00b0C",
-            "label": "Bronze Casting"
+            "value": "1:1",
+            "label": "Guidance"
           }
         },
         "metric_4": {
           "type": "metric",
           "settings": {
-            "value": "100 Yrs+",
-            "label": "Archival Guarantee"
+            "value": "Home",
+            "label": "First"
           }
         }
       },
@@ -143,15 +143,15 @@
         "color_scheme_preset": "obsidian",
         "media_position": "left",
         "default_asset": "art-atelier-artist-studio.jpg",
-        "badge_title": "\u2726 ATELIER CERTIFIED",
-        "badge_subtitle": "Hand-Authored Fine Art & Cast Models",
-        "subheading": "BEHIND THE CANVAS & FOUNDRY",
-        "heading": "HONORING THE WEIGHT OF CREATION",
-        "paragraph_1": "At The Raw House, we believe that an art piece is not merely an ornament\u2014it is a tangible focal point that alters the energy and spatial geometry of an interior. Every oil painting begins with unhurried canvas stretching and mineral pigment blending, capturing luminous depth through dozens of textured impasto layers.",
-        "paragraph_2": "Our 3D sculptural models and bronze figures undergo traditional lost-wax foundry casting. Heated to over 1,200\u00b0C and hand-chiseled by master sculptors, each piece achieves a weighted presence and rich patina that mass machinery could never replicate.",
+        "badge_title": "\u2726 RAW HOUSE CURATED",
+        "badge_subtitle": "Crafted Objects for Artful Living",
+        "subheading": "BEHIND THE HOUSE",
+        "heading": "A QUIET RESPECT FOR MATERIAL, MAKER AND ROOM",
+        "paragraph_1": "At The Raw House, we see interiors as living compositions. A cabinet is not only storage, a table is not only surface, and an artwork is not only decoration. The right piece changes the rhythm of a room: how light falls, where the eye rests, and how people gather.",
+        "paragraph_2": "Our work is to bring together objects with soul: hand-finished furniture, sculptural accents, framed art, and crafted details that carry the patience of the maker. We look for honest materials, enduring silhouettes, and pieces that become more beautiful as they are used.",
         "show_signature": true,
-        "signature_mark": "The Master Artisans",
-        "signature_title": "MASTER PAINTERS & FOUNDRY SCULPTORS",
+        "signature_mark": "The Raw House",
+        "signature_title": "CURATORS OF CRAFTED LIVING",
         "padding_top": 34,
         "padding_bottom": 54
       }
@@ -163,9 +163,9 @@
           "type": "step",
           "settings": {
             "step_number": "01",
-            "stage_label": "STAGE I \u2022 PREPARATION",
-            "title": "Mineral Sourcing & Canvas Priming",
-            "description": "Extracting rich earth minerals and fine oils to hand-mix archival glazes over heavy-weight Belgian linen canvases.",
+            "stage_label": "STAGE I \u2022 DISCOVERY",
+            "title": "Material-Led Sourcing",
+            "description": "We begin with material character: wood grain, patina, proportion, joinery, finish, and the tactile quality that makes a piece worth living with.",
             "default_asset": "art-atelier-artist-studio.jpg"
           }
         },
@@ -173,9 +173,9 @@
           "type": "step",
           "settings": {
             "step_number": "02",
-            "stage_label": "STAGE II \u2022 CREATION",
-            "title": "Lost-Wax Foundry & Sculptural Form",
-            "description": "Pouring molten bronze at 1,200\u00b0C into refractory ceramic shell molds, followed by hand-chiseled detailing and hot patinas.",
+            "stage_label": "STAGE II \u2022 CURATION",
+            "title": "Edited for Real Rooms",
+            "description": "Every collection is composed with balance in mind: scale, warmth, contrast, and how each object will sit beside the pieces you already own.",
             "default_asset": "art-sculpture-bronze-figure.jpg"
           }
         },
@@ -183,9 +183,9 @@
           "type": "step",
           "settings": {
             "step_number": "03",
-            "stage_label": "STAGE III \u2022 PROVENANCE",
-            "title": "Archival Framing & Ledger Registration",
-            "description": "Custom shadowbox hardwood framing and wax-sealed certificate of provenance registration in our master atelier ledger.",
+            "stage_label": "STAGE III \u2022 FINISHING",
+            "title": "Detail, Finish & Care",
+            "description": "Before a piece leaves us, we review the finish, surface, fittings, and care guidance so it arrives ready for daily use and long-term keeping.",
             "default_asset": "art-painting-gold-canvas.jpg"
           }
         },
@@ -193,9 +193,9 @@
           "type": "step",
           "settings": {
             "step_number": "04",
-            "stage_label": "STAGE IV \u2022 INSTALLATION",
-            "title": "White-Glove Crating & Installation",
-            "description": "Dispatched in bespoke museum-grade wooden crating with specialized transit and curatorial placement support worldwide.",
+            "stage_label": "STAGE IV \u2022 ARRIVAL",
+            "title": "White-Glove Delivery & Placement",
+            "description": "From careful packing to placement support, we help each piece enter the home with the same consideration that went into choosing it.",
             "default_asset": "art-gallery-room-hotspots.jpg"
           }
         }
@@ -207,9 +207,9 @@
         "step_4"
       ],
       "settings": {
-        "subheading": "THE ATELIER DISCIPLINE",
-        "heading": "FROM RAW MEDIUM TO PRIVATE GALLERY",
-        "intro": "Each artwork moves through an unhurried sequence of master artisan disciplines, ensuring every painting and sculpture holds authentic museum permanence.",
+        "subheading": "THE RAW HOUSE METHOD",
+        "heading": "FROM RAW MATERIAL TO LIVED-IN BEAUTY",
+        "intro": "Our process is intentionally unhurried. We choose pieces for material truth, visual calm, and the ability to bring depth to the rooms people actually live in.",
         "background_color": "#f7f6f2",
         "color_scheme_preset": "warm"
       }
@@ -221,32 +221,32 @@
           "type": "feature",
           "settings": {
             "icon": "museum",
-            "title": "MUSEUM-GRADE PROVENANCE",
-            "subtitle": "Certified original gallery art & signed authenticity"
+            "title": "HONEST MATERIALS",
+            "subtitle": "Wood, metal, stone, textile and finish selected for tactile depth"
           }
         },
         "pillar_2": {
           "type": "feature",
           "settings": {
             "icon": "authenticity",
-            "title": "SOLID BRONZE & MARBLE",
-            "subtitle": "Hand-cast sculptures, stone & 3D art models"
+            "title": "CURATED SELECTION",
+            "subtitle": "Furniture, art and accents edited for layered interiors"
           }
         },
         "pillar_3": {
           "type": "feature",
           "settings": {
             "icon": "delivery",
-            "title": "WHITE GLOVE ART CRATING",
-            "subtitle": "Custom museum wooden crating & insured transit"
+            "title": "WHITE-GLOVE DELIVERY",
+            "subtitle": "Careful packing, insured transit and placement support"
           }
         },
         "pillar_4": {
           "type": "feature",
           "settings": {
             "icon": "concierge",
-            "title": "PRIVATE ART CONCIERGE",
-            "subtitle": "1-on-1 private collector advisory & commissions"
+            "title": "PERSONAL CONCIERGE",
+            "subtitle": "Guidance for selection, styling, care and bespoke requests"
           }
         }
       },
@@ -270,25 +270,25 @@
         "review_1": {
           "type": "review",
           "settings": {
-            "quote": "The 6ft textured oil canvas and bronze sculpture arrived in custom white-glove museum crating. It completely transformed our penthouse into a living art gallery.",
-            "author_name": "Lady Victoria Hastings",
-            "author_city": "London, UK"
+            "quote": "The Raw House helped us choose pieces that felt collected, not decorated. The cabinet, mirror and artwork now look as if they always belonged in our home.",
+            "author_name": "A. Mehta",
+            "author_city": "Mumbai"
           }
         },
         "review_2": {
           "type": "review",
           "settings": {
-            "quote": "The Raw House is in a league of its own. The depth of pigments in their paintings and the raw weight of their hand-cast art models is authentic museum quality.",
-            "author_name": "Harrison Vance",
-            "author_city": "New York, NY"
+            "quote": "There is a quiet confidence in their curation. Nothing feels loud, but every piece has presence, texture and a beautiful sense of restraint.",
+            "author_name": "R. Kapoor",
+            "author_city": "New Delhi"
           }
         },
         "review_3": {
           "type": "review",
           "settings": {
-            "quote": "Unrivaled curation of modern art paintings and sculptural masterpieces. Every visitor is mesmerized by the bronze statue in our gallery foyer.",
-            "author_name": "Sophia Laurent",
-            "author_city": "Paris, France"
+            "quote": "From selection to delivery, the experience felt thoughtful. The Raw House understands how furniture and art can make a room feel warmer and more personal.",
+            "author_name": "N. Shah",
+            "author_city": "Bengaluru"
           }
         }
       },
@@ -298,8 +298,8 @@
         "review_3"
       ],
       "settings": {
-        "subheading": "THE COLLECTORS VOICE",
-        "heading": "WORDS OF ADMIRATION",
+        "subheading": "CLIENT NOTES",
+        "heading": "ROOMS WITH A SENSE OF SOUL",
         "background_color": "#fcfbf9",
         "autoplay": true,
         "autoplay_speed": 5,
@@ -310,11 +310,11 @@
     "luxury_vip_newsletter": {
       "type": "luxury-vip-newsletter",
       "settings": {
-        "subheading": "THE COLLECTORS CIRCLE",
-        "heading": "PRIVATE EXHIBITIONS & CATALOGUES",
-        "text": "Join our inner circle to receive confidential previews of newly acquired original canvases, bespoke sculpture editions, and private gallery vernissage invitations.",
+        "subheading": "THE RAW HOUSE LETTER",
+        "heading": "NEW ARRIVALS, STORIES & CURATED EDITS",
+        "text": "Join our list for first looks at new furniture, art objects, styling notes, care guidance, and limited atelier releases.",
         "input_placeholder": "Enter your email address...",
-        "button_label": "JOIN CIRCLE",
+        "button_label": "JOIN THE LIST",
         "background_color": "#fcfbf9",
         "color_scheme_preset": "warm"
       }

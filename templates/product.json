@@ -16,7 +16,7 @@
           "type": "_product-media-gallery",
           "static": true,
           "settings": {
-            "media_presentation": "grid",
+            "media_presentation": "carousel",
             "media_columns": "two",
             "image_gap": 12,
             "large_first_image": true,
@@ -216,7 +216,9 @@
               "settings": {
                 "stacking": true,
                 "text_color": "",
-                "show_whatsapp_button": true,
+                "show_purchase_controls": false,
+                "show_enquiry_button": false,
+                "show_whatsapp_button": false,
                 "show_trust_badges": true,
                 "show_pickup_availability": false,
                 "gift_card_form": true,
@@ -266,6 +268,17 @@
                 }
               },
               "block_order": []
+            },
+            "product_enquiry": {
+              "type": "product-enquiry",
+              "settings": {
+                "button_label": "Enquire about this piece",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
             },
             "accordion_tabs": {
               "type": "accordion",
@@ -463,6 +476,7 @@
           "block_order": [
             "group_icgrde",
             "variant_picker_R3rGDr",
+            "product_enquiry",
             "buy_buttons_eYQEYi",
             "accordion_tabs"
           ]
@@ -474,7 +488,7 @@
         "equal_columns": true,
         "limit_details_width": false,
         "gap": 24,
-        "enable_sticky_add_to_cart": true,
+        "enable_sticky_add_to_cart": false,
         "background_color": "#ffffff",
         "padding-block-start": 16,
         "padding-block-end": 20
