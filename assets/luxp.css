@@ -719,6 +719,7 @@
   width: 100%;
   overflow: hidden;
   background: var(--luxp-bg, #111111);
+  touch-action: pan-y;
 }
 
 .luxp-hero__track {

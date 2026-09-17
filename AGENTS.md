@@ -20,7 +20,10 @@
 - `sections/luxury-product-catalog.liquid`: 6-card collage layout with "View More" button to reveal additional items, configurable section height (range: 200px–600px).
 - `sections/new-arrivals-gallery.liquid`: Gallery showcase, full-width edge-to-edge on mobile.
 - `sections/luxury-hero-slider.liquid`: Hero slider section with luxury typography and transitions.
-- `sections/recommendations-editorial.liquid`: Editorial lifestyle blocks.
+- `sections/recommendations-editorial.liquid`: Editorial lifestyle blocks. Supports classic `grid` and interactive `split` layout. In `split` mode:
+  - Left rail (`.luxp-split__sticky`): Sticky position `--split-rail-top: clamp(140px, 16vh, 175px)` with top padding for breathing room below sticky header menu; contains eyebrow, title, diamond ornament, curatorial narrative, and curation badge/link.
+  - Right cards (`.luxp-split__card`): Grid columns `minmax(250px, 1.15fr) 2fr` (~68% width); internal body padding `clamp(22px, 2.5vw, 34px) clamp(24px, 3vw, 38px)`; cards stack in deck via `position: sticky; top: calc(var(--split-rail-top) + var(--card-i) * var(--deck-offset))`.
+  - Scroll blur depth: covered cards receive `.is-covered` (`nextTop <= top + 34`) with `filter: blur(5px) brightness(0.88) saturate(0.92); opacity: 0.65; transform: scale(0.96) translateY(8px)`.
 - `sections/the-makers-grid.liquid`: Artisan/craftsmanship showcase section.
 
 ### 3. Styling & Global Scripts
@@ -44,6 +47,7 @@
    - Always run `shopify theme check --fail-level error` to verify 0 errors before completing tasks.
    - Translation keys must match existing keys in `locales/en.default.json` (e.g. `actions.close`, not `accessibility.close`).
 
-4. **Agent Workflow**:
-   - Follow targeted file inspection only.
-   - Do not scan irrelevant files, caches, `.git`, or unrelated sections.
+4. **Agent Workflow & Fast Execution**:
+   - Follow targeted file inspection only. NEVER scan the whole codebase, node_modules, `.git`, or unrelated sections.
+   - For `recommendations` changes, inspect only `sections/recommendations-editorial.liquid` and `templates/index.json`.
+   - Keep `templates/index.json` pure JSON without C-style comments or merge conflict markers.

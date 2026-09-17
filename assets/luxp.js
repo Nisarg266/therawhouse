@@ -75,6 +75,85 @@
       if (event.key === 'ArrowRight') { stop(); goTo(index + 1); }
     });
 
+    /* Touch & Swipe gesture handling for mobile devices */
+    var touchStartX = 0;
+    var touchStartY = 0;
+    var touchCurrentX = 0;
+    var touchCurrentY = 0;
+    var isSwiping = false;
+    var didSwipe = false;
+
+    function onTouchStart(clientX, clientY, target) {
+      if (target && target.closest && target.closest('[data-luxp-prev], [data-luxp-next], [data-luxp-dots]')) return;
+      stop();
+      touchStartX = clientX;
+      touchStartY = clientY;
+      touchCurrentX = clientX;
+      touchCurrentY = clientY;
+      isSwiping = true;
+      didSwipe = false;
+    }
+
+    function onTouchMove(clientX, clientY, e) {
+      if (!isSwiping) return;
+      touchCurrentX = clientX;
+      touchCurrentY = clientY;
+
+      var diffX = touchCurrentX - touchStartX;
+      var diffY = touchCurrentY - touchStartY;
+
+      if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 10) {
+        didSwipe = true;
+        if (e && e.cancelable) {
+          e.preventDefault();
+        }
+      }
+    }
+
+    function onTouchEnd() {
+      if (!isSwiping) return;
+      isSwiping = false;
+
+      var diffX = touchCurrentX - touchStartX;
+      var diffY = touchCurrentY - touchStartY;
+
+      if (Math.abs(diffX) > 35 && Math.abs(diffX) > Math.abs(diffY)) {
+        didSwipe = true;
+        stop();
+        if (diffX < 0) {
+          goTo(index + 1); // Swiped left -> Next slide
+        } else {
+          goTo(index - 1); // Swiped right -> Previous slide
+        }
+      }
+      start();
+    }
+
+    root.addEventListener('touchstart', function (e) {
+      if (!e.touches || e.touches.length !== 1) return;
+      onTouchStart(e.touches[0].clientX, e.touches[0].clientY, e.target);
+    }, { passive: true });
+
+    root.addEventListener('touchmove', function (e) {
+      if (!e.touches || e.touches.length !== 1) return;
+      onTouchMove(e.touches[0].clientX, e.touches[0].clientY, e);
+    }, { passive: false });
+
+    root.addEventListener('touchend', onTouchEnd, { passive: true });
+    root.addEventListener('touchcancel', function () {
+      isSwiping = false;
+      start();
+    }, { passive: true });
+
+    // Prevent link click if the touch was a slide swipe gesture
+    root.addEventListener('click', function (e) {
+      if (didSwipe) {
+        e.preventDefault();
+        e.stopPropagation();
+        didSwipe = false;
+      }
+    }, true);
+
     reducedMotion.addEventListener('change', function () {
       if (reducedMotion.matches) stop();
     });

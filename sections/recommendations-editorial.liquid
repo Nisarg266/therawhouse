@@ -268,15 +268,16 @@
      (previous recedes behind), and after the last card the section scrolls away.
      ============================================================ */
   #shopify-section-{{ section.id }} {
-    --split-rail-top: clamp(104px, 12vh, 140px);
-    --deck-offset: 24px;
+    --split-rail-top: clamp(140px, 16vh, 175px);
+    --deck-offset: 20px;
   }
 
   #shopify-section-{{ section.id }} .luxp-split {
     display: grid;
-    grid-template-columns: minmax(240px, 2fr) 3fr;
-    gap: clamp(36px, 5vw, 88px);
+    grid-template-columns: minmax(250px, 1.15fr) 2fr;
+    gap: clamp(36px, 5vw, 84px);
     width: 100%;
+    align-items: start;
   }
 
   #shopify-section-{{ section.id }} .luxp-split__aside {
@@ -286,6 +287,7 @@
   #shopify-section-{{ section.id }} .luxp-split__sticky {
     position: sticky;
     top: var(--split-rail-top);
+    padding-top: clamp(14px, 1.8vh, 24px);
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -319,11 +321,86 @@
   }
 
   #shopify-section-{{ section.id }} .luxp-split__intro {
-    margin-top: 20px;
-    max-width: 36ch;
-    font-size: 13.5px;
+    margin-top: 18px;
+    max-width: 38ch;
+    font-size: clamp(13px, 1.1vw, 14px);
     line-height: 1.75;
-    color: #6f6a61;
+    color: #635f59;
+    letter-spacing: 0.01em;
+  }
+
+  #shopify-section-{{ section.id }} .luxp-split__intro-mobile {
+    display: none !important;
+  }
+
+  #shopify-section-{{ section.id }} .luxp-split__curation {
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    max-width: 38ch;
+  }
+
+  #shopify-section-{{ section.id }} .luxp-split__curation-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 12px;
+    background: #faf8f5;
+    border: 1px solid #e8e2d5;
+    border-radius: 999px;
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    color: {{ s.color_accent | default: '#a98344' }};
+    text-transform: uppercase;
+  }
+
+  #shopify-section-{{ section.id }} .luxp-split__curation-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: {{ s.color_accent | default: '#a98344' }};
+  }
+
+  #shopify-section-{{ section.id }} .luxp-split__curation-desc {
+    font-size: 12.5px;
+    line-height: 1.65;
+    color: #78736b;
+    margin: 0;
+  }
+
+  #shopify-section-{{ section.id }} .luxp-split__curation-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #1a1a1a;
+    text-decoration: none;
+    padding-bottom: 3px;
+    border-bottom: 1px solid rgba(26, 26, 26, 0.4);
+    transition: color 0.25s ease, border-color 0.25s ease, gap 0.25s ease;
+  }
+
+  #shopify-section-{{ section.id }} .luxp-split__curation-link:hover {
+    color: {{ s.color_accent | default: '#a98344' }};
+    border-bottom-color: {{ s.color_accent | default: '#a98344' }};
+    gap: 12px;
+  }
+
+  #shopify-section-{{ section.id }} .luxp-split__curation-link svg {
+    width: 14px;
+    height: 14px;
+    transition: transform 0.25s ease;
+  }
+
+  #shopify-section-{{ section.id }} .luxp-split__curation-link:hover svg {
+    transform: translateX(3px);
   }
 
   #shopify-section-{{ section.id }} .luxp-split__cards {
@@ -333,40 +410,121 @@
     width: 100%;
   }
 
-  #shopify-section-{{ section.id }} .luxp-split__index {
-    display: block;
-    font-size: 11.5px;
-    font-weight: 600;
-    letter-spacing: 0.32em;
-    color: {{ s.color_accent | default: '#a98344' }};
-    margin-bottom: 12px;
-  }
-
-  /* Card deck: each card pins a step lower than the previous, so cards stack
-     with a peeking edge while the next one slides up over them. */
+  /* Split layout card box styling: prominent, elegant, luxury editorial box */
   #shopify-section-{{ section.id }} .luxp-split__card {
     position: sticky;
     top: calc(var(--split-rail-top) + var(--card-i, 0) * var(--deck-offset));
     z-index: calc(1 + var(--card-i, 0));
-    background: {{ s.color_bg | default: '#ffffff' }} !important;
-    box-shadow: 0 18px 44px rgba(24, 18, 8, 0.10) !important;
+    background: #ffffff !important;
+    border: 1px solid #ede8df !important;
+    border-radius: 3px !important;
+    box-shadow: 0 16px 42px -10px rgba(24, 18, 8, 0.09), 0 3px 12px rgba(0, 0, 0, 0.03) !important;
+    overflow: hidden !important;
     transition:
       transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-      filter 0.6s ease,
+      filter 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+      opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
       box-shadow 0.6s ease;
-    will-change: transform, filter;
+    will-change: transform, filter, opacity;
   }
 
-  /* Covered card recedes behind the one stacked over it */
+  /* Covered card recedes behind the one stacked over it with smooth blur and dimming */
   #shopify-section-{{ section.id }} .luxp-split__card.is-covered {
-    transform: scale(0.96) translateY(6px);
-    filter: brightness(0.9) saturate(0.95);
-    box-shadow: 0 10px 26px rgba(24, 18, 8, 0.07) !important;
+    transform: scale(0.96) translateY(8px);
+    filter: blur(5px) brightness(0.88) saturate(0.92) !important;
+    opacity: 0.65 !important;
+    box-shadow: 0 8px 20px rgba(24, 18, 8, 0.05) !important;
+    pointer-events: none;
   }
 
-  /* Compact media so a pinned card + its text fit the viewport */
+  /* Media container: crisp full-bleed top with subtle zoom on card hover */
   #shopify-section-{{ section.id }} .luxp-split__card .luxp-media {
-    aspect-ratio: 16 / 11 !important;
+    aspect-ratio: 16 / 10.5 !important;
+    background-color: #f7f5f0 !important;
+    overflow: hidden !important;
+  }
+
+  #shopify-section-{{ section.id }} .luxp-split__card:hover .luxp-media img {
+    transform: scale(1.025) !important;
+  }
+
+  /* Card content body with generous luxury inner padding */
+  #shopify-section-{{ section.id }} .luxp-split__card .luxp-editcard__body {
+    padding: clamp(22px, 2.5vw, 34px) clamp(24px, 3vw, 38px) clamp(24px, 3vw, 38px) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    text-align: left !important;
+    gap: 0 !important;
+  }
+
+  /* Index / order label inside card body */
+  #shopify-section-{{ section.id }} .luxp-split__card .luxp-split__index {
+    display: inline-block !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.28em !important;
+    color: {{ s.color_accent | default: '#a98344' }} !important;
+    margin: 0 0 8px 0 !important;
+    text-transform: uppercase !important;
+  }
+
+  /* Card title */
+  #shopify-section-{{ section.id }} .luxp-split__card .luxp-editcard__title {
+    font-family: var(--font-heading--family, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif) !important;
+    font-size: clamp(15px, 1.4vw, 18.5px) !important;
+    font-weight: 700 !important;
+    line-height: 1.35 !important;
+    letter-spacing: 0.08em !important;
+    text-transform: uppercase !important;
+    color: #1a1a1a !important;
+    margin: 0 0 clamp(8px, 1vw, 12px) 0 !important;
+  }
+
+  /* Card descriptive text */
+  #shopify-section-{{ section.id }} .luxp-split__card .luxp-editcard__text {
+    font-family: var(--font-body--family, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif) !important;
+    font-size: clamp(12.5px, 1.05vw, 14px) !important;
+    font-weight: 400 !important;
+    line-height: 1.72 !important;
+    letter-spacing: 0.01em !important;
+    color: #635f59 !important;
+    margin: 0 0 clamp(16px, 1.8vw, 22px) 0 !important;
+    max-width: 62ch !important;
+    -webkit-font-smoothing: antialiased !important;
+  }
+
+  /* Card CTA link */
+  #shopify-section-{{ section.id }} .luxp-split__card .luxp-card__cta {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    font-family: var(--font-body--family, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif) !important;
+    font-size: 11.5px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.16em !important;
+    text-transform: uppercase !important;
+    color: {{ s.color_accent | default: '#a98344' }} !important;
+    margin-top: 2px !important;
+    padding-bottom: 4px !important;
+    border-bottom: 1px solid rgba(169, 131, 68, 0.35) !important;
+    text-decoration: none !important;
+    transition: border-color 0.25s ease, color 0.25s ease, gap 0.25s ease !important;
+  }
+
+  #shopify-section-{{ section.id }} .luxp-split__card:hover .luxp-card__cta {
+    border-bottom-color: {{ s.color_accent | default: '#a98344' }} !important;
+    gap: 12px !important;
+  }
+
+  #shopify-section-{{ section.id }} .luxp-split__card .luxp-card__cta-arrow {
+    display: inline-flex !important;
+    align-items: center !important;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+
+  #shopify-section-{{ section.id }} .luxp-split__card:hover .luxp-card__cta-arrow {
+    transform: translateX(4px) !important;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -385,38 +543,69 @@
       display: block;
     }
 
+    #shopify-section-{{ section.id }} .luxp-split__curation {
+      display: none !important;
+    }
+
+    #shopify-section-{{ section.id }} .luxp-split__intro-desktop {
+      display: none !important;
+    }
+
+    #shopify-section-{{ section.id }} .luxp-split__intro-mobile {
+      display: block !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
     #shopify-section-{{ section.id }} .luxp-split__sticky {
       position: static;
       align-items: center;
       text-align: center;
-      margin-bottom: 30px;
+      margin-bottom: 24px;
+      padding-top: 0;
     }
 
     #shopify-section-{{ section.id }} .luxp-split__eyebrow {
-      font-size: 30px !important;
+      font-size: 28px !important;
+      margin-bottom: 4px !important;
+      line-height: 1 !important;
     }
 
     #shopify-section-{{ section.id }} .luxp-split__heading {
+      font-size: 15px !important;
+      letter-spacing: 0.28em !important;
       text-align: center !important;
+      margin-bottom: 8px !important;
       white-space: nowrap;
     }
 
     #shopify-section-{{ section.id }} .luxp-split__sticky .luxp-ornament {
       justify-content: center;
       margin-inline: auto;
+      width: 76px !important;
+      margin-bottom: 10px !important;
     }
 
     #shopify-section-{{ section.id }} .luxp-split__intro {
-      margin-inline: auto;
-      text-align: center;
+      margin: 0 auto !important;
+      text-align: center !important;
+      max-width: 33ch !important;
+      font-size: 12.5px !important;
+      line-height: 1.62 !important;
+      color: #6e6961 !important;
+      letter-spacing: 0.01em !important;
     }
 
     #shopify-section-{{ section.id }} .luxp-split__cards {
-      gap: 24px;
+      gap: 28px;
     }
 
     #shopify-section-{{ section.id }} .luxp-split__card .luxp-media {
-      aspect-ratio: 1 / 1.02 !important;
+      aspect-ratio: 16 / 12 !important;
+    }
+
+    #shopify-section-{{ section.id }} .luxp-split__card .luxp-editcard__body {
+      padding: 20px 20px 24px !important;
     }
   }
 </style>
@@ -488,9 +677,28 @@
                 <span class="luxp-ornament__line"></span>
               </div>
             {% endif %}
-            {% if s.intro != blank %}
-              <div class="luxp-body luxp-split__intro">{{ s.intro }}</div>
-            {% endif %}
+            <div class="luxp-body luxp-split__intro">
+              <div class="luxp-split__intro-desktop">
+                {% if s.intro != blank %}
+                  {{ s.intro }}
+                {% else %}
+                  <p>A curated dialogue between spaces, artisans, and timeless objects collected from around the world. Each edit explores a distinct narrative of layered living, authentic craftsmanship, and quiet luxury.</p>
+                {% endif %}
+              </div>
+              <p class="luxp-split__intro-mobile">A curated dialogue between spaces, artisans, and timeless objects collected from around the world.</p>
+            </div>
+
+            <div class="luxp-split__curation">
+              <div class="luxp-split__curation-badge">
+                <span class="luxp-split__curation-dot"></span>
+                <span>CURATED STORIES & EDITS</span>
+              </div>
+              <p class="luxp-split__curation-desc">Step inside collector homes, design studios, and distinctive spaces shaped by fine objects.</p>
+              <a href="{{ routes.all_products_collection_url }}" class="luxp-split__curation-link">
+                <span>EXPLORE ALL EDITS</span>
+                <svg class="luxp-btn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+              </a>
+            </div>
           </div>
         </aside>
 
@@ -502,7 +710,6 @@
               style="--card-i: {{ forloop.index0 }};"
               {{ block.shopify_attributes }}
             >
-              <span class="luxp-split__index" aria-hidden="true">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
               <div class="luxp-media {% if s.image_fit == 'contain' %}luxp-media--contain{% endif %}">
                 {% if block.settings.badge != blank %}
                   <span class="luxp-colcard__pill luxp-pill">{{ block.settings.badge }}</span>
@@ -519,6 +726,7 @@
                 %}
               </div>
               <div class="luxp-editcard__body {% if s.card_align == 'center' %}luxp-editcard__body--center{% endif %}">
+                <span class="luxp-split__index" aria-hidden="true">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
                 {% if block.settings.title != blank %}
                   <h3 class="luxp-editcard__title">{{ block.settings.title }}</h3>
                 {% endif %}
@@ -628,7 +836,7 @@
       for (var i = 0; i < cards.length - 1; i++) {
         var top = cards[i].getBoundingClientRect().top;
         var nextTop = cards[i + 1].getBoundingClientRect().top;
-        cards[i].classList.toggle('is-covered', nextTop <= top + 8);
+        cards[i].classList.toggle('is-covered', nextTop <= top + 34);
       }
     }
     function onScroll() {

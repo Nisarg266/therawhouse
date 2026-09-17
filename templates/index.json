@@ -1,12 +1,3 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
     "hero_slider": {
@@ -420,11 +411,10 @@
       "settings": {
         "layout_style": "split",
         "eyebrow": "the",
-<<<<<<< HEAD
         "heading": "RECOMMENDATIONS",
         "heading_size": 20,
         "heading_ls": "0.35em",
-        "intro": "",
+        "intro": "<p>A curated dialogue between spaces, artisans, and timeless objects collected from around the world. Each edition explores a distinct narrative of layered living, authentic craftsmanship, and quiet luxury.</p>",
         "show_ornament": true,
         "color_heading": "#1a1a1a",
         "color_accent": "#a98344",
@@ -441,80 +431,6 @@
         "color_bg": "#ffffff",
         "padding_top": 64,
         "padding_bottom": 80
-=======
-        "heading": "R E C O M M E N D A T I O N S",
-        "intro": "",
-        "show_ornament": true,
-        "header_align": "center",
-        "header_mb": 32,
-        "header_gap": 10,
-        "container_mode": "fixed",
-        "container_max": 1080,
-        "columns": 2,
-        "columns_tablet": 1,
-        "columns_mobile": "1",
-        "col_gap": 36,
-        "row_gap": 44,
-        "col_gap_m": 16,
-        "row_gap_m": 32,
-        "image_ratio": "4/5",
-        "image_fit": "cover",
-        "card_bg": "",
-        "card_border_color": "",
-        "card_border_width": 0,
-        "card_radius": 0,
-        "card_shadow": "none",
-        "card_align": "left",
-        "card_body_pt": 16,
-        "card_gap": 8,
-        "cardtitle_size": 17,
-        "cardtitle_size_m": 15,
-        "cardtext_size": 13,
-        "eyebrow_font": "body",
-        "eyebrow_size": 11,
-        "eyebrow_size_m": 10,
-        "eyebrow_weight": "600",
-        "eyebrow_ls": "0.22em",
-        "eyebrow_transform": "uppercase",
-        "heading_font": "body",
-        "heading_size": 20,
-        "heading_size_m": 17,
-        "heading_weight": "400",
-        "heading_lh": 1.2,
-        "heading_ls": "0.35em",
-        "heading_transform": "none",
-        "color_preset": "light",
-        "color_bg": "#ffffff",
-        "color_heading": "#1a1a1a",
-        "color_text": "#4a4a4a",
-        "color_accent": "#b08d57",
-        "color_muted": "",
-        "color_border": "",
-        "btn_label": "",
-        "btn_link": "",
-        "btn_style": "solid",
-        "btn_height": 46,
-        "btn_px": 26,
-        "btn_size": 11,
-        "btn_size_m": 11,
-        "btn_weight": "600",
-        "btn_ls": "0.18em",
-        "btn_transform": "uppercase",
-        "btn_radius": 2,
-        "btn_border_width": 1,
-        "btn_width": "auto",
-        "btn_mobile_full": false,
-        "footer_mt": 36,
-        "padding_top": 60,
-        "padding_bottom": 72,
-        "padding_top_m": 44,
-        "padding_bottom_m": 52,
-        "container_padding": 32,
-        "container_padding_m": 16,
-        "enable_animations": false,
-        "anchor_id": "",
-        "custom_class": ""
->>>>>>> 270e94024bbbed972265af0731e501ce4ad1e2e3
       }
     },
     "fine_prints": {
@@ -761,8 +677,6 @@
         "custom_class": ""
       }
     },
-<<<<<<< HEAD
-=======
     "atelier_promise": {
       "type": "atelier-promise",
       "blocks": {
@@ -884,7 +798,6 @@
         "custom_class": ""
       }
     },
->>>>>>> 270e94024bbbed972265af0731e501ce4ad1e2e3
     "brand_statement": {
       "type": "brand-manifesto",
       "blocks": {
