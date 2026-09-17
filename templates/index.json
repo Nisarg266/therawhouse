@@ -133,6 +133,8 @@
         "catalog_image_2": {
           "type": "catalog_cover",
           "settings": {
+            "image": "shopify://shop_images/68ea042e-b783-454a-9600-bc049ce2595e_42cdf37b-d7d3-411e-98f4-4701c9d9aa5a.png",
+            "image_mobile": "shopify://shop_images/f51ca54e-f381-4b3f-a25d-cb26f89f2db6.png",
             "default_asset": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/Ahmedabad_Art_Week_Sculpture_Show_Catalogue_compressed.pdf?v=1789589334",
             "alt": "",
             "badge": "",
@@ -143,10 +145,12 @@
         "catalog_image_3": {
           "type": "catalog_cover",
           "settings": {
+            "image": "shopify://shop_images/IDIKA01016_resized_no_stretch_9ec2df42-08a5-49b7-9557-bbd1fbd87952.png",
+            "image_mobile": "shopify://shop_images/IDIKA01016_resized_no_stretch_232a8ccd-654d-4cf1-b1d4-15fcb0050fdc.png",
             "default_asset": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/E_-_Catalouge_New_Perspective_compressed.pdf?v=1789591020",
             "alt": "",
             "badge": "",
-            "link": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/E_-_Catalouge_New_Perspective_compressed.pdf?v=1789591020",
+            "link": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/Raw_Collectables_compressed.pdf?v=1789591025",
             "show_view_icon": true
           }
         },
@@ -163,7 +167,7 @@
         "catalog_image_5": {
           "type": "catalog_cover",
           "settings": {
-            "default_asset": "art-painting-expressionist.jpg",
+            "default_asset": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/What_Objects_Become_Lochan_Upadhyay___TRH_compressed.pdf?v=1789591024",
             "alt": "",
             "badge": "",
             "link": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/What_Objects_Become_Lochan_Upadhyay___TRH_compressed.pdf?v=1789591024",
@@ -173,10 +177,12 @@
         "catalog_image_6": {
           "type": "catalog_cover",
           "settings": {
-            "default_asset": "fine-print-2.jpg",
+            "image": "shopify://shop_images/85e5ae8b-3a77-4236-bbe0-878d9d9fc816.png",
+            "image_mobile": "shopify://shop_images/0a044d04-0686-47e0-90cc-419e24d11489.png",
+            "default_asset": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/Hinchko_Catalogue_compressed.pdf?v=1789628194",
             "alt": "",
             "badge": "",
-            "link": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/Raw_Collectables_compressed.pdf?v=1789591025",
+            "link": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/Hinchko_Catalogue_compressed.pdf?v=1789628194",
             "show_view_icon": true
           }
         },
@@ -418,30 +424,7 @@
         "card_4"
       ],
       "settings": {
-        "layout_style": "split",
         "eyebrow": "the",
-<<<<<<< HEAD
-        "heading": "RECOMMENDATIONS",
-        "heading_size": 20,
-        "heading_ls": "0.35em",
-        "intro": "",
-        "show_ornament": true,
-        "color_heading": "#1a1a1a",
-        "color_accent": "#a98344",
-        "container_max": 1220,
-        "columns": 2,
-        "columns_tablet": 2,
-        "columns_mobile": "2",
-        "col_gap": 40,
-        "row_gap": 56,
-        "col_gap_m": 16,
-        "row_gap_m": 36,
-        "image_ratio": "4/5",
-        "card_radius": 0,
-        "color_bg": "#ffffff",
-        "padding_top": 64,
-        "padding_bottom": 80
-=======
         "heading": "R E C O M M E N D A T I O N S",
         "intro": "",
         "show_ornament": true,
@@ -514,7 +497,6 @@
         "enable_animations": false,
         "anchor_id": "",
         "custom_class": ""
->>>>>>> 270e94024bbbed972265af0731e501ce4ad1e2e3
       }
     },
     "fine_prints": {
@@ -761,8 +743,6 @@
         "custom_class": ""
       }
     },
-<<<<<<< HEAD
-=======
     "atelier_promise": {
       "type": "atelier-promise",
       "blocks": {
@@ -884,7 +864,6 @@
         "custom_class": ""
       }
     },
->>>>>>> 270e94024bbbed972265af0731e501ce4ad1e2e3
     "brand_statement": {
       "type": "brand-manifesto",
       "blocks": {
@@ -966,8 +945,8 @@
         "social_fg_hover": "",
         "social_gap": 12,
         "social_mt": 20,
-        "padding_top": 12,
-        "padding_bottom": 8,
+        "padding_top": 56,
+        "padding_bottom": 64,
         "padding_top_m": 36,
         "padding_bottom_m": 40,
         "container_padding": 32,
@@ -1031,7 +1010,6 @@
         "press_5",
         "press_6"
       ],
-      "disabled": true,
       "settings": {
         "heading": "Featured In",
         "show_ornament": true,
