@@ -1,12 +1,18 @@
 {%- comment -%}
-  THE RAW HOUSE - ULTRA-LUXURY ATELIER FOOTER
-  World-class luxury architecture supporting both Atelier Noir (dark) and Museum Linen (light)
-  with interactive mobile accordions, VIP Collectors newsletter, direct concierge channels,
-  verified payment methods, curated social links, and smooth back-to-top.
+  THE RAW HOUSE — ULTRA-LUXURY ATELIER ADVANCED FOOTER
+  World-class architectural footer supporting:
+  - Multi-palette luxury aesthetics (Atelier Noir, Museum Linen, Minimal White, Bespoke Custom)
+  - Custom brand logo or monogram emblem with curatorial ornament
+  - Modular blocks: Navigation Menus (1 or 2 cols), Editorial Text, VIP Newsletter, Concierge, Trust Assurances, Social
+  - Interactive smooth mobile accordions
+  - Verified SSL security & payment badges (Visa, Mastercard, Amex, UPI, PayPal, Apple Pay, Net Banking)
+  - Curated social media presence with WhatsApp Concierge hotline
+  - Localization country/currency and language selectors
+  - Dynamic legal policy links and smooth back-to-top
 {%- endcomment -%}
 
 {% liquid
-  assign color_scheme = section.settings.color_scheme | default: 'parchment'
+  assign color_scheme = section.settings.color_scheme | default: 'noir'
 %}
 
 <footer
@@ -15,7 +21,16 @@
   style="
     --footer-padding-top: {{ section.settings.padding_top | default: 48 }}px;
     --footer-padding-bottom: {{ section.settings.padding_bottom | default: 28 }}px;
+    --footer-padding-top-m: {{ section.settings.padding_top_m | default: 32 }}px;
+    --footer-padding-bottom-m: {{ section.settings.padding_bottom_m | default: 20 }}px;
     --footer-max-width: {{ section.settings.max_width | default: 1240 }}px;
+    {% if color_scheme == 'custom' %}
+      {% if section.settings.custom_bg != blank %}--flx-bg: {{ section.settings.custom_bg }} !important;{% endif %}
+      {% if section.settings.custom_text != blank %}--flx-text: {{ section.settings.custom_text }} !important;{% endif %}
+      {% if section.settings.custom_heading != blank %}--flx-heading: {{ section.settings.custom_heading }} !important;{% endif %}
+      {% if section.settings.custom_gold != blank %}--flx-gold: {{ section.settings.custom_gold }} !important; --flx-border-accent: {{ section.settings.custom_gold }} !important;{% endif %}
+      {% if section.settings.custom_border != blank %}--flx-border: {{ section.settings.custom_border }} !important;{% endif %}
+    {% endif %}
   "
   {{ section.shopify_attributes }}
 >
@@ -23,18 +38,48 @@
     {% if section.settings.show_brand_header %}
       <!-- Brand Prestige Header -->
       <div class="custom-footer__brand-header">
-        <div class="custom-footer__emblem" aria-hidden="true">
-          <span class="custom-footer__emblem-text">TRH</span>
-        </div>
-        <h3 class="custom-footer__brand-title">{{ section.settings.brand_name | default: 'THE RAW HOUSE' }}</h3>
-        <p class="custom-footer__brand-tagline">
-          {{ section.settings.brand_tagline | default: 'Contemporary Fine Art Paintings, 3D Sculptural Models & Museum Curations' }}
-        </p>
-        <div class="custom-footer__brand-ornament" aria-hidden="true">
-          <span class="custom-footer__ornament-line"></span>
-          <span class="custom-footer__ornament-diamond">◆</span>
-          <span class="custom-footer__ornament-line"></span>
-        </div>
+        {% if section.settings.show_emblem %}
+          <div class="custom-footer__emblem" aria-hidden="true">
+            <span class="custom-footer__emblem-text">{{ section.settings.brand_emblem_text | default: 'TRH' }}</span>
+          </div>
+        {% endif %}
+
+        {% if section.settings.brand_logo != blank %}
+          <div class="custom-footer__brand-logo-wrap">
+            <img
+              src="{{ section.settings.brand_logo | image_url: width: 600 }}"
+              alt="{{ section.settings.brand_logo.alt | default: section.settings.brand_name | default: shop.name | escape }}"
+              class="custom-footer__brand-logo"
+              loading="lazy"
+              width="{{ section.settings.brand_logo.width }}"
+              height="{{ section.settings.brand_logo.height }}"
+              style="max-width: {{ section.settings.logo_width | default: 160 }}px; width: 100%; height: auto;"
+            >
+          </div>
+        {% else %}
+          <h3 class="custom-footer__brand-title">{{ section.settings.brand_name | default: 'THE RAW HOUSE' }}</h3>
+        {% endif %}
+
+        {% if section.settings.brand_tagline != blank %}
+          <p class="custom-footer__brand-tagline">
+            {{ section.settings.brand_tagline }}
+          </p>
+        {% endif %}
+
+        {% assign ornament = section.settings.ornament_symbol | default: 'diamond' %}
+        {% if ornament != 'none' %}
+          <div class="custom-footer__brand-ornament" aria-hidden="true">
+            <span class="custom-footer__ornament-line"></span>
+            {% if ornament == 'diamond' %}
+              <span class="custom-footer__ornament-diamond">◆</span>
+            {% elsif ornament == 'star' %}
+              <span class="custom-footer__ornament-diamond">✦</span>
+            {% elsif ornament == 'bar' %}
+              <span class="custom-footer__ornament-diamond">—</span>
+            {% endif %}
+            <span class="custom-footer__ornament-line"></span>
+          </div>
+        {% endif %}
       </div>
     {% endif %}
 
@@ -44,7 +89,7 @@
         {% for block in section.blocks %}
           {% case block.type %}
             {% when 'menu' %}
-              <div class="custom-footer__col custom-footer__col--menu" {{ block.shopify_attributes }}>
+              <div class="custom-footer__col custom-footer__col--menu {% if block.settings.columns == '2' %}custom-footer__col--menu-double{% endif %}" {{ block.shopify_attributes }}>
                 <button type="button" class="custom-footer__accordion-trigger" aria-expanded="false">
                   <span class="custom-footer__col-heading">
                     <span class="custom-footer__heading-accent"></span>
@@ -55,12 +100,12 @@
                   </svg>
                 </button>
                 <div class="custom-footer__accordion-content">
-                  <ul class="custom-footer__links-list" role="list">
+                  <ul class="custom-footer__links-list {% if block.settings.columns == '2' %}custom-footer__links-list--2cols{% endif %}" role="list">
                     {% if block.settings.menu != blank %}
                       {% for link in block.settings.menu.links %}
                         <li>
                           <a href="{{ link.url }}" class="custom-footer__link">
-                            <span class="custom-footer__link-bullet">›</span>
+                            {% if block.settings.show_bullets != false %}<span class="custom-footer__link-bullet">›</span>{% endif %}
                             <span>{{ link.title }}</span>
                           </a>
                         </li>
@@ -104,15 +149,24 @@
                   </svg>
                 </button>
                 <div class="custom-footer__accordion-content">
-                  <p class="custom-footer__text-content">
+                  <div class="custom-footer__text-content">
                     {{ block.settings.text | default: 'Dedicated to museum-grade original canvas paintings, hand-cast bronze statuettes, and architectural decorative models crafted with singular intention.' }}
-                  </p>
+                  </div>
+                  {% if block.settings.author_title != blank %}
+                    <p class="custom-footer__author-sign">{{ block.settings.author_title }}</p>
+                  {% endif %}
                 </div>
               </div>
 
             {% when 'newsletter' %}
               <div class="custom-footer__col custom-footer__col--newsletter" {{ block.shopify_attributes }}>
                 <div class="custom-footer__newsletter-card">
+                  {% if block.settings.badge_text != blank %}
+                    <div class="custom-footer__vip-pill">
+                      <span class="custom-footer__vip-sparkle">✦</span>
+                      <span>{{ block.settings.badge_text }}</span>
+                    </div>
+                  {% endif %}
                   <h4 class="custom-footer__col-heading custom-footer__col-heading--newsletter">
                     <span class="custom-footer__heading-accent"></span>
                     {{ block.settings.heading | default: 'BE THE FIRST TO KNOW' }}
@@ -152,45 +206,7 @@
                       </p>
                     {% endif %}
                   {% endform %}
-                  <p class="custom-footer__privacy-note">Strictly confidential. No spam, ever.</p>
-                </div>
-
-                <!-- Upgraded Private Concierge Card -->
-                <div class="custom-footer__concierge-card">
-                  <div class="custom-footer__concierge-header">
-                    <svg class="custom-footer__concierge-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                    </svg>
-                    <h5 class="custom-footer__col-heading custom-footer__col-heading--concierge">
-                      {{ section.settings.concierge_heading | default: 'PRIVATE ART CONCIERGE' }}
-                    </h5>
-                  </div>
-                  <div class="custom-footer__concierge-channels">
-                    <a href="tel:+918003011110" class="custom-footer__concierge-link" title="Call Concierge">
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                      </svg>
-                      <span>+91 80030 11110</span>
-                    </a>
-                    <span class="custom-footer__channel-divider">•</span>
-                    <a href="mailto:concierge@therawhouse.com" class="custom-footer__concierge-link" title="Email Concierge">
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                        <polyline points="22,6 12,13 2,6"></polyline>
-                      </svg>
-                      <span>concierge@therawhouse.com</span>
-                    </a>
-                  </div>
-                  {% if section.settings.whatsapp_url != blank %}
-                    <div class="custom-footer__whatsapp-wrap">
-                      <a href="{{ section.settings.whatsapp_url }}" target="_blank" rel="noopener noreferrer" class="custom-footer__whatsapp-btn">
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
-                          <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
-                        </svg>
-                        <span>Chat with Private Concierge</span>
-                      </a>
-                    </div>
-                  {% endif %}
+                  <p class="custom-footer__privacy-note">{{ block.settings.privacy_note | default: 'Strictly confidential. No spam, ever.' }}</p>
                 </div>
               </div>
 
@@ -207,10 +223,105 @@
                 </button>
                 <div class="custom-footer__accordion-content">
                   <div class="custom-footer__concierge-info">
-                    <p><strong>Advisory Hours:</strong> {{ block.settings.hours | default: 'Mon - Sat: 10am - 7pm IST' }}</p>
-                    <p><strong>Direct Hotline:</strong> <a href="tel:{{ block.settings.phone | default: '+918003011110' }}">{{ block.settings.phone_display | default: '+91 80030 11110' }}</a></p>
-                    <p><strong>Inquiries:</strong> <a href="mailto:{{ block.settings.email | default: 'concierge@therawhouse.com' }}">{{ block.settings.email | default: 'concierge@therawhouse.com' }}</a></p>
+                    {% if block.settings.hours != blank %}
+                      <p class="custom-footer__concierge-row">
+                        <strong>Advisory Hours:</strong>
+                        <span>{{ block.settings.hours }}</span>
+                      </p>
+                    {% endif %}
+                    {% if block.settings.phone_display != blank %}
+                      <p class="custom-footer__concierge-row">
+                        <strong>Direct Hotline:</strong>
+                        <a href="tel:{{ block.settings.phone | default: block.settings.phone_display | replace: ' ', '' }}">{{ block.settings.phone_display }}</a>
+                      </p>
+                    {% endif %}
+                    {% if block.settings.email != blank %}
+                      <p class="custom-footer__concierge-row">
+                        <strong>Inquiries:</strong>
+                        <a href="mailto:{{ block.settings.email }}">{{ block.settings.email }}</a>
+                      </p>
+                    {% endif %}
+                    {% if block.settings.address != blank %}
+                      <p class="custom-footer__concierge-row">
+                        <strong>Atelier Salon:</strong>
+                        <span>{{ block.settings.address }}</span>
+                      </p>
+                    {% endif %}
+                    {% if block.settings.whatsapp_url != blank %}
+                      <div class="custom-footer__whatsapp-wrap custom-footer__whatsapp-wrap--block">
+                        <a href="{{ block.settings.whatsapp_url }}" target="_blank" rel="noopener noreferrer" class="custom-footer__whatsapp-btn">
+                          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+                          </svg>
+                          <span>{{ block.settings.whatsapp_label | default: 'Chat with Private Concierge' }}</span>
+                        </a>
+                      </div>
+                    {% endif %}
                   </div>
+                </div>
+              </div>
+
+            {% when 'trust_badges' %}
+              <div class="custom-footer__col custom-footer__col--trust" {{ block.shopify_attributes }}>
+                <h4 class="custom-footer__col-heading">
+                  <span class="custom-footer__heading-accent"></span>
+                  {{ block.settings.heading | default: 'ATELIER PROMISES' }}
+                </h4>
+                <div class="custom-footer__trust-list">
+                  {% if block.settings.badge_1_text != blank %}
+                    <div class="custom-footer__trust-item">
+                      <span class="custom-footer__trust-icon">✦</span>
+                      <span class="custom-footer__trust-text">{{ block.settings.badge_1_text }}</span>
+                    </div>
+                  {% endif %}
+                  {% if block.settings.badge_2_text != blank %}
+                    <div class="custom-footer__trust-item">
+                      <span class="custom-footer__trust-icon">✦</span>
+                      <span class="custom-footer__trust-text">{{ block.settings.badge_2_text }}</span>
+                    </div>
+                  {% endif %}
+                  {% if block.settings.badge_3_text != blank %}
+                    <div class="custom-footer__trust-item">
+                      <span class="custom-footer__trust-icon">✦</span>
+                      <span class="custom-footer__trust-text">{{ block.settings.badge_3_text }}</span>
+                    </div>
+                  {% endif %}
+                </div>
+              </div>
+
+            {% when 'social_block' %}
+              <div class="custom-footer__col custom-footer__col--social" {{ block.shopify_attributes }}>
+                <h4 class="custom-footer__col-heading">
+                  <span class="custom-footer__heading-accent"></span>
+                  {{ block.settings.heading | default: 'CONNECT & FOLLOW' }}
+                </h4>
+                {% if block.settings.subtext != blank %}
+                  <p class="custom-footer__social-desc">{{ block.settings.subtext }}</p>
+                {% endif %}
+                <div class="custom-footer__social-icons custom-footer__social-icons--block">
+                  {% if block.settings.instagram_url != blank %}
+                    <a href="{{ block.settings.instagram_url }}" target="_blank" rel="noopener noreferrer" class="custom-footer__social-badge" aria-label="Instagram">
+                      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                      </svg>
+                    </a>
+                  {% endif %}
+                  {% if block.settings.facebook_url != blank %}
+                    <a href="{{ block.settings.facebook_url }}" target="_blank" rel="noopener noreferrer" class="custom-footer__social-badge" aria-label="Facebook">
+                      <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
+                        <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                      </svg>
+                    </a>
+                  {% endif %}
+                  {% if block.settings.pinterest_url != blank %}
+                    <a href="{{ block.settings.pinterest_url }}" target="_blank" rel="noopener noreferrer" class="custom-footer__social-badge" aria-label="Pinterest">
+                      <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
+                        <path d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z"/>
+                      </svg>
+                    </a>
+                  {% endif %}
                 </div>
               </div>
           {% endcase %}
@@ -221,7 +332,7 @@
           <button type="button" class="custom-footer__accordion-trigger" aria-expanded="false">
             <span class="custom-footer__col-heading">
               <span class="custom-footer__heading-accent"></span>
-              {{ section.settings.about_heading | default: 'THE ATELIER' }}
+              THE ATELIER
             </span>
             <svg class="custom-footer__accordion-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="6 9 12 15 18 9"></polyline>
@@ -243,7 +354,7 @@
           <button type="button" class="custom-footer__accordion-trigger" aria-expanded="false">
             <span class="custom-footer__col-heading">
               <span class="custom-footer__heading-accent"></span>
-              {{ section.settings.services_heading | default: 'CLIENT SERVICES' }}
+              CLIENT SERVICES
             </span>
             <svg class="custom-footer__accordion-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="6 9 12 15 18 9"></polyline>
@@ -263,9 +374,13 @@
 
         <div class="custom-footer__col custom-footer__col--newsletter">
           <div class="custom-footer__newsletter-card">
+            <div class="custom-footer__vip-pill">
+              <span class="custom-footer__vip-sparkle">✦</span>
+              <span>VIP COLLECTORS CIRCLE</span>
+            </div>
             <h4 class="custom-footer__col-heading custom-footer__col-heading--newsletter">
               <span class="custom-footer__heading-accent"></span>
-              {{ section.settings.newsletter_heading | default: 'THE COLLECTORS CIRCLE' }}
+              BE THE FIRST TO KNOW
             </h4>
             <p class="custom-footer__newsletter-desc">
               Subscribe for confidential previews of newly acquired original canvases, rare bronze sculptures, and private exhibition vernissages.
@@ -279,12 +394,12 @@
                   name="contact[email]"
                   aria-label="{{ 'blocks.email_signup.label' | t }}"
                   class="custom-footer__newsletter-input"
-                  placeholder="{{ section.settings.newsletter_placeholder | default: 'Enter your email address...' }}"
+                  placeholder="Enter your email address..."
                   required
                   autocomplete="email"
                 >
                 <button type="submit" class="custom-footer__newsletter-btn">
-                  <span>{{ section.settings.newsletter_button_text | default: 'JOIN' }}</span>
+                  <span>JOIN</span>
                   <svg class="custom-footer__btn-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="5" y1="12" x2="19" y2="12"></line>
                     <polyline points="12 5 19 12 12 19"></polyline>
@@ -306,88 +421,108 @@
     <!-- Middle Row: Payment Badges, Socials & Back to Top -->
     <div class="custom-footer__middle-row">
       <!-- Payment Badges & Trust -->
-      <div class="custom-footer__payment-col">
-        <div class="custom-footer__sub-heading-wrap">
-          <h4 class="custom-footer__sub-heading">{{ section.settings.payment_heading | default: 'PAYMENT METHODS' }}</h4>
-          <span class="custom-footer__ssl-badge">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 2C9.243 2 7 4.243 7 7v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7c0-2.757-2.243-5-5-5zM9 7c0-1.654 1.346-3 3-3s3 1.346 3 3v3H9V7zm3 10a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
-            </svg>
-            <span>256-BIT SSL ENCRYPTED</span>
-          </span>
+      {% if section.settings.show_payment_methods != false %}
+        <div class="custom-footer__payment-col">
+          <div class="custom-footer__sub-heading-wrap">
+            <h4 class="custom-footer__sub-heading">{{ section.settings.payment_heading | default: 'PAYMENT METHODS' }}</h4>
+            {% if section.settings.show_ssl_badge != false %}
+              <span class="custom-footer__ssl-badge">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C9.243 2 7 4.243 7 7v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7c0-2.757-2.243-5-5-5zM9 7c0-1.654 1.346-3 3-3s3 1.346 3 3v3H9V7zm3 10a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+                </svg>
+                <span>256-BIT SSL ENCRYPTED</span>
+              </span>
+            {% endif %}
+          </div>
+
+          {% if section.settings.payment_custom_image != blank %}
+            <div class="custom-footer__payment-custom-wrap">
+              <img
+                src="{{ section.settings.payment_custom_image | image_url: width: 600 }}"
+                alt="Payment Methods"
+                class="custom-footer__payment-custom-img"
+                loading="lazy"
+                width="{{ section.settings.payment_custom_image.width }}"
+                height="{{ section.settings.payment_custom_image.height }}"
+              >
+            </div>
+          {% else %}
+            <div class="custom-footer__payment-icons">
+              <span class="custom-footer__payment-item" title="Visa">
+                <svg viewBox="0 0 54 24" fill="none" style="width: 42px; height: 16px;">
+                  <text x="2" y="17" font-family="'Inter', -apple-system, sans-serif" font-size="14" font-style="italic" font-weight="800" fill="currentColor" letter-spacing="1">VISA</text>
+                </svg>
+              </span>
+              <span class="custom-footer__payment-item" title="Mastercard">
+                <svg viewBox="0 0 38 24" fill="none" style="width: 32px; height: 18px;">
+                  <circle cx="13" cy="12" r="9" fill="#EB001B"/>
+                  <circle cx="23" cy="12" r="9" fill="#F79E1B" fill-opacity="0.88"/>
+                </svg>
+              </span>
+              <span class="custom-footer__payment-item" title="American Express">
+                <svg viewBox="0 0 50 24" fill="none" style="width: 40px; height: 18px;">
+                  <rect width="48" height="20" rx="3" fill="#006FCF"/>
+                  <text x="6" y="14" font-family="'Inter', -apple-system, sans-serif" font-size="10" font-weight="700" fill="#ffffff">AMEX</text>
+                </svg>
+              </span>
+              <span class="custom-footer__payment-item" title="UPI & Net Banking">
+                <span class="custom-footer__text-badge">UPI</span>
+              </span>
+              <span class="custom-footer__payment-item" title="PayPal">
+                <svg viewBox="0 0 64 24" fill="none" style="width: 46px; height: 16px;">
+                  <text x="2" y="17" font-family="'Inter', -apple-system, sans-serif" font-size="13" font-style="italic" font-weight="700" fill="currentColor">Pay<tspan fill="#0079C1">Pal</tspan></text>
+                </svg>
+              </span>
+            </div>
+          {% endif %}
         </div>
-        <div class="custom-footer__payment-icons">
-          <span class="custom-footer__payment-item" title="Visa">
-            <svg viewBox="0 0 54 24" fill="none" style="width: 42px; height: 16px;">
-              <text x="2" y="17" font-family="'Inter', -apple-system, sans-serif" font-size="14" font-style="italic" font-weight="800" fill="currentColor" letter-spacing="1">VISA</text>
-            </svg>
-          </span>
-          <span class="custom-footer__payment-item" title="Mastercard">
-            <svg viewBox="0 0 38 24" fill="none" style="width: 32px; height: 18px;">
-              <circle cx="13" cy="12" r="9" fill="#EB001B"/>
-              <circle cx="23" cy="12" r="9" fill="#F79E1B" fill-opacity="0.88"/>
-            </svg>
-          </span>
-          <span class="custom-footer__payment-item" title="American Express">
-            <svg viewBox="0 0 50 24" fill="none" style="width: 40px; height: 18px;">
-              <rect width="48" height="20" rx="3" fill="#006FCF"/>
-              <text x="6" y="14" font-family="'Inter', -apple-system, sans-serif" font-size="10" font-weight="700" fill="#ffffff">AMEX</text>
-            </svg>
-          </span>
-          <span class="custom-footer__payment-item" title="UPI & Net Banking">
-            <span class="custom-footer__text-badge">UPI</span>
-          </span>
-          <span class="custom-footer__payment-item" title="PayPal">
-            <svg viewBox="0 0 64 24" fill="none" style="width: 46px; height: 16px;">
-              <text x="2" y="17" font-family="'Inter', -apple-system, sans-serif" font-size="13" font-style="italic" font-weight="700" fill="currentColor">Pay<tspan fill="#0079C1">Pal</tspan></text>
-            </svg>
-          </span>
-        </div>
-      </div>
+      {% endif %}
 
       <!-- Social Icons -->
-      <div class="custom-footer__social-col">
-        <h4 class="custom-footer__sub-heading">{{ section.settings.social_heading | default: 'FIND US ONLINE' }}</h4>
-        <div class="custom-footer__social-icons">
-          {% if section.settings.instagram_url != blank %}
-            <a href="{{ section.settings.instagram_url }}" target="_blank" rel="noopener noreferrer" class="custom-footer__social-badge" aria-label="Instagram">
-              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-              </svg>
-            </a>
-          {% endif %}
-          {% if section.settings.facebook_url != blank %}
-            <a href="{{ section.settings.facebook_url }}" target="_blank" rel="noopener noreferrer" class="custom-footer__social-badge" aria-label="Facebook">
-              <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
-                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-              </svg>
-            </a>
-          {% endif %}
-          {% if section.settings.pinterest_url != blank or section.settings.twitter_url != blank %}
-            {% assign x_url = section.settings.twitter_url | default: section.settings.pinterest_url %}
-            <a href="{{ x_url }}" target="_blank" rel="noopener noreferrer" class="custom-footer__social-badge" aria-label="X">
-              <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor">
-                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-              </svg>
-            </a>
-          {% endif %}
-          {% if section.settings.whatsapp_url != blank %}
-            <a href="{{ section.settings.whatsapp_url }}" target="_blank" rel="noopener noreferrer" class="custom-footer__social-badge custom-footer__social-badge--whatsapp" aria-label="WhatsApp Concierge">
-              <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
-                <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
-              </svg>
-            </a>
-          {% endif %}
+      {% if section.settings.show_social_icons != false %}
+        <div class="custom-footer__social-col">
+          <h4 class="custom-footer__sub-heading">{{ section.settings.social_heading | default: 'FIND US ONLINE' }}</h4>
+          <div class="custom-footer__social-icons">
+            {% if section.settings.instagram_url != blank %}
+              <a href="{{ section.settings.instagram_url }}" target="_blank" rel="noopener noreferrer" class="custom-footer__social-badge" aria-label="Instagram">
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                </svg>
+              </a>
+            {% endif %}
+            {% if section.settings.facebook_url != blank %}
+              <a href="{{ section.settings.facebook_url }}" target="_blank" rel="noopener noreferrer" class="custom-footer__social-badge" aria-label="Facebook">
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
+                  <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                </svg>
+              </a>
+            {% endif %}
+            {% if section.settings.pinterest_url != blank or section.settings.twitter_url != blank %}
+              {% assign x_url = section.settings.twitter_url | default: section.settings.pinterest_url %}
+              <a href="{{ x_url }}" target="_blank" rel="noopener noreferrer" class="custom-footer__social-badge" aria-label="X">
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+              </a>
+            {% endif %}
+            {% if section.settings.whatsapp_url != blank %}
+              <a href="{{ section.settings.whatsapp_url }}" target="_blank" rel="noopener noreferrer" class="custom-footer__social-badge custom-footer__social-badge--whatsapp" aria-label="WhatsApp Concierge">
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
+                  <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+                </svg>
+              </a>
+            {% endif %}
+          </div>
         </div>
-      </div>
+      {% endif %}
 
       <!-- Back to Top Button -->
       {% if section.settings.show_back_to_top != false %}
         <div class="custom-footer__top-button-col">
           <button type="button" class="custom-footer__back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});" aria-label="Back to Top">
-            <span>BACK TO TOP</span>
+            <span>{{ section.settings.back_to_top_text | default: 'BACK TO TOP' }}</span>
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="18 15 12 9 6 15"></polyline>
             </svg>
@@ -396,20 +531,24 @@
       {% endif %}
     </div>
 
-    <!-- Bottom Row: Copyright & Legal -->
+    <!-- Bottom Row: Copyright, Policies, Localization & Credits -->
     <div class="custom-footer__bottom-row">
       <div class="custom-footer__bottom-content">
         <p class="custom-footer__copyright">
           &copy; {{ 'now' | date: '%Y' }} {{ section.settings.copyright_text | default: 'The Raw House Living Pvt Ltd. All rights reserved.' }}
         </p>
-        <span class="custom-footer__bottom-divider" aria-hidden="true">&bull;</span>
-        <div class="custom-footer__policy-links">
-          <a href="/policies/privacy-policy" class="custom-footer__policy-link">Privacy Policy</a>
-          <span class="custom-footer__policy-dot">&bull;</span>
-          <a href="/policies/terms-of-service" class="custom-footer__policy-link">Terms of Service</a>
-          <span class="custom-footer__policy-dot">&bull;</span>
-          <a href="/policies/shipping-policy" class="custom-footer__policy-link">Shipping & Returns</a>
-        </div>
+
+        {% if section.settings.show_policy_links != false %}
+          <span class="custom-footer__bottom-divider" aria-hidden="true">&bull;</span>
+          <div class="custom-footer__policy-links">
+            <a href="/policies/privacy-policy" class="custom-footer__policy-link">Privacy Policy</a>
+            <span class="custom-footer__policy-dot">&bull;</span>
+            <a href="/policies/terms-of-service" class="custom-footer__policy-link">Terms of Service</a>
+            <span class="custom-footer__policy-dot">&bull;</span>
+            <a href="/policies/shipping-policy" class="custom-footer__policy-link">Shipping & Returns</a>
+          </div>
+        {% endif %}
+
         {% if section.settings.show_credits != false %}
           <span class="custom-footer__bottom-divider" aria-hidden="true">&bull;</span>
           <p class="custom-footer__credits">
@@ -427,19 +566,30 @@
           </p>
         {% endif %}
       </div>
+
+      {% if section.settings.show_country_selector or section.settings.show_language_selector %}
+        <div class="custom-footer__localization-wrap">
+          {% render 'localization-form',
+            show_country: section.settings.show_country_selector,
+            show_language: section.settings.show_language_selector,
+            localization_style: 'dropdown',
+            form_id: section.id
+          %}
+        </div>
+      {% endif %}
     </div>
   </div>
 </footer>
 
 <style>
   /* ==========================================================================
-     THE RAW HOUSE - LUXURY ARCHITECTURAL FOOTER DESIGN SYSTEM
+     THE RAW HOUSE - ADVANCED LUXURY ARCHITECTURAL FOOTER DESIGN SYSTEM
      ========================================================================== */
 
   .custom-luxury-footer {
     position: relative;
-    padding-top: var(--footer-padding-top, 64px);
-    padding-bottom: var(--footer-padding-bottom, 36px);
+    padding-top: var(--footer-padding-top, 48px);
+    padding-bottom: var(--footer-padding-bottom, 28px);
     box-sizing: border-box;
     font-family: var(--lux-font-body, "Inter", -apple-system, sans-serif);
     transition: background-color 0.3s ease, color 0.3s ease;
@@ -474,7 +624,7 @@
     border-top: 1px solid var(--flx-border-accent) !important;
   }
 
-  /* --- MUSEUM PARCHMENT PALETTE (Warm Alabaster Light - Default) --- */
+  /* --- MUSEUM PARCHMENT PALETTE (Warm Alabaster Light) --- */
   .custom-luxury-footer--parchment {
     --flx-bg: #f9f8f5;
     --flx-card-bg: #ffffff;
@@ -501,6 +651,58 @@
     background: var(--flx-bg) !important;
     color: var(--flx-text) !important;
     border-top: 1px solid var(--flx-border) !important;
+  }
+
+  /* --- GALLERY MINIMAL WHITE PALETTE --- */
+  .custom-luxury-footer--minimal_white {
+    --flx-bg: #ffffff;
+    --flx-card-bg: #fafafa;
+    --flx-card-border: #eaeaea;
+    --flx-border: #f0f0f0;
+    --flx-border-accent: #c5a880;
+    --flx-heading: #111111;
+    --flx-text: #333333;
+    --flx-muted: #777777;
+    --flx-gold: #c5a880;
+    --flx-gold-hover: #b38b4d;
+    --flx-link: #555555;
+    --flx-link-hover: #000000;
+    --flx-input-bg: #ffffff;
+    --flx-input-border: #e0e0e0;
+    --flx-input-text: #111111;
+    --flx-input-placeholder: #888888;
+    --flx-btn-bg: #111111;
+    --flx-btn-text: #ffffff;
+    --flx-btn-hover: #c5a880;
+    --flx-badge-bg: #f5f5f5;
+    --flx-badge-border: #e8e8e8;
+    --flx-badge-text: #111111;
+    background: var(--flx-bg) !important;
+    color: var(--flx-text) !important;
+    border-top: 1px solid var(--flx-border) !important;
+  }
+
+  /* --- CUSTOM PALETTE --- */
+  .custom-luxury-footer--custom {
+    --flx-card-bg: rgba(255, 255, 255, 0.05);
+    --flx-card-border: rgba(197, 168, 128, 0.25);
+    --flx-muted: rgba(120, 120, 120, 0.9);
+    --flx-gold-hover: #dfc49e;
+    --flx-link: inherit;
+    --flx-link-hover: var(--flx-gold, #c5a880);
+    --flx-input-bg: rgba(255, 255, 255, 0.06);
+    --flx-input-border: rgba(255, 255, 255, 0.2);
+    --flx-input-text: inherit;
+    --flx-input-placeholder: #888888;
+    --flx-btn-bg: var(--flx-gold, #c5a880);
+    --flx-btn-text: #111111;
+    --flx-btn-hover: #ffffff;
+    --flx-badge-bg: rgba(255, 255, 255, 0.08);
+    --flx-badge-border: rgba(255, 255, 255, 0.15);
+    --flx-badge-text: inherit;
+    background: var(--flx-bg, #11100e) !important;
+    color: var(--flx-text, #eae5dc) !important;
+    border-top: 1px solid var(--flx-border, rgba(255, 255, 255, 0.1)) !important;
   }
 
   .custom-footer__container {
@@ -543,6 +745,18 @@
     font-weight: 600;
     letter-spacing: 0.14em;
     padding-left: 2px;
+  }
+
+  .custom-footer__brand-logo-wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  .custom-footer__brand-logo {
+    object-fit: contain;
+    display: block;
   }
 
   .custom-footer__brand-title {
@@ -590,328 +804,371 @@
   /* --- 2. TOP COLUMNS GRID --- */
   .custom-footer__top-row {
     display: grid !important;
-    grid-template-columns: 1fr 1fr 1.35fr;
-    gap: clamp(24px, 4vw, 48px);
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: clamp(24px, 3.5vw, 44px);
     padding-bottom: 28px;
     border-bottom: 1px solid var(--flx-border) !important;
     align-items: start;
   }
 
+  @media screen and (min-width: 990px) {
+    .custom-footer__top-row:has(.custom-footer__col:nth-child(3):last-child) {
+      grid-template-columns: 1fr 1fr 1.35fr;
+    }
+    .custom-footer__top-row:has(.custom-footer__col:nth-child(4):last-child) {
+      grid-template-columns: 1fr 1fr 1.15fr 1.35fr;
+    }
+    .custom-footer__top-row:has(.custom-footer__col--menu-double) {
+      grid-template-columns: 1.6fr 1fr 1.35fr;
+    }
+  }
+
   .custom-footer__col-heading {
-    font-family: var(--lux-font-body, "Inter", sans-serif) !important;
-    font-size: 12.5px !important;
-    font-weight: 600 !important;
-    letter-spacing: 0.18em !important;
-    text-transform: uppercase !important;
-    color: var(--flx-heading) !important;
-    margin: 0 0 14px !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 8px !important;
+    font-family: var(--lux-font-heading, "Playfair Display", Georgia, serif);
+    font-size: 13.5px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--flx-heading);
+    margin: 0 0 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
 
   .custom-footer__heading-accent {
-    display: inline-block;
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
+    width: 3px;
+    height: 12px;
     background: var(--flx-gold);
+    display: inline-block;
+    border-radius: 1px;
+    flex-shrink: 0;
   }
 
   .custom-footer__accordion-trigger {
+    display: none;
+    width: 100%;
     background: transparent;
     border: none;
     padding: 0;
-    color: inherit;
+    margin: 0;
     text-align: left;
-    width: 100%;
-    cursor: default;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    cursor: pointer;
+    color: inherit;
+    font: inherit;
   }
 
   .custom-footer__accordion-icon {
     display: none;
+    transition: transform 0.3s ease;
     color: var(--flx-gold);
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .custom-footer__links-list {
     list-style: none;
-    padding: 0;
     margin: 0;
+    padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 9px;
+    gap: 10px;
+  }
+
+  .custom-footer__links-list--2cols {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 16px;
   }
 
   .custom-footer__link {
-    font-size: 12.5px !important;
-    letter-spacing: 0.07em !important;
-    text-transform: uppercase !important;
-    color: var(--flx-link) !important;
-    text-decoration: none !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    gap: 6px !important;
-    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--flx-link);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.25s ease, transform 0.25s ease;
   }
 
   .custom-footer__link-bullet {
     color: var(--flx-gold);
-    font-size: 11px;
-    opacity: 0;
-    transform: translateX(-4px);
-    transition: all 0.25s ease;
+    font-size: 14px;
+    line-height: 1;
+    opacity: 0.7;
+    transition: transform 0.25s ease, opacity 0.25s ease;
   }
 
   .custom-footer__link:hover {
-    color: var(--flx-link-hover) !important;
-    transform: translateX(4px);
+    color: var(--flx-link-hover);
+    transform: translateX(3px);
   }
 
   .custom-footer__link:hover .custom-footer__link-bullet {
     opacity: 1;
-    transform: translateX(0);
-  }
-
-  .custom-footer__text-content {
-    font-size: 13px;
-    line-height: 1.6;
-    color: var(--flx-muted) !important;
-    margin: 0;
-  }
-
-  /* --- 3. NEWSLETTER & CONCIERGE CARDS --- */
-  .custom-footer__newsletter-card {
-    background: var(--flx-card-bg);
-    border: 1px solid var(--flx-card-border);
-    border-radius: 6px;
-    padding: 18px;
-    box-sizing: border-box;
-    margin-bottom: 14px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  }
-
-  .custom-footer__col-heading--newsletter {
-    margin-bottom: 7px !important;
-  }
-
-  .custom-footer__newsletter-desc {
-    font-size: 13px;
-    line-height: 1.55;
-    color: var(--flx-muted) !important;
-    margin: 0 0 12px;
-  }
-
-  .custom-footer__newsletter-field-wrapper {
-    display: flex !important;
-    align-items: center !important;
-    background: var(--flx-input-bg) !important;
-    border: 1px solid var(--flx-input-border) !important;
-    border-radius: 4px !important;
-    padding: 3px !important;
-    box-sizing: border-box;
-    transition: border-color 0.25s ease, box-shadow 0.25s ease;
-  }
-
-  .custom-footer__newsletter-field-wrapper:focus-within {
-    border-color: var(--flx-gold) !important;
-    box-shadow: 0 0 0 2px rgba(197, 168, 128, 0.25) !important;
-  }
-
-  .custom-footer__newsletter-input {
-    flex: 1 1 auto !important;
-    min-width: 0;
-    background: transparent !important;
-    border: none !important;
-    outline: none !important;
-    padding: 9px 12px !important;
-    font-size: 13px !important;
-    color: var(--flx-input-text) !important;
-    font-family: inherit !important;
-    letter-spacing: 0.02em !important;
-  }
-
-  .custom-footer__newsletter-input::placeholder {
-    color: var(--flx-input-placeholder) !important;
-  }
-
-  .custom-footer__newsletter-btn {
-    flex-shrink: 0 !important;
-    background: var(--flx-btn-bg) !important;
-    color: var(--flx-btn-text) !important;
-    border: none !important;
-    border-radius: 3px !important;
-    padding: 9px 16px !important;
-    font-size: 11.5px !important;
-    font-weight: 600 !important;
-    letter-spacing: 0.14em !important;
-    text-transform: uppercase !important;
-    cursor: pointer !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    gap: 6px !important;
-    transition: background-color 0.25s ease, transform 0.2s ease !important;
-  }
-
-  .custom-footer__newsletter-btn:hover {
-    background: var(--flx-btn-hover) !important;
-    transform: translateY(-1px);
-  }
-
-  .custom-footer__btn-arrow {
-    transition: transform 0.2s ease;
-  }
-
-  .custom-footer__newsletter-btn:hover .custom-footer__btn-arrow {
     transform: translateX(2px);
   }
 
-  .custom-footer__privacy-note {
-    font-size: 11px;
+  .custom-footer__text-content {
+    font-size: 12.5px;
+    line-height: 1.7;
     color: var(--flx-muted);
-    letter-spacing: 0.03em;
-    margin: 7px 0 0;
+    margin: 0 0 12px;
+  }
+
+  .custom-footer__author-sign {
+    font-family: var(--lux-font-heading, "Playfair Display", Georgia, serif);
+    font-size: 12px;
+    font-style: italic;
+    color: var(--flx-gold);
+    letter-spacing: 0.06em;
+    margin: 0;
+  }
+
+  /* --- VIP NEWSLETTER CARD --- */
+  .custom-footer__newsletter-card {
+    background: var(--flx-card-bg);
+    border: 1px solid var(--flx-card-border);
+    padding: 22px 24px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    position: relative;
+  }
+
+  .custom-footer__vip-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(197, 168, 128, 0.12);
+    border: 1px solid rgba(197, 168, 128, 0.28);
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--flx-gold);
+    margin-bottom: 12px;
+  }
+
+  .custom-footer__vip-sparkle {
+    font-size: 9px;
+    line-height: 1;
+  }
+
+  .custom-footer__newsletter-desc {
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--flx-muted);
+    margin: 0 0 16px;
+  }
+
+  .custom-footer__newsletter-field-wrapper {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .custom-footer__newsletter-input {
+    flex: 1;
+    min-width: 0;
+    height: 42px;
+    background: var(--flx-input-bg);
+    border: 1px solid var(--flx-input-border);
+    border-right: none;
+    border-radius: 2px 0 0 2px;
+    padding: 0 14px;
+    font-size: 12px;
+    color: var(--flx-input-text);
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.25s ease, background 0.25s ease;
+    box-sizing: border-box;
+  }
+
+  .custom-footer__newsletter-input::placeholder {
+    color: var(--flx-input-placeholder);
+  }
+
+  .custom-footer__newsletter-input:focus {
+    border-color: var(--flx-gold);
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .custom-footer__newsletter-btn {
+    height: 42px;
+    background: var(--flx-btn-bg);
+    color: var(--flx-btn-text);
+    border: 1px solid var(--flx-btn-bg);
+    border-radius: 0 2px 2px 0;
+    padding: 0 18px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: inherit;
+    transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  .custom-footer__newsletter-btn:hover {
+    background: var(--flx-btn-hover);
+    border-color: var(--flx-btn-hover);
+  }
+
+  .custom-footer__privacy-note {
+    font-size: 10.5px;
+    color: var(--flx-muted);
+    letter-spacing: 0.04em;
+    margin: 0;
+    opacity: 0.8;
   }
 
   .custom-footer__form-message {
     font-size: 12px;
-    margin-top: 8px;
-    font-weight: 500;
+    margin: 8px 0 0;
+    padding: 8px 12px;
+    border-radius: 2px;
   }
 
   .custom-footer__form-message--success {
-    color: var(--flx-gold) !important;
+    background: rgba(46, 125, 50, 0.15);
+    color: #81c784;
+    border: 1px solid rgba(129, 199, 132, 0.3);
   }
 
   .custom-footer__form-message--error {
-    color: #e57373 !important;
+    background: rgba(211, 47, 47, 0.15);
+    color: #e57373;
+    border: 1px solid rgba(229, 115, 115, 0.3);
   }
 
-  /* --- CONCIERGE CARD --- */
-  .custom-footer__concierge-card {
-    background: var(--flx-card-bg);
-    border: 1px solid var(--flx-card-border);
-    border-radius: 6px;
-    padding: 13px 18px;
-    box-sizing: border-box;
+  /* --- CONCIERGE & TRUST BLOCKS --- */
+  .custom-footer__concierge-info {
+    font-size: 12px;
+    line-height: 1.8;
+    color: var(--flx-muted);
   }
 
-  .custom-footer__concierge-header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 8px;
+  .custom-footer__concierge-row {
+    margin: 0 0 6px;
   }
 
-  .custom-footer__concierge-icon {
+  .custom-footer__concierge-row strong {
+    color: var(--flx-heading);
+    margin-right: 4px;
+  }
+
+  .custom-footer__concierge-row a {
     color: var(--flx-gold);
-    flex-shrink: 0;
-  }
-
-  .custom-footer__col-heading--concierge {
-    margin: 0 !important;
-    font-size: 11.5px !important;
-    letter-spacing: 0.16em !important;
-  }
-
-  .custom-footer__concierge-channels {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 6px 12px;
-    font-size: 12.5px;
-  }
-
-  .custom-footer__concierge-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    color: var(--flx-link) !important;
-    text-decoration: none !important;
+    text-decoration: none;
     transition: color 0.2s ease;
   }
 
-  .custom-footer__concierge-link:hover {
-    color: var(--flx-gold) !important;
-  }
-
-  .custom-footer__concierge-link svg {
-    color: var(--flx-gold);
-    flex-shrink: 0;
-  }
-
-  .custom-footer__channel-divider {
-    color: var(--flx-muted);
-    font-size: 8px;
-    user-select: none;
+  .custom-footer__concierge-row a:hover {
+    color: var(--flx-gold-hover);
+    text-decoration: underline;
   }
 
   .custom-footer__whatsapp-wrap {
-    margin-top: 9px;
-    padding-top: 8px;
-    border-top: 1px dashed var(--flx-border);
+    margin-top: 14px;
   }
 
   .custom-footer__whatsapp-btn {
     display: inline-flex;
     align-items: center;
-    gap: 7px;
-    font-size: 12.5px;
-    font-weight: 500;
-    color: #25d366 !important;
-    text-decoration: none !important;
-    letter-spacing: 0.04em;
-    transition: opacity 0.2s ease, transform 0.2s ease;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 3px;
+    background: #1f5e39;
+    color: #ffffff !important;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.25s ease;
   }
 
   .custom-footer__whatsapp-btn:hover {
-    opacity: 0.85;
-    transform: translateX(2px);
+    background: #277949;
   }
 
-  /* --- 4. MIDDLE ROW: PAYMENT, SOCIALS, BACK TO TOP --- */
+  .custom-footer__trust-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 14px;
+  }
+
+  .custom-footer__trust-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 11.5px;
+    color: var(--flx-muted);
+    line-height: 1.5;
+  }
+
+  .custom-footer__trust-icon {
+    color: var(--flx-gold);
+    font-size: 11px;
+    line-height: 1.5;
+    flex-shrink: 0;
+  }
+
+  /* --- 3. MIDDLE ROW: PAYMENT, SOCIAL & BACK TO TOP --- */
   .custom-footer__middle-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 18px 0;
-    border-bottom: 1px solid var(--flx-border) !important;
     flex-wrap: wrap;
-    gap: 16px;
+    gap: 20px 32px;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--flx-border);
   }
 
   .custom-footer__sub-heading-wrap {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 8px;
+    gap: 10px;
+    margin-bottom: 10px;
   }
 
   .custom-footer__sub-heading {
-    font-size: 11.5px !important;
-    font-weight: 600 !important;
-    letter-spacing: 0.16em !important;
-    text-transform: uppercase !important;
-    color: var(--flx-heading) !important;
-    margin: 0 !important;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--flx-heading);
+    margin: 0;
   }
 
   .custom-footer__ssl-badge {
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    font-size: 9.5px;
-    letter-spacing: 0.1em;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
     color: var(--flx-gold);
-    opacity: 0.9;
+    background: rgba(197, 168, 128, 0.1);
+    padding: 2px 7px;
+    border-radius: 2px;
+    border: 1px solid rgba(197, 168, 128, 0.2);
   }
 
   .custom-footer__payment-icons {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: 8px;
   }
 
@@ -919,393 +1176,265 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    padding: 4px 8px;
+    background: var(--flx-badge-bg);
+    border: 1px solid var(--flx-badge-border);
+    border-radius: 3px;
     height: 26px;
-    padding: 2px 9px;
-    background: var(--flx-badge-bg) !important;
-    border: 1px solid var(--flx-badge-border) !important;
-    border-radius: 4px;
-    color: var(--flx-badge-text) !important;
-    transition: border-color 0.2s ease;
-  }
-
-  .custom-footer__payment-item:hover {
-    border-color: var(--flx-gold) !important;
+    box-sizing: border-box;
+    color: var(--flx-badge-text);
   }
 
   .custom-footer__text-badge {
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    color: var(--flx-gold);
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+  }
+
+  .custom-footer__payment-custom-wrap img {
+    max-height: 28px;
+    width: auto;
+    display: block;
   }
 
   .custom-footer__social-col {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .custom-footer__social-col .custom-footer__sub-heading {
-    margin-bottom: 8px !important;
+    gap: 8px;
   }
 
   .custom-footer__social-icons {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
   }
 
   .custom-footer__social-badge {
-    width: 32px !important;
-    height: 32px !important;
-    border-radius: 50% !important;
-    background: var(--flx-badge-bg) !important;
-    border: 1px solid var(--flx-badge-border) !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    color: var(--flx-badge-text) !important;
-    text-decoration: none !important;
-    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--flx-badge-bg);
+    border: 1px solid var(--flx-badge-border);
+    color: var(--flx-badge-text);
+    text-decoration: none;
+    transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
   }
 
   .custom-footer__social-badge:hover {
-    transform: translateY(-2px) scale(1.08) !important;
-    border-color: var(--flx-gold) !important;
-    color: var(--flx-gold) !important;
-    box-shadow: 0 4px 12px rgba(197, 168, 128, 0.2) !important;
+    transform: translateY(-2px);
+    background: var(--flx-gold);
+    border-color: var(--flx-gold);
+    color: #111111;
+  }
+
+  .custom-footer__social-badge--whatsapp {
+    color: #25d366;
   }
 
   .custom-footer__social-badge--whatsapp:hover {
-    color: #25d366 !important;
-    border-color: #25d366 !important;
-    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.25) !important;
+    background: #25d366;
+    border-color: #25d366;
+    color: #ffffff;
+  }
+
+  .custom-footer__top-button-col {
+    margin-left: auto;
   }
 
   .custom-footer__back-to-top {
-    display: inline-flex !important;
-    align-items: center !important;
-    gap: 6px !important;
-    background: transparent !important;
-    border: 1px solid var(--flx-badge-border) !important;
-    color: var(--flx-link) !important;
-    padding: 7px 14px !important;
-    border-radius: 4px !important;
-    font-size: 10.5px !important;
-    font-weight: 600 !important;
-    letter-spacing: 0.16em !important;
-    text-transform: uppercase !important;
-    cursor: pointer !important;
-    transition: all 0.25s ease !important;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: transparent;
+    border: 1px solid var(--flx-border);
+    border-radius: 2px;
+    color: var(--flx-link);
+    font-size: 10.5px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.25s ease;
   }
 
   .custom-footer__back-to-top:hover {
-    color: var(--flx-gold) !important;
-    border-color: var(--flx-gold) !important;
+    border-color: var(--flx-gold);
+    color: var(--flx-gold);
     transform: translateY(-2px);
   }
 
-  .custom-footer__back-to-top svg {
-    transition: transform 0.2s ease;
-  }
-
-  .custom-footer__back-to-top:hover svg {
-    transform: translateY(-2px);
-  }
-
-  /* --- 5. BOTTOM LEGAL ROW --- */
+  /* --- 4. BOTTOM ROW: COPYRIGHT, LEGAL & LOCALIZATION --- */
   .custom-footer__bottom-row {
-    padding-top: 16px;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px 24px;
+    padding-top: 20px;
+    font-size: 11.5px;
+    color: var(--flx-muted);
   }
 
   .custom-footer__bottom-content {
     display: flex;
     align-items: center;
-    justify-content: center;
     flex-wrap: wrap;
-    gap: 6px 12px;
-    margin: 0 auto;
+    gap: 8px 14px;
   }
 
-  .custom-footer__copyright,
-  .custom-footer__credits {
-    font-size: 12px !important;
-    letter-spacing: 0.04em !important;
-    color: var(--flx-muted) !important;
-    margin: 0 !important;
-    line-height: 1.5;
+  .custom-footer__copyright {
+    margin: 0;
+    letter-spacing: 0.04em;
+  }
+
+  .custom-footer__bottom-divider {
+    color: var(--flx-border);
+    font-size: 10px;
   }
 
   .custom-footer__policy-links {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
   }
 
   .custom-footer__policy-link {
-    font-size: 12px;
     color: var(--flx-muted);
     text-decoration: none;
-    letter-spacing: 0.04em;
     transition: color 0.2s ease;
   }
 
   .custom-footer__policy-link:hover {
     color: var(--flx-gold);
     text-decoration: underline;
-    text-underline-offset: 3px;
   }
 
-  .custom-footer__policy-dot,
-  .custom-footer__bottom-divider {
-    color: var(--flx-muted);
+  .custom-footer__policy-dot {
+    color: var(--flx-border);
     font-size: 8px;
-    opacity: 0.5;
-    user-select: none;
+  }
+
+  .custom-footer__credits {
+    margin: 0;
+    letter-spacing: 0.04em;
   }
 
   .custom-footer__credit-link {
-    color: var(--flx-gold) !important;
-    text-decoration: underline !important;
-    text-underline-offset: 3px;
-    text-decoration-thickness: 1px;
-    transition: opacity 0.2s ease;
+    color: var(--flx-gold);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
   }
 
   .custom-footer__credit-link:hover {
-    opacity: 0.8;
+    color: var(--flx-gold-hover);
+    text-decoration: underline;
   }
 
-  /* ==========================================================================
-     TABLET REFINEMENT (769px - 1024px)
-     ========================================================================== */
-
-  @media screen and (min-width: 769px) and (max-width: 1024px) {
-    .custom-footer__container {
-      padding: 0 24px;
-    }
-
-    .custom-footer__top-row {
-      grid-template-columns: 1fr 1fr !important;
-      gap: 24px 32px !important;
-    }
-
-    .custom-footer__col--newsletter {
-      grid-column: 1 / -1;
-    }
-
-    .custom-footer__middle-row {
-      gap: 14px;
-    }
-  }
-
-  /* ==========================================================================
-     MOBILE (PHONE) POLISH & ACCORDION SYSTEM (max-width: 768px)
-     ========================================================================== */
-
+  /* --- RESPONSIVE MOBILE BEHAVIOR --- */
   @media screen and (max-width: 768px) {
     .custom-luxury-footer {
-      padding-top: 32px;
-      padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+      padding-top: var(--footer-padding-top-m, 32px) !important;
+      padding-bottom: var(--footer-padding-bottom-m, 20px) !important;
     }
 
     .custom-footer__container {
-      padding: 0 16px;
-    }
-
-    .custom-footer__brand-header {
-      padding-bottom: 18px;
-      margin-bottom: 18px;
-    }
-
-    .custom-footer__brand-title {
-      font-size: 18px;
-      letter-spacing: 0.18em;
-    }
-
-    .custom-footer__brand-tagline {
-      font-size: 11.5px;
-      letter-spacing: 0.05em;
-      line-height: 1.7;
-      max-width: 34ch;
-      margin-left: auto;
-      margin-right: auto;
+      padding: 0 20px;
     }
 
     .custom-footer__top-row {
-      grid-template-columns: minmax(0, 1fr) !important;
-      gap: 0 !important;
-      padding-bottom: 12px;
+      grid-template-columns: 1fr !important;
+      gap: 0;
+      padding-bottom: 20px;
     }
 
     .custom-footer__col {
       border-bottom: 1px solid var(--flx-border);
+      padding: 16px 0;
+    }
+
+    .custom-footer__col:first-child {
+      padding-top: 0;
     }
 
     .custom-footer__col:last-child {
       border-bottom: none;
     }
 
-    /* Accordion Touch Bar */
     .custom-footer__accordion-trigger {
-      padding: 14px 0;
-      cursor: pointer;
-      min-height: 48px;
-      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
     .custom-footer__col-heading {
-      font-size: 13px !important;
-      letter-spacing: 0.16em !important;
-      margin: 0 !important;
+      margin: 0;
     }
 
     .custom-footer__accordion-icon {
-      display: block !important;
-    }
-
-    /* Collapsible Content */
-    .custom-footer__accordion-content {
       display: block;
-      transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
     }
 
-    .custom-footer__col.is-collapsible:not(.is-open) .custom-footer__accordion-content {
-      display: none;
+    .custom-footer__col.is-collapsible .custom-footer__accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+      opacity: 0;
     }
 
-    .custom-footer__col.is-open .custom-footer__accordion-content {
-      padding-bottom: 16px;
+    .custom-footer__col.is-collapsible.is-open .custom-footer__accordion-content {
+      max-height: 600px;
+      opacity: 1;
+      padding-top: 14px;
     }
 
-    .custom-footer__col.is-open .custom-footer__accordion-icon {
+    .custom-footer__col.is-collapsible.is-open .custom-footer__accordion-icon {
       transform: rotate(180deg);
     }
 
-    .custom-footer__links-list {
-      gap: 10px;
-      padding-left: 10px;
-    }
-
-    .custom-footer__link {
-      font-size: 13px !important;
-      padding: 3px 0;
-    }
-
-    /* VIP Newsletter Card on Phone */
     .custom-footer__col--newsletter {
-      padding: 18px 0 4px;
-      border-bottom: none;
+      padding: 20px 0 10px;
     }
 
     .custom-footer__newsletter-card {
-      padding: 16px;
-      margin-bottom: 14px;
+      padding: 18px 16px;
     }
 
-    .custom-footer__newsletter-field-wrapper {
-      flex-direction: column;
-      background: transparent !important;
-      border: none !important;
-      gap: 8px;
-      padding: 0 !important;
-    }
-
-    .custom-footer__newsletter-input {
-      width: 100% !important;
-      background: var(--flx-input-bg) !important;
-      border: 1px solid var(--flx-input-border) !important;
-      border-radius: 4px !important;
-      padding: 12px 14px !important;
-      font-size: 16px !important;
-      box-sizing: border-box !important;
-    }
-
-    .custom-footer__newsletter-btn {
-      width: 100% !important;
-      justify-content: center !important;
-      padding: 12px 16px !important;
-      font-size: 12px !important;
-      border-radius: 4px !important;
-    }
-
-    /* Concierge Card on Phone */
-    .custom-footer__concierge-card {
-      padding: 14px;
-    }
-
-    .custom-footer__concierge-channels {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 8px;
-    }
-
-    .custom-footer__channel-divider {
-      display: none;
-    }
-
-    /* Middle Row on Phone */
     .custom-footer__middle-row {
       flex-direction: column;
-      align-items: center;
-      text-align: center;
+      align-items: flex-start;
       gap: 18px;
-      padding: 20px 0;
     }
 
-    .custom-footer__payment-col,
-    .custom-footer__social-col,
     .custom-footer__top-button-col {
+      margin-left: 0;
       width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .custom-footer__sub-heading-wrap {
-      flex-direction: column;
-      gap: 5px;
-    }
-
-    .custom-footer__payment-icons {
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .custom-footer__social-icons {
-      justify-content: center;
-      gap: 12px;
-    }
-
-    .custom-footer__social-badge {
-      width: 38px !important;
-      height: 38px !important;
     }
 
     .custom-footer__back-to-top {
       width: 100%;
-      max-width: 220px;
       justify-content: center;
-      padding: 11px 16px !important;
-      font-size: 11px !important;
     }
 
-    /* Bottom Row on Phone */
+    .custom-footer__bottom-row {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 12px;
+    }
+
     .custom-footer__bottom-content {
       flex-direction: column;
-      gap: 6px;
+      gap: 8px;
     }
 
     .custom-footer__bottom-divider {
       display: none;
-    }
-
-    .custom-footer__policy-links {
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 6px 10px;
     }
   }
 </style>
@@ -1369,18 +1498,51 @@
       "options": [
         {
           "value": "noir",
-          "label": "Atelier Noir (Deep Luxury Dark - Recommended)"
+          "label": "Atelier Noir (Obsidian Black & Champagne Gold)"
         },
         {
           "value": "parchment",
-          "label": "Museum Warm Linen (Warm Ivory Light)"
+          "label": "Museum Warm Linen (Warm Alabaster Light)"
+        },
+        {
+          "value": "minimal_white",
+          "label": "Minimal White (Gallery Pristine)"
+        },
+        {
+          "value": "custom",
+          "label": "Custom Bespoke Colors"
         }
       ],
       "default": "noir"
     },
     {
+      "type": "color",
+      "id": "custom_bg",
+      "label": "Custom Background Color"
+    },
+    {
+      "type": "color",
+      "id": "custom_text",
+      "label": "Custom Body Text Color"
+    },
+    {
+      "type": "color",
+      "id": "custom_heading",
+      "label": "Custom Heading Color"
+    },
+    {
+      "type": "color",
+      "id": "custom_gold",
+      "label": "Custom Gold / Accent Color"
+    },
+    {
+      "type": "color",
+      "id": "custom_border",
+      "label": "Custom Border Color"
+    },
+    {
       "type": "header",
-      "content": "Brand Header (Top Banner)"
+      "content": "Brand Prestige Header"
     },
     {
       "type": "checkbox",
@@ -1389,10 +1551,37 @@
       "default": true
     },
     {
+      "type": "image_picker",
+      "id": "brand_logo",
+      "label": "Brand Logo Image (Optional)"
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 60,
+      "max": 320,
+      "step": 10,
+      "unit": "px",
+      "label": "Logo Max Width",
+      "default": 160
+    },
+    {
       "type": "text",
       "id": "brand_name",
-      "label": "Brand Name",
+      "label": "Brand Name (Used if no logo uploaded)",
       "default": "THE RAW HOUSE"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_emblem",
+      "label": "Show Monogram / Emblem Circle",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "brand_emblem_text",
+      "label": "Emblem Text",
+      "default": "TRH"
     },
     {
       "type": "text",
@@ -1401,80 +1590,65 @@
       "default": "Contemporary Fine Art Paintings, 3D Sculptural Models & Museum Curations"
     },
     {
-      "type": "header",
-      "content": "Default Fallback Menus (Used if no blocks added)"
-    },
-    {
-      "type": "text",
-      "id": "about_heading",
-      "label": "Column 1 Heading",
-      "default": "THE ATELIER"
-    },
-    {
-      "type": "link_list",
-      "id": "about_menu",
-      "label": "Column 1 Menu"
-    },
-    {
-      "type": "text",
-      "id": "services_heading",
-      "label": "Column 2 Heading",
-      "default": "CLIENT SERVICES"
-    },
-    {
-      "type": "link_list",
-      "id": "services_menu",
-      "label": "Column 2 Menu"
-    },
-    {
-      "type": "text",
-      "id": "newsletter_heading",
-      "label": "Newsletter Heading",
-      "default": "THE COLLECTORS CIRCLE"
-    },
-    {
-      "type": "text",
-      "id": "newsletter_placeholder",
-      "label": "Newsletter Placeholder",
-      "default": "Enter your email address..."
-    },
-    {
-      "type": "text",
-      "id": "newsletter_button_text",
-      "label": "Newsletter Button Text",
-      "default": "JOIN"
+      "type": "select",
+      "id": "ornament_symbol",
+      "label": "Curatorial Ornament Style",
+      "options": [
+        {
+          "value": "diamond",
+          "label": "Diamond (◆)"
+        },
+        {
+          "value": "star",
+          "label": "Four-Point Star (✦)"
+        },
+        {
+          "value": "bar",
+          "label": "Classic Line (—)"
+        },
+        {
+          "value": "none",
+          "label": "None"
+        }
+      ],
+      "default": "diamond"
     },
     {
       "type": "header",
-      "content": "Private Art Concierge"
+      "content": "Trust, Security & Payment Methods"
     },
     {
-      "type": "text",
-      "id": "concierge_heading",
-      "label": "Concierge Heading",
-      "default": "PRIVATE CONCIERGE"
-    },
-    {
-      "type": "text",
-      "id": "concierge_text",
-      "label": "Concierge Contact Text",
-      "default": "+91 80030 11110 / concierge@therawhouse.com"
-    },
-    {
-      "type": "text",
-      "id": "whatsapp_url",
-      "label": "WhatsApp Concierge URL",
-      "default": "https://wa.me/918003011110"
-    },
-    {
-      "type": "header",
-      "content": "Payment Methods & Social"
+      "type": "checkbox",
+      "id": "show_payment_methods",
+      "label": "Show Payment Methods Row",
+      "default": true
     },
     {
       "type": "text",
       "id": "payment_heading",
       "label": "Payment Heading",
       "default": "PAYMENT METHODS"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_ssl_badge",
+      "label": "Show 256-Bit SSL Security Badge",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "payment_custom_image",
+      "label": "Custom Payment Strip Image (Optional override)"
+    },
+    {
+      "type": "header",
+      "content": "Social Media Presence"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_social_icons",
+      "label": "Show Social Icons Row",
+      "default": true
     },
     {
       "type": "text",
@@ -1498,20 +1672,54 @@
       "label": "Pinterest / X URL"
     },
     {
+      "type": "text",
+      "id": "whatsapp_url",
+      "label": "WhatsApp Concierge URL",
+      "default": "https://wa.me/918003011110"
+    },
+    {
+      "type": "header",
+      "content": "Back To Top Button"
+    },
+    {
       "type": "checkbox",
       "id": "show_back_to_top",
       "label": "Show Back to Top Button",
       "default": true
     },
     {
+      "type": "text",
+      "id": "back_to_top_text",
+      "label": "Back to Top Label",
+      "default": "BACK TO TOP"
+    },
+    {
       "type": "header",
-      "content": "Copyright & Layout"
+      "content": "Copyright & Policies"
     },
     {
       "type": "text",
       "id": "copyright_text",
       "label": "Copyright Text",
       "default": "The Raw House Living Pvt Ltd. All rights reserved."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_policy_links",
+      "label": "Show Legal Policy Links",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_country_selector",
+      "label": "Show Country / Currency Selector",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_language_selector",
+      "label": "Show Language Selector",
+      "default": false
     },
     {
       "type": "header",
@@ -1548,57 +1756,103 @@
       "default": "SCRAFT - E-commerce growth, SEO & software studio"
     },
     {
+      "type": "header",
+      "content": "Layout & Spacing Dimensions"
+    },
+    {
       "type": "range",
       "id": "max_width",
-      "min": 900,
-      "max": 1400,
+      "min": 1000,
+      "max": 1500,
       "step": 20,
       "unit": "px",
-      "label": "Max Width",
+      "label": "Container Max Width",
       "default": 1240
     },
     {
       "type": "range",
       "id": "padding_top",
       "min": 20,
-      "max": 100,
+      "max": 120,
       "step": 4,
       "unit": "px",
-      "label": "Top Padding",
+      "label": "Desktop Top Padding",
       "default": 48
     },
     {
       "type": "range",
       "id": "padding_bottom",
-      "min": 20,
-      "max": 100,
+      "min": 16,
+      "max": 96,
       "step": 4,
       "unit": "px",
-      "label": "Bottom Padding",
+      "label": "Desktop Bottom Padding",
       "default": 28
+    },
+    {
+      "type": "range",
+      "id": "padding_top_m",
+      "min": 16,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Mobile Top Padding",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_m",
+      "min": 12,
+      "max": 60,
+      "step": 4,
+      "unit": "px",
+      "label": "Mobile Bottom Padding",
+      "default": 20
     }
   ],
   "blocks": [
     {
       "type": "menu",
-      "name": "Navigation Menu",
+      "name": "Navigation Column",
       "settings": [
         {
           "type": "text",
           "id": "heading",
-          "label": "Heading",
+          "label": "Column Heading",
           "default": "EXPLORE"
         },
         {
           "type": "link_list",
           "id": "menu",
-          "label": "Menu"
+          "label": "Select Menu"
+        },
+        {
+          "type": "select",
+          "id": "columns",
+          "label": "Links Column Layout",
+          "options": [
+            {
+              "value": "1",
+              "label": "Single Column"
+            },
+            {
+              "value": "2",
+              "label": "Double Columns (Split Grid)"
+            }
+          ],
+          "default": "1"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_bullets",
+          "label": "Show Arrow Bullets (›)",
+          "default": true
         }
       ]
     },
     {
       "type": "text",
-      "name": "About / Text",
+      "name": "About / Atelier Story",
       "settings": [
         {
           "type": "text",
@@ -1609,8 +1863,14 @@
         {
           "type": "textarea",
           "id": "text",
-          "label": "Text",
-          "default": "Dedicated to museum-grade original canvas paintings, hand-cast bronze statuettes, and architectural decorative models."
+          "label": "Story / Mission Text",
+          "default": "Dedicated to museum-grade original canvas paintings, hand-cast bronze statuettes, and architectural decorative models crafted with singular intention."
+        },
+        {
+          "type": "text",
+          "id": "author_title",
+          "label": "Curator Signature Line",
+          "default": "The Raw House Curators"
         }
       ]
     },
@@ -1619,6 +1879,12 @@
       "name": "VIP Newsletter",
       "limit": 1,
       "settings": [
+        {
+          "type": "text",
+          "id": "badge_text",
+          "label": "VIP Perk Badge",
+          "default": "CONFIDENTIAL PREVIEWS & SALON ACCESS"
+        },
         {
           "type": "text",
           "id": "heading",
@@ -1642,12 +1908,18 @@
           "id": "button_text",
           "label": "Button Text",
           "default": "SUBSCRIBE"
+        },
+        {
+          "type": "text",
+          "id": "privacy_note",
+          "label": "Privacy Disclaimer",
+          "default": "Strictly confidential. No spam, ever."
         }
       ]
     },
     {
       "type": "concierge",
-      "name": "Concierge / Contact",
+      "name": "Private Art Concierge",
       "limit": 1,
       "settings": [
         {
@@ -1664,21 +1936,103 @@
         },
         {
           "type": "text",
-          "id": "phone",
-          "label": "Phone Number (Digits)",
-          "default": "+918003011110"
-        },
-        {
-          "type": "text",
           "id": "phone_display",
-          "label": "Phone Display",
+          "label": "Hotline Display Text",
           "default": "+91 80030 11110"
         },
         {
           "type": "text",
+          "id": "phone",
+          "label": "Hotline Digits (for dialing)",
+          "default": "+918003011110"
+        },
+        {
+          "type": "text",
           "id": "email",
-          "label": "Email",
+          "label": "Email Address",
           "default": "concierge@therawhouse.com"
+        },
+        {
+          "type": "text",
+          "id": "address",
+          "label": "Physical Atelier / Studio Location"
+        },
+        {
+          "type": "text",
+          "id": "whatsapp_label",
+          "label": "WhatsApp Button Label",
+          "default": "Chat with Private Concierge"
+        },
+        {
+          "type": "text",
+          "id": "whatsapp_url",
+          "label": "WhatsApp Link URL",
+          "default": "https://wa.me/918003011110"
+        }
+      ]
+    },
+    {
+      "type": "trust_badges",
+      "name": "Atelier Guarantees",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "ATELIER PROMISES"
+        },
+        {
+          "type": "text",
+          "id": "badge_1_text",
+          "label": "Guarantee 1",
+          "default": "100% Certified Originals & Authenticity"
+        },
+        {
+          "type": "text",
+          "id": "badge_2_text",
+          "label": "Guarantee 2",
+          "default": "Insured White-Glove Museum Crating"
+        },
+        {
+          "type": "text",
+          "id": "badge_3_text",
+          "label": "Guarantee 3",
+          "default": "Private Curatorial Advisory & Consultations"
+        }
+      ]
+    },
+    {
+      "type": "social_block",
+      "name": "Social Presence",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "CONNECT & FOLLOW"
+        },
+        {
+          "type": "text",
+          "id": "subtext",
+          "label": "Short Tagline",
+          "default": "Join our global collective of patrons, collectors, and designers."
+        },
+        {
+          "type": "url",
+          "id": "instagram_url",
+          "label": "Instagram URL"
+        },
+        {
+          "type": "url",
+          "id": "facebook_url",
+          "label": "Facebook URL"
+        },
+        {
+          "type": "url",
+          "id": "pinterest_url",
+          "label": "Pinterest / X URL"
         }
       ]
     }
