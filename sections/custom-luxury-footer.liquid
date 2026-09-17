@@ -26,10 +26,15 @@
     --footer-max-width: {{ section.settings.max_width | default: 1240 }}px;
     {% if color_scheme == 'custom' %}
       {% if section.settings.custom_bg != blank %}--flx-bg: {{ section.settings.custom_bg }} !important;{% endif %}
+      {% if section.settings.custom_card_bg != blank %}--flx-card-bg: {{ section.settings.custom_card_bg }} !important;{% endif %}
       {% if section.settings.custom_text != blank %}--flx-text: {{ section.settings.custom_text }} !important;{% endif %}
       {% if section.settings.custom_heading != blank %}--flx-heading: {{ section.settings.custom_heading }} !important;{% endif %}
       {% if section.settings.custom_gold != blank %}--flx-gold: {{ section.settings.custom_gold }} !important; --flx-border-accent: {{ section.settings.custom_gold }} !important;{% endif %}
       {% if section.settings.custom_border != blank %}--flx-border: {{ section.settings.custom_border }} !important;{% endif %}
+      {% if section.settings.custom_link != blank %}--flx-link: {{ section.settings.custom_link }} !important;{% endif %}
+      {% if section.settings.custom_link_hover != blank %}--flx-link-hover: {{ section.settings.custom_link_hover }} !important;{% endif %}
+      {% if section.settings.custom_btn_bg != blank %}--flx-btn-bg: {{ section.settings.custom_btn_bg }} !important;{% endif %}
+      {% if section.settings.custom_btn_text != blank %}--flx-btn-text: {{ section.settings.custom_btn_text }} !important;{% endif %}
     {% endif %}
   "
   {{ section.shopify_attributes }}
@@ -39,8 +44,30 @@
       <!-- Brand Prestige Header -->
       <div class="custom-footer__brand-header">
         {% if section.settings.show_emblem %}
-          <div class="custom-footer__emblem" aria-hidden="true">
-            <span class="custom-footer__emblem-text">{{ section.settings.brand_emblem_text | default: 'TRH' }}</span>
+          {% assign e_size = section.settings.emblem_size | default: 38 %}
+          <div
+            class="custom-footer__emblem"
+            aria-hidden="true"
+            style="
+              width: {{ e_size }}px;
+              height: {{ e_size }}px;
+              {% if section.settings.emblem_border_color != blank and section.settings.emblem_border_color != 'rgba(0,0,0,0)' %}border-color: {{ section.settings.emblem_border_color }} !important;{% endif %}
+              {% if section.settings.emblem_bg_color != blank and section.settings.emblem_bg_color != 'rgba(0,0,0,0)' %}background-color: {{ section.settings.emblem_bg_color }} !important;{% endif %}
+              {% if section.settings.emblem_text_color != blank and section.settings.emblem_text_color != 'rgba(0,0,0,0)' %}color: {{ section.settings.emblem_text_color }} !important;{% endif %}
+            "
+          >
+            {% if section.settings.brand_emblem_image != blank %}
+              <img
+                src="{{ section.settings.brand_emblem_image | image_url: width: 160 }}"
+                alt="{{ section.settings.brand_name | default: 'Emblem' | escape }}"
+                class="custom-footer__emblem-img"
+                width="{{ e_size }}"
+                height="{{ e_size }}"
+                loading="lazy"
+              >
+            {% else %}
+              <span class="custom-footer__emblem-text" style="font-size: {{ e_size | times: 0.35 | round }}px;">{{ section.settings.brand_emblem_text | default: 'TRH' }}</span>
+            {% endif %}
           </div>
         {% endif %}
 
@@ -57,18 +84,39 @@
             >
           </div>
         {% else %}
-          <h3 class="custom-footer__brand-title">{{ section.settings.brand_name | default: 'THE RAW HOUSE' }}</h3>
+          <h3
+            class="custom-footer__brand-title"
+            style="
+              {% if section.settings.brand_title_size != blank %}font-size: {{ section.settings.brand_title_size }}px;{% endif %}
+              {% if section.settings.brand_title_color != blank and section.settings.brand_title_color != 'rgba(0,0,0,0)' %}color: {{ section.settings.brand_title_color }} !important;{% endif %}
+            "
+          >
+            {{- section.settings.brand_name | default: 'THE RAW HOUSE' -}}
+          </h3>
         {% endif %}
 
         {% if section.settings.brand_tagline != blank %}
-          <p class="custom-footer__brand-tagline">
+          <p
+            class="custom-footer__brand-tagline"
+            style="
+              {% if section.settings.brand_tagline_size != blank %}font-size: {{ section.settings.brand_tagline_size }}px;{% endif %}
+              {% if section.settings.brand_tagline_color != blank and section.settings.brand_tagline_color != 'rgba(0,0,0,0)' %}color: {{ section.settings.brand_tagline_color }} !important;{% endif %}
+            "
+          >
             {{ section.settings.brand_tagline }}
           </p>
         {% endif %}
 
         {% assign ornament = section.settings.ornament_symbol | default: 'diamond' %}
         {% if ornament != 'none' %}
-          <div class="custom-footer__brand-ornament" aria-hidden="true">
+          <div
+            class="custom-footer__brand-ornament"
+            aria-hidden="true"
+            style="
+              max-width: {{ section.settings.ornament_max_width | default: 240 }}px;
+              {% if section.settings.ornament_color != blank and section.settings.ornament_color != 'rgba(0,0,0,0)' %}--flx-gold: {{ section.settings.ornament_color }};{% endif %}
+            "
+          >
             <span class="custom-footer__ornament-line"></span>
             {% if ornament == 'diamond' %}
               <span class="custom-footer__ornament-diamond">◆</span>
@@ -76,6 +124,10 @@
               <span class="custom-footer__ornament-diamond">✦</span>
             {% elsif ornament == 'bar' %}
               <span class="custom-footer__ornament-diamond">—</span>
+            {% elsif ornament == 'circle' %}
+              <span class="custom-footer__ornament-diamond">•</span>
+            {% elsif ornament == 'crest' %}
+              <span class="custom-footer__ornament-diamond">⚜</span>
             {% endif %}
             <span class="custom-footer__ornament-line"></span>
           </div>
@@ -89,7 +141,32 @@
         {% for block in section.blocks %}
           {% case block.type %}
             {% when 'menu' %}
-              <div class="custom-footer__col custom-footer__col--menu {% if block.settings.columns == '2' %}custom-footer__col--menu-double{% endif %}" {{ block.shopify_attributes }}>
+              {% liquid
+                assign b_sym = block.settings.bullet_symbol | default: 'chevron'
+                case b_sym
+                  when 'chevron'
+                    assign bullet_char = '›'
+                  when 'dot'
+                    assign bullet_char = '•'
+                  when 'dash'
+                    assign bullet_char = '—'
+                  when 'star'
+                    assign bullet_char = '✦'
+                  when 'arrow'
+                    assign bullet_char = '→'
+                  else
+                    assign bullet_char = '›'
+                endcase
+              %}
+              <div
+                class="custom-footer__col custom-footer__col--menu {% if block.settings.columns == '2' %}custom-footer__col--menu-double{% endif %}"
+                style="
+                  {% if block.settings.heading_color != blank and block.settings.heading_color != 'rgba(0,0,0,0)' %}--flx-heading: {{ block.settings.heading_color }} !important;{% endif %}
+                  {% if block.settings.link_color != blank and block.settings.link_color != 'rgba(0,0,0,0)' %}--flx-link: {{ block.settings.link_color }} !important;{% endif %}
+                  {% if block.settings.link_hover_color != blank and block.settings.link_hover_color != 'rgba(0,0,0,0)' %}--flx-link-hover: {{ block.settings.link_hover_color }} !important;{% endif %}
+                "
+                {{ block.shopify_attributes }}
+              >
                 <button type="button" class="custom-footer__accordion-trigger" aria-expanded="false">
                   <span class="custom-footer__col-heading">
                     <span class="custom-footer__heading-accent"></span>
@@ -105,7 +182,7 @@
                       {% for link in block.settings.menu.links %}
                         <li>
                           <a href="{{ link.url }}" class="custom-footer__link">
-                            {% if block.settings.show_bullets != false %}<span class="custom-footer__link-bullet">›</span>{% endif %}
+                            {% if block.settings.show_bullets != false %}<span class="custom-footer__link-bullet">{{ bullet_char }}</span>{% endif %}
                             <span>{{ link.title }}</span>
                           </a>
                         </li>
@@ -113,24 +190,24 @@
                     {% else %}
                       {% assign h_upper = block.settings.heading | upcase %}
                       {% if h_upper contains 'ABOUT' %}
-                        <li><a href="/pages/about-us" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>OUR STORY</span></a></li>
-                        <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>MAKERS & ATELIER</span></a></li>
-                        <li><a href="/blogs/news" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>THE JOURNAL</span></a></li>
-                        <li><a href="/pages/contact" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>PRESS & EXHIBITIONS</span></a></li>
-                        <li><a href="/policies/privacy-policy" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>PRIVACY POLICY</span></a></li>
-                        <li><a href="/pages/contact" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>CONTACT ATELIER</span></a></li>
+                        <li><a href="/pages/about-us" class="custom-footer__link">{% if block.settings.show_bullets != false %}<span class="custom-footer__link-bullet">{{ bullet_char }}</span>{% endif %}<span>OUR STORY</span></a></li>
+                        <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link">{% if block.settings.show_bullets != false %}<span class="custom-footer__link-bullet">{{ bullet_char }}</span>{% endif %}<span>MAKERS & ATELIER</span></a></li>
+                        <li><a href="/blogs/news" class="custom-footer__link">{% if block.settings.show_bullets != false %}<span class="custom-footer__link-bullet">{{ bullet_char }}</span>{% endif %}<span>THE JOURNAL</span></a></li>
+                        <li><a href="/pages/contact" class="custom-footer__link">{% if block.settings.show_bullets != false %}<span class="custom-footer__link-bullet">{{ bullet_char }}</span>{% endif %}<span>PRESS & EXHIBITIONS</span></a></li>
+                        <li><a href="/policies/privacy-policy" class="custom-footer__link">{% if block.settings.show_bullets != false %}<span class="custom-footer__link-bullet">{{ bullet_char }}</span>{% endif %}<span>PRIVACY POLICY</span></a></li>
+                        <li><a href="/pages/contact" class="custom-footer__link">{% if block.settings.show_bullets != false %}<span class="custom-footer__link-bullet">{{ bullet_char }}</span>{% endif %}<span>CONTACT ATELIER</span></a></li>
                       {% elsif h_upper contains 'SERVICE' %}
-                        <li><a href="/pages/contact" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>PRIVATE CONCIERGE</span></a></li>
-                        <li><a href="/pages/contact" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>TRADE & ARCHITECTS (B2B)</span></a></li>
-                        <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>BESPOKE INTERIORS</span></a></li>
-                        <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>WHITE GLOVE COMMISSIONS</span></a></li>
-                        <li><a href="/policies/shipping-policy" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>SHIPPING & TRANSIT</span></a></li>
-                        <li><a href="/policies/terms-of-service" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>TERMS & AUTHENTICITY</span></a></li>
+                        <li><a href="/pages/contact" class="custom-footer__link">{% if block.settings.show_bullets != false %}<span class="custom-footer__link-bullet">{{ bullet_char }}</span>{% endif %}<span>PRIVATE CONCIERGE</span></a></li>
+                        <li><a href="/pages/contact" class="custom-footer__link">{% if block.settings.show_bullets != false %}<span class="custom-footer__link-bullet">{{ bullet_char }}</span>{% endif %}<span>TRADE & ARCHITECTS (B2B)</span></a></li>
+                        <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link">{% if block.settings.show_bullets != false %}<span class="custom-footer__link-bullet">{{ bullet_char }}</span>{% endif %}<span>BESPOKE INTERIORS</span></a></li>
+                        <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link">{% if block.settings.show_bullets != false %}<span class="custom-footer__link-bullet">{{ bullet_char }}</span>{% endif %}<span>WHITE GLOVE COMMISSIONS</span></a></li>
+                        <li><a href="/policies/shipping-policy" class="custom-footer__link">{% if block.settings.show_bullets != false %}<span class="custom-footer__link-bullet">{{ bullet_char }}</span>{% endif %}<span>SHIPPING & TRANSIT</span></a></li>
+                        <li><a href="/policies/terms-of-service" class="custom-footer__link">{% if block.settings.show_bullets != false %}<span class="custom-footer__link-bullet">{{ bullet_char }}</span>{% endif %}<span>TERMS & AUTHENTICITY</span></a></li>
                       {% else %}
-                        <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>Original Oil Paintings</span></a></li>
-                        <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>Bronze & Marble Sculptures</span></a></li>
-                        <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>3D Sajawat Art Models</span></a></li>
-                        <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>Archival Fine Prints</span></a></li>
+                        <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link">{% if block.settings.show_bullets != false %}<span class="custom-footer__link-bullet">{{ bullet_char }}</span>{% endif %}<span>Original Oil Paintings</span></a></li>
+                        <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link">{% if block.settings.show_bullets != false %}<span class="custom-footer__link-bullet">{{ bullet_char }}</span>{% endif %}<span>Bronze & Marble Sculptures</span></a></li>
+                        <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link">{% if block.settings.show_bullets != false %}<span class="custom-footer__link-bullet">{{ bullet_char }}</span>{% endif %}<span>3D Sajawat Art Models</span></a></li>
+                        <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link">{% if block.settings.show_bullets != false %}<span class="custom-footer__link-bullet">{{ bullet_char }}</span>{% endif %}<span>Archival Fine Prints</span></a></li>
                       {% endif %}
                     {% endif %}
                   </ul>
@@ -160,10 +237,25 @@
 
             {% when 'newsletter' %}
               <div class="custom-footer__col custom-footer__col--newsletter" {{ block.shopify_attributes }}>
-                <div class="custom-footer__newsletter-card">
-                  {% if block.settings.badge_text != blank %}
+                <div
+                  class="custom-footer__newsletter-card"
+                  style="
+                    {% if block.settings.card_bg_color != blank and block.settings.card_bg_color != 'rgba(0,0,0,0)' %}--flx-card-bg: {{ block.settings.card_bg_color }} !important; background: {{ block.settings.card_bg_color }} !important;{% endif %}
+                    {% if block.settings.card_border_color != blank and block.settings.card_border_color != 'rgba(0,0,0,0)' %}--flx-card-border: {{ block.settings.card_border_color }} !important; border-color: {{ block.settings.card_border_color }} !important;{% endif %}
+                  "
+                >
+                  {% if block.settings.show_badge != false and block.settings.badge_text != blank %}
                     <div class="custom-footer__vip-pill">
-                      <span class="custom-footer__vip-sparkle">✦</span>
+                      {% assign b_icon = block.settings.badge_icon | default: 'sparkle' %}
+                      {% if b_icon == 'sparkle' %}
+                        <span class="custom-footer__vip-sparkle">✦</span>
+                      {% elsif b_icon == 'star' %}
+                        <span class="custom-footer__vip-sparkle">★</span>
+                      {% elsif b_icon == 'diamond' %}
+                        <span class="custom-footer__vip-sparkle">◆</span>
+                      {% elsif b_icon == 'shield' %}
+                        <span class="custom-footer__vip-sparkle">🛡</span>
+                      {% endif %}
                       <span>{{ block.settings.badge_text }}</span>
                     </div>
                   {% endif %}
@@ -187,12 +279,31 @@
                         required
                         autocomplete="email"
                       >
-                      <button type="submit" class="custom-footer__newsletter-btn">
+                      <button
+                        type="submit"
+                        class="custom-footer__newsletter-btn"
+                        style="
+                          {% if block.settings.button_bg_color != blank and block.settings.button_bg_color != 'rgba(0,0,0,0)' %}background: {{ block.settings.button_bg_color }} !important; border-color: {{ block.settings.button_bg_color }} !important;{% endif %}
+                          {% if block.settings.button_text_color != blank and block.settings.button_text_color != 'rgba(0,0,0,0)' %}color: {{ block.settings.button_text_color }} !important;{% endif %}
+                        "
+                      >
                         <span>{{ block.settings.button_text | default: 'SUBSCRIBE' }}</span>
-                        <svg class="custom-footer__btn-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                          <line x1="5" y1="12" x2="19" y2="12"></line>
-                          <polyline points="12 5 19 12 12 19"></polyline>
-                        </svg>
+                        {% assign btn_icon = block.settings.button_icon | default: 'arrow' %}
+                        {% if btn_icon == 'arrow' %}
+                          <svg class="custom-footer__btn-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                          </svg>
+                        {% elsif btn_icon == 'chevron' %}
+                          <svg class="custom-footer__btn-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                          </svg>
+                        {% elsif btn_icon == 'envelope' %}
+                          <svg class="custom-footer__btn-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                          </svg>
+                        {% endif %}
                       </button>
                     </div>
                     {% if form.errors %}
@@ -247,7 +358,7 @@
                         <span>{{ block.settings.address }}</span>
                       </p>
                     {% endif %}
-                    {% if block.settings.whatsapp_url != blank %}
+                    {% if block.settings.show_whatsapp != false and block.settings.whatsapp_url != blank %}
                       <div class="custom-footer__whatsapp-wrap custom-footer__whatsapp-wrap--block">
                         <a href="{{ block.settings.whatsapp_url }}" target="_blank" rel="noopener noreferrer" class="custom-footer__whatsapp-btn">
                           <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
@@ -267,23 +378,44 @@
                   <span class="custom-footer__heading-accent"></span>
                   {{ block.settings.heading | default: 'ATELIER PROMISES' }}
                 </h4>
+                {% assign trust_sym = block.settings.badge_icon | default: 'sparkle' %}
+                {% liquid
+                  case trust_sym
+                    when 'diamond'
+                      assign t_icon = '◆'
+                    when 'star'
+                      assign t_icon = '★'
+                    when 'check'
+                      assign t_icon = '✓'
+                    when 'shield'
+                      assign t_icon = '🛡'
+                    else
+                      assign t_icon = '✦'
+                  endcase
+                %}
                 <div class="custom-footer__trust-list">
                   {% if block.settings.badge_1_text != blank %}
                     <div class="custom-footer__trust-item">
-                      <span class="custom-footer__trust-icon">✦</span>
+                      <span class="custom-footer__trust-icon">{{ t_icon }}</span>
                       <span class="custom-footer__trust-text">{{ block.settings.badge_1_text }}</span>
                     </div>
                   {% endif %}
                   {% if block.settings.badge_2_text != blank %}
                     <div class="custom-footer__trust-item">
-                      <span class="custom-footer__trust-icon">✦</span>
+                      <span class="custom-footer__trust-icon">{{ t_icon }}</span>
                       <span class="custom-footer__trust-text">{{ block.settings.badge_2_text }}</span>
                     </div>
                   {% endif %}
                   {% if block.settings.badge_3_text != blank %}
                     <div class="custom-footer__trust-item">
-                      <span class="custom-footer__trust-icon">✦</span>
+                      <span class="custom-footer__trust-icon">{{ t_icon }}</span>
                       <span class="custom-footer__trust-text">{{ block.settings.badge_3_text }}</span>
+                    </div>
+                  {% endif %}
+                  {% if block.settings.badge_4_text != blank %}
+                    <div class="custom-footer__trust-item">
+                      <span class="custom-footer__trust-icon">{{ t_icon }}</span>
+                      <span class="custom-footer__trust-text">{{ block.settings.badge_4_text }}</span>
                     </div>
                   {% endif %}
                 </div>
@@ -315,10 +447,32 @@
                       </svg>
                     </a>
                   {% endif %}
-                  {% if block.settings.pinterest_url != blank %}
-                    <a href="{{ block.settings.pinterest_url }}" target="_blank" rel="noopener noreferrer" class="custom-footer__social-badge" aria-label="Pinterest">
+                  {% if block.settings.pinterest_url != blank or block.settings.twitter_url != blank %}
+                    {% assign blk_x_url = block.settings.twitter_url | default: block.settings.pinterest_url %}
+                    <a href="{{ blk_x_url }}" target="_blank" rel="noopener noreferrer" class="custom-footer__social-badge" aria-label="X">
+                      <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                      </svg>
+                    </a>
+                  {% endif %}
+                  {% if block.settings.youtube_url != blank %}
+                    <a href="{{ block.settings.youtube_url }}" target="_blank" rel="noopener noreferrer" class="custom-footer__social-badge custom-footer__social-badge--youtube" aria-label="YouTube">
                       <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
-                        <path d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 0 1 .083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z"/>
+                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                      </svg>
+                    </a>
+                  {% endif %}
+                  {% if block.settings.linkedin_url != blank %}
+                    <a href="{{ block.settings.linkedin_url }}" target="_blank" rel="noopener noreferrer" class="custom-footer__social-badge" aria-label="LinkedIn">
+                      <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor">
+                        <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.32a1.64 1.64 0 0 0-1.64 1.64 1.64 1.64 0 0 0 1.64 1.63 1.64 1.64 0 0 0 1.63-1.63 1.64 1.64 0 0 0-1.63-1.64z"/>
+                      </svg>
+                    </a>
+                  {% endif %}
+                  {% if block.settings.whatsapp_url != blank %}
+                    <a href="{{ block.settings.whatsapp_url }}" target="_blank" rel="noopener noreferrer" class="custom-footer__social-badge custom-footer__social-badge--whatsapp" aria-label="WhatsApp Concierge">
+                      <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
+                        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
                       </svg>
                     </a>
                   {% endif %}
@@ -430,7 +584,7 @@
                 <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M12 2C9.243 2 7 4.243 7 7v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7c0-2.757-2.243-5-5-5zM9 7c0-1.654 1.346-3 3-3s3 1.346 3 3v3H9V7zm3 10a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
                 </svg>
-                <span>256-BIT SSL ENCRYPTED</span>
+                <span>{{ section.settings.ssl_badge_text | default: '256-BIT SSL ENCRYPTED' }}</span>
               </span>
             {% endif %}
           </div>
@@ -448,31 +602,66 @@
             </div>
           {% else %}
             <div class="custom-footer__payment-icons">
-              <span class="custom-footer__payment-item" title="Visa">
-                <svg viewBox="0 0 54 24" fill="none" style="width: 42px; height: 16px;">
-                  <text x="2" y="17" font-family="'Inter', -apple-system, sans-serif" font-size="14" font-style="italic" font-weight="800" fill="currentColor" letter-spacing="1">VISA</text>
-                </svg>
-              </span>
-              <span class="custom-footer__payment-item" title="Mastercard">
-                <svg viewBox="0 0 38 24" fill="none" style="width: 32px; height: 18px;">
-                  <circle cx="13" cy="12" r="9" fill="#EB001B"/>
-                  <circle cx="23" cy="12" r="9" fill="#F79E1B" fill-opacity="0.88"/>
-                </svg>
-              </span>
-              <span class="custom-footer__payment-item" title="American Express">
-                <svg viewBox="0 0 50 24" fill="none" style="width: 40px; height: 18px;">
-                  <rect width="48" height="20" rx="3" fill="#006FCF"/>
-                  <text x="6" y="14" font-family="'Inter', -apple-system, sans-serif" font-size="10" font-weight="700" fill="#ffffff">AMEX</text>
-                </svg>
-              </span>
-              <span class="custom-footer__payment-item" title="UPI & Net Banking">
-                <span class="custom-footer__text-badge">UPI</span>
-              </span>
-              <span class="custom-footer__payment-item" title="PayPal">
-                <svg viewBox="0 0 64 24" fill="none" style="width: 46px; height: 16px;">
-                  <text x="2" y="17" font-family="'Inter', -apple-system, sans-serif" font-size="13" font-style="italic" font-weight="700" fill="currentColor">Pay<tspan fill="#0079C1">Pal</tspan></text>
-                </svg>
-              </span>
+              {% if section.settings.show_visa != false %}
+                <span class="custom-footer__payment-item" title="Visa">
+                  <svg viewBox="0 0 54 24" fill="none" style="width: 42px; height: 16px;">
+                    <text x="2" y="17" font-family="'Inter', -apple-system, sans-serif" font-size="14" font-style="italic" font-weight="800" fill="currentColor" letter-spacing="1">VISA</text>
+                  </svg>
+                </span>
+              {% endif %}
+              {% if section.settings.show_mastercard != false %}
+                <span class="custom-footer__payment-item" title="Mastercard">
+                  <svg viewBox="0 0 38 24" fill="none" style="width: 32px; height: 18px;">
+                    <circle cx="13" cy="12" r="9" fill="#EB001B"/>
+                    <circle cx="23" cy="12" r="9" fill="#F79E1B" fill-opacity="0.88"/>
+                  </svg>
+                </span>
+              {% endif %}
+              {% if section.settings.show_amex != false %}
+                <span class="custom-footer__payment-item" title="American Express">
+                  <svg viewBox="0 0 50 24" fill="none" style="width: 40px; height: 18px;">
+                    <rect width="48" height="20" rx="3" fill="#006FCF"/>
+                    <text x="6" y="14" font-family="'Inter', -apple-system, sans-serif" font-size="10" font-weight="700" fill="#ffffff">AMEX</text>
+                  </svg>
+                </span>
+              {% endif %}
+              {% if section.settings.show_upi != false %}
+                <span class="custom-footer__payment-item" title="UPI & Net Banking">
+                  <span class="custom-footer__text-badge">UPI</span>
+                </span>
+              {% endif %}
+              {% if section.settings.show_paypal != false %}
+                <span class="custom-footer__payment-item" title="PayPal">
+                  <svg viewBox="0 0 64 24" fill="none" style="width: 46px; height: 16px;">
+                    <text x="2" y="17" font-family="'Inter', -apple-system, sans-serif" font-size="13" font-style="italic" font-weight="700" fill="currentColor">Pay<tspan fill="#0079C1">Pal</tspan></text>
+                  </svg>
+                </span>
+              {% endif %}
+              {% if section.settings.show_apple_pay %}
+                <span class="custom-footer__payment-item" title="Apple Pay">
+                  <svg viewBox="0 0 50 24" fill="currentColor" style="width: 38px; height: 16px;">
+                    <path d="M12.8 11.2c-.1-1.8 1.5-2.7 1.6-2.8-0.8-1.2-2.1-1.4-2.6-1.4-1.1-.1-2.2.7-2.8.7s-1.5-.7-2.4-.7c-1.2 0-2.4.7-3 1.8-1.3 2.3-.3 5.7 1 7.5.6.9 1.4 1.9 2.4 1.8 1-.1 1.3-.6 2.5-.6s1.5.6 2.5.6c1 0 1.7-.9 2.3-1.8.7-1 1-2 1-2.1-.1 0-2-0.8-2-3.1zm-1.8-5.3c.5-.6.8-1.4.7-2.3-.7 0-1.6.5-2.1 1.1-.4.5-.8 1.3-.7 2.2.8.1 1.6-.4 2.1-1z"/>
+                    <text x="18" y="16" font-family="-apple-system, sans-serif" font-size="12" font-weight="600">Pay</text>
+                  </svg>
+                </span>
+              {% endif %}
+              {% if section.settings.show_google_pay %}
+                <span class="custom-footer__payment-item" title="Google Pay">
+                  <svg viewBox="0 0 54 24" fill="currentColor" style="width: 42px; height: 16px;">
+                    <text x="2" y="16" font-family="'Inter', sans-serif" font-size="12" font-weight="700">G<tspan font-weight="400">Pay</tspan></text>
+                  </svg>
+                </span>
+              {% endif %}
+              {% if section.settings.show_rupay %}
+                <span class="custom-footer__payment-item" title="RuPay">
+                  <span class="custom-footer__text-badge" style="color: #097939;">Ru<span style="color: #ea5b0c;">Pay</span></span>
+                </span>
+              {% endif %}
+              {% if section.settings.show_cod %}
+                <span class="custom-footer__payment-item" title="Cash on Delivery">
+                  <span class="custom-footer__text-badge">COD</span>
+                </span>
+              {% endif %}
             </div>
           {% endif %}
         </div>
@@ -507,6 +696,20 @@
                 </svg>
               </a>
             {% endif %}
+            {% if section.settings.youtube_url != blank %}
+              <a href="{{ section.settings.youtube_url }}" target="_blank" rel="noopener noreferrer" class="custom-footer__social-badge custom-footer__social-badge--youtube" aria-label="YouTube">
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
+                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                </svg>
+              </a>
+            {% endif %}
+            {% if section.settings.linkedin_url != blank %}
+              <a href="{{ section.settings.linkedin_url }}" target="_blank" rel="noopener noreferrer" class="custom-footer__social-badge" aria-label="LinkedIn">
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor">
+                  <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.32a1.64 1.64 0 0 0-1.64 1.64 1.64 1.64 0 0 0 1.64 1.63 1.64 1.64 0 0 0 1.63-1.63 1.64 1.64 0 0 0-1.63-1.64z"/>
+                </svg>
+              </a>
+            {% endif %}
             {% if section.settings.whatsapp_url != blank %}
               <a href="{{ section.settings.whatsapp_url }}" target="_blank" rel="noopener noreferrer" class="custom-footer__social-badge custom-footer__social-badge--whatsapp" aria-label="WhatsApp Concierge">
                 <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
@@ -521,11 +724,23 @@
       <!-- Back to Top Button -->
       {% if section.settings.show_back_to_top != false %}
         <div class="custom-footer__top-button-col">
-          <button type="button" class="custom-footer__back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});" aria-label="Back to Top">
+          <button type="button" class="custom-footer__back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});" aria-label="{{ section.settings.back_to_top_text | default: 'BACK TO TOP' }}">
             <span>{{ section.settings.back_to_top_text | default: 'BACK TO TOP' }}</span>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="18 15 12 9 6 15"></polyline>
-            </svg>
+            {% assign top_icon = section.settings.back_to_top_icon | default: 'chevron' %}
+            {% if top_icon == 'chevron' %}
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="18 15 12 9 6 15"></polyline>
+              </svg>
+            {% elsif top_icon == 'arrow' %}
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="19" x2="12" y2="5"></line>
+                <polyline points="5 12 12 5 19 12"></polyline>
+              </svg>
+            {% elsif top_icon == 'triangle' %}
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                <polygon points="12 4 22 20 2 20"></polygon>
+              </svg>
+            {% endif %}
           </button>
         </div>
       {% endif %}
@@ -541,11 +756,23 @@
         {% if section.settings.show_policy_links != false %}
           <span class="custom-footer__bottom-divider" aria-hidden="true">&bull;</span>
           <div class="custom-footer__policy-links">
-            <a href="/policies/privacy-policy" class="custom-footer__policy-link">Privacy Policy</a>
+            <a href="{{ section.settings.privacy_policy_url | default: '/policies/privacy-policy' }}" class="custom-footer__policy-link">
+              {{- section.settings.privacy_policy_label | default: 'Privacy Policy' -}}
+            </a>
             <span class="custom-footer__policy-dot">&bull;</span>
-            <a href="/policies/terms-of-service" class="custom-footer__policy-link">Terms of Service</a>
+            <a href="{{ section.settings.terms_policy_url | default: '/policies/terms-of-service' }}" class="custom-footer__policy-link">
+              {{- section.settings.terms_policy_label | default: 'Terms of Service' -}}
+            </a>
             <span class="custom-footer__policy-dot">&bull;</span>
-            <a href="/policies/shipping-policy" class="custom-footer__policy-link">Shipping & Returns</a>
+            <a href="{{ section.settings.shipping_policy_url | default: '/policies/shipping-policy' }}" class="custom-footer__policy-link">
+              {{- section.settings.shipping_policy_label | default: 'Shipping & Returns' -}}
+            </a>
+            {% if section.settings.custom_policy_url != blank and section.settings.custom_policy_label != blank %}
+              <span class="custom-footer__policy-dot">&bull;</span>
+              <a href="{{ section.settings.custom_policy_url }}" class="custom-footer__policy-link">
+                {{- section.settings.custom_policy_label -}}
+              </a>
+            {% endif %}
           </div>
         {% endif %}
 
@@ -745,6 +972,14 @@
     font-weight: 600;
     letter-spacing: 0.14em;
     padding-left: 2px;
+  }
+
+  .custom-footer__emblem-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 50%;
+    display: block;
   }
 
   .custom-footer__brand-logo-wrap {
@@ -1240,6 +1475,12 @@
     color: #ffffff;
   }
 
+  .custom-footer__social-badge--youtube:hover {
+    background: #ff0000;
+    border-color: #ff0000;
+    color: #ffffff;
+  }
+
   .custom-footer__top-button-col {
     margin-left: auto;
   }
@@ -1587,7 +1828,7 @@
     {
       "type": "select",
       "id": "color_scheme",
-      "label": "Color Palette",
+      "label": "Color Palette Preset",
       "options": [
         {
           "value": "noir",
@@ -1615,6 +1856,11 @@
     },
     {
       "type": "color",
+      "id": "custom_card_bg",
+      "label": "Custom Card Background Color"
+    },
+    {
+      "type": "color",
       "id": "custom_text",
       "label": "Custom Body Text Color"
     },
@@ -1634,6 +1880,26 @@
       "label": "Custom Border Color"
     },
     {
+      "type": "color",
+      "id": "custom_link",
+      "label": "Custom Link Color"
+    },
+    {
+      "type": "color",
+      "id": "custom_link_hover",
+      "label": "Custom Link Hover Color"
+    },
+    {
+      "type": "color",
+      "id": "custom_btn_bg",
+      "label": "Custom Button Background Color"
+    },
+    {
+      "type": "color",
+      "id": "custom_btn_text",
+      "label": "Custom Button Text Color"
+    },
+    {
       "type": "header",
       "content": "Brand Prestige Header"
     },
@@ -1642,6 +1908,48 @@
       "id": "show_brand_header",
       "label": "Show Brand Header",
       "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_emblem",
+      "label": "Show Monogram / Emblem Circle",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "brand_emblem_image",
+      "label": "Emblem Crest Image (Optional upload)"
+    },
+    {
+      "type": "text",
+      "id": "brand_emblem_text",
+      "label": "Emblem Monogram Letters (Used if no crest uploaded)",
+      "default": "TRH"
+    },
+    {
+      "type": "range",
+      "id": "emblem_size",
+      "min": 28,
+      "max": 64,
+      "step": 2,
+      "unit": "px",
+      "label": "Emblem Circle Diameter",
+      "default": 38
+    },
+    {
+      "type": "color",
+      "id": "emblem_border_color",
+      "label": "Emblem Border Color (Optional override)"
+    },
+    {
+      "type": "color",
+      "id": "emblem_bg_color",
+      "label": "Emblem Background Color (Optional override)"
+    },
+    {
+      "type": "color",
+      "id": "emblem_text_color",
+      "label": "Emblem Text Color (Optional override)"
     },
     {
       "type": "image_picker",
@@ -1661,26 +1969,44 @@
     {
       "type": "text",
       "id": "brand_name",
-      "label": "Brand Name (Used if no logo uploaded)",
+      "label": "Brand Title (Used if no logo uploaded)",
       "default": "THE RAW HOUSE"
     },
     {
-      "type": "checkbox",
-      "id": "show_emblem",
-      "label": "Show Monogram / Emblem Circle",
-      "default": true
+      "type": "range",
+      "id": "brand_title_size",
+      "min": 16,
+      "max": 36,
+      "step": 2,
+      "unit": "px",
+      "label": "Brand Title Font Size",
+      "default": 22
     },
     {
-      "type": "text",
-      "id": "brand_emblem_text",
-      "label": "Emblem Text",
-      "default": "TRH"
+      "type": "color",
+      "id": "brand_title_color",
+      "label": "Brand Title Color (Optional override)"
     },
     {
       "type": "text",
       "id": "brand_tagline",
       "label": "Brand Tagline",
       "default": "Contemporary Fine Art Paintings, 3D Sculptural Models & Museum Curations"
+    },
+    {
+      "type": "range",
+      "id": "brand_tagline_size",
+      "min": 9,
+      "max": 15,
+      "step": 1,
+      "unit": "px",
+      "label": "Brand Tagline Font Size",
+      "default": 11
+    },
+    {
+      "type": "color",
+      "id": "brand_tagline_color",
+      "label": "Brand Tagline Color (Optional override)"
     },
     {
       "type": "select",
@@ -1696,15 +2022,38 @@
           "label": "Four-Point Star (✦)"
         },
         {
+          "value": "crest",
+          "label": "Fleur-de-lis / Crest (⚜)"
+        },
+        {
+          "value": "circle",
+          "label": "Dot / Circle (•)"
+        },
+        {
           "value": "bar",
           "label": "Classic Line (—)"
         },
         {
           "value": "none",
-          "label": "None"
+          "label": "None (Hidden)"
         }
       ],
       "default": "diamond"
+    },
+    {
+      "type": "color",
+      "id": "ornament_color",
+      "label": "Ornament Accent Color (Optional override)"
+    },
+    {
+      "type": "range",
+      "id": "ornament_max_width",
+      "min": 100,
+      "max": 360,
+      "step": 20,
+      "unit": "px",
+      "label": "Ornament Divider Width",
+      "default": 240
     },
     {
       "type": "header",
@@ -1725,13 +2074,73 @@
     {
       "type": "checkbox",
       "id": "show_ssl_badge",
-      "label": "Show 256-Bit SSL Security Badge",
+      "label": "Show SSL Security Badge",
       "default": true
+    },
+    {
+      "type": "text",
+      "id": "ssl_badge_text",
+      "label": "SSL Badge Label",
+      "default": "256-BIT SSL ENCRYPTED"
     },
     {
       "type": "image_picker",
       "id": "payment_custom_image",
       "label": "Custom Payment Strip Image (Optional override)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_visa",
+      "label": "Show Visa Icon",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_mastercard",
+      "label": "Show Mastercard Icon",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_amex",
+      "label": "Show American Express Icon",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_upi",
+      "label": "Show UPI & Net Banking Badge",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_paypal",
+      "label": "Show PayPal Icon",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_apple_pay",
+      "label": "Show Apple Pay Icon",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_google_pay",
+      "label": "Show Google Pay Icon",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rupay",
+      "label": "Show RuPay Icon",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cod",
+      "label": "Show Cash on Delivery (COD) Badge",
+      "default": false
     },
     {
       "type": "header",
@@ -1761,8 +2170,23 @@
     },
     {
       "type": "url",
+      "id": "twitter_url",
+      "label": "X / Twitter URL"
+    },
+    {
+      "type": "url",
       "id": "pinterest_url",
-      "label": "Pinterest / X URL"
+      "label": "Pinterest URL"
+    },
+    {
+      "type": "url",
+      "id": "youtube_url",
+      "label": "YouTube URL"
+    },
+    {
+      "type": "url",
+      "id": "linkedin_url",
+      "label": "LinkedIn URL"
     },
     {
       "type": "text",
@@ -1787,8 +2211,32 @@
       "default": "BACK TO TOP"
     },
     {
+      "type": "select",
+      "id": "back_to_top_icon",
+      "label": "Back to Top Icon",
+      "options": [
+        {
+          "value": "chevron",
+          "label": "Chevron (⌃)"
+        },
+        {
+          "value": "arrow",
+          "label": "Arrow (↑)"
+        },
+        {
+          "value": "triangle",
+          "label": "Filled Triangle (▲)"
+        },
+        {
+          "value": "none",
+          "label": "None"
+        }
+      ],
+      "default": "chevron"
+    },
+    {
       "type": "header",
-      "content": "Copyright & Policies"
+      "content": "Copyright & Legal Policies"
     },
     {
       "type": "text",
@@ -1801,6 +2249,49 @@
       "id": "show_policy_links",
       "label": "Show Legal Policy Links",
       "default": true
+    },
+    {
+      "type": "text",
+      "id": "privacy_policy_label",
+      "label": "Privacy Policy Label",
+      "default": "Privacy Policy"
+    },
+    {
+      "type": "url",
+      "id": "privacy_policy_url",
+      "label": "Privacy Policy Custom URL (Optional)"
+    },
+    {
+      "type": "text",
+      "id": "terms_policy_label",
+      "label": "Terms of Service Label",
+      "default": "Terms of Service"
+    },
+    {
+      "type": "url",
+      "id": "terms_policy_url",
+      "label": "Terms of Service Custom URL (Optional)"
+    },
+    {
+      "type": "text",
+      "id": "shipping_policy_label",
+      "label": "Shipping & Returns Label",
+      "default": "Shipping & Returns"
+    },
+    {
+      "type": "url",
+      "id": "shipping_policy_url",
+      "label": "Shipping & Returns Custom URL (Optional)"
+    },
+    {
+      "type": "text",
+      "id": "custom_policy_label",
+      "label": "Extra Legal Link Label (Optional)"
+    },
+    {
+      "type": "url",
+      "id": "custom_policy_url",
+      "label": "Extra Legal Link URL (Optional)"
     },
     {
       "type": "checkbox",
@@ -1938,8 +2429,51 @@
         {
           "type": "checkbox",
           "id": "show_bullets",
-          "label": "Show Arrow Bullets (›)",
+          "label": "Show Bullets / Pointers",
           "default": true
+        },
+        {
+          "type": "select",
+          "id": "bullet_symbol",
+          "label": "Bullet Icon Style",
+          "options": [
+            {
+              "value": "chevron",
+              "label": "Chevron (›)"
+            },
+            {
+              "value": "dot",
+              "label": "Dot (•)"
+            },
+            {
+              "value": "dash",
+              "label": "Dash (—)"
+            },
+            {
+              "value": "star",
+              "label": "Star (✦)"
+            },
+            {
+              "value": "arrow",
+              "label": "Arrow (→)"
+            }
+          ],
+          "default": "chevron"
+        },
+        {
+          "type": "color",
+          "id": "heading_color",
+          "label": "Heading Color (Optional override)"
+        },
+        {
+          "type": "color",
+          "id": "link_color",
+          "label": "Links Color (Optional override)"
+        },
+        {
+          "type": "color",
+          "id": "link_hover_color",
+          "label": "Links Hover Color (Optional override)"
         }
       ]
     },
@@ -1973,10 +2507,44 @@
       "limit": 1,
       "settings": [
         {
+          "type": "checkbox",
+          "id": "show_badge",
+          "label": "Show VIP Perk Badge",
+          "default": true
+        },
+        {
           "type": "text",
           "id": "badge_text",
-          "label": "VIP Perk Badge",
+          "label": "VIP Perk Badge Text",
           "default": "CONFIDENTIAL PREVIEWS & SALON ACCESS"
+        },
+        {
+          "type": "select",
+          "id": "badge_icon",
+          "label": "Badge Icon Style",
+          "options": [
+            {
+              "value": "sparkle",
+              "label": "Sparkle (✦)"
+            },
+            {
+              "value": "star",
+              "label": "Star (★)"
+            },
+            {
+              "value": "shield",
+              "label": "Shield (🛡)"
+            },
+            {
+              "value": "diamond",
+              "label": "Diamond (◆)"
+            },
+            {
+              "value": "none",
+              "label": "None"
+            }
+          ],
+          "default": "sparkle"
         },
         {
           "type": "text",
@@ -2003,10 +2571,54 @@
           "default": "SUBSCRIBE"
         },
         {
+          "type": "select",
+          "id": "button_icon",
+          "label": "Button Icon Style",
+          "options": [
+            {
+              "value": "arrow",
+              "label": "Right Arrow (→)"
+            },
+            {
+              "value": "chevron",
+              "label": "Chevron (›)"
+            },
+            {
+              "value": "envelope",
+              "label": "Mail Envelope (✉)"
+            },
+            {
+              "value": "none",
+              "label": "None"
+            }
+          ],
+          "default": "arrow"
+        },
+        {
           "type": "text",
           "id": "privacy_note",
           "label": "Privacy Disclaimer",
           "default": "Strictly confidential. No spam, ever."
+        },
+        {
+          "type": "color",
+          "id": "card_bg_color",
+          "label": "Card Background Color (Optional override)"
+        },
+        {
+          "type": "color",
+          "id": "card_border_color",
+          "label": "Card Border Color (Optional override)"
+        },
+        {
+          "type": "color",
+          "id": "button_bg_color",
+          "label": "Button Background Color (Optional override)"
+        },
+        {
+          "type": "color",
+          "id": "button_text_color",
+          "label": "Button Text Color (Optional override)"
         }
       ]
     },
@@ -2051,6 +2663,12 @@
           "label": "Physical Atelier / Studio Location"
         },
         {
+          "type": "checkbox",
+          "id": "show_whatsapp",
+          "label": "Show WhatsApp Hotline Button",
+          "default": true
+        },
+        {
           "type": "text",
           "id": "whatsapp_label",
           "label": "WhatsApp Button Label",
@@ -2076,6 +2694,30 @@
           "default": "ATELIER PROMISES"
         },
         {
+          "type": "select",
+          "id": "badge_icon",
+          "label": "Guarantees Bullet Icon",
+          "options": [
+            {
+              "value": "sparkle",
+              "label": "Four-point Star (✦)"
+            },
+            {
+              "value": "diamond",
+              "label": "Diamond (◆)"
+            },
+            {
+              "value": "check",
+              "label": "Checkmark (✓)"
+            },
+            {
+              "value": "shield",
+              "label": "Shield (🛡)"
+            }
+          ],
+          "default": "sparkle"
+        },
+        {
           "type": "text",
           "id": "badge_1_text",
           "label": "Guarantee 1",
@@ -2092,6 +2734,11 @@
           "id": "badge_3_text",
           "label": "Guarantee 3",
           "default": "Private Curatorial Advisory & Consultations"
+        },
+        {
+          "type": "text",
+          "id": "badge_4_text",
+          "label": "Guarantee 4 (Optional)"
         }
       ]
     },
@@ -2124,8 +2771,29 @@
         },
         {
           "type": "url",
+          "id": "twitter_url",
+          "label": "X / Twitter URL"
+        },
+        {
+          "type": "url",
           "id": "pinterest_url",
-          "label": "Pinterest / X URL"
+          "label": "Pinterest URL"
+        },
+        {
+          "type": "url",
+          "id": "youtube_url",
+          "label": "YouTube URL"
+        },
+        {
+          "type": "url",
+          "id": "linkedin_url",
+          "label": "LinkedIn URL"
+        },
+        {
+          "type": "text",
+          "id": "whatsapp_url",
+          "label": "WhatsApp Link URL",
+          "default": "https://wa.me/918003011110"
         }
       ]
     }
