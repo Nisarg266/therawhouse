@@ -77,18 +77,102 @@
     "product_catalog": {
       "type": "luxury-product-catalog",
       "blocks": {
-        "catalog_image_1": { "type": "catalog_image", "settings": { "link": "shopify://collections/all", "show_view_icon": true } },
-        "catalog_image_2": { "type": "catalog_image", "settings": { "link": "shopify://collections/all", "show_view_icon": true } },
-        "catalog_image_3": { "type": "catalog_image", "settings": { "link": "shopify://collections/all", "show_view_icon": true } },
-        "catalog_image_4": { "type": "catalog_image", "settings": { "link": "shopify://collections/all", "show_view_icon": true } },
-        "catalog_image_5": { "type": "catalog_image", "settings": { "link": "shopify://collections/all", "show_view_icon": true } },
-        "catalog_image_6": { "type": "catalog_image", "settings": { "link": "shopify://collections/all", "show_view_icon": true } },
-        "catalog_image_7": { "type": "catalog_image", "settings": { "link": "shopify://collections/all", "show_view_icon": true } },
-        "catalog_image_8": { "type": "catalog_image", "settings": { "link": "shopify://collections/all", "show_view_icon": true } },
-        "catalog_image_9": { "type": "catalog_image", "settings": { "link": "shopify://collections/all", "show_view_icon": true } },
-        "catalog_image_10": { "type": "catalog_image", "settings": { "link": "shopify://collections/all", "show_view_icon": true } },
-        "catalog_image_11": { "type": "catalog_image", "settings": { "link": "shopify://collections/all", "show_view_icon": true } },
-        "catalog_image_12": { "type": "catalog_image", "settings": { "link": "shopify://collections/all", "show_view_icon": true } }
+        "catalog_image_1": {
+          "type": "catalog_image",
+          "settings": {
+            "link": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/Shrujan_Catalogue_compressed_under_20MB_1.pdf?v=1789588636",
+            "alt": "SHRUJAN",
+            "show_view_icon": true
+          }
+        },
+        "catalog_image_2": {
+          "type": "catalog_image",
+          "settings": {
+            "link": "shopify://collections/all",
+            "alt": "Catalog artwork",
+            "show_view_icon": true
+          }
+        },
+        "catalog_image_3": {
+          "type": "catalog_image",
+          "settings": {
+            "link": "shopify://collections/all",
+            "alt": "Catalog artwork",
+            "show_view_icon": true
+          }
+        },
+        "catalog_image_4": {
+          "type": "catalog_image",
+          "settings": {
+            "link": "shopify://collections/all",
+            "alt": "Catalog artwork",
+            "show_view_icon": true
+          }
+        },
+        "catalog_image_5": {
+          "type": "catalog_image",
+          "settings": {
+            "link": "shopify://collections/all",
+            "alt": "Catalog artwork",
+            "show_view_icon": true
+          }
+        },
+        "catalog_image_6": {
+          "type": "catalog_image",
+          "settings": {
+            "link": "shopify://collections/all",
+            "alt": "Catalog artwork",
+            "show_view_icon": true
+          }
+        },
+        "catalog_image_7": {
+          "type": "catalog_image",
+          "settings": {
+            "link": "shopify://collections/all",
+            "alt": "Catalog artwork",
+            "show_view_icon": true
+          }
+        },
+        "catalog_image_8": {
+          "type": "catalog_image",
+          "settings": {
+            "link": "shopify://collections/all",
+            "alt": "Catalog artwork",
+            "show_view_icon": true
+          }
+        },
+        "catalog_image_9": {
+          "type": "catalog_image",
+          "settings": {
+            "link": "shopify://collections/all",
+            "alt": "Catalog artwork",
+            "show_view_icon": true
+          }
+        },
+        "catalog_image_10": {
+          "type": "catalog_image",
+          "settings": {
+            "link": "shopify://collections/all",
+            "alt": "Catalog artwork",
+            "show_view_icon": true
+          }
+        },
+        "catalog_image_11": {
+          "type": "catalog_image",
+          "settings": {
+            "link": "shopify://collections/all",
+            "alt": "Catalog artwork",
+            "show_view_icon": true
+          }
+        },
+        "catalog_image_12": {
+          "type": "catalog_image",
+          "settings": {
+            "link": "shopify://collections/all",
+            "alt": "Catalog artwork",
+            "show_view_icon": true
+          }
+        }
       },
       "block_order": [
         "catalog_image_1",
@@ -110,21 +194,23 @@
         "heading_size": 20,
         "heading_letter_spacing": "0.35em",
         "show_underline": true,
+        "underline_width": 44,
         "description": "Browse our catalogs — tap any cover to open.",
         "open_links_new_tab": true,
-        "full_width": true,
-        "gap": 16,
-        "card_radius": 0,
         "enable_hover_zoom": true,
         "view_more_text": "VIEW MORE",
         "view_less_text": "VIEW LESS",
+        "full_width": true,
+        "gap": 16,
+        "card_radius": 0,
+        "max_width": 1440,
+        "padding_top": 48,
+        "padding_bottom": 64,
         "background_color": "#ffffff",
         "card_bg_color": "#f7f6f2",
         "heading_color": "#1a1a1a",
         "text_color": "#4a4a4a",
-        "accent_color": "#b08d57",
-        "padding_top": 48,
-        "padding_bottom": 64
+        "accent_color": "#b08d57"
       }
     },
     "new_arrivals": {
@@ -290,14 +376,14 @@
         "feature_3"
       ],
       "settings": {
+        "overlay_color": "#000000",
+        "overlay_opacity": 55,
         "subheading": "the",
         "heading": "A T E L I E R   P R O M I S E",
         "statement": "Every piece that reaches your home is hand-selected at the atelier, certified for provenance, and delivered with the same reverence the masters poured into making it.",
         "show_ornament": true,
         "button_label": "DISCOVER THE HOUSE",
         "button_link": "shopify://collections/all",
-        "overlay_color": "#000000",
-        "overlay_opacity": 55,
         "background_color": "#17130e",
         "text_color": "#f4efe6",
         "accent_color": "#c9a870",
