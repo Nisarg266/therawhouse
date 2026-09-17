@@ -401,22 +401,24 @@ header-actions {
   transform: scale(1.12) !important;
 }
 
-#header-component .header-actions__action {
-  width: 44px !important;
-  height: 44px !important;
-  flex-shrink: 0;
-  padding: 0;
-  overflow: visible;
-  transform: none !important;
-}
+@media screen and (min-width: 990px) {
+  #header-component .header-actions__action {
+    width: 44px !important;
+    height: 44px !important;
+    flex-shrink: 0;
+    padding: 0;
+    overflow: visible;
+    transform: none !important;
+  }
 
-#header-component .header-actions__cart-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  overflow: visible;
+  #header-component .header-actions__cart-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    overflow: visible;
+  }
 }
 
 #header-component .header-actions__cart-icon svg {
@@ -998,7 +1000,9 @@ slideshow-slides,
     border-radius: 0 !important;
   }
 
-  /* --- Left cluster: hamburger + search --- */
+  /* --- Left cluster: hamburger + search (tighter, refined gap) --- */
+  #header-component .header__column--left,
+  .header__row--top .header__column--left,
   .header__column--left {
     display: inline-flex !important;
     align-items: center !important;
@@ -1008,10 +1012,14 @@ slideshow-slides,
     z-index: 2 !important;
   }
 
+  #header-component .header__icon--menu,
+  #header-component .header-drawer summary,
   .header__icon--menu,
   .header-drawer summary {
-    width: 28px !important;
-    height: 38px !important;
+    width: 24px !important;
+    min-width: 24px !important;
+    max-width: 24px !important;
+    height: 36px !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -1029,10 +1037,14 @@ slideshow-slides,
   }
 
   /* Compact Search on Mobile: clean icon-only trigger */
+  #header-component .header-inline-search-pill,
+  #header-component .header__search-pill,
   .header-inline-search-pill,
   .header__search-pill {
-    height: 38px !important;
-    width: 28px !important;
+    height: 36px !important;
+    width: 24px !important;
+    min-width: 24px !important;
+    max-width: 24px !important;
     padding: 0 !important;
     margin: 0 !important;
     background: transparent !important;
@@ -1049,9 +1061,12 @@ slideshow-slides,
     display: none !important;
   }
 
+  #header-component .header-inline-search-icon-btn,
   .header-inline-search-icon-btn {
-    width: 28px !important;
-    height: 38px !important;
+    width: 24px !important;
+    min-width: 24px !important;
+    max-width: 24px !important;
+    height: 36px !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -1121,18 +1136,22 @@ slideshow-slides,
     margin: 0 auto !important;
   }
 
-  /* --- Right cluster: account + cart --- */
+  /* --- Right cluster: account + cart (tighter, refined gap) --- */
+  #header-component .header__column--right,
+  .header__row--top .header__column--right,
   .header__column--right {
     display: inline-flex !important;
     align-items: center !important;
     justify-content: flex-end !important;
     flex: 0 0 auto !important;
     margin-left: auto !important;
-    gap: 0 !important;
+    gap: 4px !important;
     position: relative !important;
     z-index: 2 !important;
   }
 
+  #header-component .header-actions,
+  #header-component header-actions,
   .header-actions,
   header-actions {
     display: inline-flex !important;
@@ -1140,14 +1159,22 @@ slideshow-slides,
     gap: 4px !important;
   }
 
+  #header-component .header-actions__action,
+  #header-component .account-button,
+  #header-component .cart-icon,
+  #header-component .wishlist-button,
+  #header-component .header-actions__wishlist-icon,
+  #header-component .header-actions__cart-icon,
   .header-actions__action,
   .account-button,
   .cart-icon,
   .wishlist-button,
   .header-actions__wishlist-icon,
-  #header-component .header-actions__cart-icon {
-    width: 28px !important;
-    height: 38px !important;
+  .header-actions__cart-icon {
+    width: 24px !important;
+    min-width: 24px !important;
+    max-width: 24px !important;
+    height: 36px !important;
     border-radius: 4px !important;
     display: inline-flex !important;
     align-items: center !important;
@@ -1181,12 +1208,15 @@ slideshow-slides,
   }
 
   /* Mobile account/login button in header bar: clean circular icon button */
+  #header-component .account-button,
   .account-button {
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    width: 28px !important;
-    height: 38px !important;
+    width: 24px !important;
+    min-width: 24px !important;
+    max-width: 24px !important;
+    height: 36px !important;
     border-radius: 4px !important;
     color: #111111 !important;
     background: transparent !important;
@@ -1211,24 +1241,29 @@ slideshow-slides,
     display: none !important;
   }
 
+  #header-component .account-button shopify-account,
   .account-button shopify-account {
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    width: 28px !important;
-    height: 38px !important;
-    min-width: 0 !important;
+    width: 24px !important;
+    min-width: 24px !important;
+    max-width: 24px !important;
+    height: 36px !important;
     padding: 0 !important;
     margin: 0 !important;
     line-height: 1 !important;
   }
 
+  #header-component .account-button shopify-account::part(button),
   .account-button shopify-account::part(button) {
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    width: 28px !important;
-    height: 38px !important;
+    width: 24px !important;
+    min-width: 24px !important;
+    max-width: 24px !important;
+    height: 36px !important;
     padding: 0 !important;
     margin: 0 !important;
     background: transparent !important;
@@ -1255,8 +1290,8 @@ slideshow-slides,
   .cart-bubble,
   .cart-count-badge,
   .header-actions__cart-icon .cart-bubble {
-    top: 1px !important;
-    right: -2px !important;
+    top: 0px !important;
+    right: -6px !important;
   }
 
   .header__row--bottom {
@@ -1374,14 +1409,18 @@ body.menu-drawer-open {
   }
 
   /* Ensure Search Pill has no sharp square border or background box on mobile */
+  #header-component .header-inline-search-pill,
+  #header-component .header__search-pill,
   .header-inline-search-pill,
   .header__search-pill {
     border: none !important;
     background: transparent !important;
     box-shadow: none !important;
-    border-radius: 50% !important;
-    width: 28px !important;
-    height: 38px !important;
+    border-radius: 4px !important;
+    width: 24px !important;
+    min-width: 24px !important;
+    max-width: 24px !important;
+    height: 36px !important;
     padding: 0 !important;
   }
 
