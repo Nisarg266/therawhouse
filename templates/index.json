@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero_slider": {
@@ -316,6 +325,11 @@
         "color_accent": "#b08d57",
         "color_muted": "",
         "color_border": "",
+        "btn_bg": "",
+        "btn_text": "",
+        "btn_border": "",
+        "btn_bg_hover": "",
+        "btn_text_hover": "",
         "btn_style": "outline",
         "btn_height": 46,
         "btn_px": 26,
@@ -427,6 +441,7 @@
         "card_4"
       ],
       "settings": {
+        "layout_style": "split",
         "eyebrow": "the",
         "heading": "R E C O M M E N D A T I O N S",
         "intro": "",
@@ -958,115 +973,6 @@
         "anchor_id": "",
         "custom_class": ""
       }
-    },
-    "press_and_quote": {
-      "type": "featured-press-and-quote",
-      "blocks": {
-        "press_1": {
-          "type": "press_logo",
-          "settings": {
-            "title": "Ideal Home",
-            "link": ""
-          }
-        },
-        "press_2": {
-          "type": "press_logo",
-          "settings": {
-            "title": "GoodHomes India",
-            "link": ""
-          }
-        },
-        "press_3": {
-          "type": "press_logo",
-          "settings": {
-            "title": "AD",
-            "link": ""
-          }
-        },
-        "press_4": {
-          "type": "press_logo",
-          "settings": {
-            "title": "VOGUE",
-            "link": ""
-          }
-        },
-        "press_5": {
-          "type": "press_logo",
-          "settings": {
-            "title": "ELLE DECOR",
-            "link": ""
-          }
-        },
-        "press_6": {
-          "type": "press_logo",
-          "settings": {
-            "title": "FEMINA",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "press_1",
-        "press_2",
-        "press_3",
-        "press_4",
-        "press_5",
-        "press_6"
-      ],
-      "settings": {
-        "heading": "Featured In",
-        "show_ornament": true,
-        "logos_margin_top": 24,
-        "header_gap": 10,
-        "logo_height": 28,
-        "logos_gap": 40,
-        "logo_opacity": 100,
-        "logo_color": "",
-        "logo_weight": "500",
-        "logo_ls": "0.14em",
-        "show_quote": true,
-        "quote_line_1": "Nothing haunts us",
-        "quote_line_2": "LIKE THE THINGS",
-        "quote_line_3": "we didn't buy",
-        "show_quote_dividers": true,
-        "quote_margin_top": 44,
-        "quote_gap": 6,
-        "quote_font": "heading",
-        "quote_size": 34,
-        "quote_size_m": 24,
-        "quote_weight": "400",
-        "quote_lh": 1.2,
-        "quote_ls": "0.02em",
-        "quote_transform": "none",
-        "quote_color": "#2a2a2a",
-        "divider_color": "#222222",
-        "heading_font": "heading",
-        "heading_size": 22,
-        "heading_size_m": 19,
-        "heading_weight": "400",
-        "heading_lh": 1.2,
-        "heading_ls": "0.04em",
-        "heading_transform": "none",
-        "heading_max_width": 100,
-        "color_preset": "light",
-        "color_bg": "#ffffff",
-        "color_heading": "#1a1a1a",
-        "color_text": "#4a4a4a",
-        "color_accent": "#b08d57",
-        "color_muted": "",
-        "color_border": "",
-        "container_mode": "fixed",
-        "container_max": 1100,
-        "padding_top": 56,
-        "padding_bottom": 28,
-        "padding_top_m": 44,
-        "padding_bottom_m": 24,
-        "container_padding": 32,
-        "container_padding_m": 20,
-        "enable_animations": false,
-        "anchor_id": "",
-        "custom_class": ""
-      }
     }
   },
   "order": [
@@ -1077,7 +983,6 @@
     "fine_prints",
     "the_makers",
     "atelier_promise",
-    "brand_statement",
-    "press_and_quote"
+    "brand_statement"
   ]
 }
