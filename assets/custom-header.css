@@ -49,9 +49,9 @@ a.skip-to-content-link {
   flex-direction: column !important;
   border-radius: 0 !important;
   overflow: visible !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  transition: all 0.3s ease !important;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease !important;
+  will-change: transform;
+  transform: translateY(0);
 }
 
 .header-section,

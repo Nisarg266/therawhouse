@@ -268,7 +268,7 @@
      (previous recedes behind), and after the last card the section scrolls away.
      ============================================================ */
   #shopify-section-{{ section.id }} {
-    --split-rail-top: clamp(100px, 12vh, 125px);
+    --split-rail-top: clamp(145px, 16.5vh, 175px);
     --deck-offset: 16px;
   }
 
@@ -287,7 +287,7 @@
   #shopify-section-{{ section.id }} .luxp-split__sticky {
     position: sticky;
     top: var(--split-rail-top);
-    padding-top: 4px;
+    padding-top: clamp(8px, 1vh, 14px);
     display: flex;
     flex-direction: column;
     align-items: flex-start;

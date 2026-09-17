@@ -72,7 +72,7 @@ body {
 /* Mobile Viewport Stabilization */
 @media (max-width: 768px) {
   html, body {
-    overflow-x: hidden !important;
+    overflow-x: clip !important;
     max-width: 100vw !important;
   }
   .page-wrapper {

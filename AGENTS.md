@@ -41,7 +41,7 @@
    - The mobile drawer is positioned `top: 0; height: 100dvh; z-index: 999999` to ensure it slides over the full viewport without clipping behind sticky elements or announcement bars.
 
 2. **Zero-Overflow Hierarchy**:
-   - Handle global horizontal overflow on `html, body { overflow-x: hidden !important; }`.
+   - Handle global horizontal overflow on `html, body { overflow-x: clip !important; }`. Never use `overflow-x: hidden !important;` on `html` or `body` as it creates an overflow clipping box that breaks `position: sticky` on mobile iOS/Android browsers.
    - Do NOT place `overflow: hidden` on `#header-group` or `.header` as it breaks fixed child drawers.
 
 3. **Validation Standard**:

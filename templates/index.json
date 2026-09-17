@@ -162,7 +162,7 @@
         "catalog_image_5": {
           "type": "catalog_cover",
           "settings": {
-            "default_asset": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/What_Objects_Become_Lochan_Upadhyay___TRH_compressed.pdf?v=1789591024",
+            "default_asset": "lochan",
             "alt": "",
             "badge": "",
             "link": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/What_Objects_Become_Lochan_Upadhyay___TRH_compressed.pdf?v=1789591024",
@@ -208,10 +208,12 @@
         "catalog_image_9": {
           "type": "catalog_cover",
           "settings": {
-            "default_asset": "art-decor-ceramic-statue.jpg",
+            "image": "shopify://shop_images/dunes_resized_604_67x766_38cf7dc2-dcd4-4fc7-aff9-7ae8a75c46db.jpg",
+            "image_mobile": "shopify://shop_images/Copy_of_dunes.jpg",
+            "default_asset": "material passage",
             "alt": "",
             "badge": "",
-            "link": "shopify://collections/all",
+            "link": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/Material_Passage_compressed_20MB.pdf?v=1789643895",
             "show_view_icon": true
           }
         },
@@ -488,10 +490,10 @@
         "btn_width": "auto",
         "btn_mobile_full": false,
         "footer_mt": 24,
-        "padding_top": 36,
-        "padding_bottom": 32,
-        "padding_top_m": 28,
-        "padding_bottom_m": 20,
+        "padding_top": 56,
+        "padding_bottom": 40,
+        "padding_top_m": 36,
+        "padding_bottom_m": 24,
         "container_padding": 32,
         "container_padding_m": 16,
         "enable_animations": false,

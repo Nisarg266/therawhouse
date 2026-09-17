@@ -1,9 +1,10 @@
 /**
  * THE RAW HOUSE — Universal Smart Sticky Header (Mobile + Desktop)
  * - Scroll down: Header smoothly slides out of view to maximize viewing area.
- * - Scroll up: Header immediately slides back down into view smoothly so user can access navigation anywhere.
+ * - Scroll up: Header immediately slides back down into view smoothly anywhere on page.
  * - Top of page (y <= 70): Always visible in standard position.
- * - Hover / Open drawer / cart / search: Always visible.
+ * - Touch devices: Guarded against stuck :hover states.
+ * - Safe against mobile iOS rubber-band bounces and drawer open states.
  */
 (function () {
   var group = document.getElementById('header-group');
@@ -12,15 +13,15 @@
   var lastScrollY = 0;
   var isHidden = false;
   var ticking = false;
-  var scrollThreshold = 8;
+  var scrollThreshold = 6;
 
   function getScrollY() {
-    return (
-      window.pageYOffset ||
-      document.documentElement.scrollTop ||
-      document.body.scrollTop ||
-      0
-    );
+    var pageWrapper = document.querySelector('.page-wrapper');
+    var pwTop = pageWrapper ? pageWrapper.scrollTop : 0;
+    var winTop = window.scrollY !== undefined ? window.scrollY : (window.pageYOffset || 0);
+    var docTop = document.documentElement ? document.documentElement.scrollTop : 0;
+    var bodyTop = document.body ? document.body.scrollTop : 0;
+    return Math.max(pwTop, winTop, docTop, bodyTop);
   }
 
   function isDrawerOpen() {
@@ -38,7 +39,9 @@
   function isInteracting() {
     if (isDrawerOpen()) return true;
     try {
-      if (group.matches(':hover')) return true;
+      // Touchscreens (phones) should NEVER trigger persistent hover locks
+      var canHover = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+      if (canHover && group.matches(':hover')) return true;
     } catch (e) {}
     return false;
   }
@@ -52,7 +55,7 @@
   function update() {
     ticking = false;
 
-    // Keep visible while menu, cart, or search is open, or when cursor is over header
+    // Keep visible while menu, cart, or search is open, or during hover on pointer devices
     if (isInteracting()) {
       setHidden(false);
       lastScrollY = getScrollY();
@@ -60,7 +63,9 @@
     }
 
     var currentY = getScrollY();
-    var delta = currentY - lastScrollY;
+
+    // Clamp iOS top rubber-band overscroll
+    if (currentY < 0) currentY = 0;
 
     // Always keep visible when near the top of the page
     if (currentY <= 70) {
@@ -69,11 +74,13 @@
       return;
     }
 
+    var delta = currentY - lastScrollY;
+
     // Scrolling down: Hide header smoothly
     if (delta > scrollThreshold) {
       setHidden(true);
     }
-    // Scrolling up: Reveal header immediately and smoothly
+    // Scrolling up: Reveal header immediately and smoothly anywhere on page
     else if (delta < -scrollThreshold) {
       setHidden(false);
     }
@@ -88,8 +95,11 @@
     }
   }
 
-  window.addEventListener('scroll', onScroll, { passive: true });
-  document.addEventListener('scroll', onScroll, { passive: true });
+  // Support both mobile window scrolls and desktop page-wrapper scrolls
+  window.addEventListener('scroll', onScroll, { passive: true, capture: true });
+  document.addEventListener('scroll', onScroll, { passive: true, capture: true });
+  window.addEventListener('touchmove', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
 
   // Initial position check
   lastScrollY = getScrollY();
