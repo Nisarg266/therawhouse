@@ -1,0 +1,805 @@
+{%- comment -%}
+  Renders the Bespoke Curatorial & Private Inquiry Form section for The Raw House.
+  Features granular field toggles, dynamic trust badge blocks, and advanced styling controls.
+{%- endcomment -%}
+
+<div
+  id="ContactFormSection-{{ section.id }}"
+  class="contact-form-section"
+  style="
+    --cfs-bg: {{ section.settings.background_color | default: '#faf9f6' }};
+    --cfs-box-bg: {{ section.settings.form_background | default: '#ffffff' }};
+    --cfs-box-border: {{ section.settings.form_border_color | default: '#ede8e0' }};
+    --cfs-box-radius: {{ section.settings.form_radius | default: 4 }}px;
+    --cfs-heading-color: {{ section.settings.heading_color | default: '#111111' }};
+    --cfs-subheading-color: {{ section.settings.subheading_color | default: '#666054' }};
+    --cfs-label-color: {{ section.settings.label_color | default: '#333333' }};
+    --cfs-input-bg: {{ section.settings.input_background | default: '#ffffff' }};
+    --cfs-input-border: {{ section.settings.input_border_color | default: '#dcd7ce' }};
+    --cfs-input-focus: {{ section.settings.input_focus_border | default: '#111111' }};
+    --cfs-input-text: {{ section.settings.input_text_color | default: '#111111' }};
+    --cfs-btn-bg: {{ section.settings.button_background | default: '#111111' }};
+    --cfs-btn-color: {{ section.settings.button_text_color | default: '#ffffff' }};
+    --cfs-btn-hover-bg: {{ section.settings.button_hover_background | default: '#2b2b2b' }};
+    --cfs-heading-size: {{ section.settings.heading_size | default: 24 }}px;
+    --cfs-heading-size-m: {{ section.settings.heading_size_m | default: 20 }}px;
+    --cfs-pt: {{ section.settings.padding_top | default: 0 }}px;
+    --cfs-pb: {{ section.settings.padding_bottom | default: 60 }}px;
+    --cfs-pt-m: {{ section.settings.padding_top_m | default: 0 }}px;
+    --cfs-pb-m: {{ section.settings.padding_bottom_m | default: 40 }}px;
+    --cfs-max-w: {{ section.settings.max_width | default: 820 }}px;
+  "
+  {{ section.shopify_attributes }}
+>
+  <div class="contact-form__container">
+    <div class="contact-form__box">
+      <!-- Form Header -->
+      <div class="contact-form__header">
+        {%- if section.settings.eyebrow != blank -%}
+          <span class="contact-form__eyebrow">{{ section.settings.eyebrow }}</span>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="contact-form__heading">{{ section.settings.heading }}</h2>
+        {%- endif -%}
+        {%- if section.settings.subheading != blank -%}
+          <p class="contact-form__subheading">{{ section.settings.subheading }}</p>
+        {%- endif -%}
+      </div>
+
+      <!-- Native Shopify Contact Form -->
+      {%- form 'contact', id: 'ContactFormMain', class: 'contact-form__body' -%}
+        <input type="hidden" name="contact[tags]" value="{{ section.settings.custom_tags | default: 'atelier-inquiry' }}">
+
+        {%- if form.posted_successfully? -%}
+          <div class="contact-form__alert contact-form__alert--success" role="status" tabindex="-1" autofocus>
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <div>
+              <strong>{{ section.settings.success_title | default: 'Inquiry Sent with Distinction' }}</strong>
+              <p>{{ section.settings.success_message | default: 'Thank you for reaching out. A dedicated curator will contact you shortly.' }}</p>
+            </div>
+          </div>
+        {%- elsif form.errors -%}
+          <div class="contact-form__alert contact-form__alert--error" role="alert" tabindex="-1" autofocus>
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <div>
+              <strong>Please verify your information</strong>
+              <p>{{ form.errors | default_errors }}</p>
+            </div>
+          </div>
+        {%- endif -%}
+
+        <div class="contact-form__grid">
+          <!-- Full Name -->
+          <div class="contact-form__field">
+            <label for="ContactForm-name-{{ section.id }}" class="contact-form__label">
+              Your Name <span class="contact-form__req">*</span>
+            </label>
+            <input
+              type="text"
+              id="ContactForm-name-{{ section.id }}"
+              name="contact[name]"
+              class="contact-form__input"
+              value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+              placeholder="Full Name"
+              autocomplete="name"
+              required
+            >
+          </div>
+
+          <!-- Email Address -->
+          <div class="contact-form__field">
+            <label for="ContactForm-email-{{ section.id }}" class="contact-form__label">
+              Email Address <span class="contact-form__req">*</span>
+            </label>
+            <input
+              type="email"
+              id="ContactForm-email-{{ section.id }}"
+              name="contact[email]"
+              class="contact-form__input"
+              value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+              placeholder="email@example.com"
+              autocomplete="email"
+              spellcheck="false"
+              autocapitalize="off"
+              required
+            >
+          </div>
+
+          <!-- Phone Number -->
+          {%- if section.settings.show_phone -%}
+            <div class="contact-form__field">
+              <label for="ContactForm-phone-{{ section.id }}" class="contact-form__label">
+                Phone / WhatsApp {% if section.settings.phone_required %}<span class="contact-form__req">*</span>{% endif %}
+              </label>
+              <input
+                type="tel"
+                id="ContactForm-phone-{{ section.id }}"
+                name="contact[phone]"
+                class="contact-form__input"
+                value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
+                placeholder="+91 Phone number"
+                autocomplete="tel"
+                {% if section.settings.phone_required %}required{% endif %}
+              >
+            </div>
+          {%- endif -%}
+
+          <!-- Nature of Inquiry -->
+          {%- if section.settings.show_inquiry_type -%}
+            <div class="contact-form__field">
+              <label for="ContactForm-type-{{ section.id }}" class="contact-form__label">Nature of Inquiry</label>
+              <div class="contact-form__select-wrap">
+                <select id="ContactForm-type-{{ section.id }}" name="contact[Inquiry Type]" class="contact-form__select">
+                  <option value="General Inquiry" selected>General Atelier Inquiry</option>
+                  <option value="Private Art Acquisition">Art & Painting Acquisition</option>
+                  <option value="Bespoke Furniture">Bespoke Furniture Commission</option>
+                  <option value="Trade & Interior Designer">Architect & Trade Program</option>
+                  <option value="Private Viewing">Private Studio Appointment</option>
+                </select>
+                <svg class="contact-form__select-arrow" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </div>
+            </div>
+          {%- endif -%}
+
+          <!-- City / Country -->
+          {%- if section.settings.show_city -%}
+            <div class="contact-form__field contact-form__field--full">
+              <label for="ContactForm-city-{{ section.id }}" class="contact-form__label">City / Country of Residence</label>
+              <input
+                type="text"
+                id="ContactForm-city-{{ section.id }}"
+                name="contact[city]"
+                class="contact-form__input"
+                placeholder="e.g. Mumbai, New Delhi, Bengaluru, Dubai"
+                autocomplete="address-level2"
+              >
+            </div>
+          {%- endif -%}
+
+          <!-- Message -->
+          <div class="contact-form__field contact-form__field--full">
+            <label for="ContactForm-body-{{ section.id }}" class="contact-form__label">
+              Your Message <span class="contact-form__req">*</span>
+            </label>
+            <textarea
+              id="ContactForm-body-{{ section.id }}"
+              name="contact[body]"
+              rows="4"
+              class="contact-form__textarea"
+              placeholder="Tell us about the pieces, project dimensions, or services you require..."
+              required
+            >{%- if form.body -%}{{ form.body }}{%- endif -%}</textarea>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="contact-form__submit-row">
+          <button type="submit" class="contact-form__btn">
+            <span>{{ section.settings.button_label | default: 'SEND INQUIRY' }}</span>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+        </div>
+      {%- endform -%}
+
+      <!-- Dynamic Blocks: Trust Badges / Notes -->
+      {%- if section.blocks.size > 0 -%}
+        <div class="contact-form__blocks">
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when 'trust_badge' -%}
+                <div class="contact-form__trust-badge" {{ block.shopify_attributes }}>
+                  {%- case block.settings.icon -%}
+                    {%- when 'clock' -%}
+                      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                      </svg>
+                    {%- when 'shield' -%}
+                      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                      </svg>
+                    {%- when 'gem' -%}
+                      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <polygon points="6 2 18 2 22 8 12 22 2 8 6 2"></polygon>
+                      </svg>
+                    {%- else -%}
+                      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                  {%- endcase -%}
+                  <span>{{ block.settings.text }}</span>
+                </div>
+              {%- when 'curator_note' -%}
+                <div class="contact-form__curator-note" {{ block.shopify_attributes }}>
+                  <p class="contact-form__curator-quote">"{{ block.settings.quote }}"</p>
+                  <span class="contact-form__curator-author">— {{ block.settings.author }}</span>
+                </div>
+            {%- endcase -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+<style>
+  .contact-form-section {
+    width: 100%;
+    background-color: var(--cfs-bg);
+    padding-top: var(--cfs-pt);
+    padding-bottom: var(--cfs-pb);
+    box-sizing: border-box;
+  }
+
+  .contact-form__container {
+    max-width: var(--cfs-max-w);
+    margin: 0 auto;
+    padding-left: clamp(20px, 4vw, 40px);
+    padding-right: clamp(20px, 4vw, 40px);
+    box-sizing: border-box;
+  }
+
+  .contact-form__box {
+    background-color: var(--cfs-box-bg);
+    border: 1px solid var(--cfs-box-border);
+    border-radius: var(--cfs-box-radius);
+    padding: clamp(24px, 4vw, 44px);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.03);
+    box-sizing: border-box;
+  }
+
+  .contact-form__header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .contact-form__eyebrow {
+    display: block;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #8c8273;
+    margin-bottom: 6px;
+  }
+
+  .contact-form__heading {
+    font-size: var(--cfs-heading-size);
+    font-weight: 400;
+    color: var(--cfs-heading-color);
+    margin: 0 0 8px 0;
+    font-family: var(--font-heading--family, serif);
+  }
+
+  .contact-form__subheading {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--cfs-subheading-color);
+    margin: 0;
+  }
+
+  .contact-form__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px 20px;
+    margin-bottom: 24px;
+  }
+
+  .contact-form__field--full {
+    grid-column: span 2;
+  }
+
+  .contact-form__field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .contact-form__label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--cfs-label-color);
+  }
+
+  .contact-form__req {
+    color: #8c281f;
+  }
+
+  .contact-form__input,
+  .contact-form__textarea,
+  .contact-form__select {
+    width: 100%;
+    padding: 13px 15px;
+    background-color: var(--cfs-input-bg);
+    border: 1px solid var(--cfs-input-border);
+    border-radius: 3px;
+    font-size: 14px;
+    color: var(--cfs-input-text);
+    font-family: inherit;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .contact-form__input:focus,
+  .contact-form__textarea:focus,
+  .contact-form__select:focus {
+    outline: none;
+    border-color: var(--cfs-input-focus);
+    box-shadow: 0 0 0 1px var(--cfs-input-focus);
+  }
+
+  .contact-form__textarea {
+    resize: vertical;
+    line-height: 1.5;
+  }
+
+  .contact-form__select-wrap {
+    position: relative;
+  }
+
+  .contact-form__select {
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    padding-right: 36px;
+  }
+
+  .contact-form__select-arrow {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #777777;
+  }
+
+  .contact-form__submit-row {
+    display: flex;
+    justify-content: center;
+  }
+
+  .contact-form__btn {
+    width: 100%;
+    max-width: 320px;
+    padding: 16px 28px;
+    background-color: var(--cfs-btn-bg);
+    color: var(--cfs-btn-color);
+    border: 1px solid var(--cfs-btn-bg);
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.15s ease;
+  }
+
+  .contact-form__btn:hover {
+    background-color: var(--cfs-btn-hover-bg);
+    border-color: var(--cfs-btn-hover-bg);
+  }
+
+  .contact-form__btn:active {
+    transform: scale(0.99);
+  }
+
+  .contact-form__alert {
+    display: flex;
+    gap: 14px;
+    padding: 16px 20px;
+    border-radius: 3px;
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+
+  .contact-form__alert--success {
+    background: #eef6f0;
+    border-left: 4px solid #2e7d32;
+    color: #1b5e20;
+  }
+
+  .contact-form__alert--error {
+    background: #fdf2f2;
+    border-left: 4px solid #d32f2f;
+    color: #c62828;
+  }
+
+  .contact-form__alert p {
+    margin: 4px 0 0 0;
+  }
+
+  /* Blocks */
+  .contact-form__blocks {
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid #f0ede6;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .contact-form__trust-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: #7d7567;
+    letter-spacing: 0.04em;
+  }
+
+  .contact-form__curator-note {
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+  }
+
+  .contact-form__curator-quote {
+    font-style: italic;
+    font-size: 13px;
+    color: #555046;
+    margin: 0 0 4px 0;
+  }
+
+  .contact-form__curator-author {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #8c8273;
+  }
+
+  @media screen and (max-width: 650px) {
+    .contact-form__box {
+      padding: 20px 18px;
+    }
+    .contact-form__grid {
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    .contact-form__field--full {
+      grid-column: span 1;
+    }
+    .contact-form__heading {
+      font-size: var(--cfs-heading-size-m);
+    }
+    .contact-form__btn {
+      max-width: 100%;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Bespoke Inquiry Form",
+  "tag": "section",
+  "class": "section-contact-inquiry-form",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Header & Intro"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow tag",
+      "default": "CURATORIAL CONSULTATION"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Form heading",
+      "default": "Send a Private Inquiry"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Form subheading",
+      "default": "Our curation desk responds within 4 business hours."
+    },
+    {
+      "type": "header",
+      "content": "Field Configuration"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_phone",
+      "label": "Show Phone / WhatsApp field",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "phone_required",
+      "label": "Require Phone / WhatsApp",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_inquiry_type",
+      "label": "Show Nature of Inquiry dropdown",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_city",
+      "label": "Show City / Country field",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "custom_tags",
+      "label": "Form submission tags (comma-separated)",
+      "default": "atelier-inquiry, contact-page"
+    },
+    {
+      "type": "header",
+      "content": "Button & Responses"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Submit button label",
+      "default": "SEND INQUIRY"
+    },
+    {
+      "type": "text",
+      "id": "success_title",
+      "label": "Success message title",
+      "default": "Inquiry Sent with Distinction"
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Success message description",
+      "default": "Thank you for reaching out. A dedicated curator will contact you shortly."
+    },
+    {
+      "type": "header",
+      "content": "Color Scheme"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section background",
+      "default": "#faf9f6"
+    },
+    {
+      "type": "color",
+      "id": "form_background",
+      "label": "Form container background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "form_border_color",
+      "label": "Form container border",
+      "default": "#ede8e0"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Subheading color",
+      "default": "#666054"
+    },
+    {
+      "type": "color",
+      "id": "label_color",
+      "label": "Input label color",
+      "default": "#333333"
+    },
+    {
+      "type": "color",
+      "id": "input_background",
+      "label": "Input background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "input_border_color",
+      "label": "Input border",
+      "default": "#dcd7ce"
+    },
+    {
+      "type": "color",
+      "id": "input_focus_border",
+      "label": "Input focus border",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "input_text_color",
+      "label": "Input text color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "button_background",
+      "label": "Button background",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_background",
+      "label": "Button hover background",
+      "default": "#2b2b2b"
+    },
+    {
+      "type": "header",
+      "content": "Typography & Spacing"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 18,
+      "max": 36,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading font size (Desktop)",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "heading_size_m",
+      "min": 16,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading font size (Mobile)",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "form_radius",
+      "min": 0,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Form border radius",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 500,
+      "max": 1000,
+      "step": 20,
+      "unit": "px",
+      "label": "Form maximum width",
+      "default": 820
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top (Desktop)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom (Desktop)",
+      "default": 60
+    },
+    {
+      "type": "range",
+      "id": "padding_top_m",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding top (Mobile)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_m",
+      "min": 0,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding bottom (Mobile)",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "trust_badge",
+      "name": "Trust Assurance Badge",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Badge Icon",
+          "options": [
+            { "value": "check", "label": "Checkmark" },
+            { "value": "clock", "label": "Clock / Response Time" },
+            { "value": "shield", "label": "Shield / Security" },
+            { "value": "gem", "label": "Gem / Provenance" }
+          ],
+          "default": "clock"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Assurance text",
+          "default": "Response within 4 business hours guaranteed"
+        }
+      ]
+    },
+    {
+      "type": "curator_note",
+      "name": "Curator Quote Note",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Curatorial quote",
+          "default": "Every bespoke acquisition is personally handled by our senior curators."
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Curator title",
+          "default": "The Raw House Curatorial Board"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bespoke Inquiry Form",
+      "blocks": [
+        {
+          "type": "trust_badge",
+          "settings": {
+            "icon": "clock",
+            "text": "Curatorial response within 4 business hours"
+          }
+        },
+        {
+          "type": "trust_badge",
+          "settings": {
+            "icon": "shield",
+            "text": "White Glove insured transit assistance across India"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

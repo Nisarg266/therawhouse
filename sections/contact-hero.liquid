@@ -1,0 +1,354 @@
+{%- comment -%}
+  Renders the editorial Header & Narrative for the Contact & Atelier Concierge page.
+  Equipped with granular typography, color, and spacing controls.
+{%- endcomment -%}
+
+<div
+  id="ContactHero-{{ section.id }}"
+  class="contact-hero-section"
+  style="
+    --ch-bg: {{ section.settings.background_color | default: '#faf9f6' }};
+    --ch-eyebrow-color: {{ section.settings.eyebrow_color | default: '#8c8273' }};
+    --ch-heading-color: {{ section.settings.heading_color | default: '#111111' }};
+    --ch-subheading-color: {{ section.settings.subheading_color | default: '#555046' }};
+    --ch-gem-color: {{ section.settings.gem_color | default: '#c5a059' }};
+    --ch-divider-color: {{ section.settings.divider_color | default: '#e5e0d8' }};
+    --ch-eyebrow-size: {{ section.settings.eyebrow_size | default: 11 }}px;
+    --ch-eyebrow-size-m: {{ section.settings.eyebrow_size_m | default: 10 }}px;
+    --ch-heading-size: {{ section.settings.heading_size | default: 44 }}px;
+    --ch-heading-size-m: {{ section.settings.heading_size_m | default: 28 }}px;
+    --ch-subheading-size: {{ section.settings.subheading_size | default: 16 }}px;
+    --ch-subheading-size-m: {{ section.settings.subheading_size_m | default: 14 }}px;
+    --ch-pt: {{ section.settings.padding_top | default: 56 }}px;
+    --ch-pb: {{ section.settings.padding_bottom | default: 32 }}px;
+    --ch-pt-m: {{ section.settings.padding_top_m | default: 36 }}px;
+    --ch-pb-m: {{ section.settings.padding_bottom_m | default: 20 }}px;
+    --ch-max-w: {{ section.settings.max_width | default: 860 }}px;
+  "
+  {{ section.shopify_attributes }}
+>
+  <div class="contact-hero__container">
+    {%- if section.settings.eyebrow != blank -%}
+      <div class="contact-hero__eyebrow-wrap">
+        <span class="contact-hero__eyebrow">{{ section.settings.eyebrow }}</span>
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.heading != blank -%}
+      <h1 class="contact-hero__heading">{{ section.settings.heading }}</h1>
+    {%- endif -%}
+
+    {%- if section.settings.show_divider -%}
+      <div class="contact-hero__divider" aria-hidden="true">
+        <span class="contact-hero__divider-line"></span>
+        <span class="contact-hero__divider-gem">◆</span>
+        <span class="contact-hero__divider-line"></span>
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.subheading != blank -%}
+      <p class="contact-hero__subheading">
+        {{ section.settings.subheading }}
+      </p>
+    {%- endif -%}
+  </div>
+</div>
+
+<style>
+  .contact-hero-section {
+    width: 100%;
+    background-color: var(--ch-bg);
+    padding-top: var(--ch-pt);
+    padding-bottom: var(--ch-pb);
+    box-sizing: border-box;
+    text-align: center;
+  }
+
+  .contact-hero__container {
+    max-width: var(--ch-max-w);
+    margin: 0 auto;
+    padding-left: clamp(20px, 4vw, 40px);
+    padding-right: clamp(20px, 4vw, 40px);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .contact-hero__eyebrow-wrap {
+    margin-bottom: 12px;
+  }
+
+  .contact-hero__eyebrow {
+    display: inline-block;
+    font-size: var(--ch-eyebrow-size);
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--ch-eyebrow-color);
+  }
+
+  .contact-hero__heading {
+    font-size: var(--ch-heading-size);
+    line-height: 1.15;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    color: var(--ch-heading-color);
+    margin: 0 0 16px 0;
+    font-family: var(--font-heading--family, serif);
+  }
+
+  .contact-hero__divider {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 160px;
+    margin: 0 auto 18px;
+  }
+
+  .contact-hero__divider-line {
+    flex: 1;
+    height: 1px;
+    background: var(--ch-divider-color);
+  }
+
+  .contact-hero__divider-gem {
+    font-size: 9px;
+    color: var(--ch-gem-color);
+    line-height: 1;
+  }
+
+  .contact-hero__subheading {
+    font-size: var(--ch-subheading-size);
+    line-height: 1.68;
+    color: var(--ch-subheading-color);
+    margin: 0;
+    max-width: 680px;
+    font-weight: 400;
+  }
+
+  @media screen and (max-width: 749px) {
+    .contact-hero-section {
+      padding-top: var(--ch-pt-m);
+      padding-bottom: var(--ch-pb-m);
+    }
+    .contact-hero__eyebrow {
+      font-size: var(--ch-eyebrow-size-m);
+      letter-spacing: 0.2em;
+    }
+    .contact-hero__heading {
+      font-size: var(--ch-heading-size-m);
+      margin-bottom: 12px;
+    }
+    .contact-hero__subheading {
+      font-size: var(--ch-subheading-size-m);
+      line-height: 1.6;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Contact Hero & Intro",
+  "tag": "section",
+  "class": "section-contact-hero",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Editorial Text Content"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow tag",
+      "default": "THE RAW HOUSE • ATELIER & CONCIERGE"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Main heading",
+      "default": "Connect with The Atelier"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading / Curatorial narrative",
+      "default": "Our curators are available to assist with private acquisitions, bespoke commissions, and interior trade inquiries."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_divider",
+      "label": "Show decorative diamond divider",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Color Scheme"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Section background",
+      "default": "#faf9f6"
+    },
+    {
+      "type": "color",
+      "id": "eyebrow_color",
+      "label": "Eyebrow color",
+      "default": "#8c8273"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "subheading_color",
+      "label": "Subheading text color",
+      "default": "#555046"
+    },
+    {
+      "type": "color",
+      "id": "gem_color",
+      "label": "Diamond gem accent color",
+      "default": "#c5a059"
+    },
+    {
+      "type": "color",
+      "id": "divider_color",
+      "label": "Divider line color",
+      "default": "#e5e0d8"
+    },
+    {
+      "type": "header",
+      "content": "Desktop Typography"
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_size",
+      "min": 8,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Eyebrow font size (Desktop)",
+      "default": 11
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "min": 24,
+      "max": 64,
+      "step": 2,
+      "unit": "px",
+      "label": "Heading font size (Desktop)",
+      "default": 44
+    },
+    {
+      "type": "range",
+      "id": "subheading_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Subheading font size (Desktop)",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Mobile Typography"
+    },
+    {
+      "type": "range",
+      "id": "eyebrow_size_m",
+      "min": 8,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "label": "Eyebrow font size (Mobile)",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "heading_size_m",
+      "min": 20,
+      "max": 42,
+      "step": 1,
+      "unit": "px",
+      "label": "Heading font size (Mobile)",
+      "default": 28
+    },
+    {
+      "type": "range",
+      "id": "subheading_size_m",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Subheading font size (Mobile)",
+      "default": 14
+    },
+    {
+      "type": "header",
+      "content": "Spacing & Container"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "min": 600,
+      "max": 1200,
+      "step": 20,
+      "unit": "px",
+      "label": "Container maximum width",
+      "default": 860
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top (Desktop)",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom (Desktop)",
+      "default": 32
+    },
+    {
+      "type": "range",
+      "id": "padding_top_m",
+      "min": 0,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding top (Mobile)",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_m",
+      "min": 0,
+      "max": 80,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding bottom (Mobile)",
+      "default": 20
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contact Hero & Intro"
+    }
+  ]
+}
+{% endschema %}

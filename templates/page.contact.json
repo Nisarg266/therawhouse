@@ -1,28 +1,262 @@
 {
   "sections": {
-    "luxury_contact_concierge": {
-      "type": "luxury-contact-concierge",
+    "contact_hero": {
+      "type": "contact-hero",
       "settings": {
-        "color_preset": "warm_editorial",
         "eyebrow": "THE RAW HOUSE • ATELIER & CONCIERGE",
         "heading": "Connect with The Atelier",
         "subheading": "Our curators are available to assist with private acquisitions, bespoke commissions, and interior trade inquiries.",
-        "phone": "+91 98765 43210",
-        "email": "concierge@therawhouse.com",
-        "trade_email": "trade@therawhouse.com",
-        "whatsapp_number": "+919876543210",
-        "whatsapp_message": "Hello The Raw House, I would like to inquire about a curated piece.",
-        "address": "The Raw House Atelier, Studio 12\nLuxury Design Quarter, India",
-        "hours": "Mon – Sat: 10:00 AM – 7:00 PM IST (Sun by appointment)",
-        "show_faq": true,
+        "show_divider": true,
+        "background_color": "#faf9f6",
+        "eyebrow_color": "#8c8273",
+        "heading_color": "#111111",
+        "subheading_color": "#555046",
+        "gem_color": "#c5a059",
+        "divider_color": "#e5e0d8",
+        "eyebrow_size": 11,
+        "heading_size": 44,
+        "subheading_size": 16,
+        "eyebrow_size_m": 10,
+        "heading_size_m": 28,
+        "subheading_size_m": 14,
+        "max_width": 860,
         "padding_top": 56,
+        "padding_bottom": 32,
+        "padding_top_m": 36,
+        "padding_bottom_m": 20
+      }
+    },
+    "contact_action_tiles": {
+      "type": "contact-action-tiles",
+      "blocks": {
+        "tile_whatsapp": {
+          "type": "contact_tile",
+          "settings": {
+            "icon": "whatsapp",
+            "label": "WhatsApp Concierge",
+            "value": "Chat with Art Advisory",
+            "link": "https://wa.me/918003011110",
+            "open_in_new_tab": true
+          }
+        },
+        "tile_call": {
+          "type": "contact_tile",
+          "settings": {
+            "icon": "phone",
+            "label": "Call Concierge",
+            "value": "+91 98257 38056",
+            "link": "tel:+919825738056",
+            "open_in_new_tab": false
+          }
+        },
+        "tile_email": {
+          "type": "contact_tile",
+          "settings": {
+            "icon": "email",
+            "label": "Curatorial Email",
+            "value": "concierge@therawhouse.com",
+            "link": "mailto:concierge@therawhouse.com",
+            "open_in_new_tab": false
+          }
+        }
+      },
+      "block_order": [
+        "tile_whatsapp",
+        "tile_call",
+        "tile_email"
+      ],
+      "settings": {
+        "columns_desktop": "3",
+        "columns_mobile": "1",
+        "background_color": "#faf9f6",
+        "tile_background": "#ffffff",
+        "tile_border_color": "#ede8e0",
+        "tile_hover_border": "#111111",
+        "label_color": "#8c8273",
+        "value_color": "#111111",
+        "icon_color": "#111111",
+        "arrow_color": "#c5a059",
+        "label_size": 11,
+        "value_size": 14,
+        "tile_radius": 4,
+        "gap": 16,
+        "gap_m": 12,
+        "max_width": 1040,
+        "padding_top": 0,
+        "padding_bottom": 40,
+        "padding_top_m": 0,
+        "padding_bottom_m": 28
+      }
+    },
+    "contact_inquiry_form": {
+      "type": "contact-inquiry-form",
+      "blocks": {
+        "badge_response": {
+          "type": "trust_badge",
+          "settings": {
+            "icon": "clock",
+            "text": "Curatorial response within 4 business hours"
+          }
+        },
+        "badge_transit": {
+          "type": "trust_badge",
+          "settings": {
+            "icon": "shield",
+            "text": "White Glove insured transit assistance across India"
+          }
+        }
+      },
+      "block_order": [
+        "badge_response",
+        "badge_transit"
+      ],
+      "settings": {
+        "eyebrow": "CURATORIAL CONSULTATION",
+        "heading": "Send a Private Inquiry",
+        "subheading": "Our curation desk responds within 4 business hours.",
+        "show_phone": true,
+        "phone_required": true,
+        "show_inquiry_type": true,
+        "show_city": true,
+        "custom_tags": "atelier-inquiry, contact-page",
+        "button_label": "SEND INQUIRY",
+        "success_title": "Inquiry Sent with Distinction",
+        "success_message": "Thank you for reaching out. A dedicated curator will contact you shortly.",
+        "background_color": "#faf9f6",
+        "form_background": "#ffffff",
+        "form_border_color": "#ede8e0",
+        "heading_color": "#111111",
+        "subheading_color": "#666054",
+        "label_color": "#333333",
+        "input_background": "#ffffff",
+        "input_border_color": "#dcd7ce",
+        "input_focus_border": "#111111",
+        "input_text_color": "#111111",
+        "button_background": "#111111",
+        "button_text_color": "#ffffff",
+        "button_hover_background": "#2b2b2b",
+        "heading_size": 24,
+        "heading_size_m": 20,
+        "form_radius": 4,
+        "max_width": 820,
+        "padding_top": 0,
+        "padding_bottom": 60,
+        "padding_top_m": 0,
+        "padding_bottom_m": 40
+      }
+    },
+    "contact_studio_details": {
+      "type": "contact-studio-details",
+      "blocks": {
+        "studio_location": {
+          "type": "detail_card",
+          "settings": {
+            "icon": "map_pin",
+            "title": "THE ATELIER STUDIO",
+            "text": "The Raw House Gallery & Atelier\nStudio 12, Luxury Design Quarter\nIndia",
+            "button_label": "Schedule Private Visit",
+            "button_link": "https://wa.me/918003011110",
+            "open_in_new_tab": true
+          }
+        },
+        "studio_hours": {
+          "type": "detail_card",
+          "settings": {
+            "icon": "clock",
+            "title": "VISITING HOURS",
+            "text": "Monday – Saturday: 10:00 AM – 7:00 PM IST\nSunday: Exclusively by private appointment\nVirtual viewing available via video concierge.",
+            "button_label": "Chat with Curator",
+            "button_link": "https://wa.me/918003011110",
+            "open_in_new_tab": true
+          }
+        }
+      },
+      "block_order": [
+        "studio_location",
+        "studio_hours"
+      ],
+      "settings": {
+        "eyebrow": "PHYSICAL PROVENANCE",
+        "heading": "Studio Atelier & Private Viewings",
+        "subheading": "Experience our curated pieces in person or arrange a private consultation with our curatorial board.",
+        "columns_desktop": "2",
+        "background_color": "#faf9f6",
+        "card_background": "#ffffff",
+        "card_border_color": "#ede8e0",
+        "heading_color": "#111111",
+        "text_color": "#555046",
+        "icon_color": "#111111",
+        "link_color": "#111111",
+        "heading_size": 32,
+        "heading_size_m": 24,
+        "card_radius": 4,
+        "max_width": 1040,
+        "padding_top": 0,
+        "padding_bottom": 60,
+        "padding_top_m": 0,
+        "padding_bottom_m": 40
+      }
+    },
+    "contact_faq": {
+      "type": "contact-faq",
+      "blocks": {
+        "faq_acquisitions": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How does the private acquisition & viewing process work?",
+            "answer": "<p>Every acquisition begins with a personal conversation. You can contact our curation desk via WhatsApp, telephone, or our private inquiry form. We provide bespoke valuations, high-resolution condition reports, and private viewing appointments.</p>",
+            "open_by_default": true
+          }
+        },
+        "faq_custom": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Can I commission custom dimensions or artisanal finishes?",
+            "answer": "<p>Yes. Many of our architectural and sculptural pieces can be customized in collaboration with our master artisans. We accommodate custom dimensions, seasoned natural woods, marble selections, and bespoke metal finishes.</p>",
+            "open_by_default": false
+          }
+        },
+        "faq_transit": {
+          "type": "faq_item",
+          "settings": {
+            "question": "What is included with insured White Glove transit?",
+            "answer": "<p>Our white-glove transit service includes custom protective crating, comprehensive door-to-door transit insurance, scheduled appointment delivery, and inside room-of-choice placement across India and international destinations.</p>",
+            "open_by_default": false
+          }
+        }
+      },
+      "block_order": [
+        "faq_acquisitions",
+        "faq_custom",
+        "faq_transit"
+      ],
+      "settings": {
+        "eyebrow": "CURATORIAL INSIGHTS",
+        "heading": "Frequently Asked Inquiries",
+        "subheading": "Answers to our collectors' most frequent questions regarding acquisitions, white-glove transit, and bespoke commissions.",
+        "background_color": "#faf9f6",
+        "heading_color": "#111111",
+        "question_color": "#111111",
+        "answer_color": "#555046",
+        "divider_color": "#ede8e0",
+        "accent_color": "#c5a059",
+        "heading_size": 32,
+        "heading_size_m": 24,
+        "question_size": 16,
+        "answer_size": 14.5,
+        "max_width": 860,
+        "padding_top": 20,
         "padding_bottom": 72,
-        "mobile_padding_top": 32,
-        "mobile_padding_bottom": 44
+        "padding_top_m": 16,
+        "padding_bottom_m": 48
       }
     }
   },
   "order": [
-    "luxury_contact_concierge"
+    "contact_hero",
+    "contact_action_tiles",
+    "contact_inquiry_form",
+    "contact_studio_details",
+    "contact_faq"
   ]
 }
