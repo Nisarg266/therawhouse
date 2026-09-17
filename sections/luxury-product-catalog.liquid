@@ -30,7 +30,7 @@
     assign card_border = 'var(--luxp-border)'
   endif
 
-  assign initial = s.initial_items | default: 8
+  assign initial = s.initial_items | default: 6
   assign header_track = 'center'
   if s.header_align == 'left'
     assign header_track = 'flex-start'
@@ -52,7 +52,7 @@
 {%- capture luxp_typo -%}{%- render 'luxp-typo', s: s -%}{%- endcapture -%}
 
 <div
-  class="luxp-section luxp-catalog {% if s.container_mode == 'full' %}luxp-section--full{% endif %} {% if s.enable_animations %}luxp-anim{% endif %} {{ s.custom_class }}"
+  class="luxp-section luxp-catalog {% if s.container_mode == 'full' %}luxp-section--full{% endif %} {% if s.enable_animations %}luxp-anim{% endif %} {% if s.layout_style == 'grid' %}luxp-catalog--grid{% else %}luxp-catalog--collage{% endif %} {{ s.custom_class }}"
   style="
     {{ luxp_colors }}
     {{ luxp_typo }}
@@ -67,8 +67,10 @@
     --luxp-header-align: {{ s.header_align | default: 'center' }};
     --luxp-header-gap: {{ s.header_gap | default: 10 }}px;
     --luxp-header-mb: {{ s.header_mb | default: 30 }}px;
-    --luxp-cols: {{ s.columns | default: 4 }};
-    --luxp-cols-t: {{ s.columns_tablet | default: 3 }};
+    --luxp-tile-h: {{ s.collage_tile_height | default: 240 }}px;
+    --luxp-tile-h-t: {{ s.collage_tile_height_tablet | default: 190 }}px;
+    --luxp-cols: {{ s.columns | default: 6 }};
+    --luxp-cols-t: {{ s.columns_tablet | default: 4 }};
     --luxp-cols-m: {{ s.columns_mobile | default: 2 }};
     --luxp-cgap: {{ s.col_gap | default: 16 }}px;
     --luxp-rgap: {{ s.row_gap | default: 16 }}px;
@@ -115,7 +117,7 @@
       </header>
     {% endif %}
 
-    <div class="luxp-grid">
+    <div class="luxp-grid luxp-catalog__grid">
       {% for block in section.blocks %}
         {%- liquid
           assign cover_alt = block.settings.alt | default: 'Catalog cover'
@@ -128,7 +130,7 @@
           aria-label="{{ cover_alt | escape }}"
           {{ block.shopify_attributes }}
         >
-          <div class="luxp-media">
+          <div class="luxp-media luxp-catalog__media">
             {% if block.settings.badge != blank %}
               <span class="luxp-colcard__pill luxp-pill">{{ block.settings.badge }}</span>
             {% endif %}
@@ -138,11 +140,15 @@
               alt: cover_alt,
               class: 'luxp-catalog__img',
               loading: 'lazy',
-              sizes: '(min-width: 1024px) 25vw, (min-width: 750px) 33vw, 50vw',
+              sizes: '(min-width: 1024px) 33vw, (min-width: 750px) 50vw, 100vw',
               fallback: block.settings.default_asset
             %}
             {% if block.settings.show_view_icon %}
-              <span class="luxp-colcard__veil luxp-catalog__veil" aria-hidden="true"></span>
+              <span class="luxp-catalog__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="15" height="15">
+                  <path d="M7 17L17 7M17 7H7M17 7V17"/>
+                </svg>
+              </span>
             {% endif %}
           </div>
         </a>
@@ -166,9 +172,283 @@
   </div>
 </div>
 
+{% stylesheet %}
+  .luxp-catalog {
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  .luxp-catalog .luxp-container {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* ---------------- Collage Layout ---------------- */
+  .luxp-catalog--collage .luxp-catalog__grid {
+    display: grid !important;
+    grid-template-columns: repeat(6, 1fr) !important;
+    grid-auto-flow: row dense !important;
+    grid-auto-rows: var(--luxp-tile-h, 240px) !important;
+    column-gap: var(--luxp-cgap, 16px) !important;
+    row-gap: var(--luxp-rgap, 16px) !important;
+    width: 100% !important;
+  }
+
+  .luxp-catalog--collage .luxp-catalog__card {
+    position: relative;
+    display: flex !important;
+    flex-direction: column;
+    height: 100% !important;
+    width: 100% !important;
+    text-decoration: none;
+    overflow: hidden;
+    border-radius: var(--luxp-card-radius, 0);
+    box-sizing: border-box;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+  }
+
+  /* Hidden items (initially items 7+) */
+  .luxp-catalog .luxp-catalog__card.luxp-toggle-hidden {
+    display: none !important;
+  }
+
+  /* Expanded items (when View More is clicked inline) */
+  [data-luxp-collapsible][data-luxp-expanded='true'] .luxp-catalog .luxp-catalog__card.luxp-toggle-hidden {
+    display: flex !important;
+  }
+
+  .luxp-catalog--collage .luxp-catalog__media {
+    position: relative;
+    width: 100%;
+    height: 100% !important;
+    aspect-ratio: auto !important;
+    overflow: hidden;
+    border-radius: var(--luxp-card-radius, 0);
+  }
+
+  .luxp-catalog--collage .luxp-catalog__media img,
+  .luxp-catalog--collage .luxp-catalog__media picture {
+    width: 100% !important;
+    height: 100% !important;
+    display: block !important;
+  }
+
+  .luxp-catalog__img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    display: block !important;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+  }
+
+  .luxp-catalog__card:hover .luxp-catalog__img {
+    transform: scale(1.05);
+  }
+
+  /* Subtle arrow icon on hover */
+  .luxp-catalog__icon {
+    position: absolute;
+    right: 14px;
+    bottom: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: rgba(26, 26, 26, 0.82);
+    color: #ffffff;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 3;
+    pointer-events: none;
+  }
+
+  .luxp-catalog__card:hover .luxp-catalog__icon,
+  .luxp-catalog__card:focus-visible .luxp-catalog__icon {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ---------------- Desktop Collage Grid Spanning (min-width: 990px) ---------------- */
+  @media screen and (min-width: 990px) {
+    /* Batch 1: First 6 items (Always visible) */
+    .luxp-catalog--collage .luxp-catalog__card:nth-child(12n + 1) {
+      grid-column: span 2 !important;
+      grid-row: span 2 !important;
+    }
+    .luxp-catalog--collage .luxp-catalog__card:nth-child(12n + 2) {
+      grid-column: span 2 !important;
+      grid-row: span 1 !important;
+    }
+    .luxp-catalog--collage .luxp-catalog__card:nth-child(12n + 3) {
+      grid-column: span 2 !important;
+      grid-row: span 1 !important;
+    }
+    .luxp-catalog--collage .luxp-catalog__card:nth-child(12n + 4) {
+      grid-column: span 1 !important;
+      grid-row: span 1 !important;
+    }
+    .luxp-catalog--collage .luxp-catalog__card:nth-child(12n + 5) {
+      grid-column: span 1 !important;
+      grid-row: span 1 !important;
+    }
+    .luxp-catalog--collage .luxp-catalog__card:nth-child(12n + 6) {
+      grid-column: span 2 !important;
+      grid-row: span 1 !important;
+    }
+
+    /* Batch 2: Next 6 items (Revealed on View More) */
+    .luxp-catalog--collage .luxp-catalog__card:nth-child(12n + 7) {
+      grid-column: span 2 !important;
+      grid-row: span 1 !important;
+    }
+    .luxp-catalog--collage .luxp-catalog__card:nth-child(12n + 8) {
+      grid-column: span 2 !important;
+      grid-row: span 1 !important;
+    }
+    .luxp-catalog--collage .luxp-catalog__card:nth-child(12n + 9) {
+      grid-column: span 2 !important;
+      grid-row: span 2 !important;
+    }
+    .luxp-catalog--collage .luxp-catalog__card:nth-child(12n + 10) {
+      grid-column: span 2 !important;
+      grid-row: span 1 !important;
+    }
+    .luxp-catalog--collage .luxp-catalog__card:nth-child(12n + 11) {
+      grid-column: span 1 !important;
+      grid-row: span 1 !important;
+    }
+    .luxp-catalog--collage .luxp-catalog__card:nth-child(12n + 12) {
+      grid-column: span 1 !important;
+      grid-row: span 1 !important;
+    }
+  }
+
+  /* ---------------- Tablet Collage Grid Spanning (750px to 989px) ---------------- */
+  @media screen and (min-width: 750px) and (max-width: 989px) {
+    .luxp-catalog--collage .luxp-catalog__grid {
+      grid-template-columns: repeat(4, 1fr) !important;
+      grid-auto-rows: var(--luxp-tile-h-t, 190px) !important;
+      column-gap: var(--luxp-cgap-m, 12px) !important;
+      row-gap: var(--luxp-rgap-m, 12px) !important;
+    }
+
+    /* Batch 1: Items 1 to 6 */
+    .luxp-catalog--collage .luxp-catalog__card:nth-child(12n + 1) {
+      grid-column: span 2 !important;
+      grid-row: span 2 !important;
+    }
+    .luxp-catalog--collage .luxp-catalog__card:nth-child(12n + 2) {
+      grid-column: span 2 !important;
+      grid-row: span 1 !important;
+    }
+    .luxp-catalog--collage .luxp-catalog__card:nth-child(12n + 3) {
+      grid-column: span 2 !important;
+      grid-row: span 1 !important;
+    }
+    .luxp-catalog--collage .luxp-catalog__card:nth-child(12n + 4) {
+      grid-column: span 2 !important;
+      grid-row: span 1 !important;
+    }
+    .luxp-catalog--collage .luxp-catalog__card:nth-child(12n + 5) {
+      grid-column: span 1 !important;
+      grid-row: span 1 !important;
+    }
+    .luxp-catalog--collage .luxp-catalog__card:nth-child(12n + 6) {
+      grid-column: span 1 !important;
+      grid-row: span 1 !important;
+    }
+
+    /* Batch 2: Items 7 to 12 */
+    .luxp-catalog--collage .luxp-catalog__card:nth-child(12n + 7) {
+      grid-column: span 2 !important;
+      grid-row: span 1 !important;
+    }
+    .luxp-catalog--collage .luxp-catalog__card:nth-child(12n + 8) {
+      grid-column: span 2 !important;
+      grid-row: span 2 !important;
+    }
+    .luxp-catalog--collage .luxp-catalog__card:nth-child(12n + 9) {
+      grid-column: span 2 !important;
+      grid-row: span 1 !important;
+    }
+    .luxp-catalog--collage .luxp-catalog__card:nth-child(12n + 10) {
+      grid-column: span 1 !important;
+      grid-row: span 1 !important;
+    }
+    .luxp-catalog--collage .luxp-catalog__card:nth-child(12n + 11) {
+      grid-column: span 1 !important;
+      grid-row: span 1 !important;
+    }
+    .luxp-catalog--collage .luxp-catalog__card:nth-child(12n + 12) {
+      grid-column: span 2 !important;
+      grid-row: span 1 !important;
+    }
+  }
+
+  /* ---------------- Mobile: Clean 2-column Grid (<= 749px) ---------------- */
+  @media screen and (max-width: 749px) {
+    .luxp-catalog--collage .luxp-catalog__grid {
+      grid-template-columns: repeat(var(--luxp-cols-m, 2), minmax(0, 1fr)) !important;
+      grid-auto-rows: auto !important;
+      column-gap: var(--luxp-cgap-m, 12px) !important;
+      row-gap: var(--luxp-rgap-m, 12px) !important;
+    }
+
+    .luxp-catalog--collage .luxp-catalog__card {
+      grid-column: span 1 !important;
+      grid-row: span 1 !important;
+      height: auto !important;
+    }
+
+    .luxp-catalog--collage .luxp-catalog__media {
+      aspect-ratio: var(--luxp-media-ratio, 3 / 4) !important;
+      height: auto !important;
+    }
+
+    .luxp-catalog__icon {
+      width: 28px !important;
+      height: 28px !important;
+      right: 8px !important;
+      bottom: 8px !important;
+      opacity: 1 !important;
+      transform: translateY(0) !important;
+    }
+
+    .luxp-catalog__icon svg {
+      width: 12px !important;
+      height: 12px !important;
+    }
+  }
+
+  /* ---------------- Footer & Inline Toggle Button ---------------- */
+  .luxp-catalog .luxp-footer {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    margin-top: var(--luxp-footer-mt, 32px) !important;
+    width: 100% !important;
+    text-align: center !important;
+  }
+
+  .luxp-catalog .luxp-toggle-btn {
+    margin-top: 0 !important;
+    cursor: pointer !important;
+    user-select: none !important;
+    transition: all 0.3s ease !important;
+  }
+{% endstylesheet %}
+
 {% schema %}
 {
-  "name": "Catalog Grid",
+  "name": "Catalog Gallery",
   "tag": "section",
   "class": "section-luxp-catalog",
   "max_blocks": 24,
@@ -186,14 +466,20 @@
     { "type": "range", "id": "header_gap", "min": 4, "max": 24, "step": 2, "unit": "px", "label": "Header element spacing", "default": 10 },
     { "type": "checkbox", "id": "open_links_new_tab", "label": "Open catalog links in a new tab", "default": true },
 
-    { "type": "header", "content": "Layout — Grid" },
+    { "type": "header", "content": "Layout" },
+    { "type": "select", "id": "layout_style", "label": "Layout style", "options": [
+      { "value": "collage", "label": "Collage (Asymmetrical Mixed Sizes)" },
+      { "value": "grid", "label": "Uniform Grid" }
+    ], "default": "collage" },
+    { "type": "range", "id": "collage_tile_height", "min": 160, "max": 360, "step": 10, "unit": "px", "label": "Collage row height — desktop", "default": 240 },
+    { "type": "range", "id": "collage_tile_height_tablet", "min": 130, "max": 260, "step": 10, "unit": "px", "label": "Collage row height — tablet", "default": 190 },
     { "type": "select", "id": "container_mode", "label": "Container mode", "options": [
       { "value": "fixed", "label": "Container (max width)" },
       { "value": "full", "label": "Full width" }
     ], "default": "full" },
     { "type": "range", "id": "container_max", "min": 1000, "max": 1600, "step": 20, "unit": "px", "label": "Container max width", "default": 1400 },
-    { "type": "range", "id": "columns", "min": 2, "max": 6, "step": 1, "label": "Columns — desktop", "default": 4 },
-    { "type": "range", "id": "columns_tablet", "min": 2, "max": 5, "step": 1, "label": "Columns — tablet", "default": 3 },
+    { "type": "range", "id": "columns", "min": 2, "max": 6, "step": 1, "label": "Columns — desktop (Uniform Grid)", "default": 6 },
+    { "type": "range", "id": "columns_tablet", "min": 2, "max": 5, "step": 1, "label": "Columns — tablet", "default": 4 },
     { "type": "select", "id": "columns_mobile", "label": "Columns — mobile", "options": [
       { "value": "1", "label": "1 column" },
       { "value": "2", "label": "2 columns" }
@@ -227,7 +513,7 @@
 
     { "type": "header", "content": "View More / Less" },
     { "type": "checkbox", "id": "enable_view_more", "label": "Collapse extra covers behind a button", "default": true },
-    { "type": "range", "id": "initial_items", "min": 4, "max": 16, "step": 1, "label": "Covers shown initially", "default": 8 },
+    { "type": "range", "id": "initial_items", "min": 2, "max": 16, "step": 1, "label": "Covers shown initially", "default": 6 },
     { "type": "text", "id": "view_more_text", "label": "Expand label", "default": "VIEW MORE" },
     { "type": "text", "id": "view_less_text", "label": "Collapse label", "default": "VIEW LESS" },
 

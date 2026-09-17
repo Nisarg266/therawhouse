@@ -19,6 +19,47 @@ class HeaderDrawer extends Component {
 
     this.addEventListener('keyup', this.#onKeyUp);
     this.#setupAnimatedElementListeners();
+
+    // Explicit click handler on summary to ensure reliable drawer toggling
+    const summary = this.querySelector('summary');
+    if (summary) {
+      summary.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        this.toggle(event);
+      });
+    }
+
+    // Backdrop click handler to dismiss the drawer
+    const backdrop = this.querySelector('.menu-drawer__backdrop');
+    if (backdrop) {
+      backdrop.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        this.close(event);
+      });
+    }
+
+    // Close button click handler
+    const closeButtons = this.querySelectorAll('.menu-drawer__close-button');
+    closeButtons.forEach((btn) => {
+      btn.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        this.close(event);
+      });
+    });
+
+    // Auto-close on link navigation
+    const menuLinks = this.querySelectorAll('.menu-drawer__menu-item');
+    menuLinks.forEach((link) => {
+      link.addEventListener('click', () => {
+        const href = link.getAttribute('href');
+        if (href && !href.startsWith('#')) {
+          this.close();
+        }
+      });
+    });
   }
 
   disconnectedCallback() {
@@ -81,12 +122,12 @@ class HeaderDrawer extends Component {
 
     details.setAttribute('open', '');
     summary.setAttribute('aria-expanded', 'true');
+    details.classList.remove('is-closing');
+    details.classList.add('menu-open', 'is-open');
 
     this.preventInitialAccordionAnimations(details);
     requestAnimationFrame(() => {
-      details.classList.add('menu-open', 'is-open');
-
-      if (target) {
+      if (target && this.refs.menuDrawer) {
         this.refs.menuDrawer.classList.add('menu-drawer--has-submenu-opened');
       }
 
@@ -121,32 +162,42 @@ class HeaderDrawer extends Component {
    * @param {HTMLDetailsElement} details
    */
   #close(details) {
+    if (!details) return;
     const summary = details.querySelector('summary');
 
-    if (!summary) return;
-
-    summary.setAttribute('aria-expanded', 'false');
+    if (summary) {
+      summary.setAttribute('aria-expanded', 'false');
+    }
+    details.classList.add('is-closing');
     details.classList.remove('menu-open', 'is-open');
-    this.refs.menuDrawer.classList.remove('menu-drawer--has-submenu-opened');
+    if (this.refs.menuDrawer) {
+      this.refs.menuDrawer.classList.remove('menu-drawer--has-submenu-opened');
+    }
 
-    // Wait for the .menu-drawer element's transition, not the entire details subtree
-    // This avoids waiting for child accordion/resource-card animations which can cause issues on Firefox
+    // Wait for the .menu-drawer element's transition, with safety timeout fallback
     const drawer = details.querySelector('.menu-drawer, .menu-drawer__submenu');
 
-    onAnimationEnd(
-      drawer || details,
-      () => {
-        reset(details);
-        if (details === this.refs.details) {
-          removeTrapFocus();
-          const openDetails = this.querySelectorAll('details[open]:not(accordion-custom > details)');
-          openDetails.forEach(reset);
-        } else {
-          trapFocus(this.refs.details);
-        }
-      },
-      { subtree: false }
-    );
+    let isDone = false;
+    const finishClosing = () => {
+      if (isDone) return;
+      isDone = true;
+      details.classList.remove('is-closing');
+      reset(details);
+      if (details === this.refs.details) {
+        removeTrapFocus();
+        const openDetails = this.querySelectorAll('details[open]:not(accordion-custom > details)');
+        openDetails.forEach(reset);
+      } else if (this.refs.details) {
+        trapFocus(this.refs.details);
+      }
+    };
+
+    if (drawer) {
+      onAnimationEnd(drawer, finishClosing, { subtree: false });
+      setTimeout(finishClosing, 350);
+    } else {
+      finishClosing();
+    }
   }
 
   /**

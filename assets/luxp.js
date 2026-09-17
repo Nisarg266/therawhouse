@@ -87,14 +87,24 @@
   /* ---------------- View more / less ---------------- */
   function initToggle(root) {
     var btn = root.querySelector('[data-luxp-toggle]');
-    var hiddenClass = 'luxp-toggle-hidden';
     if (!btn) return;
 
-    btn.addEventListener('click', function () {
+    btn.addEventListener('click', function (e) {
+      if (e) e.preventDefault();
       var expanded = root.getAttribute('data-luxp-expanded') === 'true';
-      root.setAttribute('data-luxp-expanded', expanded ? 'false' : 'true');
-      btn.textContent = expanded ? btn.getAttribute('data-luxp-more') : btn.getAttribute('data-luxp-less');
-      btn.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+      if (expanded) {
+        root.setAttribute('data-luxp-expanded', 'false');
+        btn.textContent = btn.getAttribute('data-luxp-more') || 'VIEW MORE';
+        btn.setAttribute('aria-expanded', 'false');
+        var rect = root.getBoundingClientRect();
+        if (rect.top < -50) {
+          root.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      } else {
+        root.setAttribute('data-luxp-expanded', 'true');
+        btn.textContent = btn.getAttribute('data-luxp-less') || 'VIEW LESS';
+        btn.setAttribute('aria-expanded', 'true');
+      }
     });
   }
 

@@ -57,6 +57,13 @@
     >
       <div class="menu-drawer__header">
         <span class="menu-drawer__header-title">{{ 'accessibility.menu' | t }}</span>
+        <button
+          type="button"
+          class="menu-drawer__close-button"
+          aria-label="{{ 'accessibility.close' | t }}"
+        >
+          {{- 'icon-close.svg' | inline_asset_content -}}
+        </button>
       </div>
 
       {%- comment -%} Editorial Feature Gallery Card (Screenshot Match) {%- endcomment -%}
