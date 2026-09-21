@@ -1179,6 +1179,7 @@
       "blocks": {
         "social_facebook": {
           "type": "social-link",
+          "disabled": true,
           "settings": {
             "platform": "facebook",
             "link": "https://facebook.com/therawhouse",
@@ -1195,6 +1196,7 @@
         },
         "social_x": {
           "type": "social-link",
+          "disabled": true,
           "settings": {
             "platform": "x",
             "link": "https://twitter.com",
