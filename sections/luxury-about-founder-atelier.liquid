@@ -40,7 +40,7 @@
 %}
 
 <section
-  id="LuxuryFounder-{{ section.id }}"
+  id="{% if section.settings.custom_id != blank %}{{ section.settings.custom_id | handleize }}{% else %}LuxuryFounder-{{ section.id }}{% endif %}"
   class="lux-founder-section lux-founder-scheme-{{ scheme }}"
   style="
     --founder-bg: {{ bg_color }};
@@ -137,6 +137,16 @@
   "tag": "section",
   "class": "section-luxury-founder",
   "settings": [
+    {
+      "type": "header",
+      "content": "Section Setup"
+    },
+    {
+      "type": "text",
+      "id": "custom_id",
+      "label": "Custom Section ID",
+      "info": "Used for anchor links, e.g., entering 'atelier' allows linking via /pages/about-us#atelier"
+    },
     {
       "type": "header",
       "content": "Color Scheme & Style"

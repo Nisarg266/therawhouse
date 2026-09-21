@@ -111,43 +111,8 @@
     },
     "luxury_about_founder": {
       "type": "luxury-about-founder-atelier",
-      "blocks": {
-        "metric_1": {
-          "type": "metric",
-          "settings": {
-            "value": "Slow",
-            "label": "Curated"
-          }
-        },
-        "metric_2": {
-          "type": "metric",
-          "settings": {
-            "value": "Raw",
-            "label": "Materials"
-          }
-        },
-        "metric_3": {
-          "type": "metric",
-          "settings": {
-            "value": "1:1",
-            "label": "Guidance"
-          }
-        },
-        "metric_4": {
-          "type": "metric",
-          "settings": {
-            "value": "Home",
-            "label": "First"
-          }
-        }
-      },
-      "block_order": [
-        "metric_1",
-        "metric_2",
-        "metric_3",
-        "metric_4"
-      ],
       "settings": {
+        "custom_id": "founder",
         "color_scheme_preset": "obsidian",
         "media_position": "left",
         "default_asset": "art-atelier-artist-studio.jpg",

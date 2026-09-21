@@ -135,6 +135,7 @@
     "luxury_about_founder": {
       "type": "luxury-about-founder-atelier",
       "settings": {
+        "custom_id": "founder",
         "color_scheme_preset": "obsidian",
         "custom_bg_color": "",
         "custom_text_color": "",
