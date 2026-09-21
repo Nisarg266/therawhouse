@@ -1,747 +1,833 @@
-<div
-  class="about-narrative about-narrative--{{ section.id }}"
+{% liquid
+  assign scheme = section.settings.color_scheme_preset | default: 'warm'
+  case scheme
+    when 'light'
+      assign bg_color = '#ffffff'
+      assign text_color = '#111111'
+      assign muted_color = '#6f6a60'
+      assign card_bg = '#fffefa'
+      assign border_color = '#ded8cc'
+      assign accent_color = '#9f7e4b'
+    when 'dark'
+      assign bg_color = '#151413'
+      assign text_color = '#ffffff'
+      assign muted_color = '#c9c1b3'
+      assign card_bg = '#201e1b'
+      assign border_color = 'rgba(255, 255, 255, 0.14)'
+      assign accent_color = '#c5a880'
+    else
+      assign bg_color = '#f8f5ef'
+      assign text_color = '#111111'
+      assign muted_color = '#6c675d'
+      assign card_bg = '#fffdf8'
+      assign border_color = '#ded7cb'
+      assign accent_color = '#9f7e4b'
+  endcase
+
+  if section.settings.custom_bg_color != blank and section.settings.custom_bg_color != 'rgba(0,0,0,0)'
+    assign bg_color = section.settings.custom_bg_color
+  endif
+  if section.settings.custom_text_color != blank and section.settings.custom_text_color != 'rgba(0,0,0,0)'
+    assign text_color = section.settings.custom_text_color
+  endif
+  if section.settings.custom_accent_color != blank and section.settings.custom_accent_color != 'rgba(0,0,0,0)'
+    assign accent_color = section.settings.custom_accent_color
+  endif
+%}
+
+<section
+  id="AboutFounders-{{ section.id }}"
+  class="about-founders about-founders--{{ scheme }}"
   style="
-    --narrative-pt: {{ section.settings.padding_top | default: 95 }}px;
-    --narrative-pb: {{ section.settings.padding_bottom | default: 95 }}px;
-    --narrative-pt-mobile: {{ section.settings.mobile_padding_top | default: 50 }}px;
-    --narrative-pb-mobile: {{ section.settings.mobile_padding_bottom | default: 50 }}px;
-    --narrative-bg: {{ section.settings.bg_color | default: '#fcfbfa' }};
-    --narrative-heading: {{ section.settings.heading_color | default: '#1a1a1a' }};
-    --narrative-text: {{ section.settings.text_color | default: '#555555' }};
-    --narrative-accent: {{ section.settings.accent_color | default: '#c8a876' }};
-    --narrative-quote-border: {{ section.settings.quote_border_color | default: '#c8a876' }};
-    --narrative-badge-bg: {{ section.settings.badge_bg_color | default: '#111111' }};
-    --narrative-badge-text: {{ section.settings.badge_text_color | default: '#ffffff' }};
+    --founders-bg: {{ bg_color }};
+    --founders-color: {{ text_color }};
+    --founders-muted: {{ muted_color }};
+    --founders-card: {{ card_bg }};
+    --founders-border: {{ border_color }};
+    --founders-accent: {{ accent_color }};
+    --founders-pt: {{ section.settings.padding_top | default: 74 }}px;
+    --founders-pb: {{ section.settings.padding_bottom | default: 66 }}px;
+    --founders-small-text-size: {{ section.settings.small_text_size | default: 11 }}px;
+    --founders-small-text-size-mobile: {{ section.settings.small_text_size_mobile | default: 9 }}px;
+    --founders-heading-size: {{ section.settings.heading_size | default: 82 }}px;
+    --founders-heading-size-mobile: {{ section.settings.heading_size_mobile | default: 44 }}px;
+    --founders-intro-size: {{ section.settings.intro_size | default: 16 }}px;
+    --founders-intro-size-mobile: {{ section.settings.intro_size_mobile | default: 15 }}px;
+    --founders-name-size: {{ section.settings.name_size | default: 49 }}px;
+    --founders-name-size-mobile: {{ section.settings.name_size_mobile | default: 30 }}px;
+    --founders-card-text-size: {{ section.settings.card_text_size | default: 21 }}px;
+    --founders-card-text-size-mobile: {{ section.settings.card_text_size_mobile | default: 14 }}px;
+    --founders-bio-size: {{ section.settings.bio_size | default: 13 }}px;
+    --founders-link-size: {{ section.settings.link_size | default: 11 }}px;
+    --founders-bottom-size: {{ section.settings.bottom_text_size | default: 11 }}px;
   "
+  {{ section.shopify_attributes }}
 >
-  <div class="about-narrative__container">
-    <div class="about-narrative__grid {% if section.settings.layout_order == 'media_first' %}about-narrative__grid--media-first{% endif %}">
-      
-      {%- comment -%} Left Column: Editorial Story Content {%- endcomment -%}
-      <div class="about-narrative__content" {% if section.settings.enable_reveal_animation != false %}data-about-reveal{% endif %}>
-        {%- if section.settings.eyebrow != blank -%}
-          <div class="about-narrative__eyebrow-wrap">
-            <span class="about-narrative__eyebrow-dot"></span>
-            <span class="about-narrative__eyebrow">{{ section.settings.eyebrow }}</span>
-          </div>
-        {%- endif -%}
-
-        <h2 class="about-narrative__heading">
-          {{ section.settings.heading }}
-        </h2>
-
-        {%- if section.settings.lead_text != blank -%}
-          <div class="about-narrative__lead">
-            {{ section.settings.lead_text }}
-          </div>
-        {%- endif -%}
-
-        <div class="about-narrative__body">
-          {{ section.settings.body_text }}
+  <div class="about-founders__inner">
+    <header class="about-founders__header lux-reveal-fade-up">
+      {% if section.settings.subheading != blank %}
+        <div class="about-founders__subheading-wrap">
+          <span class="about-founders__line"></span>
+          <span class="about-founders__subheading">{{ section.settings.subheading }}</span>
+          <span class="about-founders__line"></span>
         </div>
+      {% endif %}
 
-        {%- if section.settings.founder_quote != blank -%}
-          <div class="about-narrative__quote-box">
-            <p class="about-narrative__quote-text">“{{ section.settings.founder_quote }}”</p>
-          </div>
-        {%- endif -%}
-
-        <div class="about-narrative__founder-block">
-          {%- if section.settings.founder_name != blank -%}
-            <div class="about-narrative__founder-info">
-              <span class="about-narrative__founder-name">{{ section.settings.founder_name }}</span>
-              <span class="about-narrative__founder-title">{{ section.settings.founder_title }}</span>
-            </div>
-          {%- endif -%}
-
-          {%- if section.settings.button_text != blank -%}
-            <a
-              href="{{ section.settings.button_url | default: '/collections/all' }}"
-              class="about-narrative__btn about-narrative__btn--{{ section.settings.button_style | default: 'solid_dark' }} art-button"
-              {% if section.settings.button_open_new_tab %}target="_blank" rel="noopener noreferrer"{% endif %}
-            >
-              <span>{{ section.settings.button_text }}</span>
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-                <polyline points="12 5 19 12 12 19"></polyline>
-              </svg>
-            </a>
-          {%- endif -%}
-        </div>
+      <div class="about-founders__title-row">
+        <h2 class="about-founders__heading">{{ section.settings.heading }}</h2>
+        {% if section.settings.intro != blank %}
+          <p class="about-founders__intro">{{ section.settings.intro }}</p>
+        {% endif %}
       </div>
+    </header>
 
-      {%- comment -%} Right Column: Layered Editorial Visuals {%- endcomment -%}
-      <div class="about-narrative__media" {% if section.settings.enable_reveal_animation != false %}data-about-reveal{% endif %}>
-        <div class="about-narrative__media-wrap">
-          <div class="about-narrative__main-img-box {% if section.settings.enable_image_zoom == false %}no-zoom{% endif %}">
-            {%- if section.settings.primary_image != blank -%}
-              {{ section.settings.primary_image | image_url: width: 1200 | image_tag: 
-                class: 'about-narrative__main-img', 
-                loading: 'lazy', 
-                widths: '400,600,800,1200',
-                alt: section.settings.heading | escape 
+    <div class="about-founders__grid lux-stagger-parent lux-reveal-fade-up">
+      {% for block in section.blocks %}
+        {% liquid
+          assign fallback_asset = block.settings.default_asset
+          if fallback_asset == blank
+            if forloop.index == 1
+              assign fallback_asset = 'maker-portrait-1.jpg'
+            else
+              assign fallback_asset = 'maker-portrait-2.jpg'
+            endif
+          endif
+        %}
+
+        <article class="about-founders__card lux-stagger-child" {{ block.shopify_attributes }}>
+          <div class="about-founders__media">
+            {% if block.settings.image != blank %}
+              {{
+                block.settings.image
+                | image_url: width: 1000
+                | image_tag:
+                  class: 'about-founders__image',
+                  loading: 'lazy',
+                  widths: '320, 480, 640, 800, 1000',
+                  sizes: '(max-width: 749px) 38vw, (max-width: 1180px) 36vw, 18vw',
+                  alt: block.settings.name
               }}
-            {%- else -%}
+            {% else %}
               <img
-                src="{{ 'maker-gallery-1.jpg' | asset_url }}"
-                alt="The Raw House Craft Narrative"
-                class="about-narrative__main-img"
+                src="{{ fallback_asset | asset_url }}"
+                alt="{{ block.settings.name | default: 'The Raw House founder' | escape }}"
+                class="about-founders__image"
                 loading="lazy"
-                width="800"
-                height="1000"
+                width="640"
+                height="820"
               >
-            {%- endif -%}
+            {% endif %}
           </div>
 
-          <div class="about-narrative__sub-img-box {% if section.settings.enable_image_zoom == false %}no-zoom{% endif %}">
-            {%- if section.settings.secondary_image != blank -%}
-              {{ section.settings.secondary_image | image_url: width: 600 | image_tag: 
-                class: 'about-narrative__sub-img', 
-                loading: 'lazy', 
-                widths: '250,400,600',
-                alt: 'Artisan Detail' 
-              }}
-            {%- else -%}
-              <img
-                src="{{ 'fine-print-1.jpg' | asset_url }}"
-                alt="Fine Curated Craft Detail"
-                class="about-narrative__sub-img"
-                loading="lazy"
-                width="450"
-                height="550"
-              >
-            {%- endif -%}
+          <div class="about-founders__content">
+            {% if block.settings.role != blank %}
+              <span class="about-founders__role">{{ block.settings.role }}</span>
+            {% endif %}
+
+            <span class="about-founders__rule"></span>
+
+            {% if block.settings.name != blank %}
+              <h3 class="about-founders__name">{{ block.settings.name }}</h3>
+            {% endif %}
+
+            {% if block.settings.quote != blank %}
+              <p class="about-founders__quote">{{ block.settings.quote }}</p>
+            {% endif %}
+
+            {% if section.settings.show_bio and block.settings.bio != blank %}
+              <p class="about-founders__bio">{{ block.settings.bio }}</p>
+            {% endif %}
+
+            {% if block.settings.link_label != blank %}
+              {% if block.settings.link != blank %}
+                <a class="about-founders__link" href="{{ block.settings.link }}">
+                  <span>{{ block.settings.link_label }}</span>
+                  <span aria-hidden="true">&rarr;</span>
+                </a>
+              {% else %}
+                <span class="about-founders__link about-founders__link--static">
+                  <span>{{ block.settings.link_label }}</span>
+                  <span aria-hidden="true">&rarr;</span>
+                </span>
+              {% endif %}
+            {% endif %}
           </div>
-
-          {%- if section.settings.show_badge != false and section.settings.badge_text != blank -%}
-            <div class="about-narrative__heritage-badge">
-              <span class="about-narrative__badge-eyebrow">{{ section.settings.badge_eyebrow | default: 'ESTABLISHED' }}</span>
-              <span class="about-narrative__badge-title">{{ section.settings.badge_text }}</span>
-              <span class="about-narrative__badge-sub">{{ section.settings.badge_sub | default: 'UDAIPUR • MUMBAI' }}</span>
-            </div>
-          {%- endif -%}
-        </div>
-      </div>
-
+        </article>
+      {% endfor %}
     </div>
+
+    {% if section.settings.bottom_text != blank %}
+      <div class="about-founders__bottom lux-reveal-fade-up">
+        <span class="about-founders__bottom-line"></span>
+        <span class="about-founders__bottom-text">{{ section.settings.bottom_text }}</span>
+        <span class="about-founders__bottom-line"></span>
+      </div>
+    {% endif %}
   </div>
-</div>
+</section>
 
-<style>
-  .about-narrative {
-    width: 100%;
-    background-color: var(--narrative-bg, #fcfbfa);
-    padding-top: var(--narrative-pt, 90px);
-    padding-bottom: var(--narrative-pb, 90px);
-    box-sizing: border-box;
-    overflow: hidden;
+{% stylesheet %}
+  .about-founders {
+    position: relative;
+    overflow: clip;
+    background:
+      radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--founders-accent) 10%, transparent), transparent 34%),
+      linear-gradient(180deg, color-mix(in srgb, var(--founders-bg) 92%, #ffffff), var(--founders-bg));
+    color: var(--founders-color);
+    padding: var(--founders-pt) 0 var(--founders-pb);
   }
 
-  .about-narrative__container {
-    width: 100%;
-    max-width: 1240px;
+  .about-founders__inner {
+    width: min(1260px, calc(100% - 48px));
     margin: 0 auto;
-    padding: 0 28px;
-    box-sizing: border-box;
   }
 
-  .about-narrative__grid {
+  .about-founders__header {
+    max-width: 1040px;
+    margin: 0 auto clamp(42px, 5vw, 70px);
+    text-align: center;
+  }
+
+  .about-founders__subheading-wrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    margin-bottom: clamp(22px, 3vw, 34px);
+  }
+
+  .about-founders__line,
+  .about-founders__bottom-line,
+  .about-founders__rule {
+    display: block;
+    height: 1px;
+    background: var(--founders-accent);
+  }
+
+  .about-founders__line {
+    width: clamp(34px, 5vw, 62px);
+  }
+
+  .about-founders__subheading,
+  .about-founders__role,
+  .about-founders__link,
+  .about-founders__bottom-text {
+    color: var(--founders-color);
+    font-size: var(--founders-small-text-size);
+    font-weight: 500;
+    letter-spacing: 0.34em;
+    line-height: 1.55;
+    text-transform: uppercase;
+  }
+
+  .about-founders__title-row {
     display: grid;
-    grid-template-columns: 1.15fr 1fr;
-    gap: 64px;
+    grid-template-columns: minmax(0, 1fr) minmax(230px, 0.32fr);
+    gap: clamp(26px, 4.5vw, 58px);
     align-items: center;
+    text-align: left;
   }
 
-  .about-narrative__grid--media-first {
-    grid-template-columns: 1fr 1.15fr;
-  }
-  .about-narrative__grid--media-first .about-narrative__content {
-    order: 2;
-  }
-  .about-narrative__grid--media-first .about-narrative__media {
-    order: 1;
-  }
-
-  .about-narrative__content {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .about-narrative__eyebrow-wrap {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 14px;
-  }
-
-  .about-narrative__eyebrow-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background-color: var(--narrative-accent, #c8a876);
-  }
-
-  .about-narrative__eyebrow {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.26em;
-    text-transform: uppercase;
-    color: var(--narrative-accent, #c8a876);
-  }
-
-  .about-narrative__heading {
-    font-family: var(--font-heading-family, serif);
-    font-size: clamp(28px, 3.2vw, 44px);
-    font-weight: 400;
-    line-height: 1.22;
-    letter-spacing: 0.04em;
-    color: var(--narrative-heading, #1a1a1a);
-    margin: 0 0 22px 0;
-    text-transform: uppercase;
-  }
-
-  .about-narrative__lead {
-    font-family: var(--font-heading-family, serif);
-    font-size: clamp(16px, 1.5vw, 19px);
-    font-style: italic;
-    font-weight: 400;
-    line-height: 1.6;
-    color: #333333;
-    margin-bottom: 20px;
-    padding-left: 18px;
-    border-left: 2px solid var(--narrative-quote-border, #c8a876);
-  }
-
-  .about-narrative__body {
-    font-family: var(--font-body-family, sans-serif);
-    font-size: 13.5px;
-    line-height: 1.85;
-    letter-spacing: 0.03em;
-    color: var(--narrative-text, #555555);
-    margin-bottom: 26px;
-  }
-
-  .about-narrative__body p {
-    margin: 0 0 14px 0;
-  }
-
-  .about-narrative__quote-box {
-    background-color: #ffffff;
-    border: 1px solid #eae5de;
-    padding: 16px 20px;
-    margin-bottom: 26px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
-    border-left: 3px solid var(--narrative-quote-border, #c8a876);
-  }
-
-  .about-narrative__quote-text {
-    font-family: var(--font-heading-family, serif);
-    font-size: 14.5px;
-    font-style: italic;
-    line-height: 1.6;
-    color: #222222;
+  .about-founders__heading {
     margin: 0;
-  }
-
-  .about-narrative__founder-block {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    flex-wrap: wrap;
-    padding-top: 18px;
-    border-top: 1px solid #eae5de;
-  }
-
-  .about-narrative__founder-info {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  .about-narrative__founder-name {
+    color: var(--founders-color);
     font-family: var(--font-heading-family, serif);
-    font-size: 15px;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    color: #111111;
-    text-transform: uppercase;
+    font-size: clamp(40px, 6.2vw, var(--founders-heading-size));
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 0.96;
   }
 
-  .about-narrative__founder-title {
-    font-size: 11px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: #777777;
+  .about-founders__intro {
+    margin: 0;
+    padding-left: 22px;
+    border-left: 1px solid var(--founders-accent);
+    color: var(--founders-muted);
+    font-size: clamp(13px, 1.1vw, var(--founders-intro-size));
+    line-height: 1.58;
   }
 
-  .about-narrative__btn {
+  .about-founders__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(20px, 3vw, 34px);
+  }
+
+  .about-founders__card {
+    display: grid;
+    grid-template-columns: minmax(210px, 0.88fr) minmax(0, 1fr);
+    min-height: clamp(430px, 36vw, 560px);
+    border: 1px solid var(--founders-border);
+    background: color-mix(in srgb, var(--founders-card) 94%, transparent);
+    overflow: hidden;
+    transition:
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .about-founders__card:hover {
+    transform: translateY(-6px);
+    border-color: color-mix(in srgb, var(--founders-accent) 72%, var(--founders-border));
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.12);
+  }
+
+  .about-founders__media {
+    min-height: 100%;
+    background: #d6d1c8;
+    overflow: hidden;
+  }
+
+  .about-founders__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(1) contrast(1.06);
+    transform: scale(1.01);
+    transition:
+      transform 1s cubic-bezier(0.22, 1, 0.36, 1),
+      filter 1s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .about-founders__card:hover .about-founders__image {
+    filter: grayscale(1) contrast(1.14);
+    transform: scale(1.055);
+  }
+
+  .about-founders__content {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(28px, 3.8vw, 46px);
+  }
+
+  .about-founders__role {
+    max-width: 250px;
+    color: var(--founders-color);
+  }
+
+  .about-founders__rule {
+    width: 44px;
+    margin: 24px 0 clamp(24px, 3vw, 38px);
+  }
+
+  .about-founders__name {
+    margin: 0 0 clamp(16px, 2vw, 24px);
+    color: var(--founders-color);
+    font-family: var(--font-heading-family, serif);
+    font-size: clamp(31px, 3.1vw, var(--founders-name-size));
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 0.98;
+  }
+
+  .about-founders__quote,
+  .about-founders__bio {
+    max-width: 330px;
+    margin: 0;
+    color: var(--founders-color);
+    font-family: var(--font-heading-family, serif);
+    font-size: clamp(16px, 1.22vw, var(--founders-card-text-size));
+    line-height: 1.52;
+  }
+
+  .about-founders__bio {
+    margin-top: 12px;
+    color: var(--founders-muted);
+    font-family: var(--font-body-family, sans-serif);
+    font-size: var(--founders-bio-size);
+    line-height: 1.68;
+  }
+
+  .about-founders__link {
     display: inline-flex;
+    width: fit-content;
     align-items: center;
-    gap: 10px;
-    padding: 12px 24px;
-    background-color: #111111;
-    color: #ffffff;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
+    gap: 12px;
+    margin-top: clamp(28px, 4vw, 48px);
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--founders-accent);
+    color: var(--founders-color);
+    font-size: var(--founders-link-size);
     text-decoration: none;
-    transition: background-color 0.25s ease, transform 0.2s ease, border-color 0.25s ease;
-    border: 1px solid transparent;
+    transition:
+      gap 0.25s ease,
+      color 0.25s ease;
   }
 
-  .about-narrative__btn--solid_dark:hover {
-    background-color: #333333;
-    transform: translateY(-2px);
+  .about-founders__link:hover {
+    gap: 18px;
+    color: var(--founders-accent);
   }
 
-  .about-narrative__btn--outline_dark {
-    background-color: transparent;
-    color: #111111;
-    border: 1px solid #111111;
-  }
-  .about-narrative__btn--outline_dark:hover {
-    background-color: #111111;
-    color: #ffffff;
-    transform: translateY(-2px);
+  .about-founders__link--static {
+    pointer-events: none;
   }
 
-  .about-narrative__btn--gold_accent {
-    background-color: var(--narrative-accent, #c8a876);
-    color: #ffffff;
-  }
-  .about-narrative__btn--gold_accent:hover {
-    background-color: #b59461;
-    transform: translateY(-2px);
-  }
-
-  /* Right Media Side */
-  .about-narrative__media {
-    position: relative;
-  }
-
-  .about-narrative__media-wrap {
-    position: relative;
-    padding-right: 40px;
-    padding-bottom: 40px;
-  }
-
-  .about-narrative__main-img-box {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 4 / 5;
-    overflow: hidden;
-    background-color: #eaeaea;
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
-  }
-
-  .about-narrative__main-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .about-narrative__media-wrap:hover .about-narrative__main-img-box:not(.no-zoom) .about-narrative__main-img {
-    transform: scale(1.04);
-  }
-
-  .about-narrative__sub-img-box {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 48%;
-    aspect-ratio: 1 / 1;
-    overflow: hidden;
-    border: 6px solid #ffffff;
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
-    z-index: 2;
-    background-color: #eaeaea;
-  }
-
-  .about-narrative__sub-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .about-narrative__media-wrap:hover .about-narrative__sub-img-box:not(.no-zoom) .about-narrative__sub-img {
-    transform: scale(1.06);
-  }
-
-  .about-narrative__heritage-badge {
-    position: absolute;
-    top: 24px;
-    left: -20px;
-    z-index: 3;
-    background-color: var(--narrative-badge-bg, #111111);
-    color: var(--narrative-badge-text, #ffffff);
-    padding: 14px 18px;
-    display: flex;
-    flex-direction: column;
+  .about-founders__bottom {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: clamp(18px, 3vw, 42px);
     align-items: center;
-    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    margin-top: clamp(42px, 5vw, 76px);
   }
 
-  .about-narrative__badge-eyebrow {
-    font-size: 8.5px;
-    letter-spacing: 0.28em;
-    color: var(--narrative-accent, #c8a876);
+  .about-founders__bottom-line {
+    opacity: 0.75;
   }
 
-  .about-narrative__badge-title {
-    font-family: var(--font-heading-family, serif);
-    font-size: 16px;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    color: var(--narrative-badge-text, #ffffff);
-    margin: 2px 0;
+  .about-founders__bottom-text {
+    color: var(--founders-muted);
+    font-size: var(--founders-bottom-size);
+    text-align: center;
+    white-space: nowrap;
   }
 
-  .about-narrative__badge-sub {
-    font-size: 8px;
-    letter-spacing: 0.22em;
-    color: rgba(255, 255, 255, 0.7);
+  @media screen and (prefers-reduced-motion: reduce) {
+    .about-founders__card,
+    .about-founders__image,
+    .about-founders__link {
+      transition: none;
+    }
   }
 
-  @media screen and (max-width: 989px) {
-    .about-narrative__grid,
-    .about-narrative__grid--media-first {
+  @media screen and (max-width: 1180px) {
+    .about-founders__grid {
       grid-template-columns: 1fr;
-      gap: 48px;
     }
-    .about-narrative__grid--media-first .about-narrative__content {
-      order: 1;
-    }
-    .about-narrative__grid--media-first .about-narrative__media {
-      order: 2;
-    }
-    .about-narrative__media-wrap {
-      padding-right: 20px;
-      padding-bottom: 20px;
-      max-width: 520px;
-      margin: 0 auto;
-    }
-    .about-narrative__heritage-badge {
-      left: 10px;
-      top: 10px;
+
+    .about-founders__card {
+      min-height: 460px;
     }
   }
 
   @media screen and (max-width: 749px) {
-    .about-narrative {
-      padding-top: var(--narrative-pt-mobile, 48px);
-      padding-bottom: var(--narrative-pb-mobile, 48px);
+    .about-founders {
+      padding-top: calc(var(--founders-pt) * 0.68);
+      padding-bottom: calc(var(--founders-pb) * 0.72);
     }
-    .about-narrative__container {
-      padding: 0 16px;
+
+    .about-founders__inner {
+      width: 100%;
+      padding: 0 18px;
     }
-    .about-narrative__heading {
-      font-size: 24px;
-      margin-bottom: 16px;
+
+    .about-founders__header {
+      margin-bottom: 30px;
     }
-    .about-narrative__lead {
-      font-size: 15px;
-      padding-left: 14px;
-      margin-bottom: 16px;
+
+    .about-founders__subheading-wrap {
+      gap: 14px;
+      margin-bottom: 18px;
     }
-    .about-narrative__body {
-      font-size: 13px;
-      line-height: 1.7;
-      margin-bottom: 20px;
+
+    .about-founders__line {
+      width: 34px;
     }
-    .about-narrative__founder-block {
-      flex-direction: column;
-      align-items: flex-start;
+
+    .about-founders__subheading,
+    .about-founders__role,
+    .about-founders__link,
+    .about-founders__bottom-text {
+      font-size: var(--founders-small-text-size-mobile);
+      letter-spacing: 0.28em;
+    }
+
+    .about-founders__title-row {
+      display: block;
+      text-align: center;
+    }
+
+    .about-founders__heading {
+      font-size: clamp(32px, 10.2vw, var(--founders-heading-size-mobile));
+      line-height: 1.02;
+    }
+
+    .about-founders__intro {
+      max-width: 330px;
+      margin: 18px auto 0;
+      padding-left: 0;
+      border-left: 0;
+      font-size: var(--founders-intro-size-mobile);
+      line-height: 1.45;
+    }
+
+    .about-founders__grid {
       gap: 14px;
     }
-    .about-narrative__btn {
-      width: 100%;
-      justify-content: center;
-      box-sizing: border-box;
+
+    .about-founders__card {
+      grid-template-columns: 38% 62%;
+      min-height: 268px;
+    }
+
+    .about-founders__media {
+      min-height: 268px;
+    }
+
+    .about-founders__content {
+      padding: 18px 18px 18px 20px;
+    }
+
+    .about-founders__rule {
+      width: 30px;
+      margin: 13px 0 16px;
+    }
+
+    .about-founders__name {
+      margin-bottom: 12px;
+      font-size: clamp(22px, 7vw, var(--founders-name-size-mobile));
+    }
+
+    .about-founders__quote {
+      font-size: var(--founders-card-text-size-mobile);
+      line-height: 1.42;
+    }
+
+    .about-founders__bio {
+      display: none;
+    }
+
+    .about-founders__link {
+      gap: 8px;
+      margin-top: 18px;
+      padding-bottom: 5px;
+    }
+
+    .about-founders__bottom {
+      gap: 14px;
+      margin-top: 34px;
+    }
+
+    .about-founders__bottom-text {
+      white-space: normal;
     }
   }
-</style>
+{% endstylesheet %}
 
 {% schema %}
 {
-  "name": "About Heritage Story",
+  "name": "About Founders Cards",
   "tag": "section",
-  "class": "section-about-narrative",
+  "class": "section-about-founders-cards",
   "disabled_on": {
     "groups": ["header", "footer"]
   },
+  "max_blocks": 2,
   "settings": [
     {
       "type": "header",
-      "content": "Story Content & Narrative"
+      "content": "Heading text"
     },
     {
       "type": "text",
-      "id": "eyebrow",
-      "label": "Eyebrow Subtitle",
-      "default": "THE HERITAGE & GENESIS"
+      "id": "subheading",
+      "label": "Small heading",
+      "default": "MEET THE FOUNDERS"
     },
     {
       "type": "text",
       "id": "heading",
-      "label": "Section Heading",
-      "default": "BORN FROM A PASSION FOR TIMELESS BEAUTY"
+      "label": "Main heading",
+      "default": "Two Perspectives Shaping One Raw House"
     },
     {
       "type": "textarea",
-      "id": "lead_text",
-      "label": "Lead Statement (Serif Italic with Accent Bar)",
-      "default": "Founded with a vision to bridge timeless Indian craft heritage with contemporary international living."
-    },
-    {
-      "type": "richtext",
-      "id": "body_text",
-      "label": "Story Body Paragraphs",
-      "default": "<p>The Raw House is an experiential luxury portal where exquisite design meets discerning tastemakers. We scout master craftsmen, independent studios, and heritage ateliers across India and around the world, curating heirlooms that evoke emotion and architectural serenity.</p><p>Every collectible piece in our collection is chosen for its authenticity, uncompromising materiality, and poetic narrative—turning living spaces into soulful sanctuaries.</p>"
-    },
-    {
-      "type": "header",
-      "content": "Founder Quote & Credentials"
-    },
-    {
-      "type": "textarea",
-      "id": "founder_quote",
-      "label": "Founder Quote Box",
-      "default": "True luxury is not about excess—it is the quiet confidence of objects crafted with soul, patience, and deliberate intention."
+      "id": "intro",
+      "label": "Intro text",
+      "default": "A shared instinct for honest materials, considered interiors, and spaces that feel like home."
     },
     {
       "type": "text",
-      "id": "founder_name",
-      "label": "Founder Name",
-      "default": "Astha Khetan"
-    },
-    {
-      "type": "text",
-      "id": "founder_title",
-      "label": "Founder Title / Role",
-      "default": "FOUNDER & CREATIVE DIRECTOR"
-    },
-    {
-      "type": "header",
-      "content": "Call-to-Action Button"
-    },
-    {
-      "type": "text",
-      "id": "button_text",
-      "label": "Button Label",
-      "default": "EXPLORE THE EDITS"
-    },
-    {
-      "type": "url",
-      "id": "button_url",
-      "label": "Button Link URL"
-    },
-    {
-      "type": "select",
-      "id": "button_style",
-      "label": "Button Style",
-      "options": [
-        { "value": "solid_dark", "label": "Solid Dark Black" },
-        { "value": "outline_dark", "label": "Outline Border" },
-        { "value": "gold_accent", "label": "Gold Accent" }
-      ],
-      "default": "solid_dark"
+      "id": "bottom_text",
+      "label": "Bottom line text",
+      "default": "PEOPLE  -  SPACES  -  A BETTER TOMORROW"
     },
     {
       "type": "checkbox",
-      "id": "button_open_new_tab",
-      "label": "Open Link in New Tab",
+      "id": "show_bio",
+      "label": "Show founder bio text",
       "default": false
     },
     {
       "type": "header",
-      "content": "Layered Editorial Imagery"
+      "content": "Text sizes"
     },
     {
-      "type": "image_picker",
-      "id": "primary_image",
-      "label": "Primary Portrait Image (Large)",
-      "info": "Recommended ratio 4:5 (800x1000px)"
+      "type": "range",
+      "id": "small_text_size",
+      "min": 8,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Small heading / role size",
+      "default": 11
     },
     {
-      "type": "image_picker",
-      "id": "secondary_image",
-      "label": "Secondary Overlapping Craft Detail Image",
-      "info": "Recommended ratio 1:1 (600x600px)"
+      "type": "range",
+      "id": "small_text_size_mobile",
+      "min": 8,
+      "max": 16,
+      "step": 1,
+      "unit": "px",
+      "label": "Small heading / role size mobile",
+      "default": 9
     },
     {
-      "type": "checkbox",
-      "id": "enable_image_zoom",
-      "label": "Enable Subtle Hover Zoom on Images",
-      "default": true
+      "type": "range",
+      "id": "heading_size",
+      "min": 40,
+      "max": 110,
+      "step": 1,
+      "unit": "px",
+      "label": "Main heading size",
+      "default": 82
+    },
+    {
+      "type": "range",
+      "id": "heading_size_mobile",
+      "min": 28,
+      "max": 64,
+      "step": 1,
+      "unit": "px",
+      "label": "Main heading size mobile",
+      "default": 44
+    },
+    {
+      "type": "range",
+      "id": "intro_size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "label": "Intro text size",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "intro_size_mobile",
+      "min": 12,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "label": "Intro text size mobile",
+      "default": 15
+    },
+    {
+      "type": "range",
+      "id": "name_size",
+      "min": 26,
+      "max": 72,
+      "step": 1,
+      "unit": "px",
+      "label": "Founder name size",
+      "default": 49
+    },
+    {
+      "type": "range",
+      "id": "name_size_mobile",
+      "min": 20,
+      "max": 44,
+      "step": 1,
+      "unit": "px",
+      "label": "Founder name size mobile",
+      "default": 30
+    },
+    {
+      "type": "range",
+      "id": "card_text_size",
+      "min": 13,
+      "max": 28,
+      "step": 1,
+      "unit": "px",
+      "label": "Founder card text size",
+      "default": 21
+    },
+    {
+      "type": "range",
+      "id": "card_text_size_mobile",
+      "min": 12,
+      "max": 22,
+      "step": 1,
+      "unit": "px",
+      "label": "Founder card text size mobile",
+      "default": 14
+    },
+    {
+      "type": "range",
+      "id": "bio_size",
+      "min": 11,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "label": "Bio text size",
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "link_size",
+      "min": 8,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Link text size",
+      "default": 11
+    },
+    {
+      "type": "range",
+      "id": "bottom_text_size",
+      "min": 8,
+      "max": 18,
+      "step": 1,
+      "unit": "px",
+      "label": "Bottom line text size",
+      "default": 11
     },
     {
       "type": "header",
-      "content": "Heritage Floating Badge"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_badge",
-      "label": "Show Heritage Floating Badge",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "badge_eyebrow",
-      "label": "Badge Eyebrow",
-      "default": "ESTABLISHED"
-    },
-    {
-      "type": "text",
-      "id": "badge_text",
-      "label": "Badge Main Text (Year/Highlight)",
-      "default": "2014"
-    },
-    {
-      "type": "text",
-      "id": "badge_sub",
-      "label": "Badge Subtitle",
-      "default": "UDAIPUR • MUMBAI"
-    },
-    {
-      "type": "header",
-      "content": "Layout & Positioning"
+      "content": "Style"
     },
     {
       "type": "select",
-      "id": "layout_order",
-      "label": "Desktop Layout Order",
+      "id": "color_scheme_preset",
+      "label": "Color scheme",
       "options": [
-        { "value": "content_first", "label": "Story Left / Images Right (Standard)" },
-        { "value": "media_first", "label": "Images Left / Story Right (Reversed)" }
+        { "value": "warm", "label": "Warm ivory" },
+        { "value": "light", "label": "White gallery" },
+        { "value": "dark", "label": "Dark editorial" }
       ],
-      "default": "content_first"
+      "default": "warm"
+    },
+    {
+      "type": "color",
+      "id": "custom_bg_color",
+      "label": "Custom background color"
+    },
+    {
+      "type": "color",
+      "id": "custom_text_color",
+      "label": "Custom text color"
+    },
+    {
+      "type": "color",
+      "id": "custom_accent_color",
+      "label": "Custom line/accent color"
     },
     {
       "type": "header",
-      "content": "Colors & Theming"
-    },
-    {
-      "type": "color",
-      "id": "bg_color",
-      "label": "Section Background Color",
-      "default": "#fcfbfa"
-    },
-    {
-      "type": "color",
-      "id": "heading_color",
-      "label": "Heading Text Color",
-      "default": "#1a1a1a"
-    },
-    {
-      "type": "color",
-      "id": "text_color",
-      "label": "Body Text Color",
-      "default": "#555555"
-    },
-    {
-      "type": "color",
-      "id": "accent_color",
-      "label": "Accent Color (Gold / Sand)",
-      "default": "#c8a876"
-    },
-    {
-      "type": "color",
-      "id": "quote_border_color",
-      "label": "Quote & Lead Border Accent",
-      "default": "#c8a876"
-    },
-    {
-      "type": "color",
-      "id": "badge_bg_color",
-      "label": "Badge Background Color",
-      "default": "#111111"
-    },
-    {
-      "type": "color",
-      "id": "badge_text_color",
-      "label": "Badge Text Color",
-      "default": "#ffffff"
-    },
-    {
-      "type": "header",
-      "content": "Animation & Responsiveness"
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_reveal_animation",
-      "label": "Enable Scroll Reveal Animation",
-      "default": true
+      "content": "Spacing"
     },
     {
       "type": "range",
       "id": "padding_top",
-      "min": 40,
-      "max": 180,
-      "step": 5,
+      "min": 30,
+      "max": 140,
+      "step": 2,
       "unit": "px",
-      "label": "Desktop Top Padding",
-      "default": 95
+      "label": "Padding top",
+      "default": 74
     },
     {
       "type": "range",
       "id": "padding_bottom",
-      "min": 40,
-      "max": 180,
-      "step": 5,
+      "min": 30,
+      "max": 140,
+      "step": 2,
       "unit": "px",
-      "label": "Desktop Bottom Padding",
-      "default": 95
-    },
+      "label": "Padding bottom",
+      "default": 66
+    }
+  ],
+  "blocks": [
     {
-      "type": "range",
-      "id": "mobile_padding_top",
-      "min": 20,
-      "max": 100,
-      "step": 5,
-      "unit": "px",
-      "label": "Mobile Top Padding",
-      "default": 50
-    },
-    {
-      "type": "range",
-      "id": "mobile_padding_bottom",
-      "min": 20,
-      "max": 100,
-      "step": 5,
-      "unit": "px",
-      "label": "Mobile Bottom Padding",
-      "default": 50
+      "type": "founder",
+      "name": "Founder card",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Founder image"
+        },
+        {
+          "type": "text",
+          "id": "default_asset",
+          "label": "Fallback asset filename",
+          "default": "maker-portrait-1.jpg"
+        },
+        {
+          "type": "text",
+          "id": "role",
+          "label": "Role",
+          "default": "CO-FOUNDER & CREATIVE CURATOR"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Name",
+          "default": "Founder One"
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Card text",
+          "default": "We look for objects with restraint, texture and soul pieces that feel calm at first glance and deeper the longer you live with them."
+        },
+        {
+          "type": "textarea",
+          "id": "bio",
+          "label": "Optional bio",
+          "default": "Leads visual curation, material direction and the editorial eye behind The Raw House collections."
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "Link label",
+          "default": "MEET FOUNDER"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Optional link"
+        }
+      ]
     }
   ],
   "presets": [
     {
-      "name": "About Heritage Story",
+      "name": "About Founders Cards",
       "settings": {
-        "eyebrow": "THE HERITAGE & GENESIS",
-        "heading": "BORN FROM A PASSION FOR TIMELESS BEAUTY",
-        "lead_text": "Founded with a vision to bridge timeless Indian craft heritage with contemporary international living.",
-        "body_text": "<p>The Raw House is an experiential luxury portal where exquisite design meets discerning tastemakers. We scout master craftsmen, independent studios, and heritage ateliers across India and around the world, curating heirlooms that evoke emotion and architectural serenity.</p><p>Every collectible piece in our collection is chosen for its authenticity, uncompromising materiality, and poetic narrative—turning living spaces into soulful sanctuaries.</p>",
-        "founder_quote": "True luxury is not about excess—it is the quiet confidence of objects crafted with soul, patience, and deliberate intention.",
-        "founder_name": "Astha Khetan",
-        "founder_title": "FOUNDER & CREATIVE DIRECTOR",
-        "button_text": "EXPLORE THE EDITS",
-        "badge_eyebrow": "ESTABLISHED",
-        "badge_text": "2014",
-        "badge_sub": "UDAIPUR • MUMBAI",
-        "bg_color": "#fcfbfa",
-        "heading_color": "#1a1a1a",
-        "text_color": "#555555",
-        "accent_color": "#c8a876",
-        "padding_top": 95,
-        "padding_bottom": 95
-      }
+        "subheading": "MEET THE FOUNDERS",
+        "heading": "Two Perspectives Shaping One Raw House",
+        "intro": "A shared instinct for honest materials, considered interiors, and spaces that feel like home.",
+        "bottom_text": "PEOPLE  -  SPACES  -  A BETTER TOMORROW",
+        "color_scheme_preset": "warm"
+      },
+      "blocks": [
+        {
+          "type": "founder",
+          "settings": {
+            "default_asset": "maker-portrait-1.jpg",
+            "role": "CO-FOUNDER & CREATIVE CURATOR",
+            "name": "Founder One",
+            "quote": "We look for objects with restraint, texture and soul pieces that feel calm at first glance and deeper the longer you live with them.",
+            "bio": "Leads visual curation, material direction and the editorial eye behind The Raw House collections.",
+            "link_label": "MEET FOUNDER"
+          }
+        },
+        {
+          "type": "founder",
+          "settings": {
+            "default_asset": "maker-portrait-2.jpg",
+            "role": "CO-FOUNDER & CLIENT EXPERIENCE LEAD",
+            "name": "Founder Two",
+            "quote": "A home should never feel assembled overnight. It should carry memory, craft and the quiet confidence of pieces chosen with care.",
+            "bio": "Guides sourcing, client conversations, delivery experience and the practical details that help each piece settle beautifully into a real home.",
+            "link_label": "MEET FOUNDER"
+          }
+        }
+      ]
     }
   ]
 }

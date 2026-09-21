@@ -1,678 +1,637 @@
-<div
-  class="about-mosaic about-mosaic--{{ section.id }}"
+{% liquid
+  assign scheme = section.settings.color_scheme_preset | default: 'warm'
+  case scheme
+    when 'light'
+      assign bg_color = '#ffffff'
+      assign text_color = '#111111'
+      assign muted_color = '#5f5b52'
+      assign panel_color = '#f7f5ef'
+      assign border_color = '#e6e0d3'
+      assign accent_color = '#c5a880'
+    when 'dark'
+      assign bg_color = '#141313'
+      assign text_color = '#ffffff'
+      assign muted_color = '#c9c1b3'
+      assign panel_color = '#1e1c19'
+      assign border_color = 'rgba(255, 255, 255, 0.12)'
+      assign accent_color = '#c5a880'
+    when 'obsidian'
+      assign bg_color = '#080807'
+      assign text_color = '#ffffff'
+      assign muted_color = '#cfc6b7'
+      assign panel_color = '#12110f'
+      assign border_color = 'rgba(197, 168, 128, 0.22)'
+      assign accent_color = '#c5a880'
+    else
+      assign bg_color = '#f7f4ee'
+      assign text_color = '#111111'
+      assign muted_color = '#625d52'
+      assign panel_color = '#fffdf8'
+      assign border_color = '#e7dfd0'
+      assign accent_color = '#c5a880'
+  endcase
+
+  if section.settings.custom_bg_color != blank and section.settings.custom_bg_color != 'rgba(0,0,0,0)'
+    assign bg_color = section.settings.custom_bg_color
+  endif
+  if section.settings.custom_text_color != blank and section.settings.custom_text_color != 'rgba(0,0,0,0)'
+    assign text_color = section.settings.custom_text_color
+  endif
+  if section.settings.custom_accent_color != blank and section.settings.custom_accent_color != 'rgba(0,0,0,0)'
+    assign accent_color = section.settings.custom_accent_color
+  endif
+%}
+
+<section
+  id="AboutGallery-{{ section.id }}"
+  class="about-gallery about-gallery--{{ scheme }}"
   style="
-    --mosaic-pt: {{ section.settings.padding_top | default: 90 }}px;
-    --mosaic-pb: {{ section.settings.padding_bottom | default: 90 }}px;
-    --mosaic-pt-mobile: {{ section.settings.mobile_padding_top | default: 50 }}px;
-    --mosaic-pb-mobile: {{ section.settings.mobile_padding_bottom | default: 50 }}px;
-    --mosaic-bg: {{ section.settings.bg_color | default: '#f7f6f3' }};
-    --mosaic-heading: {{ section.settings.heading_color | default: '#111111' }};
-    --mosaic-accent: {{ section.settings.accent_color | default: '#c8a876' }};
-    --mosaic-row-h: {{ section.settings.grid_row_height | default: 270 }}px;
-    --mosaic-overlay-op: {{ section.settings.overlay_darkness | default: 60 | divided_by: 100.0 }};
+    --gallery-bg: {{ bg_color }};
+    --gallery-color: {{ text_color }};
+    --gallery-muted: {{ muted_color }};
+    --gallery-panel: {{ panel_color }};
+    --gallery-border: {{ border_color }};
+    --gallery-accent: {{ accent_color }};
+    --gallery-pt: {{ section.settings.padding_top | default: 64 }}px;
+    --gallery-pb: {{ section.settings.padding_bottom | default: 68 }}px;
+    --gallery-row: {{ section.settings.grid_row_height | default: 240 }}px;
   "
+  {{ section.shopify_attributes }}
 >
-  <div class="about-mosaic__container about-slider-wrapper">
-    <div class="about-mosaic__header about-mosaic__header--align-{{ section.settings.header_alignment | default: 'center' }}" {% if section.settings.enable_reveal_animation != false %}data-about-reveal{% endif %}>
-      {%- if section.settings.eyebrow != blank -%}
-        <div class="about-mosaic__eyebrow-wrap">
-          <span class="about-mosaic__eyebrow-line"></span>
-          <span class="about-mosaic__eyebrow">{{ section.settings.eyebrow }}</span>
-          <span class="about-mosaic__eyebrow-line"></span>
-        </div>
-      {%- endif -%}
+  <div class="about-gallery__inner">
+    <div class="about-gallery__header lux-reveal-fade-up">
+      {% if section.settings.subheading != blank %}
+        <span class="about-gallery__subheading">{{ section.settings.subheading }}</span>
+      {% endif %}
 
-      <h2 class="about-mosaic__heading">
-        {{ section.settings.heading }}
-      </h2>
-
-      {%- if section.settings.subtitle != blank -%}
-        <p class="about-mosaic__subtitle">
-          {{ section.settings.subtitle }}
-        </p>
-      {%- endif -%}
+      <div class="about-gallery__title-row">
+        <h2 class="about-gallery__heading">{{ section.settings.heading }}</h2>
+        {% if section.settings.intro != blank %}
+          <p class="about-gallery__intro">{{ section.settings.intro }}</p>
+        {% endif %}
+      </div>
     </div>
 
-    <div class="about-mosaic__grid about-mobile-slider">
-      {%- comment -%} Item 1: Large Featured Atelier Scene {%- endcomment -%}
-      <div class="about-mosaic__item about-mosaic__item--featured" {% if section.settings.enable_reveal_animation != false %}data-about-reveal{% endif %}>
-        {%- if section.settings.link_1 != blank -%}
-          <a href="{{ section.settings.link_1 }}" class="about-mosaic__item-link" aria-label="{{ section.settings.title_1 | escape }}"></a>
-        {%- endif -%}
-        <div class="about-mosaic__img-wrap {% if section.settings.enable_image_zoom == false %}no-zoom{% endif %}">
-          {%- if section.settings.image_1 != blank -%}
-            {{ section.settings.image_1 | image_url: width: 1400 | image_tag: class: 'about-mosaic__img', loading: 'lazy', alt: section.settings.title_1 | default: 'Flagship Gallery' | escape }}
-          {%- else -%}
-            <img src="{{ 'maker-gallery-1.jpg' | asset_url }}" alt="Flagship Gallery Atelier" class="about-mosaic__img" loading="lazy" width="800" height="600">
-          {%- endif -%}
-          <div class="about-mosaic__caption-box">
-            <span class="about-mosaic__item-tag">{{ section.settings.tag_1 | default: 'FLAGSHIP GALLERY' }}</span>
-            <h3 class="about-mosaic__item-title">{{ section.settings.title_1 | default: 'The Raw House Udaipur Gallery' }}</h3>
-          </div>
-        </div>
-      </div>
+    <div class="about-gallery__stage lux-stagger-parent lux-reveal-fade-up">
+      {% for block in section.blocks %}
+        {% liquid
+          assign item_class = ''
+          if forloop.first
+            assign item_class = ' about-gallery__item--featured'
+          elsif forloop.index == 4
+            assign item_class = ' about-gallery__item--wide'
+          endif
 
-      {%- comment -%} Item 2: Ceramic / Marble Craft Detail {%- endcomment -%}
-      <div class="about-mosaic__item" {% if section.settings.enable_reveal_animation != false %}data-about-reveal{% endif %}>
-        {%- if section.settings.link_2 != blank -%}
-          <a href="{{ section.settings.link_2 }}" class="about-mosaic__item-link" aria-label="{{ section.settings.title_2 | escape }}"></a>
-        {%- endif -%}
-        <div class="about-mosaic__img-wrap {% if section.settings.enable_image_zoom == false %}no-zoom{% endif %}">
-          {%- if section.settings.image_2 != blank -%}
-            {{ section.settings.image_2 | image_url: width: 800 | image_tag: class: 'about-mosaic__img', loading: 'lazy', alt: section.settings.title_2 | default: 'Artisan Workshop' | escape }}
-          {%- else -%}
-            <img src="{{ 'maker-gallery-2.jpg' | asset_url }}" alt="Artisan Studio Workshop" class="about-mosaic__img" loading="lazy" width="600" height="450">
-          {%- endif -%}
-          <div class="about-mosaic__caption-box">
-            <span class="about-mosaic__item-tag">{{ section.settings.tag_2 | default: 'ATELIER' }}</span>
-            <h3 class="about-mosaic__item-title">{{ section.settings.title_2 | default: 'Sculptural Vessels & Objects' }}</h3>
-          </div>
-        </div>
-      </div>
+          assign fallback_asset = block.settings.default_asset
+          if fallback_asset == blank
+            assign remainder = forloop.index | modulo: 6
+            case remainder
+              when 1
+                assign fallback_asset = 'art-gallery-room-hotspots.jpg'
+              when 2
+                assign fallback_asset = 'maker-gallery-1.jpg'
+              when 3
+                assign fallback_asset = 'art-atelier-artist-studio.jpg'
+              when 4
+                assign fallback_asset = 'fine-print-2.jpg'
+              when 5
+                assign fallback_asset = 'maker-gallery-3.jpg'
+              else
+                assign fallback_asset = 'art-decor-ceramic-statue.jpg'
+            endcase
+          endif
+        %}
 
-      {%- comment -%} Item 3: Fine Prints & Canvas {%- endcomment -%}
-      <div class="about-mosaic__item" {% if section.settings.enable_reveal_animation != false %}data-about-reveal{% endif %}>
-        {%- if section.settings.link_3 != blank -%}
-          <a href="{{ section.settings.link_3 }}" class="about-mosaic__item-link" aria-label="{{ section.settings.title_3 | escape }}"></a>
-        {%- endif -%}
-        <div class="about-mosaic__img-wrap {% if section.settings.enable_image_zoom == false %}no-zoom{% endif %}">
-          {%- if section.settings.image_3 != blank -%}
-            {{ section.settings.image_3 | image_url: width: 800 | image_tag: class: 'about-mosaic__img', loading: 'lazy', alt: section.settings.title_3 | default: 'Fine Print Archive' | escape }}
-          {%- else -%}
-            <img src="{{ 'fine-print-2.jpg' | asset_url }}" alt="Fine Print Archive Edition" class="about-mosaic__img" loading="lazy" width="600" height="450">
-          {%- endif -%}
-          <div class="about-mosaic__caption-box">
-            <span class="about-mosaic__item-tag">{{ section.settings.tag_3 | default: 'CURATION' }}</span>
-            <h3 class="about-mosaic__item-title">{{ section.settings.title_3 | default: 'Limited Edition Art Prints' }}</h3>
-          </div>
-        </div>
-      </div>
+        <article
+          class="about-gallery__item lux-stagger-child{{ item_class }}"
+          style="--item-delay: {{ forloop.index0 | times: 90 }}ms;"
+          {{ block.shopify_attributes }}
+        >
+          {% if block.settings.link != blank %}
+            <a class="about-gallery__link" href="{{ block.settings.link }}" aria-label="{{ block.settings.title | default: block.settings.kicker | escape }}"></a>
+          {% endif %}
 
-      {%- comment -%} Item 4: Architectural Interiors {%- endcomment -%}
-      <div class="about-mosaic__item" {% if section.settings.enable_reveal_animation != false %}data-about-reveal{% endif %}>
-        {%- if section.settings.link_4 != blank -%}
-          <a href="{{ section.settings.link_4 }}" class="about-mosaic__item-link" aria-label="{{ section.settings.title_4 | escape }}"></a>
-        {%- endif -%}
-        <div class="about-mosaic__img-wrap {% if section.settings.enable_image_zoom == false %}no-zoom{% endif %}">
-          {%- if section.settings.image_4 != blank -%}
-            {{ section.settings.image_4 | image_url: width: 800 | image_tag: class: 'about-mosaic__img', loading: 'lazy', alt: section.settings.title_4 | default: 'Architectural Interiors' | escape }}
-          {%- else -%}
-            <img src="{{ 'maker-gallery-3.jpg' | asset_url }}" alt="Architectural Living Sanctuaries" class="about-mosaic__img" loading="lazy" width="600" height="450">
-          {%- endif -%}
-          <div class="about-mosaic__caption-box">
-            <span class="about-mosaic__item-tag">{{ section.settings.tag_4 | default: 'INTERIORS' }}</span>
-            <h3 class="about-mosaic__item-title">{{ section.settings.title_4 | default: 'Refined Living Sanctuaries' }}</h3>
+          <div class="about-gallery__media">
+            {% if block.settings.image != blank %}
+              {{
+                block.settings.image
+                | image_url: width: 1400
+                | image_tag:
+                  class: 'about-gallery__image',
+                  loading: 'lazy',
+                  widths: '360, 540, 720, 920, 1200, 1400',
+                  sizes: '(max-width: 749px) 82vw, (max-width: 989px) 44vw, 33vw',
+                  alt: block.settings.title
+              }}
+            {% else %}
+              <img
+                src="{{ fallback_asset | asset_url }}"
+                alt="{{ block.settings.title | default: 'The Raw House gallery detail' | escape }}"
+                class="about-gallery__image"
+                loading="lazy"
+                width="900"
+                height="1100"
+              >
+            {% endif %}
           </div>
-        </div>
-      </div>
 
-      {%- comment -%} Item 5: Master Craft Finishing {%- endcomment -%}
-      <div class="about-mosaic__item" {% if section.settings.enable_reveal_animation != false %}data-about-reveal{% endif %}>
-        {%- if section.settings.link_5 != blank -%}
-          <a href="{{ section.settings.link_5 }}" class="about-mosaic__item-link" aria-label="{{ section.settings.title_5 | escape }}"></a>
-        {%- endif -%}
-        <div class="about-mosaic__img-wrap {% if section.settings.enable_image_zoom == false %}no-zoom{% endif %}">
-          {%- if section.settings.image_5 != blank -%}
-            {{ section.settings.image_5 | image_url: width: 800 | image_tag: class: 'about-mosaic__img', loading: 'lazy', alt: section.settings.title_5 | default: 'Noble Materials' | escape }}
-          {%- else -%}
-            <img src="{{ 'fine-print-3.jpg' | asset_url }}" alt="Noble Materials & Textures" class="about-mosaic__img" loading="lazy" width="600" height="450">
-          {%- endif -%}
-          <div class="about-mosaic__caption-box">
-            <span class="about-mosaic__item-tag">{{ section.settings.tag_5 | default: 'MATERIALITY' }}</span>
-            <h3 class="about-mosaic__item-title">{{ section.settings.title_5 | default: 'Hand-Finished Rare Patinas' }}</h3>
+          <div class="about-gallery__caption">
+            {% if block.settings.kicker != blank %}
+              <span class="about-gallery__kicker">{{ block.settings.kicker }}</span>
+            {% endif %}
+            {% if block.settings.title != blank %}
+              <h3 class="about-gallery__item-title">{{ block.settings.title }}</h3>
+            {% endif %}
           </div>
-        </div>
-      </div>
-
+        </article>
+      {% endfor %}
     </div>
 
-    {%- comment -%} Mobile Slider Dots Indicator {%- endcomment -%}
-    <div class="about-slider-dots">
-      <span class="about-slider-dot is-active"></span>
-      <span class="about-slider-dot"></span>
-      <span class="about-slider-dot"></span>
-      <span class="about-slider-dot"></span>
-      <span class="about-slider-dot"></span>
-    </div>
+    {% if section.settings.footer_note != blank %}
+      <p class="about-gallery__note lux-reveal-fade-up">{{ section.settings.footer_note }}</p>
+    {% endif %}
   </div>
-</div>
+</section>
 
-<style>
-  .about-mosaic {
-    width: 100%;
-    background-color: var(--mosaic-bg, #f7f6f3);
-    padding-top: var(--mosaic-pt, 90px);
-    padding-bottom: var(--mosaic-pb, 90px);
-    box-sizing: border-box;
+{% stylesheet %}
+  .about-gallery {
+    position: relative;
+    overflow: clip;
+    background:
+      radial-gradient(circle at 8% 12%, color-mix(in srgb, var(--gallery-accent) 16%, transparent), transparent 30%),
+      linear-gradient(135deg, color-mix(in srgb, var(--gallery-bg) 92%, #ffffff), var(--gallery-bg));
+    color: var(--gallery-color);
+    padding: var(--gallery-pt) 0 var(--gallery-pb);
+    isolation: isolate;
   }
 
-  .about-mosaic__container {
-    width: 100%;
-    max-width: 1280px;
+  .about-gallery::before {
+    content: "";
+    position: absolute;
+    inset: 22px;
+    border: 1px solid color-mix(in srgb, var(--gallery-accent) 22%, transparent);
+    opacity: 0.45;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .about-gallery__inner {
+    width: min(1320px, calc(100% - 40px));
     margin: 0 auto;
-    padding: 0 28px;
-    box-sizing: border-box;
   }
 
-  .about-mosaic__header {
-    max-width: 800px;
-    margin: 0 auto 46px auto;
+  .about-gallery__header {
+    display: grid;
+    grid-template-columns: minmax(180px, 0.55fr) minmax(0, 1.45fr);
+    gap: clamp(24px, 5vw, 72px);
+    align-items: end;
+    margin-bottom: clamp(28px, 4vw, 54px);
   }
 
-  .about-mosaic__header--align-center {
-    text-align: center;
-  }
-  .about-mosaic__header--align-left {
-    text-align: left;
-    margin-left: 0;
+  .about-gallery__subheading,
+  .about-gallery__kicker {
+    color: var(--gallery-accent);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    line-height: 1.4;
+    text-transform: uppercase;
   }
 
-  .about-mosaic__eyebrow-wrap {
+  .about-gallery__subheading {
     display: inline-flex;
     align-items: center;
     gap: 14px;
-    margin-bottom: 14px;
+    align-self: start;
   }
 
-  .about-mosaic__eyebrow-line {
-    display: block;
-    width: 28px;
+  .about-gallery__subheading::before {
+    content: "";
+    width: 42px;
     height: 1px;
-    background-color: var(--mosaic-accent, #c8a876);
+    background: currentColor;
   }
 
-  .about-mosaic__eyebrow {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    color: var(--mosaic-accent, #c8a876);
-  }
-
-  .about-mosaic__heading {
-    font-family: var(--font-heading-family, serif);
-    font-size: clamp(24px, 3vw, 40px);
-    font-weight: 400;
-    line-height: 1.22;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    color: var(--mosaic-heading, #111111);
-    margin: 0 0 14px 0;
-  }
-
-  .about-mosaic__subtitle {
-    font-family: var(--font-body-family, sans-serif);
-    font-size: 13.5px;
-    line-height: 1.7;
-    color: #666666;
-    margin: 0;
-  }
-
-  .about-mosaic__grid {
+  .about-gallery__title-row {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: var(--mosaic-row-h, 270px) var(--mosaic-row-h, 270px);
-    gap: 18px;
+    grid-template-columns: minmax(0, 1fr) minmax(260px, 0.62fr);
+    gap: clamp(22px, 4vw, 54px);
+    align-items: end;
   }
 
-  .about-mosaic__item {
+  .about-gallery__heading {
+    margin: 0;
+    max-width: 760px;
+    color: var(--gallery-color);
+    font-family: var(--font-heading-family, serif);
+    font-size: clamp(30px, 4.6vw, 70px);
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 0.96;
+    text-transform: uppercase;
+  }
+
+  .about-gallery__intro,
+  .about-gallery__note {
+    margin: 0;
+    color: var(--gallery-muted);
+    font-size: clamp(13px, 1.05vw, 15px);
+    line-height: 1.75;
+  }
+
+  .about-gallery__stage {
+    display: grid;
+    grid-template-columns: 1.25fr 0.78fr 0.95fr 0.72fr;
+    grid-auto-rows: var(--gallery-row);
+    gap: clamp(12px, 1.5vw, 20px);
+    align-items: stretch;
+  }
+
+  .about-gallery__item {
     position: relative;
+    min-height: 0;
     overflow: hidden;
-    background-color: #eaeaea;
+    border: 1px solid var(--gallery-border);
+    background: var(--gallery-panel);
+    box-shadow: 0 22px 55px rgba(0, 0, 0, 0.12);
+    transform: translateY(0);
+    transition:
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    animation: about-gallery-drift 9s ease-in-out infinite;
+    animation-delay: var(--item-delay);
   }
 
-  .about-mosaic__item-link {
+  .about-gallery__item:nth-child(2n) {
+    animation-direction: reverse;
+  }
+
+  .about-gallery__item--featured {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  .about-gallery__item--wide {
+    grid-column: span 2;
+  }
+
+  .about-gallery__item:hover {
+    transform: translateY(-8px);
+    border-color: color-mix(in srgb, var(--gallery-accent) 58%, var(--gallery-border));
+    box-shadow: 0 34px 80px rgba(0, 0, 0, 0.22);
+    z-index: 2;
+  }
+
+  .about-gallery__link {
     position: absolute;
     inset: 0;
     z-index: 3;
   }
 
-  .about-mosaic__item:nth-child(1) { transition-delay: 0.08s; }
-  .about-mosaic__item:nth-child(2) { transition-delay: 0.16s; }
-  .about-mosaic__item:nth-child(3) { transition-delay: 0.24s; }
-  .about-mosaic__item:nth-child(4) { transition-delay: 0.32s; }
-  .about-mosaic__item:nth-child(5) { transition-delay: 0.40s; }
-
-  .about-mosaic__item--featured {
-    grid-column: 1 / 3;
-    grid-row: 1 / 3;
-  }
-
-  .about-mosaic__img-wrap {
-    position: relative;
+  .about-gallery__media {
     width: 100%;
     height: 100%;
     overflow: hidden;
+    background: #ded8cc;
   }
 
-  .about-mosaic__img {
+  .about-gallery__image {
+    display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    display: block;
-    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    filter: saturate(0.92) contrast(1.02);
+    transform: scale(1.01);
+    transition:
+      transform 1.2s cubic-bezier(0.22, 1, 0.36, 1),
+      filter 1.2s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
-  .about-mosaic__item:hover .about-mosaic__img-wrap:not(.no-zoom) .about-mosaic__img {
-    transform: scale(1.06);
+  .about-gallery__item:hover .about-gallery__image {
+    filter: saturate(1.05) contrast(1.06);
+    transform: scale(1.075);
   }
 
-  .about-mosaic__caption-box {
+  .about-gallery__caption {
     position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0.85) 100%);
-    padding: 22px 18px;
+    inset: auto 0 0;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    min-height: 52%;
+    padding: clamp(18px, 2.2vw, 30px);
+    background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.24) 28%, rgba(0, 0, 0, 0.82) 100%);
     color: #ffffff;
-    box-sizing: border-box;
-    transition: background 0.3s ease;
+    pointer-events: none;
   }
 
-  .about-mosaic__item:hover .about-mosaic__caption-box {
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.4) 40%, rgba(0, 0, 0, 0.92) 100%);
-  }
-
-  .about-mosaic__item-tag {
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: 0.24em;
-    text-transform: uppercase;
-    color: var(--mosaic-accent, #c8a876);
-    margin-bottom: 5px;
-  }
-
-  .about-mosaic__item-title {
+  .about-gallery__item-title {
+    margin: 7px 0 0;
+    max-width: 420px;
+    color: #ffffff;
     font-family: var(--font-heading-family, serif);
-    font-size: clamp(13.5px, 1.3vw, 19px);
+    font-size: clamp(17px, 1.8vw, 28px);
     font-weight: 400;
-    letter-spacing: 0.04em;
-    color: #ffffff;
-    margin: 0;
-    line-height: 1.3;
+    line-height: 1.15;
+    letter-spacing: 0;
+    text-transform: uppercase;
   }
 
-  .about-slider-dots {
-    display: none;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    margin-top: 18px;
+  .about-gallery__item:not(.about-gallery__item--featured) .about-gallery__item-title {
+    font-size: clamp(14px, 1.18vw, 20px);
   }
 
-  .about-slider-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background-color: #d8d8d8;
-    transition: background-color 0.25s ease, width 0.25s ease;
+  .about-gallery__note {
+    max-width: 650px;
+    margin: clamp(24px, 3vw, 36px) 0 0 auto;
+    padding-left: 28px;
+    border-left: 1px solid color-mix(in srgb, var(--gallery-accent) 52%, transparent);
   }
 
-  .about-slider-dot.is-active {
-    width: 18px;
-    border-radius: 4px;
-    background-color: var(--mosaic-accent, #c8a876);
+  @keyframes about-gallery-drift {
+    0%,
+    100% {
+      translate: 0 0;
+    }
+    50% {
+      translate: 0 -6px;
+    }
+  }
+
+  @media screen and (prefers-reduced-motion: reduce) {
+    .about-gallery__item {
+      animation: none;
+    }
+
+    .about-gallery__item,
+    .about-gallery__image {
+      transition: none;
+    }
   }
 
   @media screen and (max-width: 989px) {
-    .about-mosaic__grid {
-      grid-template-columns: repeat(2, 1fr);
-      grid-template-rows: auto;
-      gap: 16px;
+    .about-gallery__header,
+    .about-gallery__title-row {
+      grid-template-columns: 1fr;
+      gap: 18px;
     }
-    .about-mosaic__item {
-      height: 240px;
+
+    .about-gallery__stage {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-auto-rows: minmax(230px, auto);
     }
-    .about-mosaic__item--featured {
-      grid-column: 1 / -1;
-      height: 320px;
+
+    .about-gallery__item--featured,
+    .about-gallery__item--wide {
+      grid-column: span 2;
     }
   }
 
   @media screen and (max-width: 749px) {
-    .about-mosaic {
-      padding-top: var(--mosaic-pt-mobile, 48px);
-      padding-bottom: var(--mosaic-pb-mobile, 48px);
+    .about-gallery {
+      padding-top: calc(var(--gallery-pt) * 0.72);
+      padding-bottom: calc(var(--gallery-pb) * 0.72);
     }
-    .about-mosaic__container {
+
+    .about-gallery::before {
+      inset: 12px;
+    }
+
+    .about-gallery__inner {
+      width: 100%;
       padding: 0 16px;
     }
-    .about-mosaic__header {
-      margin-bottom: 26px;
+
+    .about-gallery__heading {
+      font-size: clamp(28px, 11vw, 42px);
     }
-    .about-mosaic__heading {
-      font-size: 22px;
-    }
-    .about-mosaic__grid.about-mobile-slider {
+
+    .about-gallery__stage {
       display: flex;
+      gap: 14px;
+      margin: 0 -16px;
+      padding: 2px 16px 18px;
       overflow-x: auto;
       scroll-snap-type: x mandatory;
-      gap: 14px;
-      padding: 4px 4px 16px 4px;
-      margin: 0 -16px;
-      padding-left: 16px;
-      padding-right: 16px;
-      -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
     }
-    .about-mosaic__grid.about-mobile-slider::-webkit-scrollbar {
+
+    .about-gallery__stage::-webkit-scrollbar {
       display: none;
     }
-    .about-mosaic__item {
-      flex: 0 0 80vw;
-      max-width: 300px;
-      height: 280px;
-      scroll-snap-align: start;
+
+    .about-gallery__item,
+    .about-gallery__item--featured,
+    .about-gallery__item--wide {
+      flex: 0 0 82vw;
+      min-height: 360px;
+      scroll-snap-align: center;
     }
-    .about-mosaic__item--featured {
-      height: 280px;
-      flex: 0 0 80vw;
-      max-width: 300px;
+
+    .about-gallery__caption {
+      padding: 22px;
     }
-    .about-slider-dots {
-      display: flex;
+
+    .about-gallery__note {
+      margin-left: 0;
     }
   }
-</style>
+{% endstylesheet %}
 
 {% schema %}
 {
-  "name": "About Studio Mosaic",
+  "name": "About Animated Gallery",
   "tag": "section",
-  "class": "section-about-mosaic",
+  "class": "section-about-animated-gallery",
   "disabled_on": {
     "groups": ["header", "footer"]
   },
   "settings": [
     {
       "type": "header",
-      "content": "Section Header & Intro"
+      "content": "Content"
     },
     {
       "type": "text",
-      "id": "eyebrow",
-      "label": "Eyebrow Subtitle",
-      "default": "VISUAL ODYSSEY"
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "THE RAW HOUSE GALLERY"
     },
     {
       "type": "text",
       "id": "heading",
-      "label": "Section Heading",
-      "default": "INSIDE OUR GALLERIES & ATELIERS"
+      "label": "Heading",
+      "default": "A living archive of craft, material and collected rooms"
     },
     {
       "type": "textarea",
-      "id": "subtitle",
-      "label": "Section Subtitle",
-      "default": "Step behind the curtain into our physical spaces, master craft workshops, and curated architectural sanctuaries."
+      "id": "intro",
+      "label": "Intro text",
+      "default": "A glimpse into the textures, studios, objects and quiet interior moments that shape The Raw House point of view."
+    },
+    {
+      "type": "textarea",
+      "id": "footer_note",
+      "label": "Footer note",
+      "default": "Each frame can be edited from the theme editor: upload your own imagery, refine the captions, or link a frame to a collection, page, or product."
+    },
+    {
+      "type": "header",
+      "content": "Style"
     },
     {
       "type": "select",
-      "id": "header_alignment",
-      "label": "Header Alignment",
+      "id": "color_scheme_preset",
+      "label": "Color scheme",
       "options": [
-        { "value": "center", "label": "Center Aligned" },
-        { "value": "left", "label": "Left Aligned" }
+        { "value": "warm", "label": "Warm atelier" },
+        { "value": "light", "label": "Light gallery" },
+        { "value": "dark", "label": "Dark editorial" },
+        { "value": "obsidian", "label": "Obsidian luxury" }
       ],
-      "default": "center"
+      "default": "warm"
     },
     {
-      "type": "header",
-      "content": "Mosaic Slot 1 (Featured Hero)"
+      "type": "color",
+      "id": "custom_bg_color",
+      "label": "Custom background color"
     },
     {
-      "type": "image_picker",
-      "id": "image_1",
-      "label": "Image 1 (Large Featured)"
+      "type": "color",
+      "id": "custom_text_color",
+      "label": "Custom text color"
     },
     {
-      "type": "text",
-      "id": "tag_1",
-      "label": "Category Tag 1",
-      "default": "FLAGSHIP GALLERY"
-    },
-    {
-      "type": "text",
-      "id": "title_1",
-      "label": "Title 1",
-      "default": "The Raw House Udaipur Gallery"
-    },
-    {
-      "type": "url",
-      "id": "link_1",
-      "label": "Link URL 1 (Optional)"
-    },
-    {
-      "type": "header",
-      "content": "Mosaic Slot 2"
-    },
-    {
-      "type": "image_picker",
-      "id": "image_2",
-      "label": "Image 2"
-    },
-    {
-      "type": "text",
-      "id": "tag_2",
-      "label": "Category Tag 2",
-      "default": "ATELIER"
-    },
-    {
-      "type": "text",
-      "id": "title_2",
-      "label": "Title 2",
-      "default": "Sculptural Vessels & Objects"
-    },
-    {
-      "type": "url",
-      "id": "link_2",
-      "label": "Link URL 2 (Optional)"
-    },
-    {
-      "type": "header",
-      "content": "Mosaic Slot 3"
-    },
-    {
-      "type": "image_picker",
-      "id": "image_3",
-      "label": "Image 3"
-    },
-    {
-      "type": "text",
-      "id": "tag_3",
-      "label": "Category Tag 3",
-      "default": "CURATION"
-    },
-    {
-      "type": "text",
-      "id": "title_3",
-      "label": "Title 3",
-      "default": "Limited Edition Art Prints"
-    },
-    {
-      "type": "url",
-      "id": "link_3",
-      "label": "Link URL 3 (Optional)"
-    },
-    {
-      "type": "header",
-      "content": "Mosaic Slot 4"
-    },
-    {
-      "type": "image_picker",
-      "id": "image_4",
-      "label": "Image 4"
-    },
-    {
-      "type": "text",
-      "id": "tag_4",
-      "label": "Category Tag 4",
-      "default": "INTERIORS"
-    },
-    {
-      "type": "text",
-      "id": "title_4",
-      "label": "Title 4",
-      "default": "Refined Living Sanctuaries"
-    },
-    {
-      "type": "url",
-      "id": "link_4",
-      "label": "Link URL 4 (Optional)"
-    },
-    {
-      "type": "header",
-      "content": "Mosaic Slot 5"
-    },
-    {
-      "type": "image_picker",
-      "id": "image_5",
-      "label": "Image 5"
-    },
-    {
-      "type": "text",
-      "id": "tag_5",
-      "label": "Category Tag 5",
-      "default": "MATERIALITY"
-    },
-    {
-      "type": "text",
-      "id": "title_5",
-      "label": "Title 5",
-      "default": "Hand-Finished Rare Patinas"
-    },
-    {
-      "type": "url",
-      "id": "link_5",
-      "label": "Link URL 5 (Optional)"
-    },
-    {
-      "type": "header",
-      "content": "Grid Sizing & Hover Effects"
+      "type": "color",
+      "id": "custom_accent_color",
+      "label": "Custom accent color"
     },
     {
       "type": "range",
       "id": "grid_row_height",
-      "min": 200,
-      "max": 380,
+      "min": 190,
+      "max": 340,
       "step": 10,
       "unit": "px",
-      "label": "Desktop Grid Row Height",
-      "default": 270
-    },
-    {
-      "type": "range",
-      "id": "overlay_darkness",
-      "min": 20,
-      "max": 90,
-      "step": 5,
-      "unit": "%",
-      "label": "Caption Gradient Dark Overlay",
-      "default": 60
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_image_zoom",
-      "label": "Enable Image Hover Zoom Effect",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_reveal_animation",
-      "label": "Enable Scroll Reveal Fade Up",
-      "default": true
+      "label": "Desktop row height",
+      "default": 240
     },
     {
       "type": "header",
-      "content": "Colors & Theming"
-    },
-    {
-      "type": "color",
-      "id": "bg_color",
-      "label": "Section Background Color",
-      "default": "#f7f6f3"
-    },
-    {
-      "type": "color",
-      "id": "heading_color",
-      "label": "Heading Text Color",
-      "default": "#111111"
-    },
-    {
-      "type": "color",
-      "id": "accent_color",
-      "label": "Accent Color (Gold)",
-      "default": "#c8a876"
-    },
-    {
-      "type": "header",
-      "content": "Desktop & Mobile Spacing"
+      "content": "Spacing"
     },
     {
       "type": "range",
       "id": "padding_top",
-      "min": 40,
-      "max": 180,
-      "step": 5,
+      "min": 20,
+      "max": 120,
+      "step": 2,
       "unit": "px",
-      "label": "Desktop Top Padding",
-      "default": 90
+      "label": "Padding top",
+      "default": 64
     },
     {
       "type": "range",
       "id": "padding_bottom",
-      "min": 40,
-      "max": 180,
-      "step": 5,
-      "unit": "px",
-      "label": "Desktop Bottom Padding",
-      "default": 90
-    },
-    {
-      "type": "range",
-      "id": "mobile_padding_top",
       "min": 20,
-      "max": 100,
-      "step": 5,
+      "max": 120,
+      "step": 2,
       "unit": "px",
-      "label": "Mobile Top Padding",
-      "default": 50
-    },
+      "label": "Padding bottom",
+      "default": 68
+    }
+  ],
+  "blocks": [
     {
-      "type": "range",
-      "id": "mobile_padding_bottom",
-      "min": 20,
-      "max": 100,
-      "step": 5,
-      "unit": "px",
-      "label": "Mobile Bottom Padding",
-      "default": 50
+      "type": "gallery_item",
+      "name": "Gallery item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "default_asset",
+          "label": "Fallback asset filename",
+          "default": "art-gallery-room-hotspots.jpg"
+        },
+        {
+          "type": "text",
+          "id": "kicker",
+          "label": "Kicker",
+          "default": "MATERIAL STUDY"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Raw textures, hand-finished for the modern home"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Optional link"
+        }
+      ]
     }
   ],
   "presets": [
     {
-      "name": "About Studio Mosaic",
-      "settings": {
-        "eyebrow": "VISUAL ODYSSEY",
-        "heading": "INSIDE OUR GALLERIES & ATELIERS",
-        "subtitle": "Step behind the curtain into our physical spaces, master craft workshops, and curated architectural sanctuaries.",
-        "tag_1": "FLAGSHIP GALLERY",
-        "title_1": "The Raw House Udaipur Gallery",
-        "tag_2": "ATELIER",
-        "title_2": "Sculptural Vessels & Objects",
-        "tag_3": "CURATION",
-        "title_3": "Limited Edition Art Prints",
-        "tag_4": "INTERIORS",
-        "title_4": "Refined Living Sanctuaries",
-        "tag_5": "MATERIALITY",
-        "title_5": "Hand-Finished Rare Patinas",
-        "bg_color": "#f7f6f3",
-        "heading_color": "#111111",
-        "accent_color": "#c8a876",
-        "padding_top": 90,
-        "padding_bottom": 90
-      }
+      "name": "About Animated Gallery",
+      "blocks": [
+        {
+          "type": "gallery_item",
+          "settings": {
+            "default_asset": "art-gallery-room-hotspots.jpg",
+            "kicker": "GALLERY ROOM",
+            "title": "Collected rooms layered with sculpture, furniture and art"
+          }
+        },
+        {
+          "type": "gallery_item",
+          "settings": {
+            "default_asset": "maker-gallery-1.jpg",
+            "kicker": "ATELIER",
+            "title": "A closer look at the maker's hand"
+          }
+        },
+        {
+          "type": "gallery_item",
+          "settings": {
+            "default_asset": "art-atelier-artist-studio.jpg",
+            "kicker": "PROCESS",
+            "title": "Objects shaped slowly, with attention to surface and scale"
+          }
+        },
+        {
+          "type": "gallery_item",
+          "settings": {
+            "default_asset": "fine-print-2.jpg",
+            "kicker": "ART WALL",
+            "title": "Limited prints and visual notes for layered interiors"
+          }
+        },
+        {
+          "type": "gallery_item",
+          "settings": {
+            "default_asset": "maker-gallery-3.jpg",
+            "kicker": "DETAILS",
+            "title": "Grain, patina and quiet imperfections left beautifully visible"
+          }
+        },
+        {
+          "type": "gallery_item",
+          "settings": {
+            "default_asset": "art-decor-ceramic-statue.jpg",
+            "kicker": "OBJECTS",
+            "title": "Sculptural accents chosen for presence and proportion"
+          }
+        }
+      ]
     }
   ]
 }

@@ -164,6 +164,131 @@
         "padding_bottom": 54
       }
     },
+    "about_founders_cards": {
+      "type": "about-narrative-split",
+      "blocks": {
+        "founder_1": {
+          "type": "founder",
+          "settings": {
+            "default_asset": "maker-portrait-1.jpg",
+            "role": "Co-founder and creative curator",
+            "name": "Founder One",
+            "quote": "We look for objects with restraint, texture and soul: pieces that feel calm at first glance and deeper the longer you live with them.",
+            "bio": "Leads visual curation, material direction and the editorial eye behind The Raw House collections.",
+            "link_label": "MEET FOUNDER"
+          }
+        },
+        "founder_2": {
+          "type": "founder",
+          "settings": {
+            "default_asset": "maker-portrait-2.jpg",
+            "role": "Co-founder and client experience lead",
+            "name": "Founder Two",
+            "quote": "A home should never feel assembled overnight. It should carry memory, craft and the quiet confidence of pieces chosen with care.",
+            "bio": "Guides sourcing, client conversations, delivery experience and the practical details that help each piece settle beautifully into a real home.",
+            "link_label": "MEET FOUNDER"
+          }
+        }
+      },
+      "block_order": [
+        "founder_1",
+        "founder_2"
+      ],
+      "settings": {
+        "subheading": "MEET THE FOUNDERS",
+        "heading": "Two Perspectives Shaping One Raw House",
+        "intro": "A shared instinct for honest materials, considered interiors, and spaces that feel like home.",
+        "bottom_text": "PEOPLE  -  SPACES  -  A BETTER TOMORROW",
+        "show_bio": false,
+        "small_text_size": 11,
+        "small_text_size_mobile": 9,
+        "heading_size": 82,
+        "heading_size_mobile": 44,
+        "intro_size": 16,
+        "intro_size_mobile": 15,
+        "name_size": 49,
+        "name_size_mobile": 30,
+        "card_text_size": 21,
+        "card_text_size_mobile": 14,
+        "bio_size": 13,
+        "link_size": 11,
+        "bottom_text_size": 11,
+        "color_scheme_preset": "warm",
+        "padding_top": 74,
+        "padding_bottom": 66
+      }
+    },
+    "about_animated_gallery": {
+      "type": "about-gallery-mosaic",
+      "blocks": {
+        "gallery_item_1": {
+          "type": "gallery_item",
+          "settings": {
+            "default_asset": "art-gallery-room-hotspots.jpg",
+            "kicker": "GALLERY ROOM",
+            "title": "Collected rooms layered with sculpture, furniture and art"
+          }
+        },
+        "gallery_item_2": {
+          "type": "gallery_item",
+          "settings": {
+            "default_asset": "maker-gallery-1.jpg",
+            "kicker": "ATELIER",
+            "title": "A closer look at the maker's hand"
+          }
+        },
+        "gallery_item_3": {
+          "type": "gallery_item",
+          "settings": {
+            "default_asset": "art-atelier-artist-studio.jpg",
+            "kicker": "PROCESS",
+            "title": "Objects shaped slowly, with attention to surface and scale"
+          }
+        },
+        "gallery_item_4": {
+          "type": "gallery_item",
+          "settings": {
+            "default_asset": "fine-print-2.jpg",
+            "kicker": "ART WALL",
+            "title": "Limited prints and visual notes for layered interiors"
+          }
+        },
+        "gallery_item_5": {
+          "type": "gallery_item",
+          "settings": {
+            "default_asset": "maker-gallery-3.jpg",
+            "kicker": "DETAILS",
+            "title": "Grain, patina and quiet imperfections left beautifully visible"
+          }
+        },
+        "gallery_item_6": {
+          "type": "gallery_item",
+          "settings": {
+            "default_asset": "art-decor-ceramic-statue.jpg",
+            "kicker": "OBJECTS",
+            "title": "Sculptural accents chosen for presence and proportion"
+          }
+        }
+      },
+      "block_order": [
+        "gallery_item_1",
+        "gallery_item_2",
+        "gallery_item_3",
+        "gallery_item_4",
+        "gallery_item_5",
+        "gallery_item_6"
+      ],
+      "settings": {
+        "subheading": "THE RAW HOUSE GALLERY",
+        "heading": "A living archive of craft, material and collected rooms",
+        "intro": "A glimpse into the textures, studios, objects and quiet interior moments that shape The Raw House point of view.",
+        "footer_note": "Each frame can be edited from the theme editor: upload your own imagery, refine the captions, or link a frame to a collection, page, or product.",
+        "color_scheme_preset": "warm",
+        "grid_row_height": 240,
+        "padding_top": 64,
+        "padding_bottom": 68
+      }
+    },
     "luxury_about_process": {
       "type": "luxury-about-process-timeline",
       "blocks": {
@@ -330,6 +455,8 @@
     "luxury_about_hero",
     "luxury_about_manifesto",
     "luxury_about_founder",
+    "about_founders_cards",
+    "about_animated_gallery",
     "luxury_about_process",
     "luxury_trust_features",
     "luxury_reviews_press",
