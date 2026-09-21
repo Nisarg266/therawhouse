@@ -1036,6 +1036,7 @@
         "feature_2",
         "feature_3"
       ],
+      "disabled": true,
       "settings": {
         "eyebrow": "the",
         "heading": "Raw House",
@@ -1161,7 +1162,7 @@
         "eyebrow": "",
         "heading": "A little bit of us",
         "body": "<p>The Raw House is a destination for design, artistry and craftsmanship, curated for a life artfully lived.</p>",
-        "show_ornament": false,
+        "show_ornament": true,
         "text_align": "center",
         "container_mode": "fixed",
         "container_max": 680,
