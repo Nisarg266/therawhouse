@@ -1271,6 +1271,7 @@
         "press_5",
         "press_6"
       ],
+      "disabled": true,
       "settings": {
         "eyebrow": "",
         "heading": "FEATURED IN",
