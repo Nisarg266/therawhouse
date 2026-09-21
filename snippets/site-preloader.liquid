@@ -10,16 +10,23 @@
   class="site-preloader"
   role="status"
   aria-live="polite"
-  aria-label="Loading The Raw House"
+  aria-label="Loading {{ shop.name | escape }}"
 >
   <div class="site-preloader__panel">
-    <span class="site-preloader__eyebrow">The Raw House</span>
+    <img
+      src="https://cdn.shopify.com/s/files/1/0851/3044/5056/files/b2941b08-9696-4aa1-8507-5a1624956e4c.png?v=1790005016"
+      alt="{{ shop.name | escape }}"
+      class="site-preloader__logo"
+      loading="eager"
+      width="420"
+      height="120"
+    >
     <span class="site-preloader__mark" aria-hidden="true">
       <span class="site-preloader__stroke site-preloader__stroke--one"></span>
       <span class="site-preloader__stroke site-preloader__stroke--two"></span>
       <span class="site-preloader__stroke site-preloader__stroke--three"></span>
     </span>
-    <span class="site-preloader__text">Curating raw beauty</span>
+    <span class="site-preloader__text">Space for Infinite Discovery </span>
   </div>
 </div>
 
@@ -68,6 +75,14 @@
     text-transform: uppercase;
   }
 
+  .site-preloader__logo {
+    display: block;
+    width: min(58vw, 260px);
+    height: auto;
+    max-height: 120px;
+    object-fit: contain;
+  }
+
   .site-preloader__mark {
     position: relative;
     width: 160px;
@@ -110,7 +125,9 @@
     font-family: var(--font-body--family, sans-serif);
     font-size: 11px;
     font-weight: 600;
-    letter-spacing: 0.22em;
+    line-height: 1.6;
+    letter-spacing: 0.16em;
+    max-width: min(82vw, 520px);
     text-transform: uppercase;
   }
 
