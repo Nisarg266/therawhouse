@@ -140,6 +140,7 @@
         "custom_text_color": "",
         "custom_accent_color": "",
         "media_position": "left",
+        "image": "shopify://shop_images/CopyofDSC06805.jpg",
         "default_asset": "art-atelier-artist-studio.jpg",
         "badge_title": "✦ RAW HOUSE CURATED",
         "badge_subtitle": "Crafted Objects for Artful Living",
@@ -161,11 +162,11 @@
           "type": "founder",
           "settings": {
             "default_asset": "maker-portrait-1.jpg",
-            "role": "Co-founder and creative curator",
-            "name": "Founder One",
-            "quote": "We look for objects with restraint, texture and soul: pieces that feel calm at first glance and deeper the longer you live with them.",
+            "role": "Co-founder · Curation & Design",
+            "name": "Priyadarshini Rathore",
+            "quote": "Priyadarshini Rathore brings over a decade of experience across curation, architecture and design. Her work has been centred around creating platforms that connect creative practices, people and audiences.",
             "bio": "Leads visual curation, material direction and the editorial eye behind The Raw House collections.",
-            "link_label": "MEET FOUNDER",
+            "link_label": "",
             "link": ""
           }
         },
@@ -173,7 +174,7 @@
           "type": "founder",
           "settings": {
             "default_asset": "maker-portrait-2.jpg",
-            "role": "Co-founder and client experience lead",
+            "role": "Co-founder · Architecture & Design",
             "name": "Founder Two",
             "quote": "A home should never feel assembled overnight. It should carry memory, craft and the quiet confidence of pieces chosen with care.",
             "bio": "Guides sourcing, client conversations, delivery experience and the practical details that help each piece settle beautifully into a real home.",
@@ -189,7 +190,7 @@
       "settings": {
         "top_label": "THE",
         "subheading": "MEET THE FOUNDERS",
-        "heading": "FOUNDERS",
+        "heading": "OUR FOUNDERS",
         "intro": "A shared instinct for honest materials, considered interiors, and spaces that feel like home.",
         "bottom_text": "PEOPLE  -  SPACES  -  A BETTER TOMORROW",
         "show_bio": false,
