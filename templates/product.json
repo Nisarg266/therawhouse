@@ -534,6 +534,7 @@
         "metric_2",
         "metric_3"
       ],
+      "disabled": true,
       "settings": {
         "eyebrow": "THE RAW HOUSE ATELIER",
         "heading": "Bespoke Artistry & Timeless Provenance",
@@ -663,7 +664,7 @@
           "type": "text",
           "name": "t:names.header",
           "settings": {
-            "text": "<h3>CURATED ATELIER COMPANIONS</h3>",
+            "text": "",
             "width": "100%",
             "max_width": "normal",
             "alignment": "center",
