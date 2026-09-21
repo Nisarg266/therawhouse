@@ -87,9 +87,9 @@
           "type": "collection_card",
           "settings": {
             "collection": "oneiric",
-            "kicker": "CURATED EDIT",
-            "title": "",
-            "description": "Add three to four lines describing the collection, the materials, the mood, and why this edit belongs in a layered home.",
+            "kicker": "",
+            "title": "The Future In Form",
+            "description": "The Future in Form was The Raw House's inaugural showcase, bringing together furniture, objects, lighting, rugs, glass, textiles and art from a group of contemporary Indian designers and makers.\nThe collection explored how traditional craftsmanship, new materials, technology and contemporary design can come together to create objects for the future.",
             "button_label": "",
             "link": ""
           }
@@ -98,9 +98,9 @@
           "type": "collection_card",
           "settings": {
             "collection": "textiles",
-            "kicker": "CURATED EDIT",
-            "title": "",
-            "description": "Add three to four lines describing the collection, the materials, the mood, and why this edit belongs in a layered home.",
+            "kicker": "A fusion of furniture and ceramics.",
+            "title": "Indoor Outdoor Dialogues ",
+            "description": "Indoor Outdoor Dialogues explored the relationship between furniture, ceramics and the spaces we inhabit.\nThe curation looked at how objects move between inside and outside — becoming functional, sculptural and spatial at the same time.",
             "button_label": "",
             "link": ""
           }
@@ -109,9 +109,9 @@
           "type": "collection_card",
           "settings": {
             "collection": "tabulasa",
-            "kicker": "CURATED EDIT",
-            "title": "",
-            "description": "Add three to four lines describing the collection, the materials, the mood, and why this edit belongs in a layered home.",
+            "kicker": "New ideas. New materials. New ways of seeing.",
+            "title": "New Perspective",
+            "description": "New Perspective brought together emerging creative practices around experimentation, material and contemporary design.\nThe collection was accompanied by a Raw Conversation bringing together practitioners including Sangita Khalsa, Aashna Bhagwat Prasad and Anurag Bhandari.",
             "button_label": "",
             "link": ""
           }
@@ -119,10 +119,10 @@
         "collection_card_jgbeXU": {
           "type": "collection_card",
           "settings": {
-            "collection": "sculpture",
-            "kicker": "CURATED EDIT",
-            "title": "MATERIAL PASSAGE",
-            "description": "Add three to four lines describing the collection, the materials, the mood, and why this edit belongs in a layered home.",
+            "collection": "oneiric",
+            "kicker": "Between the imagined and the tangible.",
+            "title": "Oneiric",
+            "description": "ONEIRIC brought together artists and designers whose practices move between objects, art, material and imagination.\nAcross painting, sculpture, furniture, textiles and material-led practice, the collection brings together different ways of imagining what an object can be",
             "button_label": "",
             "link": ""
           }
@@ -131,9 +131,9 @@
           "type": "collection_card",
           "settings": {
             "collection": "",
-            "kicker": "CURATED EDIT",
-            "title": "",
-            "description": "Add three to four lines describing the collection, the materials, the mood, and why this edit belongs in a layered home.",
+            "kicker": "A familiar object, imagined again.",
+            "title": "Hinchko",
+            "description": "Hichko is a contemporary exploration of the traditional Indian swing.\nCreated by renowned architect Apurva Amin exclusively for The Raw House, the collection reimagines the hinchko through structure, movement, material and memory.",
             "button_label": "",
             "link": ""
           }
@@ -142,9 +142,9 @@
           "type": "collection_card",
           "settings": {
             "collection": "",
-            "kicker": "CURATED EDIT",
-            "title": "",
-            "description": "Add three to four lines describing the collection, the materials, the mood, and why this edit belongs in a layered home.",
+            "kicker": "Teak as material. Memory. Inheritance.",
+            "title": "Material Passage",
+            "description": "Material Passage explores the evolving journey of teak in India.\nRather than treating teak simply as a beautiful material, the collection considers its history, circulation, cultural residue and continued relevance in contemporary design.",
             "button_label": "",
             "link": ""
           }
@@ -153,9 +153,9 @@
           "type": "collection_card",
           "settings": {
             "collection": "",
-            "kicker": "CURATED EDIT",
-            "title": "",
-            "description": "Add three to four lines describing the collection, the materials, the mood, and why this edit belongs in a layered home.",
+            "kicker": "Where art, design and function meet.",
+            "title": "What Objects Become",
+            "description": "The Raw House, in collaboration with Monolith, presented artist Lochan Upadhyay in What Objects Become.\nThe exhibition brought together sculptural works, portable wheel-based units, modular construction forms, light sculptures and objects exploring mobility, material and built environments.",
             "button_label": "",
             "link": ""
           }
@@ -164,9 +164,9 @@
           "type": "collection_card",
           "settings": {
             "collection": "",
-            "kicker": "CURATED EDIT",
-            "title": "",
-            "description": "Add three to four lines describing the collection, the materials, the mood, and why this edit belongs in a layered home.",
+            "kicker": "Craft as Living Intelligence.",
+            "title": "Craft Collective",
+            "description": "Craft Collective brings together master artisans and contemporary designers to explore craft as a living intelligence. \nThe inaugural showcase brought together collaborations across furniture, sculpture, textiles, earthwork and material practice.",
             "button_label": "",
             "link": ""
           }
