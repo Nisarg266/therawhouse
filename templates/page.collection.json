@@ -87,7 +87,8 @@
           "type": "collection_card",
           "settings": {
             "collection": "oneiric",
-            "kicker": "",
+            "image": "shopify://shop_images/The_future.jpg",
+            "kicker": "The Raw House",
             "title": "The Future In Form",
             "description": "The Future in Form was The Raw House's inaugural showcase, bringing together furniture, objects, lighting, rugs, glass, textiles and art from a group of contemporary Indian designers and makers.\nThe collection explored how traditional craftsmanship, new materials, technology and contemporary design can come together to create objects for the future.",
             "button_label": "",
@@ -120,6 +121,7 @@
           "type": "collection_card",
           "settings": {
             "collection": "oneiric",
+            "image": "shopify://shop_images/Oneric.jpg",
             "kicker": "Between the imagined and the tangible.",
             "title": "Oneiric",
             "description": "ONEIRIC brought together artists and designers whose practices move between objects, art, material and imagination.\nAcross painting, sculpture, furniture, textiles and material-led practice, the collection brings together different ways of imagining what an object can be",
@@ -131,6 +133,7 @@
           "type": "collection_card",
           "settings": {
             "collection": "",
+            "image": "shopify://shop_images/page_002_image_01.jpg",
             "kicker": "A familiar object, imagined again.",
             "title": "Hinchko",
             "description": "Hichko is a contemporary exploration of the traditional Indian swing.\nCreated by renowned architect Apurva Amin exclusively for The Raw House, the collection reimagines the hinchko through structure, movement, material and memory.",
@@ -142,6 +145,7 @@
           "type": "collection_card",
           "settings": {
             "collection": "material-passage",
+            "image": "shopify://shop_images/MAtral_passage.jpg",
             "kicker": "Teak as material. Memory. Inheritance.",
             "title": "Material Passage",
             "description": "Material Passage explores the evolving journey of teak in India.\nRather than treating teak simply as a beautiful material, the collection considers its history, circulation, cultural residue and continued relevance in contemporary design.",
@@ -153,6 +157,7 @@
           "type": "collection_card",
           "settings": {
             "collection": "",
+            "image": "shopify://shop_images/What_Objects_Become.jpg",
             "kicker": "Where art, design and function meet.",
             "title": "What Objects Become",
             "description": "The Raw House, in collaboration with Monolith, presented artist Lochan Upadhyay in What Objects Become.\nThe exhibition brought together sculptural works, portable wheel-based units, modular construction forms, light sculptures and objects exploring mobility, material and built environments.",
@@ -164,6 +169,7 @@
           "type": "collection_card",
           "settings": {
             "collection": "",
+            "image": "shopify://shop_images/Craft_Collective.jpg",
             "kicker": "Craft as Living Intelligence.",
             "title": "Craft Collective",
             "description": "Craft Collective brings together master artisans and contemporary designers to explore craft as a living intelligence. \nThe inaugural showcase brought together collaborations across furniture, sculpture, textiles, earthwork and material practice.",
@@ -193,7 +199,7 @@
         "custom_text_color": "",
         "custom_accent_color": "",
         "heading_size": 46,
-        "card_title_size": 38,
+        "card_title_size": 28,
         "text_size": 14,
         "card_gap": 24,
         "padding_top": 72,
