@@ -107,6 +107,20 @@
       --quick-add-display: {% if has_quick_add %}flex{% else %}none{% endif %};
       --quick-add-mobile-display: {% if has_mobile_quick_add %}flex{% else %}none{% endif %};
       --quick-add-mobile-opacity: {% if has_mobile_quick_add %}1{% else %}0{% endif %};
+      --product-card-title-color: {{ block_settings.title_color | default: '#111111' }};
+      --product-card-title-hover-color: {{ block_settings.title_hover_color | default: '#a38758' }};
+      --product-card-text-color: {{ block_settings.text_color | default: '#4a4a4a' }};
+      --product-card-price-color: {{ block_settings.price_color | default: '#111111' }};
+      --product-card-compare-price-color: {{ block_settings.compare_price_color | default: '#8b857a' }};
+      --product-card-media-bg: {{ block_settings.media_background_color | default: '#f3ede4' }};
+      --product-card-badge-bg: {{ block_settings.badge_background_color | default: 'rgba(18, 18, 18, 0.82)' }};
+      --product-card-badge-color: {{ block_settings.badge_text_color | default: '#ffffff' }};
+      --product-card-sale-badge-bg: {{ block_settings.sale_badge_background_color | default: 'rgba(163, 135, 88, 0.92)' }};
+      --product-card-sale-badge-color: {{ block_settings.sale_badge_text_color | default: '#ffffff' }};
+      --product-card-quick-bg: {{ block_settings.quick_button_background_color | default: 'rgba(255, 255, 255, 0.96)' }};
+      --product-card-quick-color: {{ block_settings.quick_button_text_color | default: '#1a1a1a' }};
+      --product-card-quick-bg-hover: {{ block_settings.quick_button_background_hover_color | default: '#ffffff' }};
+      --product-card-quick-color-hover: {{ block_settings.quick_button_text_hover_color | default: '#000000' }};
       {% if block_settings.padding-inline-start > 0 %}--zoom-out-padding-inline-start: min(var(--padding-xs), {{ block_settings.padding-inline-start | times: 0.7}}px);{% endif %}
       {% if block_settings.padding-inline-end > 0 %}--zoom-out-padding-inline-end: min(var(--padding-xs), {{ block_settings.padding-inline-end | times: 0.7}}px);{% endif %}
       {% if block_settings.padding-block-start > 0 %}--zoom-out-padding-block-start: min(var(--padding-xs), {{ block_settings.padding-block-start | times: 0.7}}px);{% endif %}

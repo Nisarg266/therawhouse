@@ -46,6 +46,64 @@
     height: 100%;
   }
 
+  product-card .product-grid__card :is(p, span, small, .text-block) {
+    color: var(--product-card-text-color, var(--color-foreground)) !important;
+  }
+
+  product-card [ref='productTitleLink'],
+  product-card [ref='productTitleLink'] .text-block,
+  product-card [ref='productTitleLink'] :is(p, h1, h2, h3, h4, h5, h6, [role='heading']),
+  product-card .product-title,
+  product-card [class*='product_title'] {
+    color: var(--product-card-title-color, var(--color-foreground)) !important;
+  }
+
+  product-card:hover [ref='productTitleLink'],
+  product-card:hover [ref='productTitleLink'] .text-block,
+  product-card:hover [ref='productTitleLink'] :is(p, h1, h2, h3, h4, h5, h6, [role='heading']),
+  product-card:hover .product-title,
+  product-card:hover [class*='product_title'] {
+    color: var(--product-card-title-hover-color, var(--product-card-title-color, var(--color-foreground))) !important;
+  }
+
+  product-card product-price,
+  product-card product-price *,
+  product-card .price,
+  product-card .price-item,
+  product-card [ref='priceContainer'] {
+    color: var(--product-card-price-color, var(--color-foreground)) !important;
+  }
+
+  product-card :is(.compare-at-price, .price__compare, .price-item--regular, s) {
+    color: var(--product-card-compare-price-color, color-mix(in srgb, var(--product-card-price-color, currentColor) 58%, transparent)) !important;
+  }
+
+  product-card :is(.card-gallery, .product-card-gallery, .product-card-gallery__no-image, .product-media-container) {
+    background: var(--product-card-media-bg, transparent) !important;
+  }
+
+  product-card .product-badges__badge {
+    background: var(--product-card-badge-bg, rgba(18, 18, 18, 0.82)) !important;
+    color: var(--product-card-badge-color, #ffffff) !important;
+  }
+
+  product-card .product-badges__badge.color-custom-badge-sale {
+    background: var(--product-card-sale-badge-bg, var(--product-card-badge-bg, rgba(18, 18, 18, 0.82))) !important;
+    color: var(--product-card-sale-badge-color, var(--product-card-badge-color, #ffffff)) !important;
+  }
+
+  product-card button.quick-add__button,
+  product-card .quick-add__button {
+    background: var(--product-card-quick-bg, rgba(255, 255, 255, 0.96)) !important;
+    color: var(--product-card-quick-color, #1a1a1a) !important;
+  }
+
+  product-card button.quick-add__button:hover,
+  product-card .quick-add__button:hover {
+    background: var(--product-card-quick-bg-hover, #ffffff) !important;
+    color: var(--product-card-quick-color-hover, #000000) !important;
+  }
+
   .product-card__content slideshow-component {
     --cursor: pointer;
   }
