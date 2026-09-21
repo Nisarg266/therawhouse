@@ -1,0 +1,1046 @@
+{%- comment -%}
+  THE RAW HOUSE - UPCOMING EVENTS
+  Luxury single-event showcase with optional image collage.
+{%- endcomment -%}
+
+{%- liquid
+  assign s = section.settings
+  assign heading_primary = s.heading_primary | default: 'Upcoming'
+  assign heading_accent = s.heading_accent | default: 'Events'
+
+  assign ratio_css = '4 / 5'
+  if s.image_ratio == '1/1'
+    assign ratio_css = '1 / 1'
+  elsif s.image_ratio == '3/4'
+    assign ratio_css = '3 / 4'
+  elsif s.image_ratio == '4/3'
+    assign ratio_css = '4 / 3'
+  elsif s.image_ratio == '16/10'
+    assign ratio_css = '16 / 10'
+  endif
+-%}
+
+<section
+  class="trh-events {{ s.custom_class }}"
+  style="
+    --events-bg: {{ s.color_bg }};
+    --events-eyebrow: {{ s.color_eyebrow }};
+    --events-heading-primary: {{ s.color_heading_primary }};
+    --events-heading-accent: {{ s.color_heading_accent }};
+    --events-intro: {{ s.color_intro }};
+    --events-date: {{ s.color_date }};
+    --events-event-title: {{ s.color_event_title }};
+    --events-location: {{ s.color_location }};
+    --events-text: {{ s.color_text }};
+    --events-image-label: {{ s.color_image_label }};
+    --events-badge-bg: {{ s.badge_bg }};
+    --events-badge-text: {{ s.badge_text }};
+    --events-accent: {{ s.color_accent }};
+    --events-border: {{ s.color_border }};
+    --events-card-bg: {{ s.card_bg }};
+    --events-card-border: {{ s.card_border }};
+    --events-button-bg: {{ s.button_bg }};
+    --events-button-text: {{ s.button_text }};
+    --events-button-border: {{ s.button_border }};
+    --events-eyebrow-size: {{ s.eyebrow_size | default: 10 }}px;
+    --events-heading-size: {{ s.heading_size | default: 132 }}px;
+    --events-intro-size: {{ s.intro_size | default: 17 }}px;
+    --events-image-label-size: {{ s.image_label_size | default: 12 }}px;
+    --events-badge-size: {{ s.badge_size | default: 11 }}px;
+    --events-date-size: {{ s.date_size | default: 11 }}px;
+    --events-title-size: {{ s.event_title_size | default: 104 }}px;
+    --events-location-size: {{ s.location_size | default: 14 }}px;
+    --events-description-size: {{ s.description_size | default: 17 }}px;
+    --events-button-size: {{ s.button_size | default: 12 }}px;
+    --events-eyebrow-size-m: {{ s.eyebrow_size_m | default: 10 }}px;
+    --events-heading-size-m: {{ s.heading_size_m | default: 86 }}px;
+    --events-intro-size-m: {{ s.intro_size_m | default: 15 }}px;
+    --events-image-label-size-m: {{ s.image_label_size_m | default: 10 }}px;
+    --events-badge-size-m: {{ s.badge_size_m | default: 10 }}px;
+    --events-date-size-m: {{ s.date_size_m | default: 10 }}px;
+    --events-title-size-m: {{ s.event_title_size_m | default: 72 }}px;
+    --events-location-size-m: {{ s.location_size_m | default: 12 }}px;
+    --events-description-size-m: {{ s.description_size_m | default: 15 }}px;
+    --events-button-size-m: {{ s.button_size_m | default: 11 }}px;
+    --events-ratio: {{ ratio_css }};
+    --events-fit: {{ s.image_fit }};
+    --events-radius: {{ s.card_radius }}px;
+    --events-pt: {{ s.padding_top }}px;
+    --events-pb: {{ s.padding_bottom }}px;
+    --events-pt-m: {{ s.padding_top_m }}px;
+    --events-pb-m: {{ s.padding_bottom_m }}px;
+    --events-cw: {{ s.container_max }}px;
+    --events-px: {{ s.container_padding }}px;
+    --events-px-m: {{ s.container_padding_m }}px;
+    --events-gap: {{ s.card_gap }}px;
+    --events-gap-m: {{ s.card_gap_m }}px;
+  "
+  {% if s.anchor_id != blank %}id="{{ s.anchor_id | escape }}"{% endif %}
+  {{ section.shopify_attributes }}
+>
+  <div class="trh-events__container">
+    {% if s.eyebrow != blank or heading_primary != blank or heading_accent != blank or s.intro != blank %}
+      <header class="trh-events__header trh-events__header--{{ s.header_align }}">
+        {% if s.eyebrow != blank %}
+          <p class="trh-events__eyebrow">{{ s.eyebrow }}</p>
+        {% endif %}
+        {% if heading_primary != blank or heading_accent != blank %}
+          <h2 class="trh-events__heading">
+            {% if heading_primary != blank %}<span>{{ heading_primary }}</span>{% endif %}
+            {% if heading_accent != blank %}<em>{{ heading_accent }}</em>{% endif %}
+          </h2>
+        {% endif %}
+        {% if s.show_ornament %}
+          <div class="trh-events__ornament" aria-hidden="true">
+            <span></span>
+            <b>&#9670;</b>
+            <span></span>
+          </div>
+        {% endif %}
+        {% if s.intro != blank %}
+          <div class="trh-events__intro">{{ s.intro }}</div>
+        {% endif %}
+      </header>
+    {% endif %}
+
+    <div class="trh-events__feature">
+      {% if section.blocks.size > 0 %}
+        {% for block in section.blocks limit: 1 %}
+          {%- assign event_title = block.settings.title | default: 'Upcoming event' -%}
+          {%- liquid
+            assign gallery_count = 1
+            if block.settings.image_2 != blank
+              assign gallery_count = gallery_count | plus: 1
+            endif
+            if block.settings.image_3 != blank
+              assign gallery_count = gallery_count | plus: 1
+            endif
+            if block.settings.image_4 != blank
+              assign gallery_count = gallery_count | plus: 1
+            endif
+            if block.settings.image_5 != blank
+              assign gallery_count = gallery_count | plus: 1
+            endif
+          -%}
+          {% capture event_card_content %}
+            <div class="trh-events__gallery" data-trh-events-slider>
+              <div class="trh-events__viewport" data-trh-events-track>
+                <figure class="trh-events__media">
+                  {% render 'luxp-image',
+                    image: block.settings.image,
+                    image_mobile: block.settings.image_mobile,
+                    alt: event_title,
+                    class: 'trh-events__image',
+                    loading: 'lazy',
+                    sizes: '(min-width: 990px) 44vw, 92vw',
+                    fallback: block.settings.default_asset
+                  %}
+                  {% if block.settings.image_label_1 != blank %}
+                    <figcaption>{{ block.settings.image_label_1 }}</figcaption>
+                  {% endif %}
+                </figure>
+
+                {% if block.settings.image_2 != blank %}
+                  <figure class="trh-events__media">
+                    {% render 'luxp-image',
+                      image: block.settings.image_2,
+                      alt: event_title,
+                      class: 'trh-events__image',
+                      loading: 'lazy',
+                      sizes: '(min-width: 990px) 44vw, 92vw'
+                    %}
+                    {% if block.settings.image_label_2 != blank %}
+                      <figcaption>{{ block.settings.image_label_2 }}</figcaption>
+                    {% endif %}
+                  </figure>
+                {% endif %}
+
+                {% if block.settings.image_3 != blank %}
+                  <figure class="trh-events__media">
+                  {% render 'luxp-image',
+                    image: block.settings.image_3,
+                    alt: event_title,
+                    class: 'trh-events__image',
+                    loading: 'lazy',
+                    sizes: '(min-width: 990px) 44vw, 92vw'
+                  %}
+                    {% if block.settings.image_label_3 != blank %}
+                      <figcaption>{{ block.settings.image_label_3 }}</figcaption>
+                    {% endif %}
+                  </figure>
+                {% endif %}
+
+                {% if block.settings.image_4 != blank %}
+                  <figure class="trh-events__media">
+                  {% render 'luxp-image',
+                    image: block.settings.image_4,
+                    alt: event_title,
+                    class: 'trh-events__image',
+                    loading: 'lazy',
+                    sizes: '(min-width: 990px) 44vw, 92vw'
+                  %}
+                    {% if block.settings.image_label_4 != blank %}
+                      <figcaption>{{ block.settings.image_label_4 }}</figcaption>
+                    {% endif %}
+                  </figure>
+                {% endif %}
+
+                {% if block.settings.image_5 != blank %}
+                  <figure class="trh-events__media">
+                  {% render 'luxp-image',
+                    image: block.settings.image_5,
+                    alt: event_title,
+                    class: 'trh-events__image',
+                    loading: 'lazy',
+                    sizes: '(min-width: 990px) 44vw, 92vw'
+                  %}
+                    {% if block.settings.image_label_5 != blank %}
+                      <figcaption>{{ block.settings.image_label_5 }}</figcaption>
+                    {% endif %}
+                  </figure>
+                {% endif %}
+              </div>
+
+              {% if gallery_count > 1 %}
+                <div class="trh-events__slider-controls" aria-label="Event image slider controls">
+                  <div class="trh-events__counter">
+                    <span data-trh-events-current>01</span>
+                    <span>/</span>
+                    <span>{{ gallery_count | prepend: '0' | slice: -2, 2 }}</span>
+                  </div>
+                  <span class="trh-events__counter-line" aria-hidden="true"></span>
+                  <button type="button" class="trh-events__arrow" data-trh-events-prev aria-label="Previous image">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7M8 12h12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </button>
+                  <div class="trh-events__dots" aria-hidden="true">
+                    {% for i in (1..gallery_count) %}
+                      <span class="{% if forloop.first %}is-active{% endif %}" data-trh-events-dot></span>
+                    {% endfor %}
+                  </div>
+                  <button type="button" class="trh-events__arrow" data-trh-events-next aria-label="Next image">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7M4 12h12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  </button>
+                </div>
+              {% endif %}
+
+              {% if block.settings.badge != blank %}
+                <span class="trh-events__badge">{{ block.settings.badge }}</span>
+              {% endif %}
+            </div>
+
+            <div class="trh-events__body">
+              {% if block.settings.date_label != blank or block.settings.time_label != blank %}
+                <p class="trh-events__meta">
+                  {% if block.settings.date_label != blank %}<span>{{ block.settings.date_label }}</span>{% endif %}
+                  {% if block.settings.time_label != blank %}<span>{{ block.settings.time_label }}</span>{% endif %}
+                </p>
+              {% endif %}
+
+              <h3 class="trh-events__title">{{ event_title }}</h3>
+
+              {% if block.settings.location != blank %}
+                <p class="trh-events__location"><span></span>{{ block.settings.location }}<span></span></p>
+              {% endif %}
+
+              {% if block.settings.text != blank %}
+                <div class="trh-events__text">{{ block.settings.text }}</div>
+              {% endif %}
+
+              {% if block.settings.cta_label != blank %}
+                <span class="trh-events__cta">
+                  {{ block.settings.cta_label }}
+                  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path d="M5 12h13M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+              {% endif %}
+            </div>
+          {% endcapture %}
+
+          {% if block.settings.link != blank %}
+            <a href="{{ block.settings.link }}" class="trh-events__card" {{ block.shopify_attributes }}>
+              {{ event_card_content }}
+            </a>
+          {% else %}
+            <article class="trh-events__card" {{ block.shopify_attributes }}>
+              {{ event_card_content }}
+            </article>
+          {% endif %}
+        {% endfor %}
+      {% else %}
+        <article class="trh-events__card trh-events__card--empty">
+          <div class="trh-events__body">
+            <h3 class="trh-events__title">Upcoming Event</h3>
+            <div class="trh-events__text"><p>Add an event block to showcase your next gathering.</p></div>
+          </div>
+        </article>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .trh-events {
+    display: block;
+    width: 100%;
+    position: relative;
+    overflow: clip;
+    background: var(--events-bg, #ffffff);
+    color: var(--events-text, #2f2923);
+    padding: var(--events-pt, 58px) 0 var(--events-pb, 76px);
+    box-sizing: border-box;
+  }
+
+  .trh-events::before,
+  .trh-events::after {
+    content: "";
+    position: absolute;
+    pointer-events: none;
+    border: 1px solid var(--events-accent, #b08d57);
+    opacity: 0.35;
+  }
+
+  .trh-events::before {
+    width: clamp(180px, 18vw, 320px);
+    height: clamp(180px, 18vw, 320px);
+    left: -9vw;
+    bottom: -8vw;
+    border-radius: 50%;
+  }
+
+  .trh-events::after {
+    width: 1px;
+    height: 120px;
+    right: clamp(20px, 5vw, 80px);
+    top: clamp(140px, 18vw, 240px);
+    border-width: 0 1px 0 0;
+  }
+
+  .trh-events__container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: var(--events-cw, 1360px);
+    margin: 0 auto;
+    padding: 0 var(--events-px, 32px);
+    box-sizing: border-box;
+  }
+
+  .trh-events__header {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 0 auto clamp(34px, 4.5vw, 58px);
+    max-width: 980px;
+    text-align: center;
+    align-items: center;
+  }
+
+  .trh-events__header--left {
+    margin-left: 0;
+    text-align: left;
+    align-items: flex-start;
+  }
+
+  .trh-events__eyebrow,
+  .trh-events__meta,
+  .trh-events__cta,
+  .trh-events__badge {
+    font-family: var(--font-body--family, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
+    font-size: var(--events-eyebrow-size, 10px);
+    line-height: 1.3;
+    font-weight: 600;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+  }
+
+  .trh-events__eyebrow,
+  .trh-events__meta,
+  .trh-events__cta {
+    color: var(--events-accent, #b08d57);
+  }
+
+  .trh-events__eyebrow {
+    color: var(--events-eyebrow, #b08d57);
+  }
+
+  .trh-events__eyebrow,
+  .trh-events__heading,
+  .trh-events__intro,
+  .trh-events__meta,
+  .trh-events__title,
+  .trh-events__location,
+  .trh-events__text {
+    margin: 0;
+  }
+
+  .trh-events__heading {
+    font-family: Georgia, "Times New Roman", serif;
+    color: var(--events-heading-primary, #221c17);
+    font-size: var(--events-heading-size, 132px);
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 0.88;
+    text-transform: none;
+  }
+
+  .trh-events__heading span,
+  .trh-events__heading em {
+    display: inline-block;
+    font-style: normal;
+  }
+
+  .trh-events__heading em {
+    color: var(--events-heading-accent, #b08d57);
+    margin-left: 0.12em;
+  }
+
+  .trh-events__ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    width: clamp(130px, 16vw, 220px);
+    color: var(--events-accent, #b08d57);
+  }
+
+  .trh-events__ornament span {
+    flex: 1;
+    height: 1px;
+    background: currentColor;
+  }
+
+  .trh-events__ornament b {
+    font-size: 11px;
+    line-height: 1;
+  }
+
+  .trh-events__intro {
+    color: var(--events-intro, #3d3730);
+    max-width: 620px;
+    font-size: var(--events-intro-size, 17px);
+    line-height: 1.65;
+  }
+
+  .trh-events__feature {
+    width: 100%;
+  }
+
+  .trh-events__card {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(340px, 0.65fr);
+    align-items: center;
+    gap: clamp(5px, 2vw, 10px);
+    min-width: 0;
+    color: inherit;
+    text-decoration: none;
+    background: transparent;
+    border: 0;
+    border-radius: var(--events-radius, 0);
+    overflow: visible;
+  }
+
+  .trh-events__card--empty {
+    grid-template-columns: 1fr;
+  }
+
+  .trh-events__gallery {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: min(100%, 760px);
+    margin: 0 auto;
+  }
+
+  .trh-events__viewport {
+    position: relative;
+    gap: 18px;
+    width: 100%;
+    min-height: clamp(300px, 29vw, 445px);
+    overflow: visible;
+    border-radius: var(--events-radius, 0);
+  }
+
+  .trh-events__media {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    display: block;
+    margin: 0;
+    width: min(43%, 360px);
+    aspect-ratio: 4 / 5;
+    background: var(--events-card-bg, #efe5d6);
+    border: 1px solid var(--events-card-border, #d2b98f);
+    border-radius: var(--events-radius, 0);
+    box-shadow: 0 28px 80px rgba(0, 0, 0, 0.36);
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(-50%) scale(0.88);
+    transition:
+      transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.35s ease,
+      z-index 0.35s ease;
+  }
+
+  .trh-events__media.is-active {
+    z-index: 3;
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(-50%) scale(1);
+  }
+
+  .trh-events__media.is-prev {
+    z-index: 2;
+    opacity: 1;
+    transform: translateX(-103%) translateY(8%) scale(0.84);
+  }
+
+  .trh-events__media.is-next {
+    z-index: 2;
+    opacity: 1;
+    transform: translateX(3%) translateY(8%) scale(0.84);
+  }
+
+  .trh-events__media.is-hidden {
+    z-index: 1;
+    opacity: 0;
+  }
+
+  .trh-events__image,
+  .trh-events__media img,
+  .trh-events__media svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: var(--events-fit, cover);
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+  }
+
+  .trh-events__media figcaption {
+    position: absolute;
+    left: 24px;
+    top: 24px;
+    z-index: 1;
+    color: var(--events-image-label, #ffffff);
+    font-family: var(--font-body--family, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
+    font-size: var(--events-image-label-size, 12px);
+    font-weight: 600;
+    letter-spacing: 0.34em;
+    line-height: 1.2;
+    text-transform: uppercase;
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.34);
+  }
+
+  .trh-events__card:hover .trh-events__image,
+  .trh-events__card:hover .trh-events__media img {
+    transform: scale(1.025);
+    opacity: 0.96;
+  }
+
+  .trh-events__slider-controls {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    padding-left: clamp(8px, 3vw, 28px);
+    margin-top: 0;
+  }
+
+  .trh-events__counter {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--events-location, #7b7268);
+    font-family: var(--font-body--family, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
+    font-size: 13px;
+    letter-spacing: 0.18em;
+  }
+
+  .trh-events__counter-line {
+    width: clamp(42px, 6vw, 82px);
+    height: 1px;
+    margin-right: auto;
+    background: var(--events-location, #7b7268);
+    opacity: 0.55;
+  }
+
+  .trh-events__arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    color: var(--events-accent, #b08d57);
+    background: transparent;
+    border: 1px solid var(--events-card-border, #d2b98f);
+    border-radius: 999px;
+    cursor: pointer;
+  }
+
+  .trh-events__arrow[data-trh-events-next] {
+    color: var(--events-button-text, #2b170c);
+    background: var(--events-button-bg, #dfbf86);
+    border-color: var(--events-button-border, #dfbf86);
+  }
+
+  .trh-events__arrow svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .trh-events__dots {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .trh-events__dots span {
+    width: 9px;
+    height: 9px;
+    border-radius: 999px;
+    background: var(--events-card-border, #d2b98f);
+    opacity: 0.45;
+  }
+
+  .trh-events__dots span.is-active {
+    background: var(--events-accent, #b08d57);
+    opacity: 1;
+  }
+
+  .trh-events__badge {
+    position: absolute;
+    left: 18px;
+    top: 18px;
+    z-index: 5;
+    max-width: min(220px, 70%);
+    padding: 10px 14px;
+    color: var(--events-badge-text, #2b170c);
+    background: var(--events-badge-bg, #dfbf86);
+    font-size: var(--events-badge-size, 11px);
+  }
+
+  .trh-events__body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 17px;
+    min-width: 0;
+    padding: clamp(18px, 2vw, 32px) 0;
+  }
+
+  .trh-events__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 12px;
+    color: var(--events-date, #b08d57);
+    font-size: var(--events-date-size, 11px);
+  }
+
+  .trh-events__title {
+    color: var(--events-event-title, #221c17);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: var(--events-title-size, 104px);
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 0.9;
+    text-transform: none;
+  }
+
+  .trh-events__location {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--events-location, #7b7268);
+    font-size: var(--events-location-size, 14px);
+    line-height: 1.4;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+  }
+
+  .trh-events__location span {
+    display: block;
+    width: 44px;
+    height: 1px;
+    background: var(--events-accent, #b08d57);
+  }
+
+  .trh-events__text {
+    color: var(--events-text, #2f2923);
+    max-width: 38ch;
+    font-size: var(--events-description-size, 17px);
+    line-height: 1.62;
+  }
+
+  .trh-events__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 34px;
+    min-width: min(100%, 360px);
+    min-height: 54px;
+    margin-top: 10px;
+    padding: 0 28px;
+    color: var(--events-button-text, #2b170c);
+    background: var(--events-button-bg, #dfbf86);
+    border: 1px solid var(--events-button-border, #dfbf86);
+    border-radius: 0;
+    box-sizing: border-box;
+    letter-spacing: 0.32em;
+    font-size: var(--events-button-size, 12px);
+  }
+
+  .trh-events__cta svg {
+    width: 30px;
+    height: 30px;
+    flex: 0 0 auto;
+  }
+
+  @media screen and (max-width: 989px) {
+    .trh-events__card {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+
+    .trh-events__gallery {
+      max-width: 760px;
+      width: min(100%, 720px);
+      margin: 0 auto;
+    }
+
+    .trh-events__viewport {
+      min-height: clamp(300px, 60vw, 470px);
+    }
+
+    .trh-events__body {
+      align-items: center;
+      text-align: center;
+    }
+
+    .trh-events__location {
+      justify-content: center;
+    }
+
+    .trh-events__text {
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .trh-events {
+      padding: var(--events-pt-m, 40px) 0 var(--events-pb-m, 44px);
+    }
+
+    .trh-events__container {
+      padding: 0 var(--events-px-m, 16px);
+    }
+
+    .trh-events__header,
+    .trh-events__header--left {
+      max-width: none;
+      text-align: center;
+      align-items: center;
+      margin-bottom: 36px;
+    }
+
+    .trh-events__heading {
+      font-size: var(--events-heading-size-m, 86px);
+      line-height: 0.86;
+    }
+
+    .trh-events__heading span,
+    .trh-events__heading em {
+      display: block;
+      margin-left: 0;
+    }
+
+    .trh-events__card {
+      gap: 34px;
+    }
+
+    .trh-events__gallery {
+      width: 100%;
+    }
+
+    .trh-events__viewport {
+      min-height: clamp(300px, 88vw, 450px);
+    }
+
+    .trh-events__media {
+      width: min(66%, 330px);
+    }
+
+    .trh-events__media.is-prev {
+      transform: translateX(-98%) translateY(9%) scale(0.82);
+    }
+
+    .trh-events__media.is-next {
+      transform: translateX(-2%) translateY(9%) scale(0.82);
+    }
+
+    .trh-events__slider-controls {
+      justify-content: center;
+      padding-left: 0;
+    }
+
+    .trh-events__counter,
+    .trh-events__counter-line {
+      display: none;
+    }
+
+    .trh-events__media figcaption {
+      left: 14px;
+      top: 16px;
+      font-size: var(--events-image-label-size-m, 10px);
+      letter-spacing: 0.28em;
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+    }
+
+    .trh-events__eyebrow {
+      font-size: var(--events-eyebrow-size-m, 10px);
+    }
+
+    .trh-events__intro {
+      font-size: var(--events-intro-size-m, 15px);
+    }
+
+    .trh-events__badge {
+      font-size: var(--events-badge-size-m, 10px);
+    }
+
+    .trh-events__meta {
+      font-size: var(--events-date-size-m, 10px);
+    }
+
+    .trh-events__title {
+      font-size: var(--events-title-size-m, 72px);
+    }
+
+    .trh-events__location {
+      font-size: var(--events-location-size-m, 12px);
+      letter-spacing: 0.26em;
+    }
+
+    .trh-events__text {
+      font-size: var(--events-description-size-m, 15px);
+    }
+
+    .trh-events__location span {
+      width: 34px;
+    }
+
+    .trh-events__cta {
+      width: 100%;
+      min-width: 0;
+      min-height: 60px;
+      padding: 0 24px;
+      letter-spacing: 0.22em;
+      font-size: var(--events-button-size-m, 11px);
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  (() => {
+    const initEventSliders = (root = document) => {
+      root.querySelectorAll('[data-trh-events-slider]').forEach((slider) => {
+        if (slider.dataset.trhReady === 'true') return;
+        slider.dataset.trhReady = 'true';
+
+        const track = slider.querySelector('[data-trh-events-track]');
+        const prev = slider.querySelector('[data-trh-events-prev]');
+        const next = slider.querySelector('[data-trh-events-next]');
+        const current = slider.querySelector('[data-trh-events-current]');
+        const dots = Array.from(slider.querySelectorAll('[data-trh-events-dot]'));
+        const slides = Array.from(track?.querySelectorAll('.trh-events__media') || []);
+        if (!track) return;
+
+        let index = slides.length > 2 ? Math.floor(slides.length / 2) : 0;
+
+        const wrap = (value) => (value + slides.length) % slides.length;
+        const format = (value) => String(value + 1).padStart(2, '0');
+
+        const render = () => {
+          if (!slides.length) return;
+          const prevIndex = wrap(index - 1);
+          const nextIndex = wrap(index + 1);
+
+          slides.forEach((slide, slideIndex) => {
+            slide.classList.toggle('is-active', slideIndex === index);
+            slide.classList.toggle('is-prev', slideIndex === prevIndex);
+            slide.classList.toggle('is-next', slideIndex === nextIndex);
+            slide.classList.toggle('is-hidden', slideIndex !== index && slideIndex !== prevIndex && slideIndex !== nextIndex);
+          });
+
+          dots.forEach((dot, dotIndex) => dot.classList.toggle('is-active', dotIndex === index));
+          if (current) current.textContent = format(index);
+        };
+
+        prev?.addEventListener('click', () => {
+          index = wrap(index - 1);
+          render();
+        });
+        next?.addEventListener('click', () => {
+          index = wrap(index + 1);
+          render();
+        });
+        dots.forEach((dot, dotIndex) => dot.addEventListener('click', () => {
+          index = dotIndex;
+          render();
+        }));
+        render();
+      });
+    };
+
+    initEventSliders();
+    document.addEventListener('shopify:section:load', (event) => initEventSliders(event.target));
+  })();
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Upcoming Events",
+  "tag": "section",
+  "class": "section-upcoming-events",
+  "max_blocks": 1,
+  "settings": [
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "THE RAW HOUSE" },
+    { "type": "text", "id": "heading_primary", "label": "Heading first line", "default": "Upcoming" },
+    { "type": "text", "id": "heading_accent", "label": "Heading accent line", "default": "Events" },
+    { "type": "richtext", "id": "intro", "label": "Intro text", "default": "<p>Join us for curated exhibitions, previews and intimate design gatherings.</p>" },
+    { "type": "checkbox", "id": "show_ornament", "label": "Show ornament divider", "default": true },
+    {
+      "type": "select",
+      "id": "header_align",
+      "label": "Header alignment",
+      "options": [
+        { "value": "center", "label": "Center" },
+        { "value": "left", "label": "Left" }
+      ],
+      "default": "center"
+    },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "container_max", "min": 900, "max": 1600, "step": 20, "unit": "px", "label": "Container max width", "default": 1360 },
+    { "type": "range", "id": "card_gap", "min": 10, "max": 48, "step": 2, "unit": "px", "label": "Image/content gap desktop", "default": 22 },
+    { "type": "range", "id": "card_gap_m", "min": 10, "max": 32, "step": 2, "unit": "px", "label": "Image/content gap mobile", "default": 18 },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Image ratio",
+      "options": [
+        { "value": "4/5", "label": "Portrait 4:5" },
+        { "value": "3/4", "label": "Portrait 3:4" },
+        { "value": "1/1", "label": "Square 1:1" },
+        { "value": "4/3", "label": "Landscape 4:3" },
+        { "value": "16/10", "label": "Wide 16:10" }
+      ],
+      "default": "4/5"
+    },
+    {
+      "type": "select",
+      "id": "image_fit",
+      "label": "Image fit",
+      "options": [
+        { "value": "cover", "label": "Cover" },
+        { "value": "contain", "label": "Contain" }
+      ],
+      "default": "cover"
+    },
+    { "type": "range", "id": "card_radius", "min": 0, "max": 28, "step": 1, "unit": "px", "label": "Image corner radius", "default": 0 },
+    { "type": "header", "content": "Typography sizes - desktop" },
+    { "type": "range", "id": "eyebrow_size", "min": 8, "max": 18, "step": 1, "unit": "px", "label": "Eyebrow size", "default": 10 },
+    { "type": "range", "id": "heading_size", "min": 48, "max": 160, "step": 2, "unit": "px", "label": "Main heading size", "default": 132 },
+    { "type": "range", "id": "intro_size", "min": 12, "max": 28, "step": 1, "unit": "px", "label": "Intro size", "default": 17 },
+    { "type": "range", "id": "image_label_size", "min": 8, "max": 18, "step": 1, "unit": "px", "label": "Image label size", "default": 12 },
+    { "type": "range", "id": "badge_size", "min": 8, "max": 18, "step": 1, "unit": "px", "label": "Badge size", "default": 11 },
+    { "type": "range", "id": "date_size", "min": 8, "max": 18, "step": 1, "unit": "px", "label": "Date size", "default": 11 },
+    { "type": "range", "id": "event_title_size", "min": 42, "max": 130, "step": 2, "unit": "px", "label": "Event title size", "default": 104 },
+    { "type": "range", "id": "location_size", "min": 10, "max": 22, "step": 1, "unit": "px", "label": "Location size", "default": 14 },
+    { "type": "range", "id": "description_size", "min": 12, "max": 28, "step": 1, "unit": "px", "label": "Description size", "default": 17 },
+    { "type": "range", "id": "button_size", "min": 8, "max": 18, "step": 1, "unit": "px", "label": "Button text size", "default": 12 },
+    { "type": "header", "content": "Typography sizes - mobile" },
+    { "type": "range", "id": "eyebrow_size_m", "min": 8, "max": 16, "step": 1, "unit": "px", "label": "Eyebrow size mobile", "default": 10 },
+    { "type": "range", "id": "heading_size_m", "min": 44, "max": 130, "step": 2, "unit": "px", "label": "Main heading size mobile", "default": 86 },
+    { "type": "range", "id": "intro_size_m", "min": 12, "max": 24, "step": 1, "unit": "px", "label": "Intro size mobile", "default": 15 },
+    { "type": "range", "id": "image_label_size_m", "min": 8, "max": 16, "step": 1, "unit": "px", "label": "Image label size mobile", "default": 10 },
+    { "type": "range", "id": "badge_size_m", "min": 8, "max": 16, "step": 1, "unit": "px", "label": "Badge size mobile", "default": 10 },
+    { "type": "range", "id": "date_size_m", "min": 8, "max": 16, "step": 1, "unit": "px", "label": "Date size mobile", "default": 10 },
+    { "type": "range", "id": "event_title_size_m", "min": 40, "max": 100, "step": 2, "unit": "px", "label": "Event title size mobile", "default": 72 },
+    { "type": "range", "id": "location_size_m", "min": 9, "max": 18, "step": 1, "unit": "px", "label": "Location size mobile", "default": 12 },
+    { "type": "range", "id": "description_size_m", "min": 12, "max": 22, "step": 1, "unit": "px", "label": "Description size mobile", "default": 15 },
+    { "type": "range", "id": "button_size_m", "min": 8, "max": 16, "step": 1, "unit": "px", "label": "Button text size mobile", "default": 11 },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "color_bg", "label": "Section background", "default": "#ffffff" },
+    { "type": "color", "id": "color_eyebrow", "label": "Eyebrow text", "default": "#b08d57" },
+    { "type": "color", "id": "color_heading_primary", "label": "Heading first line", "default": "#221c17" },
+    { "type": "color", "id": "color_heading_accent", "label": "Heading accent line", "default": "#b08d57" },
+    { "type": "color", "id": "color_intro", "label": "Intro text", "default": "#3d3730" },
+    { "type": "color", "id": "color_date", "label": "Event date text", "default": "#b08d57" },
+    { "type": "color", "id": "color_event_title", "label": "Event title", "default": "#221c17" },
+    { "type": "color", "id": "color_location", "label": "Location text", "default": "#7b7268" },
+    { "type": "color", "id": "color_text", "label": "Description text", "default": "#2f2923" },
+    { "type": "color", "id": "color_image_label", "label": "Image label text", "default": "#ffffff" },
+    { "type": "color", "id": "color_accent", "label": "Accent", "default": "#b08d57" },
+    { "type": "color", "id": "color_border", "label": "Decorative border", "default": "#b08d57" },
+    { "type": "color", "id": "card_bg", "label": "Image background", "default": "#eee8df" },
+    { "type": "color", "id": "card_border", "label": "Image border", "default": "#d6c3a1" },
+    { "type": "color", "id": "badge_bg", "label": "Badge background", "default": "#dfbf86" },
+    { "type": "color", "id": "badge_text", "label": "Badge text", "default": "#2b170c" },
+    { "type": "color", "id": "button_bg", "label": "Button background", "default": "#dfbf86" },
+    { "type": "color", "id": "button_text", "label": "Button text", "default": "#2b170c" },
+    { "type": "color", "id": "button_border", "label": "Button border", "default": "#dfbf86" },
+    { "type": "header", "content": "Spacing" },
+    { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding top desktop", "default": 48 },
+    { "type": "range", "id": "padding_bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding bottom desktop", "default": 56 },
+    { "type": "range", "id": "padding_top_m", "min": 0, "max": 88, "step": 4, "unit": "px", "label": "Padding top mobile", "default": 36 },
+    { "type": "range", "id": "padding_bottom_m", "min": 0, "max": 88, "step": 4, "unit": "px", "label": "Padding bottom mobile", "default": 40 },
+    { "type": "range", "id": "container_padding", "min": 0, "max": 64, "step": 2, "unit": "px", "label": "Container padding desktop", "default": 32 },
+    { "type": "range", "id": "container_padding_m", "min": 0, "max": 32, "step": 2, "unit": "px", "label": "Container padding mobile", "default": 16 },
+    { "type": "header", "content": "Advanced" },
+    { "type": "text", "id": "anchor_id", "label": "Anchor ID" },
+    { "type": "text", "id": "custom_class", "label": "Custom CSS class" }
+  ],
+  "blocks": [
+    {
+      "type": "event",
+      "name": "Event",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image 1 / main image" },
+        { "type": "image_picker", "id": "image_mobile", "label": "Mobile replacement for image 1" },
+        { "type": "image_picker", "id": "image_2", "label": "Image 2 / side image" },
+        { "type": "image_picker", "id": "image_3", "label": "Image 3 / side image" },
+        { "type": "image_picker", "id": "image_4", "label": "Image 4" },
+        { "type": "image_picker", "id": "image_5", "label": "Image 5" },
+        { "type": "text", "id": "image_label_1", "label": "Image 1 label", "default": "Material" },
+        { "type": "text", "id": "image_label_2", "label": "Image 2 label", "default": "Craft" },
+        { "type": "text", "id": "image_label_3", "label": "Image 3 label", "default": "People" },
+        { "type": "text", "id": "image_label_4", "label": "Image 4 label", "default": "Process" },
+        { "type": "text", "id": "image_label_5", "label": "Image 5 label", "default": "Preview" },
+        { "type": "text", "id": "default_asset", "label": "Fallback asset filename" },
+        { "type": "text", "id": "badge", "label": "Badge", "default": "Upcoming" },
+        { "type": "text", "id": "date_label", "label": "Date", "default": "Date to be announced" },
+        { "type": "text", "id": "time_label", "label": "Time" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Private Preview" },
+        { "type": "text", "id": "location", "label": "Location", "default": "The Raw House" },
+        { "type": "richtext", "id": "text", "label": "Description", "default": "<p>A curated gathering around craft, material and contemporary collectables.</p>" },
+        { "type": "text", "id": "cta_label", "label": "CTA label", "default": "REGISTER INTEREST" },
+        { "type": "url", "id": "link", "label": "Link" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Upcoming Events",
+      "blocks": [
+        { "type": "event", "settings": { "title": "Private Preview", "date_label": "Date to be announced", "location": "The Raw House", "badge": "Upcoming" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
