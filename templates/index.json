@@ -16,12 +16,13 @@
           "type": "slide",
           "settings": {
             "image": "shopify://shop_images/53680494-2a4f-43c4-92dc-e8a0a8fba65f.png",
+            "image_mobile": "shopify://shop_images/ab416121-36c1-42ee-891a-bd78f9ca4411.png",
             "default_asset": "hero-slide-1.jpg",
             "subheading": "",
             "heading": "",
             "description": "",
             "button_label": "",
-            "button_link": "shopify://collections/all",
+            "button_link": "shopify://collections/the-raw-collectables",
             "button_2_label": "",
             "button_2_link": "",
             "overlay_color": "",
@@ -33,12 +34,13 @@
           "type": "slide",
           "settings": {
             "image": "shopify://shop_images/3c2a8f52-358c-4ff6-9e88-f0e441cc7b80.png",
+            "image_mobile": "shopify://shop_images/09d6f5fe-7642-4884-bbf4-10dcc31d72ee.png",
             "default_asset": "hero-slide-2.jpg",
             "subheading": "",
             "heading": "",
             "description": "",
             "button_label": "",
-            "button_link": "shopify://blogs/news",
+            "button_link": "shopify://collections/the-hincko",
             "button_2_label": "",
             "button_2_link": "",
             "overlay_color": "",
@@ -50,12 +52,13 @@
           "type": "slide",
           "settings": {
             "image": "shopify://shop_images/68ea042e-b783-454a-9600-bc049ce2595e_6c2e8e34-fdad-4333-802f-ca0c671ef70f.png",
+            "image_mobile": "shopify://shop_images/3c2a8f52-358c-4ff6-9e88-f0e441cc7b80_5db0a63b-ad3b-470f-9638-5fa4ee252b88.png",
             "default_asset": "hero-slide-3.jpg",
             "subheading": "",
             "heading": "",
             "description": "",
             "button_label": "",
-            "button_link": "shopify://collections/all",
+            "button_link": "shopify://collections/material-passage",
             "button_2_label": "",
             "button_2_link": "",
             "overlay_color": "",
@@ -561,7 +564,7 @@
             "curator": "",
             "text": "This design reimagines swing motion eliminating vertical tensile supports \nand gravity’s away.",
             "btn_text": "",
-            "link": "shopify://products/vakra"
+            "link": "shopify://collections/all"
           }
         },
         "card_3": {
@@ -577,23 +580,23 @@
             "curator": "",
             "text": "Built over time and inspired by authenticity, this edit embraces the beauty of layered living - brought to life through thoughtfully curated furniture, art, and accessories.",
             "btn_text": "",
-            "link": "shopify://products/the-bee"
+            "link": "shopify://collections/all"
           }
         },
         "card_4": {
           "type": "editorial_card",
           "settings": {
-            "image": "shopify://shop_images/CopyofDSC06808_320a1853-221f-46cc-bccd-1259f5a1e3c5.jpg",
-            "image_mobile": "shopify://shop_images/CopyofDSC06808_320a1853-221f-46cc-bccd-1259f5a1e3c5.jpg",
+            "image": "shopify://shop_images/SIERRA05_resized_594.63x390.29_no_stretch.jpg",
+            "image_mobile": "shopify://shop_images/SIERRA05_resized_370x277.73_no_stretch.jpg",
             "default_asset": "recommendation-4.jpg",
             "badge": "RAW COLLECTABLES",
             "badge_bg": "#b08d57",
             "badge_color": "#ffffff",
-            "title": "Aakaar",
+            "title": "SIERRA",
             "curator": "",
-            "text": "Aakaar is a textile artwork from the Shrujan collection. Material: Hand Embroidery - Jat Garaasiya on Dublin Cotton &amp; Dupion Silk.",
+            "text": "Step inside modern-day collector Eina Ahluwalia's space graced with memorable finds and antiques, and discover what makes her collect.",
             "btn_text": "",
-            "link": "shopify://products/aakaar"
+            "link": "shopify://blogs/news"
           }
         }
       },
