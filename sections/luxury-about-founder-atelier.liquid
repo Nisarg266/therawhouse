@@ -114,35 +114,6 @@
           </p>
         </div>
 
-        <!-- Dynamic Metric Cards Grid -->
-        <div class="lux-founder-metrics" style="border-color: var(--founder-border);">
-          {% if section.blocks.size > 0 %}
-            {% for block in section.blocks %}
-              <div class="lux-founder-metric-item" {{ block.shopify_attributes }}>
-                <span class="lux-founder-metric-val" style="color: var(--founder-accent);">{{ block.settings.value }}</span>
-                <span class="lux-founder-metric-lbl" style="color: var(--founder-color); opacity: 0.7;">{{ block.settings.label }}</span>
-              </div>
-            {% endfor %}
-          {% else %}
-            <!-- Default Metric Cards -->
-            <div class="lux-founder-metric-item">
-              <span class="lux-founder-metric-val" style="color: var(--founder-accent);">100%</span>
-              <span class="lux-founder-metric-lbl" style="color: var(--founder-color); opacity: 0.7;">Hand-Authored</span>
-            </div>
-            <div class="lux-founder-metric-item">
-              <span class="lux-founder-metric-val" style="color: var(--founder-accent);">15+</span>
-              <span class="lux-founder-metric-lbl" style="color: var(--founder-color); opacity: 0.7;">Impasto Glazes</span>
-            </div>
-            <div class="lux-founder-metric-item">
-              <span class="lux-founder-metric-val" style="color: var(--founder-accent);">1200°C</span>
-              <span class="lux-founder-metric-lbl" style="color: var(--founder-color); opacity: 0.7;">Bronze Casting</span>
-            </div>
-            <div class="lux-founder-metric-item">
-              <span class="lux-founder-metric-val" style="color: var(--founder-accent);">100 Yrs+</span>
-              <span class="lux-founder-metric-lbl" style="color: var(--founder-color); opacity: 0.7;">Archival Guarantee</span>
-            </div>
-          {% endif %}
-        </div>
 
         <!-- Signature Block -->
         {% if section.settings.show_signature %}
@@ -309,59 +280,9 @@
       "default": 54
     }
   ],
-  "blocks": [
-    {
-      "type": "metric",
-      "name": "Provenience Metric Card",
-      "settings": [
-        {
-          "type": "text",
-          "id": "value",
-          "label": "Metric Value",
-          "default": "100%"
-        },
-        {
-          "type": "text",
-          "id": "label",
-          "label": "Metric Label",
-          "default": "Hand-Authored"
-        }
-      ]
-    }
-  ],
   "presets": [
     {
-      "name": "About Founder Atelier",
-      "blocks": [
-        {
-          "type": "metric",
-          "settings": {
-            "value": "100%",
-            "label": "Hand-Authored"
-          }
-        },
-        {
-          "type": "metric",
-          "settings": {
-            "value": "15+",
-            "label": "Impasto Glazes"
-          }
-        },
-        {
-          "type": "metric",
-          "settings": {
-            "value": "1200°C",
-            "label": "Bronze Casting"
-          }
-        },
-        {
-          "type": "metric",
-          "settings": {
-            "value": "100 Yrs+",
-            "label": "Archival Guarantee"
-          }
-        }
-      ]
+      "name": "About Founder Atelier"
     }
   ]
 }
