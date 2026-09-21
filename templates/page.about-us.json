@@ -62,24 +62,6 @@
         "padding_vertical": 12
       }
     },
-    "luxury_about_hero": {
-      "type": "luxury-about-hero",
-      "settings": {
-        "color_scheme_preset": "dark",
-        "custom_text_color": "",
-        "custom_accent_color": "",
-        "image": "shopify://shop_images/TRP06281.jpg",
-        "badge_text": "THE RAW HOUSE • CRAFT, CURATION & LIVING ART",
-        "heading": "A space for infinite discovery.",
-        "subheading": "A gallery in Ahmedabad bringing together Indian design, art and craft  and the people, materials and stories behind them.",
-        "button_text": "EXPLORE THE COLLECTION",
-        "button_link": "",
-        "button_2_text": "",
-        "button_2_link": "",
-        "height_desktop": 68,
-        "height_mobile": 480
-      }
-    },
     "luxury_about_manifesto": {
       "type": "luxury-about-manifesto",
       "blocks": {
@@ -140,8 +122,8 @@
         "custom_bg_color": "",
         "custom_text_color": "",
         "custom_accent_color": "",
-        "media_position": "left",
-        "image": "shopify://shop_images/CopyofDSC06805.jpg",
+        "media_position": "right",
+        "image": "shopify://shop_images/4a0ede88-2354-40a4-bf17-3354d5827591.png",
         "default_asset": "art-atelier-artist-studio.jpg",
         "badge_title": "✦ RAW HOUSE CURATED",
         "badge_subtitle": "Crafted Objects for Artful Living",
@@ -798,7 +780,6 @@
   },
   "order": [
     "luxury_marquee_top",
-    "luxury_about_hero",
     "luxury_about_manifesto",
     "luxury_about_founder",
     "about_founders_cards",
