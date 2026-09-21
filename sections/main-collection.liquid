@@ -63,33 +63,37 @@
       {% paginate collection.products by products_per_page %}
         {% capture children %}
           {% for product in collection.products %}
-            <li
-              id="{{ section.id }}-{{ product.id }}"
-              class="product-grid__item product-grid__item--{{ forloop.index0 }}"
-              data-page="{{ paginate.current_page }}"
-              data-product-id="{{ product.id }}"
-              ref="cards[]"
-            >
-              {% content_for 'block',
-                type: '_product-card',
-                id: 'product-card',
-                closest.product: product,
-                product_view_context: 'collection'
-              %}
-            </li>
+            {% if product.featured_media != blank or product.featured_image != blank %}
+              <li
+                id="{{ section.id }}-{{ product.id }}"
+                class="product-grid__item product-grid__item--{{ forloop.index0 }}"
+                data-page="{{ paginate.current_page }}"
+                data-product-id="{{ product.id }}"
+                ref="cards[]"
+              >
+                {% content_for 'block',
+                  type: '_product-card',
+                  id: 'product-card',
+                  closest.product: product,
+                  product_view_context: 'collection'
+                %}
+              </li>
+            {% endif %}
           {% endfor %}
         {% endcapture %}
 
         {% capture collection_enquiry_modals %}
           {% for product in collection.products %}
-            {% assign collection_enquiry_modal_id = 'CollectionProductEnquiry-' | append: section.id | append: '-' | append: product.id %}
-            {% render 'product-enquiry-drawer',
-              product: product,
-              variant: product.selected_or_first_available_variant,
-              drawer_id: collection_enquiry_modal_id,
-              mode: 'modal',
-              simple: true
-            %}
+            {% if product.featured_media != blank or product.featured_image != blank %}
+              {% assign collection_enquiry_modal_id = 'CollectionProductEnquiry-' | append: section.id | append: '-' | append: product.id %}
+              {% render 'product-enquiry-drawer',
+                product: product,
+                variant: product.selected_or_first_available_variant,
+                drawer_id: collection_enquiry_modal_id,
+                mode: 'modal',
+                simple: true
+              %}
+            {% endif %}
           {% endfor %}
         {% endcapture %}
 
