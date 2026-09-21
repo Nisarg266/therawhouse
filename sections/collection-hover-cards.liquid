@@ -1,0 +1,624 @@
+{% liquid
+  assign scheme = section.settings.color_scheme_preset | default: 'warm'
+
+  case scheme
+    when 'light'
+      assign bg_color = '#ffffff'
+      assign text_color = '#111111'
+      assign muted_color = '#6b665c'
+      assign card_bg = '#f7f4ee'
+      assign border_color = '#ded8cc'
+      assign accent_color = '#9f7e4b'
+    when 'dark'
+      assign bg_color = '#151413'
+      assign text_color = '#ffffff'
+      assign muted_color = '#c9c1b3'
+      assign card_bg = '#201e1b'
+      assign border_color = 'rgba(255, 255, 255, 0.14)'
+      assign accent_color = '#c5a880'
+    when 'obsidian'
+      assign bg_color = '#090908'
+      assign text_color = '#ffffff'
+      assign muted_color = '#cfc6b7'
+      assign card_bg = '#141210'
+      assign border_color = 'rgba(197, 168, 128, 0.22)'
+      assign accent_color = '#c5a880'
+    else
+      assign bg_color = '#f8f5ef'
+      assign text_color = '#111111'
+      assign muted_color = '#6c675d'
+      assign card_bg = '#fffdf8'
+      assign border_color = '#ded7cb'
+      assign accent_color = '#9f7e4b'
+  endcase
+
+  if section.settings.custom_bg_color != blank and section.settings.custom_bg_color != 'rgba(0,0,0,0)'
+    assign bg_color = section.settings.custom_bg_color
+  endif
+  if section.settings.custom_text_color != blank and section.settings.custom_text_color != 'rgba(0,0,0,0)'
+    assign text_color = section.settings.custom_text_color
+  endif
+  if section.settings.custom_accent_color != blank and section.settings.custom_accent_color != 'rgba(0,0,0,0)'
+    assign accent_color = section.settings.custom_accent_color
+  endif
+%}
+
+<section
+  id="CollectionHoverCards-{{ section.id }}"
+  class="collection-hover-cards collection-hover-cards--{{ scheme }}"
+  style="
+    --chc-bg: {{ bg_color }};
+    --chc-color: {{ text_color }};
+    --chc-muted: {{ muted_color }};
+    --chc-card: {{ card_bg }};
+    --chc-border: {{ border_color }};
+    --chc-accent: {{ accent_color }};
+    --chc-pt: {{ section.settings.padding_top | default: 72 }}px;
+    --chc-pb: {{ section.settings.padding_bottom | default: 78 }}px;
+    --chc-gap: {{ section.settings.card_gap | default: 24 }}px;
+  "
+  {{ section.shopify_attributes }}
+>
+  <div class="collection-hover-cards__inner">
+    <header class="collection-hover-cards__header lux-reveal-fade-up">
+      {% if section.settings.top_label != blank %}
+        <span class="collection-hover-cards__top-label">{{ section.settings.top_label }}</span>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <h2 class="collection-hover-cards__heading">{{ section.settings.heading }}</h2>
+      {% endif %}
+
+      {% if section.settings.subheading != blank %}
+        <div class="collection-hover-cards__divider" aria-hidden="true">
+          <span></span>
+          <span class="collection-hover-cards__diamond"></span>
+          <span></span>
+        </div>
+        <p class="collection-hover-cards__intro">{{ section.settings.subheading }}</p>
+      {% endif %}
+    </header>
+
+    <div class="collection-hover-cards__grid lux-stagger-parent lux-reveal-fade-up">
+      {% for block in section.blocks %}
+        {% liquid
+          assign selected_collection = block.settings.collection
+          assign selected_title = block.settings.title
+          assign selected_url = block.settings.link
+          assign selected_description = block.settings.description
+          assign selected_image = block.settings.image
+
+          if selected_title == blank and selected_collection != blank
+            assign selected_title = selected_collection.title
+          endif
+
+          if selected_url == blank and selected_collection != blank
+            assign selected_url = selected_collection.url
+          endif
+
+          if selected_url == blank
+            assign selected_url = routes.all_products_collection_url
+          endif
+
+          if selected_description == blank and selected_collection != blank
+            assign selected_description = selected_collection.description | strip_html
+          endif
+
+          if selected_image == blank and selected_collection != blank
+            if selected_collection.featured_image != blank
+              assign selected_image = selected_collection.featured_image
+            elsif selected_collection.products_count > 0 and selected_collection.products.first.featured_image != blank
+              assign selected_image = selected_collection.products.first.featured_image
+            endif
+          endif
+
+          if selected_title == blank
+            assign selected_title = 'Curated collection'
+          endif
+
+          if selected_description == blank
+            assign selected_description = 'A focused edit of pieces chosen for material presence, quiet detail, and rooms that feel deeply collected.'
+          endif
+        %}
+
+        <a
+          href="{{ selected_url }}"
+          class="collection-hover-card lux-stagger-child"
+          {{ block.shopify_attributes }}
+        >
+          <div class="collection-hover-card__media">
+            {% if selected_image != blank %}
+              {{
+                selected_image
+                | image_url: width: 1100
+                | image_tag:
+                  class: 'collection-hover-card__image',
+                  loading: 'lazy',
+                  widths: '360, 540, 720, 900, 1100',
+                  sizes: '(max-width: 749px) 92vw, (max-width: 989px) 45vw, 30vw',
+                  alt: selected_title
+              }}
+            {% else %}
+              {{ 'collection-1' | placeholder_svg_tag: 'collection-hover-card__placeholder' }}
+            {% endif %}
+          </div>
+
+          <div class="collection-hover-card__shade" aria-hidden="true"></div>
+
+          <div class="collection-hover-card__content">
+            {% if block.settings.kicker != blank %}
+              <span class="collection-hover-card__kicker">{{ block.settings.kicker }}</span>
+            {% endif %}
+
+            <h3 class="collection-hover-card__title">{{ selected_title }}</h3>
+
+            <div class="collection-hover-card__reveal">
+              <p class="collection-hover-card__description">{{ selected_description }}</p>
+              <span class="collection-hover-card__button">
+                <span>{{ block.settings.button_label | default: section.settings.button_label }}</span>
+                <span aria-hidden="true">&rarr;</span>
+              </span>
+            </div>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .collection-hover-cards {
+    width: 100%;
+    overflow: clip;
+    background:
+      radial-gradient(circle at 50% 0%, color-mix(in srgb, var(--chc-accent) 10%, transparent), transparent 34%),
+      linear-gradient(180deg, color-mix(in srgb, var(--chc-bg) 94%, #ffffff), var(--chc-bg));
+    color: var(--chc-color);
+    padding: var(--chc-pt) 0 var(--chc-pb);
+  }
+
+  .collection-hover-cards__inner {
+    width: min(1240px, calc(100% - 48px));
+    margin: 0 auto;
+  }
+
+  .collection-hover-cards__header {
+    max-width: 620px;
+    margin: 0 auto clamp(34px, 4vw, 56px);
+    text-align: center;
+  }
+
+  .collection-hover-cards__top-label,
+  .collection-hover-card__kicker,
+  .collection-hover-card__button {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    line-height: 1.45;
+    text-transform: uppercase;
+  }
+
+  .collection-hover-cards__top-label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--chc-accent);
+  }
+
+  .collection-hover-cards__heading {
+    margin: 0;
+    color: var(--chc-color);
+    font-family: var(--font-heading-family, serif);
+    font-size: clamp(30px, 4vw, 46px);
+    font-weight: 400;
+    letter-spacing: 0.32em;
+    line-height: 1.1;
+    text-transform: uppercase;
+  }
+
+  .collection-hover-cards__divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: min(260px, 72%);
+    margin: 14px auto 12px;
+  }
+
+  .collection-hover-cards__divider span:not(.collection-hover-cards__diamond) {
+    height: 1px;
+    flex: 1;
+    background: color-mix(in srgb, var(--chc-accent) 65%, transparent);
+  }
+
+  .collection-hover-cards__diamond {
+    width: 5px;
+    height: 5px;
+    background: var(--chc-accent);
+    transform: rotate(45deg);
+  }
+
+  .collection-hover-cards__intro {
+    max-width: 520px;
+    margin: 0 auto;
+    color: var(--chc-muted);
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  .collection-hover-cards__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--chc-gap);
+  }
+
+  .collection-hover-card {
+    position: relative;
+    display: block;
+    min-height: 430px;
+    overflow: hidden;
+    border: 1px solid var(--chc-border);
+    background: var(--chc-card);
+    color: #ffffff;
+    text-decoration: none;
+    isolation: isolate;
+    transition:
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .collection-hover-card:hover,
+  .collection-hover-card:focus-visible {
+    transform: translateY(-8px);
+    border-color: color-mix(in srgb, var(--chc-accent) 68%, var(--chc-border));
+    box-shadow: 0 30px 78px rgba(0, 0, 0, 0.18);
+    outline: none;
+  }
+
+  .collection-hover-card__media,
+  .collection-hover-card__shade {
+    position: absolute;
+    inset: 0;
+  }
+
+  .collection-hover-card__media {
+    z-index: -2;
+    background: #d8d2c7;
+  }
+
+  .collection-hover-card__image,
+  .collection-hover-card__placeholder {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .collection-hover-card__image {
+    object-fit: cover;
+    object-position: center;
+    filter: saturate(0.92) contrast(1.03);
+    transform: scale(1.01);
+    transition:
+      transform 1s cubic-bezier(0.22, 1, 0.36, 1),
+      filter 1s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .collection-hover-card__placeholder {
+    background: #d8d2c7;
+    fill: rgba(17, 17, 17, 0.25);
+  }
+
+  .collection-hover-card:hover .collection-hover-card__image,
+  .collection-hover-card:focus-visible .collection-hover-card__image {
+    filter: saturate(1.02) contrast(1.08);
+    transform: scale(1.075);
+  }
+
+  .collection-hover-card__shade {
+    z-index: -1;
+    background:
+      linear-gradient(180deg, rgba(0, 0, 0, 0.04) 0%, rgba(0, 0, 0, 0.32) 42%, rgba(0, 0, 0, 0.78) 100%),
+      linear-gradient(0deg, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.18));
+    transition: background 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .collection-hover-card:hover .collection-hover-card__shade,
+  .collection-hover-card:focus-visible .collection-hover-card__shade {
+    background:
+      linear-gradient(180deg, rgba(0, 0, 0, 0.14) 0%, rgba(0, 0, 0, 0.48) 34%, rgba(0, 0, 0, 0.9) 100%),
+      linear-gradient(0deg, rgba(0, 0, 0, 0.16), rgba(0, 0, 0, 0.16));
+  }
+
+  .collection-hover-card__content {
+    position: absolute;
+    inset: auto 0 0;
+    padding: clamp(22px, 2.6vw, 34px);
+  }
+
+  .collection-hover-card__kicker {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--chc-accent);
+  }
+
+  .collection-hover-card__title {
+    max-width: 330px;
+    margin: 0;
+    color: #ffffff;
+    font-family: var(--font-heading-family, serif);
+    font-size: clamp(25px, 2.4vw, 38px);
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 1.02;
+  }
+
+  .collection-hover-card__reveal {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(14px);
+    transition:
+      max-height 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.5s ease,
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .collection-hover-card:hover .collection-hover-card__reveal,
+  .collection-hover-card:focus-visible .collection-hover-card__reveal {
+    max-height: 260px;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .collection-hover-card__description {
+    min-height: 0;
+    max-width: 360px;
+    margin: 16px 0 0;
+    overflow: hidden;
+    color: rgba(255, 255, 255, 0.82);
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    font-size: 14px;
+    line-height: 1.58;
+  }
+
+  .collection-hover-card__button {
+    display: inline-flex;
+    width: fit-content;
+    align-items: center;
+    gap: 12px;
+    margin-top: 22px;
+    padding: 12px 15px;
+    border: 1px solid color-mix(in srgb, var(--chc-accent) 72%, transparent);
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+    backdrop-filter: blur(12px);
+    transition:
+      gap 0.25s ease,
+      background 0.25s ease,
+      border-color 0.25s ease;
+  }
+
+  .collection-hover-card:hover .collection-hover-card__button,
+  .collection-hover-card:focus-visible .collection-hover-card__button {
+    gap: 18px;
+    background: rgba(255, 255, 255, 0.14);
+    border-color: var(--chc-accent);
+  }
+
+  @media screen and (max-width: 989px) {
+    .collection-hover-cards__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .collection-hover-cards {
+      padding-top: calc(var(--chc-pt) * 0.72);
+      padding-bottom: calc(var(--chc-pb) * 0.72);
+    }
+
+    .collection-hover-cards__inner {
+      width: 100%;
+      padding: 0 16px;
+    }
+
+    .collection-hover-cards__heading {
+      font-size: clamp(25px, 8vw, 34px);
+      letter-spacing: 0.24em;
+    }
+
+    .collection-hover-cards__grid {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .collection-hover-card {
+      min-height: 390px;
+    }
+
+    .collection-hover-card__reveal {
+      max-height: 260px;
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .collection-hover-card,
+    .collection-hover-card__image,
+    .collection-hover-card__shade,
+    .collection-hover-card__reveal,
+    .collection-hover-card__button {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Collection Hover Cards",
+  "tag": "section",
+  "class": "section-collection-hover-cards",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "max_blocks": 24,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "text",
+      "id": "top_label",
+      "label": "Top label",
+      "default": "THE"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "COLLECTIONS"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Choose up to eight featured edits or keep adding more curated collection cards."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Default button label",
+      "default": "Explore edit"
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "select",
+      "id": "color_scheme_preset",
+      "label": "Color scheme",
+      "options": [
+        { "value": "warm", "label": "Warm ivory" },
+        { "value": "light", "label": "White gallery" },
+        { "value": "dark", "label": "Dark editorial" },
+        { "value": "obsidian", "label": "Obsidian luxury" }
+      ],
+      "default": "warm"
+    },
+    {
+      "type": "color",
+      "id": "custom_bg_color",
+      "label": "Custom background color"
+    },
+    {
+      "type": "color",
+      "id": "custom_text_color",
+      "label": "Custom text color"
+    },
+    {
+      "type": "color",
+      "id": "custom_accent_color",
+      "label": "Custom accent color"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "card_gap",
+      "min": 10,
+      "max": 44,
+      "step": 2,
+      "unit": "px",
+      "label": "Card gap",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 30,
+      "max": 140,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 30,
+      "max": 140,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 78
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection_card",
+      "name": "Collection card",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image override"
+        },
+        {
+          "type": "text",
+          "id": "kicker",
+          "label": "Small label",
+          "default": "CURATED EDIT"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title override"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Hover description",
+          "default": "Add three to four lines describing the collection, the materials, the mood, and why this edit belongs in a layered home."
+        },
+        {
+          "type": "text",
+          "id": "button_label",
+          "label": "Button label"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link override"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection Hover Cards",
+      "blocks": [
+        { "type": "collection_card" },
+        { "type": "collection_card" },
+        { "type": "collection_card" },
+        { "type": "collection_card" },
+        { "type": "collection_card" },
+        { "type": "collection_card" },
+        { "type": "collection_card" },
+        { "type": "collection_card" }
+      ]
+    }
+  ]
+}
+{% endschema %}
