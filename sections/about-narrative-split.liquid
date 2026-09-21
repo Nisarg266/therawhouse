@@ -49,8 +49,8 @@
     --founders-pb: {{ section.settings.padding_bottom | default: 66 }}px;
     --founders-small-text-size: {{ section.settings.small_text_size | default: 11 }}px;
     --founders-small-text-size-mobile: {{ section.settings.small_text_size_mobile | default: 9 }}px;
-    --founders-heading-size: {{ section.settings.heading_size | default: 82 }}px;
-    --founders-heading-size-mobile: {{ section.settings.heading_size_mobile | default: 44 }}px;
+    --founders-heading-size: {{ section.settings.heading_size | default: 32 }}px;
+    --founders-heading-size-mobile: {{ section.settings.heading_size_mobile | default: 28 }}px;
     --founders-intro-size: {{ section.settings.intro_size | default: 16 }}px;
     --founders-intro-size-mobile: {{ section.settings.intro_size_mobile | default: 15 }}px;
     --founders-name-size: {{ section.settings.name_size | default: 49 }}px;
@@ -65,20 +65,25 @@
 >
   <div class="about-founders__inner">
     <header class="about-founders__header lux-reveal-fade-up">
+      {% if section.settings.top_label != blank %}
+        <span class="about-founders__top-label">{{ section.settings.top_label }}</span>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <h2 class="about-founders__heading">{{ section.settings.heading }}</h2>
+      {% endif %}
+
       {% if section.settings.subheading != blank %}
         <div class="about-founders__subheading-wrap">
-          <span class="about-founders__line"></span>
+          <span class="about-founders__line about-founders__line--short"></span>
           <span class="about-founders__subheading">{{ section.settings.subheading }}</span>
-          <span class="about-founders__line"></span>
+          <span class="about-founders__line about-founders__line--short"></span>
         </div>
       {% endif %}
 
-      <div class="about-founders__title-row">
-        <h2 class="about-founders__heading">{{ section.settings.heading }}</h2>
-        {% if section.settings.intro != blank %}
-          <p class="about-founders__intro">{{ section.settings.intro }}</p>
-        {% endif %}
-      </div>
+      {% if section.settings.intro != blank %}
+        <p class="about-founders__intro">{{ section.settings.intro }}</p>
+      {% endif %}
     </header>
 
     <div class="about-founders__grid lux-stagger-parent lux-reveal-fade-up">
@@ -183,17 +188,28 @@
   }
 
   .about-founders__header {
-    max-width: 1040px;
-    margin: 0 auto clamp(42px, 5vw, 70px);
+    max-width: 760px;
+    margin: 0 auto clamp(34px, 4vw, 56px);
     text-align: center;
+  }
+
+  .about-founders__top-label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--founders-accent);
+    font-size: var(--founders-small-text-size);
+    font-weight: 600;
+    letter-spacing: 0.28em;
+    line-height: 1.3;
+    text-transform: uppercase;
   }
 
   .about-founders__subheading-wrap {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 24px;
-    margin-bottom: clamp(22px, 3vw, 34px);
+    gap: 10px;
+    margin: 6px 0 12px;
   }
 
   .about-founders__line,
@@ -206,6 +222,11 @@
 
   .about-founders__line {
     width: clamp(34px, 5vw, 62px);
+  }
+
+  .about-founders__line--short {
+    width: clamp(42px, 7vw, 86px);
+    background: color-mix(in srgb, var(--founders-accent) 62%, transparent);
   }
 
   .about-founders__subheading,
@@ -232,19 +253,23 @@
     margin: 0;
     color: var(--founders-color);
     font-family: var(--font-heading-family, serif);
-    font-size: clamp(40px, 6.2vw, var(--founders-heading-size));
+    font-size: clamp(28px, 4vw, var(--founders-heading-size));
     font-weight: 400;
-    letter-spacing: 0;
-    line-height: 0.96;
+    letter-spacing: 0.38em;
+    line-height: 1.1;
+    text-transform: uppercase;
   }
 
   .about-founders__intro {
+    max-width: 460px;
     margin: 0;
-    padding-left: 22px;
-    border-left: 1px solid var(--founders-accent);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 0;
+    border-left: 0;
     color: var(--founders-muted);
     font-size: clamp(13px, 1.1vw, var(--founders-intro-size));
-    line-height: 1.58;
+    line-height: 1.5;
   }
 
   .about-founders__grid {
@@ -420,7 +445,7 @@
 
     .about-founders__subheading-wrap {
       gap: 14px;
-      margin-bottom: 18px;
+      margin: 6px 0 12px;
     }
 
     .about-founders__line {
@@ -441,13 +466,14 @@
     }
 
     .about-founders__heading {
-      font-size: clamp(32px, 10.2vw, var(--founders-heading-size-mobile));
-      line-height: 1.02;
+      font-size: clamp(24px, 8vw, var(--founders-heading-size-mobile));
+      letter-spacing: 0.34em;
+      line-height: 1.1;
     }
 
     .about-founders__intro {
       max-width: 330px;
-      margin: 18px auto 0;
+      margin: 0 auto;
       padding-left: 0;
       border-left: 0;
       font-size: var(--founders-intro-size-mobile);
@@ -523,15 +549,21 @@
     },
     {
       "type": "text",
+      "id": "top_label",
+      "label": "Top label",
+      "default": "THE"
+    },
+    {
+      "type": "text",
       "id": "subheading",
-      "label": "Small heading",
+      "label": "Small divider text",
       "default": "MEET THE FOUNDERS"
     },
     {
       "type": "text",
       "id": "heading",
       "label": "Main heading",
-      "default": "Two Perspectives Shaping One Raw House"
+      "default": "FOUNDERS"
     },
     {
       "type": "textarea",
@@ -578,22 +610,22 @@
     {
       "type": "range",
       "id": "heading_size",
-      "min": 40,
-      "max": 110,
+      "min": 18,
+      "max": 72,
       "step": 1,
       "unit": "px",
       "label": "Main heading size",
-      "default": 82
+      "default": 32
     },
     {
       "type": "range",
       "id": "heading_size_mobile",
-      "min": 28,
-      "max": 64,
+      "min": 18,
+      "max": 48,
       "step": 1,
       "unit": "px",
       "label": "Main heading size mobile",
-      "default": 44
+      "default": 28
     },
     {
       "type": "range",
@@ -799,9 +831,12 @@
       "name": "About Founders Cards",
       "settings": {
         "subheading": "MEET THE FOUNDERS",
-        "heading": "Two Perspectives Shaping One Raw House",
+        "top_label": "THE",
+        "heading": "FOUNDERS",
         "intro": "A shared instinct for honest materials, considered interiors, and spaces that feel like home.",
         "bottom_text": "PEOPLE  -  SPACES  -  A BETTER TOMORROW",
+        "heading_size": 32,
+        "heading_size_mobile": 28,
         "color_scheme_preset": "warm"
       },
       "blocks": [
