@@ -43,6 +43,38 @@
         "padding-block-end": 15
       }
     },
+    "header_announcements_8fRWww": {
+      "type": "header-announcements",
+      "blocks": {
+        "announcement_WNbUVJ": {
+          "type": "_announcement",
+          "settings": {
+            "text": "THE RAW HOUSE SHOWCASE INDORE- 22 to 24 September",
+            "link": "",
+            "font": "var(--font-body--family)",
+            "font_size": "1rem",
+            "weight": "",
+            "letter_spacing": "normal",
+            "case": "none",
+            "text_color": ""
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "announcement_WNbUVJ"
+      ],
+      "name": "t:names.announcement_bar",
+      "settings": {
+        "speed": 5,
+        "section_width": "page-width",
+        "background_color": "",
+        "divider_width": 0,
+        "divider_color": "",
+        "padding-block-start": 15,
+        "padding-block-end": 15
+      }
+    },
     "header_section": {
       "type": "header",
       "blocks": {
@@ -73,10 +105,6 @@
             "featured_products_aspect_ratio": "4 / 5",
             "featured_collections_aspect_ratio": "16 / 9",
             "image_border_radius": 0,
-            "drawer_feature_image": "shopify://shop_images/Screenshot_2026-09-21_203642.png",
-            "drawer_feature_title": "THE RAW HOUSE GALLERY",
-            "drawer_feature_link_label": "Visit Us",
-            "drawer_feature_link": "https://maps.app.goo.gl/hNTJNo5iWBSSDnAYA",
             "navigation_bar": false,
             "background_color_navigation_bar": "{{ settings.color_palette.background }}",
             "text_color_navigation_bar": "",
@@ -138,6 +166,7 @@
   },
   "order": [
     "header_announcements_9jGBFp",
+    "header_announcements_8fRWww",
     "header_section"
   ]
 }
