@@ -111,8 +111,9 @@
                 "vendor_tag": {
                   "type": "text",
                   "name": "Artisan Tag",
+                  "disabled": true,
                   "settings": {
-                    "text": "<p>THE RAW HOUSE ATELIER &bull; {{ closest.product.vendor }}</p>",
+                    "text": "<p>THE RAW HOUSE ATELIER • {{ closest.product.vendor }}</p>",
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "left",
@@ -231,7 +232,7 @@
                 "show_enquiry_button": false,
                 "enquiry_button_label": "ENQUIRE ABOUT THIS PIECE",
                 "show_whatsapp_button": false,
-                "show_trust_badges": true,
+                "show_trust_badges": false,
                 "show_pickup_availability": false,
                 "gift_card_form": true,
                 "recipient_button_style": "default",
