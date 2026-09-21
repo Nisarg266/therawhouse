@@ -111,8 +111,9 @@
                 "vendor_tag": {
                   "type": "text",
                   "name": "Artisan Tag",
+                  "disabled": true,
                   "settings": {
-                    "text": "<p>THE RAW HOUSE ATELIER &bull; {{ closest.product.vendor }}</p>",
+                    "text": "<p>THE RAW HOUSE ATELIER • {{ closest.product.vendor }}</p>",
                     "width": "100%",
                     "max_width": "normal",
                     "alignment": "left",
@@ -231,7 +232,7 @@
                 "show_enquiry_button": false,
                 "enquiry_button_label": "ENQUIRE ABOUT THIS PIECE",
                 "show_whatsapp_button": false,
-                "show_trust_badges": true,
+                "show_trust_badges": false,
                 "show_pickup_availability": false,
                 "gift_card_form": true,
                 "recipient_button_style": "default",
@@ -353,7 +354,7 @@
                   "settings": {
                     "heading": "MATERIALS & SPECIFICATIONS",
                     "open_by_default": false,
-                    "row_content": "<p>Each piece is meticulously handcrafted with sustainably harvested seasoned natural wood, precision-milled solid brass fixtures, and archival artisanal finishes. Dimensions, finishes, and custom bespoke specifications are available upon request.</p>",
+                    "row_content": "<p>Please Get in Touch For More Details</p>",
                     "row_page": "",
                     "icon": "none",
                     "width": 20
@@ -394,7 +395,7 @@
                   "settings": {
                     "heading": "WHITE GLOVE DELIVERY & TRANSIT",
                     "open_by_default": false,
-                    "row_content": "<p>Complimentary insured white-glove transit across India. Every artifact is individually crated, climate-sealed, and delivered with full provenance documentation and transit insurance.</p>",
+                    "row_content": "<p>Please Get in Touch For More Details</p>",
                     "row_page": "",
                     "icon": "none",
                     "width": 20
@@ -432,6 +433,7 @@
                 },
                 "row_authenticity": {
                   "type": "_accordion-row",
+                  "disabled": true,
                   "settings": {
                     "heading": "CERTIFICATE OF AUTHENTICITY",
                     "open_by_default": false,
@@ -664,7 +666,7 @@
           "type": "text",
           "name": "t:names.header",
           "settings": {
-            "text": "<h3>CURATED ATELIER COMPANIONS</h3>",
+            "text": "<h3>The Raw House Gallery </h3>",
             "width": "100%",
             "max_width": "normal",
             "alignment": "center",

@@ -9,26 +9,6 @@
  */
 {
   "sections": {
-    "collection_hero": {
-      "type": "collection-hero-banner",
-      "settings": {
-        "overlay_opacity": 58,
-        "min_height": 380,
-        "show_breadcrumbs": false,
-        "show_collection_nav": false,
-        "subheading": "",
-        "heading": "",
-        "show_underline": false,
-        "fallback_description": "",
-        "show_count": false,
-        "background_color": "#111111",
-        "heading_color": "#ffffff",
-        "accent_color": "#c5a880",
-        "max_width": 840,
-        "padding_top": 52,
-        "padding_bottom": 44
-      }
-    },
     "main": {
       "type": "main-collection",
       "blocks": {
@@ -436,7 +416,6 @@
     }
   },
   "order": [
-    "collection_hero",
     "main",
     "related_collections",
     "luxury_trust",
