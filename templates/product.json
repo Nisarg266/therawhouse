@@ -664,7 +664,7 @@
           "type": "text",
           "name": "t:names.header",
           "settings": {
-            "text": "",
+            "text": "<h3>CURATED ATELIER COMPANIONS</h3>",
             "width": "100%",
             "max_width": "normal",
             "alignment": "center",
