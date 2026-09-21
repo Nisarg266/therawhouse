@@ -667,16 +667,21 @@
   }
 
   .lux-enquiry-drawer--modal {
+    --lux-enquiry-modal-header-offset: 148px;
+
+    top: 0;
+    height: 100dvh;
     justify-content: center;
-    align-items: center;
-    padding: 22px;
+    align-items: flex-start;
+    padding: calc(var(--lux-enquiry-modal-header-offset) + 22px) 22px 22px;
+    box-sizing: border-box;
   }
 
   .lux-enquiry-drawer--modal .lux-enquiry-drawer__panel {
     width: min(620px, calc(100vw - 32px));
     max-width: 620px;
     height: auto;
-    max-height: min(88dvh, 760px);
+    max-height: min(calc(100dvh - var(--lux-enquiry-modal-header-offset) - 44px), 760px);
     border-radius: 4px;
     transform: translate3d(0, 18px, 0) scale(0.96);
     opacity: 0;
@@ -730,13 +735,15 @@
 
   @media screen and (max-width: 550px) {
     .lux-enquiry-drawer--modal {
-      padding: 12px;
+      --lux-enquiry-modal-header-offset: 60px;
+
+      padding: calc(var(--lux-enquiry-modal-header-offset) + 12px) 12px 12px;
     }
 
     .lux-enquiry-drawer--modal .lux-enquiry-drawer__panel {
       width: 100%;
       max-width: 100%;
-      max-height: calc(100dvh - 24px);
+      max-height: calc(100dvh - var(--lux-enquiry-modal-header-offset) - 24px);
     }
   }
 </style>
