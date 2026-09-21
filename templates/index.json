@@ -320,6 +320,8 @@
         "catalog_image_12": {
           "type": "catalog_cover",
           "settings": {
+            "image": "shopify://shop_images/terracotta_collection_202.66x240.png",
+            "image_mobile": "shopify://shop_images/terracotta_collection_368x207_88dfd6b3-f7f1-44aa-8f58-12dcf4183030.png",
             "default_asset": "indoor & outdoor",
             "title": "",
             "subtitle": "",
@@ -588,7 +590,7 @@
             "badge_color": "#ffffff",
             "title": "THE BEE",
             "curator": "",
-            "text": "Built over time and inspired by authenticity, this edit embraces the beauty of layered living - brought to life through thoughtfully curated furniture, art, and accessories.",
+            "text": "",
             "btn_text": "",
             "link": "shopify://products/the-bee"
           }
@@ -699,19 +701,19 @@
         "card_1": {
           "type": "product_card",
           "settings": {
-            "product": "arq-cabinet"
+            "product": "sai-karnekota-a-taste-of-the-sun-2024"
           }
         },
         "card_2": {
           "type": "product_card",
           "settings": {
-            "product": "drushti-pithika-cabinet"
+            "product": "dipal-sisodia-maru-mann"
           }
         },
         "card_3": {
           "type": "product_card",
           "settings": {
-            "product": "arq-side-board"
+            "product": "lochan-upadhyay-untitled-2026"
           }
         }
       },
@@ -722,7 +724,7 @@
       ],
       "settings": {
         "eyebrow": "THE",
-        "heading": "GALLERY PROGRAM",
+        "heading": "RAW SCULPTURE",
         "intro": "",
         "show_ornament": false,
         "header_align": "center",
@@ -770,7 +772,7 @@
         "color_muted": "",
         "color_border": "",
         "btn_label": "VIEW ALL",
-        "btn_link": "shopify://collections/all",
+        "btn_link": "shopify://collections/sculpture-1",
         "btn_style": "solid",
         "btn_height": 46,
         "btn_px": 26,
@@ -798,46 +800,55 @@
     "new_arrivals_gallery_rLd3Db": {
       "type": "new-arrivals-gallery",
       "blocks": {
+        "arrival_card_PDEFe4": {
+          "type": "arrival_card",
+          "settings": {
+            "product": "vishwa-patel-1-2024",
+            "badge_bg": "#111111",
+            "badge_color": "#ffffff",
+            "link": "shopify://products/vishwa-patel-1-2024"
+          }
+        },
         "arrival_card_tGa9Yn": {
           "type": "arrival_card",
           "settings": {
-            "product": "a-moonglade",
+            "product": "dipal-sisodia-thinker-chacha-uncle-2023",
             "badge_bg": "#111111",
             "badge_color": "#ffffff",
-            "link": ""
+            "link": "shopify://products/dipal-sisodia-thinker-chacha-uncle-2023"
           }
         },
         "arrival_card_Bg4ra9": {
           "type": "arrival_card",
           "settings": {
-            "product": "akash",
+            "product": "manisha-agarwal-untitled-835-836-837-3",
             "badge_bg": "#111111",
             "badge_color": "#ffffff",
-            "link": ""
+            "link": "shopify://products/manisha-agarwal-untitled-835-836-837-3"
           }
         },
         "arrival_card_V6GgVA": {
           "type": "arrival_card",
           "settings": {
-            "product": "a-sun-glint",
+            "product": "nidhi-shah-ram-setu-2025",
             "badge_bg": "#111111",
             "badge_color": "#ffffff",
-            "link": ""
+            "link": "shopify://products/nidhi-shah-ram-setu-2025"
           }
         },
         "arrival_card_wCNrVf": {
           "type": "arrival_card",
           "settings": {
-            "product": "ariyeth-sculpture",
+            "product": "pradeepkumar-dm-untitled-2024",
             "badge_bg": "#111111",
             "badge_color": "#ffffff",
-            "link": ""
+            "link": "shopify://products/pradeepkumar-dm-untitled-2024"
           }
         },
-        "arrival_card_PDEFe4": {
+        "arrival_card_CtjWBj": {
           "type": "arrival_card",
           "settings": {
-            "product": "arq-cabinet",
+            "product": "subhasmita-ghadei-paricharya-2024",
             "badge_bg": "#111111",
             "badge_color": "#ffffff",
             "link": ""
@@ -845,17 +856,18 @@
         }
       },
       "block_order": [
+        "arrival_card_PDEFe4",
         "arrival_card_tGa9Yn",
         "arrival_card_Bg4ra9",
         "arrival_card_V6GgVA",
         "arrival_card_wCNrVf",
-        "arrival_card_PDEFe4"
+        "arrival_card_CtjWBj"
       ],
       "settings": {
         "subheading": "THE",
         "subheading_size": 26,
         "subheading_size_m": 22,
-        "heading": "NEW ARRIVALS",
+        "heading": "RAW COLLABORATIONS",
         "heading_size": 26,
         "heading_size_m": 16,
         "heading_letter_spacing": "0.38em",
