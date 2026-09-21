@@ -36,7 +36,7 @@
 {%- capture luxp_typo -%}{%- render 'luxp-typo', s: s -%}{%- endcapture -%}
 
 <div
-  class="luxp-hero {% if s.enable_animations %}luxp-anim{% endif %} {{ s.custom_class }}"
+  class="luxp-hero luxp-hero--natural {% if s.enable_animations %}luxp-anim{% endif %} {{ s.custom_class }}"
   data-luxp-hero
   data-luxp-autoplay="{{ s.autoplay }}"
   data-luxp-speed="{{ s.autoplay_speed | default: 6 }}"
@@ -170,6 +170,71 @@
     {% endif %}
   {% endif %}
 </div>
+
+{% stylesheet %}
+  .luxp-hero--natural {
+    background: transparent;
+  }
+
+  .luxp-hero--natural .luxp-hero__track {
+    height: auto !important;
+    min-height: 0 !important;
+    align-items: flex-start;
+  }
+
+  .luxp-hero--natural .luxp-hero__slide {
+    height: auto !important;
+    min-height: 0 !important;
+    background: transparent;
+  }
+
+  .luxp-hero--natural .luxp-hero__media {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    background: transparent;
+  }
+
+  .luxp-hero--natural .luxp-hero__media picture {
+    display: block;
+    width: 100%;
+  }
+
+  .luxp-hero--natural .luxp-hero__media img,
+  .luxp-hero--natural .luxp-hero__media svg {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    object-position: center;
+    background: transparent;
+  }
+
+  .luxp-hero--natural .luxp-hero__overlay,
+  .luxp-hero--natural .luxp-hero__slide-link {
+    position: absolute;
+    inset: 0;
+  }
+
+  .luxp-hero--natural .luxp-container {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .luxp-hero--natural .luxp-hero__content {
+    height: 100%;
+    pointer-events: auto;
+  }
+
+  @media (max-width: 749px) {
+    .luxp-hero--natural .luxp-hero__track {
+      height: auto !important;
+    }
+  }
+{% endstylesheet %}
 
 {% schema %}
 {

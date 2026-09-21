@@ -70,18 +70,31 @@
       {%- comment -%} Editorial Feature Gallery Card (Screenshot Match) {%- endcomment -%}
       <div class="menu-drawer__editorial-card">
         <div class="menu-drawer__editorial-img-wrap">
-          <img
-            src="{{ 'maker-gallery-1.jpg' | asset_url }}"
-            alt="The Raw House Gallery"
-            class="menu-drawer__editorial-img"
-            loading="lazy"
-            width="600"
-            height="400"
-          >
+          {% if block_settings.drawer_feature_image != blank %}
+            {{
+              block_settings.drawer_feature_image
+              | image_url: width: 900
+              | image_tag:
+                widths: '360, 540, 720, 900',
+                sizes: '(max-width: 749px) calc(100vw - 46px), 360px',
+                alt: block_settings.drawer_feature_title,
+                class: 'menu-drawer__editorial-img',
+                loading: 'lazy'
+            }}
+          {% else %}
+            <img
+              src="{{ 'maker-gallery-1.jpg' | asset_url }}"
+              alt="{{ block_settings.drawer_feature_title | default: 'The Raw House Gallery' | escape }}"
+              class="menu-drawer__editorial-img"
+              loading="lazy"
+              width="600"
+              height="400"
+            >
+          {% endif %}
         </div>
         <div class="menu-drawer__editorial-info">
-          <h3 class="menu-drawer__editorial-title">THE RAW HOUSE GALLERY</h3>
-          <a href="{{ pages.gallery.url | default: pages.about-us.url | default: routes.root_url }}" class="menu-drawer__editorial-link">Visit Us</a>
+          <h3 class="menu-drawer__editorial-title">{{ block_settings.drawer_feature_title | default: 'THE RAW HOUSE GALLERY' }}</h3>
+          <a href="{{ block_settings.drawer_feature_link | default: pages.gallery.url | default: pages.about-us.url | default: routes.root_url }}" class="menu-drawer__editorial-link">{{ block_settings.drawer_feature_link_label | default: 'Visit Us' }}</a>
         </div>
       </div>
 
