@@ -383,6 +383,7 @@
         "step_3",
         "step_4"
       ],
+      "disabled": true,
       "settings": {
         "color_scheme_preset": "warm",
         "custom_bg_color": "",
