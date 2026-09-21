@@ -22,10 +22,12 @@
             "alignment": "center",
             "type_preset": "h2",
             "font": "var(--font-body--family)",
+            "font_size": "1rem",
             "line_height": "normal",
             "letter_spacing": "normal",
             "case": "none",
             "wrap": "pretty",
+            "text_color": "",
             "background": false,
             "background_color": "#00000026",
             "corner_radius": 0,
@@ -38,7 +40,9 @@
         },
         "page-content": {
           "type": "page-content",
-          "settings": {},
+          "settings": {
+            "text_color": ""
+          },
           "blocks": {}
         }
       },
@@ -46,6 +50,7 @@
         "heading",
         "page-content"
       ],
+      "disabled": true,
       "settings": {
         "content_direction": "column",
         "gap": 32,
@@ -54,21 +59,148 @@
         "padding-block-end": 60
       }
     },
-    "trust_features": {
-      "type": "luxury-trust-features",
-      "settings": {}
-    },
-    "vip_newsletter": {
-      "type": "luxury-vip-newsletter",
+    "collection_hero_banner_wGTQJK": {
+      "type": "collection-hero-banner",
+      "name": "Collection Hero Banner",
       "settings": {
-        "subheading": "THE COLLECTORS CIRCLE",
-        "heading": "PRIVATE EXHIBITIONS & CATALOGUES"
+        "overlay_opacity": 58,
+        "min_height": 380,
+        "show_breadcrumbs": true,
+        "show_collection_nav": true,
+        "subheading": "the",
+        "heading": "We believe objects carry more than function.",
+        "show_underline": true,
+        "fallback_description": "",
+        "show_count": true,
+        "background_color": "#111111",
+        "heading_color": "#ffffff",
+        "accent_color": "#c5a880",
+        "max_width": 840,
+        "padding_top": 56,
+        "padding_bottom": 52
+      }
+    },
+    "collection_hover_cards_T4yq7k": {
+      "type": "collection-hover-cards",
+      "blocks": {
+        "collection_card_YD9VXV": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "oneiric",
+            "kicker": "CURATED EDIT",
+            "title": "",
+            "description": "Add three to four lines describing the collection, the materials, the mood, and why this edit belongs in a layered home.",
+            "button_label": "",
+            "link": ""
+          }
+        },
+        "collection_card_fXkkep": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "textiles",
+            "kicker": "CURATED EDIT",
+            "title": "",
+            "description": "Add three to four lines describing the collection, the materials, the mood, and why this edit belongs in a layered home.",
+            "button_label": "",
+            "link": ""
+          }
+        },
+        "collection_card_PFL9iW": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "tabulasa",
+            "kicker": "CURATED EDIT",
+            "title": "",
+            "description": "Add three to four lines describing the collection, the materials, the mood, and why this edit belongs in a layered home.",
+            "button_label": "",
+            "link": ""
+          }
+        },
+        "collection_card_jgbeXU": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "sculpture",
+            "kicker": "CURATED EDIT",
+            "title": "MATERIAL PASSAGE",
+            "description": "Add three to four lines describing the collection, the materials, the mood, and why this edit belongs in a layered home.",
+            "button_label": "",
+            "link": ""
+          }
+        },
+        "collection_card_XbW9t8": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "",
+            "kicker": "CURATED EDIT",
+            "title": "",
+            "description": "Add three to four lines describing the collection, the materials, the mood, and why this edit belongs in a layered home.",
+            "button_label": "",
+            "link": ""
+          }
+        },
+        "collection_card_EC66En": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "",
+            "kicker": "CURATED EDIT",
+            "title": "",
+            "description": "Add three to four lines describing the collection, the materials, the mood, and why this edit belongs in a layered home.",
+            "button_label": "",
+            "link": ""
+          }
+        },
+        "collection_card_acnLeX": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "",
+            "kicker": "CURATED EDIT",
+            "title": "",
+            "description": "Add three to four lines describing the collection, the materials, the mood, and why this edit belongs in a layered home.",
+            "button_label": "",
+            "link": ""
+          }
+        },
+        "collection_card_iwxBhF": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "",
+            "kicker": "CURATED EDIT",
+            "title": "",
+            "description": "Add three to four lines describing the collection, the materials, the mood, and why this edit belongs in a layered home.",
+            "button_label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection_card_YD9VXV",
+        "collection_card_fXkkep",
+        "collection_card_PFL9iW",
+        "collection_card_jgbeXU",
+        "collection_card_XbW9t8",
+        "collection_card_EC66En",
+        "collection_card_acnLeX",
+        "collection_card_iwxBhF"
+      ],
+      "name": "Collection Hover Cards",
+      "settings": {
+        "top_label": "",
+        "heading": "",
+        "subheading": "They carry material knowledge.\nThey carry memory.\nThey carry the hands that made them.\nThey carry the ideas of the person who designed them.\nAt The Raw House, we are interested in these layers.\nOur collections bring together work that has something to say about how we live, what we make and what we choose to live with.",
+        "button_label": "Explore edit",
+        "color_scheme_preset": "warm",
+        "custom_bg_color": "",
+        "custom_text_color": "",
+        "custom_accent_color": "",
+        "card_gap": 24,
+        "padding_top": 72,
+        "padding_bottom": 78
       }
     }
   },
   "order": [
     "main",
-    "trust_features",
-    "vip_newsletter"
+    "collection_hero_banner_wGTQJK",
+    "collection_hover_cards_T4yq7k"
   ]
 }
