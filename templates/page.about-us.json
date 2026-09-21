@@ -175,10 +175,10 @@
           "settings": {
             "default_asset": "maker-portrait-2.jpg",
             "role": "Co-founder · Architecture & Design",
-            "name": "Founder Two",
-            "quote": "A home should never feel assembled overnight. It should carry memory, craft and the quiet confidence of pieces chosen with care.",
+            "name": "Pranali Pandya",
+            "quote": "Pranali Pandya is the founder and principal designer of Naibu Design Studio.\nHer practice brings together architecture, design, material and craft, with a strong interest in how traditional knowledge can inform contemporary spaces and objects.",
             "bio": "Guides sourcing, client conversations, delivery experience and the practical details that help each piece settle beautifully into a real home.",
-            "link_label": "MEET FOUNDER",
+            "link_label": "",
             "link": ""
           }
         }
@@ -200,9 +200,9 @@
         "heading_size_mobile": 28,
         "intro_size": 16,
         "intro_size_mobile": 15,
-        "name_size": 38,
-        "name_size_mobile": 28,
-        "card_text_size": 18,
+        "name_size": 32,
+        "name_size_mobile": 23,
+        "card_text_size": 16,
         "card_text_size_mobile": 14,
         "bio_size": 13,
         "link_size": 11,
