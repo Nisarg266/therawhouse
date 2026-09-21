@@ -22,6 +22,7 @@ class HeaderDrawer extends Component {
     const backdrop = this.querySelector('.menu-drawer__backdrop');
     const closeButtons = this.querySelectorAll('.menu-drawer__close-button');
     const menuLinks = this.querySelectorAll('.menu-drawer__menu-item, .menu-drawer__editorial-link');
+    const accordionTriggers = this.querySelectorAll('.menu-drawer__accordion-trigger');
 
     this.addEventListener('keyup', this.#onKeyUp);
     this.#setupAnimatedElementListeners();
@@ -67,6 +68,19 @@ class HeaderDrawer extends Component {
         const href = link.getAttribute('href');
         if (href && !href.startsWith('#')) {
           this.close();
+        }
+      });
+    });
+
+    accordionTriggers.forEach((trigger) => {
+      trigger.addEventListener('click', () => {
+        const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
+        const submenuId = trigger.getAttribute('aria-controls');
+        const submenu = submenuId ? this.querySelector(`#${CSS.escape(submenuId)}`) : null;
+
+        trigger.setAttribute('aria-expanded', String(!isExpanded));
+        if (submenu) {
+          submenu.hidden = isExpanded;
         }
       });
     });

@@ -99,24 +99,36 @@
         >
           {% for link in block_settings.menu.links %}
             <li class="menu-drawer__list-item--flat">
-              <a href="{{ link.url }}" class="menu-drawer__menu-item"{% if link.current %} aria-current="page"{% endif %}>
-                <span class="menu-drawer__menu-item-text">{{ link.title | escape }}</span>
-              </a>
               {% if link.links != blank %}
-                <ul class="menu-drawer__submenu-links" role="list">
-                  {% for child_link in link.links %}
-                    <li>
-                      <a href="{{ child_link.url }}" class="menu-drawer__menu-item"{% if child_link.current %} aria-current="page"{% endif %}>{{ child_link.title | escape }}</a>
-                      {% if child_link.links != blank %}
-                        <ul class="menu-drawer__submenu-links" role="list">
-                          {% for grandchild_link in child_link.links %}
-                            <li><a href="{{ grandchild_link.url }}" class="menu-drawer__menu-item"{% if grandchild_link.current %} aria-current="page"{% endif %}>{{ grandchild_link.title | escape }}</a></li>
-                          {% endfor %}
-                        </ul>
-                      {% endif %}
-                    </li>
-                  {% endfor %}
-                </ul>
+                <div class="menu-drawer__accordion">
+                  <button
+                    type="button"
+                    class="menu-drawer__accordion-trigger"
+                    aria-expanded="false"
+                    aria-controls="MenuDrawerAccordion-{{ forloop.index }}"
+                  >
+                    <span class="menu-drawer__accordion-title">{{ link.title | escape }}</span>
+                    <span class="menu-drawer__accordion-icon" aria-hidden="true"></span>
+                  </button>
+                  <ul id="MenuDrawerAccordion-{{ forloop.index }}" class="menu-drawer__submenu-links" role="list" hidden>
+                    {% for child_link in link.links %}
+                      <li>
+                        <a href="{{ child_link.url }}" class="menu-drawer__menu-item menu-drawer__submenu-item"{% if child_link.current %} aria-current="page"{% endif %}>{{ child_link.title | escape }}</a>
+                        {% if child_link.links != blank %}
+                          <ul class="menu-drawer__submenu-links menu-drawer__submenu-links--nested" role="list">
+                            {% for grandchild_link in child_link.links %}
+                              <li><a href="{{ grandchild_link.url }}" class="menu-drawer__menu-item menu-drawer__submenu-item"{% if grandchild_link.current %} aria-current="page"{% endif %}>{{ grandchild_link.title | escape }}</a></li>
+                            {% endfor %}
+                          </ul>
+                        {% endif %}
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              {% else %}
+                <a href="{{ link.url }}" class="menu-drawer__menu-item"{% if link.current %} aria-current="page"{% endif %}>
+                  <span class="menu-drawer__menu-item-text">{{ link.title | escape }}</span>
+                </a>
               {% endif %}
             </li>
           {% else %}
@@ -554,8 +566,60 @@
   }
 
   .menu-drawer__menu-item-text {
+    flex: 1 1 auto;
+    min-width: 0;
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  .menu-drawer__menu-item[aria-current],
+  .menu-drawer__menu-item[aria-current="page"] {
+    font-weight: 500;
+  }
+
+  .menu-drawer__accordion-trigger {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 14px;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    min-width: 0;
+    min-height: 48px;
+    padding: 12px 2px;
+    border: 0;
+    border-bottom: 1px solid #f4f2ef;
+    background: transparent;
+    color: #222222;
+    font-family: "Inter", sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    line-height: 1.2;
+    text-transform: uppercase;
+    text-align: left;
+    list-style: none;
+    -webkit-tap-highlight-color: transparent;
+    appearance: none;
+  }
+
+  .menu-drawer__accordion-trigger:focus,
+  .menu-drawer__accordion-trigger:focus-visible,
+  .menu-drawer__accordion-trigger:active {
+    background: transparent;
+    color: #222222;
+    outline: none;
+  }
+
+  .menu-drawer__accordion-title {
+    display: block;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: inherit;
+    font: inherit;
+    letter-spacing: inherit;
   }
 
   /** Styles when the country selector is hidden */
