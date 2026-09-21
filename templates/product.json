@@ -211,6 +211,17 @@
               },
               "blocks": {}
             },
+            "product_enquiry": {
+              "type": "product-enquiry",
+              "settings": {
+                "button_label": "Enquire about this piece",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              },
+              "blocks": {}
+            },
             "buy_buttons_eYQEYi": {
               "type": "buy-buttons",
               "settings": {
@@ -218,6 +229,7 @@
                 "text_color": "",
                 "show_purchase_controls": false,
                 "show_enquiry_button": false,
+                "enquiry_button_label": "ENQUIRE ABOUT THIS PIECE",
                 "show_whatsapp_button": false,
                 "show_trust_badges": true,
                 "show_pickup_availability": false,
@@ -265,20 +277,15 @@
                     "custom_button_border": "#111111"
                   },
                   "blocks": {}
+                },
+                "accelerated-checkout": {
+                  "type": "accelerated-checkout",
+                  "static": true,
+                  "settings": {},
+                  "blocks": {}
                 }
               },
               "block_order": []
-            },
-            "product_enquiry": {
-              "type": "product-enquiry",
-              "settings": {
-                "button_label": "Enquire about this piece",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              },
-              "blocks": {}
             },
             "accordion_tabs": {
               "type": "accordion",
@@ -527,6 +534,7 @@
         "metric_2",
         "metric_3"
       ],
+      "disabled": true,
       "settings": {
         "eyebrow": "THE RAW HOUSE ATELIER",
         "heading": "Bespoke Artistry & Timeless Provenance",
@@ -1005,6 +1013,7 @@
         "col_sculptures",
         "col_models"
       ],
+      "disabled": true,
       "settings": {
         "eyebrow": "THE ATELIER UNIVERSE",
         "heading": "Explore Curated Collections",
@@ -1142,6 +1151,7 @@
         "social_instagram",
         "social_x"
       ],
+      "disabled": true,
       "settings": {
         "eyebrow": "",
         "heading": "A little bit of us",

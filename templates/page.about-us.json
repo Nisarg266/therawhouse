@@ -162,6 +162,7 @@
         "founder_1": {
           "type": "founder",
           "settings": {
+            "image": "shopify://shop_images/IMG_4280.jpg",
             "default_asset": "maker-portrait-1.jpg",
             "role": "Co-founder · Curation & Design",
             "name": "Priyadarshini Rathore",

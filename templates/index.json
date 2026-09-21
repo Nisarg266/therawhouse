@@ -200,6 +200,8 @@
         "catalog_image_5": {
           "type": "catalog_cover",
           "settings": {
+            "image": "shopify://shop_images/MobileHome1765x36x14inchWood_wheel_metal_glass_andlight2025.jpg",
+            "image_mobile": "shopify://shop_images/MobileHome1765x36x14inchWood_wheel_metal_glass_andlight2025.jpg",
             "default_asset": "lochan",
             "title": "",
             "subtitle": "",
