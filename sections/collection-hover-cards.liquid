@@ -159,7 +159,7 @@
             </div>
 
             <div class="collection-hover-card__reveal">
-              <p class="collection-hover-card__description">{{ selected_description }}</p>
+              <p class="collection-hover-card__description">{{ selected_description | newline_to_br }}</p>
               <span class="collection-hover-card__button">
                 <span>{{ block.settings.button_label | default: section.settings.button_label }}</span>
                 <span aria-hidden="true">&rarr;</span>
@@ -400,7 +400,7 @@
 
   .collection-hover-card:hover .collection-hover-card__reveal,
   .collection-hover-card:focus-visible .collection-hover-card__reveal {
-    max-height: 300px;
+    max-height: 400px;
     opacity: 1;
     transform: translateY(0);
     margin-top: 16px;
@@ -411,8 +411,9 @@
     max-width: 95%;
     margin: 0 0 24px;
     color: rgba(255, 255, 255, 0.85);
+    overflow: hidden;
     display: -webkit-box;
-    -webkit-line-clamp: 4;
+    -webkit-line-clamp: 8;
     -webkit-box-orient: vertical;
     font-size: var(--chc-text-size, 14px);
     line-height: 1.6;
@@ -484,7 +485,7 @@
     }
 
     .collection-hover-card__reveal {
-      max-height: 300px;
+      max-height: 400px;
       opacity: 1;
       transform: none;
       margin-top: 16px;
