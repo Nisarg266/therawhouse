@@ -132,42 +132,6 @@
     },
     "luxury_about_founder": {
       "type": "luxury-about-founder-atelier",
-      "blocks": {
-        "metric_1": {
-          "type": "metric",
-          "settings": {
-            "value": "Slow",
-            "label": "Curated"
-          }
-        },
-        "metric_2": {
-          "type": "metric",
-          "settings": {
-            "value": "Raw",
-            "label": "Materials"
-          }
-        },
-        "metric_3": {
-          "type": "metric",
-          "settings": {
-            "value": "1:1",
-            "label": "Guidance"
-          }
-        },
-        "metric_4": {
-          "type": "metric",
-          "settings": {
-            "value": "Home",
-            "label": "First"
-          }
-        }
-      },
-      "block_order": [
-        "metric_1",
-        "metric_2",
-        "metric_3",
-        "metric_4"
-      ],
       "settings": {
         "color_scheme_preset": "obsidian",
         "custom_bg_color": "",
@@ -181,7 +145,7 @@
         "heading": "A QUIET RESPECT FOR MATERIAL, MAKER AND ROOM",
         "paragraph_1": "At The Raw House, we see interiors as living compositions. A cabinet is not only storage, a table is not only surface, and an artwork is not only decoration. The right piece changes the rhythm of a room: how light falls, where the eye rests, and how people gather.",
         "paragraph_2": "Our work is to bring together objects with soul: hand-finished furniture, sculptural accents, framed art, and crafted details that carry the patience of the maker. We look for honest materials, enduring silhouettes, and pieces that become more beautiful as they are used.",
-        "show_signature": true,
+        "show_signature": false,
         "signature_mark": "The Raw House",
         "signature_title": "CURATORS OF CRAFTED LIVING",
         "padding_top": 34,
