@@ -762,6 +762,94 @@
         "custom_class": ""
       }
     },
+    "new_arrivals_gallery_rLd3Db": {
+      "type": "new-arrivals-gallery",
+      "blocks": {
+        "arrival_card_tGa9Yn": {
+          "type": "arrival_card",
+          "settings": {
+            "product": "a-moonglade",
+            "badge_bg": "#111111",
+            "badge_color": "#ffffff",
+            "link": ""
+          }
+        },
+        "arrival_card_Bg4ra9": {
+          "type": "arrival_card",
+          "settings": {
+            "product": "akash",
+            "badge_bg": "#111111",
+            "badge_color": "#ffffff",
+            "link": ""
+          }
+        },
+        "arrival_card_V6GgVA": {
+          "type": "arrival_card",
+          "settings": {
+            "product": "a-sun-glint",
+            "badge_bg": "#111111",
+            "badge_color": "#ffffff",
+            "link": ""
+          }
+        },
+        "arrival_card_wCNrVf": {
+          "type": "arrival_card",
+          "settings": {
+            "product": "ariyeth-sculpture",
+            "badge_bg": "#111111",
+            "badge_color": "#ffffff",
+            "link": ""
+          }
+        },
+        "arrival_card_PDEFe4": {
+          "type": "arrival_card",
+          "settings": {
+            "product": "arq-cabinet",
+            "badge_bg": "#111111",
+            "badge_color": "#ffffff",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "arrival_card_tGa9Yn",
+        "arrival_card_Bg4ra9",
+        "arrival_card_V6GgVA",
+        "arrival_card_wCNrVf",
+        "arrival_card_PDEFe4"
+      ],
+      "settings": {
+        "subheading": "THE",
+        "subheading_size": 26,
+        "subheading_size_m": 22,
+        "heading": "NEW ARRIVALS",
+        "heading_size": 26,
+        "heading_size_m": 16,
+        "heading_letter_spacing": "0.38em",
+        "heading_color": "#1a1a1a",
+        "card_title_size": 17,
+        "card_title_size_m": 15,
+        "card_designer_size": 11,
+        "card_price_size": 14,
+        "show_underline": true,
+        "underline_width": 48,
+        "underline_height": 1,
+        "underline_color": "#b08d57",
+        "accent_color": "#b08d57",
+        "layout_style": "slider",
+        "full_width": false,
+        "max_width": 1360,
+        "gap": 18,
+        "corner_radius": 0,
+        "enable_hover_zoom": true,
+        "show_caption_on_hover": true,
+        "background_color": "#ffffff",
+        "padding_top": 48,
+        "padding_bottom": 56,
+        "padding_top_m": 36,
+        "padding_bottom_m": 40
+      }
+    },
     "the_makers": {
       "type": "the-makers-grid",
       "blocks": {
@@ -834,6 +922,7 @@
         "maker_3",
         "maker_4"
       ],
+      "disabled": true,
       "settings": {
         "eyebrow": "THE",
         "heading": "RAW COLLECTABLES",
@@ -947,7 +1036,7 @@
       ],
       "settings": {
         "eyebrow": "the",
-        "heading": "A T E L I E R   P R O M I S E",
+        "heading": "Raw House",
         "statement": "<p>Every piece that reaches your home is hand-selected at the atelier, certified for provenance, and delivered with the same reverence the masters poured into making it.</p>",
         "show_ornament": true,
         "default_asset": "hero-lighting-art-3.jpg",
@@ -1242,6 +1331,7 @@
     "new_arrivals",
     "recommendations",
     "fine_prints",
+    "new_arrivals_gallery_rLd3Db",
     "the_makers",
     "atelier_promise",
     "brand_statement",
