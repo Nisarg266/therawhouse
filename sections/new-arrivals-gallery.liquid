@@ -16,6 +16,8 @@
   assign full_width = section.settings.full_width
   assign show_caption = section.settings.show_caption_on_hover
   assign layout_style = section.settings.layout_style | default: 'slider'
+  assign caption_overlay_color = section.settings.caption_overlay_color | default: '#000000'
+  assign caption_overlay_alpha = section.settings.caption_overlay_opacity | default: 60 | times: 0.01
 
   if section.blocks.size > 0
     assign card_1_block = section.blocks[0]
@@ -152,6 +154,23 @@
   style="
     --nag-bg: {{ section.settings.background_color | default: '#ffffff' }};
     --nag-heading-color: {{ section.settings.heading_color | default: '#111111' }};
+    --nag-text-color: {{ section.settings.text_color | default: '#1a1a1a' }};
+    --nag-card-bg: {{ section.settings.card_background_color | default: '#f7f6f2' }};
+    --nag-card-border: {{ section.settings.card_border_color | default: 'rgba(0, 0, 0, 0.05)' }};
+    --nag-card-border-hover: {{ section.settings.card_border_hover_color | default: 'rgba(0, 0, 0, 0.09)' }};
+    --nag-card-title-color: {{ section.settings.card_title_color | default: '#161616' }};
+    --nag-card-meta-color: {{ section.settings.card_meta_color | default: section.settings.accent_color | default: '#a98344' }};
+    --nag-card-price-color: {{ section.settings.card_price_color | default: '#1a1a1a' }};
+    --nag-arrow-bg: {{ section.settings.arrow_background_color | default: '#ffffff' }};
+    --nag-arrow-color: {{ section.settings.arrow_text_color | default: '#1a1a1a' }};
+    --nag-arrow-border: {{ section.settings.arrow_border_color | default: '#dfdad0' }};
+    --nag-arrow-bg-hover: {{ section.settings.arrow_background_hover_color | default: '#111111' }};
+    --nag-arrow-color-hover: {{ section.settings.arrow_text_hover_color | default: '#ffffff' }};
+    --nag-arrow-border-hover: {{ section.settings.arrow_border_hover_color | default: '#111111' }};
+    --nag-dot-color: {{ section.settings.dot_color | default: '#ded9cf' }};
+    --nag-dot-active-color: {{ section.settings.dot_active_color | default: '#111111' }};
+    --nag-caption-overlay: {{ caption_overlay_color | color_modify: 'alpha', caption_overlay_alpha }};
+    --nag-caption-color: {{ section.settings.caption_text_color | default: '#ffffff' }};
     --nag-heading-size: {{ section.settings.heading_size | default: 24 }}px;
     --nag-heading-size-m: {{ section.settings.heading_size_m | default: 18 }}px;
     --nag-card-title-size: {{ section.settings.card_title_size | default: 16.5 }}px;
@@ -575,6 +594,7 @@
 {% stylesheet %}
   .new-arrivals-gallery {
     background-color: var(--nag-bg, #ffffff);
+    color: var(--nag-text-color, #1a1a1a);
     width: 100%;
     padding-block-start: var(--nag-padding-top, 60px);
     padding-block-end: var(--nag-padding-bottom, 72px);
@@ -742,15 +762,15 @@
     width: 100%;
     aspect-ratio: 3 / 4;
     overflow: hidden;
-    background-color: #f7f6f2;
+    background-color: var(--nag-card-bg, #f7f6f2);
     border-radius: var(--nag-radius, 2px);
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--nag-card-border, rgba(0, 0, 0, 0.05));
     transition: box-shadow 0.4s ease, border-color 0.4s ease;
   }
 
   .new-arrivals-card:hover .new-arrivals-card__media {
     box-shadow: 0 14px 30px -8px rgba(0, 0, 0, 0.12);
-    border-color: rgba(0, 0, 0, 0.09);
+    border-color: var(--nag-card-border-hover, rgba(0, 0, 0, 0.09));
   }
 
   .new-arrivals-card__img {
@@ -796,7 +816,7 @@
     font-weight: 600;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: #a98344;
+    color: var(--nag-card-meta-color, var(--nag-accent, #a98344));
     line-height: 1.25;
   }
 
@@ -804,7 +824,7 @@
     font-family: var(--font-heading--family, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, serif);
     font-size: var(--nag-card-title-size, 16.5px);
     font-weight: 500;
-    color: #161616;
+    color: var(--nag-card-title-color, #161616);
     letter-spacing: 0.025em;
     line-height: 1.35;
     margin: 0;
@@ -818,14 +838,14 @@
   }
 
   .new-arrivals-card__title a:hover {
-    color: #a98344;
+    color: var(--nag-accent, #a98344);
   }
 
   .new-arrivals-card__price {
     font-family: var(--font-body--family, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
     font-size: var(--nag-card-price-size, 14.5px);
     font-weight: 600;
-    color: #1a1a1a;
+    color: var(--nag-card-price-color, #1a1a1a);
     letter-spacing: 0.02em;
     margin-top: 2px;
   }
@@ -838,9 +858,9 @@
     width: 44px;
     height: 44px;
     border-radius: 50%;
-    background: #ffffff;
-    border: 1px solid #dfdad0;
-    color: #1a1a1a;
+    background: var(--nag-arrow-bg, #ffffff);
+    border: 1px solid var(--nag-arrow-border, #dfdad0);
+    color: var(--nag-arrow-color, #1a1a1a);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -851,9 +871,9 @@
   }
 
   .new-arrivals-slider__arrow:hover:not(:disabled) {
-    background: #111111;
-    color: #ffffff;
-    border-color: #111111;
+    background: var(--nag-arrow-bg-hover, #111111);
+    color: var(--nag-arrow-color-hover, #ffffff);
+    border-color: var(--nag-arrow-border-hover, #111111);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.16);
     transform: translateY(-50%) scale(1.06);
   }
@@ -897,7 +917,7 @@
     width: 7px;
     height: 7px;
     border-radius: 50%;
-    background: #ded9cf;
+    background: var(--nag-dot-color, #ded9cf);
     border: none;
     padding: 0;
     cursor: pointer;
@@ -905,7 +925,7 @@
   }
 
   .new-arrivals-slider__dot.is-active {
-    background: #111111;
+    background: var(--nag-dot-active-color, #111111);
     transform: scale(1.2);
     width: 22px;
     border-radius: 999px;
@@ -939,7 +959,7 @@
     position: relative !important;
     overflow: hidden !important;
     border-radius: var(--nag-radius, 0px) !important;
-    background-color: #f6f6f4 !important;
+    background-color: var(--nag-card-bg, #f6f6f4) !important;
     width: 100% !important;
     display: block !important;
   }
@@ -1037,7 +1057,7 @@
     transform: translateY(10px) !important;
     transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
     pointer-events: none !important;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0) 100%) !important;
+    background: linear-gradient(to top, var(--nag-caption-overlay, rgba(0, 0, 0, 0.6)) 0%, rgba(0, 0, 0, 0) 100%) !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
@@ -1049,7 +1069,7 @@
     font-style: italic !important;
     font-size: clamp(15px, 1.1vw, 19px) !important;
     letter-spacing: 0.03em !important;
-    color: #ffffff !important;
+    color: var(--nag-caption-color, #ffffff) !important;
     line-height: 1.2 !important;
   }
 
@@ -1059,7 +1079,7 @@
     font-weight: 500 !important;
     letter-spacing: 0.12em !important;
     text-transform: uppercase !important;
-    color: #d8c29d !important;
+    color: var(--nag-card-meta-color, var(--nag-accent, #d8c29d)) !important;
   }
 
   .new-arrivals-gallery__caption-price {
@@ -1067,7 +1087,7 @@
     font-size: 12px !important;
     font-weight: 600 !important;
     letter-spacing: 0.08em !important;
-    color: #ffffff !important;
+    color: var(--nag-caption-color, #ffffff) !important;
     opacity: 0.9 !important;
   }
 
@@ -1240,6 +1260,12 @@
       "default": "#111111"
     },
     {
+      "type": "color",
+      "id": "text_color",
+      "label": "Section Text Color",
+      "default": "#1a1a1a"
+    },
+    {
       "type": "header",
       "content": "Card Typography & Styling"
     },
@@ -1282,6 +1308,42 @@
       "unit": "px",
       "label": "Price Tag Size",
       "default": 14
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Card / Image Placeholder Background",
+      "default": "#f7f6f2"
+    },
+    {
+      "type": "color",
+      "id": "card_border_color",
+      "label": "Card Border Color",
+      "default": "#eee9df"
+    },
+    {
+      "type": "color",
+      "id": "card_border_hover_color",
+      "label": "Card Border Color on Hover",
+      "default": "#ded6c8"
+    },
+    {
+      "type": "color",
+      "id": "card_title_color",
+      "label": "Card Title Color",
+      "default": "#161616"
+    },
+    {
+      "type": "color",
+      "id": "card_meta_color",
+      "label": "Card Designer / Meta Color",
+      "default": "#a98344"
+    },
+    {
+      "type": "color",
+      "id": "card_price_color",
+      "label": "Card Price Color",
+      "default": "#1a1a1a"
     },
     {
       "type": "header",
@@ -1392,6 +1454,80 @@
       "type": "color",
       "id": "background_color",
       "label": "Section Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Slider Buttons & Captions"
+    },
+    {
+      "type": "color",
+      "id": "arrow_background_color",
+      "label": "Arrow Button Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "arrow_text_color",
+      "label": "Arrow Button Icon Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "arrow_border_color",
+      "label": "Arrow Button Border Color",
+      "default": "#dfdad0"
+    },
+    {
+      "type": "color",
+      "id": "arrow_background_hover_color",
+      "label": "Arrow Button Hover Background",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "arrow_text_hover_color",
+      "label": "Arrow Button Hover Icon Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "arrow_border_hover_color",
+      "label": "Arrow Button Hover Border Color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "dot_color",
+      "label": "Pagination Dot Color",
+      "default": "#ded9cf"
+    },
+    {
+      "type": "color",
+      "id": "dot_active_color",
+      "label": "Active Pagination Dot Color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "caption_overlay_color",
+      "label": "Caption Overlay Color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "caption_overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "label": "Caption Overlay Opacity",
+      "default": 60
+    },
+    {
+      "type": "color",
+      "id": "caption_text_color",
+      "label": "Caption Text Color",
       "default": "#ffffff"
     },
     {

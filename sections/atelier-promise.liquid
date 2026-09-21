@@ -358,8 +358,9 @@
   /* CTA Button */
   #AtelierPromise-{{ section.id }} .luxp-btn,
   .section-luxp-banner .luxp-btn {
-    background: #c5a880 !important;
-    color: #111111 !important;
+    background: var(--luxp-btn-bg, #c5a880) !important;
+    color: var(--luxp-btn-fg, #111111) !important;
+    border-color: var(--luxp-btn-border, var(--luxp-btn-bg, #c5a880)) !important;
     font-weight: 700 !important;
     letter-spacing: 0.2em !important;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45) !important;
@@ -368,8 +369,9 @@
 
   #AtelierPromise-{{ section.id }} .luxp-btn:hover,
   .section-luxp-banner .luxp-btn:hover {
-    background: #ffffff !important;
-    color: #111111 !important;
+    background: var(--luxp-btn-bg-h, #ffffff) !important;
+    color: var(--luxp-btn-fg-h, #111111) !important;
+    border-color: var(--luxp-btn-bg-h, #ffffff) !important;
     box-shadow: 0 8px 25px rgba(197, 168, 128, 0.4) !important;
     transform: translateY(-2px) !important;
   }
