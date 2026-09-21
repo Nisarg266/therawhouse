@@ -205,6 +205,7 @@
         "rc_sculptures",
         "rc_models"
       ],
+      "disabled": true,
       "settings": {
         "eyebrow": "THE ATELIER UNIVERSE",
         "heading": "Explore Other Collections",
@@ -359,6 +360,7 @@
         "trust_3",
         "trust_4"
       ],
+      "disabled": true,
       "settings": {
         "color_scheme_preset": "warm",
         "custom_bg_color": "",
@@ -372,6 +374,7 @@
     },
     "brand_manifesto": {
       "type": "brand-manifesto",
+      "disabled": true,
       "settings": {
         "eyebrow": "",
         "heading": "A little bit of us",
