@@ -1146,6 +1146,11 @@
         pill.addEventListener('click', (e) => {
           if (e.target !== clearBtn && !clearBtn.contains(e.target)) {
             openDropdown();
+            // Desktop: the collapsed pill is a single icon, so make sure any
+            // click on it lands focus in the field, ready to type
+            if (!isMobileScreen() && document.activeElement !== input) {
+              input.focus();
+            }
           }
         });
 

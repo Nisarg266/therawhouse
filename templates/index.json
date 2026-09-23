@@ -1200,6 +1200,7 @@
         },
         "social_instagram": {
           "type": "social-link",
+          "disabled": true,
           "settings": {
             "platform": "instagram",
             "link": "https://instagram.com/therawhouse",
@@ -1275,7 +1276,7 @@
         "padding_bottom_m": 12,
         "container_padding": 28,
         "container_padding_m": 20,
-        "enable_animations": false,
+        "enable_animations": true,
         "anchor_id": "",
         "custom_class": ""
       }

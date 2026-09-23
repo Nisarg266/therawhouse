@@ -1,2825 +1,1019 @@
 {%- comment -%}
-  THE RAW HOUSE — ULTRA-LUXURY ATELIER ADVANCED FOOTER
-  World-class architectural footer supporting:
-  - Multi-palette luxury aesthetics (Atelier Noir, Museum Linen, Minimal White, Bespoke Custom)
-  - Custom brand logo or monogram emblem with curatorial ornament
-  - Modular blocks: Navigation Menus (1 or 2 cols), Editorial Text, VIP Newsletter, Concierge, Trust Assurances, Social
-  - Interactive smooth mobile accordions
-  - Verified SSL security & payment badges (Visa, Mastercard, Amex, UPI, PayPal, Apple Pay, Net Banking)
-  - Curated social media presence with WhatsApp Concierge hotline
-  - Localization country/currency and language selectors
-  - Dynamic legal policy links and smooth back-to-top
+  THE RAW HOUSE — EDITORIAL FOOTER
+  Clean, gallery-colophon design:
+  - Newsletter band: serif headline, underline email field with gold focus
+    line, circular arrow submit, animated success check
+  - Nav grid: brand column (logo, tagline, social) + menu columns with
+    underline-draw links; collapsible accordions on mobile
+  - Bottom bar: copyright, policies, credits, back-to-top
+  - Staggered scroll-reveal animations (IntersectionObserver, once)
 {%- endcomment -%}
 
 {% liquid
-  assign color_scheme = section.settings.color_scheme | default: 'parchment'
+  assign s = section.settings
+  assign newsletter_block = section.blocks | where: 'type', 'newsletter' | first
+  assign menu_blocks = section.blocks | where: 'type', 'menu'
 %}
 
 <footer
-  id="CustomFooter-{{ section.id }}"
-  class="custom-luxury-footer custom-luxury-footer--{{ color_scheme }} color-custom-{{ section.id }}"
+  id="Flx-{{ section.id }}"
+  class="custom-luxury-footer flx flx--{{ s.color_scheme | default: 'minimal_white' }}"
   style="
-    --footer-padding-top: {{ section.settings.padding_top | default: 48 }}px;
-    --footer-padding-bottom: {{ section.settings.padding_bottom | default: 28 }}px;
-    --footer-padding-top-m: {{ section.settings.padding_top_m | default: 32 }}px;
-    --footer-padding-bottom-m: {{ section.settings.padding_bottom_m | default: 20 }}px;
-    --footer-max-width: {{ section.settings.max_width | default: 1240 }}px;
-    {% if color_scheme == 'custom' %}
-      {% if section.settings.custom_bg != blank %}--flx-bg: {{ section.settings.custom_bg }} !important;{% endif %}
-      {% if section.settings.custom_card_bg != blank %}--flx-card-bg: {{ section.settings.custom_card_bg }} !important;{% endif %}
-      {% if section.settings.custom_text != blank %}--flx-text: {{ section.settings.custom_text }} !important;{% endif %}
-      {% if section.settings.custom_heading != blank %}--flx-heading: {{ section.settings.custom_heading }} !important;{% endif %}
-      {% if section.settings.custom_gold != blank %}--flx-gold: {{ section.settings.custom_gold }} !important; --flx-border-accent: {{ section.settings.custom_gold }} !important;{% endif %}
-      {% if section.settings.custom_border != blank %}--flx-border: {{ section.settings.custom_border }} !important;{% endif %}
-      {% if section.settings.custom_link != blank %}--flx-link: {{ section.settings.custom_link }} !important;{% endif %}
-      {% if section.settings.custom_link_hover != blank %}--flx-link-hover: {{ section.settings.custom_link_hover }} !important;{% endif %}
-      {% if section.settings.custom_btn_bg != blank %}--flx-btn-bg: {{ section.settings.custom_btn_bg }} !important;{% endif %}
-      {% if section.settings.custom_btn_text != blank %}--flx-btn-text: {{ section.settings.custom_btn_text }} !important;{% endif %}
-    {% endif %}
+    --flx-max: {{ s.max_width | default: 1240 }}px;
+    --flx-pt: {{ s.padding_top | default: 56 }}px;
+    --flx-pb: {{ s.padding_bottom | default: 32 }}px;
+    --flx-pt-m: {{ s.padding_top_m | default: 40 }}px;
+    --flx-pb-m: {{ s.padding_bottom_m | default: 28 }}px;
+    --flx-logo-w: {{ s.logo_width | default: 140 }}px;
   "
   {{ section.shopify_attributes }}
 >
-  <div class="custom-footer__container">
-    {% if section.settings.show_brand_header %}
-      <!-- Brand Prestige Header -->
-      <div class="custom-footer__brand-header">
-        {% if section.settings.show_emblem %}
-          {% assign e_size = section.settings.emblem_size | default: 38 %}
-          <div
-            class="custom-footer__emblem"
-            aria-hidden="true"
-            style="
-              width: {{ e_size }}px;
-              height: {{ e_size }}px;
-              {% if section.settings.emblem_border_color != blank and section.settings.emblem_border_color != 'rgba(0,0,0,0)' %}border-color: {{ section.settings.emblem_border_color }} !important;{% endif %}
-              {% if section.settings.emblem_bg_color != blank and section.settings.emblem_bg_color != 'rgba(0,0,0,0)' %}background-color: {{ section.settings.emblem_bg_color }} !important;{% endif %}
-              {% if section.settings.emblem_text_color != blank and section.settings.emblem_text_color != 'rgba(0,0,0,0)' %}color: {{ section.settings.emblem_text_color }} !important;{% endif %}
-            "
-          >
-            {% if section.settings.brand_emblem_image != blank %}
-              <img
-                src="{{ section.settings.brand_emblem_image | image_url: width: 160 }}"
-                alt="{{ section.settings.brand_name | default: 'Emblem' | escape }}"
-                class="custom-footer__emblem-img"
-                width="{{ e_size }}"
-                height="{{ e_size }}"
-                loading="lazy"
-              >
-            {% else %}
-              <span class="custom-footer__emblem-text" style="font-size: {{ e_size | times: 0.35 | round }}px;">{{ section.settings.brand_emblem_text | default: 'TRH' }}</span>
-            {% endif %}
-          </div>
-        {% endif %}
+  <div class="flx-inner">
 
-        {% if section.settings.brand_logo != blank %}
-          <div class="custom-footer__brand-logo-wrap">
-            <img
-              src="{{ section.settings.brand_logo | image_url: width: 600 }}"
-              alt="{{ section.settings.brand_logo.alt | default: section.settings.brand_name | default: shop.name | escape }}"
-              class="custom-footer__brand-logo"
-              loading="lazy"
-              width="{{ section.settings.brand_logo.width }}"
-              height="{{ section.settings.brand_logo.height }}"
-              style="max-width: {{ section.settings.logo_width | default: 160 }}px; width: 100%; height: auto;"
-            >
-          </div>
-        {% else %}
-          <h3
-            class="custom-footer__brand-title"
-            style="
-              {% if section.settings.brand_title_size != blank %}font-size: {{ section.settings.brand_title_size }}px;{% endif %}
-              {% if section.settings.brand_title_color != blank and section.settings.brand_title_color != 'rgba(0,0,0,0)' %}color: {{ section.settings.brand_title_color }} !important;{% endif %}
-            "
-          >
-            {{- section.settings.brand_name | default: 'THE RAW HOUSE' -}}
-          </h3>
-        {% endif %}
-
-        {% if section.settings.brand_tagline != blank %}
-          <p
-            class="custom-footer__brand-tagline"
-            style="
-              {% if section.settings.brand_tagline_size != blank %}font-size: {{ section.settings.brand_tagline_size }}px;{% endif %}
-              {% if section.settings.brand_tagline_color != blank and section.settings.brand_tagline_color != 'rgba(0,0,0,0)' %}color: {{ section.settings.brand_tagline_color }} !important;{% endif %}
-            "
-          >
-            {{ section.settings.brand_tagline }}
+    {%- if newsletter_block -%}
+      {%- assign nb = newsletter_block.settings -%}
+      <div class="flx-newsletter flx-reveal-group" {{ newsletter_block.shopify_attributes }}>
+        <div class="flx-newsletter__copy">
+          <p class="flx-eyebrow flx-reveal" style="--ri: 0;">
+            <span class="flx-diamond" aria-hidden="true"></span>
+            The Collectors&rsquo; List
           </p>
-        {% endif %}
-
-        {% assign ornament = section.settings.ornament_symbol | default: 'diamond' %}
-        {% if ornament != 'none' %}
-          <div
-            class="custom-footer__brand-ornament"
-            aria-hidden="true"
-            style="
-              max-width: {{ section.settings.ornament_max_width | default: 240 }}px;
-              {% if section.settings.ornament_color != blank and section.settings.ornament_color != 'rgba(0,0,0,0)' %}--flx-gold: {{ section.settings.ornament_color }};{% endif %}
-            "
-          >
-            <span class="custom-footer__ornament-line"></span>
-            {% if ornament == 'diamond' %}
-              <span class="custom-footer__ornament-diamond">◆</span>
-            {% elsif ornament == 'star' %}
-              <span class="custom-footer__ornament-diamond">✦</span>
-            {% elsif ornament == 'bar' %}
-              <span class="custom-footer__ornament-diamond">—</span>
-            {% elsif ornament == 'circle' %}
-              <span class="custom-footer__ornament-diamond">•</span>
-            {% elsif ornament == 'crest' %}
-              <span class="custom-footer__ornament-diamond">⚜</span>
-            {% endif %}
-            <span class="custom-footer__ornament-line"></span>
-          </div>
-        {% endif %}
-      </div>
-    {% endif %}
-
-    <!-- Main Content Columns / Dynamic Blocks -->
-    <div class="custom-footer__top-row">
-      {% if section.blocks.size > 0 %}
-        {% for block in section.blocks %}
-          {% case block.type %}
-            {% when 'menu' %}
-              {% liquid
-                assign b_sym = block.settings.bullet_symbol | default: 'chevron'
-                case b_sym
-                  when 'chevron'
-                    assign bullet_char = '›'
-                  when 'dot'
-                    assign bullet_char = '•'
-                  when 'dash'
-                    assign bullet_char = '—'
-                  when 'star'
-                    assign bullet_char = '✦'
-                  when 'arrow'
-                    assign bullet_char = '→'
-                  else
-                    assign bullet_char = '›'
-                endcase
-              %}
-              <div
-                class="custom-footer__col custom-footer__col--menu {% if block.settings.columns == '2' %}custom-footer__col--menu-double{% endif %}"
-                style="
-                  {% if block.settings.heading_color != blank and block.settings.heading_color != 'rgba(0,0,0,0)' %}--flx-heading: {{ block.settings.heading_color }} !important;{% endif %}
-                  {% if block.settings.link_color != blank and block.settings.link_color != 'rgba(0,0,0,0)' %}--flx-link: {{ block.settings.link_color }} !important;{% endif %}
-                  {% if block.settings.link_hover_color != blank and block.settings.link_hover_color != 'rgba(0,0,0,0)' %}--flx-link-hover: {{ block.settings.link_hover_color }} !important;{% endif %}
-                "
-                {{ block.shopify_attributes }}
-              >
-                <button type="button" class="custom-footer__accordion-trigger" aria-expanded="false">
-                  <span class="custom-footer__col-heading">
-                    <span class="custom-footer__heading-accent"></span>
-                    {{ block.settings.heading | default: 'EXPLORE' }}
-                  </span>
-                  <svg class="custom-footer__accordion-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="6 9 12 15 18 9"></polyline>
-                  </svg>
-                </button>
-                <div class="custom-footer__accordion-content">
-                  <ul class="custom-footer__links-list {% if block.settings.columns == '2' %}custom-footer__links-list--2cols{% endif %}" role="list">
-                    {% if block.settings.menu != blank %}
-                      {% for link in block.settings.menu.links %}
-                        <li>
-                          <a href="{{ link.url }}" class="custom-footer__link">
-                            {% if block.settings.show_bullets != false %}<span class="custom-footer__link-bullet">{{ bullet_char }}</span>{% endif %}
-                            <span>{{ link.title }}</span>
-                          </a>
-                        </li>
-                      {% endfor %}
-                    {% else %}
-                      {% assign h_upper = block.settings.heading | upcase %}
-                      {% if h_upper contains 'ABOUT' %}
-                        <li><a href="/pages/about-us" class="custom-footer__link">{% if block.settings.show_bullets != false %}<span class="custom-footer__link-bullet">{{ bullet_char }}</span>{% endif %}<span>OUR STORY</span></a></li>
-                        <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link">{% if block.settings.show_bullets != false %}<span class="custom-footer__link-bullet">{{ bullet_char }}</span>{% endif %}<span>MAKERS & ATELIER</span></a></li>
-                        <li><a href="/blogs/news" class="custom-footer__link">{% if block.settings.show_bullets != false %}<span class="custom-footer__link-bullet">{{ bullet_char }}</span>{% endif %}<span>THE JOURNAL</span></a></li>
-                        <li><a href="/pages/contact" class="custom-footer__link">{% if block.settings.show_bullets != false %}<span class="custom-footer__link-bullet">{{ bullet_char }}</span>{% endif %}<span>PRESS & EXHIBITIONS</span></a></li>
-                        <li><a href="/policies/privacy-policy" class="custom-footer__link">{% if block.settings.show_bullets != false %}<span class="custom-footer__link-bullet">{{ bullet_char }}</span>{% endif %}<span>PRIVACY POLICY</span></a></li>
-                        <li><a href="/pages/contact" class="custom-footer__link">{% if block.settings.show_bullets != false %}<span class="custom-footer__link-bullet">{{ bullet_char }}</span>{% endif %}<span>CONTACT ATELIER</span></a></li>
-                      {% elsif h_upper contains 'SERVICE' %}
-                        <li><a href="/pages/contact" class="custom-footer__link">{% if block.settings.show_bullets != false %}<span class="custom-footer__link-bullet">{{ bullet_char }}</span>{% endif %}<span>PRIVATE CONCIERGE</span></a></li>
-                        <li><a href="/pages/contact" class="custom-footer__link">{% if block.settings.show_bullets != false %}<span class="custom-footer__link-bullet">{{ bullet_char }}</span>{% endif %}<span>TRADE & ARCHITECTS (B2B)</span></a></li>
-                        <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link">{% if block.settings.show_bullets != false %}<span class="custom-footer__link-bullet">{{ bullet_char }}</span>{% endif %}<span>BESPOKE INTERIORS</span></a></li>
-                        <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link">{% if block.settings.show_bullets != false %}<span class="custom-footer__link-bullet">{{ bullet_char }}</span>{% endif %}<span>WHITE GLOVE COMMISSIONS</span></a></li>
-                        <li><a href="/policies/shipping-policy" class="custom-footer__link">{% if block.settings.show_bullets != false %}<span class="custom-footer__link-bullet">{{ bullet_char }}</span>{% endif %}<span>SHIPPING & TRANSIT</span></a></li>
-                        <li><a href="/policies/terms-of-service" class="custom-footer__link">{% if block.settings.show_bullets != false %}<span class="custom-footer__link-bullet">{{ bullet_char }}</span>{% endif %}<span>TERMS & AUTHENTICITY</span></a></li>
-                      {% else %}
-                        <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link">{% if block.settings.show_bullets != false %}<span class="custom-footer__link-bullet">{{ bullet_char }}</span>{% endif %}<span>Original Oil Paintings</span></a></li>
-                        <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link">{% if block.settings.show_bullets != false %}<span class="custom-footer__link-bullet">{{ bullet_char }}</span>{% endif %}<span>Bronze & Marble Sculptures</span></a></li>
-                        <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link">{% if block.settings.show_bullets != false %}<span class="custom-footer__link-bullet">{{ bullet_char }}</span>{% endif %}<span>3D Sajawat Art Models</span></a></li>
-                        <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link">{% if block.settings.show_bullets != false %}<span class="custom-footer__link-bullet">{{ bullet_char }}</span>{% endif %}<span>Archival Fine Prints</span></a></li>
-                      {% endif %}
-                    {% endif %}
-                  </ul>
-                </div>
-              </div>
-
-            {% when 'text' %}
-              <div class="custom-footer__col custom-footer__col--text" {{ block.shopify_attributes }}>
-                <button type="button" class="custom-footer__accordion-trigger" aria-expanded="false">
-                  <span class="custom-footer__col-heading">
-                    <span class="custom-footer__heading-accent"></span>
-                    {{ block.settings.heading | default: 'ABOUT THE ATELIER' }}
-                  </span>
-                  <svg class="custom-footer__accordion-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="6 9 12 15 18 9"></polyline>
-                  </svg>
-                </button>
-                <div class="custom-footer__accordion-content">
-                  <div class="custom-footer__text-content">
-                    {{ block.settings.text | default: 'Dedicated to museum-grade original canvas paintings, hand-cast bronze statuettes, and architectural decorative models crafted with singular intention.' }}
-                  </div>
-                  {% if block.settings.author_title != blank %}
-                    <p class="custom-footer__author-sign">{{ block.settings.author_title }}</p>
-                  {% endif %}
-                </div>
-              </div>
-
-            {% when 'newsletter' %}
-              <div class="custom-footer__col custom-footer__col--newsletter" {{ block.shopify_attributes }}>
-                <div
-                  class="custom-footer__newsletter-card"
-                  style="
-                    {% if block.settings.card_bg_color != blank and block.settings.card_bg_color != 'rgba(0,0,0,0)' %}--flx-card-bg: {{ block.settings.card_bg_color }} !important; background: {{ block.settings.card_bg_color }} !important;{% endif %}
-                    {% if block.settings.card_border_color != blank and block.settings.card_border_color != 'rgba(0,0,0,0)' %}--flx-card-border: {{ block.settings.card_border_color }} !important; border-color: {{ block.settings.card_border_color }} !important;{% endif %}
-                  "
-                >
-                  {% if block.settings.show_badge != false and block.settings.badge_text != blank %}
-                    <div class="custom-footer__vip-pill">
-                      {% assign b_icon = block.settings.badge_icon | default: 'sparkle' %}
-                      {% if b_icon == 'sparkle' %}
-                        <span class="custom-footer__vip-sparkle">✦</span>
-                      {% elsif b_icon == 'star' %}
-                        <span class="custom-footer__vip-sparkle">★</span>
-                      {% elsif b_icon == 'diamond' %}
-                        <span class="custom-footer__vip-sparkle">◆</span>
-                      {% elsif b_icon == 'shield' %}
-                        <span class="custom-footer__vip-sparkle">🛡</span>
-                      {% endif %}
-                      <span>{{ block.settings.badge_text }}</span>
-                    </div>
-                  {% endif %}
-                  <h4 class="custom-footer__col-heading custom-footer__col-heading--newsletter">
-                    <span class="custom-footer__heading-accent"></span>
-                    {{ block.settings.heading | default: 'BE THE FIRST TO KNOW' }}
-                  </h4>
-                  <p class="custom-footer__newsletter-desc">
-                    {{ block.settings.subtext | default: 'Sign up for privileged access to rare salon collections, exhibition previews, and bespoke atelier releases.' }}
-                  </p>
-                  {% assign newsletter_id = 'FooterNewsletter-' | append: section.id | append: block.id %}
-                  {% form 'customer', id: newsletter_id, class: 'custom-footer__newsletter-form' %}
-                    <input type="hidden" name="contact[tags]" value="newsletter, footer-vip">
-                    <div class="custom-footer__newsletter-field-wrapper">
-                      <input
-                        type="email"
-                        name="contact[email]"
-                        aria-label="{{ 'blocks.email_signup.label' | t }}"
-                        class="custom-footer__newsletter-input"
-                        placeholder="{{ block.settings.placeholder | default: 'Enter your email address...' }}"
-                        required
-                        autocomplete="email"
-                      >
-                      <button
-                        type="submit"
-                        class="custom-footer__newsletter-btn"
-                        style="
-                          {% if block.settings.button_bg_color != blank and block.settings.button_bg_color != 'rgba(0,0,0,0)' %}background: {{ block.settings.button_bg_color }} !important; border-color: {{ block.settings.button_bg_color }} !important;{% endif %}
-                          {% if block.settings.button_text_color != blank and block.settings.button_text_color != 'rgba(0,0,0,0)' %}color: {{ block.settings.button_text_color }} !important;{% endif %}
-                        "
-                      >
-                        <span>{{ block.settings.button_text | default: 'SUBSCRIBE' }}</span>
-                        {% assign btn_icon = block.settings.button_icon | default: 'arrow' %}
-                        {% if btn_icon == 'arrow' %}
-                          <svg class="custom-footer__btn-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                            <polyline points="12 5 19 12 12 19"></polyline>
-                          </svg>
-                        {% elsif btn_icon == 'chevron' %}
-                          <svg class="custom-footer__btn-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="9 18 15 12 9 6"></polyline>
-                          </svg>
-                        {% elsif btn_icon == 'envelope' %}
-                          <svg class="custom-footer__btn-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                            <polyline points="22,6 12,13 2,6"></polyline>
-                          </svg>
-                        {% endif %}
-                      </button>
-                    </div>
-                    {% if form.errors %}
-                      <div class="custom-footer__form-message custom-footer__form-message--error" role="alert">
-                        {{ form.errors | default_errors }}
-                      </div>
-                    {% endif %}
-                    {% if form.posted_successfully? %}
-                      <p class="custom-footer__form-message custom-footer__form-message--success">
-                        ✓ Welcome to The Raw House. Your invitation is confirmed.
-                      </p>
-                    {% endif %}
-                  {% endform %}
-                  <p class="custom-footer__privacy-note">{{ block.settings.privacy_note | default: 'Strictly confidential. No spam, ever.' }}</p>
-                </div>
-              </div>
-
-            {% when 'concierge' %}
-              <div class="custom-footer__col custom-footer__col--concierge" {{ block.shopify_attributes }}>
-                <button type="button" class="custom-footer__accordion-trigger" aria-expanded="false">
-                  <span class="custom-footer__col-heading">
-                    <span class="custom-footer__heading-accent"></span>
-                    {{ block.settings.heading | default: 'PRIVATE ART CONCIERGE' }}
-                  </span>
-                  <svg class="custom-footer__accordion-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="6 9 12 15 18 9"></polyline>
-                  </svg>
-                </button>
-                <div class="custom-footer__accordion-content">
-                  <div class="custom-footer__concierge-info">
-                    {% if block.settings.hours != blank %}
-                      <p class="custom-footer__concierge-row">
-                        <strong>Advisory Hours:</strong>
-                        <span>{{ block.settings.hours }}</span>
-                      </p>
-                    {% endif %}
-                    {% if block.settings.phone_display != blank %}
-                      <p class="custom-footer__concierge-row">
-                        <strong>Direct Hotline:</strong>
-                        <a href="tel:{{ block.settings.phone | default: block.settings.phone_display | replace: ' ', '' }}">{{ block.settings.phone_display }}</a>
-                      </p>
-                    {% endif %}
-                    {% if block.settings.email != blank %}
-                      <p class="custom-footer__concierge-row">
-                        <strong>Inquiries:</strong>
-                        <a href="mailto:{{ block.settings.email }}">{{ block.settings.email }}</a>
-                      </p>
-                    {% endif %}
-                    {% if block.settings.address != blank %}
-                      <p class="custom-footer__concierge-row">
-                        <strong>Atelier Salon:</strong>
-                        <span>{{ block.settings.address }}</span>
-                      </p>
-                    {% endif %}
-                    {% if block.settings.show_whatsapp != false and block.settings.whatsapp_url != blank %}
-                      <div class="custom-footer__whatsapp-wrap custom-footer__whatsapp-wrap--block">
-                        <a href="{{ block.settings.whatsapp_url }}" target="_blank" rel="noopener noreferrer" class="custom-footer__whatsapp-btn">
-                          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
-                          </svg>
-                          <span>{{ block.settings.whatsapp_label | default: 'Chat with Private Concierge' }}</span>
-                        </a>
-                      </div>
-                    {% endif %}
-                  </div>
-                </div>
-              </div>
-
-            {% when 'trust_badges' %}
-              <div class="custom-footer__col custom-footer__col--trust" {{ block.shopify_attributes }}>
-                <h4 class="custom-footer__col-heading">
-                  <span class="custom-footer__heading-accent"></span>
-                  {{ block.settings.heading | default: 'ATELIER PROMISES' }}
-                </h4>
-                {% assign trust_sym = block.settings.badge_icon | default: 'sparkle' %}
-                {% liquid
-                  case trust_sym
-                    when 'diamond'
-                      assign t_icon = '◆'
-                    when 'star'
-                      assign t_icon = '★'
-                    when 'check'
-                      assign t_icon = '✓'
-                    when 'shield'
-                      assign t_icon = '🛡'
-                    else
-                      assign t_icon = '✦'
-                  endcase
-                %}
-                <div class="custom-footer__trust-list">
-                  {% if block.settings.badge_1_text != blank %}
-                    <div class="custom-footer__trust-item">
-                      <span class="custom-footer__trust-icon">{{ t_icon }}</span>
-                      <span class="custom-footer__trust-text">{{ block.settings.badge_1_text }}</span>
-                    </div>
-                  {% endif %}
-                  {% if block.settings.badge_2_text != blank %}
-                    <div class="custom-footer__trust-item">
-                      <span class="custom-footer__trust-icon">{{ t_icon }}</span>
-                      <span class="custom-footer__trust-text">{{ block.settings.badge_2_text }}</span>
-                    </div>
-                  {% endif %}
-                  {% if block.settings.badge_3_text != blank %}
-                    <div class="custom-footer__trust-item">
-                      <span class="custom-footer__trust-icon">{{ t_icon }}</span>
-                      <span class="custom-footer__trust-text">{{ block.settings.badge_3_text }}</span>
-                    </div>
-                  {% endif %}
-                  {% if block.settings.badge_4_text != blank %}
-                    <div class="custom-footer__trust-item">
-                      <span class="custom-footer__trust-icon">{{ t_icon }}</span>
-                      <span class="custom-footer__trust-text">{{ block.settings.badge_4_text }}</span>
-                    </div>
-                  {% endif %}
-                </div>
-              </div>
-
-            {% when 'social_block' %}
-              <div class="custom-footer__col custom-footer__col--social" {{ block.shopify_attributes }}>
-                <h4 class="custom-footer__col-heading">
-                  <span class="custom-footer__heading-accent"></span>
-                  {{ block.settings.heading | default: 'CONNECT & FOLLOW' }}
-                </h4>
-                {% if block.settings.subtext != blank %}
-                  <p class="custom-footer__social-desc">{{ block.settings.subtext }}</p>
-                {% endif %}
-                <div class="custom-footer__social-icons custom-footer__social-icons--block">
-                  {% if block.settings.instagram_url != blank %}
-                    <a href="{{ block.settings.instagram_url }}" target="_blank" rel="noopener noreferrer" class="custom-footer__social-badge" aria-label="Instagram">
-                      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                      </svg>
-                    </a>
-                  {% endif %}
-                  {% if block.settings.facebook_url != blank %}
-                    <a href="{{ block.settings.facebook_url }}" target="_blank" rel="noopener noreferrer" class="custom-footer__social-badge" aria-label="Facebook">
-                      <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
-                        <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-                      </svg>
-                    </a>
-                  {% endif %}
-                  {% if block.settings.pinterest_url != blank or block.settings.twitter_url != blank %}
-                    {% assign blk_x_url = block.settings.twitter_url | default: block.settings.pinterest_url %}
-                    <a href="{{ blk_x_url }}" target="_blank" rel="noopener noreferrer" class="custom-footer__social-badge" aria-label="X">
-                      <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor">
-                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                      </svg>
-                    </a>
-                  {% endif %}
-                  {% if block.settings.youtube_url != blank %}
-                    <a href="{{ block.settings.youtube_url }}" target="_blank" rel="noopener noreferrer" class="custom-footer__social-badge custom-footer__social-badge--youtube" aria-label="YouTube">
-                      <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
-                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                      </svg>
-                    </a>
-                  {% endif %}
-                  {% if block.settings.linkedin_url != blank %}
-                    <a href="{{ block.settings.linkedin_url }}" target="_blank" rel="noopener noreferrer" class="custom-footer__social-badge" aria-label="LinkedIn">
-                      <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor">
-                        <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.32a1.64 1.64 0 0 0-1.64 1.64 1.64 1.64 0 0 0 1.64 1.63 1.64 1.64 0 0 0 1.63-1.63 1.64 1.64 0 0 0-1.63-1.64z"/>
-                      </svg>
-                    </a>
-                  {% endif %}
-                  {% if block.settings.whatsapp_url != blank %}
-                    <a href="{{ block.settings.whatsapp_url }}" target="_blank" rel="noopener noreferrer" class="custom-footer__social-badge custom-footer__social-badge--whatsapp" aria-label="WhatsApp Concierge">
-                      <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
-                        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
-                      </svg>
-                    </a>
-                  {% endif %}
-                </div>
-              </div>
-          {% endcase %}
-        {% endfor %}
-      {% else %}
-        <!-- Default Presets when No Blocks Added -->
-        <div class="custom-footer__col custom-footer__col--menu">
-          <button type="button" class="custom-footer__accordion-trigger" aria-expanded="false">
-            <span class="custom-footer__col-heading">
-              <span class="custom-footer__heading-accent"></span>
-              THE ATELIER
-            </span>
-            <svg class="custom-footer__accordion-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </button>
-          <div class="custom-footer__accordion-content">
-            <ul class="custom-footer__links-list" role="list">
-              <li><a href="/pages/about-us" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>OUR STORY & PHILOSOPHY</span></a></li>
-              <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>ORIGINAL OIL PAINTINGS</span></a></li>
-              <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>BRONZE & MARBLE SCULPTURES</span></a></li>
-              <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>3D SAJAWAT ART MODELS</span></a></li>
-              <li><a href="/blogs/news" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>COLLECTORS JOURNAL</span></a></li>
-              <li><a href="/pages/contact" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>CONTACT & ATELIER</span></a></li>
-            </ul>
-          </div>
+          <h2 class="flx-newsletter__title flx-reveal" style="--ri: 1;">{{ nb.heading | default: 'First to see. First to own.' }}</h2>
+          <p class="flx-newsletter__sub flx-reveal" style="--ri: 2;">
+            {{- nb.subtext | default: 'Private previews of new works, exhibition invitations and notes from the atelier.' -}}
+          </p>
         </div>
 
-        <div class="custom-footer__col custom-footer__col--menu">
-          <button type="button" class="custom-footer__accordion-trigger" aria-expanded="false">
-            <span class="custom-footer__col-heading">
-              <span class="custom-footer__heading-accent"></span>
-              CLIENT SERVICES
-            </span>
-            <svg class="custom-footer__accordion-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </button>
-          <div class="custom-footer__accordion-content">
-            <ul class="custom-footer__links-list" role="list">
-              <li><a href="/pages/contact" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>PRIVATE ART ADVISORY</span></a></li>
-              <li><a href="/pages/contact" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>TRADE & ARCHITECTS (B2B)</span></a></li>
-              <li><a href="{{ routes.all_products_collection_url }}" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>BESPOKE COMMISSIONS</span></a></li>
-              <li><a href="/policies/shipping-policy" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>WHITE GLOVE CRATING & TRANSIT</span></a></li>
-              <li><a href="/policies/terms-of-service" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>AUTHENTICITY & PROVENANCE</span></a></li>
-              <li><a href="/policies/privacy-policy" class="custom-footer__link"><span class="custom-footer__link-bullet">›</span><span>PRIVACY POLICY</span></a></li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="custom-footer__col custom-footer__col--newsletter">
-          <div class="custom-footer__newsletter-card">
-            <div class="custom-footer__vip-pill">
-              <span class="custom-footer__vip-sparkle">✦</span>
-              <span>VIP COLLECTORS CIRCLE</span>
-            </div>
-            <h4 class="custom-footer__col-heading custom-footer__col-heading--newsletter">
-              <span class="custom-footer__heading-accent"></span>
-              BE THE FIRST TO KNOW
-            </h4>
-            <p class="custom-footer__newsletter-desc">
-              Subscribe for confidential previews of newly acquired original canvases, rare bronze sculptures, and private exhibition vernissages.
-            </p>
-            {% assign newsletter_id = 'FooterNewsletter-' | append: section.id %}
-            {% form 'customer', id: newsletter_id, class: 'custom-footer__newsletter-form' %}
-              <input type="hidden" name="contact[tags]" value="newsletter, footer-vip">
-              <div class="custom-footer__newsletter-field-wrapper">
+        <div class="flx-newsletter__action flx-reveal" style="--ri: 3;">
+          {%- assign form_id = 'FlxNews-' | append: section.id -%}
+          {% form 'customer', id: form_id, class: 'flx-form' %}
+            <input type="hidden" name="contact[tags]" value="newsletter">
+            <div class="flx-form__fields">
+              <div class="flx-field">
                 <input
                   type="email"
                   name="contact[email]"
-                  aria-label="{{ 'blocks.email_signup.label' | t }}"
-                  class="custom-footer__newsletter-input"
-                  placeholder="Enter your email address..."
+                  class="flx-input custom-footer__newsletter-input"
+                  value="{{ form.email | escape }}"
+                  placeholder="{{ nb.placeholder | default: 'Your email address' | escape }}"
+                  aria-label="{{ 'blocks.email_signup.label' | t | escape }}"
                   required
                   autocomplete="email"
                 >
-                <button type="submit" class="custom-footer__newsletter-btn">
-                  <span>JOIN</span>
-                  <svg class="custom-footer__btn-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                    <polyline points="12 5 19 12 12 19"></polyline>
-                  </svg>
-                </button>
+                <span class="flx-field__accent" aria-hidden="true"></span>
               </div>
-              {% if form.posted_successfully? %}
-                <p class="custom-footer__form-message custom-footer__form-message--success">
-                  ✓ Welcome to The Raw House. Your invitation is confirmed.
-                </p>
-              {% endif %}
-            {% endform %}
-            <p class="custom-footer__privacy-note">Strictly confidential. No spam, ever.</p>
-          </div>
-        </div>
-      {% endif %}
-    </div>
-
-    <!-- Middle Row: Payment Badges, Socials & Back to Top -->
-    <div class="custom-footer__middle-row">
-      <!-- Payment Badges & Trust -->
-      {% if section.settings.show_payment_methods != false %}
-        <div class="custom-footer__payment-col">
-          <div class="custom-footer__sub-heading-wrap">
-            <h4 class="custom-footer__sub-heading">{{ section.settings.payment_heading | default: 'PAYMENT METHODS' }}</h4>
-            {% if section.settings.show_ssl_badge != false %}
-              <span class="custom-footer__ssl-badge">
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 2C9.243 2 7 4.243 7 7v3H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-1V7c0-2.757-2.243-5-5-5zM9 7c0-1.654 1.346-3 3-3s3 1.346 3 3v3H9V7zm3 10a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+              <button type="submit" class="flx-send" aria-label="{{ nb.button_text | default: 'Subscribe' | escape }}">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <line x1="4" y1="12" x2="20" y2="12"></line>
+                  <polyline points="13 5 20 12 13 19"></polyline>
                 </svg>
-                <span>{{ section.settings.ssl_badge_text | default: '256-BIT SSL ENCRYPTED' }}</span>
-              </span>
-            {% endif %}
-          </div>
-
-          {% if section.settings.payment_custom_image != blank %}
-            <div class="custom-footer__payment-custom-wrap">
-              <img
-                src="{{ section.settings.payment_custom_image | image_url: width: 600 }}"
-                alt="Payment Methods"
-                class="custom-footer__payment-custom-img"
-                loading="lazy"
-                width="{{ section.settings.payment_custom_image.width }}"
-                height="{{ section.settings.payment_custom_image.height }}"
-              >
+              </button>
             </div>
-          {% else %}
-            <div class="custom-footer__payment-icons">
-              {% if section.settings.show_visa != false %}
-                <span class="custom-footer__payment-item" title="Visa">
-                  <svg viewBox="0 0 54 24" fill="none" style="width: 42px; height: 16px;">
-                    <text x="2" y="17" font-family="'Inter', -apple-system, sans-serif" font-size="14" font-style="italic" font-weight="800" fill="currentColor" letter-spacing="1">VISA</text>
-                  </svg>
-                </span>
-              {% endif %}
-              {% if section.settings.show_mastercard != false %}
-                <span class="custom-footer__payment-item" title="Mastercard">
-                  <svg viewBox="0 0 38 24" fill="none" style="width: 32px; height: 18px;">
-                    <circle cx="13" cy="12" r="9" fill="#EB001B"/>
-                    <circle cx="23" cy="12" r="9" fill="#F79E1B" fill-opacity="0.88"/>
-                  </svg>
-                </span>
-              {% endif %}
-              {% if section.settings.show_amex != false %}
-                <span class="custom-footer__payment-item" title="American Express">
-                  <svg viewBox="0 0 50 24" fill="none" style="width: 40px; height: 18px;">
-                    <rect width="48" height="20" rx="3" fill="#006FCF"/>
-                    <text x="6" y="14" font-family="'Inter', -apple-system, sans-serif" font-size="10" font-weight="700" fill="#ffffff">AMEX</text>
-                  </svg>
-                </span>
-              {% endif %}
-              {% if section.settings.show_upi != false %}
-                <span class="custom-footer__payment-item" title="UPI & Net Banking">
-                  <span class="custom-footer__text-badge">UPI</span>
-                </span>
-              {% endif %}
-              {% if section.settings.show_paypal != false %}
-                <span class="custom-footer__payment-item" title="PayPal">
-                  <svg viewBox="0 0 64 24" fill="none" style="width: 46px; height: 16px;">
-                    <text x="2" y="17" font-family="'Inter', -apple-system, sans-serif" font-size="13" font-style="italic" font-weight="700" fill="currentColor">Pay<tspan fill="#0079C1">Pal</tspan></text>
-                  </svg>
-                </span>
-              {% endif %}
-              {% if section.settings.show_apple_pay %}
-                <span class="custom-footer__payment-item" title="Apple Pay">
-                  <svg viewBox="0 0 50 24" fill="currentColor" style="width: 38px; height: 16px;">
-                    <path d="M12.8 11.2c-.1-1.8 1.5-2.7 1.6-2.8-0.8-1.2-2.1-1.4-2.6-1.4-1.1-.1-2.2.7-2.8.7s-1.5-.7-2.4-.7c-1.2 0-2.4.7-3 1.8-1.3 2.3-.3 5.7 1 7.5.6.9 1.4 1.9 2.4 1.8 1-.1 1.3-.6 2.5-.6s1.5.6 2.5.6c1 0 1.7-.9 2.3-1.8.7-1 1-2 1-2.1-.1 0-2-0.8-2-3.1zm-1.8-5.3c.5-.6.8-1.4.7-2.3-.7 0-1.6.5-2.1 1.1-.4.5-.8 1.3-.7 2.2.8.1 1.6-.4 2.1-1z"/>
-                    <text x="18" y="16" font-family="-apple-system, sans-serif" font-size="12" font-weight="600">Pay</text>
-                  </svg>
-                </span>
-              {% endif %}
-              {% if section.settings.show_google_pay %}
-                <span class="custom-footer__payment-item" title="Google Pay">
-                  <svg viewBox="0 0 54 24" fill="currentColor" style="width: 42px; height: 16px;">
-                    <text x="2" y="16" font-family="'Inter', sans-serif" font-size="12" font-weight="700">G<tspan font-weight="400">Pay</tspan></text>
-                  </svg>
-                </span>
-              {% endif %}
-              {% if section.settings.show_rupay %}
-                <span class="custom-footer__payment-item" title="RuPay">
-                  <span class="custom-footer__text-badge" style="color: #097939;">Ru<span style="color: #ea5b0c;">Pay</span></span>
-                </span>
-              {% endif %}
-              {% if section.settings.show_cod %}
-                <span class="custom-footer__payment-item" title="Cash on Delivery">
-                  <span class="custom-footer__text-badge">COD</span>
-                </span>
-              {% endif %}
-            </div>
-          {% endif %}
+            {%- if form.errors -%}
+              <div class="flx-note flx-note--error" role="alert">{{ form.errors | default_errors }}</div>
+            {%- elsif form.posted_successfully? -%}
+              <p class="flx-note flx-note--success" role="status">
+                <svg class="flx-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M4 12.5l5 5L20 6.5"></path>
+                </svg>
+                Welcome to The Raw House — you&rsquo;re on the list.
+              </p>
+            {%- else -%}
+              <p class="flx-note">{{ nb.privacy_note | default: 'One considered letter a month. No noise, ever.' }}</p>
+            {%- endif -%}
+          {% endform %}
         </div>
-      {% endif %}
+      </div>
+    {%- endif -%}
 
-      <!-- Social Icons -->
-      {% if section.settings.show_social_icons != false %}
-        <div class="custom-footer__social-col">
-          <h4 class="custom-footer__sub-heading">{{ section.settings.social_heading | default: 'FIND US ONLINE' }}</h4>
-          <div class="custom-footer__social-icons">
-            {% if section.settings.instagram_url != blank %}
-              <a href="{{ section.settings.instagram_url }}" target="_blank" rel="noopener noreferrer" class="custom-footer__social-badge" aria-label="Instagram">
-                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                </svg>
+    <div class="flx-grid flx-reveal-group" style="--flx-menus: {{ menu_blocks.size | default: 0 }};">
+      <div class="flx-brand flx-reveal" style="--ri: 0;">
+        {%- if s.brand_logo != blank -%}
+          <img
+            src="{{ s.brand_logo | image_url: width: 600 }}"
+            alt="{{ shop.name | escape }}"
+            class="flx-brand__logo"
+            width="600"
+            height="180"
+            loading="lazy"
+          >
+        {%- else -%}
+          <img
+            src="https://cdn.shopify.com/s/files/1/0851/3044/5056/files/logo_standard.svg?v=1790146723"
+            alt="{{ shop.name | escape }}"
+            class="flx-brand__logo"
+            width="420"
+            height="120"
+            loading="lazy"
+          >
+        {%- endif -%}
+        {%- if s.brand_tagline != blank -%}
+          <p class="flx-brand__tagline">{{ s.brand_tagline }}</p>
+        {%- endif -%}
+
+        {%- if s.show_social_icons -%}
+          <div class="flx-social">
+            {%- if s.instagram_url != blank -%}
+              <a href="{{ s.instagram_url }}" target="_blank" rel="noopener noreferrer" class="flx-social__link" aria-label="Instagram">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="2.5" width="19" height="19" rx="5"></rect><circle cx="12" cy="12" r="4.2"></circle><line x1="17.4" y1="6.6" x2="17.41" y2="6.6"></line></svg>
               </a>
-            {% endif %}
-            {% if section.settings.facebook_url != blank %}
-              <a href="{{ section.settings.facebook_url }}" target="_blank" rel="noopener noreferrer" class="custom-footer__social-badge" aria-label="Facebook">
-                <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
-                  <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-                </svg>
+            {%- endif -%}
+            {%- if s.facebook_url != blank -%}
+              <a href="{{ s.facebook_url }}" target="_blank" rel="noopener noreferrer" class="flx-social__link" aria-label="Facebook">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
               </a>
-            {% endif %}
-            {% if section.settings.pinterest_url != blank or section.settings.twitter_url != blank %}
-              {% assign x_url = section.settings.twitter_url | default: section.settings.pinterest_url %}
-              <a href="{{ x_url }}" target="_blank" rel="noopener noreferrer" class="custom-footer__social-badge" aria-label="X">
-                <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor">
-                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                </svg>
+            {%- endif -%}
+            {%- if s.twitter_url != blank -%}
+              <a href="{{ s.twitter_url }}" target="_blank" rel="noopener noreferrer" class="flx-social__link" aria-label="X">
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
               </a>
-            {% endif %}
-            {% if section.settings.youtube_url != blank %}
-              <a href="{{ section.settings.youtube_url }}" target="_blank" rel="noopener noreferrer" class="custom-footer__social-badge custom-footer__social-badge--youtube" aria-label="YouTube">
-                <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
-                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-                </svg>
+            {%- endif -%}
+            {%- if s.pinterest_url != blank -%}
+              <a href="{{ s.pinterest_url }}" target="_blank" rel="noopener noreferrer" class="flx-social__link" aria-label="Pinterest">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.1 2.47 7.61 6 9.15-.08-.78-.16-1.98.03-2.83.17-.73 1.1-4.65 1.1-4.65s-.28-.56-.28-1.39c0-1.3.75-2.27 1.69-2.27.8 0 1.18.6 1.18 1.31 0 .8-.51 2-.77 3.11-.22.93.46 1.68 1.38 1.68 1.65 0 2.92-1.74 2.92-4.26 0-2.22-1.6-3.78-3.88-3.78-2.65 0-4.2 1.98-4.2 4.03 0 .8.31 1.66.69 2.12.08.09.09.18.07.27-.07.3-.24.93-.27 1.06-.04.18-.14.22-.33.13-1.25-.58-2.03-2.4-2.03-3.87 0-3.15 2.29-6.04 6.6-6.04 3.46 0 6.16 2.47 6.16 5.77 0 3.44-2.17 6.21-5.18 6.21-1.01 0-1.96-.53-2.29-1.15l-.62 2.37c-.22.87-.83 1.96-1.24 2.62.93.29 1.92.45 2.94.45 5.52 0 10-4.48 10-10S17.52 2 12 2z"></path></svg>
               </a>
-            {% endif %}
-            {% if section.settings.linkedin_url != blank %}
-              <a href="{{ section.settings.linkedin_url }}" target="_blank" rel="noopener noreferrer" class="custom-footer__social-badge" aria-label="LinkedIn">
-                <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor">
-                  <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.32a1.64 1.64 0 0 0-1.64 1.64 1.64 1.64 0 0 0 1.64 1.63 1.64 1.64 0 0 0 1.63-1.63 1.64 1.64 0 0 0-1.63-1.64z"/>
-                </svg>
+            {%- endif -%}
+            {%- if s.youtube_url != blank -%}
+              <a href="{{ s.youtube_url }}" target="_blank" rel="noopener noreferrer" class="flx-social__link" aria-label="YouTube">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"></path></svg>
               </a>
-            {% endif %}
-            {% if section.settings.whatsapp_url != blank %}
-              <a href="{{ section.settings.whatsapp_url }}" target="_blank" rel="noopener noreferrer" class="custom-footer__social-badge custom-footer__social-badge--whatsapp" aria-label="WhatsApp Concierge">
-                <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
-                  <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
-                </svg>
+            {%- endif -%}
+            {%- if s.linkedin_url != blank -%}
+              <a href="{{ s.linkedin_url }}" target="_blank" rel="noopener noreferrer" class="flx-social__link" aria-label="LinkedIn">
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.32a1.64 1.64 0 0 0-1.64 1.64 1.64 1.64 0 0 0 1.64 1.63 1.64 1.64 0 0 0 1.63-1.63 1.64 1.64 0 0 0-1.63-1.64z"></path></svg>
               </a>
-            {% endif %}
+            {%- endif -%}
+            {%- if s.whatsapp_url != blank -%}
+              <a href="{{ s.whatsapp_url }}" target="_blank" rel="noopener noreferrer" class="flx-social__link" aria-label="WhatsApp">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"></path></svg>
+              </a>
+            {%- endif -%}
           </div>
-        </div>
-      {% endif %}
-
-      <!-- Back to Top Button -->
-      {% if section.settings.show_back_to_top != false %}
-        <div class="custom-footer__top-button-col">
-          <button type="button" class="custom-footer__back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'});" aria-label="{{ section.settings.back_to_top_text | default: 'BACK TO TOP' }}">
-            <span>{{ section.settings.back_to_top_text | default: 'BACK TO TOP' }}</span>
-            {% assign top_icon = section.settings.back_to_top_icon | default: 'chevron' %}
-            {% if top_icon == 'chevron' %}
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="18 15 12 9 6 15"></polyline>
-              </svg>
-            {% elsif top_icon == 'arrow' %}
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="12" y1="19" x2="12" y2="5"></line>
-                <polyline points="5 12 12 5 19 12"></polyline>
-              </svg>
-            {% elsif top_icon == 'triangle' %}
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
-                <polygon points="12 4 22 20 2 20"></polygon>
-              </svg>
-            {% endif %}
-          </button>
-        </div>
-      {% endif %}
-    </div>
-
-    <!-- Bottom Row: Copyright, Policies, Localization & Credits -->
-    <div class="custom-footer__bottom-row">
-      <div class="custom-footer__bottom-content">
-        <p class="custom-footer__copyright">
-          &copy; {{ 'now' | date: '%Y' }} {{ section.settings.copyright_text | default: 'The Raw House Living Pvt Ltd. All rights reserved.' }}
-        </p>
-
-        {% if section.settings.show_policy_links != false %}
-          <span class="custom-footer__bottom-divider" aria-hidden="true">&bull;</span>
-          <div class="custom-footer__policy-links">
-            <a href="{{ section.settings.privacy_policy_url | default: '/policies/privacy-policy' }}" class="custom-footer__policy-link">
-              {{- section.settings.privacy_policy_label | default: 'Privacy Policy' -}}
-            </a>
-            <span class="custom-footer__policy-dot">&bull;</span>
-            <a href="{{ section.settings.terms_policy_url | default: '/policies/terms-of-service' }}" class="custom-footer__policy-link">
-              {{- section.settings.terms_policy_label | default: 'Terms of Service' -}}
-            </a>
-            <span class="custom-footer__policy-dot">&bull;</span>
-            <a href="{{ section.settings.shipping_policy_url | default: '/policies/shipping-policy' }}" class="custom-footer__policy-link">
-              {{- section.settings.shipping_policy_label | default: 'Shipping & Returns' -}}
-            </a>
-            {% if section.settings.custom_policy_url != blank and section.settings.custom_policy_label != blank %}
-              <span class="custom-footer__policy-dot">&bull;</span>
-              <a href="{{ section.settings.custom_policy_url }}" class="custom-footer__policy-link">
-                {{- section.settings.custom_policy_label -}}
-              </a>
-            {% endif %}
-          </div>
-        {% endif %}
-
-        {% if section.settings.show_credits != false %}
-          <span class="custom-footer__bottom-divider" aria-hidden="true">&bull;</span>
-          <p class="custom-footer__credits">
-            {{ section.settings.credits_prefix | default: 'Mindfully made by' }}
-            <a
-              href="{{ section.settings.credits_url | default: 'https://scraft.studio/' }}"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="{{ section.settings.credits_title | default: 'SCRAFT - E-commerce growth, SEO & software studio' }}"
-              aria-label="{{ section.settings.credits_title | default: 'SCRAFT - E-commerce growth, SEO & software studio' }}"
-              class="custom-footer__credit-link"
-            >
-              {{- section.settings.credits_label | default: 'Scraft' -}}
-            </a>
-          </p>
-        {% endif %}
+        {%- endif -%}
       </div>
 
-      {% if section.settings.show_country_selector or section.settings.show_language_selector %}
-        <div class="custom-footer__localization-wrap">
+      {%- for block in menu_blocks -%}
+        <nav
+          class="flx-nav flx-reveal"
+          style="--ri: {{ forloop.index0 | plus: 1 }};"
+          aria-label="{{ block.settings.heading | default: 'Footer' }}"
+          {{ block.shopify_attributes }}
+        >
+          <h3 class="flx-label flx-nav__title">
+            <button type="button" class="flx-nav__head" aria-expanded="true" aria-controls="FlxNav-{{ section.id }}-{{ forloop.index }}">
+              <span class="flx-nav__head-text">{{ block.settings.heading | default: 'Explore' }}</span>
+              <span class="flx-plus" aria-hidden="true"></span>
+            </button>
+          </h3>
+          <div class="flx-nav__panel" id="FlxNav-{{ section.id }}-{{ forloop.index }}">
+            <div class="flx-nav__panel-inner">
+              <ul class="flx-nav__links" role="list">
+                {%- if block.settings.menu != blank -%}
+                  {%- for link in block.settings.menu.links -%}
+                    <li><a href="{{ link.url }}" class="flx-link">{{ link.title }}</a></li>
+                  {%- endfor -%}
+                {%- endif -%}
+              </ul>
+            </div>
+          </div>
+        </nav>
+      {%- endfor -%}
+    </div>
+
+    <div class="flx-bottom flx-reveal-group">
+      <div class="flx-bottom__left flx-reveal" style="--ri: 0;">
+        <p class="flx-fine">&copy; {{ 'now' | date: '%Y' }} {{ s.copyright_text | default: 'The Raw House Living Pvt Ltd. All rights reserved.' }}</p>
+        {%- if s.show_policy_links -%}
+          <div class="flx-policies">
+            <a href="{{ s.privacy_policy_url | default: '/policies/privacy-policy' }}" class="flx-fine-link">{{ s.privacy_policy_label | default: 'Privacy Policy' }}</a>
+            <a href="{{ s.terms_policy_url | default: '/policies/terms-of-service' }}" class="flx-fine-link">{{ s.terms_policy_label | default: 'Terms of Service' }}</a>
+            <a href="{{ s.shipping_policy_url | default: '/policies/shipping-policy' }}" class="flx-fine-link">{{ s.shipping_policy_label | default: 'Shipping & Returns' }}</a>
+          </div>
+        {%- endif -%}
+        {%- if s.show_credits -%}
+          <p class="flx-fine">
+            {{ s.credits_prefix | default: 'Mindfully made by' }}
+            <a
+              href="{{ s.credits_url | default: 'https://scraft.studio/' }}"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flx-fine-link flx-fine-link--accent"
+              title="{{ s.credits_title | default: 'SCRAFT — E-commerce growth, SEO & software studio' }}"
+            >
+              {{- s.credits_label | default: 'Scraft' -}}
+            </a>
+          </p>
+        {%- endif -%}
+      </div>
+
+      {%- if s.show_country_selector or s.show_language_selector -%}
+        <div class="flx-reveal" style="--ri: 1;">
           {% render 'localization-form',
-            show_country: section.settings.show_country_selector,
-            show_language: section.settings.show_language_selector,
+            show_country: s.show_country_selector,
+            show_language: s.show_language_selector,
             localization_style: 'dropdown',
             form_id: section.id
           %}
         </div>
-      {% endif %}
+      {%- endif -%}
+
+      {%- if s.show_back_to_top -%}
+        <button type="button" class="flx-top flx-reveal" style="--ri: 2;" data-flx-top>
+          <span>Back to top</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="12" y1="19" x2="12" y2="5"></line>
+            <polyline points="5 12 12 5 19 12"></polyline>
+          </svg>
+        </button>
+      {%- endif -%}
     </div>
   </div>
 </footer>
 
 <style>
-  /* ==========================================================================
-     THE RAW HOUSE - ADVANCED LUXURY ARCHITECTURAL FOOTER DESIGN SYSTEM
-     ========================================================================== */
-
-  .custom-luxury-footer {
-    position: relative;
-    padding-top: var(--footer-padding-top, 48px);
-    padding-bottom: var(--footer-padding-bottom, 28px);
-    box-sizing: border-box;
-    font-family: var(--lux-font-body, "Inter", -apple-system, sans-serif);
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-
-  /* --- ATELIER NOIR PALETTE (Deep Obsidian Luxury - Default) --- */
-  .custom-luxury-footer--noir {
-    --flx-bg: #11100e;
-    --flx-card-bg: #191816;
-    --flx-card-border: rgba(197, 168, 128, 0.2);
-    --flx-border: rgba(255, 255, 255, 0.08);
-    --flx-border-accent: rgba(197, 168, 128, 0.4);
-    --flx-heading: #fcfbf9;
-    --flx-text: #eae5dc;
-    --flx-muted: #9e978c;
-    --flx-gold: #c5a880;
-    --flx-gold-hover: #dfc49e;
-    --flx-link: #b5afa4;
-    --flx-link-hover: #ffffff;
-    --flx-input-bg: rgba(255, 255, 255, 0.05);
-    --flx-input-border: rgba(255, 255, 255, 0.16);
-    --flx-input-text: #ffffff;
-    --flx-input-placeholder: #7c766d;
-    --flx-btn-bg: #c5a880;
-    --flx-btn-text: #11100e;
-    --flx-btn-hover: #dfc49e;
-    --flx-badge-bg: rgba(255, 255, 255, 0.06);
-    --flx-badge-border: rgba(255, 255, 255, 0.12);
-    --flx-badge-text: #eae5dc;
-    background: var(--flx-bg) !important;
-    color: var(--flx-text) !important;
-    border-top: 1px solid var(--flx-border-accent) !important;
-  }
-
-  /* --- MUSEUM PARCHMENT PALETTE (Warm Alabaster Light) --- */
-  .custom-luxury-footer--parchment {
-    --flx-bg: #f9f8f5;
-    --flx-card-bg: #ffffff;
-    --flx-card-border: #ede8df;
-    --flx-border: #eae6de;
-    --flx-border-accent: #c5a880;
-    --flx-heading: #121110;
-    --flx-text: #242220;
-    --flx-muted: #726b60;
-    --flx-gold: #b38b4d;
-    --flx-gold-hover: #967035;
-    --flx-link: #524d45;
-    --flx-link-hover: #000000;
-    --flx-input-bg: #ffffff;
-    --flx-input-border: #dcd7ce;
-    --flx-input-text: #121110;
-    --flx-input-placeholder: #8c857a;
-    --flx-btn-bg: #121110;
-    --flx-btn-text: #ffffff;
-    --flx-btn-hover: #b38b4d;
-    --flx-badge-bg: #ffffff;
-    --flx-badge-border: #dedad0;
-    --flx-badge-text: #121110;
-    background: var(--flx-bg) !important;
-    color: var(--flx-text) !important;
-    border-top: 1px solid var(--flx-border) !important;
-  }
-
-  /* --- GALLERY MINIMAL WHITE PALETTE --- */
-  .custom-luxury-footer--minimal_white {
+  .custom-luxury-footer.flx {
+    /* Light palette (default) */
     --flx-bg: #ffffff;
-    --flx-card-bg: #fafafa;
-    --flx-card-border: #eaeaea;
-    --flx-border: #f0f0f0;
-    --flx-border-accent: #c5a880;
-    --flx-heading: #111111;
-    --flx-text: #333333;
-    --flx-muted: #777777;
-    --flx-gold: #c5a880;
-    --flx-gold-hover: #b38b4d;
-    --flx-link: #555555;
+    --flx-ink: #16130f;
+    --flx-body: #4c463d;
+    --flx-muted: #8d867a;
+    --flx-hairline: rgba(22, 19, 15, 0.1);
+    --flx-hairline-strong: rgba(22, 19, 15, 0.26);
+    --flx-gold: #b38b4d;
+    --flx-link: #37332c;
     --flx-link-hover: #000000;
-    --flx-input-bg: #ffffff;
-    --flx-input-border: #e0e0e0;
-    --flx-input-text: #111111;
-    --flx-input-placeholder: #888888;
-    --flx-btn-bg: #111111;
-    --flx-btn-text: #ffffff;
-    --flx-btn-hover: #c5a880;
-    --flx-badge-bg: #f5f5f5;
-    --flx-badge-border: #e8e8e8;
-    --flx-badge-text: #111111;
-    background: var(--flx-bg) !important;
-    color: var(--flx-text) !important;
-    border-top: 1px solid var(--flx-border) !important;
-  }
-
-  /* --- CUSTOM PALETTE --- */
-  .custom-luxury-footer--custom {
-    --flx-card-bg: rgba(255, 255, 255, 0.05);
-    --flx-card-border: rgba(197, 168, 128, 0.25);
-    --flx-muted: rgba(120, 120, 120, 0.9);
-    --flx-gold-hover: #dfc49e;
-    --flx-link: inherit;
-    --flx-link-hover: var(--flx-gold, #c5a880);
-    --flx-input-bg: rgba(255, 255, 255, 0.06);
-    --flx-input-border: rgba(255, 255, 255, 0.2);
-    --flx-input-text: inherit;
-    --flx-input-placeholder: #888888;
-    --flx-btn-bg: var(--flx-gold, #c5a880);
-    --flx-btn-text: #111111;
-    --flx-btn-hover: #ffffff;
-    --flx-badge-bg: rgba(255, 255, 255, 0.08);
-    --flx-badge-border: rgba(255, 255, 255, 0.15);
-    --flx-badge-text: inherit;
-    background: var(--flx-bg, #11100e) !important;
-    color: var(--flx-text, #eae5dc) !important;
-    border-top: 1px solid var(--flx-border, rgba(255, 255, 255, 0.1)) !important;
-  }
-
-  .custom-footer__container {
-    max-width: var(--footer-max-width, 1240px);
-    margin: 0 auto;
-    padding: 0 32px;
+    --flx-error: #a4442e;
+    --flx-serif: Georgia, 'Times New Roman', serif;
+    --flx-sans: var(--font-body--family, -apple-system, 'Helvetica Neue', sans-serif);
+    --flx-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    position: relative;
+    background: var(--flx-bg);
+    color: var(--flx-body);
+    font-family: var(--flx-sans);
+    border-top: 1px solid var(--flx-hairline);
+    padding-top: var(--flx-pt);
+    padding-bottom: var(--flx-pb);
     box-sizing: border-box;
   }
 
-  /* --- 1. BRAND PRESTIGE HEADER --- */
-  .custom-footer__brand-header {
-    text-align: center;
-    padding-bottom: 22px;
-    margin-bottom: 24px;
-    position: relative;
+  .custom-luxury-footer.flx--noir {
+    --flx-bg: #100f0d;
+    --flx-ink: #f6f3ee;
+    --flx-body: #c9c2b6;
+    --flx-muted: #8f887c;
+    --flx-hairline: rgba(246, 243, 238, 0.12);
+    --flx-hairline-strong: rgba(246, 243, 238, 0.3);
+    --flx-gold: #c5a880;
+    --flx-link: #d8d2c8;
+    --flx-link-hover: #ffffff;
+    --flx-error: #e0a08c;
   }
 
-  .custom-footer__emblem {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    border: 1px solid var(--flx-gold);
-    color: var(--flx-gold);
-    margin-bottom: 10px;
-    box-shadow: 0 0 16px rgba(197, 168, 128, 0.15);
-    transition: transform 0.3s ease, border-color 0.3s ease;
+  .custom-luxury-footer.flx *,
+  .custom-luxury-footer.flx *::before,
+  .custom-luxury-footer.flx *::after {
+    box-sizing: inherit;
   }
 
-  .custom-footer__emblem:hover {
-    transform: scale(1.06);
-    border-color: var(--flx-gold-hover);
+  .flx-inner {
+    max-width: var(--flx-max);
+    margin: 0 auto;
+    padding: 0 clamp(20px, 4vw, 48px);
   }
 
-  .custom-footer__emblem-text {
-    font-family: var(--lux-font-heading, "Playfair Display", Georgia, serif);
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    padding-left: 2px;
+  /* ---------- Scroll reveal ---------- */
+  .flx-reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity 0.9s var(--flx-ease),
+      transform 0.9s var(--flx-ease);
+    transition-delay: calc(var(--ri, 0) * 100ms);
   }
 
-  .custom-footer__emblem-img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    border-radius: 50%;
-    display: block;
+  .flx-reveal-group.is-inview .flx-reveal {
+    opacity: 1;
+    transform: none;
   }
 
-  .custom-footer__brand-logo-wrap {
+  /* ---------- Newsletter band ---------- */
+  .flx-newsletter {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    gap: 20px clamp(40px, 6vw, 96px);
+    align-items: end;
+    padding-bottom: clamp(40px, 5vw, 60px);
+    border-bottom: 1px solid var(--flx-hairline);
+  }
+
+  .flx-eyebrow {
     display: flex;
-    justify-content: center;
     align-items: center;
-    margin-bottom: 12px;
-  }
-
-  .custom-footer__brand-logo {
-    object-fit: contain;
-    display: block;
-  }
-
-  .custom-footer__brand-title {
-    font-family: var(--lux-font-heading, "Playfair Display", Georgia, serif);
-    font-size: 21px;
-    font-weight: 500;
+    margin: 0;
+    font-size: 11px;
+    font-weight: 600;
     letter-spacing: 0.24em;
     text-transform: uppercase;
-    color: var(--flx-heading);
-    margin: 0 0 5px;
-  }
-
-  .custom-footer__brand-tagline {
-    font-size: 12.5px;
     color: var(--flx-muted);
-    letter-spacing: 0.09em;
-    text-transform: uppercase;
-    line-height: 1.6;
-    margin: 0 0 12px;
   }
 
-  .custom-footer__brand-ornament {
+  .flx-diamond {
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    margin-right: 12px;
+    background: var(--flx-gold);
+    transform: rotate(45deg);
+    flex: none;
+  }
+
+  .flx-newsletter__title {
+    margin: 16px 0 12px;
+    font-family: var(--flx-serif);
+    font-size: clamp(28px, 3.4vw, 42px);
+    font-weight: 500;
+    font-style: normal;
+    letter-spacing: -0.01em;
+    line-height: 1.12;
+    color: var(--flx-ink);
+  }
+
+  .flx-newsletter__sub {
+    margin: 0;
+    max-width: 46ch;
+    font-size: 14.5px;
+    line-height: 1.65;
+    color: var(--flx-body);
+  }
+
+  .flx-form {
+    display: block;
+  }
+
+  .flx-form__fields {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    max-width: 240px;
-    margin: 0 auto;
+    align-items: flex-end;
+    gap: 14px;
   }
 
-  .custom-footer__ornament-line {
+  .flx-field {
+    position: relative;
     flex: 1;
+    min-width: 0;
+  }
+
+  .flx-field::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
     height: 1px;
-    background: linear-gradient(90deg, transparent, var(--flx-gold), transparent);
-    opacity: 0.5;
+    background: var(--flx-hairline-strong);
   }
 
-  .custom-footer__ornament-diamond {
-    color: var(--flx-gold);
-    font-size: 8px;
-    line-height: 1;
-    opacity: 0.8;
+  .flx-field__accent {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background: var(--flx-gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.55s var(--flx-ease);
   }
 
-  /* --- 2. TOP COLUMNS GRID --- */
-  .custom-footer__top-row {
-    display: grid !important;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: clamp(24px, 3.5vw, 44px);
-    padding-bottom: 28px;
-    border-bottom: 1px solid var(--flx-border) !important;
-    align-items: start;
+  .flx-field:focus-within .flx-field__accent {
+    transform: scaleX(1);
   }
 
-  @media screen and (min-width: 990px) {
-    .custom-footer__top-row:has(.custom-footer__col:nth-child(3):last-child) {
-      grid-template-columns: 1fr 1fr 1.35fr;
-    }
-    .custom-footer__top-row:has(.custom-footer__col:nth-child(4):last-child) {
-      grid-template-columns: 1fr 1fr 1.15fr 1.35fr;
-    }
-    .custom-footer__top-row:has(.custom-footer__col--menu-double) {
-      grid-template-columns: 1.6fr 1fr 1.35fr;
-    }
-  }
-
-  .custom-footer__col-heading {
-    font-family: var(--lux-font-heading, "Playfair Display", Georgia, serif);
-    font-size: 13.5px;
-    font-weight: 600;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--flx-heading);
-    margin: 0 0 16px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .custom-footer__heading-accent {
-    display: none !important;
-  }
-
-  .custom-footer__accordion-trigger {
-    display: none;
+  .flx-input {
+    display: block;
     width: 100%;
+    padding: 13px 2px;
     background: transparent;
-    border: none;
-    padding: 0;
-    margin: 0;
-    text-align: left;
+    border: 0;
+    font-family: inherit;
+    font-size: 15px;
+    color: var(--flx-ink);
+    outline: none;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .flx-input::placeholder {
+    color: var(--flx-muted);
+    transition: opacity 0.3s ease;
+  }
+
+  .flx-input:focus::placeholder {
+    opacity: 0.55;
+  }
+
+  .flx-send {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 47px;
+    height: 47px;
+    border-radius: 50%;
+    border: 1px solid var(--flx-hairline-strong);
+    background: transparent;
+    color: var(--flx-ink);
     cursor: pointer;
-    color: inherit;
-    font: inherit;
+    transition: background-color 0.35s ease, border-color 0.35s ease, color 0.35s ease, transform 0.2s ease;
   }
 
-  .custom-footer__accordion-icon {
-    display: none;
-    width: 14px;
-    height: 14px;
-    min-width: 14px;
-    min-height: 14px;
-    flex-shrink: 0;
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    color: var(--flx-gold, #b38b4d);
+  .flx-send svg {
+    transition: transform 0.35s var(--flx-ease);
   }
 
-  .custom-footer__links-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  .flx-send:hover,
+  .flx-send:focus-visible {
+    background: var(--flx-ink);
+    border-color: var(--flx-ink);
+    color: var(--flx-bg);
   }
 
-  .custom-footer__links-list--2cols {
-    display: grid !important;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px 16px;
-  }
-
-  .custom-footer__link {
-    font-size: 12px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--flx-link);
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    transition: color 0.25s ease, transform 0.25s ease;
-  }
-
-  .custom-footer__link-bullet {
-    color: var(--flx-gold);
-    font-size: 14px;
-    line-height: 1;
-    opacity: 0.7;
-    transition: transform 0.25s ease, opacity 0.25s ease;
-  }
-
-  .custom-footer__link:hover {
-    color: var(--flx-link-hover);
+  .flx-send:hover svg {
     transform: translateX(3px);
   }
 
-  .custom-footer__link:hover .custom-footer__link-bullet {
-    opacity: 1;
-    transform: translateX(2px);
+  .flx-send:active {
+    transform: scale(0.94);
   }
 
-  .custom-footer__text-content {
-    font-size: 12.5px;
+  .flx-note {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin: 14px 0 0;
+    font-size: 11.5px;
+    letter-spacing: 0.04em;
+    color: var(--flx-muted);
+  }
+
+  .flx-note--error {
+    color: var(--flx-error);
+  }
+
+  .flx-note--success {
+    color: var(--flx-ink);
+    font-size: 13px;
+  }
+
+  .flx-check {
+    flex: none;
+    width: 16px;
+    height: 16px;
+    color: var(--flx-gold);
+  }
+
+  .flx-check path {
+    stroke-dasharray: 26;
+    stroke-dashoffset: 26;
+    animation: flxCheckDraw 0.6s var(--flx-ease) 0.25s forwards;
+  }
+
+  @keyframes flxCheckDraw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  /* ---------- Nav grid ---------- */
+  .flx-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) repeat(var(--flx-menus, 1), minmax(0, 1fr));
+    gap: 40px clamp(36px, 5vw, 72px);
+    padding: clamp(44px, 6vw, 64px) 0;
+    border-bottom: 1px solid var(--flx-hairline);
+  }
+
+  .flx-brand__logo {
+    display: block;
+    width: auto;
+    max-width: var(--flx-logo-w);
+    max-height: 72px;
+    object-fit: contain;
+  }
+
+  .flx-brand__name {
+    margin: 0;
+    font-family: var(--flx-serif);
+    font-size: 22px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--flx-ink);
+  }
+
+  .flx-brand__tagline {
+    margin: 18px 0 0;
+    max-width: 30ch;
+    font-size: 13px;
     line-height: 1.7;
     color: var(--flx-muted);
-    margin: 0 0 12px;
   }
 
-  .custom-footer__author-sign {
-    font-family: var(--lux-font-heading, "Playfair Display", Georgia, serif);
-    font-size: 12px;
-    font-style: italic;
-    color: var(--flx-gold);
-    letter-spacing: 0.06em;
-    margin: 0;
-  }
-
-  /* --- VIP NEWSLETTER CARD --- */
-  .custom-footer__newsletter-card {
-    background: var(--flx-card-bg);
-    border: 1px solid var(--flx-card-border);
-    padding: 22px 24px;
-    border-radius: 4px;
-    box-sizing: border-box;
-    position: relative;
-  }
-
-  .custom-footer__vip-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 4px 10px;
-    border-radius: 999px;
-    background: rgba(197, 168, 128, 0.12);
-    border: 1px solid rgba(197, 168, 128, 0.28);
-    font-size: 9.5px;
-    font-weight: 700;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--flx-gold);
-    margin-bottom: 12px;
-  }
-
-  .custom-footer__vip-sparkle {
-    font-size: 9px;
-    line-height: 1;
-  }
-
-  .custom-footer__newsletter-desc {
-    font-size: 12px;
-    line-height: 1.6;
-    color: var(--flx-muted);
-    margin: 0 0 16px;
-  }
-
-  .custom-footer__newsletter-field-wrapper {
+  .flx-social {
     display: flex;
-    align-items: stretch;
-    gap: 0;
-    width: 100%;
-    margin-bottom: 10px;
-  }
-
-  .custom-footer__newsletter-input {
-    flex: 1;
-    min-width: 0;
-    height: 42px;
-    background: var(--flx-input-bg);
-    border: 1px solid var(--flx-input-border);
-    border-right: none;
-    border-radius: 2px 0 0 2px;
-    padding: 0 14px;
-    font-size: 12px;
-    color: var(--flx-input-text);
-    font-family: inherit;
-    outline: none;
-    transition: border-color 0.25s ease, background 0.25s ease;
-    box-sizing: border-box;
-  }
-
-  .custom-footer__newsletter-input::placeholder {
-    color: var(--flx-input-placeholder);
-  }
-
-  .custom-footer__newsletter-input:focus {
-    border-color: var(--flx-gold);
-    background: rgba(255, 255, 255, 0.08);
-  }
-
-  .custom-footer__newsletter-btn {
-    height: 42px;
-    background: var(--flx-btn-bg);
-    color: var(--flx-btn-text);
-    border: 1px solid var(--flx-btn-bg);
-    border-radius: 0 2px 2px 0;
-    padding: 0 18px;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-family: inherit;
-    transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
-    flex-shrink: 0;
-    white-space: nowrap;
-  }
-
-  .custom-footer__newsletter-btn:hover {
-    background: var(--flx-btn-hover);
-    border-color: var(--flx-btn-hover);
-  }
-
-  .custom-footer__privacy-note {
-    font-size: 10.5px;
-    color: var(--flx-muted);
-    letter-spacing: 0.04em;
-    margin: 0;
-    opacity: 0.8;
-  }
-
-  .custom-footer__form-message {
-    font-size: 12px;
-    margin: 8px 0 0;
-    padding: 8px 12px;
-    border-radius: 2px;
-  }
-
-  .custom-footer__form-message--success {
-    background: rgba(46, 125, 50, 0.15);
-    color: #81c784;
-    border: 1px solid rgba(129, 199, 132, 0.3);
-  }
-
-  .custom-footer__form-message--error {
-    background: rgba(211, 47, 47, 0.15);
-    color: #e57373;
-    border: 1px solid rgba(229, 115, 115, 0.3);
-  }
-
-  /* --- CONCIERGE & TRUST BLOCKS --- */
-  .custom-footer__concierge-info {
-    font-size: 12px;
-    line-height: 1.8;
-    color: var(--flx-muted);
-  }
-
-  .custom-footer__concierge-row {
-    margin: 0 0 6px;
-  }
-
-  .custom-footer__concierge-row strong {
-    color: var(--flx-heading);
-    margin-right: 4px;
-  }
-
-  .custom-footer__concierge-row a {
-    color: var(--flx-gold);
-    text-decoration: none;
-    transition: color 0.2s ease;
-  }
-
-  .custom-footer__concierge-row a:hover {
-    color: var(--flx-gold-hover);
-    text-decoration: underline;
-  }
-
-  .custom-footer__whatsapp-wrap {
-    margin-top: 14px;
-  }
-
-  .custom-footer__whatsapp-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 16px;
-    border-radius: 3px;
-    background: #1f5e39;
-    color: #ffffff !important;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    text-decoration: none;
-    transition: background 0.25s ease;
-  }
-
-  .custom-footer__whatsapp-btn:hover {
-    background: #277949;
-  }
-
-  .custom-footer__trust-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 14px;
-  }
-
-  .custom-footer__trust-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    font-size: 11.5px;
-    color: var(--flx-muted);
-    line-height: 1.5;
-  }
-
-  .custom-footer__trust-icon {
-    color: var(--flx-gold);
-    font-size: 11px;
-    line-height: 1.5;
-    flex-shrink: 0;
-  }
-
-  /* --- 3. MIDDLE ROW: PAYMENT, SOCIAL & BACK TO TOP --- */
-  .custom-footer__middle-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     flex-wrap: wrap;
-    gap: 20px 32px;
-    padding: 22px 0;
-    border-bottom: 1px solid var(--flx-border);
-  }
-
-  .custom-footer__sub-heading-wrap {
-    display: flex;
-    align-items: center;
     gap: 10px;
-    margin-bottom: 10px;
+    margin-top: 22px;
   }
 
-  .custom-footer__sub-heading {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--flx-heading);
-    margin: 0;
-  }
-
-  .custom-footer__ssl-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 9px;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    color: var(--flx-gold);
-    background: rgba(197, 168, 128, 0.1);
-    padding: 2px 7px;
-    border-radius: 2px;
-    border: 1px solid rgba(197, 168, 128, 0.2);
-  }
-
-  .custom-footer__payment-icons {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .custom-footer__payment-item {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 4px 8px;
-    background: var(--flx-badge-bg);
-    border: 1px solid var(--flx-badge-border);
-    border-radius: 3px;
-    height: 26px;
-    box-sizing: border-box;
-    color: var(--flx-badge-text);
-  }
-
-  .custom-footer__text-badge {
-    font-size: 10.5px;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-  }
-
-  .custom-footer__payment-custom-wrap img {
-    max-height: 28px;
-    width: auto;
-    display: block;
-  }
-
-  .custom-footer__social-col {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .custom-footer__social-icons {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .custom-footer__social-badge {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
+  .flx-social__link {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
-    background: var(--flx-badge-bg);
-    border: 1px solid var(--flx-badge-border);
-    color: var(--flx-badge-text);
-    text-decoration: none;
-    transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+    border: 1px solid var(--flx-hairline-strong);
+    color: var(--flx-body);
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.3s var(--flx-ease);
   }
 
-  .custom-footer__social-badge:hover {
+  .flx-social__link:hover,
+  .flx-social__link:focus-visible {
+    background: var(--flx-ink);
+    border-color: var(--flx-ink);
+    color: var(--flx-bg);
     transform: translateY(-2px);
-    background: var(--flx-gold);
-    border-color: var(--flx-gold);
-    color: #111111;
   }
 
-  .custom-footer__social-badge--whatsapp {
-    color: #25d366;
+  .flx-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--flx-muted);
   }
 
-  .custom-footer__social-badge--whatsapp:hover {
-    background: #25d366;
-    border-color: #25d366;
-    color: #ffffff;
+  .flx-nav__title {
+    margin: 0 0 20px;
   }
 
-  .custom-footer__social-badge--youtube:hover {
-    background: #ff0000;
-    border-color: #ff0000;
-    color: #ffffff;
-  }
-
-  .custom-footer__top-button-col {
-    margin-left: auto;
-  }
-
-  .custom-footer__back-to-top {
-    display: inline-flex;
+  .flx-nav__head {
+    display: flex;
     align-items: center;
     gap: 8px;
-    padding: 8px 16px;
-    background: transparent;
-    border: 1px solid var(--flx-border);
+    width: 100%;
+    padding: 0;
+    background: none;
+    border: 0;
+    cursor: default;
+    font: inherit;
+    color: inherit;
+    text-transform: inherit;
+    letter-spacing: inherit;
+    text-align: left;
+  }
+
+  .flx-nav__head:focus-visible {
+    outline: 2px solid var(--flx-gold);
+    outline-offset: 3px;
     border-radius: 2px;
+  }
+
+  .flx-plus {
+    display: none;
+  }
+
+  .flx-nav__links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .flx-link {
+    position: relative;
+    display: inline-block;
+    padding: 6.5px 0;
+    font-size: 13.5px;
     color: var(--flx-link);
-    font-size: 10.5px;
-    font-weight: 600;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    cursor: pointer;
-    font-family: inherit;
-    transition: all 0.25s ease;
+    text-decoration: none;
+    transition: color 0.3s ease;
   }
 
-  .custom-footer__back-to-top:hover {
-    border-color: var(--flx-gold);
-    color: var(--flx-gold);
-    transform: translateY(-2px);
+  .flx-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 3px;
+    height: 1px;
+    background: var(--flx-gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s var(--flx-ease);
   }
 
-  /* --- 4. BOTTOM ROW: COPYRIGHT, LEGAL & LOCALIZATION --- */
-  .custom-footer__bottom-row {
+  .flx-link:hover,
+  .flx-link:focus-visible {
+    color: var(--flx-link-hover);
+  }
+
+  .flx-link:hover::after,
+  .flx-link:focus-visible::after {
+    transform: scaleX(1);
+  }
+
+  /* ---------- Bottom bar ---------- */
+  .flx-bottom {
     display: flex;
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
-    gap: 14px 24px;
-    padding-top: 20px;
-    font-size: 11.5px;
-    color: var(--flx-muted);
+    gap: 16px 28px;
+    padding-top: 24px;
   }
 
-  .custom-footer__bottom-content {
+  .flx-bottom__left {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 8px 14px;
+    gap: 8px 22px;
   }
 
-  .custom-footer__copyright {
+  .flx-fine {
     margin: 0;
+    font-size: 11.5px;
     letter-spacing: 0.04em;
+    color: var(--flx-muted);
   }
 
-  .custom-footer__bottom-divider {
-    color: var(--flx-border);
-    font-size: 10px;
+  .flx-policies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 18px;
   }
 
-  .custom-footer__policy-links {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .custom-footer__policy-link {
+  .flx-fine-link {
+    font-size: 11.5px;
+    letter-spacing: 0.04em;
     color: var(--flx-muted);
     text-decoration: none;
-    transition: color 0.2s ease;
+    transition: color 0.3s ease;
   }
 
-  .custom-footer__policy-link:hover {
-    color: var(--flx-gold);
+  .flx-fine-link:hover,
+  .flx-fine-link:focus-visible {
+    color: var(--flx-ink);
     text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-color: var(--flx-gold);
   }
 
-  .custom-footer__policy-dot {
-    color: var(--flx-border);
-    font-size: 8px;
-  }
-
-  .custom-footer__credits {
-    margin: 0;
-    letter-spacing: 0.04em;
-  }
-
-  .custom-footer__credit-link {
-    color: var(--flx-gold);
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.2s ease;
-  }
-
-  .custom-footer__credit-link:hover {
-    color: var(--flx-gold-hover);
+  .flx-fine-link--accent {
     text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-color: var(--flx-hairline-strong);
   }
 
-  /* --- RESPONSIVE MOBILE BEHAVIOR (<= 989px) --- */
-  @media screen and (max-width: 989px) {
-    .custom-luxury-footer {
-      padding-top: var(--footer-padding-top-m, 32px) !important;
-      padding-bottom: clamp(38px, 6vw, 54px) !important;
+  .flx-fine-link--accent:hover,
+  .flx-fine-link--accent:focus-visible {
+    text-decoration-color: var(--flx-gold);
+  }
+
+  .flx-top {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 6px 0;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--flx-muted);
+    transition: color 0.3s ease;
+  }
+
+  .flx-top svg {
+    transition: transform 0.35s var(--flx-ease);
+  }
+
+  .flx-top:hover,
+  .flx-top:focus-visible {
+    color: var(--flx-ink);
+  }
+
+  .flx-top:hover svg {
+    transform: translateY(-3px);
+  }
+
+  /* ---------- Focus visibility ---------- */
+  .custom-luxury-footer.flx a:focus-visible,
+  .custom-luxury-footer.flx button:focus-visible,
+  .custom-luxury-footer.flx input:focus-visible {
+    outline: 2px solid var(--flx-gold);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* ---------- Mobile ---------- */
+  @media (max-width: 899px) {
+    .custom-luxury-footer.flx {
+      padding-top: var(--flx-pt-m);
+      padding-bottom: var(--flx-pb-m);
     }
 
-    .custom-footer__container {
-      padding: 0 clamp(16px, 4vw, 24px) !important;
+    .flx-newsletter {
+      grid-template-columns: 1fr;
+      align-items: start;
+      gap: 26px;
+      padding-bottom: clamp(32px, 6vw, 44px);
     }
 
-    .custom-footer__brand-header {
-      padding-bottom: 18px !important;
-      margin-bottom: 18px !important;
+    .flx-form__fields {
+      margin-top: 4px;
     }
 
-    .custom-footer__brand-title {
-      font-size: clamp(16px, 4.5vw, 22px) !important;
-      letter-spacing: 0.2em !important;
+    .flx-grid {
+      grid-template-columns: 1fr;
+      gap: 0;
+      padding: 8px 0 clamp(24px, 5vw, 40px);
     }
 
-    .custom-footer__brand-tagline {
-      font-size: 10.5px !important;
-      letter-spacing: 0.12em !important;
-      max-width: 280px !important;
-      margin: 0 auto 10px !important;
-      line-height: 1.5 !important;
+    .flx-brand {
+      padding: 22px 0;
     }
 
-    .custom-footer__top-row {
-      grid-template-columns: 1fr !important;
-      gap: 0 !important;
-      padding-bottom: 20px !important;
+    .flx-nav {
+      border-top: 1px solid var(--flx-hairline);
     }
 
-    .custom-footer__col {
-      border-bottom: 1px solid var(--flx-border) !important;
-      padding: 14px 0 !important;
+    .flx-nav__title {
+      margin: 0;
     }
 
-    .custom-footer__col:first-child {
-      padding-top: 0 !important;
+    .flx-nav__head {
+      justify-content: space-between;
+      padding: 17px 0;
+      cursor: pointer;
     }
 
-    .custom-footer__col:last-child {
-      border-bottom: none !important;
+    .flx-plus {
+      display: block;
+      position: relative;
+      flex: none;
+      width: 11px;
+      height: 11px;
+      transition: transform 0.4s var(--flx-ease);
     }
 
-    .custom-footer__accordion-trigger {
-      display: flex !important;
-      align-items: center !important;
-      justify-content: space-between !important;
-      width: 100% !important;
-      padding: 6px 0 !important;
-      cursor: pointer !important;
+    .flx-plus::before,
+    .flx-plus::after {
+      content: '';
+      position: absolute;
+      background: var(--flx-muted);
+      transition: background-color 0.3s ease;
     }
 
-    .custom-footer__col-heading {
-      font-size: 13px !important;
-      letter-spacing: 0.16em !important;
-      margin: 0 !important;
+    .flx-plus::before {
+      left: 0;
+      right: 0;
+      top: 5px;
+      height: 1px;
     }
 
-    .custom-footer__accordion-icon {
-      display: inline-block !important;
-      width: 16px !important;
-      height: 16px !important;
-      min-width: 16px !important;
-      min-height: 16px !important;
-      flex-shrink: 0 !important;
-      color: var(--flx-gold, #b38b4d) !important;
-      stroke: var(--flx-gold, #b38b4d) !important;
-      stroke-width: 2.2 !important;
+    .flx-plus::after {
+      top: 0;
+      bottom: 0;
+      left: 5px;
+      width: 1px;
     }
 
-    .custom-footer__col.is-collapsible .custom-footer__accordion-content {
-      max-height: 0;
+    .flx-nav__head:hover .flx-plus::before,
+    .flx-nav__head:hover .flx-plus::after {
+      background: var(--flx-ink);
+    }
+
+    .flx-nav.is-open .flx-plus {
+      transform: rotate(45deg);
+    }
+
+    .custom-luxury-footer.flx-js .flx-nav__panel {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.5s var(--flx-ease);
+    }
+
+    .flx-nav__panel-inner {
       overflow: hidden;
-      transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
-      opacity: 0;
+      min-height: 0;
     }
 
-    .custom-footer__col.is-collapsible.is-open .custom-footer__accordion-content {
-      max-height: 600px;
+    .custom-luxury-footer.flx-js .flx-nav.is-open .flx-nav__panel {
+      grid-template-rows: 1fr;
+    }
+
+    .flx-nav.is-open .flx-nav__links {
+      padding-bottom: 16px;
+    }
+
+    .flx-bottom {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 14px;
+      padding-top: 22px;
+    }
+  }
+
+  @media (min-width: 900px) {
+    .flx-nav__panel {
+      display: block;
+    }
+  }
+
+  /* ---------- Reduced motion ---------- */
+  @media (prefers-reduced-motion: reduce) {
+    .flx-reveal {
       opacity: 1;
-      padding-top: 14px;
-      padding-bottom: 8px;
+      transform: none;
+      transition: none;
     }
 
-    .custom-footer__col.is-collapsible.is-open .custom-footer__accordion-icon {
-      transform: rotate(180deg);
+    .flx-field__accent,
+    .flx-link::after,
+    .flx-send,
+    .flx-send svg,
+    .flx-social__link,
+    .flx-top svg,
+    .flx-nav__panel,
+    .flx-plus {
+      transition: none;
     }
 
-    .custom-footer__col--newsletter {
-      padding: 22px 0 10px !important;
-      border-bottom: none !important;
-    }
-
-    .custom-footer__newsletter-card {
-      padding: 20px 18px !important;
-      border-radius: 4px !important;
-    }
-
-    .custom-footer__newsletter-field-wrapper {
-      display: flex !important;
-      align-items: stretch !important;
-      gap: 0 !important;
-      width: 100% !important;
-    }
-
-    .custom-footer__newsletter-input {
-      font-size: 11.5px !important;
-      padding: 0 12px !important;
-      height: 40px !important;
-    }
-
-    .custom-footer__newsletter-btn {
-      height: 40px !important;
-      padding: 0 14px !important;
-      font-size: 10.5px !important;
-      letter-spacing: 0.12em !important;
-    }
-
-    .custom-footer__middle-row {
-      flex-direction: column !important;
-      align-items: center !important;
-      text-align: center !important;
-      gap: 20px !important;
-      padding: 20px 0 !important;
-    }
-
-    .custom-footer__payment-col {
-      width: 100% !important;
-      display: flex !important;
-      flex-direction: column !important;
-      align-items: center !important;
-    }
-
-    .custom-footer__sub-heading-wrap {
-      justify-content: center !important;
-      width: 100% !important;
-      gap: 8px !important;
-    }
-
-    .custom-footer__payment-icons {
-      justify-content: center !important;
-      gap: 6px !important;
-    }
-
-    .custom-footer__social-col {
-      width: 100% !important;
-      align-items: center !important;
-    }
-
-    .custom-footer__social-icons {
-      justify-content: center !important;
-    }
-
-    .custom-footer__top-button-col {
-      margin-left: 0 !important;
-      width: 100% !important;
-    }
-
-    .custom-footer__back-to-top {
-      width: 100% !important;
-      justify-content: center !important;
-      padding: 10px 16px !important;
-    }
-
-    .custom-footer__bottom-row {
-      flex-direction: column !important;
-      align-items: center !important;
-      text-align: center !important;
-      gap: 12px !important;
-      padding-top: 18px !important;
-      padding-bottom: 12px !important;
-    }
-
-    .custom-footer__bottom-content {
-      flex-direction: column !important;
-      align-items: center !important;
-      gap: 8px !important;
-    }
-
-    .custom-footer__copyright {
-      line-height: 1.6 !important;
-      max-width: 320px !important;
-      margin: 0 auto !important;
-    }
-
-    .custom-footer__bottom-divider {
-      display: none !important;
+    .flx-check path {
+      animation: none;
+      stroke-dashoffset: 0;
     }
   }
 </style>
 
+<noscript>
+  <style>
+    .custom-luxury-footer.flx .flx-reveal {
+      opacity: 1;
+      transform: none;
+    }
+  </style>
+</noscript>
+
 <script>
-  (function() {
-    function initFooterAccordions() {
-      var triggers = document.querySelectorAll('.custom-footer__accordion-trigger');
-      triggers.forEach(function(btn) {
-        var col = btn.closest('.custom-footer__col');
-        if (!col) return;
-        col.classList.add('is-collapsible');
-        var isDesktop = window.innerWidth > 989;
-        btn.setAttribute('aria-expanded', String(isDesktop || col.classList.contains('is-open')));
+  (function () {
+    var footer = document.getElementById('Flx-{{ section.id }}');
+    if (!footer) return;
+    footer.classList.add('flx-js');
 
-        if (btn.dataset.accordionInit) return;
-        btn.dataset.accordionInit = 'true';
+    var mobileMenu = window.matchMedia('(max-width: 899px)');
+    function syncMenuState() {
+      footer.querySelectorAll('.flx-nav__head').forEach(function (head) {
+        var nav = head.closest('.flx-nav');
+        head.setAttribute('aria-expanded', mobileMenu.matches ? (nav.classList.contains('is-open') ? 'true' : 'false') : 'true');
+      });
+    }
+    syncMenuState();
+    if (mobileMenu.addEventListener) {
+      mobileMenu.addEventListener('change', syncMenuState);
+    } else {
+      mobileMenu.addListener(syncMenuState);
+    }
 
-        btn.addEventListener('click', function(e) {
-          if (window.innerWidth > 989) return;
-          e.preventDefault();
-          var col = this.closest('.custom-footer__col');
-          if (!col) return;
-          var isExpanded = this.getAttribute('aria-expanded') === 'true';
-          this.setAttribute('aria-expanded', !isExpanded);
-          col.classList.toggle('is-open', !isExpanded);
-        });
+    var groups = footer.querySelectorAll('.flx-reveal-group');
+
+    try {
+      if (!('IntersectionObserver' in window)) throw new Error('no-io');
+      var io = new IntersectionObserver(
+        function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-inview');
+              io.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0, rootMargin: '0px 0px -8% 0px' }
+      );
+      groups.forEach(function (group) {
+        io.observe(group);
+      });
+    } catch (error) {
+      groups.forEach(function (group) {
+        group.classList.add('is-inview');
       });
     }
 
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initFooterAccordions);
-    } else {
-      initFooterAccordions();
-    }
-
-    var resizeTimer;
-    window.addEventListener('resize', function() {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(initFooterAccordions, 150);
+    footer.querySelectorAll('.flx-nav__head').forEach(function (head) {
+      head.addEventListener('click', function () {
+        if (!mobileMenu.matches) return;
+        var nav = head.closest('.flx-nav');
+        var open = nav.classList.toggle('is-open');
+        head.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
     });
 
-    document.addEventListener('shopify:section:load', initFooterAccordions);
+    var topButton = footer.querySelector('[data-flx-top]');
+    if (topButton) {
+      topButton.addEventListener('click', function () {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
   })();
 </script>
 
 {% schema %}
 {
-  "name": "Luxury Reference Footer",
-  "tag": "section",
-  "class": "section-custom-luxury-footer",
+  "name": "Editorial Footer",
   "settings": [
-    {
-      "type": "header",
-      "content": "Luxury Styling & Color Palette"
-    },
     {
       "type": "select",
       "id": "color_scheme",
-      "label": "Color Palette Preset",
+      "label": "Color scheme",
       "options": [
-        {
-          "value": "noir",
-          "label": "Atelier Noir (Obsidian Black & Champagne Gold)"
-        },
-        {
-          "value": "parchment",
-          "label": "Museum Warm Linen (Warm Alabaster Light)"
-        },
-        {
-          "value": "minimal_white",
-          "label": "Minimal White (Gallery Pristine)"
-        },
-        {
-          "value": "custom",
-          "label": "Custom Bespoke Colors"
-        }
+        { "value": "minimal_white", "label": "Light" },
+        { "value": "noir", "label": "Dark" }
       ],
-      "default": "parchment"
-    },
-    {
-      "type": "color",
-      "id": "custom_bg",
-      "label": "Custom Background Color"
-    },
-    {
-      "type": "color",
-      "id": "custom_card_bg",
-      "label": "Custom Card Background Color"
-    },
-    {
-      "type": "color",
-      "id": "custom_text",
-      "label": "Custom Body Text Color"
-    },
-    {
-      "type": "color",
-      "id": "custom_heading",
-      "label": "Custom Heading Color"
-    },
-    {
-      "type": "color",
-      "id": "custom_gold",
-      "label": "Custom Gold / Accent Color"
-    },
-    {
-      "type": "color",
-      "id": "custom_border",
-      "label": "Custom Border Color"
-    },
-    {
-      "type": "color",
-      "id": "custom_link",
-      "label": "Custom Link Color"
-    },
-    {
-      "type": "color",
-      "id": "custom_link_hover",
-      "label": "Custom Link Hover Color"
-    },
-    {
-      "type": "color",
-      "id": "custom_btn_bg",
-      "label": "Custom Button Background Color"
-    },
-    {
-      "type": "color",
-      "id": "custom_btn_text",
-      "label": "Custom Button Text Color"
-    },
-    {
-      "type": "header",
-      "content": "Brand Prestige Header"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_brand_header",
-      "label": "Show Brand Header",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "show_emblem",
-      "label": "Show Monogram / Emblem Circle",
-      "default": true
-    },
-    {
-      "type": "image_picker",
-      "id": "brand_emblem_image",
-      "label": "Emblem Crest Image (Optional upload)"
-    },
-    {
-      "type": "text",
-      "id": "brand_emblem_text",
-      "label": "Emblem Monogram Letters (Used if no crest uploaded)",
-      "default": "TRH"
-    },
-    {
-      "type": "range",
-      "id": "emblem_size",
-      "min": 28,
-      "max": 64,
-      "step": 2,
-      "unit": "px",
-      "label": "Emblem Circle Diameter",
-      "default": 38
-    },
-    {
-      "type": "color",
-      "id": "emblem_border_color",
-      "label": "Emblem Border Color (Optional override)"
-    },
-    {
-      "type": "color",
-      "id": "emblem_bg_color",
-      "label": "Emblem Background Color (Optional override)"
-    },
-    {
-      "type": "color",
-      "id": "emblem_text_color",
-      "label": "Emblem Text Color (Optional override)"
-    },
-    {
-      "type": "image_picker",
-      "id": "brand_logo",
-      "label": "Brand Logo Image (Optional)"
-    },
-    {
-      "type": "range",
-      "id": "logo_width",
-      "min": 60,
-      "max": 320,
-      "step": 10,
-      "unit": "px",
-      "label": "Logo Max Width",
-      "default": 160
-    },
-    {
-      "type": "text",
-      "id": "brand_name",
-      "label": "Brand Title (Used if no logo uploaded)",
-      "default": "THE RAW HOUSE"
-    },
-    {
-      "type": "range",
-      "id": "brand_title_size",
-      "min": 16,
-      "max": 36,
-      "step": 2,
-      "unit": "px",
-      "label": "Brand Title Font Size",
-      "default": 22
-    },
-    {
-      "type": "color",
-      "id": "brand_title_color",
-      "label": "Brand Title Color (Optional override)"
-    },
-    {
-      "type": "text",
-      "id": "brand_tagline",
-      "label": "Brand Tagline",
-      "default": "Contemporary Fine Art Paintings, 3D Sculptural Models & Museum Curations"
-    },
-    {
-      "type": "range",
-      "id": "brand_tagline_size",
-      "min": 9,
-      "max": 15,
-      "step": 1,
-      "unit": "px",
-      "label": "Brand Tagline Font Size",
-      "default": 11
-    },
-    {
-      "type": "color",
-      "id": "brand_tagline_color",
-      "label": "Brand Tagline Color (Optional override)"
-    },
-    {
-      "type": "select",
-      "id": "ornament_symbol",
-      "label": "Curatorial Ornament Style",
-      "options": [
-        {
-          "value": "diamond",
-          "label": "Diamond (◆)"
-        },
-        {
-          "value": "star",
-          "label": "Four-Point Star (✦)"
-        },
-        {
-          "value": "crest",
-          "label": "Fleur-de-lis / Crest (⚜)"
-        },
-        {
-          "value": "circle",
-          "label": "Dot / Circle (•)"
-        },
-        {
-          "value": "bar",
-          "label": "Classic Line (—)"
-        },
-        {
-          "value": "none",
-          "label": "None (Hidden)"
-        }
-      ],
-      "default": "diamond"
-    },
-    {
-      "type": "color",
-      "id": "ornament_color",
-      "label": "Ornament Accent Color (Optional override)"
-    },
-    {
-      "type": "range",
-      "id": "ornament_max_width",
-      "min": 100,
-      "max": 360,
-      "step": 20,
-      "unit": "px",
-      "label": "Ornament Divider Width",
-      "default": 240
-    },
-    {
-      "type": "header",
-      "content": "Trust, Security & Payment Methods"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_payment_methods",
-      "label": "Show Payment Methods Row",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "payment_heading",
-      "label": "Payment Heading",
-      "default": "PAYMENT METHODS"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_ssl_badge",
-      "label": "Show SSL Security Badge",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "ssl_badge_text",
-      "label": "SSL Badge Label",
-      "default": "256-BIT SSL ENCRYPTED"
-    },
-    {
-      "type": "image_picker",
-      "id": "payment_custom_image",
-      "label": "Custom Payment Strip Image (Optional override)"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_visa",
-      "label": "Show Visa Icon",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "show_mastercard",
-      "label": "Show Mastercard Icon",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "show_amex",
-      "label": "Show American Express Icon",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "show_upi",
-      "label": "Show UPI & Net Banking Badge",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "show_paypal",
-      "label": "Show PayPal Icon",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "show_apple_pay",
-      "label": "Show Apple Pay Icon",
-      "default": true
-    },
-    {
-      "type": "checkbox",
-      "id": "show_google_pay",
-      "label": "Show Google Pay Icon",
-      "default": false
-    },
-    {
-      "type": "checkbox",
-      "id": "show_rupay",
-      "label": "Show RuPay Icon",
-      "default": false
-    },
-    {
-      "type": "checkbox",
-      "id": "show_cod",
-      "label": "Show Cash on Delivery (COD) Badge",
-      "default": false
-    },
-    {
-      "type": "header",
-      "content": "Social Media Presence"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_social_icons",
-      "label": "Show Social Icons Row",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "social_heading",
-      "label": "Social Heading",
-      "default": "FIND US ONLINE"
-    },
-    {
-      "type": "url",
-      "id": "instagram_url",
-      "label": "Instagram URL"
-    },
-    {
-      "type": "url",
-      "id": "facebook_url",
-      "label": "Facebook URL"
-    },
-    {
-      "type": "url",
-      "id": "twitter_url",
-      "label": "X / Twitter URL"
-    },
-    {
-      "type": "url",
-      "id": "pinterest_url",
-      "label": "Pinterest URL"
-    },
-    {
-      "type": "url",
-      "id": "youtube_url",
-      "label": "YouTube URL"
-    },
-    {
-      "type": "url",
-      "id": "linkedin_url",
-      "label": "LinkedIn URL"
-    },
-    {
-      "type": "text",
-      "id": "whatsapp_url",
-      "label": "WhatsApp Concierge URL",
-      "default": "https://wa.me/918003011110"
-    },
-    {
-      "type": "header",
-      "content": "Back To Top Button"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_back_to_top",
-      "label": "Show Back to Top Button",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "back_to_top_text",
-      "label": "Back to Top Label",
-      "default": "BACK TO TOP"
-    },
-    {
-      "type": "select",
-      "id": "back_to_top_icon",
-      "label": "Back to Top Icon",
-      "options": [
-        {
-          "value": "chevron",
-          "label": "Chevron (⌃)"
-        },
-        {
-          "value": "arrow",
-          "label": "Arrow (↑)"
-        },
-        {
-          "value": "triangle",
-          "label": "Filled Triangle (▲)"
-        },
-        {
-          "value": "none",
-          "label": "None"
-        }
-      ],
-      "default": "chevron"
-    },
-    {
-      "type": "header",
-      "content": "Copyright & Legal Policies"
-    },
-    {
-      "type": "text",
-      "id": "copyright_text",
-      "label": "Copyright Text",
-      "default": "The Raw House Living Pvt Ltd. All rights reserved."
-    },
-    {
-      "type": "checkbox",
-      "id": "show_policy_links",
-      "label": "Show Legal Policy Links",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "privacy_policy_label",
-      "label": "Privacy Policy Label",
-      "default": "Privacy Policy"
-    },
-    {
-      "type": "url",
-      "id": "privacy_policy_url",
-      "label": "Privacy Policy Custom URL (Optional)"
-    },
-    {
-      "type": "text",
-      "id": "terms_policy_label",
-      "label": "Terms of Service Label",
-      "default": "Terms of Service"
-    },
-    {
-      "type": "url",
-      "id": "terms_policy_url",
-      "label": "Terms of Service Custom URL (Optional)"
-    },
-    {
-      "type": "text",
-      "id": "shipping_policy_label",
-      "label": "Shipping & Returns Label",
-      "default": "Shipping & Returns"
-    },
-    {
-      "type": "url",
-      "id": "shipping_policy_url",
-      "label": "Shipping & Returns Custom URL (Optional)"
-    },
-    {
-      "type": "text",
-      "id": "custom_policy_label",
-      "label": "Extra Legal Link Label (Optional)"
-    },
-    {
-      "type": "url",
-      "id": "custom_policy_url",
-      "label": "Extra Legal Link URL (Optional)"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_country_selector",
-      "label": "Show Country / Currency Selector",
-      "default": false
-    },
-    {
-      "type": "checkbox",
-      "id": "show_language_selector",
-      "label": "Show Language Selector",
-      "default": false
-    },
-    {
-      "type": "header",
-      "content": "Credits & Attribution"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_credits",
-      "label": "Show Developer/Agency Credit",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "credits_prefix",
-      "label": "Credits Prefix",
-      "default": "Mindfully made by"
-    },
-    {
-      "type": "text",
-      "id": "credits_label",
-      "label": "Credits Link Label",
-      "default": "Scraft"
-    },
-    {
-      "type": "text",
-      "id": "credits_url",
-      "label": "Credits Link URL",
-      "default": "https://scraft.studio/"
-    },
-    {
-      "type": "text",
-      "id": "credits_title",
-      "label": "Credits Link Title",
-      "default": "SCRAFT - E-commerce growth, SEO & software studio"
-    },
-    {
-      "type": "header",
-      "content": "Layout & Spacing Dimensions"
-    },
-    {
-      "type": "range",
-      "id": "max_width",
-      "min": 1000,
-      "max": 1500,
-      "step": 20,
-      "unit": "px",
-      "label": "Container Max Width",
-      "default": 1240
-    },
-    {
-      "type": "range",
-      "id": "padding_top",
-      "min": 20,
-      "max": 120,
-      "step": 4,
-      "unit": "px",
-      "label": "Desktop Top Padding",
-      "default": 48
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom",
-      "min": 16,
-      "max": 96,
-      "step": 4,
-      "unit": "px",
-      "label": "Desktop Bottom Padding",
-      "default": 28
-    },
-    {
-      "type": "range",
-      "id": "padding_top_m",
-      "min": 16,
-      "max": 80,
-      "step": 4,
-      "unit": "px",
-      "label": "Mobile Top Padding",
-      "default": 32
-    },
-    {
-      "type": "range",
-      "id": "padding_bottom_m",
-      "min": 12,
-      "max": 60,
-      "step": 4,
-      "unit": "px",
-      "label": "Mobile Bottom Padding",
-      "default": 20
-    }
+      "default": "minimal_white"
+    },
+    { "type": "header", "content": "Brand" },
+    { "type": "image_picker", "id": "brand_logo", "label": "Logo" },
+    { "type": "range", "id": "logo_width", "label": "Logo width", "min": 80, "max": 320, "step": 10, "unit": "px", "default": 140 },
+    { "type": "text", "id": "brand_tagline", "label": "Tagline", "default": "Contemporary fine art, sculpture and collectibles." },
+    { "type": "header", "content": "Social" },
+    { "type": "checkbox", "id": "show_social_icons", "label": "Show social icons", "default": true },
+    { "type": "url", "id": "instagram_url", "label": "Instagram" },
+    { "type": "url", "id": "facebook_url", "label": "Facebook" },
+    { "type": "url", "id": "twitter_url", "label": "X (Twitter)" },
+    { "type": "url", "id": "pinterest_url", "label": "Pinterest" },
+    { "type": "url", "id": "youtube_url", "label": "YouTube" },
+    { "type": "url", "id": "linkedin_url", "label": "LinkedIn" },
+    { "type": "url", "id": "whatsapp_url", "label": "WhatsApp" },
+    { "type": "header", "content": "Bottom bar" },
+    { "type": "checkbox", "id": "show_back_to_top", "label": "Show back to top", "default": true },
+    { "type": "text", "id": "copyright_text", "label": "Copyright text", "default": "The Raw House Living Pvt Ltd. All rights reserved." },
+    { "type": "checkbox", "id": "show_policy_links", "label": "Show policy links", "default": true },
+    { "type": "text", "id": "privacy_policy_label", "label": "Privacy label", "default": "Privacy Policy" },
+    { "type": "url", "id": "privacy_policy_url", "label": "Privacy URL" },
+    { "type": "text", "id": "terms_policy_label", "label": "Terms label", "default": "Terms of Service" },
+    { "type": "url", "id": "terms_policy_url", "label": "Terms URL" },
+    { "type": "text", "id": "shipping_policy_label", "label": "Shipping label", "default": "Shipping & Returns" },
+    { "type": "url", "id": "shipping_policy_url", "label": "Shipping URL" },
+    { "type": "checkbox", "id": "show_credits", "label": "Show credits", "default": true },
+    { "type": "text", "id": "credits_prefix", "label": "Credits prefix", "default": "Mindfully made by" },
+    { "type": "text", "id": "credits_label", "label": "Credits label", "default": "Scraft" },
+    { "type": "url", "id": "credits_url", "label": "Credits URL" },
+    { "type": "text", "id": "credits_title", "label": "Credits title" },
+    { "type": "header", "content": "Localization" },
+    { "type": "checkbox", "id": "show_country_selector", "label": "Show country/currency selector", "default": false },
+    { "type": "checkbox", "id": "show_language_selector", "label": "Show language selector", "default": false },
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "max_width", "label": "Max width", "min": 900, "max": 1600, "step": 20, "unit": "px", "default": 1240 },
+    { "type": "range", "id": "padding_top", "label": "Top padding (desktop)", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 56 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding (desktop)", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 32 },
+    { "type": "range", "id": "padding_top_m", "label": "Top padding (mobile)", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 40 },
+    { "type": "range", "id": "padding_bottom_m", "label": "Bottom padding (mobile)", "min": 0, "max": 100, "step": 4, "unit": "px", "default": 28 }
   ],
   "blocks": [
     {
-      "type": "menu",
-      "name": "Navigation Column",
-      "settings": [
-        {
-          "type": "text",
-          "id": "heading",
-          "label": "Column Heading",
-          "default": "EXPLORE"
-        },
-        {
-          "type": "link_list",
-          "id": "menu",
-          "label": "Select Menu"
-        },
-        {
-          "type": "select",
-          "id": "columns",
-          "label": "Links Column Layout",
-          "options": [
-            {
-              "value": "1",
-              "label": "Single Column"
-            },
-            {
-              "value": "2",
-              "label": "Double Columns (Split Grid)"
-            }
-          ],
-          "default": "1"
-        },
-        {
-          "type": "checkbox",
-          "id": "show_bullets",
-          "label": "Show Bullets / Pointers",
-          "default": true
-        },
-        {
-          "type": "select",
-          "id": "bullet_symbol",
-          "label": "Bullet Icon Style",
-          "options": [
-            {
-              "value": "chevron",
-              "label": "Chevron (›)"
-            },
-            {
-              "value": "dot",
-              "label": "Dot (•)"
-            },
-            {
-              "value": "dash",
-              "label": "Dash (—)"
-            },
-            {
-              "value": "star",
-              "label": "Star (✦)"
-            },
-            {
-              "value": "arrow",
-              "label": "Arrow (→)"
-            }
-          ],
-          "default": "chevron"
-        },
-        {
-          "type": "color",
-          "id": "heading_color",
-          "label": "Heading Color (Optional override)"
-        },
-        {
-          "type": "color",
-          "id": "link_color",
-          "label": "Links Color (Optional override)"
-        },
-        {
-          "type": "color",
-          "id": "link_hover_color",
-          "label": "Links Hover Color (Optional override)"
-        }
-      ]
-    },
-    {
-      "type": "text",
-      "name": "About / Atelier Story",
-      "settings": [
-        {
-          "type": "text",
-          "id": "heading",
-          "label": "Heading",
-          "default": "ABOUT THE ATELIER"
-        },
-        {
-          "type": "textarea",
-          "id": "text",
-          "label": "Story / Mission Text",
-          "default": "Dedicated to museum-grade original canvas paintings, hand-cast bronze statuettes, and architectural decorative models crafted with singular intention."
-        },
-        {
-          "type": "text",
-          "id": "author_title",
-          "label": "Curator Signature Line",
-          "default": "The Raw House Curators"
-        }
-      ]
-    },
-    {
       "type": "newsletter",
-      "name": "VIP Newsletter",
+      "name": "Newsletter",
       "limit": 1,
       "settings": [
-        {
-          "type": "checkbox",
-          "id": "show_badge",
-          "label": "Show VIP Perk Badge",
-          "default": true
-        },
-        {
-          "type": "text",
-          "id": "badge_text",
-          "label": "VIP Perk Badge Text",
-          "default": "CONFIDENTIAL PREVIEWS & SALON ACCESS"
-        },
-        {
-          "type": "select",
-          "id": "badge_icon",
-          "label": "Badge Icon Style",
-          "options": [
-            {
-              "value": "sparkle",
-              "label": "Sparkle (✦)"
-            },
-            {
-              "value": "star",
-              "label": "Star (★)"
-            },
-            {
-              "value": "shield",
-              "label": "Shield (🛡)"
-            },
-            {
-              "value": "diamond",
-              "label": "Diamond (◆)"
-            },
-            {
-              "value": "none",
-              "label": "None"
-            }
-          ],
-          "default": "sparkle"
-        },
-        {
-          "type": "text",
-          "id": "heading",
-          "label": "Heading",
-          "default": "BE THE FIRST TO KNOW"
-        },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "First to see. First to own." },
         {
           "type": "textarea",
           "id": "subtext",
           "label": "Subtext",
-          "default": "Sign up for privileged access to rare salon collections, exhibition previews, and bespoke atelier releases."
+          "default": "Private previews of new works, exhibition invitations and notes from the atelier."
         },
-        {
-          "type": "text",
-          "id": "placeholder",
-          "label": "Input Placeholder",
-          "default": "Enter your email address..."
-        },
-        {
-          "type": "text",
-          "id": "button_text",
-          "label": "Button Text",
-          "default": "SUBSCRIBE"
-        },
-        {
-          "type": "select",
-          "id": "button_icon",
-          "label": "Button Icon Style",
-          "options": [
-            {
-              "value": "arrow",
-              "label": "Right Arrow (→)"
-            },
-            {
-              "value": "chevron",
-              "label": "Chevron (›)"
-            },
-            {
-              "value": "envelope",
-              "label": "Mail Envelope (✉)"
-            },
-            {
-              "value": "none",
-              "label": "None"
-            }
-          ],
-          "default": "arrow"
-        },
-        {
-          "type": "text",
-          "id": "privacy_note",
-          "label": "Privacy Disclaimer",
-          "default": "Strictly confidential. No spam, ever."
-        },
-        {
-          "type": "color",
-          "id": "card_bg_color",
-          "label": "Card Background Color (Optional override)"
-        },
-        {
-          "type": "color",
-          "id": "card_border_color",
-          "label": "Card Border Color (Optional override)"
-        },
-        {
-          "type": "color",
-          "id": "button_bg_color",
-          "label": "Button Background Color (Optional override)"
-        },
-        {
-          "type": "color",
-          "id": "button_text_color",
-          "label": "Button Text Color (Optional override)"
-        }
+        { "type": "text", "id": "placeholder", "label": "Input placeholder", "default": "Your email address" },
+        { "type": "text", "id": "button_text", "label": "Button label", "default": "Subscribe" },
+        { "type": "text", "id": "privacy_note", "label": "Privacy note", "default": "One considered letter a month. No noise, ever." }
       ]
     },
     {
-      "type": "concierge",
-      "name": "Private Art Concierge",
-      "limit": 1,
+      "type": "menu",
+      "name": "Menu",
       "settings": [
-        {
-          "type": "text",
-          "id": "heading",
-          "label": "Heading",
-          "default": "PRIVATE ART CONCIERGE"
-        },
-        {
-          "type": "text",
-          "id": "hours",
-          "label": "Advisory Hours",
-          "default": "Mon - Sat: 10am - 7pm IST"
-        },
-        {
-          "type": "text",
-          "id": "phone_display",
-          "label": "Hotline Display Text",
-          "default": "+91 80030 11110"
-        },
-        {
-          "type": "text",
-          "id": "phone",
-          "label": "Hotline Digits (for dialing)",
-          "default": "+918003011110"
-        },
-        {
-          "type": "text",
-          "id": "email",
-          "label": "Email Address",
-          "default": "concierge@therawhouse.com"
-        },
-        {
-          "type": "text",
-          "id": "address",
-          "label": "Physical Atelier / Studio Location"
-        },
-        {
-          "type": "checkbox",
-          "id": "show_whatsapp",
-          "label": "Show WhatsApp Hotline Button",
-          "default": true
-        },
-        {
-          "type": "text",
-          "id": "whatsapp_label",
-          "label": "WhatsApp Button Label",
-          "default": "Chat with Private Concierge"
-        },
-        {
-          "type": "text",
-          "id": "whatsapp_url",
-          "label": "WhatsApp Link URL",
-          "default": "https://wa.me/918003011110"
-        }
-      ]
-    },
-    {
-      "type": "trust_badges",
-      "name": "Atelier Guarantees",
-      "limit": 1,
-      "settings": [
-        {
-          "type": "text",
-          "id": "heading",
-          "label": "Heading",
-          "default": "ATELIER PROMISES"
-        },
-        {
-          "type": "select",
-          "id": "badge_icon",
-          "label": "Guarantees Bullet Icon",
-          "options": [
-            {
-              "value": "sparkle",
-              "label": "Four-point Star (✦)"
-            },
-            {
-              "value": "diamond",
-              "label": "Diamond (◆)"
-            },
-            {
-              "value": "check",
-              "label": "Checkmark (✓)"
-            },
-            {
-              "value": "shield",
-              "label": "Shield (🛡)"
-            }
-          ],
-          "default": "sparkle"
-        },
-        {
-          "type": "text",
-          "id": "badge_1_text",
-          "label": "Guarantee 1",
-          "default": "100% Certified Originals & Authenticity"
-        },
-        {
-          "type": "text",
-          "id": "badge_2_text",
-          "label": "Guarantee 2",
-          "default": "Insured White-Glove Museum Crating"
-        },
-        {
-          "type": "text",
-          "id": "badge_3_text",
-          "label": "Guarantee 3",
-          "default": "Private Curatorial Advisory & Consultations"
-        },
-        {
-          "type": "text",
-          "id": "badge_4_text",
-          "label": "Guarantee 4 (Optional)"
-        }
-      ]
-    },
-    {
-      "type": "social_block",
-      "name": "Social Presence",
-      "limit": 1,
-      "settings": [
-        {
-          "type": "text",
-          "id": "heading",
-          "label": "Heading",
-          "default": "CONNECT & FOLLOW"
-        },
-        {
-          "type": "text",
-          "id": "subtext",
-          "label": "Short Tagline",
-          "default": "Join our global collective of patrons, collectors, and designers."
-        },
-        {
-          "type": "url",
-          "id": "instagram_url",
-          "label": "Instagram URL"
-        },
-        {
-          "type": "url",
-          "id": "facebook_url",
-          "label": "Facebook URL"
-        },
-        {
-          "type": "url",
-          "id": "twitter_url",
-          "label": "X / Twitter URL"
-        },
-        {
-          "type": "url",
-          "id": "pinterest_url",
-          "label": "Pinterest URL"
-        },
-        {
-          "type": "url",
-          "id": "youtube_url",
-          "label": "YouTube URL"
-        },
-        {
-          "type": "url",
-          "id": "linkedin_url",
-          "label": "LinkedIn URL"
-        },
-        {
-          "type": "text",
-          "id": "whatsapp_url",
-          "label": "WhatsApp Link URL",
-          "default": "https://wa.me/918003011110"
-        }
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Explore" },
+        { "type": "link_list", "id": "menu", "label": "Menu" }
       ]
     }
   ],
+  "max_blocks": 5,
   "presets": [
     {
-      "name": "Luxury Reference Footer",
+      "name": "Editorial Footer",
       "blocks": [
-        {
-          "type": "menu",
-          "settings": {
-            "heading": "ABOUT"
-          }
-        },
-        {
-          "type": "menu",
-          "settings": {
-            "heading": "SERVICES"
-          }
-        },
-        {
-          "type": "newsletter",
-          "settings": {
-            "heading": "BE THE FIRST TO KNOW"
-          }
-        }
+        { "type": "newsletter" },
+        { "type": "menu", "settings": { "heading": "About" } }
       ]
     }
   ]
