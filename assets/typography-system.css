@@ -1,0 +1,110 @@
+/* The Raw House editorial type scale. Keep display type restrained and
+   small copy readable across the custom sections and core catalog pages. */
+:root {
+  --trh-type-display: Georgia, "Times New Roman", serif;
+  --trh-type-body: var(--font-body--family, Inter, sans-serif);
+  --trh-type-section-size: clamp(30px, 2.7vw, 36px);
+  --trh-type-card-size: clamp(18px, 1.5vw, 21px);
+  --trh-type-body-size: 15px;
+  --trh-type-label-size: 11px;
+}
+
+/* Section titles share a common editorial voice regardless of which
+   Theme Editor typography controls the section originally used. */
+body #MainContent .shopify-section .luxp-heading,
+body #MainContent .shopify-section .new-arrivals-gallery__heading,
+body #MainContent .shopify-section .lux-section-heading,
+body #MainContent .shopify-section .about-founders__heading {
+  font-family: var(--trh-type-display) !important;
+  font-size: var(--trh-type-section-size) !important;
+  font-weight: 400 !important;
+  line-height: 1.18 !important;
+  letter-spacing: 0.035em !important;
+}
+
+body #MainContent .shopify-section .luxp-split__heading {
+  font-family: var(--trh-type-display) !important;
+  font-size: var(--trh-type-section-size) !important;
+  font-weight: 400 !important;
+  line-height: 1.18 !important;
+  letter-spacing: 0.035em !important;
+}
+
+body #MainContent .shopify-section .lux-founder-heading {
+  font-family: var(--trh-type-display) !important;
+  font-size: clamp(34px, 3.6vw, 44px) !important;
+  font-weight: 400 !important;
+  line-height: 1.16 !important;
+}
+
+body .flx-newsletter__title {
+  font-family: var(--trh-type-display) !important;
+  font-size: clamp(30px, 2.9vw, 38px) !important;
+  font-weight: 400 !important;
+  line-height: 1.2 !important;
+}
+
+/* Product and editorial cards should read at a similar size on every page. */
+body #MainContent .shopify-section .luxp-card__title,
+body #MainContent .shopify-section .new-arrivals-card__title,
+body #MainContent .shopify-section .luxp-editcard__title,
+body #MainContent .shopify-section .lux-manifesto-card-title,
+body .main-collection-grid .product-card .h4 {
+  font-family: var(--trh-type-display) !important;
+  font-size: var(--trh-type-card-size) !important;
+  font-weight: 400 !important;
+  line-height: 1.3 !important;
+  letter-spacing: 0.025em !important;
+}
+
+body #MainContent .shopify-section .about-founders__name {
+  font-family: var(--trh-type-display) !important;
+  font-size: clamp(26px, 2.4vw, 31px) !important;
+  font-weight: 400 !important;
+  line-height: 1.2 !important;
+}
+
+body #MainContent .shopify-section .luxp-body,
+body #MainContent .shopify-section .luxp-editcard__text,
+body #MainContent .shopify-section .lux-manifesto-card-desc,
+body #MainContent .shopify-section .lux-trust-subtitle,
+body #MainContent .shopify-section .about-founders__intro {
+  font-family: var(--trh-type-body) !important;
+  font-size: var(--trh-type-body-size) !important;
+  line-height: 1.7 !important;
+  letter-spacing: 0.005em !important;
+}
+
+body #MainContent .shopify-section .lux-trust-title {
+  font-family: var(--trh-type-body) !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  line-height: 1.4 !important;
+  letter-spacing: 0.08em !important;
+}
+
+body #MainContent .shopify-section .luxp-eyebrow,
+body #MainContent .shopify-section .new-arrivals-gallery__subheading,
+body #MainContent .shopify-section .new-arrivals-card__designer {
+  font-family: var(--trh-type-body) !important;
+  font-size: var(--trh-type-label-size) !important;
+  line-height: 1.4 !important;
+  letter-spacing: 0.15em !important;
+}
+
+@media (max-width: 749px) {
+  :root {
+    --trh-type-section-size: clamp(26px, 7vw, 30px);
+    --trh-type-card-size: 18px;
+    --trh-type-body-size: 14px;
+    --trh-type-label-size: 11px;
+  }
+
+  body #MainContent .shopify-section .luxp-split__heading {
+    text-align: center !important;
+  }
+
+  body #MainContent .shopify-section .lux-founder-heading {
+    font-size: clamp(30px, 8vw, 36px) !important;
+  }
+}
