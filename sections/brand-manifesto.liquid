@@ -45,7 +45,7 @@
 {%- capture luxp_typo -%}{%- render 'luxp-typo', s: s -%}{%- endcapture -%}
 
 <div
-  class="luxp-section luxp-manifesto {% if s.container_mode == 'full' %}luxp-section--full{% endif %} {% if s.enable_animations %}luxp-anim{% endif %} {{ s.custom_class }}"
+  class="luxp-section luxp-manifesto {% if s.image != blank %}luxp-manifesto--has-image{% endif %} {% if s.container_mode == 'full' %}luxp-section--full{% endif %} {% if s.enable_animations %}luxp-anim{% endif %} {{ s.custom_class }}"
   style="
     {{ luxp_colors }}
     {{ luxp_typo }}
@@ -73,11 +73,14 @@
     --luxp-social-mt: {{ s.social_mt | default: 20 }}px;
     --luxp-social-bg-h: {% if s.social_bg_hover != blank and s.social_bg_hover != 'rgba(0,0,0,0)' %}{{ s.social_bg_hover }}{% else %}var(--luxp-accent){% endif %};
     --luxp-social-fg-h: {% if s.social_fg_hover != blank and s.social_fg_hover != 'rgba(0,0,0,0)' %}{{ s.social_fg_hover }}{% else %}#ffffff{% endif %};
+    --luxp-image-h: {{ s.image_height | default: 560 }}px;
+    --luxp-image-h-m: {{ s.image_height_mobile | default: 280 }}px;
   "
   {% if s.anchor_id != blank %}id="{{ s.anchor_id }}"{% endif %}
   data-art-motion="off"
   {{ section.shopify_attributes }}
 >
+  {% capture manifesto_copy %}
   <div class="luxp-container">
     <div class="luxp-split__content {% if s.text_align != 'left' %}luxp-split__content--center{% endif %} luxp-manifesto__inner">
       {% if s.eyebrow != blank %}
@@ -161,6 +164,36 @@
       {% endif %}
     </div>
   </div>
+  {% endcapture %}
+
+  {% if s.image != blank %}
+    {%- liquid
+      assign image_alt = s.image_alt | default: s.heading | default: shop.name
+    -%}
+    <div class="luxp-manifesto__stage">
+      {% if s.image_link != blank %}
+        <a class="luxp-manifesto__media-link" href="{{ s.image_link }}" aria-label="{{ image_alt | escape }}">
+      {% endif %}
+      {{
+        s.image
+        | image_url: width: 2400
+        | image_tag:
+          class: 'luxp-manifesto__img',
+          loading: 'lazy',
+          widths: '600, 900, 1200, 1600, 2000, 2400',
+          sizes: '100vw',
+          alt: image_alt
+      }}
+      {% if s.image_link != blank %}
+        </a>
+      {% endif %}
+      <div class="luxp-manifesto__overlay">
+        {{ manifesto_copy }}
+      </div>
+    </div>
+  {% else %}
+    {{ manifesto_copy }}
+  {% endif %}
 </div>
 
 <style>
@@ -213,10 +246,132 @@
     transform: scale(1);
   }
 
+  .luxp-manifesto__stage {
+    position: relative;
+    width: 100%;
+    height: var(--luxp-image-h, 640px);
+    overflow: hidden;
+    line-height: 0;
+  }
+
+  .luxp-manifesto__media-link {
+    position: absolute;
+    inset: 0;
+    display: block;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .luxp-manifesto__img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 58%;
+  }
+
+  .luxp-manifesto__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: clamp(48px, 10%, 92px) 20px 24px;
+    line-height: normal;
+    pointer-events: none;
+    background:
+      linear-gradient(to bottom, rgba(16, 14, 12, 0.34) 0%, rgba(16, 14, 12, 0.08) 46%, rgba(16, 14, 12, 0.22) 100%);
+  }
+
+  .luxp-manifesto__overlay .luxp-container {
+    max-width: min(760px, 100%);
+    padding-inline: 0;
+  }
+
+  .luxp-manifesto__overlay a {
+    pointer-events: auto;
+  }
+
+  body #MainContent .luxp-manifesto--has-image .luxp-heading,
+  .luxp-manifesto--has-image .luxp-eyebrow {
+    color: #f7f4ee !important;
+    text-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+  }
+
+  body #MainContent .shopify-section .luxp-manifesto--has-image .luxp-heading {
+    font-size: clamp(42px, 4.8vw, 72px) !important;
+    line-height: 1.05 !important;
+    letter-spacing: 0.01em !important;
+    color: #f7f4ee !important;
+  }
+
+  body #MainContent .shopify-section .luxp-manifesto--has-image .luxp-body,
+  body #MainContent .shopify-section .luxp-manifesto--has-image .luxp-body p {
+    color: rgba(247, 244, 238, 0.9) !important;
+    font-size: clamp(15px, 1.25vw, 18px) !important;
+    text-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
+    max-width: 36rem;
+    margin-inline: auto;
+  }
+
+  .luxp-manifesto--has-image .luxp-ornament__line {
+    background: rgba(247, 244, 238, 0.72) !important;
+  }
+
+  .luxp-manifesto--has-image .luxp-ornament__gem {
+    color: #f3e2c4 !important;
+  }
+
+  .luxp-manifesto--has-image.luxp-anim .luxp-manifesto__overlay .luxp-r {
+    opacity: 0;
+    filter: blur(18px);
+    transform: translateY(12px);
+    transition:
+      opacity 1.4s cubic-bezier(0.22, 1, 0.36, 1),
+      filter 1.6s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: calc(0.12s + var(--ri, 0) * 180ms);
+  }
+
+  .luxp-manifesto--has-image.luxp-anim.is-inview .luxp-manifesto__overlay .luxp-r {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+
+  .luxp-manifesto--has-image {
+    padding-bottom: 0 !important;
+  }
+
+  .section-brand-manifesto:has(.luxp-manifesto__stage) {
+    padding-block-end: 0 !important;
+  }
+
+  @media screen and (max-width: 749px) {
+    .luxp-manifesto__stage {
+      height: var(--luxp-image-h-m, 460px);
+    }
+
+    .luxp-manifesto__img {
+      object-position: center 62%;
+    }
+
+    body #MainContent .shopify-section .luxp-manifesto--has-image .luxp-heading {
+      font-size: clamp(32px, 9vw, 44px) !important;
+    }
+
+    body #MainContent .shopify-section .luxp-manifesto--has-image .luxp-body,
+    body #MainContent .shopify-section .luxp-manifesto--has-image .luxp-body p {
+      font-size: 14.5px !important;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .luxp-manifesto.luxp-anim .luxp-r,
     .luxp-manifesto.luxp-anim .luxp-ornament .luxp-ornament__line,
-    .luxp-manifesto.luxp-anim .luxp-ornament .luxp-ornament__gem {
+    .luxp-manifesto.luxp-anim .luxp-ornament .luxp-ornament__gem,
+    .luxp-manifesto--has-image.luxp-anim .luxp-manifesto__overlay .luxp-r {
       opacity: 1;
       transform: none;
       filter: none;
@@ -278,6 +433,12 @@
     { "type": "text", "id": "heading", "label": "Heading", "default": "A little bit of us" },
     { "type": "richtext", "id": "body", "label": "Statement text", "default": "<p>The Raw House is a destination for design, artistry and craftsmanship, curated for a life artfully lived.</p>" },
     { "type": "checkbox", "id": "show_ornament", "label": "Show ornament divider", "default": false },
+    { "type": "header", "content": "Store image" },
+    { "type": "image_picker", "id": "image", "label": "Full-width image" },
+    { "type": "text", "id": "image_alt", "label": "Image description", "info": "Used for screen readers." },
+    { "type": "url", "id": "image_link", "label": "Image link" },
+    { "type": "range", "id": "image_height", "min": 320, "max": 760, "step": 20, "unit": "px", "label": "Image height — desktop", "default": 560 },
+    { "type": "range", "id": "image_height_mobile", "min": 180, "max": 480, "step": 20, "unit": "px", "label": "Image height — mobile", "default": 280 },
 
     { "type": "header", "content": "Layout" },
     { "type": "select", "id": "text_align", "label": "Text alignment", "options": [

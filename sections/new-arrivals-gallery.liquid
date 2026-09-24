@@ -16,6 +16,13 @@
   assign full_width = section.settings.full_width
   assign show_caption = section.settings.show_caption_on_hover
   assign layout_style = section.settings.layout_style | default: 'slider'
+  assign tab_collections = section.settings.tab_collections
+  assign has_tabs = false
+  if layout_style == 'slider' and tab_collections != blank and tab_collections.size > 0
+    assign has_tabs = true
+  endif
+  assign products_per_tab = section.settings.products_per_tab | default: 8
+  assign featured_tab_label = section.settings.featured_tab_label | default: 'The Edit'
   assign caption_overlay_color = section.settings.caption_overlay_color | default: '#000000'
   assign caption_overlay_alpha = section.settings.caption_overlay_opacity | default: 60 | times: 0.01
 
@@ -215,6 +222,46 @@
 
     {% if layout_style == 'slider' %}
       {%- comment -%} ================= CARD SLIDER ================= {%- endcomment -%}
+      {% if has_tabs %}
+        <div class="new-arrivals-gallery__tabs" role="tablist" aria-label="Collections" data-nag-tabs>
+          <button
+            type="button"
+            class="new-arrivals-gallery__tab is-active"
+            role="tab"
+            id="NagTab-{{ section_id }}-edit"
+            aria-controls="NagPanel-{{ section_id }}-edit"
+            aria-selected="true"
+            tabindex="0"
+            data-nag-tab
+          >
+            {{ featured_tab_label | escape }}
+          </button>
+          {% for collection in tab_collections %}
+            {% if collection.products_count > 0 %}
+              <button
+                type="button"
+                class="new-arrivals-gallery__tab"
+                role="tab"
+                id="NagTab-{{ section_id }}-{{ collection.handle }}"
+                aria-controls="NagPanel-{{ section_id }}-{{ collection.handle }}"
+                aria-selected="false"
+                tabindex="-1"
+                data-nag-tab
+              >
+                {{ collection.title | escape }}
+              </button>
+            {% endif %}
+          {% endfor %}
+        </div>
+        <div class="new-arrivals-gallery__panels">
+          <div
+            class="new-arrivals-gallery__panel is-active"
+            id="NagPanel-{{ section_id }}-edit"
+            role="tabpanel"
+            aria-labelledby="NagTab-{{ section_id }}-edit"
+            data-nag-panel
+          >
+      {% endif %}
       <div class="new-arrivals-slider" data-nag-slider>
         <button type="button" class="new-arrivals-slider__arrow new-arrivals-slider__arrow--prev" aria-label="Previous arrivals" data-nag-prev>
           <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
@@ -296,6 +343,74 @@
 
         <div class="new-arrivals-slider__dots" data-nag-dots aria-hidden="true"></div>
       </div>
+      {% if has_tabs %}
+          </div>
+          {% for collection in tab_collections %}
+            {% if collection.products_count > 0 %}
+              <div
+                class="new-arrivals-gallery__panel"
+                id="NagPanel-{{ section_id }}-{{ collection.handle }}"
+                role="tabpanel"
+                aria-labelledby="NagTab-{{ section_id }}-{{ collection.handle }}"
+                data-nag-panel
+                hidden
+              >
+                <div class="new-arrivals-slider" data-nag-slider>
+                  <button type="button" class="new-arrivals-slider__arrow new-arrivals-slider__arrow--prev" aria-label="Previous products" data-nag-prev>
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+                  </button>
+                  <button type="button" class="new-arrivals-slider__arrow new-arrivals-slider__arrow--next" aria-label="Next products" data-nag-next>
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+                  </button>
+                  <div class="new-arrivals-slider__viewport" data-nag-viewport>
+                    <div class="new-arrivals-slider__track" data-nag-track>
+                      {% for product in collection.products limit: products_per_tab %}
+                        {% assign card_link = product.url %}
+                        {% assign card_title = product.title %}
+                        {% assign card_sub = product.vendor %}
+                        {% assign card_price = product.price | money %}
+                        {% assign card_badge = blank %}
+                        {% if product.available == false %}
+                          {% assign card_badge = 'Sold out' %}
+                        {% endif %}
+                        <div class="new-arrivals-slider__slide">
+                          <div class="new-arrivals-card">
+                            {% if card_badge != blank %}
+                              <span class="new-arrivals-card__badge">{{ card_badge }}</span>
+                            {% endif %}
+                            <a href="{{ card_link }}" class="new-arrivals-card__link" aria-label="{{ card_title | escape }}">
+                              <div class="new-arrivals-card__media{% if enable_hover_zoom %} new-arrivals-card__media--zoom{% endif %}">
+                                {% if product.featured_image != blank %}
+                                  {{ product.featured_image | image_url: width: 900 | image_tag: class: 'new-arrivals-card__img', loading: 'lazy', alt: card_title }}
+                                {% else %}
+                                  {% assign fallback_idx = forloop.index0 | modulo: 6 | plus: 1 %}
+                                  {% assign fallback_name = 'new-arrival-' | append: fallback_idx | append: '.jpg' %}
+                                  <img src="{{ fallback_name | asset_url }}" alt="{{ card_title | escape }}" class="new-arrivals-card__img" loading="lazy" width="600" height="750">
+                                {% endif %}
+                              </div>
+                            </a>
+                            <div class="new-arrivals-card__info">
+                              {% if card_sub != blank %}
+                                <span class="new-arrivals-card__designer">{{ card_sub }}</span>
+                              {% endif %}
+                              <h3 class="new-arrivals-card__title"><a href="{{ card_link }}">{{ card_title }}</a></h3>
+                              {% if card_price != blank %}
+                                <div class="new-arrivals-card__price">{{ card_price }}</div>
+                              {% endif %}
+                            </div>
+                          </div>
+                        </div>
+                      {% endfor %}
+                    </div>
+                  </div>
+                  <div class="new-arrivals-slider__dots" data-nag-dots aria-hidden="true"></div>
+                </div>
+                <a class="new-arrivals-gallery__viewall" href="{{ collection.url }}">View collection</a>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% endif %}
     {% else %}
       {%- comment -%} 6-Item Masonry Grid {%- endcomment -%}
       <div class="new-arrivals-gallery__grid">
@@ -510,63 +625,110 @@
     const section = document.getElementById('NewArrivalsGallery-{{ section_id }}');
     if (!section) return;
 
-    /* Slider logic */
-    const slider = section.querySelector('[data-nag-slider]');
-    if (slider) {
+    /* Slider logic — one instance per tab panel */
+    const initSlider = function(slider) {
       const track = slider.querySelector('[data-nag-track]');
       const prevBtn = slider.querySelector('[data-nag-prev]');
       const nextBtn = slider.querySelector('[data-nag-next]');
       const dotsContainer = slider.querySelector('[data-nag-dots]');
+      if (!track || slider.dataset.nagReady === 'true') return;
+      slider.dataset.nagReady = 'true';
 
-      if (track) {
-        const slides = track.querySelectorAll('.new-arrivals-slider__slide');
+      const slides = track.querySelectorAll('.new-arrivals-slider__slide');
 
-        if (dotsContainer && slides.length > 1) {
-          dotsContainer.innerHTML = '';
-          slides.forEach(function(_, idx) {
-            const dot = document.createElement('button');
-            dot.type = 'button';
-            dot.className = 'new-arrivals-slider__dot' + (idx === 0 ? ' is-active' : '');
-            dot.setAttribute('aria-label', 'Go to arrival ' + (idx + 1));
-            dot.addEventListener('click', function() {
-              slides[idx].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
-            });
-            dotsContainer.appendChild(dot);
+      if (dotsContainer && slides.length > 1) {
+        dotsContainer.innerHTML = '';
+        slides.forEach(function(_, idx) {
+          const dot = document.createElement('button');
+          dot.type = 'button';
+          dot.className = 'new-arrivals-slider__dot' + (idx === 0 ? ' is-active' : '');
+          dot.setAttribute('aria-label', 'Go to product ' + (idx + 1));
+          dot.addEventListener('click', function() {
+            const slide = slides[idx];
+            track.scrollTo({ left: slide.offsetLeft, behavior: 'smooth' });
           });
-        }
-
-        const updateControls = function() {
-          const scrollLeft = track.scrollLeft;
-          const maxScroll = track.scrollWidth - track.clientWidth - 6;
-          if (prevBtn) prevBtn.disabled = scrollLeft <= 4;
-          if (nextBtn) nextBtn.disabled = scrollLeft >= maxScroll;
-
-          if (dotsContainer) {
-            const dots = dotsContainer.querySelectorAll('.new-arrivals-slider__dot');
-            const cardWidth = slides[0] ? slides[0].offsetWidth : 300;
-            const activeIdx = Math.round(scrollLeft / (cardWidth + 22));
-            dots.forEach(function(dot, i) {
-              dot.classList.toggle('is-active', i === Math.min(activeIdx, dots.length - 1));
-            });
-          }
-        };
-
-        if (prevBtn) {
-          prevBtn.addEventListener('click', function() {
-            const cardWidth = slides[0] ? slides[0].offsetWidth + 22 : 320;
-            track.scrollBy({ left: -cardWidth, behavior: 'smooth' });
-          });
-        }
-        if (nextBtn) {
-          nextBtn.addEventListener('click', function() {
-            const cardWidth = slides[0] ? slides[0].offsetWidth + 22 : 320;
-            track.scrollBy({ left: cardWidth, behavior: 'smooth' });
-          });
-        }
-
-        track.addEventListener('scroll', updateControls, { passive: true });
-        setTimeout(updateControls, 100);
+          dotsContainer.appendChild(dot);
+        });
       }
+
+      const updateControls = function() {
+        const scrollLeft = track.scrollLeft;
+        const maxScroll = track.scrollWidth - track.clientWidth - 6;
+        if (prevBtn) prevBtn.disabled = scrollLeft <= 4;
+        if (nextBtn) nextBtn.disabled = maxScroll <= 4 || scrollLeft >= maxScroll;
+
+        if (dotsContainer && slides.length) {
+          const dots = dotsContainer.querySelectorAll('.new-arrivals-slider__dot');
+          const cardWidth = slides[0].offsetWidth || 300;
+          const activeIdx = Math.round(scrollLeft / (cardWidth + 22));
+          dots.forEach(function(dot, i) {
+            dot.classList.toggle('is-active', i === Math.min(activeIdx, dots.length - 1));
+          });
+        }
+      };
+
+      if (prevBtn) {
+        prevBtn.addEventListener('click', function() {
+          const cardWidth = slides[0] ? slides[0].offsetWidth + 22 : 320;
+          track.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+        });
+      }
+      if (nextBtn) {
+        nextBtn.addEventListener('click', function() {
+          const cardWidth = slides[0] ? slides[0].offsetWidth + 22 : 320;
+          track.scrollBy({ left: cardWidth, behavior: 'smooth' });
+        });
+      }
+
+      track.addEventListener('scroll', updateControls, { passive: true });
+      slider._nagRefresh = updateControls;
+      setTimeout(updateControls, 100);
+    };
+
+    section.querySelectorAll('[data-nag-slider]').forEach(initSlider);
+
+    const tabs = section.querySelectorAll('[data-nag-tab]');
+    const activateTab = function(panelId) {
+      tabs.forEach(function(tab) {
+        const on = tab.getAttribute('aria-controls') === panelId;
+        tab.classList.toggle('is-active', on);
+        tab.setAttribute('aria-selected', on ? 'true' : 'false');
+        tab.tabIndex = on ? 0 : -1;
+      });
+      section.querySelectorAll('[data-nag-panel]').forEach(function(panel) {
+        const on = panel.id === panelId;
+        panel.hidden = !on;
+        panel.classList.toggle('is-active', on);
+        if (!on) return;
+        const slider = panel.querySelector('[data-nag-slider]');
+        const track = slider && slider.querySelector('[data-nag-track]');
+        if (track) track.scrollLeft = 0;
+        if (slider && slider._nagRefresh) {
+          requestAnimationFrame(function() { slider._nagRefresh(); });
+        }
+      });
+    };
+
+    tabs.forEach(function(tab) {
+      tab.addEventListener('click', function() {
+        activateTab(tab.getAttribute('aria-controls'));
+      });
+    });
+
+    const tabList = section.querySelector('[data-nag-tabs]');
+    if (tabList && tabs.length) {
+      tabList.addEventListener('keydown', function(event) {
+        const list = Array.prototype.slice.call(tabs);
+        const current = list.indexOf(document.activeElement);
+        if (current < 0) return;
+        let next = current;
+        if (event.key === 'ArrowRight') next = (current + 1) % list.length;
+        else if (event.key === 'ArrowLeft') next = (current - 1 + list.length) % list.length;
+        else return;
+        event.preventDefault();
+        list[next].focus();
+        activateTab(list[next].getAttribute('aria-controls'));
+      });
     }
 
     /* Scroll-reveal for grid layout */
@@ -676,6 +838,101 @@
     line-height: 1 !important;
     opacity: 0.85 !important;
     display: inline-block !important;
+  }
+
+  .new-arrivals-gallery:has(.new-arrivals-gallery__tabs) .new-arrivals-gallery__header {
+    margin-block-end: 8px !important;
+  }
+
+  .new-arrivals-gallery__tabs {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px 26px;
+    width: 100%;
+    max-width: 920px;
+    margin: 14px auto 6px;
+    padding: 0;
+  }
+
+  .new-arrivals-gallery__tab {
+    appearance: none;
+    background: transparent !important;
+    border: none !important;
+    border-bottom: 1px solid transparent !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+    min-height: 0 !important;
+    width: auto !important;
+    height: auto !important;
+    padding: 10px 0 8px !important;
+    font-family: var(--font-body--family, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif) !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.16em !important;
+    text-transform: uppercase !important;
+    color: #8d867c !important;
+    line-height: 1.2 !important;
+    cursor: pointer;
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .new-arrivals-gallery__tab:hover {
+    color: #1a1a1a !important;
+  }
+
+  .new-arrivals-gallery__tab.is-active {
+    color: #1a1a1a !important;
+    border-bottom-color: var(--nag-accent, #b08d57) !important;
+  }
+
+  .new-arrivals-gallery__tab:focus-visible {
+    outline: 1px solid #1a1a1a;
+    outline-offset: 4px;
+  }
+
+  .new-arrivals-gallery__panel[hidden] {
+    display: none !important;
+  }
+
+  .new-arrivals-gallery__viewall {
+    display: block;
+    width: fit-content;
+    margin: 4px auto 0;
+    font-family: var(--font-body--family, sans-serif);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--nag-accent, #a98344);
+  }
+
+  .new-arrivals-gallery__viewall:hover {
+    color: #1a1a1a;
+  }
+
+  @media screen and (max-width: 749px) {
+    .new-arrivals-gallery__tabs {
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+      max-width: none;
+      gap: 22px;
+      margin: 12px 0 4px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .new-arrivals-gallery__tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .new-arrivals-gallery__tab {
+      flex: 0 0 auto;
+    }
   }
 
   /* ---------------- CARD SLIDER STYLES ---------------- */
@@ -1263,6 +1520,33 @@
       "id": "text_color",
       "label": "Section Text Color",
       "default": "#1a1a1a"
+    },
+    {
+      "type": "header",
+      "content": "Collection tabs"
+    },
+    {
+      "type": "text",
+      "id": "featured_tab_label",
+      "label": "Featured tab label",
+      "default": "The Edit",
+      "info": "First tab. It keeps the products picked in this section."
+    },
+    {
+      "type": "collection_list",
+      "id": "tab_collections",
+      "label": "Collections",
+      "limit": 8,
+      "info": "Each collection becomes a tab under the heading. Selecting it shows that collection in this row."
+    },
+    {
+      "type": "range",
+      "id": "products_per_tab",
+      "min": 4,
+      "max": 12,
+      "step": 1,
+      "label": "Products shown per collection",
+      "default": 8
     },
     {
       "type": "header",
