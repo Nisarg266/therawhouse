@@ -41,6 +41,7 @@
   data-luxp-autoplay="{{ s.autoplay }}"
   data-luxp-speed="{{ s.autoplay_speed | default: 6 }}"
   data-luxp-transition="{% if s.enable_animations %}{{ s.transition }}{% else %}none{% endif %}"
+  data-header-tone="{{ section.blocks.first.settings.header_tone | default: 'light' }}"
   style="
     {{ luxp_colors }}
     {{ luxp_typo }}
@@ -72,6 +73,7 @@
       <div
         class="luxp-hero__slide {% if forloop.first %}luxp-hero__slide--active{% endif %}"
         data-luxp-slide
+        data-header-tone="{{ block.settings.header_tone | default: 'light' }}"
         role="group"
         aria-roledescription="slide"
         aria-label="{{ forloop.index }} / {{ section.blocks.size }}"
@@ -379,6 +381,10 @@
         { "type": "header", "content": "Slide Overrides (Optional)" },
         { "type": "color", "id": "overlay_color", "label": "Slide Overlay Color" },
         { "type": "range", "id": "overlay_opacity", "min": 0, "max": 90, "step": 5, "unit": "%", "label": "Slide Overlay Opacity", "default": 0 },
+        { "type": "select", "id": "header_tone", "label": "Header controls over this slide", "options": [
+          { "value": "light", "label": "Light controls for a dark image" },
+          { "value": "dark", "label": "Dark controls for a light image" }
+        ], "default": "light" },
         { "type": "select", "id": "text_align", "label": "Content Alignment", "options": [
           { "value": "center", "label": "Center" },
           { "value": "left", "label": "Left" },

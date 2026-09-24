@@ -40,6 +40,7 @@
     function goTo(i, animate) {
       if (typeof animate === 'undefined') animate = true;
       index = (i + slides.length) % slides.length;
+      root.setAttribute('data-header-tone', slides[index].getAttribute('data-header-tone') || 'light');
 
       if (track) {
         track.style.transition = animate ? 'transform 0.65s cubic-bezier(0.22, 1, 0.36, 1)' : 'none';

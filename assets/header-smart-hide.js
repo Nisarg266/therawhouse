@@ -10,6 +10,7 @@
 (function () {
   var group = document.getElementById('header-group');
   if (!group) return;
+  var hasHomeHero = !!document.querySelector('#MainContent > .section-luxp-hero:first-child');
 
   var lastScrollY = 0;
   var isHidden = false;
@@ -59,6 +60,9 @@
 
   function update() {
     ticking = false;
+
+    // The home hero sits behind the header only at the top of the page.
+    if (hasHomeHero) group.classList.toggle('header--hero-solid', getScrollY() > 12);
 
     // Keep visible while menu, cart, or search is open, or during hover on pointer devices
     if (isInteracting()) {
@@ -131,4 +135,5 @@
 
   // Initial position check
   lastScrollY = getScrollY();
+  if (hasHomeHero) group.classList.toggle('header--hero-solid', lastScrollY > 12);
 })();

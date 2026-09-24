@@ -2430,3 +2430,84 @@ body.menu-drawer-open #header-group.header--auto-hidden {
     }
   }
 }
+
+/* Home hero header: the first banner begins underneath both header rows. */
+body:has(#MainContent > .section-luxp-hero:first-child) #header-group {
+  margin-bottom: calc(-1 * var(--header-height)) !important;
+  --hero-header-ink: #1d1b18;
+  --hero-header-line: rgba(29, 27, 24, 0.1);
+  --hero-logo-filter: none;
+  background: #ffffff !important;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s ease, box-shadow 0.25s ease !important;
+}
+
+body:has(#MainContent > .section-luxp-hero:first-child) #header-group :is(.header-section, #header-component, .header, .header__row--top, .header__row--bottom) {
+  background: transparent !important;
+}
+
+body:has(#MainContent > .section-luxp-hero:first-child) #header-group :is(.header__row--top, .header__row--bottom) {
+  --color-foreground: var(--hero-header-ink);
+  --color-account-icon: var(--hero-header-ink);
+  border-bottom-color: var(--hero-header-line) !important;
+}
+
+body:has(#MainContent > .section-luxp-hero:first-child) #header-group :is(
+  .header__icon--menu,
+  .header-drawer summary,
+  .header-inline-search-icon-btn,
+  .header-actions__action,
+  .account-button,
+  .cart-icon,
+  .wishlist-button,
+  .header-actions__wishlist-icon,
+  .header-actions__cart-icon,
+  .menu-list__link,
+  .header-logo__text-title,
+  .header__logo-text
+) {
+  color: var(--hero-header-ink) !important;
+}
+
+body:has(#MainContent > .section-luxp-hero:first-child) #header-group .header-logo img {
+  filter: var(--hero-logo-filter) !important;
+  transition: filter 0.25s ease !important;
+}
+
+body:has(#MainContent > .section-luxp-hero:first-child) #header-group:not(.header--hero-solid) {
+  --hero-header-ink: #ffffff;
+  --hero-header-line: rgba(255, 255, 255, 0.32);
+  --hero-logo-filter: brightness(0) invert(1) drop-shadow(0 1px 5px rgba(0, 0, 0, 0.24));
+  background: transparent !important;
+  box-shadow: none !important;
+  border-bottom-color: transparent !important;
+}
+
+body:has(#MainContent > .section-luxp-hero:first-child [data-luxp-hero][data-header-tone='dark']) #header-group:not(.header--hero-solid) {
+  --hero-header-ink: #1d1b18;
+  --hero-header-line: rgba(29, 27, 24, 0.22);
+  --hero-logo-filter: none;
+}
+
+/* Open controls receive a quiet opaque surface so menus and search stay legible. */
+body:has(#MainContent > .section-luxp-hero:first-child) #header-group:is(
+  :has(.menu-list__list-item:is(:hover, :focus-within)),
+  :has(.header-inline-search-pill:is(:focus-within, [aria-expanded='true'])),
+  :has(#Details-menu-drawer-container[open])
+) {
+  --hero-header-ink: #1d1b18;
+  --hero-header-line: rgba(29, 27, 24, 0.1);
+  --hero-logo-filter: none;
+  background: #ffffff !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+}
+
+body:has(#MainContent > .section-luxp-hero:first-child) #header-group .header__underlay {
+  visibility: hidden !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body:has(#MainContent > .section-luxp-hero:first-child) #header-group,
+  body:has(#MainContent > .section-luxp-hero:first-child) #header-group .header-logo img {
+    transition: none !important;
+  }
+}
