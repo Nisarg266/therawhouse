@@ -57,7 +57,7 @@
       "
     >
       <div class="menu-drawer__header">
-        <span class="menu-drawer__header-title">{{ 'accessibility.menu' | t }}</span>
+        <span class="menu-drawer__header-title">{{ shop.name | escape }}</span>
         <button
           type="button"
           class="menu-drawer__close-button"
@@ -65,37 +65,6 @@
         >
           {{- 'icon-close.svg' | inline_asset_content -}}
         </button>
-      </div>
-
-      {%- comment -%} Editorial Feature Gallery Card (Screenshot Match) {%- endcomment -%}
-      <div class="menu-drawer__editorial-card">
-        <div class="menu-drawer__editorial-img-wrap">
-          {% if block_settings.drawer_feature_image != blank %}
-            {{
-              block_settings.drawer_feature_image
-              | image_url: width: 900
-              | image_tag:
-                widths: '360, 540, 720, 900',
-                sizes: '(max-width: 749px) calc(100vw - 46px), 360px',
-                alt: block_settings.drawer_feature_title,
-                class: 'menu-drawer__editorial-img',
-                loading: 'lazy'
-            }}
-          {% else %}
-            <img
-              src="{{ 'maker-gallery-1.jpg' | asset_url }}"
-              alt="{{ block_settings.drawer_feature_title | default: 'The Raw House Gallery' | escape }}"
-              class="menu-drawer__editorial-img"
-              loading="lazy"
-              width="600"
-              height="400"
-            >
-          {% endif %}
-        </div>
-        <div class="menu-drawer__editorial-info">
-          <h3 class="menu-drawer__editorial-title">{{ block_settings.drawer_feature_title | default: 'THE RAW HOUSE GALLERY' }}</h3>
-          <a href="{{ block_settings.drawer_feature_link | default: pages.gallery.url | default: pages.about-us.url | default: routes.root_url }}" class="menu-drawer__editorial-link">{{ block_settings.drawer_feature_link_label | default: 'Visit Us' }}</a>
-        </div>
       </div>
 
       <nav
@@ -106,6 +75,7 @@
         "
         aria-label="{{ 'accessibility.header_navigation_label' | t }}"
       >
+        <p class="menu-drawer__navigation-label">{{ 'accessibility.menu' | t }}</p>
         <ul
           class="menu-drawer__menu has-submenu"
           role="list"
@@ -124,6 +94,17 @@
                     <span class="menu-drawer__accordion-icon" aria-hidden="true"></span>
                   </button>
                   <ul id="MenuDrawerAccordion-{{ forloop.index }}" class="menu-drawer__submenu-links" role="list" hidden>
+                    {% liquid
+                      assign parent_link_in_children = false
+                      for child_link in link.links
+                        if child_link.url == link.url
+                          assign parent_link_in_children = true
+                        endif
+                      endfor
+                    %}
+                    {% unless parent_link_in_children %}
+                      <li><a href="{{ link.url }}" class="menu-drawer__menu-item menu-drawer__submenu-item">{{ 'actions.view_all' | t }} {{ link.title | escape }}</a></li>
+                    {% endunless %}
                     {% for child_link in link.links %}
                       <li>
                         <a href="{{ child_link.url }}" class="menu-drawer__menu-item menu-drawer__submenu-item"{% if child_link.current %} aria-current="page"{% endif %}>{{ child_link.title | escape }}</a>
@@ -150,13 +131,39 @@
         </ul>
       </nav>
 
-      <div class="menu-drawer__footer">
-        <div class="menu-drawer__footer-ornament" aria-hidden="true">
-          <span></span>
-          <span class="menu-drawer__footer-gem">&#9670;</span>
-          <span></span>
+      <div class="menu-drawer__editorial-card">
+        <div class="menu-drawer__editorial-img-wrap">
+          {% if block_settings.drawer_feature_image != blank %}
+            {{
+              block_settings.drawer_feature_image
+              | image_url: width: 480
+              | image_tag:
+                widths: '160, 320, 480',
+                sizes: '100px',
+                alt: block_settings.drawer_feature_title,
+                class: 'menu-drawer__editorial-img',
+                loading: 'lazy'
+            }}
+          {% else %}
+            <img
+              src="{{ 'maker-gallery-1.jpg' | asset_url }}"
+              alt="{{ block_settings.drawer_feature_title | default: 'The Raw House Gallery' | escape }}"
+              class="menu-drawer__editorial-img"
+              loading="lazy"
+              width="160"
+              height="180"
+            >
+          {% endif %}
         </div>
-        <span class="menu-drawer__footer-brand">{{ shop.name }}</span>
+        <div class="menu-drawer__editorial-info">
+          <h3 class="menu-drawer__editorial-title">{{ block_settings.drawer_feature_title | default: 'THE RAW HOUSE GALLERY' }}</h3>
+          <a href="{{ block_settings.drawer_feature_link | default: pages.gallery.url | default: pages.about-us.url | default: routes.root_url }}" class="menu-drawer__editorial-link">{{ block_settings.drawer_feature_link_label | default: 'Visit Us' }}</a>
+        </div>
+      </div>
+
+      <div class="menu-drawer__footer">
+        <span class="menu-drawer__footer-brand">{{ shop.name | escape }}</span>
+        <span class="menu-drawer__footer-year">&copy; {{ 'now' | date: '%Y' }}</span>
       </div>
     </div>
   </details>
