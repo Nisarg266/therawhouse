@@ -247,6 +247,8 @@
     --flx-sans: var(--font-body--family, -apple-system, 'Helvetica Neue', sans-serif);
     --flx-ease: cubic-bezier(0.22, 1, 0.36, 1);
     position: relative;
+    isolation: isolate;
+    overflow: clip;
     background: var(--flx-bg);
     color: var(--flx-body);
     font-family: var(--flx-sans);
@@ -275,7 +277,41 @@
     box-sizing: inherit;
   }
 
+  /* Soft, slow color drift beneath the white footer content. */
+  .custom-luxury-footer.flx--minimal_white::before,
+  .custom-luxury-footer.flx--minimal_white::after {
+    content: '';
+    position: absolute;
+    inset: -12% -8%;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .custom-luxury-footer.flx--minimal_white::before {
+    background:
+      radial-gradient(ellipse 38% 55% at 17% 38%, rgba(205, 181, 151, 0.2), transparent 78%),
+      radial-gradient(ellipse 42% 60% at 82% 66%, rgba(187, 204, 207, 0.2), transparent 80%);
+    animation: flx-frost-drift 32s ease-in-out infinite alternate;
+  }
+
+  .custom-luxury-footer.flx--minimal_white::after {
+    background: radial-gradient(ellipse 34% 55% at 56% 22%, rgba(222, 204, 205, 0.15), transparent 80%);
+    animation: flx-frost-drift-reverse 38s ease-in-out infinite alternate;
+  }
+
+  @keyframes flx-frost-drift {
+    from { transform: translate3d(-2%, 1%, 0); }
+    to { transform: translate3d(3%, -2%, 0); }
+  }
+
+  @keyframes flx-frost-drift-reverse {
+    from { transform: translate3d(2%, -1%, 0); }
+    to { transform: translate3d(-3%, 2%, 0); }
+  }
+
   .flx-inner {
+    position: relative;
+    z-index: 1;
     max-width: var(--flx-max);
     margin: 0 auto;
     padding: 0 clamp(20px, 4vw, 48px);
@@ -833,6 +869,12 @@
 
   /* ---------- Reduced motion ---------- */
   @media (prefers-reduced-motion: reduce) {
+    .custom-luxury-footer.flx--minimal_white::before,
+    .custom-luxury-footer.flx--minimal_white::after {
+      animation: none;
+      transform: none;
+    }
+
     .flx-reveal {
       opacity: 1;
       transform: none;
