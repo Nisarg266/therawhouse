@@ -126,13 +126,18 @@
       {% for block in section.blocks %}
         {%- liquid
           assign cover_alt = block.settings.alt | default: 'Catalog cover'
+          assign cover_name = block.settings.title | default: block.settings.alt | default: block.settings.default_asset
           assign cover_link = block.settings.link | default: routes.all_products_collection_url
+          assign cover_action = 'View catalog'
+          if block.settings.icon_type == 'download'
+            assign cover_action = 'Download catalog'
+          endif
         -%}
         <a
           href="{{ cover_link }}"
           class="luxp-card luxp-catalog__card {% if forloop.index > initial %}luxp-toggle-hidden{% endif %}"
           {% if s.open_links_new_tab %}target="_blank" rel="noopener noreferrer"{% endif %}
-          aria-label="{{ cover_alt | escape }}"
+          aria-label="{{ cover_action }}{% if cover_name != blank %}: {{ cover_name | replace: '_', ' ' | escape }}{% endif %}"
           {{ block.shopify_attributes }}
         >
           <div class="luxp-media luxp-catalog__media">
@@ -161,6 +166,7 @@
             {% endif %}
             {% if block.settings.show_view_icon %}
               <span class="luxp-catalog__icon" aria-hidden="true">
+                <span class="luxp-catalog__icon-label">{{ cover_action }}</span>
                 {% if block.settings.icon_type == 'eye' %}
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="15" height="15"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
                 {% elsif block.settings.icon_type == 'download' %}
@@ -315,7 +321,7 @@
     letter-spacing: 0.04em;
   }
 
-  /* Subtle transparent arrow icon */
+  /* Quiet, always-visible catalog action on every cover. */
   .luxp-catalog__icon {
     position: absolute;
     right: 14px;
@@ -323,29 +329,42 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background-color: transparent !important;
-    background: transparent !important;
-    border: 1px solid rgba(255, 255, 255, 0.75) !important;
-    color: #ffffff !important;
-    opacity: 0;
-    transform: translateY(6px);
-    transition: opacity 0.3s ease, transform 0.3s ease, background-color 0.25s ease, border-color 0.25s ease;
+    gap: 9px;
+    min-height: 34px;
+    padding: 0 12px;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid rgba(255, 255, 255, 0.92);
+    color: #1b1b1b;
+    opacity: 1;
+    transition: transform 0.25s ease, background-color 0.25s ease;
     z-index: 3;
     pointer-events: none;
-    backdrop-filter: blur(2px);
-    -webkit-backdrop-filter: blur(2px);
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+  }
+
+  .luxp-catalog__icon-label {
+    font-family: var(--font-body--family, sans-serif);
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .luxp-catalog__icon svg {
+    width: 14px;
+    height: 14px;
+    flex: none;
   }
 
   .luxp-catalog__card:hover .luxp-catalog__icon,
   .luxp-catalog__card:focus-visible .luxp-catalog__icon {
-    opacity: 1;
-    transform: translateY(0);
-    background-color: rgba(255, 255, 255, 0.18) !important;
-    border-color: #ffffff !important;
+    transform: translateY(-2px);
+    background: #ffffff;
   }
 
   /* ---------------- Desktop Collage Grid Spanning (min-width: 990px) ---------------- */
@@ -591,21 +610,24 @@
       margin-top: 14px !important;
     }
 
-    /* Floating high-contrast frosted glass arrow button on mobile */
+    /* Compact action label on the narrow collage cards. */
     .luxp-catalog__icon {
       position: absolute !important;
-      right: 10px !important;
-      bottom: 10px !important;
+      right: 8px !important;
+      bottom: 8px !important;
       display: inline-flex !important;
       align-items: center !important;
       justify-content: center !important;
-      width: 28px !important;
+      gap: 6px !important;
+      width: auto !important;
       height: 28px !important;
-      border-radius: 50% !important;
+      min-height: 28px !important;
+      padding: 0 9px !important;
+      border-radius: 2px !important;
       background: rgba(255, 255, 255, 0.94) !important;
       color: #111111 !important;
       border: 1px solid rgba(255, 255, 255, 0.98) !important;
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.14) !important;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12) !important;
       opacity: 1 !important;
       transform: translateY(0) !important;
       z-index: 3 !important;
@@ -616,8 +638,13 @@
     }
 
     .luxp-catalog__card:active .luxp-catalog__icon {
-      transform: scale(1.08) !important;
+      transform: scale(1.02) !important;
       background: #ffffff !important;
+    }
+
+    .luxp-catalog__icon-label {
+      font-size: 10px !important;
+      letter-spacing: 0.1em !important;
     }
 
     .luxp-catalog__icon svg {
