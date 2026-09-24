@@ -69,7 +69,7 @@
           "type": "pillar",
           "settings": {
             "numeral": "I",
-            "title": "CRAFT WITH PRESENCE",
+            "title": "Craft with Presence",
             "description": "Every piece is chosen for its material honesty: visible grain, hand-applied finishes, balanced proportions, and the small irregularities that make an object feel alive.",
             "tag": "WOOD, BRASS, STONE & TEXTURE",
             "link": ""
@@ -79,7 +79,7 @@
           "type": "pillar",
           "settings": {
             "numeral": "II",
-            "title": "CURATED, NOT CROWDED",
+            "title": "Curated, Not Crowded",
             "description": "Our collections are built slowly: furniture, decor, lighting, artwork, and accents that work together without making a room feel staged or overdone.",
             "tag": "EDITED HOME CURATION",
             "link": ""
@@ -89,7 +89,7 @@
           "type": "pillar",
           "settings": {
             "numeral": "III",
-            "title": "MADE TO LIVE WITH",
+            "title": "Made to Live With",
             "description": "The Raw House is for everyday rituals as much as special rooms: pieces with weight, warmth, and longevity that settle beautifully into real homes.",
             "tag": "HEIRLOOM-READY LIVING",
             "link": ""
@@ -108,7 +108,7 @@
         "custom_card_bg": "",
         "custom_accent_color": "",
         "subheading": "OUR POINT OF VIEW",
-        "heading": "THE RAW HOUSE MANIFESTO",
+        "heading": "The Raw House Manifesto",
         "intro_text": "The Raw House began with a simple belief: a home should not look assembled overnight. It should feel layered over time, shaped by craft, texture, memory, and objects that invite touch.",
         "padding_top": 32,
         "padding_bottom": 50
@@ -174,7 +174,7 @@
       "settings": {
         "top_label": "THE",
         "subheading": "MEET THE FOUNDERS",
-        "heading": "OUR FOUNDERS",
+        "heading": "Our Founders",
         "intro": "A shared instinct for honest materials, considered interiors, and spaces that feel like home.",
         "bottom_text": "PEOPLE  -  SPACES  -  A BETTER TOMORROW",
         "show_bio": false,
@@ -417,9 +417,9 @@
       ],
       "settings": {
         "eyebrow": "THE",
-        "heading": "G A L L E R Y",
+        "heading": "Gallery",
         "intro": "<p>Browse our catalogs — tap any cover to open.</p>",
-        "show_ornament": true,
+        "show_ornament": false,
         "header_align": "center",
         "header_mb": 20,
         "header_gap": 10,
@@ -780,8 +780,8 @@
   },
   "order": [
     "luxury_marquee_top",
-    "luxury_about_manifesto",
     "luxury_about_founder",
+    "luxury_about_manifesto",
     "about_founders_cards",
     "luxury_product_catalog_iR9iB3",
     "about_animated_gallery",

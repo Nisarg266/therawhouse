@@ -73,7 +73,7 @@
       <div class="lux-section-divider"></div>
       {% if section.settings.intro_text != blank %}
         <p class="lux-manifesto-intro" style="color: var(--manifesto-color); opacity: 0.85;">
-          "{{ section.settings.intro_text | default: 'In an era of disposable mass-produced decor, The Raw House was founded on an unapologetic conviction: True art possesses physical weight, tactile soul, and unhurried mastery.' }}"
+          {{ section.settings.intro_text | default: 'In an era of disposable mass-produced decor, The Raw House was founded on an unapologetic conviction: True art possesses physical weight, tactile soul, and unhurried mastery.' }}
         </p>
       {% endif %}
     </div>
@@ -93,7 +93,7 @@
           {{ block.shopify_attributes }}
         >
           <div class="lux-manifesto-card-header">
-            <span class="lux-manifesto-roman" style="color: var(--manifesto-accent);">{{ block.settings.numeral | default: forloop.index | prepend: '0' }}</span>
+            <span class="lux-manifesto-roman" style="color: var(--manifesto-accent);">{{ block.settings.numeral | default: forloop.index }}</span>
             <div class="lux-manifesto-line" style="background: var(--manifesto-border);"></div>
           </div>
 

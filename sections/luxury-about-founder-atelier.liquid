@@ -109,7 +109,11 @@
       <!-- Content Column -->
       <div class="lux-founder-content lux-reveal-fade-up" style="direction: ltr;">
         <span class="lux-founder-subheading" style="color: var(--founder-accent);">{{ section.settings.subheading | default: 'BEHIND THE CANVAS & FOUNDRY' }}</span>
-        <h2 class="lux-founder-heading" style="color: var(--founder-color);">{{ section.settings.heading | default: 'HONORING THE WEIGHT OF CREATION' }}</h2>
+        {% if template.suffix == 'about-us' %}
+          <h1 class="lux-founder-heading" style="color: var(--founder-color);">{{ section.settings.heading | default: 'HONORING THE WEIGHT OF CREATION' }}</h1>
+        {% else %}
+          <h2 class="lux-founder-heading" style="color: var(--founder-color);">{{ section.settings.heading | default: 'HONORING THE WEIGHT OF CREATION' }}</h2>
+        {% endif %}
 
         <div class="lux-founder-text-body">
           <p style="color: var(--founder-color); opacity: 0.82;">
