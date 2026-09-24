@@ -8,3 +8,6 @@
 {% if template.name == 'page' and template.suffix == 'about-us' %}
   {{ 'about-editorial.css' | asset_url | stylesheet_tag }}
 {% endif %}
+{% if template.name == 'page' and template.suffix == 'showcase' %}
+  {{ 'showcase-editorial.css' | asset_url | stylesheet_tag }}
+{% endif %}

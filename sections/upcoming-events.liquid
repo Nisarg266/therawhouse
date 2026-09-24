@@ -7,6 +7,10 @@
   assign s = section.settings
   assign heading_primary = s.heading_primary | default: 'Upcoming'
   assign heading_accent = s.heading_accent | default: 'Events'
+  assign heading_tag = 'h2'
+  if template.suffix == 'showcase'
+    assign heading_tag = 'h1'
+  endif
 
   assign ratio_css = '4 / 5'
   if s.image_ratio == '1/1'
@@ -85,10 +89,10 @@
           <p class="trh-events__eyebrow">{{ s.eyebrow }}</p>
         {% endif %}
         {% if heading_primary != blank or heading_accent != blank %}
-          <h2 class="trh-events__heading">
+          <{{ heading_tag }} class="trh-events__heading">
             {% if heading_primary != blank %}<span>{{ heading_primary }}</span>{% endif %}
             {% if heading_accent != blank %}<em>{{ heading_accent }}</em>{% endif %}
-          </h2>
+          </{{ heading_tag }}>
         {% endif %}
         {% if s.show_ornament %}
           <div class="trh-events__ornament" aria-hidden="true">
@@ -125,14 +129,15 @@
           {% capture event_card_content %}
             <div class="trh-events__gallery" data-trh-events-slider>
               <div class="trh-events__viewport" data-trh-events-track>
-                <figure class="trh-events__media">
+                <figure class="trh-events__media is-active">
                   {% render 'luxp-image',
                     image: block.settings.image,
                     image_mobile: block.settings.image_mobile,
                     alt: event_title,
                     class: 'trh-events__image',
-                    loading: 'lazy',
-                    sizes: '(min-width: 990px) 44vw, 92vw',
+                    loading: 'eager',
+                    fetchpriority: 'high',
+                    sizes: '(min-width: 1050px) 580px, (min-width: 750px) min(680px, 90vw), calc(100vw - 40px)',
                     fallback: block.settings.default_asset
                   %}
                   {% if block.settings.image_label_1 != blank %}
@@ -860,7 +865,7 @@
         const slides = Array.from(track?.querySelectorAll('.trh-events__media') || []);
         if (!track) return;
 
-        let index = slides.length > 2 ? Math.floor(slides.length / 2) : 0;
+        let index = 0;
 
         const wrap = (value) => (value + slides.length) % slides.length;
         const format = (value) => String(value + 1).padStart(2, '0');

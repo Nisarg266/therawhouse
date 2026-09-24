@@ -81,8 +81,8 @@
             "date_label": "22 - 24 September",
             "time_label": "",
             "title": "The Raw House Showcase Indore",
-            "location": "The Raw House",
-            "text": "<p>We’re taking The Raw House to a new city. Our first-ever showcase in Indore, bringing together an edit of Indian design, art, craft and contemporary practices. The first chapter of The Raw House City Connects.<br/><br/>- The Grand Hall At Brilliant Convention Centre Indore</p>",
+            "location": "Indore, India",
+            "text": "<p>We’re taking The Raw House to a new city. Our first-ever showcase in Indore, bringing together an edit of Indian design, art, craft and contemporary practices. The first chapter of The Raw House City Connects.</p><p>The Grand Hall at Brilliant Convention Centre, Indore</p>",
             "cta_label": "",
             "link": ""
           }
@@ -93,11 +93,11 @@
       ],
       "settings": {
         "eyebrow": "THE RAW HOUSE",
-        "heading_primary": "Upcoming",
-        "heading_accent": "Events",
+        "heading_primary": "Events",
+        "heading_accent": "& Exhibitions",
         "intro": "<p>Join us for curated exhibitions, previews and intimate design gatherings.</p>",
-        "show_ornament": true,
-        "header_align": "center",
+        "show_ornament": false,
+        "header_align": "left",
         "container_max": 1340,
         "card_gap": 12,
         "card_gap_m": 12,
