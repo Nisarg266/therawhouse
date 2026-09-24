@@ -253,13 +253,18 @@ body .about-founders__card:hover {
 }
 
 body .about-founders__media {
-  width: 100%;
+  width: min(100%, 480px);
   min-height: 0;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: auto;
+  background: transparent;
+  overflow: visible;
 }
 
 body .about-founders__image,
 body .about-founders__card:hover .about-founders__image {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
   transform: none;
 }
 
@@ -318,6 +323,76 @@ body .about-founders__bottom-line {
 
 .luxp-catalog .luxp-header__intro {
   margin-inline: 0;
+}
+
+/* The final value notes read as an editorial index, without card chrome. */
+.lux-trust-section {
+  padding: clamp(64px, 7vw, 106px) 0 !important;
+  background: #f6f4ef !important;
+  border-color: #d8d3ca !important;
+}
+
+.lux-trust-section .lux-trust-container {
+  width: min(1440px, calc(100% - clamp(40px, 8vw, 144px)));
+  max-width: none;
+  margin-inline: auto;
+  padding: 0;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 0;
+  counter-reset: trust-feature;
+}
+
+.lux-trust-section .lux-trust-card,
+.lux-trust-section .lux-trust-card:hover {
+  display: block;
+  min-width: 0;
+  padding: 0 clamp(18px, 2.8vw, 44px);
+  border: 0;
+  border-radius: 0;
+  background: transparent !important;
+  box-shadow: none;
+  text-align: left;
+  transform: none;
+}
+
+.lux-trust-section .lux-trust-card:first-child {
+  padding-left: 0;
+}
+
+.lux-trust-section .lux-trust-card + .lux-trust-card {
+  border-left: 1px solid #d8d3ca;
+}
+
+.lux-trust-section .lux-trust-card::before {
+  display: block;
+  margin-bottom: clamp(28px, 3vw, 42px);
+  color: #8c7b62;
+  content: counter(trust-feature, decimal-leading-zero);
+  counter-increment: trust-feature;
+  font-family: var(--font-heading-family, Georgia, serif);
+  font-size: 17px;
+  font-style: italic;
+  line-height: 1;
+}
+
+.lux-trust-section .lux-trust-icon-wrap {
+  display: none;
+}
+
+body #MainContent .shopify-section .lux-trust-section .lux-trust-title {
+  margin: 0 0 12px;
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: clamp(23px, 1.9vw, 28px) !important;
+  font-weight: 400 !important;
+  letter-spacing: -0.02em !important;
+  line-height: 1.15 !important;
+  text-transform: none;
+}
+
+body #MainContent .shopify-section .lux-trust-section .lux-trust-subtitle {
+  max-width: 270px;
+  font-size: 14px !important;
+  line-height: 1.7 !important;
 }
 
 @media (max-width: 989px) {
@@ -425,7 +500,7 @@ body .about-founders__bottom-line {
   }
 
   body .about-founders__media {
-    aspect-ratio: 4 / 3;
+    width: 100%;
   }
 
   body .about-founders__content {
@@ -448,5 +523,44 @@ body .about-founders__bottom-line {
   .luxp-catalog {
     --luxp-pt-m: 72px !important;
     --luxp-pb-m: 80px !important;
+  }
+
+  .lux-trust-section {
+    padding: 56px 0 68px !important;
+  }
+
+  .lux-trust-section .lux-trust-container {
+    width: calc(100% - 40px);
+    grid-template-columns: 1fr !important;
+  }
+
+  .lux-trust-section .lux-trust-card,
+  .lux-trust-section .lux-trust-card:hover,
+  .lux-trust-section .lux-trust-card:first-child {
+    display: grid;
+    grid-template-columns: 42px minmax(0, 1fr);
+    gap: 0 10px;
+    padding: 22px 0;
+    border: 0;
+    border-top: 1px solid #d8d3ca;
+  }
+
+  .lux-trust-section .lux-trust-card::before {
+    grid-column: 1;
+    margin: 4px 0 0;
+  }
+
+  .lux-trust-section .lux-trust-card-body {
+    grid-column: 2;
+  }
+
+  body #MainContent .shopify-section .lux-trust-section .lux-trust-title {
+    margin-bottom: 6px;
+    font-size: 23px !important;
+  }
+
+  body #MainContent .shopify-section .lux-trust-section .lux-trust-subtitle {
+    max-width: 100%;
+    font-size: 14px !important;
   }
 }

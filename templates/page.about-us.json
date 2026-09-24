@@ -651,7 +651,7 @@
           "settings": {
             "icon": "museum",
             "custom_svg": "",
-            "title": "HONEST MATERIALS",
+            "title": "Honest materials",
             "subtitle": "Wood, metal, stone, textile and finish selected for tactile depth",
             "link": ""
           }
@@ -661,7 +661,7 @@
           "settings": {
             "icon": "authenticity",
             "custom_svg": "",
-            "title": "CURATED SELECTION",
+            "title": "Curated selection",
             "subtitle": "Furniture, art and accents edited for layered interiors",
             "link": ""
           }
@@ -671,7 +671,7 @@
           "settings": {
             "icon": "delivery",
             "custom_svg": "",
-            "title": "WHITE-GLOVE DELIVERY",
+            "title": "White-glove delivery",
             "subtitle": "Careful packing, insured transit and placement support",
             "link": ""
           }
@@ -681,7 +681,7 @@
           "settings": {
             "icon": "concierge",
             "custom_svg": "",
-            "title": "PERSONAL CONCIERGE",
+            "title": "Personal concierge",
             "subtitle": "Guidance for selection, styling, care and bespoke requests",
             "link": ""
           }
