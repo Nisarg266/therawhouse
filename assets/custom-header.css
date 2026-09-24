@@ -2254,16 +2254,13 @@ body.menu-drawer-open #header-group.header--auto-hidden {
     background: #f9f8f5 !important;
   }
 
-  .header-drawer .menu-drawer__header-title {
-    font-family: Georgia, 'Times New Roman', serif !important;
-    font-size: 15px !important;
-    font-weight: 400 !important;
-    letter-spacing: 0.13em !important;
-    color: #24201b !important;
-  }
-
-  .header-drawer .menu-drawer__header-title::before {
-    display: none !important;
+  .header-drawer .menu-drawer__header-logo {
+    display: block !important;
+    width: min(56vw, 220px) !important;
+    height: auto !important;
+    max-height: 28px !important;
+    object-fit: contain !important;
+    object-position: left center !important;
   }
 
   .header-drawer .menu-drawer__close-button {
