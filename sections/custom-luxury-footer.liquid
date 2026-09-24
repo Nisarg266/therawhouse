@@ -35,7 +35,6 @@
       <div class="flx-newsletter flx-reveal-group" {{ newsletter_block.shopify_attributes }}>
         <div class="flx-newsletter__copy">
           <p class="flx-eyebrow flx-reveal" style="--ri: 0;">
-            <span class="flx-diamond" aria-hidden="true"></span>
             The Collectors&rsquo; List
           </p>
           <h2 class="flx-newsletter__title flx-reveal" style="--ri: 1;">{{ nb.heading | default: 'First to see. First to own.' }}</h2>
@@ -336,9 +335,9 @@
   .flx-newsletter {
     display: grid;
     grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
-    gap: 20px clamp(40px, 6vw, 96px);
+    gap: 14px clamp(40px, 6vw, 96px);
     align-items: end;
-    padding-bottom: clamp(40px, 5vw, 60px);
+    padding-bottom: clamp(28px, 3.5vw, 42px);
     border-bottom: 1px solid var(--flx-hairline);
   }
 
@@ -346,27 +345,17 @@
     display: flex;
     align-items: center;
     margin: 0;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 600;
-    letter-spacing: 0.24em;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
     color: var(--flx-muted);
   }
 
-  .flx-diamond {
-    display: inline-block;
-    width: 5px;
-    height: 5px;
-    margin-right: 12px;
-    background: var(--flx-gold);
-    transform: rotate(45deg);
-    flex: none;
-  }
-
   .flx-newsletter__title {
-    margin: 16px 0 12px;
+    margin: 10px 0 8px;
     font-family: var(--flx-serif);
-    font-size: clamp(28px, 3.4vw, 42px);
+    font-size: clamp(22px, 2.4vw, 30px);
     font-weight: 500;
     font-style: normal;
     letter-spacing: -0.01em;
@@ -377,8 +366,8 @@
   .flx-newsletter__sub {
     margin: 0;
     max-width: 46ch;
-    font-size: 14.5px;
-    line-height: 1.65;
+    font-size: 13px;
+    line-height: 1.55;
     color: var(--flx-body);
   }
 
@@ -427,11 +416,11 @@
   .flx-input {
     display: block;
     width: 100%;
-    padding: 13px 2px;
+    padding: 9px 2px;
     background: transparent;
     border: 0;
     font-family: inherit;
-    font-size: 15px;
+    font-size: 14px;
     color: var(--flx-ink);
     outline: none;
     border-radius: 0;
@@ -451,8 +440,8 @@
     flex: none;
     display: grid;
     place-items: center;
-    width: 47px;
-    height: 47px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     border: 1px solid var(--flx-hairline-strong);
     background: transparent;
@@ -484,8 +473,8 @@
     display: flex;
     align-items: center;
     gap: 9px;
-    margin: 14px 0 0;
-    font-size: 11.5px;
+    margin: 10px 0 0;
+    font-size: 11px;
     letter-spacing: 0.04em;
     color: var(--flx-muted);
   }
@@ -762,8 +751,8 @@
     .flx-newsletter {
       grid-template-columns: 1fr;
       align-items: start;
-      gap: 26px;
-      padding-bottom: clamp(32px, 6vw, 44px);
+      gap: 18px;
+      padding-bottom: clamp(24px, 5vw, 34px);
     }
 
     .flx-form__fields {
