@@ -70,6 +70,14 @@
 >
   <div class="luxp-hero__track">
     {% for block in section.blocks %}
+      {%- liquid
+        assign slide_loading = 'lazy'
+        assign slide_priority = 'low'
+        if forloop.first
+          assign slide_loading = 'eager'
+          assign slide_priority = 'high'
+        endif
+      -%}
       <div
         class="luxp-hero__slide {% if forloop.first %}luxp-hero__slide--active{% endif %}"
         data-luxp-slide
@@ -86,7 +94,8 @@
             image: block.settings.image,
             image_mobile: block.settings.image_mobile,
             alt: slide_alt,
-            loading: 'eager',
+            loading: slide_loading,
+            fetchpriority: slide_priority,
             sizes: '100vw',
             fallback: block.settings.default_asset
           %}

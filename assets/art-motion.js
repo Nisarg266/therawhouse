@@ -3,8 +3,8 @@
   if (!main || !('IntersectionObserver' in window) || !Element.prototype.animate) return;
 
   const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const targets = 'h2, [data-art-reveal], .brand-manifesto__text, .art-button, .art-link';
-  const excluded = 'product-card, .product-card, .product-details, .product-information, product-form-component, .cart-page, .cart-form, cart-items-component, dialog, sticky-add-to-cart, [data-art-motion="off"]';
+  const targets = 'h2, [data-art-reveal], .brand-manifesto__text, .art-button, .art-link, img[loading="lazy"]';
+  const excluded = 'product-card, .product-card, .product-details, .product-information, product-form-component, .cart-page, .cart-form, cart-items-component, dialog, sticky-add-to-cart, .new-arrivals-gallery, [data-art-motion="off"]';
   const seen = new WeakSet();
   const pending = new Set();
   const active = new Map();
@@ -16,21 +16,31 @@
       observer.unobserve(element);
       pending.delete(element);
       seen.add(element);
-      if (preference.matches || element.matches(':focus-within')) continue;
-
-      const isAction = element.matches('.art-button, .art-link');
-      const frames = isAction
-        ? [{ opacity: 0.45 }, { opacity: 1 }]
-        : [
-            { opacity: 0.4, filter: 'blur(4px)', translate: '0 12px' },
-            { opacity: 1, filter: 'blur(0)', translate: '0 0' },
-          ];
-      const animation = element.animate(frames, {
-        duration: isAction ? 420 : 700,
-        easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
-      });
-      active.set(element, animation);
-      animation.finished.then(() => active.delete(element)).catch(() => active.delete(element));
+      const reveal = () => {
+        if (preference.matches || !element.isConnected || element.matches(':focus-within')) return;
+        const isImage = element.matches('img[loading="lazy"]');
+        if (isImage && (!element.naturalWidth || element.getBoundingClientRect().top > window.innerHeight)) return;
+        const isAction = element.matches('.art-button, .art-link');
+        const frames = isImage
+          ? [{ opacity: 0.7 }, { opacity: 1 }]
+          : isAction
+            ? [{ opacity: 0.65 }, { opacity: 1 }]
+            : [
+                { opacity: 0.7, filter: 'blur(2px)', translate: '0 8px' },
+                { opacity: 1, filter: 'blur(0)', translate: '0 0' },
+              ];
+        const animation = element.animate(frames, {
+          duration: isImage ? 460 : isAction ? 340 : 580,
+          easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+        });
+        active.set(element, animation);
+        animation.finished.then(() => active.delete(element)).catch(() => active.delete(element));
+      };
+      if (element.matches('img[loading="lazy"]') && !element.complete) {
+        element.addEventListener('load', reveal, { once: true });
+      } else {
+        reveal();
+      }
     }
   }, { threshold: 0.08 });
 

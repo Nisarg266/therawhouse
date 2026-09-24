@@ -4,6 +4,10 @@
 {%- endcomment -%}
 
 {% liquid
+  assign image_loading = 'eager'
+  if section.index > 3
+    assign image_loading = 'lazy'
+  endif
   assign scheme = section.settings.color_scheme_preset | default: 'obsidian'
   case scheme
     when 'dark'
@@ -66,7 +70,8 @@
               src="{{ section.settings.image | image_url: width: 1400 }}"
               alt="{{ section.settings.heading | default: 'The Raw House Atelier Studio' | escape }}"
               class="lux-founder-img"
-              loading="eager"
+              loading="{{ image_loading }}"
+              decoding="async"
               width="700"
               height="850"
             >
@@ -75,7 +80,8 @@
               src="{{ section.settings.default_asset | asset_url }}"
               alt="{{ section.settings.heading | default: 'The Raw House Atelier Studio' | escape }}"
               class="lux-founder-img"
-              loading="eager"
+              loading="{{ image_loading }}"
+              decoding="async"
               onerror="this.onerror=null;this.src='{{ 'art-atelier-artist-studio.jpg' | asset_url }}';"
               width="700"
               height="850"
@@ -85,7 +91,8 @@
               src="{{ 'art-atelier-artist-studio.jpg' | asset_url }}"
               alt="{{ section.settings.heading | default: 'The Raw House Atelier Studio' | escape }}"
               class="lux-founder-img"
-              loading="eager"
+              loading="{{ image_loading }}"
+              decoding="async"
               width="700"
               height="850"
             >

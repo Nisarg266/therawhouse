@@ -2510,4 +2510,17 @@ body:has(#MainContent > .section-luxp-hero:first-child) #header-group .header__u
   body:has(#MainContent > .section-luxp-hero:first-child) #header-group .header-logo img {
     transition: none !important;
   }
+
+  html,
+  .page-wrapper,
+  [data-luxp-hero],
+  .luxp-hero,
+  .luxp-hero__track,
+  .slideshow,
+  slideshow-slides,
+  .overflow-list,
+  [data-overflow-list],
+  .about-mobile-slider {
+    scroll-behavior: auto !important;
+  }
 }

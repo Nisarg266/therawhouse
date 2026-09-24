@@ -323,7 +323,7 @@
                     {{ card_1_img | image_url: width: 1400 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_1_alt }}
                   {% endif %}
                 {% else %}
-                  <img src="{{ 'new-arrival-1.jpg' | asset_url }}" alt="{{ card_1_alt }}" class="new-arrivals-gallery__img" loading="eager" width="600" height="700">
+                  <img src="{{ 'new-arrival-1.jpg' | asset_url }}" alt="{{ card_1_alt }}" class="new-arrivals-gallery__img" loading="lazy" decoding="async" width="600" height="700">
                 {% endif %}
                 {% if show_caption %}
                   <div class="new-arrivals-gallery__caption">
@@ -353,7 +353,7 @@
                     {{ card_2_img | image_url: width: 1400 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_2_alt }}
                   {% endif %}
                 {% else %}
-                  <img src="{{ 'new-arrival-2.jpg' | asset_url }}" alt="{{ card_2_alt }}" class="new-arrivals-gallery__img" loading="eager" width="600" height="700">
+                  <img src="{{ 'new-arrival-2.jpg' | asset_url }}" alt="{{ card_2_alt }}" class="new-arrivals-gallery__img" loading="lazy" decoding="async" width="600" height="700">
                 {% endif %}
                 {% if show_caption %}
                   <div class="new-arrivals-gallery__caption">
@@ -385,7 +385,7 @@
                   {{ card_3_img | image_url: width: 2000 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_3_alt }}
                 {% endif %}
               {% else %}
-                <img src="{{ 'new-arrival-3.jpg' | asset_url }}" alt="{{ card_3_alt }}" class="new-arrivals-gallery__img" loading="eager" width="1200" height="910">
+                <img src="{{ 'new-arrival-3.jpg' | asset_url }}" alt="{{ card_3_alt }}" class="new-arrivals-gallery__img" loading="lazy" decoding="async" width="1200" height="910">
               {% endif %}
               {% if show_caption %}
                 <div class="new-arrivals-gallery__caption">
@@ -420,7 +420,7 @@
                   {{ card_4_img | image_url: width: 2000 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_4_alt }}
                 {% endif %}
               {% else %}
-                <img src="{{ 'new-arrival-4.jpg' | asset_url }}" alt="{{ card_4_alt }}" class="new-arrivals-gallery__img" loading="eager" width="1200" height="910">
+                <img src="{{ 'new-arrival-4.jpg' | asset_url }}" alt="{{ card_4_alt }}" class="new-arrivals-gallery__img" loading="lazy" decoding="async" width="1200" height="910">
               {% endif %}
               {% if show_caption %}
                 <div class="new-arrivals-gallery__caption">
@@ -453,7 +453,7 @@
                     {{ card_5_img | image_url: width: 1400 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_5_alt }}
                   {% endif %}
                 {% else %}
-                  <img src="{{ 'new-arrival-5.jpg' | asset_url }}" alt="{{ card_5_alt }}" class="new-arrivals-gallery__img" loading="eager" width="600" height="700">
+                  <img src="{{ 'new-arrival-5.jpg' | asset_url }}" alt="{{ card_5_alt }}" class="new-arrivals-gallery__img" loading="lazy" decoding="async" width="600" height="700">
                 {% endif %}
                 {% if show_caption %}
                   <div class="new-arrivals-gallery__caption">
@@ -483,7 +483,7 @@
                     {{ card_6_img | image_url: width: 1400 | image_tag: class: 'new-arrivals-gallery__img', loading: 'lazy', alt: card_6_alt }}
                   {% endif %}
                 {% else %}
-                  <img src="{{ 'new-arrival-6.jpg' | asset_url }}" alt="{{ card_6_alt }}" class="new-arrivals-gallery__img" loading="eager" width="600" height="700">
+                  <img src="{{ 'new-arrival-6.jpg' | asset_url }}" alt="{{ card_6_alt }}" class="new-arrivals-gallery__img" loading="lazy" decoding="async" width="600" height="700">
                 {% endif %}
                 {% if show_caption %}
                   <div class="new-arrivals-gallery__caption">
@@ -996,10 +996,9 @@
   /* Scroll-reveal (only animates when JS marks the section) */
   .nag-js .new-arrivals-gallery__card {
     opacity: 0;
-    transform: translateY(26px);
-    transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
-    transition-delay: calc(var(--nag-index, 0) * 90ms);
-    will-change: opacity, transform;
+    transform: translateY(16px);
+    transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1), transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: calc(var(--nag-index, 0) * 65ms);
   }
 
   .nag-js .new-arrivals-gallery__card.is-revealed {

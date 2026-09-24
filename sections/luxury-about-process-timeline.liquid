@@ -4,6 +4,10 @@
 {%- endcomment -%}
 
 {% liquid
+  assign image_loading = 'eager'
+  if section.index > 3
+    assign image_loading = 'lazy'
+  endif
   assign scheme = section.settings.color_scheme_preset | default: 'warm'
   case scheme
     when 'light'
@@ -96,7 +100,8 @@
                 src="{{ block.settings.image | image_url: width: 800 }}"
                 alt="{{ block.settings.title | escape }}"
                 class="lux-process-img"
-                loading="eager"
+                loading="{{ image_loading }}"
+                decoding="async"
                 width="400"
                 height="280"
               >
@@ -105,7 +110,8 @@
                 src="{{ block.settings.default_asset | asset_url }}"
                 alt="{{ block.settings.title | escape }}"
                 class="lux-process-img"
-                loading="eager"
+                loading="{{ image_loading }}"
+                decoding="async"
                 onerror="this.onerror=null;this.src='{{ 'maker-gallery-1.jpg' | asset_url }}';"
                 width="400"
                 height="280"
@@ -115,7 +121,8 @@
                 src="{{ 'maker-gallery-1.jpg' | asset_url }}"
                 alt="{{ block.settings.title | escape }}"
                 class="lux-process-img"
-                loading="eager"
+                loading="{{ image_loading }}"
+                decoding="async"
                 width="400"
                 height="280"
               >
