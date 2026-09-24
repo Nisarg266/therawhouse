@@ -6866,6 +6866,42 @@ dialog.quick-add-modal,
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.13) !important;
 }
 
+.product-recommendations product-card quick-add-component button:is(.quick-add__button--choose, .quick-add__button--add) {
+  width: auto !important;
+  min-width: 0 !important;
+  height: 30px !important;
+  min-height: 30px !important;
+  padding: 0 11px !important;
+  font-size: 9px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.11em !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+.product-recommendations product-card .quick-add__button--choose .add-to-cart-icon {
+  display: none !important;
+}
+
+.product-recommendations product-card product-price :is(.price, .price-item) {
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  line-height: 1.4 !important;
+  letter-spacing: 0.03em !important;
+  color: #6d6258 !important;
+}
+
+@media screen and (max-width: 749px) {
+  .product-recommendations product-card quick-add-component button:is(.quick-add__button--choose, .quick-add__button--add) {
+    height: 28px !important;
+    min-height: 28px !important;
+    padding-inline: 10px !important;
+  }
+
+  .product-recommendations product-card product-price :is(.price, .price-item) {
+    font-size: 12px !important;
+  }
+}
+
 /* ---- Variant option buttons: soft professional pills (no hard black borders) ---- */
 .product-details .variant-option__button-label,
 .product-details variant-picker .variant-option button,

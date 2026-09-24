@@ -48,6 +48,14 @@
     endif
   endif
 
+  assign compact_card_price = false
+  if template.name == 'collection' and is_product_card
+    assign compact_card_price = true
+  elsif template.name == 'product' and product_resource.id != product.id
+    # Recommendation cards render inside a product template.
+    assign compact_card_price = true
+  endif
+
   # Determine if currency code should be shown
   assign use_currency = false
   if product.handle == product_resource.handle
@@ -65,7 +73,7 @@
   endif
 
   # Format all prices
-  if template.name == 'collection' and is_product_card
+  if compact_card_price
     if use_inr_symbol
       capture price
         render 'price-compact-inr', amount: price

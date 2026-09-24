@@ -41,7 +41,7 @@
           {% if simple_form %}
             Product Enquiry
           {% else %}
-            Bespoke Acquisition Inquiry
+            Private Enquiry
           {% endif %}
         </h2>
       </div>
@@ -103,7 +103,7 @@
         {% if simple_form %}
           Share your details and we will get back to you about this product.
         {% else %}
-          Our fine collections are crafted in limited studio ateliers. Please provide your details below and our curatorial desk will provide bespoke pricing, dimensions, and delivery timeline.
+          Tell us a little about your interest. Our atelier will follow up with pricing, dimensions and delivery details.
         {% endif %}
       </p>
 
@@ -214,15 +214,15 @@
 
           <div class="lux-enquiry-form__group{% if simple_form %} lux-enquiry-form__group--optional-detail{% endif %}">
             <label for="{{ form_id }}-body" class="lux-enquiry-form__label">
-              Bespoke Inquiries / Custom Specifications
+              Notes for the Atelier
             </label>
             <textarea
               id="{{ form_id }}-body"
               name="contact[body]"
               rows="3"
               class="lux-enquiry-form__textarea"
-              placeholder="Please share any requirements regarding room dimensions, finish customizations, or delivery schedule..."
-            >I would like to enquire about acquiring the "{{ product.title | escape }}" for my space. Please share full pricing details and transit schedule.</textarea>
+              placeholder="Questions about dimensions, finish or delivery"
+            >Please share pricing and delivery details for {{ product.title | escape }}.</textarea>
           </div>
 
           <button type="submit" class="lux-enquiry-form__submit-btn">
@@ -748,6 +748,172 @@
       max-height: calc(100dvh - var(--lux-enquiry-modal-header-offset) - 24px);
     }
   }
+
+  {% unless simple_form %}
+  .lux-enquiry-drawer:not(.lux-enquiry-drawer--simple) .lux-enquiry-drawer__panel {
+    background: #fbfaf7;
+    color: #2d261f;
+    border: 1px solid #e4ded3;
+  }
+
+  .lux-enquiry-drawer:not(.lux-enquiry-drawer--simple) .lux-enquiry-drawer__header {
+    padding: 22px 30px 20px;
+    background: #fbfaf7;
+    border-bottom-color: #e8e2d8;
+  }
+
+  .lux-enquiry-drawer:not(.lux-enquiry-drawer--simple) .lux-enquiry-drawer__eyebrow {
+    color: #937b5c;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    margin-bottom: 7px;
+  }
+
+  .lux-enquiry-drawer:not(.lux-enquiry-drawer--simple) .lux-enquiry-drawer__title {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 25px;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    line-height: 1.15;
+    color: #2d261f;
+  }
+
+  .lux-enquiry-drawer:not(.lux-enquiry-drawer--simple) .lux-enquiry-drawer__close-btn {
+    width: 36px;
+    height: 36px;
+    color: #655b50;
+  }
+
+  .lux-enquiry-drawer:not(.lux-enquiry-drawer--simple) .lux-enquiry-drawer__product-card {
+    gap: 14px;
+    padding: 14px 30px;
+    background: #f5f2ed;
+    border-bottom-color: #e8e2d8;
+  }
+
+  .lux-enquiry-drawer:not(.lux-enquiry-drawer--simple) .lux-enquiry-drawer__product-media {
+    width: 58px;
+    height: 58px;
+    border-color: #e3ddd3;
+  }
+
+  .lux-enquiry-drawer:not(.lux-enquiry-drawer--simple) .lux-enquiry-drawer__product-name {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: #2d261f;
+  }
+
+  .lux-enquiry-drawer:not(.lux-enquiry-drawer--simple) .lux-enquiry-drawer__body {
+    padding: 21px 30px 28px;
+  }
+
+  .lux-enquiry-drawer:not(.lux-enquiry-drawer--simple) .lux-enquiry-drawer__intro {
+    max-width: 48ch;
+    margin-bottom: 18px;
+    color: #665d53;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+
+  .lux-enquiry-drawer:not(.lux-enquiry-drawer--simple) .lux-enquiry-form__fields {
+    gap: 13px;
+  }
+
+  .lux-enquiry-drawer:not(.lux-enquiry-drawer--simple) .lux-enquiry-form__label {
+    color: #62594f;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.11em;
+  }
+
+  .lux-enquiry-drawer:not(.lux-enquiry-drawer--simple) .lux-enquiry-form__req {
+    color: #9c7951;
+  }
+
+  .lux-enquiry-drawer:not(.lux-enquiry-drawer--simple) :is(.lux-enquiry-form__input, .lux-enquiry-form__textarea) {
+    min-height: 43px;
+    padding: 11px 13px;
+    border: 1px solid #d9d1c5;
+    border-radius: 2px;
+    background: #fff;
+    color: #2d261f;
+    font-size: 13px;
+    box-shadow: none;
+  }
+
+  .lux-enquiry-drawer:not(.lux-enquiry-drawer--simple) :is(.lux-enquiry-form__input, .lux-enquiry-form__textarea)::placeholder {
+    color: #9c9489;
+    opacity: 1;
+  }
+
+  .lux-enquiry-drawer:not(.lux-enquiry-drawer--simple) :is(.lux-enquiry-form__input, .lux-enquiry-form__textarea):focus-visible {
+    border-color: #927655;
+    outline: 2px solid rgba(146, 118, 85, 0.22);
+    outline-offset: 1px;
+    box-shadow: none;
+  }
+
+  .lux-enquiry-drawer:not(.lux-enquiry-drawer--simple) .lux-enquiry-form__textarea {
+    min-height: 88px;
+  }
+
+  .lux-enquiry-drawer:not(.lux-enquiry-drawer--simple) .lux-enquiry-form__submit-btn {
+    min-height: 46px;
+    margin-top: 3px;
+    padding: 12px 18px;
+    border-radius: 2px;
+    border-color: #302820;
+    background: #302820;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.13em;
+  }
+
+  .lux-enquiry-drawer:not(.lux-enquiry-drawer--simple) .lux-enquiry-form__submit-btn:hover {
+    border-color: #554433;
+    background: #554433;
+  }
+
+  .lux-enquiry-drawer:not(.lux-enquiry-drawer--simple) .lux-enquiry-drawer__wa-divider {
+    margin: 20px 0 14px;
+  }
+
+  .lux-enquiry-drawer:not(.lux-enquiry-drawer--simple) .lux-enquiry-drawer__wa-btn {
+    padding: 11px 18px;
+    border-radius: 2px;
+    background: transparent;
+    color: #4e4338;
+    font-size: 11px;
+    font-weight: 500;
+  }
+
+  .lux-enquiry-drawer:not(.lux-enquiry-drawer--simple) .lux-enquiry-drawer__assurances {
+    margin-top: 20px;
+    padding-top: 15px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+  }
+
+  @media screen and (max-width: 550px) {
+    .lux-enquiry-drawer:not(.lux-enquiry-drawer--simple) .lux-enquiry-drawer__header {
+      padding: 19px 20px 17px;
+    }
+
+    .lux-enquiry-drawer:not(.lux-enquiry-drawer--simple) .lux-enquiry-drawer__title {
+      font-size: 22px;
+    }
+
+    .lux-enquiry-drawer:not(.lux-enquiry-drawer--simple) .lux-enquiry-drawer__product-card {
+      padding: 12px 20px;
+    }
+
+    .lux-enquiry-drawer:not(.lux-enquiry-drawer--simple) .lux-enquiry-drawer__body {
+      padding: 19px 20px 26px;
+    }
+  }
+  {% endunless %}
 </style>
 
 <script>
