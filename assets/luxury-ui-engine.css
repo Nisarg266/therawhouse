@@ -3672,7 +3672,6 @@ product-recommendations-component .text-block h3::after,
 .card-gallery,
 .product-card .card-gallery,
 .product-card-gallery,
-.product-media-container,
 .card-gallery .product-media-container,
 .product-card-gallery .product-media-container {
   width: 100% !important;
@@ -3690,7 +3689,6 @@ product-recommendations-component .text-block h3::after,
 /* 3. Image object-fit cover to perfectly fill uniform box */
 .card-gallery img,
 .product-card img,
-.product-media-container img,
 .card-gallery .product-media-container img {
   width: 100% !important;
   height: 100% !important;

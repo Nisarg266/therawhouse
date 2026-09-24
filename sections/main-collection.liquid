@@ -111,29 +111,15 @@
 </collection-component>
 
 {% stylesheet %}
-  collection-component .main-collection-grid .product-grid {
-    align-items: start !important;
-  }
-
-  collection-component .main-collection-grid .product-grid__item,
-  collection-component .main-collection-grid product-card,
-  collection-component .main-collection-grid .product-card,
-  collection-component .main-collection-grid .product-card__content,
-  collection-component .main-collection-grid .product-grid__card {
-    height: auto !important;
-    align-self: start !important;
-  }
-
   collection-component .product-grid__card.product-grid__card {
     /* Override the legacy equal-height card flex rule. */
     display: grid !important;
     /* Force the single column to fill the card width so short product titles
        cannot shrink the track and produce undersized image boxes. */
     grid-template-columns: minmax(0, 100%);
-    grid-template-rows: auto min-content min-content;
+    grid-template-rows: auto 1fr auto;
     gap: 8px;
     align-items: start;
-    align-content: start;
   }
 
   collection-component [ref='productTitleLink'] {
@@ -206,23 +192,21 @@
     gap: 0 !important;
   }
 
-  collection-component .main-collection-grid .product-grid .card-gallery,
-  collection-component .main-collection-grid .product-grid .product-card-gallery,
-  collection-component .main-collection-grid .product-grid .product-media,
-  collection-component .main-collection-grid .product-grid .product-media-container,
-  collection-component .main-collection-grid .product-grid .product-card-gallery__no-image {
+  collection-component .card-gallery,
+  collection-component .product-card-gallery,
+  collection-component .product-media,
+  collection-component .product-media-container,
+  collection-component .product-card-gallery__no-image {
     background: var(--product-card-media-bg, #f3ede4) !important;
-    aspect-ratio: var(--gallery-aspect-ratio, 1) !important;
+    aspect-ratio: 4 / 5 !important;
   }
 
-  collection-component .main-collection-grid .product-grid .card-gallery img,
-  collection-component .main-collection-grid .product-grid .product-media img,
-  collection-component .main-collection-grid .product-grid .product-card__image,
-  collection-component .main-collection-grid .product-grid .product-media__image {
+  collection-component .product-media img,
+  collection-component .product-card__image,
+  collection-component .product-media__image {
     width: 100% !important;
     height: 100% !important;
-    aspect-ratio: auto !important;
-    object-fit: contain !important;
+    object-fit: cover !important;
     object-position: center !important;
   }
 
@@ -245,11 +229,11 @@
   }
 
   collection-component [ref='productTitleLink'] .text-block {
-    font-family: Georgia, "Times New Roman", serif !important;
-    font-size: 18px !important;
-    font-weight: 400 !important;
+    font-family: var(--font-heading--family, serif) !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
     line-height: 1.35 !important;
-    letter-spacing: 0.04em !important;
+    letter-spacing: 0.12em !important;
     text-transform: uppercase !important;
     color: var(--product-card-title-color, #1f1712) !important;
   }
@@ -303,8 +287,8 @@
   }
 
   @media (max-width: 749px) {
-    collection-component [ref='productTitleLink'] .text-block { font-size: 18px !important; }
-    collection-component .product-grid__card product-price { font-size: 15px !important; }
+    collection-component [ref='productTitleLink'] .text-block,
+    collection-component .product-grid__card product-price { font-size: 12px !important; }
   }
 {% endstylesheet %}
 

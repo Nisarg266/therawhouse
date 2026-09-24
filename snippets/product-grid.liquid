@@ -26,7 +26,7 @@
       {% when 'grid' %}
         .product-grid--{{ section.id }}:is(.product-grid--grid) {
           {% if template.name == 'collection' %}
-            --product-grid-columns-desktop: repeat(2, minmax(0, 1fr));
+            --product-grid-columns-desktop: repeat(3, minmax(0, 1fr));
           {% else %}
             --product-grid-columns-desktop: repeat(auto-fill, minmax({{ product_card_size }}, 1fr));
           {% endif %}
