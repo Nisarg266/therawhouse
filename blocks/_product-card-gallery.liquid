@@ -99,12 +99,21 @@
     .collection-product-enquiry-button {
       opacity: 1;
       transform: none;
-      right: 10px;
-      bottom: 10px;
-      min-width: 94px;
-      min-height: 40px;
-      padding: 0 12px;
-      font-size: 10px;
+      right: 8px;
+      bottom: 8px;
+      min-width: 0;
+      min-height: 0;
+      padding: 8px 10px;
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      touch-action: manipulation;
+    }
+
+    .collection-product-enquiry-button::before {
+      content: '';
+      position: absolute;
+      inset: -10px;
     }
   }
 {% endstylesheet %}
