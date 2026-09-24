@@ -255,15 +255,18 @@ body .about-founders__card:hover {
 body .about-founders__media {
   width: min(100%, 480px);
   min-height: 0;
-  aspect-ratio: auto;
-  background: transparent;
-  overflow: visible;
+  aspect-ratio: 5 / 7;
+  padding: 8px;
+  border: 1px solid #e8e4dd;
+  background: #f5f3ef;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 body .about-founders__image,
 body .about-founders__card:hover .about-founders__image {
   width: 100%;
-  height: auto;
+  height: 100%;
   object-fit: contain;
   transform: none;
 }
@@ -325,7 +328,7 @@ body .about-founders__bottom-line {
   margin-inline: 0;
 }
 
-/* The final value notes read as an editorial index, without card chrome. */
+/* The final value notes use quiet rules and a one-time entrance reveal. */
 .lux-trust-section {
   padding: clamp(64px, 7vw, 106px) 0 !important;
   background: #f6f4ef !important;
@@ -339,7 +342,6 @@ body .about-founders__bottom-line {
   padding: 0;
   grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
   gap: 0;
-  counter-reset: trust-feature;
 }
 
 .lux-trust-section .lux-trust-card,
@@ -365,14 +367,12 @@ body .about-founders__bottom-line {
 
 .lux-trust-section .lux-trust-card::before {
   display: block;
-  margin-bottom: clamp(28px, 3vw, 42px);
-  color: #8c7b62;
-  content: counter(trust-feature, decimal-leading-zero);
-  counter-increment: trust-feature;
-  font-family: var(--font-heading-family, Georgia, serif);
-  font-size: 17px;
-  font-style: italic;
-  line-height: 1;
+  width: 36px;
+  height: 1px;
+  margin-bottom: clamp(30px, 3vw, 42px);
+  background: #a8977c;
+  content: "";
+  transform-origin: left center;
 }
 
 .lux-trust-section .lux-trust-icon-wrap {
@@ -393,6 +393,32 @@ body #MainContent .shopify-section .lux-trust-section .lux-trust-subtitle {
   max-width: 270px;
   font-size: 14px !important;
   line-height: 1.7 !important;
+}
+
+.lux-trust-section.about-motion-ready .lux-trust-card {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.75s ease, transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.lux-trust-section.about-motion-ready .lux-trust-card.is-in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.lux-trust-section.about-motion-ready .lux-trust-card::before {
+  transform: scaleX(0);
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.2s;
+}
+
+.lux-trust-section.about-motion-ready .lux-trust-card.is-in-view::before {
+  transform: scaleX(1);
+}
+
+@media (min-width: 750px) {
+  .lux-trust-section.about-motion-ready .lux-trust-card:nth-child(2) { transition-delay: 0.09s; }
+  .lux-trust-section.about-motion-ready .lux-trust-card:nth-child(3) { transition-delay: 0.18s; }
+  .lux-trust-section.about-motion-ready .lux-trust-card:nth-child(4) { transition-delay: 0.27s; }
 }
 
 @media (max-width: 989px) {
@@ -417,6 +443,27 @@ body #MainContent .shopify-section .lux-trust-section .lux-trust-subtitle {
 
   .lux-manifesto-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 750px) and (max-width: 1099px) {
+  .lux-trust-section .lux-trust-container {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 38px 0;
+  }
+
+  .lux-trust-section .lux-trust-card:nth-child(odd) {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .lux-trust-section .lux-trust-card:nth-child(even) {
+    border-left: 1px solid #d8d3ca;
+  }
+
+  .lux-trust-section .lux-trust-card:nth-child(n + 3) {
+    padding-top: 34px;
+    border-top: 1px solid #d8d3ca;
   }
 }
 
@@ -537,21 +584,14 @@ body #MainContent .shopify-section .lux-trust-section .lux-trust-subtitle {
   .lux-trust-section .lux-trust-card,
   .lux-trust-section .lux-trust-card:hover,
   .lux-trust-section .lux-trust-card:first-child {
-    display: grid;
-    grid-template-columns: 42px minmax(0, 1fr);
-    gap: 0 10px;
+    display: block;
     padding: 22px 0;
     border: 0;
     border-top: 1px solid #d8d3ca;
   }
 
   .lux-trust-section .lux-trust-card::before {
-    grid-column: 1;
-    margin: 4px 0 0;
-  }
-
-  .lux-trust-section .lux-trust-card-body {
-    grid-column: 2;
+    display: none;
   }
 
   body #MainContent .shopify-section .lux-trust-section .lux-trust-title {
@@ -562,5 +602,14 @@ body #MainContent .shopify-section .lux-trust-section .lux-trust-subtitle {
   body #MainContent .shopify-section .lux-trust-section .lux-trust-subtitle {
     max-width: 100%;
     font-size: 14px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lux-trust-section.about-motion-ready .lux-trust-card,
+  .lux-trust-section.about-motion-ready .lux-trust-card::before {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }

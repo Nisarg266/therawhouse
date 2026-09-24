@@ -1,7 +1,7 @@
 {% liquid
   assign founder_image_sizes = '(max-width: 749px) 38vw, (max-width: 1180px) 36vw, 18vw'
   if template.suffix == 'about-us'
-    assign founder_image_sizes = '(max-width: 749px) calc(100vw - 40px), (max-width: 1180px) calc(100vw - 64px), 45vw'
+    assign founder_image_sizes = '(max-width: 749px) calc(100vw - 40px), (max-width: 1180px) 44vw, 480px'
   endif
   assign scheme = section.settings.color_scheme_preset | default: 'warm'
   case scheme

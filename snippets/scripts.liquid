@@ -57,6 +57,10 @@
   defer
 ></script>
 
+{% if template.name == 'page' and template.suffix == 'about-us' %}
+  <script src="{{ 'about-editorial.js' | asset_url }}" defer></script>
+{% endif %}
+
 <script
   src="{{ 'view-transitions.js' | asset_url }}"
   async

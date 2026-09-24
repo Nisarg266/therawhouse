@@ -65,7 +65,7 @@
   {{ section.shopify_attributes }}
 >
   <div
-    class="lux-trust-container lux-stagger-parent lux-reveal-fade-up"
+    class="lux-trust-container{% unless template.suffix == 'about-us' %} lux-stagger-parent lux-reveal-fade-up{% endunless %}"
     style="
       grid-template-columns: repeat({{ section.settings.columns_desktop | default: 4 }}, 1fr);
       text-align: {{ section.settings.text_alignment | default: 'left' }};
