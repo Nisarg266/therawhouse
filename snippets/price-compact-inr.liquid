@@ -1,0 +1,17 @@
+{%- doc -%}
+  Formats an INR amount for collection cards, preserving grouping and non-zero paise.
+
+  @param {number} amount - Price in the currency subunit
+{%- enddoc -%}
+{%- liquid
+  assign formatted_amount = amount | money_without_currency
+  assign cents = amount | default: 0 | modulo: 100
+  if cents == 0
+    assign decimal_suffix = formatted_amount | slice: -3, 3
+    if decimal_suffix == '.00' or decimal_suffix == ',00'
+      assign amount_length = formatted_amount.size | minus: 3
+      assign formatted_amount = formatted_amount | slice: 0, amount_length
+    endif
+  endif
+-%}
+{{- formatted_amount | prepend: '₹' -}}
