@@ -362,8 +362,9 @@
                   "blocks": {
                     "craft_content": {
                       "type": "text",
+                      "disabled": true,
                       "settings": {
-                        "text": "<p><strong>Handcrafted Finish:</strong> Curated with traditional craftsmanship techniques.<br><strong>Provenance:</strong> Verified atelier piece from The Raw House curated masters.<br><strong>Care Instructions:</strong> Clean gently with a soft, dry natural microfiber cloth. Avoid direct excessive sunlight or chemical solvents.</p>",
+                        "text": "",
                         "width": "100%",
                         "max_width": "normal",
                         "alignment": "left",
@@ -403,8 +404,9 @@
                   "blocks": {
                     "delivery_content": {
                       "type": "text",
+                      "disabled": true,
                       "settings": {
-                        "text": "<p>Complimentary insured white-glove transit across India & worldwide on all fine collections. Includes custom protective crating, scheduled appointment, and room-of-choice placement.</p>",
+                        "text": "",
                         "width": "100%",
                         "max_width": "normal",
                         "alignment": "left",
@@ -695,6 +697,20 @@
           "settings": {
             "product_card_gap": 6,
             "background_color": "",
+            "title_color": "#111111",
+            "title_hover_color": "#a38758",
+            "text_color": "#4a4a4a",
+            "price_color": "#111111",
+            "compare_price_color": "#8b857a",
+            "media_background_color": "#f3ede4",
+            "badge_background_color": "#121212",
+            "badge_text_color": "#ffffff",
+            "sale_badge_background_color": "#a38758",
+            "sale_badge_text_color": "#ffffff",
+            "quick_button_background_color": "#ffffff",
+            "quick_button_text_color": "#1a1a1a",
+            "quick_button_background_hover_color": "#ffffff",
+            "quick_button_text_hover_color": "#000000",
             "border": "none",
             "border_width": 1,
             "border_opacity": 100,
@@ -1159,6 +1175,10 @@
         "heading": "A little bit of us",
         "body": "<p>The Raw House is a destination for design, artistry and craftsmanship, curated for a life artfully lived.</p>",
         "show_ornament": false,
+        "image_alt": "",
+        "image_link": "",
+        "image_height": 560,
+        "image_height_mobile": 280,
         "text_align": "center",
         "container_mode": "fixed",
         "container_max": 680,
