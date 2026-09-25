@@ -254,14 +254,16 @@
     background-color: var(--cfs-box-bg);
     border: 1px solid var(--cfs-box-border);
     border-radius: var(--cfs-box-radius);
-    padding: clamp(24px, 4vw, 44px);
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.03);
+    padding: clamp(26px, 4vw, 48px);
+    box-shadow: 0 28px 56px -28px rgba(24, 18, 8, 0.22);
     box-sizing: border-box;
   }
 
   .contact-form__header {
-    text-align: center;
+    text-align: left;
     margin-bottom: 30px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid #ece7dc;
   }
 
   .contact-form__eyebrow {
@@ -270,7 +272,7 @@
     font-weight: 600;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: #8c8273;
+    color: #a38758;
     margin-bottom: 6px;
   }
 
@@ -322,10 +324,10 @@
   .contact-form__textarea,
   .contact-form__select {
     width: 100%;
-    padding: 13px 15px;
+    padding: 14px 16px;
     background-color: var(--cfs-input-bg);
     border: 1px solid var(--cfs-input-border);
-    border-radius: 3px;
+    border-radius: 0;
     font-size: 14px;
     color: var(--cfs-input-text);
     font-family: inherit;
@@ -368,17 +370,17 @@
 
   .contact-form__submit-row {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
   }
 
   .contact-form__btn {
     width: 100%;
-    max-width: 320px;
-    padding: 16px 28px;
+    max-width: 340px;
+    padding: 17px 30px;
     background-color: var(--cfs-btn-bg);
     color: var(--cfs-btn-color);
     border: 1px solid var(--cfs-btn-bg);
-    border-radius: 3px;
+    border-radius: 0;
     font-size: 12px;
     font-weight: 600;
     letter-spacing: 0.18em;
@@ -427,13 +429,13 @@
 
   /* Blocks */
   .contact-form__blocks {
-    margin-top: 28px;
-    padding-top: 20px;
-    border-top: 1px solid #f0ede6;
+    margin-top: 30px;
+    padding-top: 22px;
+    border-top: 1px solid #ece7dc;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
+    justify-content: flex-start;
+    gap: 14px 28px;
   }
 
   .contact-form__trust-badge {
@@ -441,8 +443,13 @@
     align-items: center;
     gap: 8px;
     font-size: 12px;
-    color: #7d7567;
+    color: #6e675b;
     letter-spacing: 0.04em;
+  }
+
+  .contact-form__trust-badge svg {
+    color: #a38758;
+    flex-shrink: 0;
   }
 
   .contact-form__curator-note {

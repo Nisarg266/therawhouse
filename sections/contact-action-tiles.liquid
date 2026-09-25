@@ -150,8 +150,8 @@
   .contact-tile {
     display: flex;
     align-items: center;
-    gap: 16px;
-    padding: 18px 22px;
+    gap: 18px;
+    padding: 20px 24px;
     background-color: var(--ct-tile-bg);
     border: 1px solid var(--ct-tile-border);
     border-radius: var(--ct-tile-radius);
@@ -163,27 +163,29 @@
   }
 
   .contact-tile:hover {
-    transform: translateY(-2px);
+    transform: translateY(-3px);
     border-color: var(--ct-tile-hover-border);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 16px 32px -14px rgba(24, 18, 8, 0.22);
   }
 
   .contact-tile__icon-wrap {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    background: #f7f5f0;
+    width: 46px;
+    height: 46px;
+    border: 1px solid var(--ct-tile-border);
+    border-radius: 0;
+    background: transparent;
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--ct-icon-color);
     flex-shrink: 0;
-    transition: background-color 0.2s ease, transform 0.2s ease;
+    transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
   }
 
   .contact-tile:hover .contact-tile__icon-wrap {
-    background: #ede8df;
-    transform: scale(1.06);
+    background: var(--ct-icon-color);
+    border-color: var(--ct-icon-color);
+    color: #f4efe6;
   }
 
   .contact-tile__content {
@@ -206,8 +208,10 @@
   }
 
   .contact-tile__value {
+    font-family: var(--font-heading--family, serif);
     font-size: var(--ct-value-size);
-    font-weight: 500;
+    font-weight: 600;
+    letter-spacing: 0.02em;
     color: var(--ct-value-color);
     white-space: nowrap;
     overflow: hidden;
@@ -239,12 +243,12 @@
       grid-template-columns: repeat(2, 1fr);
     }
     .contact-tile {
-      padding: 14px 16px;
-      gap: 12px;
+      padding: 16px 18px;
+      gap: 14px;
     }
     .contact-tile__icon-wrap {
-      width: 36px;
-      height: 36px;
+      width: 42px;
+      height: 42px;
     }
   }
 </style>

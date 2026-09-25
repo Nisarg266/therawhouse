@@ -57,7 +57,9 @@
 <style>
   .contact-hero-section {
     width: 100%;
-    background-color: var(--ch-bg);
+    background:
+      radial-gradient(130% 170% at 50% -30%, rgba(197, 160, 89, 0.16) 0%, rgba(197, 160, 89, 0) 55%),
+      var(--ch-bg);
     padding-top: var(--ch-pt);
     padding-bottom: var(--ch-pb);
     box-sizing: border-box;
@@ -90,12 +92,13 @@
 
   .contact-hero__heading {
     font-size: var(--ch-heading-size);
-    line-height: 1.15;
+    line-height: 1.12;
     font-weight: 400;
-    letter-spacing: -0.01em;
+    letter-spacing: 0.01em;
     color: var(--ch-heading-color);
-    margin: 0 0 16px 0;
+    margin: 0 0 20px 0;
     font-family: var(--font-heading--family, serif);
+    text-wrap: balance;
   }
 
   .contact-hero__divider {
@@ -121,11 +124,12 @@
 
   .contact-hero__subheading {
     font-size: var(--ch-subheading-size);
-    line-height: 1.68;
+    line-height: 1.72;
     color: var(--ch-subheading-color);
     margin: 0;
-    max-width: 680px;
+    max-width: 620px;
     font-weight: 400;
+    letter-spacing: 0.015em;
   }
 
   @media screen and (max-width: 749px) {

@@ -88,8 +88,9 @@
   }
 
   .contact-faq__header {
-    text-align: center;
-    margin-bottom: 32px;
+    text-align: left;
+    margin-bottom: 36px;
+    max-width: 640px;
   }
 
   .contact-faq__eyebrow {
@@ -98,7 +99,7 @@
     font-weight: 600;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    color: #8c8273;
+    color: #a38758;
     margin-bottom: 8px;
   }
 
@@ -120,7 +121,7 @@
   .contact-faq__list {
     display: flex;
     flex-direction: column;
-    border-top: 1px solid var(--cfaq-divider);
+    border-top: 1px solid #16130e;
   }
 
   .contact-faq__item {
@@ -144,15 +145,18 @@
   }
 
   .contact-faq__question {
+    font-family: var(--font-heading--family, serif);
     font-size: var(--cfaq-q-size);
-    font-weight: 500;
+    font-weight: 600;
+    letter-spacing: 0.01em;
     color: var(--cfaq-q-color);
     padding-right: 16px;
     line-height: 1.4;
     transition: color 0.2s ease;
   }
 
-  .contact-faq__summary:hover .contact-faq__question {
+  .contact-faq__summary:hover .contact-faq__question,
+  .contact-faq__item[open] .contact-faq__question {
     color: var(--cfaq-accent);
   }
 
@@ -160,17 +164,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 28px;
-    height: 28px;
+    width: 24px;
+    height: 24px;
     flex-shrink: 0;
     color: var(--cfaq-accent);
-    border-radius: 50%;
-    background: #f7f5f0;
-    transition: transform 0.25s ease, background-color 0.2s ease;
+    transition: transform 0.25s ease;
   }
 
-  .contact-faq__summary:hover .contact-faq__icon {
-    background: #ede8df;
+  .contact-faq__item[open] .contact-faq__icon {
+    transform: rotate(180deg);
   }
 
   .contact-faq__icon-minus {
@@ -191,8 +193,10 @@
 
   .contact-faq__answer-content {
     font-size: var(--cfaq-a-size);
-    line-height: 1.7;
+    line-height: 1.72;
     color: var(--cfaq-a-color);
+    max-width: 92%;
+    padding-right: 40px;
   }
 
   .contact-faq__answer-content p {
