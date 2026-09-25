@@ -394,7 +394,7 @@
                 "row_delivery": {
                   "type": "_accordion-row",
                   "settings": {
-                    "heading": "WHITE GLOVE DELIVERY & TRANSIT",
+                    "heading": "Shipping details",
                     "open_by_default": false,
                     "row_content": "<p>Please Get in Touch For More Details</p>",
                     "row_page": "",
