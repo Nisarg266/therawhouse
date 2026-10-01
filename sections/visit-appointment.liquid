@@ -1,0 +1,811 @@
+{% liquid
+  assign s = section.settings
+%}
+
+<section
+  id="VisitAppointment-{{ section.id }}"
+  class="visit-appointment"
+  style="
+    --va-bg: {{ s.background_color | default: '#11100e' }};
+    --va-panel: {{ s.panel_color | default: '#181612' }};
+    --va-form: {{ s.form_background | default: '#f6f3ee' }};
+    --va-form-field: {{ s.form_field_background | default: '#ffffff' }};
+    --va-text: {{ s.text_color | default: '#ffffff' }};
+    --va-muted: {{ s.muted_color | default: '#c9c0b4' }};
+    --va-form-text: {{ s.form_text_color | default: '#171411' }};
+    --va-form-muted: {{ s.form_muted_color | default: '#6f675c' }};
+    --va-accent: {{ s.accent_color | default: '#c5a880' }};
+    --va-border: {{ s.border_color | default: '#4b4132' }};
+    --va-form-border: {{ s.form_border_color | default: '#ded4c5' }};
+    --va-pt: {{ s.padding_top | default: 72 }}px;
+    --va-pb: {{ s.padding_bottom | default: 76 }}px;
+  "
+  {{ section.shopify_attributes }}
+>
+  <div class="visit-appointment__inner">
+    <div class="visit-appointment__left">
+      <div class="visit-appointment__intro">
+        {% if s.eyebrow != blank %}
+          <p class="visit-appointment__eyebrow">{{ s.eyebrow }}</p>
+        {% endif %}
+        {% if s.heading != blank %}
+          <h2 class="visit-appointment__heading">{{ s.heading }}</h2>
+        {% endif %}
+        {% if s.text != blank %}
+          <p class="visit-appointment__text">{{ s.text }}</p>
+        {% endif %}
+        {% if s.button_label != blank and s.button_link != blank %}
+          <a class="visit-appointment__button" href="{{ s.button_link }}" {% if s.button_new_tab %}target="_blank" rel="noopener noreferrer"{% endif %}>
+            {{ s.button_label }}
+          </a>
+        {% endif %}
+      </div>
+
+      <div class="visit-appointment__cards">
+        {% for block in section.blocks %}
+          <article class="visit-appointment__card" style="--va-i: {{ forloop.index0 }};" {{ block.shopify_attributes }}>
+            <div class="visit-appointment__icon" aria-hidden="true">
+              {% case block.settings.icon %}
+                {% when 'clock' %}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+                {% when 'calendar' %}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="5" width="16" height="15" rx="2"></rect><path d="M8 3v4M16 3v4M4 10h16"></path></svg>
+                {% when 'whatsapp' %}
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2a9.86 9.86 0 0 0-8.48 14.9L2.5 21.5l4.72-1.24A9.86 9.86 0 1 0 12.04 2Zm0 1.7a8.16 8.16 0 0 1 6.93 12.47 8.13 8.13 0 0 1-10.95 2.63l-.34-.2-2.8.74.75-2.72-.23-.36A8.16 8.16 0 0 1 12.04 3.7Zm-3.3 4.32c-.18 0-.46.06-.7.33-.24.26-.92.9-.92 2.19s.95 2.54 1.08 2.71c.13.18 1.84 2.95 4.55 4.02 2.25.89 2.71.71 3.2.67.49-.05 1.57-.64 1.79-1.26.22-.62.22-1.15.15-1.26-.06-.11-.24-.18-.5-.31-.27-.13-1.57-.77-1.81-.86-.24-.09-.42-.13-.6.13-.17.27-.69.86-.85 1.04-.15.17-.31.2-.57.06-.27-.13-1.12-.41-2.13-1.31-.79-.7-1.32-1.57-1.48-1.84-.15-.26-.02-.41.12-.54.12-.12.26-.31.39-.46.13-.15.18-.26.27-.44.09-.18.04-.33-.02-.46-.07-.13-.59-1.42-.81-1.95-.21-.51-.43-.44-.6-.45h-.51Z"></path></svg>
+                {% else %}
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20 10c0 5.25-8 11-8 11S4 15.25 4 10a8 8 0 1 1 16 0Z"></path><circle cx="12" cy="10" r="2.8"></circle></svg>
+              {% endcase %}
+            </div>
+            <div>
+              {% if block.settings.title != blank %}
+                <h3>{{ block.settings.title }}</h3>
+              {% endif %}
+              {% if block.settings.text != blank %}
+                <div class="visit-appointment__card-text">{{ block.settings.text | newline_to_br }}</div>
+              {% endif %}
+              {% if block.settings.link_label != blank and block.settings.link != blank %}
+                <a class="visit-appointment__link" href="{{ block.settings.link }}" {% if block.settings.open_in_new_tab %}target="_blank" rel="noopener noreferrer"{% endif %}>
+                  {{ block.settings.link_label }}
+                </a>
+              {% endif %}
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+    </div>
+
+    {% if s.show_form %}
+      <div class="visit-appointment__form-card">
+        <div class="visit-appointment__form-head">
+          {% if s.form_eyebrow != blank %}
+            <p class="visit-appointment__form-eyebrow">{{ s.form_eyebrow }}</p>
+          {% endif %}
+          {% if s.form_heading != blank %}
+            <h3 class="visit-appointment__form-heading">{{ s.form_heading }}</h3>
+          {% endif %}
+          {% if s.form_text != blank %}
+            <p class="visit-appointment__form-text">{{ s.form_text }}</p>
+          {% endif %}
+        </div>
+
+        {% form 'contact', id: 'VisitAppointmentForm', class: 'visit-appointment__form' %}
+          <input type="hidden" name="contact[tags]" value="{{ s.form_tags | default: 'visit-page, appointment-inquiry' }}">
+
+          {% if form.posted_successfully? %}
+            <div class="visit-appointment__alert visit-appointment__alert--success" role="status" tabindex="-1" autofocus>
+              <strong>{{ s.success_title | default: 'Inquiry received' }}</strong>
+              <span>{{ s.success_message | default: 'Thank you. Our team will get back to you shortly.' }}</span>
+            </div>
+          {% elsif form.errors %}
+            <div class="visit-appointment__alert visit-appointment__alert--error" role="alert" tabindex="-1" autofocus>
+              {{ form.errors | default_errors }}
+            </div>
+          {% endif %}
+
+          <div class="visit-appointment__form-grid">
+            <div class="visit-appointment__field">
+              <label for="VisitAppointmentName-{{ section.id }}">Name</label>
+              <input
+                id="VisitAppointmentName-{{ section.id }}"
+                type="text"
+                name="contact[name]"
+                value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+                autocomplete="name"
+                required
+              >
+            </div>
+
+            <div class="visit-appointment__field">
+              <label for="VisitAppointmentEmail-{{ section.id }}">Email</label>
+              <input
+                id="VisitAppointmentEmail-{{ section.id }}"
+                type="email"
+                name="contact[email]"
+                value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+                autocomplete="email"
+                spellcheck="false"
+                autocapitalize="off"
+                required
+              >
+            </div>
+
+            <div class="visit-appointment__field">
+              <label for="VisitAppointmentPhone-{{ section.id }}">Phone / WhatsApp</label>
+              <input
+                id="VisitAppointmentPhone-{{ section.id }}"
+                type="tel"
+                name="contact[phone]"
+                value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}"
+                autocomplete="tel"
+              >
+            </div>
+
+            <div class="visit-appointment__field">
+              <label for="VisitAppointmentPurpose-{{ section.id }}">Purpose</label>
+              <select id="VisitAppointmentPurpose-{{ section.id }}" name="contact[purpose]">
+                <option value="Visit appointment">Visit appointment</option>
+                <option value="Product inquiry">Product inquiry</option>
+                <option value="Private viewing">Private viewing</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <div class="visit-appointment__field">
+              <label for="VisitAppointmentDate-{{ section.id }}">Preferred date</label>
+              <input id="VisitAppointmentDate-{{ section.id }}" type="date" name="contact[preferred_date]">
+            </div>
+
+            <div class="visit-appointment__field visit-appointment__field--full">
+              <label for="VisitAppointmentMessage-{{ section.id }}">Message</label>
+              <textarea
+                id="VisitAppointmentMessage-{{ section.id }}"
+                name="contact[body]"
+                rows="5"
+                required
+              >{% if form.body %}{{ form.body }}{% endif %}</textarea>
+            </div>
+          </div>
+
+          <button type="submit" class="visit-appointment__submit">{{ s.submit_label | default: 'Send inquiry' }}</button>
+        {% endform %}
+      </div>
+    {% endif %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .visit-appointment {
+    background:
+      linear-gradient(135deg, color-mix(in srgb, var(--va-accent) 8%, transparent), transparent 34%),
+      var(--va-bg);
+    color: var(--va-text);
+    padding: var(--va-pt) 0 var(--va-pb);
+    overflow: clip;
+  }
+
+  .visit-appointment__inner {
+    width: min(1280px, calc(100% - 40px));
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(320px, 0.9fr) minmax(420px, 1.1fr);
+    gap: clamp(28px, 5vw, 76px);
+    align-items: start;
+  }
+
+  .visit-appointment__left {
+    display: grid;
+    gap: clamp(24px, 3vw, 34px);
+  }
+
+  .visit-appointment__intro {
+    max-width: 520px;
+  }
+
+  .visit-appointment__eyebrow,
+  .visit-appointment__form-eyebrow {
+    margin: 0 0 12px;
+    color: var(--va-accent);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+
+  .visit-appointment__form-eyebrow {
+    margin-bottom: 8px;
+    font-size: 10px;
+  }
+
+  .visit-appointment__heading {
+    margin: 0;
+    max-width: 430px;
+    color: var(--va-text);
+    font-family: var(--font-heading-family, serif);
+    font-size: clamp(18px, 5.8vw, 40px);
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 0.94;
+    text-transform: uppercase;
+  }
+
+  .visit-appointment__text {
+    margin: 18px 0 0;
+    max-width: 430px;
+    color: var(--va-muted);
+    font-size: 15px;
+    line-height: 1.78;
+  }
+
+  .visit-appointment__button,
+  .visit-appointment__link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+
+  .visit-appointment__button {
+    min-height: 44px;
+    margin-top: 28px;
+    padding: 0 24px;
+    border: 1px solid var(--va-accent);
+    color: var(--va-text);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
+  }
+
+  .visit-appointment__button:hover {
+    background: var(--va-accent);
+    color: #11100e;
+    transform: translateY(-2px);
+  }
+
+  .visit-appointment__cards {
+    display: grid;
+    gap: 12px;
+  }
+
+  .visit-appointment__card {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 16px;
+    padding: clamp(18px, 2.4vw, 28px);
+    border: 1px solid var(--va-border);
+    background: color-mix(in srgb, var(--va-panel) 94%, transparent);
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s ease, background 0.3s ease;
+  }
+
+  .visit-appointment__card:hover {
+    transform: translateY(-4px);
+    border-color: color-mix(in srgb, var(--va-accent) 72%, var(--va-border));
+    background: color-mix(in srgb, var(--va-panel) 86%, #ffffff);
+  }
+
+  .visit-appointment__icon {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--va-border);
+    color: var(--va-accent);
+  }
+
+  .visit-appointment__icon svg {
+    width: 19px;
+    height: 19px;
+  }
+
+  .visit-appointment__card h3 {
+    margin: 0 0 8px;
+    color: var(--va-text);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.17em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+
+  .visit-appointment__card-text {
+    color: var(--va-muted);
+    font-size: 14px;
+    line-height: 1.68;
+  }
+
+  .visit-appointment__link {
+    margin-top: 15px;
+    color: var(--va-accent);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+  }
+
+  .visit-appointment__link::after {
+    content: "";
+    width: 28px;
+    height: 1px;
+    margin-left: 10px;
+    background: currentColor;
+    transition: width 0.25s ease;
+  }
+
+  .visit-appointment__link:hover::after {
+    width: 42px;
+  }
+
+  .visit-appointment__form-card {
+    padding: clamp(24px, 3.4vw, 42px);
+    border: 1px solid var(--va-form-border);
+    background: var(--va-form);
+    color: var(--va-form-text);
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.26);
+  }
+
+  .visit-appointment__form-head {
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--va-form-border);
+  }
+
+  .visit-appointment__form-heading {
+    margin: 0;
+    color: var(--va-form-text);
+    font-family: var(--font-heading-family, serif);
+    font-size: clamp(26px, 3vw, 42px);
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 1.04;
+    text-transform: uppercase;
+  }
+
+  .visit-appointment__form-text {
+    margin: 10px 0 0;
+    color: var(--va-form-muted);
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  .visit-appointment__form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .visit-appointment__field {
+    display: grid;
+    gap: 7px;
+  }
+
+  .visit-appointment__field--full {
+    grid-column: 1 / -1;
+  }
+
+  .visit-appointment__field label {
+    color: var(--va-form-muted);
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    line-height: 1.35;
+    text-transform: uppercase;
+  }
+
+  .visit-appointment__field input,
+  .visit-appointment__field select,
+  .visit-appointment__field textarea {
+    width: 100%;
+    min-height: 46px;
+    border: 1px solid var(--va-form-border);
+    border-radius: 0;
+    background: var(--va-form-field);
+    color: var(--va-form-text);
+    font: inherit;
+    font-size: 14px;
+    line-height: 1.45;
+    padding: 12px 14px;
+    transition: border-color 0.22s ease, box-shadow 0.22s ease;
+  }
+
+  .visit-appointment__field textarea {
+    resize: vertical;
+  }
+
+  .visit-appointment__field input:focus,
+  .visit-appointment__field select:focus,
+  .visit-appointment__field textarea:focus {
+    outline: none;
+    border-color: var(--va-form-text);
+    box-shadow: 0 0 0 1px var(--va-form-text);
+  }
+
+  .visit-appointment__submit {
+    min-height: 46px;
+    margin-top: 18px;
+    padding: 0 30px;
+    border: 1px solid var(--va-form-text);
+    border-radius: 0;
+    background: var(--va-form-text);
+    color: #ffffff;
+    cursor: pointer;
+    font: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    transition: background 0.24s ease, color 0.24s ease, transform 0.24s ease;
+  }
+
+  .visit-appointment__submit:hover {
+    background: transparent;
+    color: var(--va-form-text);
+    transform: translateY(-2px);
+  }
+
+  .visit-appointment__alert {
+    display: grid;
+    gap: 3px;
+    margin-bottom: 16px;
+    padding: 14px 16px;
+    border-left: 3px solid currentColor;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+
+  .visit-appointment__alert--success {
+    background: #eff7f1;
+    color: #1f6b35;
+  }
+
+  .visit-appointment__alert--error {
+    background: #fff1ef;
+    color: #9d2b20;
+  }
+
+  .visit-appointment__alert ul {
+    margin: 0;
+    padding-left: 18px;
+  }
+
+  @media screen and (prefers-reduced-motion: no-preference) {
+    .visit-appointment__card,
+    .visit-appointment__form-card {
+      animation: visit-appointment-rise 800ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    .visit-appointment__card {
+      animation-delay: calc(var(--va-i) * 85ms);
+    }
+
+    .visit-appointment__form-card {
+      animation-delay: 120ms;
+    }
+  }
+
+  @keyframes visit-appointment-rise {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media screen and (max-width: 989px) {
+    .visit-appointment__inner {
+      grid-template-columns: 1fr;
+      gap: 34px;
+    }
+
+    .visit-appointment__intro {
+      max-width: 680px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .visit-appointment {
+      padding-top: calc(var(--va-pt) * 0.72);
+      padding-bottom: calc(var(--va-pb) * 0.74);
+    }
+
+    .visit-appointment__inner {
+      width: calc(100% - 32px);
+    }
+
+    .visit-appointment__heading {
+      font-size: clamp(36px, 12vw, 48px);
+    }
+
+    .visit-appointment__card,
+    .visit-appointment__form-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .visit-appointment__field--full {
+      grid-column: auto;
+    }
+
+    .visit-appointment__form-card {
+      padding: 22px 16px;
+    }
+
+    .visit-appointment__submit {
+      width: 100%;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Visit appointment",
+  "tag": "section",
+  "class": "section-visit-appointment",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Private visits"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Visit The Raw House"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Intro",
+      "default": "Book a measured, unhurried appointment to experience our objects, furniture and art in person."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "WhatsApp us"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "checkbox",
+      "id": "button_new_tab",
+      "label": "Open button in new tab",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Inquiry form"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_form",
+      "label": "Show form",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "form_eyebrow",
+      "label": "Form eyebrow",
+      "default": "Inquiry"
+    },
+    {
+      "type": "text",
+      "id": "form_heading",
+      "label": "Form heading",
+      "default": "Send a visit request"
+    },
+    {
+      "type": "textarea",
+      "id": "form_text",
+      "label": "Form intro",
+      "default": "Share your preferred date and our team will confirm availability."
+    },
+    {
+      "type": "text",
+      "id": "submit_label",
+      "label": "Submit label",
+      "default": "Send inquiry"
+    },
+    {
+      "type": "text",
+      "id": "form_tags",
+      "label": "Submission tags",
+      "default": "visit-page, appointment-inquiry"
+    },
+    {
+      "type": "text",
+      "id": "success_title",
+      "label": "Success title",
+      "default": "Inquiry received"
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Success message",
+      "default": "Thank you. Our team will get back to you shortly."
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#11100e"
+    },
+    {
+      "type": "color",
+      "id": "panel_color",
+      "label": "Info card background",
+      "default": "#181612"
+    },
+    {
+      "type": "color",
+      "id": "form_background",
+      "label": "Form background",
+      "default": "#f6f3ee"
+    },
+    {
+      "type": "color",
+      "id": "form_field_background",
+      "label": "Form field background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "muted_color",
+      "label": "Muted text",
+      "default": "#c9c0b4"
+    },
+    {
+      "type": "color",
+      "id": "form_text_color",
+      "label": "Form text",
+      "default": "#171411"
+    },
+    {
+      "type": "color",
+      "id": "form_muted_color",
+      "label": "Form muted text",
+      "default": "#6f675c"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent",
+      "default": "#c5a880"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Info card border",
+      "default": "#4b4132"
+    },
+    {
+      "type": "color",
+      "id": "form_border_color",
+      "label": "Form border",
+      "default": "#ded4c5"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 24,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 24,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 76
+    }
+  ],
+  "blocks": [
+    {
+      "type": "detail",
+      "name": "Detail",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "pin", "label": "Address pin" },
+            { "value": "clock", "label": "Clock" },
+            { "value": "calendar", "label": "Calendar" },
+            { "value": "whatsapp", "label": "WhatsApp" }
+          ],
+          "default": "pin"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Ahmedabad address"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "Text",
+          "default": "The Raw House, Ahmedabad\nPrivate studio address shared after confirmation."
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "Link label"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_in_new_tab",
+          "label": "Open link in new tab",
+          "default": true
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Visit appointment",
+      "blocks": [
+        {
+          "type": "detail",
+          "settings": {
+            "icon": "pin",
+            "title": "Ahmedabad address",
+            "text": "The Raw House, Ahmedabad\nPrivate studio address shared after confirmation."
+          }
+        },
+        {
+          "type": "detail",
+          "settings": {
+            "icon": "clock",
+            "title": "Opening hours",
+            "text": "Monday to Saturday: 10:00 AM to 7:00 PM\nSunday: By appointment only."
+          }
+        },
+        {
+          "type": "detail",
+          "settings": {
+            "icon": "calendar",
+            "title": "Appointments",
+            "text": "Private viewings are recommended for a calmer, more considered experience.",
+            "link_label": "Request a slot"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

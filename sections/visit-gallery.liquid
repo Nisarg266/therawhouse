@@ -1,0 +1,708 @@
+{% liquid
+  assign s = section.settings
+%}
+
+<section
+  id="VisitGallery-{{ section.id }}"
+  class="visit-gallery"
+  style="
+    --vg-bg: {{ s.background_color | default: '#ffffff' }};
+    --vg-text: {{ s.text_color | default: '#171411' }};
+    --vg-muted: {{ s.muted_color | default: '#6f675c' }};
+    --vg-accent: {{ s.accent_color | default: '#a98a5f' }};
+    --vg-border: {{ s.border_color | default: '#e6ded2' }};
+    --vg-pt: {{ s.padding_top | default: 72 }}px;
+    --vg-pb: {{ s.padding_bottom | default: 56 }}px;
+    --vg-speed: {{ s.marquee_speed | default: 34 }}s;
+    --vg-card-h: {{ s.image_height | default: 360 }}px;
+    --vg-card-h-m: {{ s.image_height_mobile | default: 280 }}px;
+  "
+  {{ section.shopify_attributes }}
+>
+  {% if s.eyebrow != blank or s.heading != blank or s.intro != blank %}
+    <div class="visit-gallery__header-wrap">
+      <header class="visit-gallery__header">
+        {% if s.eyebrow != blank %}
+          <p class="visit-gallery__eyebrow">{{ s.eyebrow }}</p>
+        {% endif %}
+        {% if s.heading != blank %}
+          <h2 class="visit-gallery__heading">{{ s.heading }}</h2>
+        {% endif %}
+        {% if s.intro != blank %}
+          <p class="visit-gallery__intro">{{ s.intro }}</p>
+        {% endif %}
+      </header>
+    </div>
+  {% endif %}
+
+  <div class="visit-gallery__marquee" aria-label="{{ s.heading | default: 'Gallery' | escape }}">
+    <div class="visit-gallery__row visit-gallery__row--forward">
+      <div class="visit-gallery__track">
+        <div class="visit-gallery__group">
+          {% for block in section.blocks %}
+            {% assign row_check = forloop.index | modulo: 2 %}
+            {% if row_check == 1 %}
+              {% liquid
+                assign fallback_asset = block.settings.default_asset
+                if fallback_asset == blank
+                  assign fallback_asset = 'art-gallery-room-hotspots.jpg'
+                endif
+                assign image_alt = block.settings.alt
+                if image_alt == blank
+                  assign image_alt = block.settings.caption | default: 'The Raw House gallery detail'
+                endif
+              %}
+              <figure class="visit-gallery__item" {{ block.shopify_attributes }}>
+                <div class="visit-gallery__media">
+                  {% if block.settings.image != blank %}
+                    {{
+                      block.settings.image
+                      | image_url: width: 1200
+                      | image_tag:
+                        class: 'visit-gallery__image',
+                        loading: 'lazy',
+                        widths: '320, 480, 640, 840, 1000, 1200',
+                        sizes: '(max-width: 749px) 72vw, 34vw',
+                        alt: image_alt
+                    }}
+                  {% else %}
+                    <img
+                      src="{{ fallback_asset | asset_url }}"
+                      alt="{{ image_alt | escape }}"
+                      class="visit-gallery__image"
+                      loading="lazy"
+                      width="900"
+                      height="650"
+                    >
+                  {% endif %}
+                </div>
+                {% if block.settings.caption != blank or block.settings.kicker != blank %}
+                  <figcaption class="visit-gallery__caption">
+                    {% if block.settings.kicker != blank %}
+                      <span>{{ block.settings.kicker }}</span>
+                    {% endif %}
+                    {% if block.settings.caption != blank %}
+                      <strong>{{ block.settings.caption }}</strong>
+                    {% endif %}
+                  </figcaption>
+                {% endif %}
+              </figure>
+            {% endif %}
+          {% endfor %}
+        </div>
+
+        <div class="visit-gallery__group" aria-hidden="true">
+          {% for block in section.blocks %}
+            {% assign row_check = forloop.index | modulo: 2 %}
+            {% if row_check == 1 %}
+              {% liquid
+                assign fallback_asset = block.settings.default_asset
+                if fallback_asset == blank
+                  assign fallback_asset = 'art-gallery-room-hotspots.jpg'
+                endif
+              %}
+              <figure class="visit-gallery__item">
+                <div class="visit-gallery__media">
+                  {% if block.settings.image != blank %}
+                    {{
+                      block.settings.image
+                      | image_url: width: 1200
+                      | image_tag:
+                        class: 'visit-gallery__image',
+                        loading: 'lazy',
+                        widths: '320, 480, 640, 840, 1000, 1200',
+                        sizes: '(max-width: 749px) 72vw, 34vw',
+                        alt: ''
+                    }}
+                  {% else %}
+                    <img src="{{ fallback_asset | asset_url }}" alt="" class="visit-gallery__image" loading="lazy" width="900" height="650">
+                  {% endif %}
+                </div>
+              </figure>
+            {% endif %}
+          {% endfor %}
+        </div>
+
+        <div class="visit-gallery__group" aria-hidden="true">
+          {% for block in section.blocks %}
+            {% assign row_check = forloop.index | modulo: 2 %}
+            {% if row_check == 1 %}
+              {% liquid
+                assign fallback_asset = block.settings.default_asset
+                if fallback_asset == blank
+                  assign fallback_asset = 'art-gallery-room-hotspots.jpg'
+                endif
+              %}
+              <figure class="visit-gallery__item">
+                <div class="visit-gallery__media">
+                  {% if block.settings.image != blank %}
+                    {{
+                      block.settings.image
+                      | image_url: width: 1200
+                      | image_tag:
+                        class: 'visit-gallery__image',
+                        loading: 'lazy',
+                        widths: '320, 480, 640, 840, 1000, 1200',
+                        sizes: '(max-width: 749px) 72vw, 34vw',
+                        alt: ''
+                    }}
+                  {% else %}
+                    <img src="{{ fallback_asset | asset_url }}" alt="" class="visit-gallery__image" loading="lazy" width="900" height="650">
+                  {% endif %}
+                </div>
+              </figure>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <div class="visit-gallery__row visit-gallery__row--reverse">
+      <div class="visit-gallery__track">
+        <div class="visit-gallery__group">
+          {% for block in section.blocks %}
+            {% assign row_check = forloop.index | modulo: 2 %}
+            {% if row_check == 0 %}
+              {% liquid
+                assign fallback_asset = block.settings.default_asset
+                if fallback_asset == blank
+                  assign fallback_asset = 'maker-gallery-1.jpg'
+                endif
+                assign image_alt = block.settings.alt
+                if image_alt == blank
+                  assign image_alt = block.settings.caption | default: 'The Raw House gallery detail'
+                endif
+              %}
+              <figure class="visit-gallery__item" {{ block.shopify_attributes }}>
+                <div class="visit-gallery__media">
+                  {% if block.settings.image != blank %}
+                    {{
+                      block.settings.image
+                      | image_url: width: 1200
+                      | image_tag:
+                        class: 'visit-gallery__image',
+                        loading: 'lazy',
+                        widths: '320, 480, 640, 840, 1000, 1200',
+                        sizes: '(max-width: 749px) 72vw, 34vw',
+                        alt: image_alt
+                    }}
+                  {% else %}
+                    <img
+                      src="{{ fallback_asset | asset_url }}"
+                      alt="{{ image_alt | escape }}"
+                      class="visit-gallery__image"
+                      loading="lazy"
+                      width="900"
+                      height="650"
+                    >
+                  {% endif %}
+                </div>
+                {% if block.settings.caption != blank or block.settings.kicker != blank %}
+                  <figcaption class="visit-gallery__caption">
+                    {% if block.settings.kicker != blank %}
+                      <span>{{ block.settings.kicker }}</span>
+                    {% endif %}
+                    {% if block.settings.caption != blank %}
+                      <strong>{{ block.settings.caption }}</strong>
+                    {% endif %}
+                  </figcaption>
+                {% endif %}
+              </figure>
+            {% endif %}
+          {% endfor %}
+        </div>
+
+        <div class="visit-gallery__group" aria-hidden="true">
+          {% for block in section.blocks %}
+            {% assign row_check = forloop.index | modulo: 2 %}
+            {% if row_check == 0 %}
+              {% liquid
+                assign fallback_asset = block.settings.default_asset
+                if fallback_asset == blank
+                  assign fallback_asset = 'maker-gallery-1.jpg'
+                endif
+              %}
+              <figure class="visit-gallery__item">
+                <div class="visit-gallery__media">
+                  {% if block.settings.image != blank %}
+                    {{
+                      block.settings.image
+                      | image_url: width: 1200
+                      | image_tag:
+                        class: 'visit-gallery__image',
+                        loading: 'lazy',
+                        widths: '320, 480, 640, 840, 1000, 1200',
+                        sizes: '(max-width: 749px) 72vw, 34vw',
+                        alt: ''
+                    }}
+                  {% else %}
+                    <img src="{{ fallback_asset | asset_url }}" alt="" class="visit-gallery__image" loading="lazy" width="900" height="650">
+                  {% endif %}
+                </div>
+              </figure>
+            {% endif %}
+          {% endfor %}
+        </div>
+
+        <div class="visit-gallery__group" aria-hidden="true">
+          {% for block in section.blocks %}
+            {% assign row_check = forloop.index | modulo: 2 %}
+            {% if row_check == 0 %}
+              {% liquid
+                assign fallback_asset = block.settings.default_asset
+                if fallback_asset == blank
+                  assign fallback_asset = 'maker-gallery-1.jpg'
+                endif
+              %}
+              <figure class="visit-gallery__item">
+                <div class="visit-gallery__media">
+                  {% if block.settings.image != blank %}
+                    {{
+                      block.settings.image
+                      | image_url: width: 1200
+                      | image_tag:
+                        class: 'visit-gallery__image',
+                        loading: 'lazy',
+                        widths: '320, 480, 640, 840, 1000, 1200',
+                        sizes: '(max-width: 749px) 72vw, 34vw',
+                        alt: ''
+                    }}
+                  {% else %}
+                    <img src="{{ fallback_asset | asset_url }}" alt="" class="visit-gallery__image" loading="lazy" width="900" height="650">
+                  {% endif %}
+                </div>
+              </figure>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .visit-gallery {
+    background: var(--vg-bg);
+    color: var(--vg-text);
+    padding: var(--vg-pt) 0 var(--vg-pb);
+    overflow: clip;
+  }
+
+  .visit-gallery__header-wrap {
+    width: min(1120px, calc(100% - 40px));
+    margin: 0 auto;
+  }
+
+  .visit-gallery__header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: clamp(22px, 2.8vw, 38px);
+    text-align: center;
+  }
+
+  .visit-gallery__eyebrow {
+    margin: 0;
+    color: var(--vg-text);
+    font-family: var(--font-heading-family, serif);
+    font-size: clamp(28px, 3.2vw, 46px);
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .visit-gallery__heading {
+    margin: 0;
+    max-width: 420px;
+    color: var(--vg-text);
+    font-family: var(--font-heading-family, serif);
+    font-size: clamp(20px, 2.6vw, 36px);
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 1.05;
+    text-transform: uppercase;
+  }
+
+  .visit-gallery__intro {
+    margin: 0;
+    max-width: 320px;
+    color: var(--vg-muted);
+    font-size: 13px;
+    line-height: 1.55;
+  }
+
+  .visit-gallery__marquee {
+    display: grid;
+    gap: clamp(12px, 1.4vw, 20px);
+    width: 100%;
+  }
+
+  .visit-gallery__row {
+    overflow: clip;
+  }
+
+  .visit-gallery__track {
+    display: flex;
+    width: max-content;
+    will-change: transform;
+  }
+
+  .visit-gallery__group {
+    display: flex;
+    gap: clamp(12px, 1.3vw, 20px);
+    padding-right: clamp(12px, 1.3vw, 20px);
+  }
+
+  .visit-gallery__item {
+    position: relative;
+    flex: 0 0 clamp(300px, 34vw, 560px);
+    height: var(--vg-card-h);
+    margin: 0;
+    overflow: hidden;
+    border: 1px solid var(--vg-border);
+    background: #f3f0ea;
+    isolation: isolate;
+  }
+
+  .visit-gallery__media,
+  .visit-gallery__image {
+    width: 100%;
+    height: 100%;
+  }
+
+  .visit-gallery__image {
+    display: block;
+    object-fit: cover;
+    filter: saturate(0.94) contrast(1.03);
+    transform: scale(1.01);
+    transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1), filter 1s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .visit-gallery__item:hover .visit-gallery__image {
+    filter: saturate(1.04) contrast(1.06);
+    transform: scale(1.055);
+  }
+
+  .visit-gallery__caption {
+    display: none;
+  }
+
+  .visit-gallery__caption span {
+    display: block;
+    color: #d6bd91;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    line-height: 1.4;
+    text-transform: uppercase;
+  }
+
+  .visit-gallery__caption strong {
+    display: block;
+    margin-top: 5px;
+    max-width: 420px;
+    color: #ffffff;
+    font-family: var(--font-heading-family, serif);
+    font-size: clamp(15px, 1.45vw, 22px);
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 1.15;
+  }
+
+  @media screen and (prefers-reduced-motion: no-preference) {
+    .visit-gallery__row--forward .visit-gallery__track {
+      animation: visit-gallery-forward var(--vg-speed) linear infinite;
+    }
+
+    .visit-gallery__row--reverse .visit-gallery__track {
+      animation: visit-gallery-reverse var(--vg-speed) linear infinite;
+    }
+
+    .visit-gallery__row:hover .visit-gallery__track {
+      animation-play-state: paused;
+    }
+  }
+
+  @keyframes visit-gallery-forward {
+    from {
+      transform: translate3d(-33.333%, 0, 0);
+    }
+    to {
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @keyframes visit-gallery-reverse {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+    to {
+      transform: translate3d(-33.333%, 0, 0);
+    }
+  }
+
+  @media screen and (prefers-reduced-motion: reduce) {
+    .visit-gallery__marquee {
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .visit-gallery__row {
+      overflow: visible;
+    }
+
+    .visit-gallery__track {
+      width: max-content;
+    }
+
+    .visit-gallery__group[aria-hidden="true"] {
+      display: none;
+    }
+
+    .visit-gallery__item {
+      scroll-snap-align: center;
+    }
+  }
+
+  @media screen and (max-width: 989px) {
+    .visit-gallery__header {
+      flex-direction: column;
+      gap: 14px;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .visit-gallery {
+      padding-top: calc(var(--vg-pt) * 0.72);
+      padding-bottom: calc(var(--vg-pb) * 0.78);
+    }
+
+    .visit-gallery__header-wrap {
+      width: calc(100% - 32px);
+    }
+
+    .visit-gallery__heading {
+      font-size: clamp(31px, 12vw, 46px);
+    }
+
+    .visit-gallery__item {
+      flex-basis: 74vw;
+      height: var(--vg-card-h-m);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Visit gallery",
+  "tag": "section",
+  "class": "section-visit-gallery",
+  "max_blocks": 50,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Gallery"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Step inside The Raw House"
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Intro",
+      "default": "A quiet edit of rooms, objects and material details from our Ahmedabad space."
+    },
+    {
+      "type": "header",
+      "content": "Marquee"
+    },
+    {
+      "type": "range",
+      "id": "marquee_speed",
+      "min": 18,
+      "max": 80,
+      "step": 2,
+      "unit": "s",
+      "label": "Marquee speed",
+      "default": 34
+    },
+    {
+      "type": "range",
+      "id": "image_height",
+      "min": 180,
+      "max": 520,
+      "step": 10,
+      "unit": "px",
+      "label": "Image height",
+      "default": 360
+    },
+    {
+      "type": "range",
+      "id": "image_height_mobile",
+      "min": 160,
+      "max": 380,
+      "step": 10,
+      "unit": "px",
+      "label": "Mobile image height",
+      "default": 280
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#171411"
+    },
+    {
+      "type": "color",
+      "id": "muted_color",
+      "label": "Muted text",
+      "default": "#6f675c"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent",
+      "default": "#a98a5f"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border",
+      "default": "#e6ded2"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 24,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 24,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 56
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "default_asset",
+          "label": "Fallback asset filename",
+          "default": "art-gallery-room-hotspots.jpg"
+        },
+        {
+          "type": "text",
+          "id": "kicker",
+          "label": "Kicker",
+          "default": "Ahmedabad"
+        },
+        {
+          "type": "text",
+          "id": "caption",
+          "label": "Caption",
+          "default": "Collected rooms with sculptural furniture and art"
+        },
+        {
+          "type": "text",
+          "id": "alt",
+          "label": "Alt text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Visit gallery",
+      "blocks": [
+        {
+          "type": "image",
+          "settings": {
+            "default_asset": "art-gallery-room-hotspots.jpg",
+            "kicker": "Gallery",
+            "caption": "Collected rooms with sculptural furniture and art"
+          }
+        },
+        {
+          "type": "image",
+          "settings": {
+            "default_asset": "maker-gallery-1.jpg",
+            "kicker": "Details",
+            "caption": "Material, patina and handmade finishes"
+          }
+        },
+        {
+          "type": "image",
+          "settings": {
+            "default_asset": "art-atelier-artist-studio.jpg",
+            "kicker": "Atelier",
+            "caption": "Objects selected with a curator's eye"
+          }
+        },
+        {
+          "type": "image",
+          "settings": {
+            "default_asset": "fine-print-2.jpg",
+            "kicker": "Art",
+            "caption": "Limited works and quiet wall moments"
+          }
+        },
+        {
+          "type": "image",
+          "settings": {
+            "default_asset": "maker-gallery-3.jpg",
+            "kicker": "Craft",
+            "caption": "Quiet details from the maker's hand"
+          }
+        },
+        {
+          "type": "image",
+          "settings": {
+            "default_asset": "art-decor-ceramic-statue.jpg",
+            "kicker": "Objects",
+            "caption": "Sculptural accents for layered interiors"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

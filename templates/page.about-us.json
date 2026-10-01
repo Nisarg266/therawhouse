@@ -77,6 +77,11 @@
         "badge_subtitle": "Crafted Objects for Artful Living",
         "subheading": "BEHIND THE HOUSE",
         "heading": "Our Story",
+        "story_body": "<p>The Raw House is a design gallery based in Ahmedabad, India, dedicated to presenting the finest of Indian design, art, craft and material-led practice.</p><p>Founded by Priyadarshini Rathore and Pranali Pandya, The Raw House was created from a shared belief that the objects we live with can hold ideas, stories and cultural memory while still being deeply contemporary.</p><p>The gallery brings together collectible design, furniture, art, sculpture, craft and emerging material practices through a programme of curated collections, exhibitions and city showcases. Each collection is shaped around a distinct idea, bringing together designers, artists and makers whose work contributes to a larger conversation.</p><p>We are interested in the space between design and art, tradition and experimentation, function and expression. Our curatorial approach is rooted in materiality, craftsmanship and individuality, while remaining open to new ways of making and thinking.</p><p>The Raw House is also a platform for discovery. Alongside our gallery exhibitions in Ahmedabad, we take curated showcases to other cities, connecting Indian designers and artists with collectors, architects, interior designers and audiences who are looking for work with character and meaning.</p><p>Raw Collectables, our permanent gallery offering, brings together collectible furniture and design objects selected for their materiality, presence and ability to become lasting parts of a space.</p><p>At its core, The Raw House is about how we choose to live with objects. We believe the most compelling pieces are not simply things to own or display, but objects that create a sense of place, carry a point of view and become part of the lives around them.</p><p>Rooted in Ahmedabad and looking outward, The Raw House is a growing platform for Indian design and artistic practice, bringing together people, ideas and objects that are worth living with.</p>",
+        "enable_read_more": true,
+        "collapsed_height": 420,
+        "read_more_label": "Read more",
+        "read_less_label": "Read less",
         "paragraph_1": "The Raw House is a design gallery based in Ahmedabad, India, dedicated to presenting the finest of Indian design, art, craft and material-led practice.\nFounded by Priyadarshini Rathore and Pranali Pandya, The Raw House was created from a shared belief that the objects we live with can hold ideas, stories and cultural memory — while still being deeply contemporary.\nThe gallery brings together collectible design, furniture, art, sculpture, craft and emerging material practices through a programme of curated collections, exhibitions and city showcases. Each collection is shaped around a distinct idea, bringing together designers, artists and makers whose work contributes to a larger conversation.\nWe are interested in the space between design and art, tradition and experimentation, function and expression. Our curatorial approach is rooted in materiality, craftsmanship and individuality, while remaining open to new ways of making and thinking.\nThe Raw House is also a platform for discovery. Alongside our gallery exhibitions in Ahmedabad, we take curated showcases to other cities, connecting Indian designers and artists with collectors, architects, interior designers and audiences who are looking for work with character and meaning.",
         "paragraph_2": "Raw Collectables, our permanent gallery offering, brings together collectible furniture and design objects selected for their materiality, presence and ability to become lasting parts of a space.\nAt its core, The Raw House is about how we choose to live with objects. We believe the most compelling pieces are not simply things to own or display, but objects that create a sense of place, carry a point of view and become part of the lives around them.\nRooted in Ahmedabad and looking outward, The Raw House is a growing platform for Indian design and artistic practice — bringing together people, ideas and objects that are worth living with.",
         "show_signature": false,
@@ -139,17 +144,17 @@
       }
     },
     "about_founders_cards": {
-      "type": "about-narrative-split",
+      "type": "about-founders-cards",
       "blocks": {
         "founder_1": {
           "type": "founder",
           "settings": {
             "image": "shopify://shop_images/IMG_4280.jpg",
             "default_asset": "maker-portrait-1.jpg",
-            "role": "Co-founder · Curation & Design",
+            "role": "Founder | Curation & Design",
             "name": "Priyadarshini Rathore",
-            "quote": "Priyadarshini Rathore brings over a decade of experience across curation, architecture and design. Her work has been centred around creating platforms that connect creative practices, people and audiences.",
-            "bio": "Leads visual curation, material direction and the editorial eye behind The Raw House collections.",
+            "quote": "Priyadarshini Rathore is a curator and design practitioner with over a decade of experience across architecture, design and cultural programming.",
+            "bio": "She previously co-founded Raw Collaborative, helping establish it as a recognised platform for India's design and creative community.\nShe is now the founder of The Raw House, a design gallery in Ahmedabad focused on thoughtful curation, distinctive programmes and contemporary Indian design, craft and material practices.\nShe is also the founder of Craft Collective, an independent platform exploring Craft as Living Intelligence and the evolving relationship between craft, design, architecture and contemporary practice.\nAcross her work, Priyadarshini focuses on curating meaningful programmes, fostering dialogue between creative practitioners, and creating new ways for audiences to engage with Indian design and craft.",
             "link_label": "",
             "link": ""
           }
@@ -159,10 +164,10 @@
           "settings": {
             "image": "shopify://shop_images/IMG_4623.JPG_1.jpg",
             "default_asset": "maker-portrait-2.jpg",
-            "role": "Co-founder · Architecture & Design",
+            "role": "Co-Founder | Architecture & Design",
             "name": "Pranali Pandya",
-            "quote": "Pranali Pandya is the founder and principal designer of Naibu Design Studio.\nHer practice brings together architecture, design, material and craft, with a strong interest in how traditional knowledge can inform contemporary spaces and objects.",
-            "bio": "Guides sourcing, client conversations, delivery experience and the practical details that help each piece settle beautifully into a real home.",
+            "quote": "Pranali Pandya is the founder and principal architect of Naibu Design Studio, with over 30 years of experience across architecture, interior design and material-led practice.",
+            "bio": "Her practice is rooted in a thoughtful engagement with space, proportion, materiality and craft, with a particular interest in translating traditional knowledge into contemporary architectural and design contexts.\nAt The Raw House, Pranali brings her architectural expertise to the curation, spatial styling and presentation of the gallery and its collections. Her understanding of how objects, materials and spaces come together plays an important role in creating a distinctive and considered experience for clients.\nHer perspective extends The Raw House beyond the individual object, bringing a strong architectural and spatial lens to how design is experienced, collected and lived with.",
             "link_label": "",
             "link": ""
           }
@@ -176,9 +181,9 @@
         "top_label": "THE",
         "subheading": "MEET THE FOUNDERS",
         "heading": "Our Founders",
-        "intro": "A shared instinct for honest materials, considered interiors, and spaces that feel like home.",
+        "intro": "Two distinct perspectives, united by a shared belief in thoughtful design, honest materials and spaces shaped by the things we choose to live with.",
         "bottom_text": "PEOPLE  -  SPACES  -  A BETTER TOMORROW",
-        "show_bio": false,
+        "show_bio": true,
         "small_text_size": 11,
         "small_text_size_mobile": 9,
         "heading_size": 32,

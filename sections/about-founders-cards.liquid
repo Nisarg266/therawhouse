@@ -155,18 +155,11 @@
               </div>
             {% endif %}
 
-            {% if block.settings.link_label != blank %}
-              {% if block.settings.link != blank %}
-                <a class="about-founders__link" href="{{ block.settings.link }}">
-                  <span>{{ block.settings.link_label }}</span>
-                  <span aria-hidden="true">&rarr;</span>
-                </a>
-              {% else %}
-                <span class="about-founders__link about-founders__link--static">
-                  <span>{{ block.settings.link_label }}</span>
-                  <span aria-hidden="true">&rarr;</span>
-                </span>
-              {% endif %}
+            {% if block.settings.link_label != blank and block.settings.link != blank %}
+              <a class="about-founders__link" href="{{ block.settings.link }}">
+                <span>{{ block.settings.link_label }}</span>
+                <span aria-hidden="true">&rarr;</span>
+              </a>
             {% endif %}
           </div>
         </article>
@@ -188,31 +181,56 @@
     position: relative;
     overflow: clip;
     background:
-      linear-gradient(180deg, color-mix(in srgb, var(--founders-bg) 92%, #ffffff) 0%, var(--founders-bg) 100%);
+      linear-gradient(90deg, color-mix(in srgb, var(--founders-bg) 88%, #ffffff) 0 1px, transparent 1px) 0 0 / 96px 96px,
+      linear-gradient(180deg, color-mix(in srgb, var(--founders-bg) 94%, #ffffff) 0%, var(--founders-bg) 100%);
     color: var(--founders-color);
     padding: var(--founders-pt) 0 var(--founders-pb);
   }
 
+  .about-founders::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(115deg, transparent 0 54%, color-mix(in srgb, var(--founders-accent) 8%, transparent) 54% 54.3%, transparent 54.3%),
+      radial-gradient(circle at 88% 12%, color-mix(in srgb, var(--founders-accent) 9%, transparent), transparent 28%);
+    opacity: 0.75;
+  }
+
   .about-founders__inner {
+    position: relative;
+    z-index: 1;
     width: min(1220px, calc(100% - 72px));
     margin: 0 auto;
   }
 
   .about-founders__header {
     max-width: 760px;
-    margin: 0 0 clamp(42px, 5.2vw, 72px);
+    margin: 0 0 clamp(44px, 5.2vw, 76px);
     text-align: left;
   }
 
   .about-founders__top-label {
-    display: block;
-    margin-bottom: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
     color: var(--founders-accent);
     font-size: var(--founders-small-text-size);
     font-weight: 600;
     letter-spacing: 0.28em;
     line-height: 1.3;
     text-transform: uppercase;
+  }
+
+  .about-founders__top-label::after {
+    content: '';
+    display: block;
+    width: 42px;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.7;
   }
 
   .about-founders__subheading-wrap {
@@ -264,7 +282,7 @@
     margin: 0;
     color: var(--founders-color);
     font-family: var(--font-heading-family, serif);
-    font-size: clamp(30px, 4vw, var(--founders-heading-size));
+    font-size: clamp(36px, 5vw, calc(var(--founders-heading-size) * 1.26));
     font-weight: 400;
     letter-spacing: 0;
     line-height: 1.08;
@@ -284,16 +302,20 @@
   .about-founders__grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: clamp(42px, 7.5vw, 118px);
+    gap: clamp(28px, 4.2vw, 58px);
     align-items: stretch;
   }
 
   .about-founders__card {
-    display: flex;
+    position: relative;
+    display: grid;
+    grid-template-rows: auto 1fr;
     min-width: 0;
     height: 100%;
-    flex-direction: column;
+    padding: 0;
+    border: 0;
     background: transparent;
+    box-shadow: none;
     transition:
       transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
       opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1);
@@ -304,21 +326,36 @@
   }
 
   .about-founders__card:hover {
-    transform: translateY(-4px);
+    transform: translateY(-8px);
+    box-shadow: none;
   }
 
   .about-founders__portrait-shell {
-    width: calc(100% - clamp(8px, 1.8vw, 24px));
-    margin: 0 auto;
-    padding: clamp(8px, 1vw, 12px);
-    border: 1px solid var(--founders-border);
-    background: color-mix(in srgb, var(--founders-card) 88%, transparent);
+    position: relative;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    transition: transform 0.55s ease;
   }
 
   .about-founders__media {
-    aspect-ratio: 4 / 5;
+    position: relative;
+    aspect-ratio: 4 / 5.05;
     background: #d6d1c8;
     overflow: hidden;
+  }
+
+  .about-founders__media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, transparent 48%, rgba(0, 0, 0, 0.24) 100%),
+      linear-gradient(45deg, rgba(255, 255, 255, 0.18), transparent 34%);
+    opacity: 0;
+    transition: opacity 0.55s ease;
   }
 
   .about-founders__image {
@@ -327,34 +364,49 @@
     height: 100%;
     object-fit: cover;
     object-position: center top;
-    filter: none;
+    filter: saturate(0.96) contrast(0.98);
     transform: scale(1.01);
     transition:
       transform 1s cubic-bezier(0.22, 1, 0.36, 1),
       filter 1s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
+  .about-founders__card:hover .about-founders__portrait-shell {
+    transform: translateY(-2px);
+  }
+
+  .about-founders__card:hover .about-founders__media::after {
+    opacity: 1;
+  }
+
   .about-founders__card:hover .about-founders__image {
-    filter: none;
-    transform: scale(1.04);
+    filter: saturate(1.04) contrast(1.03);
+    transform: scale(1.055);
   }
 
   .about-founders__content {
+    position: relative;
     display: flex;
     min-width: 0;
     flex-direction: column;
     justify-content: flex-start;
-    max-width: 560px;
-    width: calc(100% - clamp(8px, 1.8vw, 24px));
-    margin: 0 auto;
-    padding: clamp(20px, 2.6vw, 30px) 0 0;
+    max-width: none;
+    width: 100%;
+    margin: 0;
+    padding: clamp(22px, 2.8vw, 34px) 0 clamp(10px, 1vw, 14px);
   }
 
   .about-founders__role {
+    width: fit-content;
     max-width: 100%;
+    padding: 0 0 9px;
+    border-bottom: 1px solid color-mix(in srgb, var(--founders-accent) 42%, transparent);
     color: color-mix(in srgb, var(--founders-color) 78%, var(--founders-muted));
     font-size: clamp(9px, 0.76vw, var(--founders-small-text-size));
     letter-spacing: 0.18em;
+    transition:
+      color 0.35s ease,
+      border-color 0.35s ease;
   }
 
   .about-founders__rule {
@@ -363,17 +415,17 @@
   }
 
   .about-founders__name {
-    margin: 10px 0 clamp(12px, 1.6vw, 18px);
+    margin: 15px 0 clamp(12px, 1.6vw, 18px);
     color: var(--founders-color);
     font-family: var(--font-heading-family, serif);
-    font-size: clamp(24px, 2.4vw, var(--founders-name-size));
+    font-size: clamp(26px, 2.6vw, var(--founders-name-size));
     font-weight: 400;
     letter-spacing: 0;
     line-height: 1.08;
+    transition: color 0.35s ease;
   }
 
-  .about-founders__quote,
-  .about-founders__bio {
+  .about-founders__quote {
     max-width: 100%;
     margin: 0;
     color: var(--founders-color);
@@ -384,18 +436,37 @@
 
   .about-founders__bio {
     display: grid;
-    gap: 11px;
-    margin-top: 18px;
-    padding-top: 18px;
-    border-top: 1px solid color-mix(in srgb, var(--founders-border) 78%, transparent);
+    gap: 12px;
+    max-width: 100%;
+    margin-top: 20px;
+    padding: clamp(16px, 1.8vw, 22px);
+    border: 0;
     color: var(--founders-muted);
     font-family: var(--font-body-family, sans-serif);
     font-size: var(--founders-bio-size);
     line-height: 1.74;
+    background: color-mix(in srgb, var(--founders-bg) 72%, #ffffff);
+    transition:
+      background 0.45s ease,
+      transform 0.45s ease;
   }
 
   .about-founders__bio p {
     margin: 0;
+  }
+
+  .about-founders__card:hover .about-founders__role {
+    color: var(--founders-accent);
+    border-color: color-mix(in srgb, var(--founders-accent) 74%, transparent);
+  }
+
+  .about-founders__card:hover .about-founders__name {
+    color: color-mix(in srgb, var(--founders-color) 84%, var(--founders-accent));
+  }
+
+  .about-founders__card:hover .about-founders__bio {
+    background: color-mix(in srgb, var(--founders-card) 96%, transparent);
+    transform: translateY(-2px);
   }
 
   .about-founders__link {
@@ -445,6 +516,8 @@
   @media screen and (prefers-reduced-motion: reduce) {
     .about-founders__card,
     .about-founders__image,
+    .about-founders__portrait-shell,
+    .about-founders__bio,
     .about-founders__link {
       transition: none;
     }
@@ -469,14 +542,21 @@
     }
 
     .about-founders__content {
-      width: 100%;
-      margin: 0;
       padding-top: 10px;
     }
 
     .about-founders__portrait-shell {
       width: 100%;
       margin: 0;
+    }
+
+    .about-founders__content {
+      width: 100%;
+      margin: 0;
+    }
+
+    .about-founders__bio {
+      padding: clamp(14px, 2vw, 18px);
     }
   }
 
@@ -539,8 +619,11 @@
 
     .about-founders__card {
       display: flex;
+      flex-direction: column;
       min-height: 0;
       height: auto;
+      padding: 0;
+      box-shadow: none;
     }
 
     .about-founders__media {
@@ -550,7 +633,7 @@
     .about-founders__content {
       width: 100%;
       margin: 0;
-      padding: 18px 0 0;
+      padding: 18px 4px 6px;
     }
 
     .about-founders__rule {
@@ -570,6 +653,8 @@
 
     .about-founders__bio {
       display: grid;
+      margin-top: 16px;
+      padding: 14px;
       font-size: max(12px, calc(var(--founders-bio-size) - 1px));
       line-height: 1.68;
     }

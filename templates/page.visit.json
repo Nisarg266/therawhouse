@@ -9,66 +9,125 @@
  */
 {
   "sections": {
-    "main": {
-      "type": "main-page",
+    "visit_gallery": {
+      "type": "visit-gallery",
       "blocks": {
-        "heading": {
-          "type": "text",
-          "name": "t:names.title",
+        "gallery_1": {
+          "type": "image",
           "settings": {
-            "text": "<h1>{{ closest.page.title }}</h1>",
-            "width": "100%",
-            "max_width": "normal",
-            "alignment": "center",
-            "type_preset": "h2",
-            "font": "var(--font-body--family)",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
+            "default_asset": "art-gallery-room-hotspots.jpg",
+            "kicker": "Gallery",
+            "caption": "Collected rooms with sculptural furniture and art"
+          }
         },
-        "page-content": {
-          "type": "page-content",
-          "settings": {},
-          "blocks": {}
+        "gallery_2": {
+          "type": "image",
+          "settings": {
+            "default_asset": "maker-gallery-1.jpg",
+            "kicker": "Details",
+            "caption": "Material, patina and handmade finishes"
+          }
+        },
+        "gallery_3": {
+          "type": "image",
+          "settings": {
+            "default_asset": "art-atelier-artist-studio.jpg",
+            "kicker": "Atelier",
+            "caption": "Objects selected with a curator's eye"
+          }
+        },
+        "gallery_4": {
+          "type": "image",
+          "settings": {
+            "default_asset": "fine-print-2.jpg",
+            "kicker": "Art",
+            "caption": "Limited works and quiet wall moments"
+          }
+        },
+        "gallery_5": {
+          "type": "image",
+          "settings": {
+            "default_asset": "maker-gallery-3.jpg",
+            "kicker": "Craft",
+            "caption": "Quiet details from the maker's hand"
+          }
+        },
+        "gallery_6": {
+          "type": "image",
+          "settings": {
+            "default_asset": "art-decor-ceramic-statue.jpg",
+            "kicker": "Objects",
+            "caption": "Sculptural accents for layered interiors"
+          }
         }
       },
       "block_order": [
-        "heading",
-        "page-content"
+        "gallery_1",
+        "gallery_2",
+        "gallery_3",
+        "gallery_4",
+        "gallery_5",
+        "gallery_6"
       ],
       "settings": {
-        "content_direction": "column",
-        "gap": 32,
-        "background_color": "{{ settings.color_palette.background }}",
-        "padding-block-start": 40,
-        "padding-block-end": 60
+        "eyebrow": "Gallery",
+        "heading": "",
+        "intro": "",
+        "marquee_speed": 42,
+        "image_height": 360,
+        "image_height_mobile": 280
       }
     },
-    "trust_features": {
-      "type": "luxury-trust-features",
-      "settings": {}
-    },
-    "vip_newsletter": {
-      "type": "luxury-vip-newsletter",
+    "visit_appointment": {
+      "type": "visit-appointment",
+      "blocks": {
+        "address": {
+          "type": "detail",
+          "settings": {
+            "icon": "pin",
+            "title": "Ahmedabad address",
+            "text": "The Raw House, Ahmedabad\nPrivate studio address shared after confirmation."
+          }
+        },
+        "hours": {
+          "type": "detail",
+          "settings": {
+            "icon": "clock",
+            "title": "Opening hours",
+            "text": "Monday to Saturday: 10:00 AM to 7:00 PM\nSunday: By appointment only."
+          }
+        },
+        "appointments": {
+          "type": "detail",
+          "settings": {
+            "icon": "calendar",
+            "title": "Appointments",
+            "text": "Private viewings are recommended for a calmer, more considered experience.",
+            "link_label": "Request a slot",
+            "link": "https://wa.me/918003011110?text=Hello%20The%20Raw%20House%2C%20I%20would%20like%20to%20book%20a%20visit."
+          }
+        }
+      },
+      "block_order": [
+        "address",
+        "hours",
+        "appointments"
+      ],
       "settings": {
-        "subheading": "THE COLLECTORS CIRCLE",
-        "heading": "PRIVATE EXHIBITIONS & CATALOGUES"
+        "eyebrow": "Private visits",
+        "heading": "Visit The Raw House",
+        "text": "Book a measured, unhurried appointment to experience our objects, furniture and art in person.",
+        "button_label": "WhatsApp us",
+        "button_link": "https://wa.me/918003011110?text=Hello%20The%20Raw%20House%2C%20I%20would%20like%20to%20book%20a%20visit.",
+        "form_eyebrow": "Inquiry",
+        "form_heading": "Send a visit request",
+        "form_text": "Share your preferred date and our team will confirm availability.",
+        "submit_label": "Send inquiry"
       }
     }
   },
   "order": [
-    "main",
-    "trust_features",
-    "vip_newsletter"
+    "visit_gallery",
+    "visit_appointment"
   ]
 }

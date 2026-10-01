@@ -41,6 +41,9 @@
   if section.settings.custom_accent_color != blank and section.settings.custom_accent_color != 'rgba(0,0,0,0)'
     assign accent_color = section.settings.custom_accent_color
   endif
+
+  assign story_body = section.settings.story_body
+  assign collapsed_height = section.settings.collapsed_height | default: 420
 %}
 
 <section
@@ -115,13 +118,42 @@
           <h2 class="lux-founder-heading" style="color: var(--founder-color);">{{ section.settings.heading | default: 'HONORING THE WEIGHT OF CREATION' }}</h2>
         {% endif %}
 
-        <div class="lux-founder-text-body">
+        <div
+          class="lux-founder-readmore{% if section.settings.enable_read_more %} is-collapsed{% endif %}"
+          data-founder-readmore
+        >
+          <div
+            id="FounderStoryBody-{{ section.id }}"
+            class="lux-founder-text-body"
+            style="--story-collapsed-height: {{ collapsed_height }}px; color: var(--founder-color);"
+            data-founder-readmore-content
+          >
+          {% if story_body != blank %}
+            {{ story_body }}
+          {% else %}
           <p style="color: var(--founder-color); opacity: 0.82;">
             {{ section.settings.paragraph_1 | default: 'At The Raw House, we believe that an art piece is not merely an ornament—it is a tangible focal point that alters the energy and spatial geometry of an interior. Every oil painting begins with unhurried canvas stretching and mineral pigment blending, capturing luminous depth through dozens of textured impasto layers.' }}
           </p>
           <p style="color: var(--founder-color); opacity: 0.82;">
             {{ section.settings.paragraph_2 | default: 'Our 3D sculptural models and bronze figures undergo traditional lost-wax foundry casting. Heated to over 1,200°C and hand-chiseled by master sculptors, each piece achieves a weighted presence and rich patina that mass machinery could never replicate.' }}
           </p>
+          {% endif %}
+          </div>
+
+          {% if section.settings.enable_read_more %}
+            <button
+              type="button"
+              class="lux-founder-readmore-toggle"
+              aria-expanded="false"
+              aria-controls="FounderStoryBody-{{ section.id }}"
+              data-founder-readmore-toggle
+              data-read-more-label="{{ section.settings.read_more_label | default: 'Read more' | escape }}"
+              data-read-less-label="{{ section.settings.read_less_label | default: 'Read less' | escape }}"
+            >
+              <span data-founder-readmore-toggle-text>{{ section.settings.read_more_label | default: 'Read more' }}</span>
+              <span aria-hidden="true" class="lux-founder-readmore-icon">+</span>
+            </button>
+          {% endif %}
         </div>
 
 
@@ -140,6 +172,57 @@
     </div>
   </div>
 </section>
+
+<script>
+  (() => {
+    const initFounderReadMore = (root = document) => {
+      root.querySelectorAll('[data-founder-readmore]').forEach((wrap) => {
+        if (wrap.dataset.readmoreReady === 'true') return;
+
+        const content = wrap.querySelector('[data-founder-readmore-content]');
+        const toggle = wrap.querySelector('[data-founder-readmore-toggle]');
+        const toggleText = wrap.querySelector('[data-founder-readmore-toggle-text]');
+
+        if (!content || !toggle || !toggleText) return;
+
+        const collapsedHeight =
+          parseInt(getComputedStyle(content).getPropertyValue('--story-collapsed-height'), 10) || 420;
+
+        if (content.scrollHeight <= collapsedHeight + 24) {
+          wrap.classList.remove('is-collapsed');
+          toggle.hidden = true;
+          wrap.dataset.readmoreReady = 'true';
+          return;
+        }
+
+        const setExpandedHeight = () => {
+          content.style.setProperty('--story-expanded-height', `${content.scrollHeight}px`);
+        };
+
+        setExpandedHeight();
+
+        const readMoreLabel = toggle.dataset.readMoreLabel || 'Read more';
+        const readLessLabel = toggle.dataset.readLessLabel || 'Read less';
+
+        toggle.addEventListener('click', () => {
+          setExpandedHeight();
+          const isExpanded = wrap.classList.toggle('is-expanded');
+          wrap.classList.toggle('is-collapsed', !isExpanded);
+          toggle.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+          toggleText.textContent = isExpanded ? readLessLabel : readMoreLabel;
+        });
+
+        window.addEventListener('resize', setExpandedHeight, { passive: true });
+
+        wrap.dataset.readmoreReady = 'true';
+      });
+    };
+
+    initFounderReadMore();
+    document.addEventListener('DOMContentLoaded', () => initFounderReadMore());
+    document.addEventListener('shopify:section:load', (event) => initFounderReadMore(event.target));
+  })();
+</script>
 
 {% schema %}
 {
@@ -242,15 +325,49 @@
       "default": "HONORING THE WEIGHT OF CREATION"
     },
     {
+      "type": "richtext",
+      "id": "story_body",
+      "label": "Story body",
+      "default": "<p>At The Raw House, we believe that the objects we live with can hold ideas, stories and cultural memory while still being deeply contemporary.</p><p>Use this single rich text field for the full story. Longer content will be shown with a Read more button when enabled.</p>"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_read_more",
+      "label": "Collapse long story with Read more",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "collapsed_height",
+      "min": 180,
+      "max": 720,
+      "step": 20,
+      "unit": "px",
+      "label": "Preview height before Read more",
+      "default": 420
+    },
+    {
+      "type": "text",
+      "id": "read_more_label",
+      "label": "Read more label",
+      "default": "Read more"
+    },
+    {
+      "type": "text",
+      "id": "read_less_label",
+      "label": "Read less label",
+      "default": "Read less"
+    },
+    {
       "type": "textarea",
       "id": "paragraph_1",
-      "label": "Paragraph 1",
+      "label": "Legacy paragraph 1 fallback",
       "default": "At The Raw House, we believe that an art piece is not merely an ornament—it is a tangible focal point that alters the energy and spatial geometry of an interior. Every oil painting begins with unhurried canvas stretching and mineral pigment blending, capturing luminous depth through dozens of textured impasto layers."
     },
     {
       "type": "textarea",
       "id": "paragraph_2",
-      "label": "Paragraph 2",
+      "label": "Legacy paragraph 2 fallback",
       "default": "Our 3D sculptural models and bronze figures undergo traditional lost-wax foundry casting. Heated to over 1,200°C and hand-chiseled by master sculptors, each piece achieves a weighted presence and rich patina that mass machinery could never replicate."
     },
     {

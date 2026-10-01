@@ -120,6 +120,11 @@
         "badge_subtitle": "Crafted Objects for Artful Living",
         "subheading": "BEHIND THE HOUSE",
         "heading": "A QUIET RESPECT FOR MATERIAL, MAKER AND ROOM",
+        "story_body": "<p>At The Raw House, we see interiors as living compositions. A cabinet is not only storage, a table is not only surface, and an artwork is not only decoration. The right piece changes the rhythm of a room: how light falls, where the eye rests, and how people gather.</p><p>Our work is to bring together objects with soul: hand-finished furniture, sculptural accents, framed art, and crafted details that carry the patience of the maker. We look for honest materials, enduring silhouettes, and pieces that become more beautiful as they are used.</p>",
+        "enable_read_more": true,
+        "collapsed_height": 360,
+        "read_more_label": "Read more",
+        "read_less_label": "Read less",
         "paragraph_1": "At The Raw House, we see interiors as living compositions. A cabinet is not only storage, a table is not only surface, and an artwork is not only decoration. The right piece changes the rhythm of a room: how light falls, where the eye rests, and how people gather.",
         "paragraph_2": "Our work is to bring together objects with soul: hand-finished furniture, sculptural accents, framed art, and crafted details that carry the patience of the maker. We look for honest materials, enduring silhouettes, and pieces that become more beautiful as they are used.",
         "show_signature": true,
@@ -130,28 +135,28 @@
       }
     },
     "about_founders_cards": {
-      "type": "about-narrative-split",
+      "type": "about-founders-cards",
       "blocks": {
         "founder_1": {
           "type": "founder",
           "settings": {
             "default_asset": "maker-portrait-1.jpg",
-            "role": "Co-founder and creative curator",
-            "name": "Founder One",
-            "quote": "We look for objects with restraint, texture and soul: pieces that feel calm at first glance and deeper the longer you live with them.",
-            "bio": "Leads visual curation, material direction and the editorial eye behind The Raw House collections.",
-            "link_label": "MEET FOUNDER"
+            "role": "Founder | Curation & Design",
+            "name": "Priyadarshini Rathore",
+            "quote": "Priyadarshini Rathore is a curator and design practitioner with over a decade of experience across architecture, design and cultural programming.",
+            "bio": "She previously co-founded Raw Collaborative, helping establish it as a recognised platform for India's design and creative community.\nShe is now the founder of The Raw House, a design gallery in Ahmedabad focused on thoughtful curation, distinctive programmes and contemporary Indian design, craft and material practices.\nShe is also the founder of Craft Collective, an independent platform exploring Craft as Living Intelligence and the evolving relationship between craft, design, architecture and contemporary practice.\nAcross her work, Priyadarshini focuses on curating meaningful programmes, fostering dialogue between creative practitioners, and creating new ways for audiences to engage with Indian design and craft.",
+            "link_label": ""
           }
         },
         "founder_2": {
           "type": "founder",
           "settings": {
             "default_asset": "maker-portrait-2.jpg",
-            "role": "Co-founder and client experience lead",
-            "name": "Founder Two",
-            "quote": "A home should never feel assembled overnight. It should carry memory, craft and the quiet confidence of pieces chosen with care.",
-            "bio": "Guides sourcing, client conversations, delivery experience and the practical details that help each piece settle beautifully into a real home.",
-            "link_label": "MEET FOUNDER"
+            "role": "Co-Founder | Architecture & Design",
+            "name": "Pranali Pandya",
+            "quote": "Pranali Pandya is the founder and principal architect of Naibu Design Studio, with over 30 years of experience across architecture, interior design and material-led practice.",
+            "bio": "Her practice is rooted in a thoughtful engagement with space, proportion, materiality and craft, with a particular interest in translating traditional knowledge into contemporary architectural and design contexts.\nAt The Raw House, Pranali brings her architectural expertise to the curation, spatial styling and presentation of the gallery and its collections. Her understanding of how objects, materials and spaces come together plays an important role in creating a distinctive and considered experience for clients.\nHer perspective extends The Raw House beyond the individual object, bringing a strong architectural and spatial lens to how design is experienced, collected and lived with.",
+            "link_label": ""
           }
         }
       },
@@ -162,19 +167,19 @@
       "settings": {
         "top_label": "THE",
         "subheading": "MEET THE FOUNDERS",
-        "heading": "FOUNDERS",
-        "intro": "A shared instinct for honest materials, considered interiors, and spaces that feel like home.",
+        "heading": "Our Founders",
+        "intro": "Two distinct perspectives, united by a shared belief in thoughtful design, honest materials and spaces shaped by the things we choose to live with.",
         "bottom_text": "PEOPLE  -  SPACES  -  A BETTER TOMORROW",
-        "show_bio": false,
+        "show_bio": true,
         "small_text_size": 11,
         "small_text_size_mobile": 9,
         "heading_size": 32,
         "heading_size_mobile": 28,
         "intro_size": 16,
         "intro_size_mobile": 15,
-        "name_size": 49,
-        "name_size_mobile": 30,
-        "card_text_size": 21,
+        "name_size": 32,
+        "name_size_mobile": 23,
+        "card_text_size": 16,
         "card_text_size_mobile": 14,
         "bio_size": 13,
         "link_size": 11,

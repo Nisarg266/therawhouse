@@ -109,8 +109,12 @@
 
     <div class="trh-events__feature">
       {% if section.blocks.size > 0 %}
-        {% for block in section.blocks limit: 1 %}
+        {% for block in section.blocks %}
           {%- assign event_title = block.settings.title | default: 'Upcoming event' -%}
+          {%- assign card_modifiers = '' -%}
+          {% if block.settings.image_position == 'right' %}
+            {%- assign card_modifiers = ' trh-events__card--image-right' -%}
+          {% endif %}
           {%- liquid
             assign gallery_count = 1
             if block.settings.image_2 != blank
@@ -263,11 +267,11 @@
           {% endcapture %}
 
           {% if block.settings.link != blank %}
-            <a href="{{ block.settings.link }}" class="trh-events__card" {{ block.shopify_attributes }}>
+            <a href="{{ block.settings.link }}" class="trh-events__card{{ card_modifiers }}" {{ block.shopify_attributes }}>
               {{ event_card_content }}
             </a>
           {% else %}
-            <article class="trh-events__card" {{ block.shopify_attributes }}>
+            <article class="trh-events__card{{ card_modifiers }}" {{ block.shopify_attributes }}>
               {{ event_card_content }}
             </article>
           {% endif %}
@@ -428,6 +432,9 @@
   }
 
   .trh-events__feature {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(56px, 8vw, 110px);
     width: 100%;
   }
 
@@ -443,6 +450,18 @@
     border: 0;
     border-radius: var(--events-radius, 0);
     overflow: visible;
+  }
+
+  .trh-events__card--image-right {
+    grid-template-columns: minmax(340px, 0.65fr) minmax(0, 1.35fr);
+  }
+
+  .trh-events__card--image-right .trh-events__gallery {
+    order: 2;
+  }
+
+  .trh-events__card--image-right .trh-events__body {
+    order: 1;
   }
 
   .trh-events__card--empty {
@@ -710,6 +729,14 @@
       gap: 28px;
     }
 
+    .trh-events__card--image-right .trh-events__gallery {
+      order: 0;
+    }
+
+    .trh-events__card--image-right .trh-events__body {
+      order: 0;
+    }
+
     .trh-events__gallery {
       max-width: 760px;
       width: min(100%, 720px);
@@ -912,7 +939,6 @@
   "name": "Upcoming Events",
   "tag": "section",
   "class": "section-upcoming-events",
-  "max_blocks": 1,
   "settings": [
     { "type": "header", "content": "Content" },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "THE RAW HOUSE" },
@@ -1016,6 +1042,16 @@
       "type": "event",
       "name": "Event",
       "settings": [
+        {
+          "type": "select",
+          "id": "image_position",
+          "label": "Image slider position",
+          "options": [
+            { "value": "left", "label": "Left" },
+            { "value": "right", "label": "Right" }
+          ],
+          "default": "left"
+        },
         { "type": "image_picker", "id": "image", "label": "Image 1 / main image" },
         { "type": "image_picker", "id": "image_mobile", "label": "Mobile replacement for image 1" },
         { "type": "image_picker", "id": "image_2", "label": "Image 2 / side image" },
