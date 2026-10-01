@@ -67,6 +67,7 @@
         },
         "collection_card_NxYVUb": {
           "type": "collection_card",
+          "disabled": true,
           "settings": {
             "collection": "",
             "title": "Furniture",
@@ -78,6 +79,7 @@
         },
         "collection_card_YJkMxK": {
           "type": "collection_card",
+          "disabled": true,
           "settings": {
             "collection": "",
             "title": "Incredible",
@@ -89,6 +91,7 @@
         },
         "collection_card_LwMxmW": {
           "type": "collection_card",
+          "disabled": true,
           "settings": {
             "collection": "",
             "title": "Kairi Ventures",
@@ -100,6 +103,7 @@
         },
         "collection_card_hVnyQh": {
           "type": "collection_card",
+          "disabled": true,
           "settings": {
             "collection": "",
             "title": "Lighting",
@@ -111,6 +115,7 @@
         },
         "collection_card_tyCyXK": {
           "type": "collection_card",
+          "disabled": true,
           "settings": {
             "collection": "",
             "title": "Material Passage",
@@ -122,6 +127,7 @@
         },
         "collection_card_GgkNDB": {
           "type": "collection_card",
+          "disabled": true,
           "settings": {
             "collection": "",
             "title": "Mogra",
@@ -133,6 +139,7 @@
         },
         "collection_card_DE8RXU": {
           "type": "collection_card",
+          "disabled": true,
           "settings": {
             "collection": "",
             "title": "Monolith",
@@ -144,6 +151,7 @@
         },
         "collection_card_bTFcrg": {
           "type": "collection_card",
+          "disabled": true,
           "settings": {
             "collection": "",
             "title": "Oneiric",
@@ -155,6 +163,7 @@
         },
         "collection_card_UhnkE8": {
           "type": "collection_card",
+          "disabled": true,
           "settings": {
             "collection": "",
             "title": "Pir Square",
