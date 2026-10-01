@@ -11,8 +11,11 @@
   "sections": {
     "collections_index": {
       "type": "luxury-collections-index",
+      "disabled": true,
       "settings": {
         "color_scheme_preset": "warm",
+        "custom_bg_color": "",
+        "custom_text_color": "",
         "show_breadcrumbs": true,
         "subheading": "THE RAW HOUSE ATELIER",
         "heading": "The Collections",
@@ -25,9 +28,184 @@
         "padding_top": 44,
         "padding_bottom": 56
       }
+    },
+    "atelier_collections_grid_Aeetcf": {
+      "type": "atelier-collections-grid",
+      "blocks": {
+        "collection_card_fqp7W3": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "lighting",
+            "title": "",
+            "piece_count": "",
+            "index_label": "",
+            "cta_label": "",
+            "link": ""
+          }
+        },
+        "collection_card_Q7grGj": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "wall-art",
+            "title": "",
+            "piece_count": "",
+            "index_label": "",
+            "cta_label": "",
+            "link": ""
+          }
+        },
+        "collection_card_RD4XiW": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "lighting",
+            "title": "",
+            "piece_count": "",
+            "index_label": "",
+            "cta_label": "",
+            "link": ""
+          }
+        },
+        "collection_card_NxYVUb": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "",
+            "title": "Furniture",
+            "piece_count": "54 pieces",
+            "index_label": "",
+            "cta_label": "",
+            "link": ""
+          }
+        },
+        "collection_card_YJkMxK": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "",
+            "title": "Incredible",
+            "piece_count": "40 pieces",
+            "index_label": "",
+            "cta_label": "",
+            "link": ""
+          }
+        },
+        "collection_card_LwMxmW": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "",
+            "title": "Kairi Ventures",
+            "piece_count": "16 pieces",
+            "index_label": "",
+            "cta_label": "",
+            "link": ""
+          }
+        },
+        "collection_card_hVnyQh": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "",
+            "title": "Lighting",
+            "piece_count": "9 pieces",
+            "index_label": "",
+            "cta_label": "",
+            "link": ""
+          }
+        },
+        "collection_card_tyCyXK": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "",
+            "title": "Material Passage",
+            "piece_count": "44 pieces",
+            "index_label": "",
+            "cta_label": "",
+            "link": ""
+          }
+        },
+        "collection_card_GgkNDB": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "",
+            "title": "Mogra",
+            "piece_count": "11 pieces",
+            "index_label": "",
+            "cta_label": "",
+            "link": ""
+          }
+        },
+        "collection_card_DE8RXU": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "",
+            "title": "Monolith",
+            "piece_count": "13 pieces",
+            "index_label": "",
+            "cta_label": "",
+            "link": ""
+          }
+        },
+        "collection_card_bTFcrg": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "",
+            "title": "Oneiric",
+            "piece_count": "24 pieces",
+            "index_label": "",
+            "cta_label": "",
+            "link": ""
+          }
+        },
+        "collection_card_UhnkE8": {
+          "type": "collection_card",
+          "settings": {
+            "collection": "",
+            "title": "Pir Square",
+            "piece_count": "7 pieces",
+            "index_label": "",
+            "cta_label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "collection_card_fqp7W3",
+        "collection_card_Q7grGj",
+        "collection_card_RD4XiW",
+        "collection_card_NxYVUb",
+        "collection_card_YJkMxK",
+        "collection_card_LwMxmW",
+        "collection_card_hVnyQh",
+        "collection_card_tyCyXK",
+        "collection_card_GgkNDB",
+        "collection_card_DE8RXU",
+        "collection_card_bTFcrg",
+        "collection_card_UhnkE8"
+      ],
+      "name": "Atelier collections grid",
+      "settings": {
+        "show_breadcrumbs": true,
+        "breadcrumb_home": "Home",
+        "breadcrumb_current": "Collections",
+        "eyebrow": "The Raw House Atelier",
+        "heading": "The Collections",
+        "intro": "<p>Each collection is a curated exhibition - original canvases, sculptural forms, and decorative objects assembled with singular intention.</p>",
+        "cta_label": "Discover",
+        "show_index": true,
+        "show_piece_count": true,
+        "desktop_columns": 3,
+        "mobile_columns": "1",
+        "image_ratio": "portrait",
+        "column_gap": 28,
+        "row_gap": 48,
+        "background_color": "#f8f7f3",
+        "text_color": "#111111",
+        "muted_color": "#786f64",
+        "accent_color": "#b38b4d",
+        "padding_top": 24,
+        "padding_bottom": 72
+      }
     }
   },
   "order": [
-    "collections_index"
+    "collections_index",
+    "atelier_collections_grid_Aeetcf"
   ]
 }
