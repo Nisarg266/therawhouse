@@ -76,9 +76,9 @@
         "badge_title": "✦ RAW HOUSE CURATED",
         "badge_subtitle": "Crafted Objects for Artful Living",
         "subheading": "BEHIND THE HOUSE",
-        "heading": "Design, Art, Craft. In Conversation.",
-        "paragraph_1": "Founded by Priyadarshini Rathore and Pranali Pandya, The Raw House was created with a simple ambition: to bring the culture of design to Ahmedabad.\nWe curate objects and ideas that sit between disciplines. Our gallery creates a space where different creative disciplines can meet — product and furniture design, textiles, accessories, fine art, sculpture, architecture and craft.",
-        "paragraph_2": "Some are conversations between designers and craftspeople. Some explore a material, an object or a cultural memory. Others bring together different practices around a shared idea.\nTogether, they create an evolving picture of Indian design today.",
+        "heading": "Our Story",
+        "paragraph_1": "The Raw House is a design gallery based in Ahmedabad, India, dedicated to presenting the finest of Indian design, art, craft and material-led practice.\nFounded by Priyadarshini Rathore and Pranali Pandya, The Raw House was created from a shared belief that the objects we live with can hold ideas, stories and cultural memory — while still being deeply contemporary.\nThe gallery brings together collectible design, furniture, art, sculpture, craft and emerging material practices through a programme of curated collections, exhibitions and city showcases. Each collection is shaped around a distinct idea, bringing together designers, artists and makers whose work contributes to a larger conversation.\nWe are interested in the space between design and art, tradition and experimentation, function and expression. Our curatorial approach is rooted in materiality, craftsmanship and individuality, while remaining open to new ways of making and thinking.\nThe Raw House is also a platform for discovery. Alongside our gallery exhibitions in Ahmedabad, we take curated showcases to other cities, connecting Indian designers and artists with collectors, architects, interior designers and audiences who are looking for work with character and meaning.",
+        "paragraph_2": "Raw Collectables, our permanent gallery offering, brings together collectible furniture and design objects selected for their materiality, presence and ability to become lasting parts of a space.\nAt its core, The Raw House is about how we choose to live with objects. We believe the most compelling pieces are not simply things to own or display, but objects that create a sense of place, carry a point of view and become part of the lives around them.\nRooted in Ahmedabad and looking outward, The Raw House is a growing platform for Indian design and artistic practice — bringing together people, ideas and objects that are worth living with.",
         "show_signature": false,
         "signature_mark": "The Raw House",
         "signature_title": "CURATORS OF CRAFTED LIVING",
@@ -93,9 +93,9 @@
           "type": "pillar",
           "settings": {
             "numeral": "I",
-            "title": "Craft with Presence",
-            "description": "Every piece is chosen for its material honesty: visible grain, hand-applied finishes, balanced proportions, and the small irregularities that make an object feel alive.",
-            "tag": "WOOD, BRASS, STONE & TEXTURE",
+            "title": "Curated with Purpose",
+            "description": "We believe curation is about creating meaning, not simply bringing beautiful things together. Every collection at The Raw House begins with an idea and brings together designers, artists, makers and objects that contribute to a larger narrative.",
+            "tag": "GALLERY COLLECTIONS · CURATED EXHIBITIONS",
             "link": ""
           }
         },
@@ -103,9 +103,9 @@
           "type": "pillar",
           "settings": {
             "numeral": "II",
-            "title": "Curated, Not Crowded",
-            "description": "Our collections are built slowly: furniture, decor, lighting, artwork, and accents that work together without making a room feel staged or overdone.",
-            "tag": "EDITED HOME CURATION",
+            "title": "Design Beyond the Gallery",
+            "description": "We believe good design should travel, meet new audiences and create conversations beyond its home. Through The Raw House Showcase, we take carefully curated selections of Indian designers and artists into different cities, connecting them with collectors, architects, interior designers and new communities.",
+            "tag": "CITY SHOWCASES · DESIGN DISCOVERY",
             "link": ""
           }
         },
@@ -113,9 +113,9 @@
           "type": "pillar",
           "settings": {
             "numeral": "III",
-            "title": "Made to Live With",
-            "description": "The Raw House is for everyday rituals as much as special rooms: pieces with weight, warmth, and longevity that settle beautifully into real homes.",
-            "tag": "HEIRLOOM-READY LIVING",
+            "title": "Objects to Live With",
+            "description": "We believe the most meaningful objects become part of our lives. Raw Collectables is our ongoing selection of collectible furniture and design objects — pieces chosen for their materiality, individuality and lasting presence, and made to find a place in contemporary homes.",
+            "tag": "RAW COLLECTABLES · COLLECTIBLE DESIGN",
             "link": ""
           }
         }
@@ -133,7 +133,7 @@
         "custom_accent_color": "",
         "subheading": "OUR POINT OF VIEW",
         "heading": "The Raw House Manifesto",
-        "intro_text": "The Raw House began with a simple belief: a home should not look assembled overnight. It should feel layered over time, shaped by craft, texture, memory, and objects that invite touch.",
+        "intro_text": "",
         "padding_top": 32,
         "padding_bottom": 50
       }
