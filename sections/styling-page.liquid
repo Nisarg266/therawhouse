@@ -1,0 +1,139 @@
+{{ 'styling-page.css' | asset_url | stylesheet_tag }}
+<div class="styling-page">
+  <div class="styling-hero styling-shell">
+    <div class="styling-hero__copy">
+      <p class="styling-eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      <h1 class="styling-hero__heading">{{ section.settings.heading | escape }}{% if section.settings.heading_accent != blank %}<em>{{ section.settings.heading_accent | escape }}</em>{% endif %}</h1>
+      <div class="styling-hero__intro">{{ section.settings.intro }}</div>
+      <div class="styling-hero__actions">
+        <a class="art-button styling-button" href="#styling-enquiry">{{ section.settings.button_label | escape }}</a>
+        {% if section.settings.secondary_link != blank and section.settings.secondary_label != blank %}
+          <a class="styling-text-link" href="{{ section.settings.secondary_link }}">{{ section.settings.secondary_label | escape }} <span aria-hidden="true">↗</span></a>
+        {% endif %}
+      </div>
+    </div>
+    <figure class="styling-hero__visual">
+      <div class="styling-hero__image">
+        {% if section.settings.hero_image != blank %}
+          {{ section.settings.hero_image | image_url: width: 1800 | image_tag: widths: '375, 550, 750, 1100, 1500, 1800', sizes: '(min-width: 900px) 52vw, 100vw', alt: section.settings.hero_alt, loading: 'eager', fetchpriority: 'high' }}
+        {% else %}
+          <img src="{{ 'hero-art-gallery-1.jpg' | asset_url }}" alt="{{ section.settings.hero_alt | escape }}" width="1360" height="768" loading="eager" fetchpriority="high">
+        {% endif %}
+      </div>
+      {% if section.settings.hero_caption != blank %}<figcaption>{{ section.settings.hero_caption | escape }}</figcaption>{% endif %}
+    </figure>
+  </div>
+  <section class="styling-services styling-shell" aria-labelledby="StylingServices-{{ section.id }}">
+    <div class="styling-section-heading">
+      <div><p class="styling-eyebrow">{{ section.settings.services_eyebrow | escape }}</p><h2 id="StylingServices-{{ section.id }}">{{ section.settings.services_heading | escape }}</h2></div>
+      <p class="styling-section-intro">{{ section.settings.services_intro | escape }}</p>
+    </div>
+    <div class="styling-services__grid">
+      {% assign service_index = 0 %}
+      {% for block in section.blocks %}
+        {% if block.type == 'service' %}
+          {% assign service_index = service_index | plus: 1 %}
+          <article class="styling-service" {{ block.shopify_attributes }}>
+            <div class="styling-service__image">
+              {% if block.settings.image != blank %}
+                {{ block.settings.image | image_url: width: 1100 | image_tag: widths: '375, 550, 750, 1100', sizes: '(min-width: 900px) 30vw, (min-width: 600px) 45vw, 100vw', alt: block.settings.image_alt, loading: 'lazy' }}
+              {% else %}
+                <img src="{{ block.settings.fallback_image | asset_url }}" alt="{{ block.settings.image_alt | escape }}" width="1024" height="1024" loading="lazy">
+              {% endif %}
+              <span class="styling-service__number" aria-hidden="true">{{ service_index | prepend: '0' }}</span>
+            </div>
+            <h3>{{ block.settings.heading | escape }}</h3><p>{{ block.settings.text | escape }}</p>
+          </article>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </section>
+  <section class="styling-story" aria-labelledby="StylingStory-{{ section.id }}">
+    <div class="styling-story__inner styling-shell">
+      <figure class="styling-story__visual">
+        {% if section.settings.story_image != blank %}
+          {{ section.settings.story_image | image_url: width: 1500 | image_tag: widths: '375, 550, 750, 1100, 1500', sizes: '(min-width: 900px) 43vw, 100vw', alt: section.settings.story_alt, loading: 'lazy' }}
+        {% else %}
+          <img src="{{ 'maker-gallery-3.jpg' | asset_url }}" alt="{{ section.settings.story_alt | escape }}" width="1024" height="1024" loading="lazy">
+        {% endif %}
+      </figure>
+      <div class="styling-story__copy">
+        <p class="styling-eyebrow">{{ section.settings.story_eyebrow | escape }}</p>
+        <h2 id="StylingStory-{{ section.id }}">{{ section.settings.story_heading | escape }}</h2>
+        <div class="styling-story__body">{{ section.settings.story_body }}</div>
+        {% if section.settings.story_note != blank %}<p class="styling-story__note">{{ section.settings.story_note | escape }}</p>{% endif %}
+        <a class="styling-text-link" href="#styling-enquiry">{{ section.settings.button_label | escape }} <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </section>
+  <section class="styling-process styling-shell" aria-labelledby="StylingProcess-{{ section.id }}">
+    <div class="styling-section-heading">
+      <div><p class="styling-eyebrow">{{ section.settings.process_eyebrow | escape }}</p><h2 id="StylingProcess-{{ section.id }}">{{ section.settings.process_heading | escape }}</h2></div>
+      <p class="styling-section-intro">{{ section.settings.process_intro | escape }}</p>
+    </div>
+    <ol class="styling-process__grid" role="list">
+      {% assign step_index = 0 %}
+      {% for block in section.blocks %}
+        {% if block.type == 'step' %}
+          {% assign step_index = step_index | plus: 1 %}
+          <li class="styling-step" {{ block.shopify_attributes }}>
+            <span class="styling-step__number" aria-hidden="true">{{ step_index | prepend: '0' }}</span>
+            <h3>{{ block.settings.heading | escape }}</h3><p>{{ block.settings.text | escape }}</p>
+          </li>
+        {% endif %}
+      {% endfor %}
+    </ol>
+  </section>
+</div>
+{% schema %}
+{
+  "name": "Styling editorial", "tag": "section", "class": "styling-editorial-section", "limit": 1,
+  "enabled_on": { "templates": ["page"] },
+  "settings": [
+    { "type": "header", "content": "Introduction" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "THE RAW HOUSE · STYLING" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "A space that feels" },
+    { "type": "text", "id": "heading_accent", "label": "Heading in italics", "default": "like you." },
+    { "type": "richtext", "id": "intro", "label": "Introduction", "default": "<p>From the rug beneath your feet to the art on your walls, we help bring pieces together for your home, your occasion, and the way you live.</p>" },
+    { "type": "image_picker", "id": "hero_image", "label": "Hero image" },
+    { "type": "text", "id": "hero_alt", "label": "Hero image description", "default": "Interior inspiration with layered rugs, art and sculptural objects" },
+    { "type": "text", "id": "hero_caption", "label": "Image caption", "default": "A study in art, texture & proportion." },
+    { "type": "text", "id": "button_label", "label": "Enquiry button", "default": "Talk to us about styling" },
+    { "type": "text", "id": "secondary_label", "label": "Secondary link label", "default": "Explore the collection" },
+    { "type": "url", "id": "secondary_link", "label": "Secondary link" },
+    { "type": "header", "content": "Styling areas" },
+    { "type": "text", "id": "services_eyebrow", "label": "Eyebrow", "default": "THE ELEMENTS OF A SPACE" },
+    { "type": "text", "id": "services_heading", "label": "Heading", "default": "Thoughtful details. A whole new feeling." },
+    { "type": "textarea", "id": "services_intro", "label": "Introduction", "default": "A single piece can change a room. The right conversation between pieces can make it yours." },
+    { "type": "header", "content": "Our approach" },
+    { "type": "image_picker", "id": "story_image", "label": "Image" },
+    { "type": "text", "id": "story_alt", "label": "Image description", "default": "Interior inspiration with an area rug, artwork and a considered arrangement of furniture" },
+    { "type": "text", "id": "story_eyebrow", "label": "Eyebrow", "default": "COLLECTED, THEN CONNECTED" },
+    { "type": "text", "id": "story_heading", "label": "Heading", "default": "The piece you love is just the beginning." },
+    { "type": "richtext", "id": "story_body", "label": "Text", "default": "<p>Perhaps a painting caught your eye. Perhaps you already own a sculpture, or want to find a rug that brings a room together.</p><p>We help you consider scale, colour, texture and placement, working with the pieces you have and the ones you are drawn to. The aim is a space that feels personal, comfortable and complete.</p>" },
+    { "type": "textarea", "id": "story_note", "label": "Closing note", "default": "For a room you live in every day. For a moment you want to make special." },
+    { "type": "header", "content": "How we begin" },
+    { "type": "text", "id": "process_eyebrow", "label": "Eyebrow", "default": "A CONVERSATION, FIRST" },
+    { "type": "text", "id": "process_heading", "label": "Heading", "default": "Let's find your starting point." },
+    { "type": "textarea", "id": "process_intro", "label": "Introduction", "default": "You do not need a finished plan. A room, a favourite piece, or an occasion is enough to begin." }
+  ],
+  "blocks": [
+    { "type": "service", "name": "Styling area", "limit": 3, "settings": [
+      { "type": "text", "id": "heading", "label": "Heading", "default": "Area rugs & layers" },
+      { "type": "textarea", "id": "text", "label": "Text", "default": "Consider the size, texture and palette of an area rug, and how it brings furniture, art and the rest of your room together." },
+      { "type": "image_picker", "id": "image", "label": "Image" },
+      { "type": "select", "id": "fallback_image", "label": "Image when none is selected", "options": [
+        { "value": "maker-gallery-1.jpg", "label": "Rug and bedroom" },
+        { "value": "hero-art-gallery-1.jpg", "label": "Art and objects" },
+        { "value": "maker-gallery-2.jpg", "label": "Gathering space" }
+      ], "default": "maker-gallery-1.jpg" },
+      { "type": "text", "id": "image_alt", "label": "Image description", "default": "Interior inspiration showing an area rug within a layered room" }
+    ] },
+    { "type": "step", "name": "Conversation step", "limit": 3, "settings": [
+      { "type": "text", "id": "heading", "label": "Heading", "default": "Tell us about your space" },
+      { "type": "textarea", "id": "text", "label": "Text", "default": "Share the room or occasion, what you already have, and the feeling you want to create." }
+    ] }
+  ],
+  "presets": [{ "name": "Styling editorial", "blocks": [{ "type": "service" }, { "type": "step" }] }]
+}
+{% endschema %}

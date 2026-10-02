@@ -1,74 +1,94 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
   "sections": {
-    "main": {
-      "type": "main-page",
+    "styling_editorial": {
+      "type": "styling-page",
       "blocks": {
-        "heading": {
-          "type": "text",
-          "name": "t:names.title",
+        "rugs": {
+          "type": "service",
           "settings": {
-            "text": "<h1>{{ closest.page.title }}</h1>",
-            "width": "100%",
-            "max_width": "normal",
-            "alignment": "center",
-            "type_preset": "h2",
-            "font": "var(--font-body--family)",
-            "line_height": "normal",
-            "letter_spacing": "normal",
-            "case": "none",
-            "wrap": "pretty",
-            "background": false,
-            "background_color": "#00000026",
-            "corner_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {}
+            "heading": "Area rugs & layers",
+            "text": "Find a starting point in texture, colour and proportion. We help you consider a rug's scale and placement, and how it connects with your furniture and art.",
+            "fallback_image": "maker-gallery-1.jpg",
+            "image_alt": "Interior inspiration with an area rug grounding a softly layered bedroom"
+          }
         },
-        "page-content": {
-          "type": "page-content",
-          "settings": {},
-          "blocks": {}
+        "art": {
+          "type": "service",
+          "settings": {
+            "heading": "Art & object placement",
+            "text": "Give the pieces you love room to be seen. Explore where a painting, sculpture or collectible can sit, and how it works with the light and objects around it.",
+            "image": "shopify://shop_images/DSC_4334_1.jpg",
+            "fallback_image": "hero-art-gallery-1.jpg",
+            "image_alt": "Artwork displayed on a wall at The Raw House gallery"
+          }
+        },
+        "occasions": {
+          "type": "service",
+          "settings": {
+            "heading": "Homes & occasions",
+            "text": "Bring a fresh feeling to an everyday room or a special gathering. Consider art, textiles and objects together, with attention to the setting and the people it is for.",
+            "fallback_image": "maker-gallery-2.jpg",
+            "image_alt": "Interior inspiration with flowers, candles and objects arranged in a gathering space"
+          }
+        },
+        "share": {
+          "type": "step",
+          "settings": {
+            "heading": "Share your starting point",
+            "text": "Tell us about your room or occasion, the pieces you own, and what you would like to change. Measurements, references and a budget can help guide the conversation."
+          }
+        },
+        "explore": {
+          "type": "step",
+          "settings": {
+            "heading": "Explore what belongs",
+            "text": "Discuss rugs, art and objects in relation to your space. We consider the mood, palette and proportions, as well as the pieces you are drawn to."
+          }
+        },
+        "together": {
+          "type": "step",
+          "settings": {
+            "heading": "Bring the details together",
+            "text": "Talk through placement, combinations and the finishing touches. The scope and next steps are shaped around your particular space or occasion."
+          }
         }
       },
-      "block_order": [
-        "heading",
-        "page-content"
-      ],
+      "block_order": ["rugs", "art", "occasions", "share", "explore", "together"],
       "settings": {
-        "content_direction": "column",
-        "gap": 32,
-        "background_color": "{{ settings.color_palette.background }}",
-        "padding-block-start": 40,
-        "padding-block-end": 60
+        "eyebrow": "THE RAW HOUSE · STYLING",
+        "heading": "A space that feels",
+        "heading_accent": "like you.",
+        "intro": "<p>From the rug beneath your feet to the art on your walls, we help bring pieces together for your home, your occasion, and the way you live.</p>",
+        "hero_alt": "Interior inspiration with layered rugs, art and sculptural objects",
+        "hero_caption": "A study in art, texture & proportion.",
+        "button_label": "Talk to us about styling",
+        "secondary_label": "Explore the collection",
+        "secondary_link": "/collections/all",
+        "services_eyebrow": "THE ELEMENTS OF A SPACE",
+        "services_heading": "Thoughtful details. A whole new feeling.",
+        "services_intro": "A single piece can change a room. The right conversation between pieces can make it yours.",
+        "story_alt": "Interior inspiration with an area rug, artwork and a considered arrangement of furniture",
+        "story_eyebrow": "COLLECTED, THEN CONNECTED",
+        "story_heading": "The piece you love is just the beginning.",
+        "story_body": "<p>Perhaps a painting caught your eye. Perhaps you already own a sculpture, or want to find a rug that brings a room together.</p><p>We help you consider scale, colour, texture and placement, working with the pieces you have and the ones you are drawn to. The aim is a space that feels personal, comfortable and complete.</p>",
+        "story_note": "For a room you live in every day. For a moment you want to make special.",
+        "process_eyebrow": "A CONVERSATION, FIRST",
+        "process_heading": "Let's find your starting point.",
+        "process_intro": "You do not need a finished plan. A room, a favourite piece, or an occasion is enough to begin."
       }
     },
-    "trust_features": {
-      "type": "luxury-trust-features",
-      "settings": {}
-    },
-    "vip_newsletter": {
-      "type": "luxury-vip-newsletter",
+    "styling_enquiry": {
+      "type": "styling-enquiry",
       "settings": {
-        "subheading": "THE COLLECTORS CIRCLE",
-        "heading": "PRIVATE EXHIBITIONS & CATALOGUES"
+        "eyebrow": "YOUR SPACE, YOUR STORY",
+        "heading": "What would you like to bring together?",
+        "intro": "Tell us a little about your home, the piece you have in mind, or the occasion you are planning. We can explore the styling possibilities with you.",
+        "note": "Already found something at The Raw House? Include its name or link in your enquiry.",
+        "button_label": "Send styling enquiry",
+        "secondary_label": "Visit the gallery",
+        "secondary_link": "/pages/visit"
       }
     }
   },
-  "order": [
-    "main",
-    "trust_features",
-    "vip_newsletter"
-  ]
+  "order": ["styling_editorial", "styling_enquiry"]
 }
