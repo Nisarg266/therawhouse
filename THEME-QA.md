@@ -38,14 +38,7 @@ Rebuilt the custom product-page sections on a shared, Theme-Editor-driven design
 - The original 9 warnings were resolved. The newer checker also identified nested LiquidDoc parameter warnings, which were resolved.
 - Shopify Liquid skill validator: all 20 changed theme files passed.
 - JavaScript syntax: all 83 asset scripts passed `node --check`.
-- Runtime regression tests: 4 passed, covering duplicate initialization/submission, rejected cart additions, refresh failures after successful additions, and invalid/blocked browser storage.
 - `git diff --check`: passed.
-
-Run the regression tests with:
-
-```powershell
-node --experimental-vm-modules --test tests/storefront-runtime.test.mjs
-```
 
 ## Fixes
 
