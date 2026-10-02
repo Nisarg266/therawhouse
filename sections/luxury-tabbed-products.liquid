@@ -170,9 +170,9 @@
                 {% endif %}
                 <a href="{{ product.url }}" class="lux-product-title">{{ product.title }}</a>
                 <div class="lux-product-price-row">
-                  <span class="lux-product-price">{{ product.price | money }}</span>
+                  <span class="lux-product-price">{% render 'money-inr', amount: product.price %}</span>
                   {% if product.compare_at_price > product.price %}
-                    <span class="lux-product-compare-price">{{ product.compare_at_price | money }}</span>
+                    <span class="lux-product-compare-price">{% render 'money-inr', amount: product.compare_at_price %}</span>
                   {% endif %}
                 </div>
               </div>

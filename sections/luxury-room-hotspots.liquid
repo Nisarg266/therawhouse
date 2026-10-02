@@ -155,7 +155,7 @@
               </a>
               <span class="lux-hotspot-card-price">
                 {% if prod != blank %}
-                  {{ prod.price | money }}
+                  {% render 'money-inr', amount: prod.price %}
                 {% else %}
                   {{ block.settings.price }}
                 {% endif %}
