@@ -37,7 +37,9 @@
     assign card_1_price = blank
     assign card_1_badge = blank
     if card_1_product != blank
-      assign card_1_price = card_1_product.price | money
+      capture card_1_price
+        render 'money-inr', amount: card_1_product.price
+      endcapture
       if card_1_product.available == false
         assign card_1_badge = 'Sold out'
       endif
@@ -55,7 +57,9 @@
     assign card_2_price = blank
     assign card_2_badge = blank
     if card_2_product != blank
-      assign card_2_price = card_2_product.price | money
+      capture card_2_price
+        render 'money-inr', amount: card_2_product.price
+      endcapture
       if card_2_product.available == false
         assign card_2_badge = 'Sold out'
       endif
@@ -73,7 +77,9 @@
     assign card_3_price = blank
     assign card_3_badge = blank
     if card_3_product != blank
-      assign card_3_price = card_3_product.price | money
+      capture card_3_price
+        render 'money-inr', amount: card_3_product.price
+      endcapture
       if card_3_product.available == false
         assign card_3_badge = 'Sold out'
       endif
@@ -91,7 +97,9 @@
     assign card_4_price = blank
     assign card_4_badge = blank
     if card_4_product != blank
-      assign card_4_price = card_4_product.price | money
+      capture card_4_price
+        render 'money-inr', amount: card_4_product.price
+      endcapture
       if card_4_product.available == false
         assign card_4_badge = 'Sold out'
       endif
@@ -109,7 +117,9 @@
     assign card_5_price = blank
     assign card_5_badge = blank
     if card_5_product != blank
-      assign card_5_price = card_5_product.price | money
+      capture card_5_price
+        render 'money-inr', amount: card_5_product.price
+      endcapture
       if card_5_product.available == false
         assign card_5_badge = 'Sold out'
       endif
@@ -127,7 +137,9 @@
     assign card_6_price = blank
     assign card_6_badge = blank
     if card_6_product != blank
-      assign card_6_price = card_6_product.price | money
+      capture card_6_price
+        render 'money-inr', amount: card_6_product.price
+      endcapture
       if card_6_product.available == false
         assign card_6_badge = 'Sold out'
       endif
@@ -281,7 +293,7 @@
                 {% assign card_price = blank %}
                 {% assign card_badge = blank %}
                 {% if card_product != blank %}
-                  {% assign card_price = card_product.price | money %}
+                  {% capture card_price %}{% render 'money-inr', amount: card_product.price %}{% endcapture %}
                   {% if card_product.available == false %}
                     {% assign card_badge = 'Sold out' %}
                   {% endif %}
@@ -368,7 +380,7 @@
                         {% assign card_link = product.url %}
                         {% assign card_title = product.title %}
                         {% assign card_sub = product.vendor %}
-                        {% assign card_price = product.price | money %}
+                        {% capture card_price %}{% render 'money-inr', amount: product.price %}{% endcapture %}
                         {% assign card_badge = blank %}
                         {% if product.available == false %}
                           {% assign card_badge = 'Sold out' %}

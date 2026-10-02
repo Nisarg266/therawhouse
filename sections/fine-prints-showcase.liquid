@@ -125,7 +125,9 @@
             assign card_title = 'Select product'
           endif
           if p != blank
-            assign card_price = p.price | money
+            capture card_price
+              render 'money-inr', amount: p.price
+            endcapture
           endif
           if card_link == blank
             assign card_link = routes.all_products_collection_url

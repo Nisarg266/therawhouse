@@ -1,0 +1,26 @@
+{%- doc -%}
+  Formats a product price as the rupee symbol followed by whole rupees, with no
+  decimals (e.g. ₹175,000). Other currencies fall back to the store format with
+  trailing zeros removed.
+
+  @param {number} amount - Price in the currency subunit (paise)
+
+  @example
+  {% render 'money-inr', amount: product.price %}
+{%- enddoc -%}
+{%- liquid
+  assign amount_value = amount | default: 0
+  assign active_currency = cart.currency.iso_code | default: localization.country.currency.iso_code
+  if active_currency == 'INR'
+    assign whole_rupees = amount_value | plus: 50 | divided_by: 100 | times: 100
+    assign formatted_amount = whole_rupees | money_without_currency
+    assign decimal_suffix = formatted_amount | slice: -3, 3
+    if decimal_suffix == '.00' or decimal_suffix == ',00'
+      assign amount_length = formatted_amount.size | minus: 3
+      assign formatted_amount = formatted_amount | slice: 0, amount_length
+    endif
+    echo formatted_amount | prepend: '₹'
+  else
+    echo amount_value | money_without_trailing_zeros
+  endif
+-%}

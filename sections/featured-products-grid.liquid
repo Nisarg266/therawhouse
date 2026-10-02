@@ -83,7 +83,7 @@
               </div>
               <div class="featured-product-card__price-col">
                 <span class="featured-product-card__price">
-                  {{ product.price | money }}
+                  {% render 'money-inr', amount: product.price %}
                 </span>
               </div>
             </div>
@@ -188,9 +188,9 @@
                   {% if block.settings.custom_price != blank %}
                     {{ block.settings.custom_price }}
                   {% elsif block.settings.product != blank %}
-                    {{ block.settings.product.price | money }}
+                    {% render 'money-inr', amount: block.settings.product.price %}
                   {% else %}
-                    ₹37,000.00
+                    ₹37,000
                   {% endif %}
                 </span>
               </div>
@@ -201,7 +201,7 @@
         {%- comment -%} Default 6 Luxury Dummy Products matching screenshot {%- endcomment -%}
         {% liquid
           assign dummy_titles = 'Cabinet Evanthe,Chair Hazelwood,Vase Zanna,Coffee Table Oracle,Object Salda,Box Seaside 8' | split: ','
-          assign dummy_prices = '₹570,940.00,₹151,990.00,₹37,000.00,₹444,150.00,₹37,000.00,₹27,000.00' | split: ','
+          assign dummy_prices = '₹570,940.00,₹151,990.00,₹37,000,₹444,150.00,₹37,000,₹27,000.00' | split: ','
           assign dummy_badges = 'false,false,true,false,false,false' | split: ','
         %}
         {% for title in dummy_titles %}
@@ -368,7 +368,7 @@
           "type": "text",
           "id": "custom_price",
           "label": "Custom Price (Optional)",
-          "default": "₹37,000.00"
+          "default": "₹37,000"
         },
         {
           "type": "checkbox",

@@ -177,7 +177,7 @@
                         <span class="header-search-product-row__vendor">{{ vendor_clean }}</span>
                         <h5 class="header-search-product-row__title">{{ product.title }}</h5>
                         {% if product.price > 0 %}
-                          <span class="header-search-product-row__price">{{ product.price | money }}</span>
+                          <span class="header-search-product-row__price">{% render 'money-inr', amount: product.price %}</span>
                         {% else %}
                           <span class="header-search-product-row__inquire">Price Upon Request</span>
                         {% endif %}
