@@ -43,8 +43,9 @@
       assign v_btn_bg = '#111111'
       assign v_btn_fg = '#ffffff'
       assign v_btn_border = '#111111'
-      assign v_btn_bg_h = '#b38b4d'
-      assign v_btn_fg_h = '#ffffff'
+      assign v_btn_bg_h = '#ffffff'
+      assign v_btn_fg_h = '#111111'
+      assign v_btn_border_h = '#111111'
     when 'dark'
       assign v_bg = '#181818'
       assign v_fg = '#f4f2ee'
@@ -52,11 +53,12 @@
       assign v_accent = '#c5a880'
       assign v_muted = '#a8a29a'
       assign v_border = '#35322d'
-      assign v_btn_bg = '#c5a880'
-      assign v_btn_fg = '#141414'
-      assign v_btn_border = '#c5a880'
-      assign v_btn_bg_h = '#ffffff'
-      assign v_btn_fg_h = '#141414'
+      assign v_btn_bg = '#ffffff'
+      assign v_btn_fg = '#111111'
+      assign v_btn_border = '#ffffff'
+      assign v_btn_bg_h = 'transparent'
+      assign v_btn_fg_h = '#ffffff'
+      assign v_btn_border_h = '#ffffff'
     when 'obsidian'
       assign v_bg = '#0e0e0e'
       assign v_fg = '#f4f2ee'
@@ -64,11 +66,12 @@
       assign v_accent = '#c5a880'
       assign v_muted = '#9b968d'
       assign v_border = '#2a2723'
-      assign v_btn_bg = '#c5a880'
-      assign v_btn_fg = '#101010'
-      assign v_btn_border = '#c5a880'
-      assign v_btn_bg_h = '#ffffff'
-      assign v_btn_fg_h = '#101010'
+      assign v_btn_bg = '#ffffff'
+      assign v_btn_fg = '#111111'
+      assign v_btn_border = '#ffffff'
+      assign v_btn_bg_h = 'transparent'
+      assign v_btn_fg_h = '#ffffff'
+      assign v_btn_border_h = '#ffffff'
     else
       assign v_bg = '#ffffff'
       assign v_fg = '#4a4a4a'
@@ -79,8 +82,9 @@
       assign v_btn_bg = '#111111'
       assign v_btn_fg = '#ffffff'
       assign v_btn_border = '#111111'
-      assign v_btn_bg_h = '#b08d57'
-      assign v_btn_fg_h = '#ffffff'
+      assign v_btn_bg_h = '#ffffff'
+      assign v_btn_fg_h = '#111111'
+      assign v_btn_border_h = '#111111'
   endcase
 
   if bg != blank and bg != 'rgba(0,0,0,0)'
@@ -132,5 +136,6 @@
 --luxp-btn-fg: {{ v_btn_fg }};
 --luxp-btn-border: {{ v_btn_border }};
 --luxp-btn-bg-h: {{ v_btn_bg_h }};
+--luxp-btn-border-h: {{ v_btn_border_h }};
 --luxp-btn-fg-h: {{ v_btn_fg_h }};
 --luxp-btn-outline-fg: {{ v_btn_outline_fg }};

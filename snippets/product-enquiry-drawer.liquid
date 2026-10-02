@@ -538,12 +538,14 @@
     align-items: center;
     justify-content: center;
     gap: 10px;
-    transition: background 0.25s ease, color 0.25s ease, transform 0.15s ease;
+    transition: background-color 0.22s cubic-bezier(0.22, 1, 0.36, 1), color 0.22s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.22s cubic-bezier(0.22, 1, 0.36, 1), transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .lux-enquiry-form__submit-btn:hover {
-    background: #2b2b2b;
-    border-color: #2b2b2b;
+    background: #ffffff;
+    border-color: #111111;
+    color: #111111;
+    transform: translateY(-2px);
   }
 
   .lux-enquiry-form__submit-btn:active {
@@ -844,16 +846,17 @@
     margin-top: 3px;
     padding: 12px 18px;
     border-radius: 2px;
-    border-color: #302820;
-    background: #302820;
+    border-color: #111111;
+    background: #111111;
     font-size: 11px;
     font-weight: 600;
     letter-spacing: 0.13em;
   }
 
   .lux-enquiry-drawer:not(.lux-enquiry-drawer--simple) .lux-enquiry-form__submit-btn:hover {
-    border-color: #554433;
-    background: #554433;
+    border-color: #111111;
+    background: #ffffff;
+    color: #111111;
   }
 
   .lux-enquiry-drawer:not(.lux-enquiry-drawer--simple) .lux-enquiry-drawer__wa-divider {

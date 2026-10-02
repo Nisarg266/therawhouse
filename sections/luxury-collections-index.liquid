@@ -338,12 +338,14 @@
     border: 1px solid var(--lci-border);
     border-radius: 3px;
     padding: 9px 18px;
-    transition: border-color 0.25s ease, color 0.25s ease;
+    transition: background-color 0.22s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.22s cubic-bezier(0.22, 1, 0.36, 1), color 0.22s cubic-bezier(0.22, 1, 0.36, 1), transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .lux-cindex__page-btn:hover {
-    border-color: var(--lci-gold);
-    color: var(--lci-gold);
+    background: #111111;
+    border-color: #111111;
+    color: #ffffff;
+    transform: translateY(-2px);
   }
 
   /* --- Card --- */

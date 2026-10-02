@@ -690,24 +690,26 @@
     justify-content: center;
     gap: 12px;
     padding: 15px 34px;
-    background: var(--lc-accent);
-    color: #111111;
+    background: var(--lc-heading);
+    color: var(--lc-bg);
     font-family: inherit;
     font-size: 12.5px;
     font-weight: 700;
     letter-spacing: 0.22em;
     text-transform: uppercase;
-    border: none;
+    border: 1px solid var(--lc-heading);
     border-radius: 3px;
     cursor: pointer;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+    transition: background-color 0.22s cubic-bezier(0.22, 1, 0.36, 1), color 0.22s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.22s cubic-bezier(0.22, 1, 0.36, 1), transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.22s ease;
   }
 
   .lux-form__btn:hover {
-    background: #d4b88e;
-    transform: translateY(-1px);
-    box-shadow: 0 8px 22px rgba(197, 168, 128, 0.35);
+    background: var(--lc-bg);
+    color: var(--lc-heading);
+    border-color: var(--lc-heading);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.14);
   }
 
   .lux-form__security-note {

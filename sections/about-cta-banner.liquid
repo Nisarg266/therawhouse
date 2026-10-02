@@ -222,53 +222,36 @@
     letter-spacing: 0.18em;
     text-transform: uppercase;
     text-decoration: none;
-    transition: background-color 0.25s ease, color 0.25s ease, transform 0.2s ease, border-color 0.25s ease;
+    transition: background-color 0.22s cubic-bezier(0.22, 1, 0.36, 1), color 0.22s cubic-bezier(0.22, 1, 0.36, 1), transform 0.22s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.22s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
-  /* Primary Button Styles */
-  .about-cta__btn--primary.about-cta__btn--style-white_solid {
+  /* Primary Button Styles — black & white only: solid white inverts to outline on hover */
+  .about-cta__btn--primary.about-cta__btn--style-white_solid,
+  .about-cta__btn--primary.about-cta__btn--style-gold_solid {
     background-color: #ffffff;
     color: #111111;
     border: 1px solid #ffffff;
   }
-  .about-cta__btn--primary.about-cta__btn--style-white_solid:hover {
-    background-color: var(--cta-accent, #c8a876);
-    border-color: var(--cta-accent, #c8a876);
-    color: #ffffff;
-    transform: translateY(-2px);
-  }
-
-  .about-cta__btn--primary.about-cta__btn--style-gold_solid {
-    background-color: var(--cta-accent, #c8a876);
-    color: #ffffff;
-    border: 1px solid var(--cta-accent, #c8a876);
-  }
+  .about-cta__btn--primary.about-cta__btn--style-white_solid:hover,
   .about-cta__btn--primary.about-cta__btn--style-gold_solid:hover {
-    background-color: #b59461;
-    border-color: #b59461;
-    transform: translateY(-2px);
-  }
-
-  /* Secondary Button Styles */
-  .about-cta__btn--secondary.about-cta__btn--style-white_outline {
     background-color: transparent;
-    color: #ffffff;
-    border: 1px solid rgba(255, 255, 255, 0.6);
-  }
-  .about-cta__btn--secondary.about-cta__btn--style-white_outline:hover {
     border-color: #ffffff;
-    background-color: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
     transform: translateY(-2px);
   }
 
+  /* Secondary Button Styles — outline fills white on hover */
+  .about-cta__btn--secondary.about-cta__btn--style-white_outline,
   .about-cta__btn--secondary.about-cta__btn--style-gold_outline {
     background-color: transparent;
-    color: var(--cta-accent, #c8a876);
-    border: 1px solid var(--cta-accent, #c8a876);
-  }
-  .about-cta__btn--secondary.about-cta__btn--style-gold_outline:hover {
-    background-color: var(--cta-accent, #c8a876);
     color: #ffffff;
+    border: 1px solid #ffffff;
+  }
+  .about-cta__btn--secondary.about-cta__btn--style-white_outline:hover,
+  .about-cta__btn--secondary.about-cta__btn--style-gold_outline:hover {
+    background-color: #ffffff;
+    border-color: #ffffff;
+    color: #111111;
     transform: translateY(-2px);
   }
 
@@ -400,8 +383,8 @@
       "id": "primary_btn_style",
       "label": "Primary Button Style",
       "options": [
-        { "value": "white_solid", "label": "Solid White (Dark Hover)" },
-        { "value": "gold_solid", "label": "Solid Gold" }
+        { "value": "white_solid", "label": "Solid White" },
+        { "value": "gold_solid", "label": "Solid White (legacy gold option)" }
       ],
       "default": "white_solid"
     },
@@ -432,7 +415,7 @@
       "label": "Secondary Button Style",
       "options": [
         { "value": "white_outline", "label": "Outline White" },
-        { "value": "gold_outline", "label": "Outline Gold" }
+        { "value": "gold_outline", "label": "Outline White (legacy gold option)" }
       ],
       "default": "white_outline"
     },

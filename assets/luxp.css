@@ -160,6 +160,18 @@
   line-height: 1.3;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
+  transition: background-color 220ms cubic-bezier(0.22, 1, 0.36, 1), color 220ms cubic-bezier(0.22, 1, 0.36, 1), border-color 220ms cubic-bezier(0.22, 1, 0.36, 1), transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .luxp-btn:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.luxp-btn:active {
+  transform: translateY(0) scale(0.985);
+  transition-duration: 100ms;
 }
 
 .luxp-btn:hover {
@@ -175,9 +187,9 @@
 }
 
 .luxp-btn--outline:hover {
-  background: var(--luxp-btn-bg-h, var(--luxp-btn-border, var(--luxp-fg, #111111)));
-  color: var(--luxp-btn-fg-h, #ffffff);
-  border-color: var(--luxp-btn-border-h, var(--luxp-btn-bg-h, var(--luxp-btn-border, var(--luxp-fg, #111111))));
+  background: var(--luxp-btn-border, var(--luxp-fg, #111111));
+  color: var(--luxp-btn-fg, #ffffff);
+  border-color: var(--luxp-btn-border, var(--luxp-fg, #111111));
 }
 
 .luxp-btn--full {
@@ -849,6 +861,7 @@
   background: var(--luxp-hero-btn-bg, transparent);
   color: var(--luxp-hero-btn-fg, #ffffff);
   border-color: var(--luxp-hero-btn-border, #ffffff);
+  transition: background-color 220ms cubic-bezier(0.22, 1, 0.36, 1), color 220ms cubic-bezier(0.22, 1, 0.36, 1), border-color 220ms cubic-bezier(0.22, 1, 0.36, 1), transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .luxp-hero__buttons .luxp-btn:hover {
@@ -1243,10 +1256,6 @@
    (.luxp-anim on section root). Default sections ship static.
    ============================================================ */
 
-.luxp-anim .luxp-btn {
-  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
-}
-
 .luxp-anim.luxp-hover-zoom .luxp-media img {
   transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -1272,6 +1281,13 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .luxp-btn,
+  .luxp-btn:hover,
+  .luxp-btn:active {
+    transition: none;
+    transform: none;
+  }
+
   .luxp-anim *,
   .luxp-anim *::before,
   .luxp-anim *::after {

@@ -364,8 +364,7 @@
   }
 
   .trh-events__eyebrow,
-  .trh-events__meta,
-  .trh-events__cta {
+  .trh-events__meta {
     color: var(--events-accent, #b08d57);
   }
 
@@ -604,10 +603,27 @@
     cursor: pointer;
   }
 
+  .trh-events__arrow {
+    transition: background-color 0.22s cubic-bezier(0.22, 1, 0.36, 1), color 0.22s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.22s cubic-bezier(0.22, 1, 0.36, 1), transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .trh-events__arrow:hover {
+    background: #111111;
+    border-color: #111111;
+    color: #ffffff;
+    transform: translateY(-2px);
+  }
+
   .trh-events__arrow[data-trh-events-next] {
-    color: var(--events-button-text, #2b170c);
-    background: var(--events-button-bg, #dfbf86);
-    border-color: var(--events-button-border, #dfbf86);
+    color: var(--events-button-text, #ffffff);
+    background: var(--events-button-bg, #111111);
+    border-color: var(--events-button-border, #111111);
+  }
+
+  .trh-events__arrow[data-trh-events-next]:hover {
+    background: var(--events-button-text, #ffffff);
+    color: var(--events-button-bg, #111111);
+    border-color: var(--events-button-border, #111111);
   }
 
   .trh-events__arrow svg {
@@ -708,13 +724,22 @@
     min-height: 54px;
     margin-top: 10px;
     padding: 0 28px;
-    color: var(--events-button-text, #2b170c);
-    background: var(--events-button-bg, #dfbf86);
-    border: 1px solid var(--events-button-border, #dfbf86);
+    color: var(--events-button-text, #ffffff);
+    background: var(--events-button-bg, #111111);
+    border: 1px solid var(--events-button-border, #111111);
     border-radius: 0;
     box-sizing: border-box;
     letter-spacing: 0.32em;
     font-size: var(--events-button-size, 12px);
+    transition: background-color 0.22s cubic-bezier(0.22, 1, 0.36, 1), color 0.22s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.22s cubic-bezier(0.22, 1, 0.36, 1), transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .trh-events__card:hover .trh-events__cta,
+  .trh-events__card:focus-within .trh-events__cta {
+    background: var(--events-button-text, #ffffff);
+    color: var(--events-button-bg, #111111);
+    border-color: var(--events-button-border, #111111);
+    transform: translateY(-2px);
   }
 
   .trh-events__cta svg {
@@ -1023,9 +1048,9 @@
     { "type": "color", "id": "card_border", "label": "Image border", "default": "#d6c3a1" },
     { "type": "color", "id": "badge_bg", "label": "Badge background", "default": "#dfbf86" },
     { "type": "color", "id": "badge_text", "label": "Badge text", "default": "#2b170c" },
-    { "type": "color", "id": "button_bg", "label": "Button background", "default": "#dfbf86" },
-    { "type": "color", "id": "button_text", "label": "Button text", "default": "#2b170c" },
-    { "type": "color", "id": "button_border", "label": "Button border", "default": "#dfbf86" },
+    { "type": "color", "id": "button_bg", "label": "Button background", "default": "#111111" },
+    { "type": "color", "id": "button_text", "label": "Button text", "default": "#ffffff" },
+    { "type": "color", "id": "button_border", "label": "Button border", "default": "#111111" },
     { "type": "header", "content": "Spacing" },
     { "type": "range", "id": "padding_top", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding top desktop", "default": 48 },
     { "type": "range", "id": "padding_bottom", "min": 0, "max": 120, "step": 4, "unit": "px", "label": "Padding bottom desktop", "default": 56 },

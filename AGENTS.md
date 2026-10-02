@@ -52,3 +52,8 @@
    - Follow targeted file inspection only. NEVER scan the whole codebase, node_modules, `.git`, or unrelated sections.
    - For `recommendations` changes, inspect only `sections/recommendations-editorial.liquid` and `templates/index.json`.
    - Keep `templates/index.json` pure JSON without C-style comments or merge conflict markers.
+
+5. **Button System (Black & White Only)**:
+   - No gold/brass/brown on any button fill, border or hover. Solid black buttons invert on hover (white fill, black text, black border); outline buttons fill black; on dark surfaces mirror it (white solid -> transparent with white text/border).
+   - One motion spec everywhere: `220ms cubic-bezier(0.22, 1, 0.36, 1)` on background-color/color/border-color/transform, `translateY(-2px)` lift on hover (fine pointers only), press on `:active`, disabled under `prefers-reduced-motion`.
+   - Source of truth: `assets/art-buttons.css` (`.art-button`), `assets/luxp.css` + `snippets/luxp-scheme.liquid` (`.luxp-btn` presets). Gold stays only for ornaments/eyebrows/rules, never buttons.

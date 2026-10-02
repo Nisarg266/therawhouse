@@ -292,7 +292,7 @@
     letter-spacing: 0.16em;
     text-transform: uppercase;
     text-decoration: none;
-    transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
+    transition: background-color 0.22s cubic-bezier(0.22, 1, 0.36, 1), color 0.22s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.22s cubic-bezier(0.22, 1, 0.36, 1), transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .about-services__card-btn--outline_dark {
@@ -303,26 +303,21 @@
   .about-services__card-btn--outline_dark:hover {
     background-color: #111111;
     color: #ffffff;
+    transform: translateY(-2px);
   }
 
-  .about-services__card-btn--solid_dark {
+  .about-services__card-btn--solid_dark,
+  .about-services__card-btn--gold_accent {
     background-color: #111111;
     border: 1px solid #111111;
     color: #ffffff;
   }
-  .about-services__card-btn--solid_dark:hover {
-    background-color: #333333;
-    border-color: #333333;
-  }
-
-  .about-services__card-btn--gold_accent {
-    background-color: var(--srv-accent, #c8a876);
-    border: 1px solid var(--srv-accent, #c8a876);
-    color: #ffffff;
-  }
+  .about-services__card-btn--solid_dark:hover,
   .about-services__card-btn--gold_accent:hover {
-    background-color: #b59461;
-    border-color: #b59461;
+    background-color: #ffffff;
+    border-color: #111111;
+    color: #111111;
+    transform: translateY(-2px);
   }
 
   .about-slider-dots {
@@ -473,7 +468,7 @@
       "options": [
         { "value": "outline_dark", "label": "Outline Border (Minimalist)" },
         { "value": "solid_dark", "label": "Solid Black" },
-        { "value": "gold_accent", "label": "Gold Accent" }
+        { "value": "gold_accent", "label": "Solid Black (legacy gold option)" }
       ],
       "default": "outline_dark"
     },

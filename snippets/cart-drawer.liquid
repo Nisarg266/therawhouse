@@ -568,14 +568,15 @@
     text-transform: uppercase !important;
     border-radius: 2px !important;
     border: 1px solid #1d1b18 !important;
-    transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    transition: background-color 0.22s cubic-bezier(0.22, 1, 0.36, 1), color 0.22s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.22s cubic-bezier(0.22, 1, 0.36, 1), transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
   }
   #cart-drawer .cart__checkout-button:hover,
   #cart-drawer .cart__checkout-button:focus-visible {
-    background: #a98344 !important;
-    border-color: #a98344 !important;
-    color: #ffffff !important;
+    background: #ffffff !important;
+    border-color: #1d1b18 !important;
+    color: #1d1b18 !important;
   }
+  #cart-drawer .cart__checkout-button:hover { transform: translateY(-2px); }
 
   /* Secondary buttons (discount apply etc.) stay quiet */
   #cart-drawer .button-secondary {
@@ -608,15 +609,16 @@
   #cart-drawer .cart-items__wrapper--drawer-empty p { font-size: 12.5px; line-height: 1.7; color: #8b857a; }
   #cart-drawer .cart-items__empty-button {
     margin-top: 20px;
-    border: 1px solid #a98344 !important;
-    color: #a98344 !important;
+    border: 1px solid #1d1b18 !important;
+    color: #1d1b18 !important;
     background: transparent !important;
     letter-spacing: 0.2em;
-    transition: background 0.3s ease, color 0.3s ease;
+    transition: background-color 0.22s cubic-bezier(0.22, 1, 0.36, 1), color 0.22s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.22s cubic-bezier(0.22, 1, 0.36, 1), transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
   }
   #cart-drawer .cart-items__empty-button:hover {
-    background: #a98344 !important;
+    background: #1d1b18 !important;
     color: #ffffff !important;
+    transform: translateY(-2px);
   }
 
   /* ---------- Phone only: bigger products, roomier rows, softer dim + blur ---------- */
