@@ -6,23 +6,21 @@
   id="VisitAppointment-{{ section.id }}"
   class="visit-appointment"
   style="
-    --va-bg: {{ s.background_color | default: '#11100e' }};
-    --va-panel: {{ s.panel_color | default: '#181612' }};
-    --va-form: {{ s.form_background | default: '#f6f3ee' }};
-    --va-form-field: {{ s.form_field_background | default: '#ffffff' }};
+    --va-bg: {{ s.background_color | default: '#0a0a0a' }};
+    --va-form: {{ s.form_background | default: '#ffffff' }};
     --va-text: {{ s.text_color | default: '#ffffff' }};
-    --va-muted: {{ s.muted_color | default: '#c9c0b4' }};
-    --va-form-text: {{ s.form_text_color | default: '#171411' }};
-    --va-form-muted: {{ s.form_muted_color | default: '#6f675c' }};
-    --va-accent: {{ s.accent_color | default: '#c5a880' }};
-    --va-border: {{ s.border_color | default: '#4b4132' }};
-    --va-form-border: {{ s.form_border_color | default: '#ded4c5' }};
+    --va-muted: {{ s.muted_color | default: '#a3a3a3' }};
+    --va-form-text: {{ s.form_text_color | default: '#0a0a0a' }};
+    --va-form-muted: {{ s.form_muted_color | default: '#6b6b6b' }};
+    --va-accent: {{ s.accent_color | default: '#ffffff' }};
+    --va-border: {{ s.border_color | default: '#2e2e2e' }};
+    --va-form-border: {{ s.form_border_color | default: '#cfcfcf' }};
     --va-pt: {{ s.padding_top | default: 72 }}px;
     --va-pb: {{ s.padding_bottom | default: 76 }}px;
   "
   {{ section.shopify_attributes }}
 >
-  <div class="visit-appointment__inner">
+  <div class="visit-appointment__inner{% unless s.show_form %} visit-appointment__inner--single{% endunless %}">
     <div class="visit-appointment__left">
       <div class="visit-appointment__intro">
         {% if s.eyebrow != blank %}
@@ -36,42 +34,47 @@
         {% endif %}
         {% if s.button_label != blank and s.button_link != blank %}
           <a class="visit-appointment__button" href="{{ s.button_link }}" {% if s.button_new_tab %}target="_blank" rel="noopener noreferrer"{% endif %}>
-            {{ s.button_label }}
+            <span>{{ s.button_label }}</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"></path></svg>
           </a>
         {% endif %}
       </div>
 
-      <div class="visit-appointment__cards">
-        {% for block in section.blocks %}
-          <article class="visit-appointment__card" style="--va-i: {{ forloop.index0 }};" {{ block.shopify_attributes }}>
-            <div class="visit-appointment__icon" aria-hidden="true">
-              {% case block.settings.icon %}
-                {% when 'clock' %}
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
-                {% when 'calendar' %}
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="5" width="16" height="15" rx="2"></rect><path d="M8 3v4M16 3v4M4 10h16"></path></svg>
-                {% when 'whatsapp' %}
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2a9.86 9.86 0 0 0-8.48 14.9L2.5 21.5l4.72-1.24A9.86 9.86 0 1 0 12.04 2Zm0 1.7a8.16 8.16 0 0 1 6.93 12.47 8.13 8.13 0 0 1-10.95 2.63l-.34-.2-2.8.74.75-2.72-.23-.36A8.16 8.16 0 0 1 12.04 3.7Zm-3.3 4.32c-.18 0-.46.06-.7.33-.24.26-.92.9-.92 2.19s.95 2.54 1.08 2.71c.13.18 1.84 2.95 4.55 4.02 2.25.89 2.71.71 3.2.67.49-.05 1.57-.64 1.79-1.26.22-.62.22-1.15.15-1.26-.06-.11-.24-.18-.5-.31-.27-.13-1.57-.77-1.81-.86-.24-.09-.42-.13-.6.13-.17.27-.69.86-.85 1.04-.15.17-.31.2-.57.06-.27-.13-1.12-.41-2.13-1.31-.79-.7-1.32-1.57-1.48-1.84-.15-.26-.02-.41.12-.54.12-.12.26-.31.39-.46.13-.15.18-.26.27-.44.09-.18.04-.33-.02-.46-.07-.13-.59-1.42-.81-1.95-.21-.51-.43-.44-.6-.45h-.51Z"></path></svg>
-                {% else %}
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20 10c0 5.25-8 11-8 11S4 15.25 4 10a8 8 0 1 1 16 0Z"></path><circle cx="12" cy="10" r="2.8"></circle></svg>
-              {% endcase %}
+      {% if section.blocks.size > 0 %}
+        <div class="visit-appointment__details">
+          {% for block in section.blocks %}
+            <div class="visit-appointment__row" {{ block.shopify_attributes }}>
+              <div class="visit-appointment__row-label">
+                <span class="visit-appointment__icon" aria-hidden="true">
+                  {% case block.settings.icon %}
+                    {% when 'clock' %}
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+                    {% when 'calendar' %}
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="5" width="16" height="15" rx="2"></rect><path d="M8 3v4M16 3v4M4 10h16"></path></svg>
+                    {% when 'whatsapp' %}
+                      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2a9.86 9.86 0 0 0-8.48 14.9L2.5 21.5l4.72-1.24A9.86 9.86 0 1 0 12.04 2Zm0 1.7a8.16 8.16 0 0 1 6.93 12.47 8.13 8.13 0 0 1-10.95 2.63l-.34-.2-2.8.74.75-2.72-.23-.36A8.16 8.16 0 0 1 12.04 3.7Zm-3.3 4.32c-.18 0-.46.06-.7.33-.24.26-.92.9-.92 2.19s.95 2.54 1.08 2.71c.13.18 1.84 2.95 4.55 4.02 2.25.89 2.71.71 3.2.67.49-.05 1.57-.64 1.79-1.26.22-.62.22-1.15.15-1.26-.06-.11-.24-.18-.5-.31-.27-.13-1.57-.77-1.81-.86-.24-.09-.42-.13-.6.13-.17.27-.69.86-.85 1.04-.15.17-.31.2-.57.06-.27-.13-1.12-.41-2.13-1.31-.79-.7-1.32-1.57-1.48-1.84-.15-.26-.02-.41.12-.54.12-.12.26-.31.39-.46.13-.15.18-.26.27-.44.09-.18.04-.33-.02-.46-.07-.13-.59-1.42-.81-1.95-.21-.51-.43-.44-.6-.45h-.51Z"></path></svg>
+                    {% else %}
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 10c0 5.25-8 11-8 11S4 15.25 4 10a8 8 0 1 1 16 0Z"></path><circle cx="12" cy="10" r="2.8"></circle></svg>
+                  {% endcase %}
+                </span>
+                {% if block.settings.title != blank %}
+                  <h3>{{ block.settings.title }}</h3>
+                {% endif %}
+              </div>
+              <div class="visit-appointment__row-body">
+                {% if block.settings.text != blank %}
+                  <div class="visit-appointment__card-text">{{ block.settings.text | newline_to_br }}</div>
+                {% endif %}
+                {% if block.settings.link_label != blank and block.settings.link != blank %}
+                  <a class="visit-appointment__link" href="{{ block.settings.link }}" {% if block.settings.open_in_new_tab %}target="_blank" rel="noopener noreferrer"{% endif %}>
+                    <span>{{ block.settings.link_label }}</span>
+                  </a>
+                {% endif %}
+              </div>
             </div>
-            <div>
-              {% if block.settings.title != blank %}
-                <h3>{{ block.settings.title }}</h3>
-              {% endif %}
-              {% if block.settings.text != blank %}
-                <div class="visit-appointment__card-text">{{ block.settings.text | newline_to_br }}</div>
-              {% endif %}
-              {% if block.settings.link_label != blank and block.settings.link != blank %}
-                <a class="visit-appointment__link" href="{{ block.settings.link }}" {% if block.settings.open_in_new_tab %}target="_blank" rel="noopener noreferrer"{% endif %}>
-                  {{ block.settings.link_label }}
-                </a>
-              {% endif %}
-            </div>
-          </article>
-        {% endfor %}
-      </div>
+          {% endfor %}
+        </div>
+      {% endif %}
     </div>
 
     {% if s.show_form %}
@@ -141,6 +144,11 @@
             </div>
 
             <div class="visit-appointment__field">
+              <label for="VisitAppointmentDate-{{ section.id }}">Preferred date</label>
+              <input id="VisitAppointmentDate-{{ section.id }}" type="date" name="contact[preferred_date]">
+            </div>
+
+            <div class="visit-appointment__field visit-appointment__field--full">
               <label for="VisitAppointmentPurpose-{{ section.id }}">Purpose</label>
               <select id="VisitAppointmentPurpose-{{ section.id }}" name="contact[purpose]">
                 <option value="Visit appointment">Visit appointment</option>
@@ -150,23 +158,21 @@
               </select>
             </div>
 
-            <div class="visit-appointment__field">
-              <label for="VisitAppointmentDate-{{ section.id }}">Preferred date</label>
-              <input id="VisitAppointmentDate-{{ section.id }}" type="date" name="contact[preferred_date]">
-            </div>
-
             <div class="visit-appointment__field visit-appointment__field--full">
               <label for="VisitAppointmentMessage-{{ section.id }}">Message</label>
               <textarea
                 id="VisitAppointmentMessage-{{ section.id }}"
                 name="contact[body]"
-                rows="5"
+                rows="4"
                 required
               >{% if form.body %}{{ form.body }}{% endif %}</textarea>
             </div>
           </div>
 
-          <button type="submit" class="visit-appointment__submit">{{ s.submit_label | default: 'Send inquiry' }}</button>
+          <button type="submit" class="visit-appointment__submit">
+            <span>{{ s.submit_label | default: 'Send inquiry' }}</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"></path></svg>
+          </button>
         {% endform %}
       </div>
     {% endif %}
@@ -175,26 +181,38 @@
 
 {% stylesheet %}
   .visit-appointment {
-    background:
-      linear-gradient(135deg, color-mix(in srgb, var(--va-accent) 8%, transparent), transparent 34%),
-      var(--va-bg);
+    --va-gutter: clamp(20px, 5vw, 84px);
+    background: linear-gradient(90deg, var(--va-bg) 50%, var(--va-form) 50%);
     color: var(--va-text);
-    padding: var(--va-pt) 0 var(--va-pb);
     overflow: clip;
   }
 
   .visit-appointment__inner {
-    width: min(1280px, calc(100% - 40px));
+    width: min(1440px, 100%);
     margin: 0 auto;
     display: grid;
-    grid-template-columns: minmax(320px, 0.9fr) minmax(420px, 1.1fr);
-    gap: clamp(28px, 5vw, 76px);
-    align-items: start;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .visit-appointment__left,
+  .visit-appointment__form-card {
+    padding: var(--va-pt) var(--va-gutter) var(--va-pb);
   }
 
   .visit-appointment__left {
-    display: grid;
-    gap: clamp(24px, 3vw, 34px);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(36px, 5vw, 64px);
+    background: var(--va-bg);
+    color: var(--va-text);
+  }
+
+  .visit-appointment__inner--single {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .visit-appointment:has(.visit-appointment__inner--single) {
+    background: var(--va-bg);
   }
 
   .visit-appointment__intro {
@@ -203,180 +221,197 @@
 
   .visit-appointment__eyebrow,
   .visit-appointment__form-eyebrow {
-    margin: 0 0 12px;
-    color: var(--va-accent);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 0 0 clamp(18px, 2vw, 26px);
+    color: var(--va-muted);
     font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.22em;
+    font-weight: 500;
+    letter-spacing: 0.26em;
     line-height: 1.4;
     text-transform: uppercase;
   }
 
+  .visit-appointment__eyebrow::before,
+  .visit-appointment__form-eyebrow::before {
+    content: "";
+    width: 32px;
+    height: 1px;
+    background: currentColor;
+  }
+
   .visit-appointment__form-eyebrow {
-    margin-bottom: 8px;
-    font-size: 10px;
+    color: var(--va-form-muted);
   }
 
   .visit-appointment__heading {
     margin: 0;
-    max-width: 430px;
     color: var(--va-text);
     font-family: var(--font-heading-family, serif);
-    font-size: clamp(18px, 5.8vw, 40px);
+    font-size: clamp(34px, 4.2vw, 62px);
     font-weight: 400;
-    letter-spacing: 0;
-    line-height: 0.94;
+    letter-spacing: 0.04em;
+    line-height: 1.04;
     text-transform: uppercase;
   }
 
   .visit-appointment__text {
-    margin: 18px 0 0;
-    max-width: 430px;
+    margin: clamp(18px, 2vw, 26px) 0 0;
+    max-width: 420px;
     color: var(--va-muted);
     font-size: 15px;
-    line-height: 1.78;
+    line-height: 1.8;
   }
 
   .visit-appointment__button,
-  .visit-appointment__link {
+  .visit-appointment__submit {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+    gap: 22px;
+    min-height: 52px;
+    padding: 0 24px;
+    border: 1px solid var(--va-accent);
+    border-radius: 0;
+    font: inherit;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
     text-decoration: none;
     text-transform: uppercase;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  }
+
+  .visit-appointment__button svg,
+  .visit-appointment__submit svg {
+    width: 20px;
+    height: 20px;
+    flex: none;
+    transition: transform 0.3s ease;
+  }
+
+  .visit-appointment__button:hover svg,
+  .visit-appointment__submit:hover svg {
+    transform: translateX(4px);
   }
 
   .visit-appointment__button {
-    min-height: 44px;
-    margin-top: 28px;
-    padding: 0 24px;
-    border: 1px solid var(--va-accent);
-    color: var(--va-text);
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
+    margin-top: clamp(26px, 3vw, 38px);
+    background: var(--va-accent);
+    color: var(--va-bg);
   }
 
   .visit-appointment__button:hover {
-    background: var(--va-accent);
-    color: #11100e;
-    transform: translateY(-2px);
-  }
-
-  .visit-appointment__cards {
-    display: grid;
-    gap: 12px;
-  }
-
-  .visit-appointment__card {
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
-    gap: 16px;
-    padding: clamp(18px, 2.4vw, 28px);
-    border: 1px solid var(--va-border);
-    background: color-mix(in srgb, var(--va-panel) 94%, transparent);
-    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.3s ease, background 0.3s ease;
-  }
-
-  .visit-appointment__card:hover {
-    transform: translateY(-4px);
-    border-color: color-mix(in srgb, var(--va-accent) 72%, var(--va-border));
-    background: color-mix(in srgb, var(--va-panel) 86%, #ffffff);
-  }
-
-  .visit-appointment__icon {
-    width: 42px;
-    height: 42px;
-    display: grid;
-    place-items: center;
-    border: 1px solid var(--va-border);
+    background: transparent;
     color: var(--va-accent);
   }
 
-  .visit-appointment__icon svg {
-    width: 19px;
-    height: 19px;
+  .visit-appointment__details {
+    border-top: 1px solid var(--va-border);
   }
 
-  .visit-appointment__card h3 {
-    margin: 0 0 8px;
+  .visit-appointment__row {
+    display: grid;
+    grid-template-columns: minmax(130px, 0.42fr) minmax(0, 1fr);
+    gap: 20px 28px;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--va-border);
+  }
+
+  .visit-appointment__row-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .visit-appointment__icon {
+    display: inline-flex;
+    flex: none;
+    color: var(--va-muted);
+    margin-top: 1px;
+  }
+
+  .visit-appointment__icon svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .visit-appointment__row h3 {
+    margin: 0;
     color: var(--va-text);
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.17em;
-    line-height: 1.4;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    line-height: 1.6;
     text-transform: uppercase;
   }
 
   .visit-appointment__card-text {
     color: var(--va-muted);
-    font-size: 14px;
-    line-height: 1.68;
+    font-size: 14.5px;
+    line-height: 1.75;
   }
 
   .visit-appointment__link {
-    margin-top: 15px;
-    color: var(--va-accent);
+    display: inline-block;
+    margin-top: 12px;
+    color: var(--va-text);
     font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.16em;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-decoration: none;
+    text-transform: uppercase;
   }
 
-  .visit-appointment__link::after {
-    content: "";
-    width: 28px;
-    height: 1px;
-    margin-left: 10px;
-    background: currentColor;
-    transition: width 0.25s ease;
+  .visit-appointment__link span {
+    padding-bottom: 4px;
+    background: linear-gradient(currentColor, currentColor) 0 100% / 100% 1px no-repeat;
+    transition: background-size 0.3s ease;
   }
 
-  .visit-appointment__link:hover::after {
-    width: 42px;
+  .visit-appointment__link:hover span {
+    background-size: 0 1px;
   }
 
   .visit-appointment__form-card {
-    padding: clamp(24px, 3.4vw, 42px);
-    border: 1px solid var(--va-form-border);
     background: var(--va-form);
     color: var(--va-form-text);
-    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.26);
   }
 
   .visit-appointment__form-head {
-    margin-bottom: 24px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid var(--va-form-border);
+    margin-bottom: clamp(28px, 3.4vw, 44px);
   }
 
   .visit-appointment__form-heading {
     margin: 0;
     color: var(--va-form-text);
     font-family: var(--font-heading-family, serif);
-    font-size: clamp(26px, 3vw, 42px);
+    font-size: clamp(26px, 2.8vw, 40px);
     font-weight: 400;
-    letter-spacing: 0;
-    line-height: 1.04;
+    letter-spacing: 0.04em;
+    line-height: 1.1;
     text-transform: uppercase;
   }
 
   .visit-appointment__form-text {
-    margin: 10px 0 0;
+    margin: 14px 0 0;
+    max-width: 420px;
     color: var(--va-form-muted);
-    font-size: 14px;
-    line-height: 1.65;
+    font-size: 14.5px;
+    line-height: 1.7;
   }
 
   .visit-appointment__form-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 14px;
+    gap: 26px 32px;
   }
 
   .visit-appointment__field {
     display: grid;
-    gap: 7px;
+    gap: 4px;
+    min-width: 0;
   }
 
   .visit-appointment__field--full {
@@ -386,9 +421,9 @@
   .visit-appointment__field label {
     color: var(--va-form-muted);
     font-size: 10.5px;
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    line-height: 1.35;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    line-height: 1.4;
     text-transform: uppercase;
   }
 
@@ -396,71 +431,83 @@
   .visit-appointment__field select,
   .visit-appointment__field textarea {
     width: 100%;
-    min-height: 46px;
-    border: 1px solid var(--va-form-border);
+    min-height: 44px;
+    margin: 0;
+    padding: 10px 0;
+    border: 0;
+    border-bottom: 1px solid var(--va-form-border);
     border-radius: 0;
-    background: var(--va-form-field);
+    background-color: transparent;
+    box-shadow: none;
     color: var(--va-form-text);
+    color-scheme: light;
     font: inherit;
-    font-size: 14px;
-    line-height: 1.45;
-    padding: 12px 14px;
-    transition: border-color 0.22s ease, box-shadow 0.22s ease;
+    font-size: 15px;
+    line-height: 1.5;
+    outline: none;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .visit-appointment__field select {
+    padding-right: 24px;
+    appearance: none;
+    background-image:
+      linear-gradient(45deg, transparent 50%, currentColor 50%),
+      linear-gradient(135deg, currentColor 50%, transparent 50%);
+    background-position: calc(100% - 9px) 55%, calc(100% - 4px) 55%;
+    background-size: 5px 5px;
+    background-repeat: no-repeat;
+    cursor: pointer;
   }
 
   .visit-appointment__field textarea {
+    min-height: 96px;
     resize: vertical;
   }
 
   .visit-appointment__field input:focus,
   .visit-appointment__field select:focus,
   .visit-appointment__field textarea:focus {
+    border-bottom-color: var(--va-form-text);
+    box-shadow: 0 1px 0 var(--va-form-text);
+  }
+
+  .visit-appointment__field input:focus-visible,
+  .visit-appointment__field select:focus-visible,
+  .visit-appointment__field textarea:focus-visible {
     outline: none;
-    border-color: var(--va-form-text);
-    box-shadow: 0 0 0 1px var(--va-form-text);
   }
 
   .visit-appointment__submit {
-    min-height: 46px;
-    margin-top: 18px;
-    padding: 0 30px;
-    border: 1px solid var(--va-form-text);
-    border-radius: 0;
+    width: 100%;
+    max-width: 340px;
+    margin-top: clamp(30px, 3.4vw, 44px);
+    border-color: var(--va-form-text);
     background: var(--va-form-text);
-    color: #ffffff;
+    color: var(--va-form);
     cursor: pointer;
-    font: inherit;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    transition: background 0.24s ease, color 0.24s ease, transform 0.24s ease;
   }
 
   .visit-appointment__submit:hover {
     background: transparent;
     color: var(--va-form-text);
-    transform: translateY(-2px);
   }
 
   .visit-appointment__alert {
     display: grid;
     gap: 3px;
-    margin-bottom: 16px;
-    padding: 14px 16px;
-    border-left: 3px solid currentColor;
-    font-size: 13px;
-    line-height: 1.55;
-  }
-
-  .visit-appointment__alert--success {
-    background: #eff7f1;
-    color: #1f6b35;
+    margin-bottom: 28px;
+    padding: 14px 18px;
+    border-left: 2px solid var(--va-form-text);
+    background: color-mix(in srgb, var(--va-form-text) 5%, transparent);
+    color: var(--va-form-text);
+    font-size: 13.5px;
+    line-height: 1.6;
   }
 
   .visit-appointment__alert--error {
-    background: #fff1ef;
-    color: #9d2b20;
+    border-left-color: #b42318;
+    color: #b42318;
   }
 
   .visit-appointment__alert ul {
@@ -468,71 +515,49 @@
     padding-left: 18px;
   }
 
-  @media screen and (prefers-reduced-motion: no-preference) {
-    .visit-appointment__card,
-    .visit-appointment__form-card {
-      animation: visit-appointment-rise 800ms cubic-bezier(0.22, 1, 0.36, 1) both;
-    }
-
-    .visit-appointment__card {
-      animation-delay: calc(var(--va-i) * 85ms);
-    }
-
-    .visit-appointment__form-card {
-      animation-delay: 120ms;
-    }
-  }
-
-  @keyframes visit-appointment-rise {
-    from {
-      opacity: 0;
-      transform: translateY(18px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
   @media screen and (max-width: 989px) {
-    .visit-appointment__inner {
-      grid-template-columns: 1fr;
-      gap: 34px;
+    .visit-appointment,
+    .visit-appointment:has(.visit-appointment__inner--single) {
+      background: var(--va-bg);
     }
 
-    .visit-appointment__intro {
-      max-width: 680px;
+    .visit-appointment__inner {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .visit-appointment__left {
+      padding-bottom: calc(var(--va-pb) * 0.8);
+    }
+
+    .visit-appointment__form-card {
+      box-shadow: 0 0 0 100vmax var(--va-form);
+      clip-path: inset(0 -100vmax);
     }
   }
 
   @media screen and (max-width: 749px) {
-    .visit-appointment {
+    .visit-appointment__left,
+    .visit-appointment__form-card {
       padding-top: calc(var(--va-pt) * 0.72);
       padding-bottom: calc(var(--va-pb) * 0.74);
     }
 
-    .visit-appointment__inner {
-      width: calc(100% - 32px);
+    .visit-appointment__row {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 10px;
+      padding: 20px 0;
     }
 
-    .visit-appointment__heading {
-      font-size: clamp(36px, 12vw, 48px);
-    }
-
-    .visit-appointment__card,
     .visit-appointment__form-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .visit-appointment__field--full {
-      grid-column: auto;
-    }
-
-    .visit-appointment__form-card {
-      padding: 22px 16px;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 22px;
     }
 
     .visit-appointment__submit {
+      max-width: none;
+    }
+
+    .visit-appointment__button {
       width: 100%;
     }
   }
@@ -640,24 +665,12 @@
       "type": "color",
       "id": "background_color",
       "label": "Background",
-      "default": "#11100e"
-    },
-    {
-      "type": "color",
-      "id": "panel_color",
-      "label": "Info card background",
-      "default": "#181612"
+      "default": "#0a0a0a"
     },
     {
       "type": "color",
       "id": "form_background",
       "label": "Form background",
-      "default": "#f6f3ee"
-    },
-    {
-      "type": "color",
-      "id": "form_field_background",
-      "label": "Form field background",
       "default": "#ffffff"
     },
     {
@@ -670,37 +683,37 @@
       "type": "color",
       "id": "muted_color",
       "label": "Muted text",
-      "default": "#c9c0b4"
+      "default": "#a3a3a3"
     },
     {
       "type": "color",
       "id": "form_text_color",
       "label": "Form text",
-      "default": "#171411"
+      "default": "#0a0a0a"
     },
     {
       "type": "color",
       "id": "form_muted_color",
       "label": "Form muted text",
-      "default": "#6f675c"
+      "default": "#6b6b6b"
     },
     {
       "type": "color",
       "id": "accent_color",
-      "label": "Accent",
-      "default": "#c5a880"
+      "label": "Accent (button and links)",
+      "default": "#ffffff"
     },
     {
       "type": "color",
       "id": "border_color",
-      "label": "Info card border",
-      "default": "#4b4132"
+      "label": "Details divider lines",
+      "default": "#2e2e2e"
     },
     {
       "type": "color",
       "id": "form_border_color",
-      "label": "Form border",
-      "default": "#ded4c5"
+      "label": "Form field lines",
+      "default": "#cfcfcf"
     },
     {
       "type": "header",

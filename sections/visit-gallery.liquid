@@ -7,10 +7,10 @@
   class="visit-gallery"
   style="
     --vg-bg: {{ s.background_color | default: '#ffffff' }};
-    --vg-text: {{ s.text_color | default: '#171411' }};
-    --vg-muted: {{ s.muted_color | default: '#6f675c' }};
-    --vg-accent: {{ s.accent_color | default: '#a98a5f' }};
-    --vg-border: {{ s.border_color | default: '#e6ded2' }};
+    --vg-text: {{ s.text_color | default: '#0a0a0a' }};
+    --vg-muted: {{ s.muted_color | default: '#6b6b6b' }};
+    --vg-accent: {{ s.accent_color | default: '#0a0a0a' }};
+    --vg-border: {{ s.border_color | default: '#e6e6e6' }};
     --vg-pt: {{ s.padding_top | default: 72 }}px;
     --vg-pb: {{ s.padding_bottom | default: 56 }}px;
     --vg-speed: {{ s.marquee_speed | default: 34 }}s;
@@ -362,7 +362,7 @@
     margin: 0;
     overflow: hidden;
     border: 1px solid var(--vg-border);
-    background: #f3f0ea;
+    background: #f4f4f4;
     isolation: isolate;
   }
 
@@ -568,25 +568,25 @@
       "type": "color",
       "id": "text_color",
       "label": "Text",
-      "default": "#171411"
+      "default": "#0a0a0a"
     },
     {
       "type": "color",
       "id": "muted_color",
       "label": "Muted text",
-      "default": "#6f675c"
+      "default": "#6b6b6b"
     },
     {
       "type": "color",
       "id": "accent_color",
       "label": "Accent",
-      "default": "#a98a5f"
+      "default": "#0a0a0a"
     },
     {
       "type": "color",
       "id": "border_color",
       "label": "Border",
-      "default": "#e6ded2"
+      "default": "#e6e6e6"
     },
     {
       "type": "header",
