@@ -12,56 +12,78 @@
     "visit_gallery": {
       "type": "visit-gallery",
       "blocks": {
-        "gallery_1": {
+        "image_R7BziN": {
           "type": "image",
           "settings": {
             "default_asset": "art-gallery-room-hotspots.jpg",
+            "kicker": "Ahmedabad",
+            "caption": "Collected rooms with sculptural furniture and art",
+            "alt": ""
+          }
+        },
+        "gallery_1": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/DSC_4334_1.jpg",
+            "default_asset": "art-gallery-room-hotspots.jpg",
             "kicker": "Gallery",
-            "caption": "Collected rooms with sculptural furniture and art"
+            "caption": "Collected rooms with sculptural furniture and art",
+            "alt": ""
           }
         },
         "gallery_2": {
           "type": "image",
           "settings": {
+            "image": "shopify://shop_images/terracotta_collection_368x207_88dfd6b3-f7f1-44aa-8f58-12dcf4183030.png",
             "default_asset": "maker-gallery-1.jpg",
             "kicker": "Details",
-            "caption": "Material, patina and handmade finishes"
+            "caption": "Material, patina and handmade finishes",
+            "alt": ""
           }
         },
         "gallery_3": {
           "type": "image",
           "settings": {
+            "image": "shopify://shop_images/page_072_image_02.jpg",
             "default_asset": "art-atelier-artist-studio.jpg",
             "kicker": "Atelier",
-            "caption": "Objects selected with a curator's eye"
+            "caption": "Objects selected with a curator's eye",
+            "alt": ""
           }
         },
         "gallery_4": {
           "type": "image",
           "settings": {
+            "image": "shopify://shop_images/page_061_image_02.jpg",
             "default_asset": "fine-print-2.jpg",
             "kicker": "Art",
-            "caption": "Limited works and quiet wall moments"
+            "caption": "Limited works and quiet wall moments",
+            "alt": ""
           }
         },
         "gallery_5": {
           "type": "image",
           "settings": {
+            "image": "shopify://shop_images/page_053_image_02.jpg",
             "default_asset": "maker-gallery-3.jpg",
             "kicker": "Craft",
-            "caption": "Quiet details from the maker's hand"
+            "caption": "Quiet details from the maker's hand",
+            "alt": ""
           }
         },
         "gallery_6": {
           "type": "image",
           "settings": {
+            "image": "shopify://shop_images/page_054_image_02.jpg",
             "default_asset": "art-decor-ceramic-statue.jpg",
             "kicker": "Objects",
-            "caption": "Sculptural accents for layered interiors"
+            "caption": "Sculptural accents for layered interiors",
+            "alt": ""
           }
         }
       },
       "block_order": [
+        "image_R7BziN",
         "gallery_1",
         "gallery_2",
         "gallery_3",
@@ -75,7 +97,14 @@
         "intro": "",
         "marquee_speed": 42,
         "image_height": 360,
-        "image_height_mobile": 280
+        "image_height_mobile": 280,
+        "background_color": "#ffffff",
+        "text_color": "#171411",
+        "muted_color": "#6f675c",
+        "accent_color": "#a98a5f",
+        "border_color": "#e6ded2",
+        "padding_top": 72,
+        "padding_bottom": 56
       }
     },
     "visit_appointment": {
@@ -86,7 +115,10 @@
           "settings": {
             "icon": "pin",
             "title": "Ahmedabad address",
-            "text": "The Raw House, Ahmedabad\nPrivate studio address shared after confirmation."
+            "text": "The Raw House, Ahmedabad\nPrivate studio address shared after confirmation.",
+            "link_label": "",
+            "link": "",
+            "open_in_new_tab": true
           }
         },
         "hours": {
@@ -94,7 +126,10 @@
           "settings": {
             "icon": "clock",
             "title": "Opening hours",
-            "text": "Monday to Saturday: 10:00 AM to 7:00 PM\nSunday: By appointment only."
+            "text": "Monday to Saturday: 10:00 AM to 7:00 PM\nSunday: By appointment only.",
+            "link_label": "",
+            "link": "",
+            "open_in_new_tab": true
           }
         },
         "appointments": {
@@ -104,7 +139,8 @@
             "title": "Appointments",
             "text": "Private viewings are recommended for a calmer, more considered experience.",
             "link_label": "Request a slot",
-            "link": "https://wa.me/918003011110?text=Hello%20The%20Raw%20House%2C%20I%20would%20like%20to%20book%20a%20visit."
+            "link": "https://wa.me/918003011110?text=Hello%20The%20Raw%20House%2C%20I%20would%20like%20to%20book%20a%20visit.",
+            "open_in_new_tab": true
           }
         }
       },
@@ -119,10 +155,28 @@
         "text": "Book a measured, unhurried appointment to experience our objects, furniture and art in person.",
         "button_label": "WhatsApp us",
         "button_link": "https://wa.me/918003011110?text=Hello%20The%20Raw%20House%2C%20I%20would%20like%20to%20book%20a%20visit.",
+        "button_new_tab": true,
+        "show_form": true,
         "form_eyebrow": "Inquiry",
         "form_heading": "Send a visit request",
         "form_text": "Share your preferred date and our team will confirm availability.",
-        "submit_label": "Send inquiry"
+        "submit_label": "Send inquiry",
+        "form_tags": "visit-page, appointment-inquiry",
+        "success_title": "Inquiry received",
+        "success_message": "Thank you. Our team will get back to you shortly.",
+        "background_color": "#11100e",
+        "panel_color": "#181612",
+        "form_background": "#f6f3ee",
+        "form_field_background": "#ffffff",
+        "text_color": "#ffffff",
+        "muted_color": "#c9c0b4",
+        "form_text_color": "#171411",
+        "form_muted_color": "#6f675c",
+        "accent_color": "#c5a880",
+        "border_color": "#4b4132",
+        "form_border_color": "#ded4c5",
+        "padding_top": 72,
+        "padding_bottom": 76
       }
     }
   },
