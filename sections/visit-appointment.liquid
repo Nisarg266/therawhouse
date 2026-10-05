@@ -20,15 +20,22 @@
   "
   {{ section.shopify_attributes }}
 >
-  <div class="visit-appointment__inner{% unless s.show_form %} visit-appointment__inner--single{% endunless %}">
-    <div class="visit-appointment__left">
-      <div class="visit-appointment__intro">
+  {% if s.eyebrow != blank or s.heading != blank %}
+    <div class="visit-appointment__header">
+      <div class="visit-appointment__header-inner">
         {% if s.eyebrow != blank %}
           <p class="visit-appointment__eyebrow">{{ s.eyebrow }}</p>
         {% endif %}
         {% if s.heading != blank %}
           <h2 class="visit-appointment__heading">{{ s.heading }}</h2>
         {% endif %}
+      </div>
+    </div>
+  {% endif %}
+
+  <div class="visit-appointment__inner{% unless s.show_form %} visit-appointment__inner--single{% endunless %}">
+    <div class="visit-appointment__left">
+      <div class="visit-appointment__intro">
         {% if s.text != blank %}
           <p class="visit-appointment__text">{{ s.text }}</p>
         {% endif %}
@@ -194,9 +201,32 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .visit-appointment__header {
+    background: var(--va-bg);
+    color: var(--va-text);
+  }
+
+  .visit-appointment__header-inner {
+    width: min(1440px, 100%);
+    margin: 0 auto;
+    padding: var(--va-pt) var(--va-gutter) clamp(28px, 3.5vw, 48px);
+    text-align: center;
+  }
+
+  .visit-appointment__header .visit-appointment__eyebrow {
+    justify-content: center;
+    margin-bottom: clamp(14px, 1.6vw, 22px);
+  }
+
   .visit-appointment__left,
   .visit-appointment__form-card {
     padding: var(--va-pt) var(--va-gutter) var(--va-pb);
+  }
+
+  /* With the title band above, the columns start closer to it. */
+  .visit-appointment__header + .visit-appointment__inner > .visit-appointment__left,
+  .visit-appointment__header + .visit-appointment__inner > .visit-appointment__form-card {
+    padding-top: clamp(32px, 4vw, 56px);
   }
 
   .visit-appointment__left {
@@ -257,7 +287,7 @@
   }
 
   .visit-appointment__text {
-    margin: clamp(18px, 2vw, 26px) 0 0;
+    margin: 0;
     max-width: 420px;
     color: var(--va-muted);
     font-size: 15px;
@@ -328,13 +358,13 @@
   .visit-appointment__icon {
     display: inline-flex;
     flex: none;
-    color: var(--va-muted);
+    color: var(--va-text);
     margin-top: 1px;
   }
 
   .visit-appointment__icon svg {
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
   }
 
   .visit-appointment__row h3 {

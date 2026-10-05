@@ -31,11 +31,11 @@
         "newsletter_block": {
           "type": "newsletter",
           "settings": {
-            "heading": "First to see. First to own.",
-            "subtext": "Join the Collectors' List for private previews of new works, exhibition invitations and notes from the atelier.",
+            "heading": "Be the first to know.",
+            "subtext": "",
             "placeholder": "Your email address",
             "button_text": "Subscribe",
-            "privacy_note": "One considered letter a month. No noise, ever."
+            "privacy_note": ""
           }
         }
       },

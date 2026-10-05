@@ -92,7 +92,7 @@
         "gallery_6"
       ],
       "settings": {
-        "eyebrow": "Gallery",
+        "eyebrow": "",
         "heading": "",
         "intro": "",
         "marquee_speed": 42,
@@ -116,8 +116,8 @@
             "icon": "pin",
             "title": "Ahmedabad address",
             "text": "The Raw House, Ahmedabad\nPrivate studio address shared after confirmation.",
-            "link_label": "",
-            "link": "",
+            "link_label": "Get directions",
+            "link": "https://www.google.com/maps/search/?api=1&query=The+Raw+House+Ahmedabad",
             "open_in_new_tab": true
           }
         },
@@ -142,15 +142,27 @@
             "link": "https://wa.me/918003011110?text=Hello%20The%20Raw%20House%2C%20I%20would%20like%20to%20book%20a%20visit.",
             "open_in_new_tab": true
           }
+        },
+        "whatsapp": {
+          "type": "detail",
+          "settings": {
+            "icon": "whatsapp",
+            "title": "WhatsApp",
+            "text": "+91 80030 11110",
+            "link_label": "Message us",
+            "link": "https://wa.me/918003011110",
+            "open_in_new_tab": true
+          }
         }
       },
       "block_order": [
         "address",
         "hours",
-        "appointments"
+        "appointments",
+        "whatsapp"
       ],
       "settings": {
-        "eyebrow": "Private visits",
+        "eyebrow": "",
         "heading": "Visit The Raw House",
         "text": "Book a measured, unhurried appointment to experience our objects, furniture and art in person.",
         "button_label": "WhatsApp us",
@@ -179,7 +191,7 @@
     }
   },
   "order": [
-    "visit_gallery",
-    "visit_appointment"
+    "visit_appointment",
+    "visit_gallery"
   ]
 }
