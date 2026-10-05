@@ -1836,10 +1836,10 @@ body.menu-drawer-open #header-group.header--auto-hidden {
    Scoped to desktop (>= 990px). Mobile keeps its tuned zero-gap layout.
    ========================================================================== */
 @media screen and (min-width: 990px) {
-  /* --- Slim rows --- */
+  /* --- Taller top row so the big logo clears the hairlines --- */
   .header__row--top {
-    min-height: 62px !important;
-    height: 62px !important;
+    min-height: 84px !important;
+    height: 84px !important;
   }
 
   .header__row--bottom {
@@ -1847,34 +1847,94 @@ body.menu-drawer-open #header-group.header--auto-hidden {
     height: 44px !important;
   }
 
+  /* --- Right icon cluster sits in the nav row, between the lines --- */
+  .header__row--top .header__column--right {
+    position: absolute !important;
+    top: 85px !important;
+    right: var(--padding-xl, 60px) !important;
+    left: auto !important;
+    height: 44px !important;
+    z-index: 3 !important;
+    transform: none !important;
+  }
+
+  /* --- Sticky: only the nav strip (menu + icons) stays pinned.
+         The group wrapper gets out of the way so the section itself can
+         stick; the negative top scrolls the logo row off, leaving just
+         the 44px navigation strip at the top of the viewport. --- */
+  #header-group {
+    display: contents !important;
+  }
+
+  .header-section:has(> #header-component[sticky]) {
+    position: sticky !important;
+    top: -85px !important;
+    z-index: 99999 !important;
+    background: #ffffff !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease !important;
+  }
+
+  #header-group.header--auto-hidden .header-section {
+    transform: translateY(-110%) !important;
+    box-shadow: none !important;
+    pointer-events: none !important;
+  }
+
+  /* Home hero: keep the first banner flush underneath the header
+     (the negative margin used to live on the group box, which no
+     longer exists) */
+  body:has(#MainContent > .section-luxp-hero:first-child) .header-section:has(> #header-component[sticky]) {
+    margin-bottom: calc(-1 * var(--header-height)) !important;
+  }
+
+  /* Over the hero the header stays transparent; once scrolled
+     (.header--hero-solid) the strip falls back to white */
+  body:has(#MainContent > .section-luxp-hero:first-child) #header-group:not(.header--hero-solid) .header-section:has(> #header-component[sticky]) {
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  /* Whenever the header is stuck, the strip is always a solid white bar,
+     independent of hero state classes */
+  body .header-section:has(> #header-component[data-sticky-state='active']) {
+    background: #ffffff !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+  }
+
+  body .header-section > #header-component[data-sticky-state='active'] .header__row--top,
+  body .header-section > #header-component[data-sticky-state='active'] .header__row--bottom {
+    background: #ffffff !important;
+  }
+
   .menu-list__link {
     padding: 12px 4px !important;
   }
 
-  /* Drawer + backdrop anchor to the new combined height (62 + 44) */
+  /* Drawer + backdrop anchor to the new combined height (84 + 44) */
   .menu-drawer__backdrop {
-    top: 106px !important;
-    height: calc(100dvh - 106px) !important;
+    top: 128px !important;
+    height: calc(100dvh - 128px) !important;
   }
 
   .menu-drawer {
-    top: 106px !important;
-    height: calc(100vh - 106px) !important;
-    height: calc(100dvh - 106px) !important;
-    max-height: calc(100dvh - 106px) !important;
+    top: 128px !important;
+    height: calc(100vh - 128px) !important;
+    height: calc(100dvh - 128px) !important;
+    max-height: calc(100dvh - 128px) !important;
   }
 
-  /* --- Smaller, lighter logo --- */
+  /* --- Centered logo, bigger --- */
   .header .logo-section,
   .header [data-testid="header-top-center"],
   .header-logo,
   .logo-section__image-wrapper {
-    max-height: 62px !important;
+    max-height: 84px !important;
   }
 
   .header .logo-section__image,
   .header-logo img {
-    max-height: 42px !important;
+    max-height: 66px !important;
   }
 
   /* --- Tighter right icon cluster --- */
