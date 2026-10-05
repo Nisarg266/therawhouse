@@ -228,11 +228,12 @@
     margin-right: auto !important;
   }
 
-  collection-component [ref='productTitleLink'] .text-block {
+  collection-component [ref='productTitleLink'] .text-block,
+  collection-component [ref='productTitleLink'] .text-block :is(p, h1, h2, h3, h4, h5, h6, span) {
     font-family: var(--font-heading--family, serif) !important;
-    font-size: 15px !important;
+    font-size: 13px !important;
     font-weight: 600 !important;
-    line-height: 1.35 !important;
+    line-height: 1.4 !important;
     letter-spacing: 0.12em !important;
     text-transform: uppercase !important;
     color: var(--product-card-title-color, #1f1712) !important;
@@ -292,7 +293,8 @@
   }
 
   @media (max-width: 749px) {
-    collection-component [ref='productTitleLink'] .text-block { font-size: 12px !important; }
+    collection-component [ref='productTitleLink'] .text-block,
+    collection-component [ref='productTitleLink'] .text-block :is(p, h1, h2, h3, h4, h5, h6, span) { font-size: 11.5px !important; }
     collection-component .main-collection-grid .product-grid__card product-price :is(.price, .price-item) {
       font-size: 12px !important;
     }

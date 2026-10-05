@@ -1,0 +1,165 @@
+{{ 'catalogue-library.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'catalogue-library.js' | asset_url }}" defer></script>
+{% liquid
+  assign s = section.settings
+  assign catalogue_count = section.blocks.size
+%}
+<catalogue-library
+  class="catalogue-library"
+  data-initial-count="{{ s.initial_count }}"
+  data-results-pattern="{{ s.results_pattern | escape }}"
+  data-downloading-label="{{ s.downloading_label | escape }}"
+  data-download-error="{{ s.download_error | escape }}"
+>
+  <div class="catalogue-shell">
+    <header class="catalogue-intro">
+      <h1>{{ s.heading | default: page.title | escape }}</h1>
+    </header>
+    <div class="catalogue-tools" hidden>
+      <div class="catalogue-filters" role="group" aria-label="{{ s.filter_label | escape }}">
+        <button type="button" class="catalogue-filter" data-filter="all" aria-pressed="true">{{ s.all_label | escape }} <span data-filter-count="all">{{ catalogue_count }}</span></button>
+        {% assign categories = 'collection,exhibition,artist' | split: ',' %}
+        {% for category in categories %}
+          {% liquid
+            assign category_total = 0
+            for catalogue in section.blocks
+              if catalogue.settings.category == category
+                assign category_total = category_total | plus: 1
+              endif
+            endfor
+            assign label_key = category | append: '_label'
+          %}
+          {% if category_total > 0 %}<button type="button" class="catalogue-filter" data-filter="{{ category }}" aria-pressed="false">{{ s[label_key] | escape }} <span data-filter-count="{{ category }}">{{ category_total }}</span></button>{% endif %}
+        {% endfor %}
+      </div>
+      <div class="catalogue-search">
+        <label for="CatalogueSearch-{{ section.id }}" class="visually-hidden">{{ s.search_label | escape }}</label>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="m16 16 5 5"></path></svg>
+        <input id="CatalogueSearch-{{ section.id }}" type="search" placeholder="{{ s.search_placeholder | escape }}" autocomplete="off">
+      </div>
+    </div>
+    <div class="catalogue-list-heading">
+      <p class="catalogue-results" role="status" aria-live="polite" aria-atomic="true">{{ s.results_pattern | replace: '[shown]', catalogue_count | replace: '[total]', catalogue_count | escape }}</p>
+    </div>
+    <div class="catalogue-grid" id="CatalogueGrid-{{ section.id }}">
+      {% for block in section.blocks %}
+        {% liquid
+          assign b = block.settings
+          assign catalogue_title = b.title | default: s.untitled_label
+          assign category_key = b.category | append: '_label'
+          assign image_alt = b.image.alt | default: catalogue_title
+          assign search_text = catalogue_title | append: ' ' | append: b.creator | append: ' ' | append: b.description | append: ' ' | append: b.keywords
+          assign image_loading = 'lazy'
+          if forloop.index <= 3
+            assign image_loading = 'eager'
+          endif
+          assign cover_width = 708
+          assign cover_height = 1000
+          case b.default_cover
+            when 'catalogue-cover-hinchko.jpg'
+              assign cover_width = 1000
+              assign cover_height = 653
+            when 'catalogue-cover-future-in-form.jpg', 'catalogue-cover-material-passage.jpg'
+              assign cover_width = 563
+          endcase
+        %}
+        <article class="catalogue-card" data-category="{{ b.category }}" data-search="{{ search_text | strip_html | escape }}" {{ block.shopify_attributes }}>
+          <div class="catalogue-card__media">
+            {% if b.pdf_url != blank %}<a class="catalogue-card__cover" href="{{ b.pdf_url | escape }}" target="_blank" rel="noopener noreferrer" aria-label="{{ s.view_label | escape }}: {{ catalogue_title | escape }} ({{ s.new_tab_label | escape }})">{% else %}<div class="catalogue-card__cover">{% endif %}
+              {% if b.image != blank %}
+                {{ b.image | image_url: width: 1000 | image_tag: widths: '375, 550, 750, 1000', sizes: '(min-width: 1000px) 30vw, (min-width: 650px) 45vw, 90vw', loading: image_loading, alt: image_alt }}
+              {% elsif b.default_cover != 'none' and b.default_cover != blank %}
+                <img src="{{ b.default_cover | asset_url }}" alt="{{ catalogue_title | escape }}" width="{{ cover_width }}" height="{{ cover_height }}" loading="{{ image_loading }}" decoding="async">
+              {% else %}
+                <div class="catalogue-card__placeholder"><span>{{ catalogue_title | escape }}</span><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><path d="M8 6h24l8 8v28H8zM32 6v8h8M16 24h16M16 30h12"></path></svg></div>
+              {% endif %}
+            {% if b.pdf_url != blank %}</a>{% else %}</div>{% endif %}
+          </div>
+          <div class="catalogue-card__body">
+            <p class="catalogue-card__category">{{ s[category_key] | escape }}{% if b.creator != blank %}<span aria-hidden="true"> / </span>{{ b.creator | escape }}{% endif %}</p>
+            <h3>{{ catalogue_title | escape }}</h3>
+            {% if b.description != blank %}<p class="catalogue-card__description">{{ b.description | escape }}</p>{% endif %}
+            <p class="catalogue-card__meta">{{ s.format_label | escape }}{% if b.page_count > 0 %}<span aria-hidden="true">·</span>{{ b.page_count }} {{ s.pages_label | escape }}{% endif %}{% if b.file_size != blank %}<span aria-hidden="true">·</span>{{ b.file_size | escape }}{% endif %}</p>
+            {% if b.pdf_url != blank %}
+              <div class="catalogue-card__actions">
+                <a class="art-button catalogue-button" href="{{ b.pdf_url | escape }}" target="_blank" rel="noopener noreferrer" aria-label="{{ s.view_label | escape }}: {{ catalogue_title | escape }} ({{ s.new_tab_label | escape }})">{{ s.view_label | escape }} <span aria-hidden="true">↗</span></a>
+                {% if s.show_download %}<a class="art-button catalogue-button catalogue-button--outline" href="{{ b.pdf_url | escape }}" target="_blank" rel="noopener noreferrer" download="{{ catalogue_title | handleize }}.pdf" data-catalogue-download aria-label="{{ s.download_label | escape }}: {{ catalogue_title | escape }}"><span data-download-label>{{ s.download_label | escape }}</span><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M10 2v10m-4-4 4 4 4-4M3 13v4h14v-4"></path></svg></a>{% endif %}
+              </div>
+              <p class="catalogue-card__feedback" role="status" hidden></p>
+            {% else %}<p class="catalogue-card__pending">{{ s.pending_label | escape }}</p>{% endif %}
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+    <div class="catalogue-empty" hidden>
+      <h3>{{ s.empty_heading | escape }}</h3><p>{{ s.empty_text | escape }}</p>
+      <button type="button" class="art-button catalogue-button" data-reset>{{ s.reset_label | escape }}</button>
+    </div>
+    <div class="catalogue-more" hidden><button type="button" class="art-button catalogue-button catalogue-button--outline" data-load-more aria-controls="CatalogueGrid-{{ section.id }}">{{ s.more_label | escape }} <span aria-hidden="true">+</span></button></div>
+    {% if s.footer_heading != blank %}
+      <aside class="catalogue-help">
+        <div><p class="catalogue-eyebrow">{{ s.footer_eyebrow | escape }}</p><h2>{{ s.footer_heading | escape }}</h2><p>{{ s.footer_text | escape }}</p></div>
+        {% if s.footer_link != blank and s.footer_button != blank %}<a class="art-button catalogue-button" href="{{ s.footer_link }}">{{ s.footer_button | escape }} <span aria-hidden="true">↗</span></a>{% endif %}
+      </aside>
+    {% endif %}
+  </div>
+</catalogue-library>
+{% schema %}
+{
+  "name": "Catalogue library", "tag": "section", "class": "catalogue-library-section", "limit": 1,
+  "enabled_on": { "templates": ["page"] }, "max_blocks": 50,
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Catalogues" },
+    { "type": "range", "id": "initial_count", "label": "Catalogues shown at first", "min": 3, "max": 24, "step": 3, "default": 9 },
+    { "type": "checkbox", "id": "show_download", "label": "Show download button", "default": true },
+    { "type": "text", "id": "view_label", "label": "View button", "default": "View catalogue" },
+    { "type": "text", "id": "download_label", "label": "Download button", "default": "Download PDF" },
+    { "type": "text", "id": "downloading_label", "label": "Download progress", "default": "Downloading…" },
+    { "type": "textarea", "id": "download_error", "label": "Download error", "default": "The download could not start. Use View catalogue to open and save the PDF." },
+    { "type": "text", "id": "new_tab_label", "label": "New tab accessibility text", "default": "opens in a new tab" },
+    { "type": "text", "id": "format_label", "label": "Format label", "default": "PDF" },
+    { "type": "text", "id": "pages_label", "label": "Pages label", "default": "pages" },
+    { "type": "text", "id": "filter_label", "label": "Filter accessibility label", "default": "Filter catalogues by category" },
+    { "type": "text", "id": "all_label", "label": "All filter", "default": "All catalogues" },
+    { "type": "text", "id": "collection_label", "label": "Collection category", "default": "Collections" },
+    { "type": "text", "id": "exhibition_label", "label": "Exhibition category", "default": "Exhibitions" },
+    { "type": "text", "id": "artist_label", "label": "Artist category", "default": "Artist edits" },
+    { "type": "text", "id": "search_label", "label": "Search accessibility label", "default": "Search catalogues" },
+    { "type": "text", "id": "search_placeholder", "label": "Search placeholder", "default": "Search titles, artists, materials…" },
+    { "type": "text", "id": "results_pattern", "label": "Result count", "default": "[shown] of [total] catalogues", "info": "Keep [shown] and [total] to display the counts." },
+    { "type": "text", "id": "empty_heading", "label": "No results heading", "default": "A different starting point." },
+    { "type": "text", "id": "empty_text", "label": "No results text", "default": "Try another title, artist or material, or explore all catalogues." },
+    { "type": "text", "id": "reset_label", "label": "Reset button", "default": "Show all catalogues" },
+    { "type": "text", "id": "more_label", "label": "Load more button", "default": "More catalogues" },
+    { "type": "text", "id": "pending_label", "label": "Missing PDF text", "default": "Catalogue coming soon" },
+    { "type": "text", "id": "untitled_label", "label": "Untitled catalogue text", "default": "New catalogue" },
+    { "type": "text", "id": "footer_eyebrow", "label": "Closing eyebrow", "default": "FROM THE PAGE TO YOUR SPACE" },
+    { "type": "text", "id": "footer_heading", "label": "Closing heading", "default": "Something caught your eye?" },
+    { "type": "textarea", "id": "footer_text", "label": "Closing text", "default": "Share the catalogue and the piece with us. We can help you explore the details, availability and how it might fit into your space." },
+    { "type": "text", "id": "footer_button", "label": "Closing button", "default": "Talk to The Raw House" },
+    { "type": "url", "id": "footer_link", "label": "Closing link" }
+  ],
+  "blocks": [{
+    "type": "catalogue", "name": "Catalogue profile", "settings": [
+      { "type": "text", "id": "title", "label": "Title", "default": "New catalogue" },
+      { "type": "textarea", "id": "description", "label": "Short description" },
+      { "type": "text", "id": "creator", "label": "Artist or collection credit" },
+      { "type": "select", "id": "category", "label": "Category", "default": "collection", "options": [{ "value": "collection", "label": "Collection" }, { "value": "exhibition", "label": "Exhibition" }, { "value": "artist", "label": "Artist edit" }] },
+      { "type": "image_picker", "id": "image", "label": "Cover image" },
+      { "type": "select", "id": "default_cover", "label": "Default cover", "default": "none", "options": [
+        { "value": "none", "label": "Use selected image" },
+        { "value": "catalogue-cover-ahmedabad-art-week.jpg", "label": "Ahmedabad Art Week" },
+        { "value": "catalogue-cover-shrujan.jpg", "label": "Shrujan" },
+        { "value": "catalogue-cover-hinchko.jpg", "label": "Hinchko" },
+        { "value": "catalogue-cover-future-in-form.jpg", "label": "The Future in Form" },
+        { "value": "catalogue-cover-material-passage.jpg", "label": "Material Passage" }
+      ] },
+      { "type": "url", "id": "pdf_url", "label": "Catalogue PDF link", "info": "Upload a PDF under Content → Files and paste its link here." },
+      { "type": "number", "id": "page_count", "label": "Number of pages", "default": 0 },
+      { "type": "text", "id": "file_size", "label": "File size", "info": "For example: 5 MB. Update this when replacing the PDF." },
+      { "type": "text", "id": "keywords", "label": "Additional search words", "info": "Materials or subjects to include in catalogue search." }
+    ]
+  }],
+  "presets": [{ "name": "Catalogue library", "blocks": [{ "type": "catalogue" }] }]
+}
+{% endschema %}
