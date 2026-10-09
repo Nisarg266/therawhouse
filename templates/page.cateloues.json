@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "catalogue_library": {
@@ -7,115 +16,115 @@
           "type": "catalogue",
           "settings": {
             "title": "Uphaar",
-            "category": "collection",
-            "creator": "",
             "description": "Explore the Uphaar collection, with a closer look at the pieces and details gathered in this catalogue.",
-            "keywords": "collection gifting objects",
-            "pdf_url": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/Uphaar_collections_compressed.pdf?v=1789591028",
+            "creator": "",
+            "category": "collection",
+            "image": "shopify://shop_images/WhatsApp_Image_2026-09-12_at_3.24.52_PM_3.jpg",
+            "default_cover": "none",
+            "pdf_url": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/Uphaar_collections-compressed-compressed_1.pdf?v=1791552592",
             "page_count": 254,
             "file_size": "9.3 MB",
-            "image": "shopify://shop_images/WhatsApp_Image_2026-09-12_at_3.24.52_PM_3.jpg",
-            "default_cover": "none"
+            "keywords": "collection gifting objects"
           }
         },
         "ahmedabad_art_week": {
           "type": "catalogue",
           "settings": {
             "title": "Ahmedabad Art Week",
-            "category": "exhibition",
-            "creator": "Sculpture show",
             "description": "A dialogue through sculpture, bringing together emerging artists from across India and their explorations of material, memory and form.",
-            "keywords": "sculpture contemporary art artists",
+            "creator": "Sculpture show",
+            "category": "exhibition",
+            "default_cover": "catalogue-cover-ahmedabad-art-week.jpg",
             "pdf_url": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/Ahmedabad_Art_Week_Sculpture_Show_Catalogue_compressed.pdf?v=1789589334",
             "page_count": 75,
             "file_size": "8.6 MB",
-            "default_cover": "catalogue-cover-ahmedabad-art-week.jpg"
+            "keywords": "sculpture contemporary art artists"
           }
         },
         "raw_collectables": {
           "type": "catalogue",
           "settings": {
             "title": "Raw Collectables",
-            "category": "collection",
-            "creator": "",
             "description": "Discover sculptural forms and tabletop objects from Raw Collectables, with dimensions and details to explore.",
-            "keywords": "sculpture table top objects",
+            "creator": "",
+            "category": "collection",
+            "image": "shopify://shop_images/IDIKA01016_resized_no_stretch_9ec2df42-08a5-49b7-9557-bbd1fbd87952.png",
+            "default_cover": "none",
             "pdf_url": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/Raw_Collectables_compressed.pdf?v=1789591025",
             "page_count": 49,
             "file_size": "5 MB",
-            "image": "shopify://shop_images/IDIKA01016_resized_no_stretch_9ec2df42-08a5-49b7-9557-bbd1fbd87952.png",
-            "default_cover": "none"
+            "keywords": "sculpture table top objects"
           }
         },
         "shrujan": {
           "type": "catalogue",
           "settings": {
             "title": "Shrujan",
-            "category": "exhibition",
-            "creator": "",
             "description": "A showcase of pigment and hand-block work on cotton, where colour, pattern and textile craftsmanship meet.",
-            "keywords": "textile cotton block print pigment craft",
+            "creator": "",
+            "category": "exhibition",
+            "default_cover": "catalogue-cover-shrujan.jpg",
             "pdf_url": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/Shrujan_Catalogue_compressed_under_20MB_1.pdf?v=1789588636",
             "page_count": 54,
             "file_size": "12.7 MB",
-            "default_cover": "catalogue-cover-shrujan.jpg"
+            "keywords": "textile cotton block print pigment craft"
           }
         },
         "what_objects_become": {
           "type": "catalogue",
           "settings": {
             "title": "What Objects Become",
-            "category": "artist",
-            "creator": "Lochan Upadhyay",
             "description": "Sculptural works by Lochan Upadhyay exploring the meeting point of art, design and imagined utility.",
-            "keywords": "sculpture mobile home light design",
+            "creator": "Lochan Upadhyay",
+            "category": "artist",
+            "image": "shopify://shop_images/MobileHome1765x36x14inchWood_wheel_metal_glass_andlight2025.jpg",
+            "default_cover": "none",
             "pdf_url": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/What_Objects_Become_Lochan_Upadhyay___TRH_compressed.pdf?v=1789591024",
             "page_count": 24,
             "file_size": "4.4 MB",
-            "image": "shopify://shop_images/MobileHome1765x36x14inchWood_wheel_metal_glass_andlight2025.jpg",
-            "default_cover": "none"
+            "keywords": "sculpture mobile home light design"
           }
         },
         "hinchko": {
           "type": "catalogue",
           "settings": {
             "title": "Hinchko",
-            "category": "collection",
-            "creator": "Apurva Amin",
             "description": "Explore Hinchko by Apurva Amin through its catalogue of designs and details.",
-            "keywords": "design furniture swings craft",
+            "creator": "Apurva Amin",
+            "category": "collection",
+            "default_cover": "catalogue-cover-hinchko.jpg",
             "pdf_url": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/Hinchko_Catalogue_compressed.pdf?v=1789628194",
             "page_count": 11,
             "file_size": "3.7 MB",
-            "default_cover": "catalogue-cover-hinchko.jpg"
+            "keywords": "design furniture swings craft"
           }
         },
         "future_in_form": {
           "type": "catalogue",
           "settings": {
             "title": "The Future in Form",
-            "category": "exhibition",
-            "creator": "",
             "description": "Reimagining craft through an exhibition bringing together independent design studios and makers.",
-            "keywords": "craft lighting glass textiles rugs makers",
+            "creator": "",
+            "category": "exhibition",
+            "default_cover": "catalogue-cover-future-in-form.jpg",
             "pdf_url": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/The_Future_in_Form_-_Catalouge_compressed.pdf?v=1789591028",
             "page_count": 56,
             "file_size": "9.5 MB",
-            "default_cover": "catalogue-cover-future-in-form.jpg"
+            "keywords": "craft lighting glass textiles rugs makers"
           }
         },
         "material_passage": {
           "type": "catalogue",
           "settings": {
             "title": "Material Passage",
-            "category": "exhibition",
-            "creator": "",
             "description": "An exhibition catalogue centred on materials, furniture and objects, with a closer look at their forms and finishes.",
-            "keywords": "wood furniture materials dining table",
+            "creator": "",
+            "category": "exhibition",
+            "default_cover": "catalogue-cover-material-passage.jpg",
             "pdf_url": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/Material_Passage_compressed_20MB.pdf?v=1789643895",
             "page_count": 48,
             "file_size": "4.4 MB",
-            "default_cover": "catalogue-cover-material-passage.jpg"
+            "keywords": "wood furniture materials dining table"
           }
         }
       },
@@ -131,9 +140,33 @@
       ],
       "settings": {
         "heading": "Catalogues",
-        "results_pattern": "[shown] of [total] catalogues",
         "initial_count": 9,
         "show_download": true,
+        "view_label": "View catalogue",
+        "download_label": "Download PDF",
+        "downloading_label": "Downloading…",
+        "download_error": "The download could not start. Use View catalogue to open and save the PDF.",
+        "new_tab_label": "opens in a new tab",
+        "format_label": "PDF",
+        "pages_label": "pages",
+        "filter_label": "Filter catalogues by category",
+        "all_label": "All catalogues",
+        "collection_label": "Collections",
+        "exhibition_label": "Exhibitions",
+        "artist_label": "Artist edits",
+        "search_label": "Search catalogues",
+        "search_placeholder": "Search titles, artists, materials…",
+        "results_pattern": "[shown] of [total] catalogues",
+        "empty_heading": "A different starting point.",
+        "empty_text": "Try another title, artist or material, or explore all catalogues.",
+        "reset_label": "Show all catalogues",
+        "more_label": "More catalogues",
+        "pending_label": "Catalogue coming soon",
+        "untitled_label": "New catalogue",
+        "footer_eyebrow": "FROM THE PAGE TO YOUR SPACE",
+        "footer_heading": "Something caught your eye?",
+        "footer_text": "Share the catalogue and the piece with us. We can help you explore the details, availability and how it might fit into your space.",
+        "footer_button": "Talk to The Raw House",
         "footer_link": "/pages/contact"
       }
     }
