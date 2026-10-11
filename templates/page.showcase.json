@@ -59,100 +59,6 @@
         "padding-block-end": 60
       }
     },
-    "upcoming_events": {
-      "type": "upcoming-events",
-      "blocks": {
-        "event_1": {
-          "type": "event",
-          "settings": {
-            "image": "shopify://shop_images/SaveInta.com_796194958_17942641302351030_6837850481313780954_n.webp",
-            "image_mobile": "shopify://shop_images/SaveInta.com_796194958_17942641302351030_6837850481313780954_n.webp",
-            "image_2": "shopify://shop_images/SaveInta.com_818335080_17942641413351030_3844832392921303270_n.webp",
-            "image_3": "shopify://shop_images/SaveInta.com_818931821_17942641362351030_8091899805690876995_n.webp",
-            "image_4": "shopify://shop_images/SaveInta.com_819062194_17942641314351030_4110936156975998170_n.webp",
-            "image_5": "shopify://shop_images/SaveInta.com_805486104_17942641500351030_5239037061994435484_n.webp",
-            "image_label_1": "",
-            "image_label_2": "",
-            "image_label_3": "",
-            "image_label_4": "",
-            "image_label_5": "",
-            "default_asset": "",
-            "badge": "",
-            "date_label": "22 - 24 September",
-            "time_label": "",
-            "title": "The Raw House Showcase Indore",
-            "location": "Indore, India",
-            "text": "<p>We’re taking The Raw House to a new city. Our first-ever showcase in Indore, bringing together an edit of Indian design, art, craft and contemporary practices. The first chapter of The Raw House City Connects.</p><p>The Grand Hall at Brilliant Convention Centre, Indore</p>",
-            "cta_label": "",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "event_1"
-      ],
-      "settings": {
-        "eyebrow": "THE RAW HOUSE",
-        "heading_primary": "Events",
-        "heading_accent": "& Exhibitions",
-        "intro": "<p>Join us for curated exhibitions, previews and intimate design gatherings.</p>",
-        "show_ornament": false,
-        "header_align": "left",
-        "container_max": 1340,
-        "card_gap": 12,
-        "card_gap_m": 12,
-        "image_ratio": "3/4",
-        "image_fit": "cover",
-        "card_radius": 0,
-        "eyebrow_size": 10,
-        "heading_size": 56,
-        "intro_size": 17,
-        "image_label_size": 12,
-        "badge_size": 11,
-        "date_size": 11,
-        "event_title_size": 42,
-        "location_size": 14,
-        "description_size": 17,
-        "button_size": 12,
-        "eyebrow_size_m": 10,
-        "heading_size_m": 46,
-        "intro_size_m": 15,
-        "image_label_size_m": 10,
-        "badge_size_m": 10,
-        "date_size_m": 10,
-        "event_title_size_m": 40,
-        "location_size_m": 12,
-        "description_size_m": 15,
-        "button_size_m": 11,
-        "color_bg": "#ffffff",
-        "color_eyebrow": "#b08d57",
-        "color_heading_primary": "#221c17",
-        "color_heading_accent": "#b08d57",
-        "color_intro": "#3d3730",
-        "color_date": "#b08d57",
-        "color_event_title": "#221c17",
-        "color_location": "#7b7268",
-        "color_text": "#2f2923",
-        "color_image_label": "#ffffff",
-        "color_accent": "#b08d57",
-        "color_border": "#b08d57",
-        "card_bg": "#eee8df",
-        "card_border": "#d6c3a1",
-        "badge_bg": "#dfbf86",
-        "badge_text": "#2b170c",
-        "button_bg": "#111111",
-        "button_text": "#ffffff",
-        "button_border": "#111111",
-        "padding_top": 56,
-        "padding_bottom": 76,
-        "padding_top_m": 48,
-        "padding_bottom_m": 64,
-        "container_padding": 32,
-        "container_padding_m": 16,
-        "anchor_id": "upcoming-events",
-        "custom_class": ""
-      }
-    },
     "trust_features": {
       "type": "luxury-trust-features",
       "disabled": true,
@@ -210,11 +116,134 @@
         "padding_top": 56,
         "padding_bottom": 52
       }
+    },
+    "city_intro": {
+      "type": "showcase-city-header",
+      "settings": {
+        "eyebrow": "THE RAW HOUSE / SHOWCASES",
+        "heading": "City",
+        "heading_second": "Connects.",
+        "description": "<p>Indian design, art and craft, brought together in a new city. A series of showcases, conversations and encounters by The Raw House.</p>",
+        "signature": "A new city. A shared appreciation.",
+        "index_label": "EXPLORE THE CHAPTERS"
+      }
+    },
+    "city_indore": {
+      "type": "showcase-city",
+      "blocks": {
+        "installation": {
+          "type": "photograph",
+          "settings": {
+            "caption": "An edit of Indian design",
+            "alt": "Art, furniture and textiles displayed together at The Raw House showcase in Indore",
+            "image": "shopify://shop_images/Copy_of_0X4A7741.jpg"
+          }
+        },
+        "discovery": {
+          "type": "photograph",
+          "settings": {
+            "caption": "A closer look",
+            "alt": "Visitors discovering objects and craft at the Indore showcase",
+            "image": "shopify://shop_images/0X4A7869.jpg"
+          }
+        },
+        "design_conversation": {
+          "type": "film",
+          "settings": {
+            "video_source": "https://therawhouse.in/cdn/shop/t/4/assets/trh-indore-design-conversation.mp4",
+            "image": "shopify://shop_images/trh-indore-design-conversation-poster.jpg",
+            "caption": "Conversations on design",
+            "alt": "A design conversation recorded at the Indore showcase"
+          }
+        },
+        "art": {
+          "type": "photograph",
+          "settings": {
+            "caption": "Art in the everyday",
+            "alt": "Contemporary art on display at the Indore showcase",
+            "image": "shopify://shop_images/Copy_of_0X4A7750.jpg"
+          }
+        },
+        "objects": {
+          "type": "photograph",
+          "settings": {
+            "caption": "Material, light & detail",
+            "alt": "Lighting and objects in the Indore exhibition",
+            "image": "shopify://shop_images/Copy_of_0X4A7752.jpg"
+          }
+        },
+        "alchemy": {
+          "type": "film",
+          "settings": {
+            "video_source": "https://therawhouse.in/cdn/shop/t/4/assets/trh-indore-alchemy.mp4",
+            "image": "shopify://shop_images/trh-indore-alchemy-poster.jpg",
+            "caption": "Alchemy — a moment in film",
+            "alt": "A short Alchemy film from the Indore showcase"
+          }
+        },
+        "conversations": {
+          "type": "photograph",
+          "settings": {
+            "caption": "Objects that start conversations",
+            "alt": "Guests in conversation beside the art display in Indore",
+            "image": "shopify://shop_images/0X4A7931.jpg"
+          }
+        },
+        "arrival": {
+          "type": "photograph",
+          "settings": {
+            "caption": "A new city, a new chapter",
+            "alt": "The arrival space of The Raw House showcase in Indore",
+            "image": "shopify://shop_images/Copy_of_0X4A7743.jpg"
+          }
+        },
+        "community": {
+          "type": "photograph",
+          "settings": {
+            "caption": "A shared appreciation",
+            "alt": "Visitors exploring Indian craft together at the Indore showcase",
+            "image": "shopify://shop_images/0X4A8334.jpg"
+          }
+        },
+        "gathering": {
+          "type": "photograph",
+          "settings": {
+            "caption": "The city comes together",
+            "alt": "Guests meeting and exploring the Indore showcase",
+            "image": "shopify://shop_images/0X4A8526.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "art",
+        "discovery",
+        "design_conversation",
+        "installation",
+        "objects",
+        "alchemy",
+        "conversations",
+        "arrival",
+        "community",
+        "gathering"
+      ],
+      "settings": {
+        "chapter": "CITY CONNECTS / CHAPTER 01",
+        "city": "Indore",
+        "subtitle": "The first chapter",
+        "description": "<p>Our first showcase in Indore brought together an edit of Indian design, art, craft and contemporary practices. A meeting of objects, ideas and people — and the beginning of The Raw House City Connects.</p>",
+        "date": "22–24 September",
+        "venue": "The Grand Hall, Brilliant Convention Centre, Indore",
+        "gallery_label": "MOMENTS FROM THE SHOWCASE",
+        "gallery_note": "Spaces, details & conversations",
+        "film_label": "FILM",
+        "empty_label": "Select a photograph or upload a film to begin the gallery."
+      }
     }
   },
   "order": [
     "main",
-    "upcoming_events",
+    "city_intro",
+    "city_indore",
     "trust_features",
     "vip_newsletter",
     "collection_hero_banner_FFfX33"
