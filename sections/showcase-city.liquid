@@ -1,0 +1,159 @@
+{{ 'showcase-cities.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'showcase-cities.js' | asset_url }}" defer></script>
+
+{%- liquid
+  assign media_count = 0
+  for block in section.blocks
+    assign has_media = false
+    if block.type == 'photograph' and block.settings.image != blank
+      assign has_media = true
+    elsif block.type == 'film'
+      if block.settings.video != blank or block.settings.video_source != blank
+        assign has_media = true
+      endif
+    endif
+    if has_media
+      assign media_count = media_count | plus: 1
+    endif
+  endfor
+-%}
+
+<city-showcase
+  id="City-{{ section.id }}"
+  class="city-showcase"
+  data-city-name="{{ section.settings.city | escape }}"
+  aria-labelledby="CityTitle-{{ section.id }}"
+>
+  <div class="city-showcase__container">
+    <div class="city-showcase__story">
+      <div class="city-showcase__title-group">
+        <h2 id="CityTitle-{{ section.id }}" class="city-showcase__title">{{ section.settings.city | escape }}<span aria-hidden="true">.</span></h2>
+      </div>
+      <div class="city-showcase__narrative">
+        <div class="city-showcase__description">{{ section.settings.description }}</div>
+        <div class="city-showcase__details">
+          {% if section.settings.date != blank %}<p>{{ section.settings.date | escape }}</p>{% endif %}
+          {% if section.settings.venue != blank %}<p>{{ section.settings.venue | escape }}</p>{% endif %}
+        </div>
+      </div>
+    </div>
+
+    {% if media_count > 0 %}
+      <div
+        id="CityTrack-{{ section.id }}"
+        class="city-showcase__track"
+        data-city-track
+        role="region"
+        aria-label="{{ section.settings.city | escape }} — {{ 'accessibility.slideshow' | t }}"
+        tabindex="0"
+      >
+        {%- assign media_index = 0 -%}
+        {% for block in section.blocks %}
+          {%- liquid
+            assign has_media = false
+            if block.type == 'photograph' and block.settings.image != blank
+              assign has_media = true
+            elsif block.type == 'film'
+              if block.settings.video != blank or block.settings.video_source != blank
+                assign has_media = true
+              endif
+            endif
+          -%}
+          {% if has_media %}
+            {%- liquid
+              assign media_index = media_index | plus: 1
+              assign caption = block.settings.caption
+              assign media_alt = block.settings.alt | default: caption | default: section.settings.city
+              assign image_loading = 'lazy'
+              if media_index == 1 and section.index < 4
+                assign image_loading = 'eager'
+              endif
+              assign poster = block.settings.image | default: block.settings.video.preview_image
+            -%}
+            <figure class="city-showcase__slide{% if block.type == 'film' %} city-showcase__slide--film{% elsif block.settings.image.aspect_ratio < 1 %} city-showcase__slide--portrait{% endif %}" data-city-slide {{ block.shopify_attributes }}>
+              <div class="city-showcase__media">
+                {% if block.type == 'film' %}
+                  {% if block.settings.video != blank %}
+                    {{ block.settings.video | video_tag: image_size: '1600x', controls: true, autoplay: false, loop: false, preload: 'none', playsinline: true, class: 'city-showcase__video', aria-label: media_alt }}
+                  {% elsif block.settings.video_source != blank %}
+                    <video class="city-showcase__video" controls playsinline preload="none" aria-label="{{ media_alt | escape }}"{% if poster != blank %} poster="{{ poster | image_url: width: 1600 }}"{% endif %}>
+                      <source src="{{ block.settings.video_source | escape }}" type="video/mp4">
+                    </video>
+                  {% endif %}
+                  <span class="city-showcase__film-label">{{ section.settings.film_label | escape }}</span>
+                {% elsif block.settings.image != blank %}
+                  {{ block.settings.image | image_url: width: 2200 | image_tag: widths: '480, 750, 1100, 1600, 2200', sizes: '(min-width: 1400px) 880px, (min-width: 750px) 65vw, 88vw', loading: image_loading, alt: media_alt, class: 'city-showcase__image' }}
+                  <button class="city-showcase__zoom city-showcase__button" type="button" aria-label="{{ 'actions.open_image_in_full_screen' | t }} — {{ media_alt | escape }}" data-city-zoom hidden>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M9 3H3v6m12-6h6v6M3 15v6h6m12-6v6h-6"/></svg>
+                  </button>
+                {% endif %}
+              </div>
+              <figcaption class="city-showcase__caption"><span>{{ media_index | prepend: '0' | slice: -2, 2 }}</span>{{ caption | escape }}</figcaption>
+            </figure>
+          {% elsif request.design_mode %}
+            <div class="city-showcase__empty" {{ block.shopify_attributes }}>{{ block.settings.caption | escape }} — {{ section.settings.empty_label | escape }}</div>
+          {% endif %}
+        {% endfor %}
+      </div>
+      <div class="city-showcase__controls" data-city-controls hidden>
+        <span class="city-showcase__counter" aria-hidden="true"><span data-city-current>01</span><span class="city-showcase__counter-divider">/</span>{{ media_count | prepend: '0' | slice: -2, 2 }}</span>
+        <span class="city-showcase__progress" aria-hidden="true"><span data-city-progress></span></span>
+        <div class="city-showcase__arrows">
+          <button class="city-showcase__arrow city-showcase__button" type="button" data-city-prev aria-controls="CityTrack-{{ section.id }}" aria-label="{{ 'accessibility.slideshow_previous' | t }}" disabled><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M20 12H4m6-6-6 6 6 6"/></svg></button>
+          <button class="city-showcase__arrow city-showcase__button" type="button" data-city-next aria-controls="CityTrack-{{ section.id }}" aria-label="{{ 'accessibility.slideshow_next' | t }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="M4 12h16m-6-6 6 6-6 6"/></svg></button>
+        </div>
+        <span class="city-showcase__sr" aria-live="polite" data-city-status data-status-template="{{ 'accessibility.slide_status' | t: index: '[index]', length: media_count }}"></span>
+      </div>
+      <dialog class="city-showcase__dialog" aria-label="{{ section.settings.city | escape }} — {{ 'accessibility.slideshow' | t }}" data-city-dialog>
+        <button class="city-showcase__dialog-close city-showcase__button" type="button" data-city-close aria-label="{{ 'actions.close' | t }}"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true"><path d="m6 6 12 12M6 18 18 6"/></svg></button>
+        <div class="city-showcase__dialog-image" data-city-dialog-image></div>
+        <p data-city-dialog-caption></p>
+      </dialog>
+    {% elsif request.design_mode %}
+      <p class="city-showcase__empty">{{ section.settings.empty_label | escape }}</p>
+    {% endif %}
+  </div>
+</city-showcase>
+
+{% schema %}
+{
+  "name": "City showcase",
+  "tag": "section",
+  "class": "section-city-showcase",
+  "max_blocks": 50,
+  "settings": [
+    { "type": "paragraph", "content": "Add or duplicate this section for each city. A city tab is created automatically. Keep the description short, then add and reorder Photograph and Film blocks." },
+    { "type": "text", "id": "city", "label": "City", "default": "Indore" },
+    { "type": "richtext", "id": "description", "label": "City description", "default": "<p>Our first showcase in Indore, with Indian art, furniture and craft.</p>" },
+    { "type": "text", "id": "date", "label": "Event date", "default": "22–24 September" },
+    { "type": "text", "id": "venue", "label": "Venue", "default": "Brilliant Convention Centre, Indore" },
+    { "type": "header", "content": "Gallery labels" },
+    { "type": "text", "id": "film_label", "label": "Film badge", "default": "FILM" },
+    { "type": "text", "id": "empty_label", "label": "Editor empty media message", "default": "Select a photograph or upload a film to begin the gallery." }
+  ],
+  "blocks": [
+    {
+      "type": "photograph",
+      "name": "Photograph",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Photograph" },
+        { "type": "text", "id": "caption", "label": "Caption" },
+        { "type": "text", "id": "alt", "label": "Image description", "info": "Describe the photograph for screen readers." }
+      ]
+    },
+    {
+      "type": "film",
+      "name": "Film",
+      "settings": [
+        { "type": "video", "id": "video", "label": "Shopify hosted film", "info": "Select a video from Content → Files. Playback starts only when the visitor chooses to play." },
+        { "type": "url", "id": "video_source", "label": "MP4 link (optional alternative)", "info": "A direct Shopify CDN MP4 URL. Use the hosted film picker when possible." },
+        { "type": "image_picker", "id": "image", "label": "Poster for an MP4 link" },
+        { "type": "text", "id": "caption", "label": "Caption" },
+        { "type": "text", "id": "alt", "label": "Film description" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "City showcase", "blocks": [{"type": "photograph"}, {"type": "photograph"}, {"type": "film"}] }],
+  "enabled_on": { "templates": ["page"] }
+}
+{% endschema %}
