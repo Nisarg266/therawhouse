@@ -76,7 +76,7 @@
     --luxp-image-h: {{ s.image_height | default: 560 }}px;
     --luxp-image-h-m: {{ s.image_height_mobile | default: 280 }}px;
   "
-  {% if s.anchor_id != blank %}id="{{ s.anchor_id }}"{% endif %}
+  {% if s.anchor_id != blank %}id="{{ s.anchor_id | escape }}"{% endif %}
   data-art-motion="off"
   {{ section.shopify_attributes }}
 >
@@ -84,11 +84,11 @@
   <div class="luxp-container">
     <div class="luxp-split__content {% if s.text_align != 'left' %}luxp-split__content--center{% endif %} luxp-manifesto__inner">
       {% if s.eyebrow != blank %}
-        <p class="luxp-eyebrow luxp-r" style="--ri: 0;">{{ s.eyebrow }}</p>
+        <p class="luxp-eyebrow luxp-r" style="--ri: 0;">{{ s.eyebrow | escape }}</p>
       {% endif %}
 
       {% if s.heading != blank %}
-        <h2 class="luxp-heading luxp-r" style="--ri: 0;">{{ s.heading }}</h2>
+        <h2 class="luxp-heading luxp-r" style="--ri: 0;">{{ s.heading | escape }}</h2>
       {% endif %}
 
       {% if s.show_ornament %}
@@ -111,7 +111,7 @@
             -%}
             {%- if block.settings.icon_image != blank -%}
               <a
-                href="{{ social_href }}"
+                href="{{ social_href | escape }}"
                 class="luxp-social {% if s.social_shape == 'none' %}luxp-social--bare{% endif %}"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -130,7 +130,7 @@
               </a>
             {%- else -%}
               <a
-                href="{{ social_href }}"
+                href="{{ social_href | escape }}"
                 class="luxp-social {% if s.social_shape == 'none' %}luxp-social--bare{% endif %}"
                 target="_blank"
                 rel="noopener noreferrer"

@@ -11,6 +11,7 @@
   var group = document.getElementById('header-group');
   if (!group) return;
   var hasHomeHero = !!document.querySelector('#MainContent > .section-luxp-hero:first-child');
+  var pageWrapper = document.querySelector('.page-wrapper');
 
   var lastScrollY = 0;
   var isHidden = false;
@@ -18,7 +19,6 @@
   var scrollThreshold = 6;
 
   function getScrollY() {
-    var pageWrapper = document.querySelector('.page-wrapper');
     var pwTop = pageWrapper ? pageWrapper.scrollTop : 0;
     var winTop = window.scrollY !== undefined ? window.scrollY : (window.pageYOffset || 0);
     var docTop = document.documentElement ? document.documentElement.scrollTop : 0;
@@ -60,18 +60,17 @@
 
   function update() {
     ticking = false;
+    var currentY = getScrollY();
 
     // The home hero sits behind the header only at the top of the page.
-    if (hasHomeHero) group.classList.toggle('header--hero-solid', getScrollY() > 12);
+    if (hasHomeHero) group.classList.toggle('header--hero-solid', currentY > 12);
 
     // Keep visible while menu, cart, or search is open, or during hover on pointer devices
     if (isInteracting()) {
       setHidden(false);
-      lastScrollY = getScrollY();
+      lastScrollY = currentY;
       return;
     }
-
-    var currentY = getScrollY();
 
     // Clamp iOS top rubber-band overscroll
     if (currentY < 0) currentY = 0;
@@ -106,7 +105,6 @@
 
   // Support both mobile window scrolls and desktop page-wrapper scrolls
   window.addEventListener('scroll', onScroll, { passive: true, capture: true });
-  document.addEventListener('scroll', onScroll, { passive: true, capture: true });
   window.addEventListener('touchmove', onScroll, { passive: true });
   window.addEventListener('resize', onScroll, { passive: true });
 

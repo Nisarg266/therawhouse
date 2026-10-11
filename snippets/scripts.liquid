@@ -278,7 +278,7 @@
   ></script>
   <script type="module">
     import { RecentlyViewed } from '@theme/recently-viewed-products';
-    RecentlyViewed.addProduct('{{ product.id }}');
+    RecentlyViewed.addProduct({{ product.id | append: '' | json }});
   </script>
 {% endif %}
 

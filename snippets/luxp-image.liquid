@@ -33,7 +33,10 @@
 {%- liquid
   assign img_loading = loading | default: 'lazy'
   assign img_sizes = sizes | default: '(min-width: 1024px) 33vw, (min-width: 750px) 50vw, 100vw'
-  assign img_alt = alt | escape
+  assign img_alt = alt
+  if alt == nil
+    assign img_alt = image.alt | default: image_mobile.alt | default: ''
+  endif
   assign has_mobile = false
   if image_mobile != blank and image != blank and image_mobile != image
     assign has_mobile = true
@@ -68,13 +71,13 @@
       >
       <img
         src="{{ image | image_url: width: 1100 }}"
-        alt="{{ img_alt }}"
+        alt="{{ img_alt | escape }}"
         loading="{{ img_loading }}"
         {% if fetchpriority != blank %}fetchpriority="{{ fetchpriority }}"{% endif %}
         decoding="async"
         width="{{ image.width }}"
         height="{{ image.height }}"
-        class="{{ class }}"
+        class="{{ class | escape }}"
       >
     </picture>
   {%- else -%}
@@ -107,13 +110,13 @@
 {%- elsif fallback != blank -%}
   <img
     src="{{ fallback | asset_url }}"
-    alt="{{ fallback_alt | default: img_alt }}"
+    alt="{{ fallback_alt | default: img_alt | escape }}"
     loading="{{ img_loading }}"
     {% if fetchpriority != blank %}fetchpriority="{{ fetchpriority }}"{% endif %}
     decoding="async"
     width="800"
     height="800"
-    class="{{ class }}"
+    class="{{ class | escape }}"
     onerror="this.onerror=null;this.src='{{ 'art-painting-gold-canvas.jpg' | asset_url }}';"
   >
 {%- else -%}
