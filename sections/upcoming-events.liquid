@@ -24,6 +24,10 @@
   endif
 -%}
 
+{% if template.name == 'page' and template.suffix == 'showcase' %}
+  {{ 'showcase-editorial.css' | asset_url | stylesheet_tag }}
+{% endif %}
+
 <section
   class="trh-events {{ s.custom_class }}"
   style="

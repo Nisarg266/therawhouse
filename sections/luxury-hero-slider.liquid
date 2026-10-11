@@ -36,7 +36,7 @@
 {%- capture luxp_typo -%}{%- render 'luxp-typo', s: s -%}{%- endcapture -%}
 
 <div
-  class="luxp-hero luxp-hero--natural {% if s.enable_animations %}luxp-anim{% endif %} {{ s.custom_class }}"
+  class="luxp-hero luxp-hero--natural {% if s.enable_animations %}luxp-anim{% endif %} {{ s.custom_class | escape }}"
   data-luxp-hero
   data-luxp-autoplay="{{ s.autoplay }}"
   data-luxp-speed="{{ s.autoplay_speed | default: 6 }}"
@@ -64,7 +64,7 @@
     --luxp-hero-btn-bg-h: {% if s.btn_bg_hover != blank and s.btn_bg_hover != 'rgba(0,0,0,0)' %}{{ s.btn_bg_hover }}{% else %}#ffffff{% endif %};
     --luxp-hero-btn-fg-h: {% if s.btn_text_hover != blank and s.btn_text_hover != 'rgba(0,0,0,0)' %}{{ s.btn_text_hover }}{% else %}#111111{% endif %};
   "
-  {% if s.anchor_id != blank %}id="{{ s.anchor_id }}"{% endif %}
+  {% if s.anchor_id != blank %}id="{{ s.anchor_id | escape }}"{% endif %}
   data-art-motion="off"
   {{ section.shopify_attributes }}
 >
@@ -77,19 +77,19 @@
           assign slide_loading = 'eager'
           assign slide_priority = 'high'
         endif
+        assign slide_label = 'accessibility.slide_status' | t: index: forloop.index, length: section.blocks.size
+        assign slide_alt = block.settings.image_alt | default: block.settings.image.alt | default: block.settings.image_mobile.alt | default: block.settings.heading | default: slide_label
       -%}
       <div
         class="luxp-hero__slide {% if forloop.first %}luxp-hero__slide--active{% endif %}"
         data-luxp-slide
         data-header-tone="{{ block.settings.header_tone | default: 'light' }}"
         role="group"
-        aria-roledescription="slide"
-        aria-label="{{ forloop.index }} / {{ section.blocks.size }}"
+        aria-label="{{ slide_label | escape }}"
         {% unless forloop.first %}inert{% endunless %}
         {{ block.shopify_attributes }}
       >
         <div class="luxp-hero__media">
-          {%- assign slide_alt = block.settings.heading | default: 'Hero slide' -%}
           {% render 'luxp-image',
             image: block.settings.image,
             image_mobile: block.settings.image_mobile,
@@ -117,7 +117,7 @@
         {%- assign slide_link = block.settings.button_link | default: block.settings.button_2_link -%}
         {% if block.settings.button_label == blank and block.settings.button_2_label == blank and slide_link != blank %}
           <a
-            href="{{ slide_link }}"
+            href="{{ slide_link | escape }}"
             class="luxp-hero__slide-link"
             aria-label="{{ slide_alt | escape }}"
           ></a>
@@ -128,30 +128,30 @@
           <div class="luxp-container">
             <div class="luxp-hero__content luxp-hero__content--{{ slide_align }}">
               {% if block.settings.subheading != blank %}
-                <p class="luxp-eyebrow">{{ block.settings.subheading }}</p>
+                <p class="luxp-eyebrow">{{ block.settings.subheading | escape }}</p>
               {% endif %}
               {% if block.settings.heading != blank %}
-                <h1 class="luxp-hero__heading">{{ block.settings.heading }}</h1>
+                <h1 class="luxp-hero__heading">{{ block.settings.heading | escape }}</h1>
               {% endif %}
               {% if block.settings.description != blank %}
-                <p class="luxp-hero__desc">{{ block.settings.description }}</p>
+                <p class="luxp-hero__desc">{{ block.settings.description | escape }}</p>
               {% endif %}
               {% if block.settings.button_label != blank or block.settings.button_2_label != blank %}
                 <div class="luxp-hero__buttons">
                   {% if block.settings.button_label != blank %}
                     <a
-                      href="{{ block.settings.button_link | default: routes.all_products_collection_url }}"
+                      href="{{ block.settings.button_link | default: routes.all_products_collection_url | escape }}"
                       class="luxp-btn {% if s.btn_mobile_full %}luxp-btn--mobile-full{% endif %}"
                     >
-                      {{ block.settings.button_label }}
+                      {{ block.settings.button_label | escape }}
                     </a>
                   {% endif %}
                   {% if block.settings.button_2_label != blank %}
                     <a
-                      href="{{ block.settings.button_2_link | default: routes.all_products_collection_url }}"
+                      href="{{ block.settings.button_2_link | default: routes.all_products_collection_url | escape }}"
                       class="luxp-btn {% if s.btn_mobile_full %}luxp-btn--mobile-full{% endif %}"
                     >
-                      {{ block.settings.button_2_label }}
+                      {{ block.settings.button_2_label | escape }}
                     </a>
                   {% endif %}
                 </div>
@@ -165,17 +165,17 @@
 
   {% if section.blocks.size > 1 %}
     {% if s.show_arrows %}
-      <button type="button" class="luxp-hero__arrow luxp-hero__arrow--prev" data-luxp-prev aria-label="Previous slide">
+      <button type="button" class="luxp-hero__arrow luxp-hero__arrow--prev" data-luxp-prev aria-label="{{ 'accessibility.slideshow_previous' | t | escape }}">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M19 12H5"/><path d="M11 6l-6 6 6 6"/></svg>
       </button>
-      <button type="button" class="luxp-hero__arrow luxp-hero__arrow--next" data-luxp-next aria-label="Next slide">
+      <button type="button" class="luxp-hero__arrow luxp-hero__arrow--next" data-luxp-next aria-label="{{ 'accessibility.slideshow_next' | t | escape }}">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
       </button>
     {% endif %}
     {% if s.show_dots %}
-      <div class="luxp-hero__dots" data-luxp-dots role="tablist" aria-label="Slides">
+      <div class="luxp-hero__dots" data-luxp-dots role="group" aria-label="{{ 'accessibility.slideshow' | t | escape }}">
         {% for block in section.blocks %}
-          <button type="button" class="luxp-hero__dot {% if forloop.first %}luxp-hero__dot--active{% endif %}" aria-label="Go to slide {{ forloop.index }}"></button>
+          <button type="button" class="luxp-hero__dot {% if forloop.first %}luxp-hero__dot--active{% endif %}" aria-label="{{ 'accessibility.slide_status' | t: index: forloop.index, length: section.blocks.size | escape }}"></button>
         {% endfor %}
       </div>
     {% endif %}
@@ -188,6 +188,7 @@
   }
 
   .luxp-hero--natural .luxp-hero__track {
+    touch-action: pan-y pinch-zoom;
     height: auto !important;
     min-height: 0 !important;
     align-items: flex-start;
@@ -379,6 +380,7 @@
       "settings": [
         { "type": "image_picker", "id": "image", "label": "Desktop image" },
         { "type": "image_picker", "id": "image_mobile", "label": "Mobile image", "info": "Optional separate image shown below 750px." },
+        { "type": "text", "id": "image_alt", "label": "Image description", "info": "Used by screen readers. Leave blank to use the image's alt text or slide heading." },
         { "type": "text", "id": "default_asset", "label": "Fallback asset filename", "info": "Theme asset used when no image is uploaded.", "default": "hero-slide-1.jpg" },
         { "type": "text", "id": "subheading", "label": "Eyebrow / subheading" },
         { "type": "text", "id": "heading", "label": "Heading" },

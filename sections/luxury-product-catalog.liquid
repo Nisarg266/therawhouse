@@ -96,7 +96,7 @@
   "
   data-luxp-collapsible
   data-luxp-expanded="false"
-  {% if s.anchor_id != blank %}id="{{ s.anchor_id }}"{% endif %}
+  {% if s.anchor_id != blank %}id="{{ s.anchor_id | escape }}"{% endif %}
   data-art-motion="off"
   {{ section.shopify_attributes }}
 >
@@ -104,10 +104,10 @@
     {% if s.eyebrow != blank or s.heading != blank or s.intro != blank or s.show_ornament %}
       <header class="luxp-header luxp-header--{{ s.header_align | default: 'center' }}">
         {% if s.eyebrow != blank %}
-          <p class="luxp-eyebrow">{{ s.eyebrow }}</p>
+          <p class="luxp-eyebrow">{{ s.eyebrow | escape }}</p>
         {% endif %}
         {% if s.heading != blank %}
-          <h2 class="luxp-heading">{{ s.heading }}</h2>
+          <h2 class="luxp-heading">{{ s.heading | escape }}</h2>
         {% endif %}
         {% if s.show_ornament %}
           <div class="luxp-ornament" aria-hidden="true">
@@ -125,8 +125,8 @@
     <div class="luxp-grid luxp-catalog__grid">
       {% for block in section.blocks %}
         {%- liquid
-          assign cover_alt = block.settings.alt | default: 'Catalog cover'
           assign cover_name = block.settings.title | default: block.settings.alt | default: block.settings.default_asset
+          assign cover_alt = block.settings.alt | default: block.settings.image.alt | default: block.settings.image_mobile.alt | default: cover_name | default: 'Catalog cover' | replace: '_', ' '
           assign cover_link = block.settings.link | default: routes.all_products_collection_url
           assign cover_action = 'View catalog'
           if block.settings.icon_type == 'download'
@@ -134,7 +134,7 @@
           endif
         -%}
         <a
-          href="{{ cover_link }}"
+          href="{{ cover_link | escape }}"
           class="luxp-card luxp-catalog__card {% if forloop.index > initial %}luxp-toggle-hidden{% endif %}"
           {% if s.open_links_new_tab %}target="_blank" rel="noopener noreferrer"{% endif %}
           aria-label="{{ cover_action }}{% if cover_name != blank %}: {{ cover_name | replace: '_', ' ' | escape }}{% endif %}"
@@ -146,7 +146,7 @@
                 class="luxp-colcard__pill luxp-pill"
                 style="{% if block.settings.badge_bg != blank %}background: {{ block.settings.badge_bg }} !important;{% endif %}{% if block.settings.badge_color != blank %}color: {{ block.settings.badge_color }} !important;{% endif %}"
               >
-                {{- block.settings.badge -}}
+                {{- block.settings.badge | escape -}}
               </span>
             {% endif %}
             {% render 'luxp-image',
@@ -160,8 +160,8 @@
             %}
             {% if block.settings.title != blank or block.settings.subtitle != blank %}
               <div class="luxp-catalog__caption">
-                {% if block.settings.title != blank %}<span class="luxp-catalog__caption-title">{{ block.settings.title }}</span>{% endif %}
-                {% if block.settings.subtitle != blank %}<span class="luxp-catalog__caption-sub">{{ block.settings.subtitle }}</span>{% endif %}
+                {% if block.settings.title != blank %}<span class="luxp-catalog__caption-title">{{ block.settings.title | escape }}</span>{% endif %}
+                {% if block.settings.subtitle != blank %}<span class="luxp-catalog__caption-sub">{{ block.settings.subtitle | escape }}</span>{% endif %}
               </div>
             {% endif %}
             {% if block.settings.show_view_icon %}
@@ -189,11 +189,11 @@
           type="button"
           class="luxp-btn {% if s.btn_style == 'outline' %}luxp-btn--outline{% endif %} luxp-toggle-btn"
           data-luxp-toggle
-          data-luxp-more="{{ s.view_more_text | default: 'VIEW MORE' }}"
-          data-luxp-less="{{ s.view_less_text | default: 'VIEW LESS' }}"
+          data-luxp-more="{{ s.view_more_text | default: 'VIEW MORE' | escape }}"
+          data-luxp-less="{{ s.view_less_text | default: 'VIEW LESS' | escape }}"
           aria-expanded="false"
         >
-          {{ s.view_more_text | default: 'VIEW MORE' }}
+          {{ s.view_more_text | default: 'VIEW MORE' | escape }}
         </button>
       </div>
     {% endif %}
