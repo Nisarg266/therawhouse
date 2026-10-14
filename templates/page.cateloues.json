@@ -126,6 +126,21 @@
             "file_size": "4.4 MB",
             "keywords": "wood furniture materials dining table"
           }
+        },
+        "catalogue_iGHmcU": {
+          "type": "catalogue",
+          "settings": {
+            "title": "Ahemdabad Art Week",
+            "description": "The Raw House and Nexus Art Gallery are pleased to present\nAhmedabad Art Week: A City. A Dialogue. A New Generation of Art.",
+            "creator": "",
+            "category": "collection",
+            "image": "shopify://shop_images/Screenshot_2026-10-14_164645.png",
+            "default_cover": "none",
+            "pdf_url": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/Ahmedabad_Art_Week_TRH_compressed_compressed_compressed.pdf?v=1791976750",
+            "page_count": 77,
+            "file_size": "10.5",
+            "keywords": ""
+          }
         }
       },
       "block_order": [
@@ -136,7 +151,8 @@
         "what_objects_become",
         "hinchko",
         "future_in_form",
-        "material_passage"
+        "material_passage",
+        "catalogue_iGHmcU"
       ],
       "settings": {
         "heading": "Catalogues",
