@@ -156,6 +156,38 @@
             "file_size": "6 MB",
             "keywords": ""
           }
+        },
+        "catalogue_HJ4Aey": {
+          "type": "catalogue",
+          "disabled": true,
+          "settings": {
+            "title": "Craft Collective",
+            "description": "The inaugural edition establishes the foundation for a long-term vision of design-led cultural preservation and\ninnovation",
+            "creator": "",
+            "category": "collection",
+            "image": "shopify://shop_images/Screenshot_2026-10-14_170623.png",
+            "default_cover": "none",
+            "pdf_url": "",
+            "page_count": 0,
+            "file_size": "",
+            "keywords": ""
+          }
+        },
+        "catalogue_fVC8Qp": {
+          "type": "catalogue",
+          "disabled": true,
+          "settings": {
+            "title": "Oneiric",
+            "description": "",
+            "creator": "",
+            "category": "collection",
+            "image": "shopify://shop_images/Screenshot_2026-10-14_171038.png",
+            "default_cover": "none",
+            "pdf_url": "",
+            "page_count": 0,
+            "file_size": "",
+            "keywords": ""
+          }
         }
       },
       "block_order": [
@@ -168,7 +200,9 @@
         "future_in_form",
         "material_passage",
         "catalogue_iGHmcU",
-        "catalogue_mXjmw6"
+        "catalogue_mXjmw6",
+        "catalogue_HJ4Aey",
+        "catalogue_fVC8Qp"
       ],
       "settings": {
         "heading": "Catalogues",
