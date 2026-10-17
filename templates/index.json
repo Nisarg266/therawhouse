@@ -387,7 +387,7 @@
         "card_border_width": 0,
         "card_radius": 0,
         "card_shadow": "none",
-        "enable_view_more": true,
+        "enable_view_more": false,
         "initial_items": 6,
         "view_more_text": "VIEW MORE",
         "view_less_text": "VIEW LESS",
