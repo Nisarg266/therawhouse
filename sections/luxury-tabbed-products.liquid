@@ -170,8 +170,14 @@
                 {% endif %}
                 <a href="{{ product.url }}" class="lux-product-title">{{ product.title }}</a>
                 <div class="lux-product-price-row">
-                  <span class="lux-product-price">{% render 'money-inr', amount: product.price %}</span>
-                  {% if product.compare_at_price > product.price %}
+                  <span class="lux-product-price">
+                    {% if product.price == 0 %}
+                      {{ 'content.price_on_request' | t }}
+                    {% else %}
+                      {% render 'money-inr', amount: product.price %}
+                    {% endif %}
+                  </span>
+                  {% if product.price != 0 and product.compare_at_price > product.price %}
                     <span class="lux-product-compare-price">{% render 'money-inr', amount: product.compare_at_price %}</span>
                   {% endif %}
                 </div>
