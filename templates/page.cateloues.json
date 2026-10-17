@@ -174,7 +174,6 @@
         },
         "catalogue_fVC8Qp": {
           "type": "catalogue",
-          "disabled": true,
           "settings": {
             "title": "Oneiric",
             "description": "",
@@ -182,9 +181,9 @@
             "category": "collection",
             "image": "shopify://shop_images/Screenshot_2026-10-14_171038.png",
             "default_cover": "none",
-            "pdf_url": "",
-            "page_count": 0,
-            "file_size": "",
+            "pdf_url": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/Catalogue_-_Oneiric_at_The_Raw_House-compressed.pdf?v=1792228360",
+            "page_count": 95,
+            "file_size": "15 MB",
             "keywords": ""
           }
         }
