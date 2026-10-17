@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero_slider": {
@@ -8,8 +17,8 @@
           "settings": {
             "image": "shopify://shop_images/53680494-2a4f-43c4-92dc-e8a0a8fba65f.png",
             "image_mobile": "shopify://shop_images/ab416121-36c1-42ee-891a-bd78f9ca4411.png",
-            "default_asset": "hero-slide-1.jpg",
             "image_alt": "The Raw Collectables collection",
+            "default_asset": "hero-slide-1.jpg",
             "subheading": "",
             "heading": "",
             "description": "",
@@ -28,8 +37,8 @@
           "settings": {
             "image": "shopify://shop_images/3c2a8f52-358c-4ff6-9e88-f0e441cc7b80.png",
             "image_mobile": "shopify://shop_images/09d6f5fe-7642-4884-bbf4-10dcc31d72ee.png",
-            "default_asset": "hero-slide-2.jpg",
             "image_alt": "The Hinchko collection",
+            "default_asset": "hero-slide-2.jpg",
             "subheading": "",
             "heading": "",
             "description": "",
@@ -48,8 +57,8 @@
           "settings": {
             "image": "shopify://shop_images/68ea042e-b783-454a-9600-bc049ce2595e_6c2e8e34-fdad-4333-802f-ca0c671ef70f.png",
             "image_mobile": "shopify://shop_images/3c2a8f52-358c-4ff6-9e88-f0e441cc7b80_5db0a63b-ad3b-470f-9638-5fa4ee252b88.png",
-            "default_asset": "hero-slide-3.jpg",
             "image_alt": "Material Passage collection",
+            "default_asset": "hero-slide-3.jpg",
             "subheading": "",
             "heading": "",
             "description": "",
@@ -226,7 +235,7 @@
             "badge": "",
             "badge_bg": "#b08d57",
             "badge_color": "#ffffff",
-            "link": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/Hinchko_Catalogue_compressed.pdf?v=1789628194",
+            "link": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/Hinchko_Catalogue.pdf?v=1791973403",
             "show_view_icon": true,
             "icon_type": "arrow"
           }
