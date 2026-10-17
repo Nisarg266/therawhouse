@@ -204,7 +204,7 @@
       ],
       "settings": {
         "heading": "Catalogues",
-        "initial_count": 9,
+        "initial_count": 12,
         "show_download": true,
         "view_label": "View catalogue",
         "download_label": "Download PDF",
