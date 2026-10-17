@@ -159,7 +159,6 @@
         },
         "catalogue_HJ4Aey": {
           "type": "catalogue",
-          "disabled": true,
           "settings": {
             "title": "Craft Collective",
             "description": "The inaugural edition establishes the foundation for a long-term vision of design-led cultural preservation and\ninnovation",
@@ -167,7 +166,7 @@
             "category": "collection",
             "image": "shopify://shop_images/Screenshot_2026-10-14_170623.png",
             "default_cover": "none",
-            "pdf_url": "",
+            "pdf_url": "https://cdn.shopify.com/s/files/1/0851/3044/5056/files/Craft_Collective_India_compressed_20MB.pdf?v=1789645311",
             "page_count": 0,
             "file_size": "",
             "keywords": ""
