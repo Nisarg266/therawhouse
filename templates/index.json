@@ -242,6 +242,7 @@
         },
         "catalog_image_7": {
           "type": "catalog_cover",
+          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/18cc3612-e2a9-4825-84d6-3318be7f2ab6.png",
             "image_mobile": "shopify://shop_images/912c58bf-3a03-4515-9960-faa8a5057e3b.png",
@@ -293,6 +294,7 @@
         },
         "catalog_image_10": {
           "type": "catalog_cover",
+          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/TRP04720.jpg",
             "image_mobile": "shopify://shop_images/TRP04720_resized_604_67x766_4e05c883-e418-4e39-9fbd-e57f15be28ad.jpg",
@@ -310,6 +312,7 @@
         },
         "catalog_image_11": {
           "type": "catalog_cover",
+          "disabled": true,
           "settings": {
             "default_asset": "art-sculpture-rodin-thinker.jpg",
             "title": "",
@@ -325,6 +328,7 @@
         },
         "catalog_image_12": {
           "type": "catalog_cover",
+          "disabled": true,
           "settings": {
             "image": "shopify://shop_images/terracotta_collection_202.66x240.png",
             "image_mobile": "shopify://shop_images/terracotta_collection_368x207_88dfd6b3-f7f1-44aa-8f58-12dcf4183030.png",
