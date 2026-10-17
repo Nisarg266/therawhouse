@@ -13,6 +13,11 @@
   assign selected_variant = product_resource.selected_or_first_available_variant
   assign price = selected_variant.price
   assign compare_at_price = selected_variant.compare_at_price
+  assign price_on_request = false
+
+  if price == 0
+    assign price_on_request = true
+  endif
 
   assign show_compare_price = false
   if compare_at_price > price
@@ -48,6 +53,16 @@
     endif
   endif
 
+  if price_min == 0
+    assign price_on_request = true
+  endif
+
+  if price_on_request
+    assign has_volume_pricing = false
+    assign show_compare_price = false
+    assign price = 'content.price_on_request' | t
+  endif
+
   assign compact_card_price = false
   if template.name == 'collection' and is_product_card
     assign compact_card_price = true
@@ -73,7 +88,10 @@
   endif
 
   # Format all prices
-  if use_inr_symbol
+  if price_on_request
+    assign price_min = blank
+    assign price_max = blank
+  elsif use_inr_symbol
     capture price
       render 'money-inr', amount: price
     endcapture

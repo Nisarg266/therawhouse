@@ -158,6 +158,7 @@
     "price_regular": "정가",
     "price_compare_at": "가격 비교",
     "price_sale": "할인가",
+    "price_on_request": "Price on request",
     "duties_and_taxes_included": "관세 및 세금이 포함된 가격입니다.",
     "duties_included": "관세가 포함된 가격입니다.",
     "shipping_policy_html": "<a href=\"{{ link }}\">배송료</a>는 결제 시 계산됩니다.",

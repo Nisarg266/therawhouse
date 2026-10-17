@@ -160,6 +160,7 @@
     "price_regular": "Preț obișnuit",
     "price_compare_at": "Compararea prețurilor",
     "price_sale": "Preț la ofertă",
+    "price_on_request": "Price on request",
     "duties_and_taxes_included": "Taxele vamale și impozitele sunt incluse.",
     "duties_included": "Taxe vamale incluse.",
     "shipping_policy_html": "<a href=\"{{ link }}\">Taxele de expediere</a> sunt calculate la finalizarea comenzii.",

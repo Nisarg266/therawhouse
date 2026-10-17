@@ -158,6 +158,7 @@
     "price_regular": "Normaalihinta",
     "price_compare_at": "Vertailuhinta",
     "price_sale": "Alennushinta",
+    "price_on_request": "Price on request",
     "duties_and_taxes_included": "Sisältää tullit ja verot.",
     "duties_included": "Sisältää tullit.",
     "shipping_policy_html": "<a href=\"{{ link }}\">Toimituskulut</a> lasketaan kassalla.",

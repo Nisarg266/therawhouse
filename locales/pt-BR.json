@@ -160,6 +160,7 @@
     "price_regular": "Preço normal",
     "price_compare_at": "Comparação de preços",
     "price_sale": "Preço promocional",
+    "price_on_request": "Price on request",
     "duties_and_taxes_included": "Tributos de importação e outros tributos incluídos.",
     "duties_included": "Tributos de importação incluídos.",
     "shipping_policy_html": "<a href=\"{{ link }}\">Frete</a> calculado no checkout.",

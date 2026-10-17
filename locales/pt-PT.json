@@ -160,6 +160,7 @@
     "price_regular": "Preço normal",
     "price_compare_at": "Preço comparado",
     "price_sale": "Preço de saldo",
+    "price_on_request": "Price on request",
     "duties_and_taxes_included": "Encargos e impostos incluídos.",
     "duties_included": "Encargos incluídos.",
     "shipping_policy_html": "<a href=\"{{ link }}\">Envio</a> calculado na finalização da compra.",

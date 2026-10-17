@@ -162,6 +162,7 @@
     "price_regular": "Redna cena",
     "price_compare_at": "Primerjava cene",
     "price_sale": "Znižana cena",
+    "price_on_request": "Price on request",
     "duties_and_taxes_included": "Dajatve in davki vključeni.",
     "duties_included": "Dajatve vključene.",
     "shipping_policy_html": "<a href=\"{{ link }}\">Dostava</a> se obračuna ob zaključku nakupa.",

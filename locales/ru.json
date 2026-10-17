@@ -162,6 +162,7 @@
     "price_regular": "Обычная цена",
     "price_compare_at": "Сравнить по цене",
     "price_sale": "Цена со скидкой",
+    "price_on_request": "Price on request",
     "duties_and_taxes_included": "Пошлины и налоги включены.",
     "duties_included": "Пошлины включены.",
     "shipping_policy_html": "<a href=\"{{ link }}\">Стоимость доставки</a> рассчитывается при оформлении заказа.",

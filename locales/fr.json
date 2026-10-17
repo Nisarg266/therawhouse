@@ -159,6 +159,7 @@
     "price_regular": "Prix régulier",
     "price_compare_at": "Prix avant réduction",
     "price_sale": "Prix promotionnel",
+    "price_on_request": "Price on request",
     "duties_and_taxes_included": "Frais de douane et taxes inclus.",
     "duties_included": "Frais de douane inclus.",
     "shipping_policy_html": "<a href=\"{{ link }}\">Expédition</a> calculée lors du paiement.",

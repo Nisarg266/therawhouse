@@ -158,6 +158,7 @@
     "price_regular": "常规价格",
     "price_compare_at": "原价",
     "price_sale": "促销价",
+    "price_on_request": "Price on request",
     "duties_and_taxes_included": "已含关税和税费。",
     "duties_included": "已含关税。",
     "shipping_policy_html": "结账时计算的<a href=\"{{ link }}\">运费</a>。",

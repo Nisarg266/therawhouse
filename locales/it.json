@@ -160,6 +160,7 @@
     "price_regular": "Prezzo di listino",
     "price_compare_at": "Prezzo di confronto",
     "price_sale": "Prezzo promozionale",
+    "price_on_request": "Price on request",
     "duties_and_taxes_included": "Dazi e imposte inclusi.",
     "duties_included": "Dazi inclusi.",
     "shipping_policy_html": "<a href=\"{{ link }}\">Spese di spedizione</a> calcolate al check-out.",

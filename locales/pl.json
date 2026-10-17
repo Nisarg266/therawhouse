@@ -162,6 +162,7 @@
     "price_regular": "Cena regularna",
     "price_compare_at": "Cena do porównania",
     "price_sale": "Cena promocyjna",
+    "price_on_request": "Price on request",
     "duties_and_taxes_included": "Z wliczonymi cłami i podatkami.",
     "duties_included": "Z wliczonymi cłami.",
     "shipping_policy_html": "<a href=\"{{ link }}\">Koszt wysyłki</a> obliczony przy realizacji zakupu.",

@@ -158,6 +158,7 @@
     "price_regular": "Normal fiyat",
     "price_compare_at": "Karşılaştırma fiyatı",
     "price_sale": "İndirimli fiyat",
+    "price_on_request": "Price on request",
     "duties_and_taxes_included": "Vergiler ve gümrük vergileri dahildir.",
     "duties_included": "Gümrük vergileri dahildir.",
     "shipping_policy_html": "<a href=\"{{ link }}\">Kargo</a>, ödeme sayfasında hesaplanır.",

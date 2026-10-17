@@ -158,6 +158,7 @@
     "price_regular": "Normaler Preis",
     "price_compare_at": "Vergleichspreis",
     "price_sale": "Angebotspreis",
+    "price_on_request": "Price on request",
     "duties_and_taxes_included": "Inkl. Zollgebühren und Steuern.",
     "duties_included": "Inkl. Zollgebühren.",
     "shipping_policy_html": "<a href=\"{{ link }}\">Versand</a> wird beim Checkout berechnet.",

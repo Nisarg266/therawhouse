@@ -162,6 +162,7 @@
     "price_regular": "Įprasta kaina",
     "price_compare_at": "Kainų palyginimas",
     "price_sale": "Kaina su nuolaida",
+    "price_on_request": "Price on request",
     "duties_and_taxes_included": "Muito ir kiti mokesčiai įtraukti.",
     "duties_included": "Muito mokesčiai įtraukti.",
     "shipping_policy_html": "<a href=\"{{ link }}\">Siuntimo išlaidos</a> apskaičiuojamos atsiskaitant.",

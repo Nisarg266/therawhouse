@@ -158,6 +158,7 @@
     "price_regular": "通常価格",
     "price_compare_at": "割引前価格",
     "price_sale": "セール価格",
+    "price_on_request": "Price on request",
     "duties_and_taxes_included": "関税と税金が含まれます。",
     "duties_included": "関税込。",
     "shipping_policy_html": "<a href=\"{{ link }}\">配送料</a>はチェックアウト時に計算されます。",

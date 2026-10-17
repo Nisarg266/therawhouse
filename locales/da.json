@@ -158,6 +158,7 @@
     "price_regular": "Normalpris",
     "price_compare_at": "Sammenligningspris",
     "price_sale": "Udsalgspris",
+    "price_on_request": "Price on request",
     "duties_and_taxes_included": "Inkl. told og skatter.",
     "duties_included": "Inkl. told.",
     "shipping_policy_html": "<a href=\"{{ link }}\">Fragt</a> beregnes ved betaling.",

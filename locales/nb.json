@@ -158,6 +158,7 @@
     "price_regular": "Vanlig pris",
     "price_compare_at": "Sammenligningspris",
     "price_sale": "Rabattert pris",
+    "price_on_request": "Price on request",
     "duties_and_taxes_included": "Toll og andre avgifter inkludert.",
     "duties_included": "Tollavgifter inkludert.",
     "shipping_policy_html": "<a href=\"{{ link }}\">Frakt</a> beregnes i kassen.",

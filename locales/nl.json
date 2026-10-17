@@ -158,6 +158,7 @@
     "price_regular": "Normale prijs",
     "price_compare_at": "Vergelijkingsprijs",
     "price_sale": "Prijs met korting",
+    "price_on_request": "Price on request",
     "duties_and_taxes_included": "Douanerechten en belastingen inbegrepen.",
     "duties_included": "Douanerechten inbegrepen.",
     "shipping_policy_html": "<a href=\"{{ link }}\">Verzendkosten</a> worden berekend bij de checkout.",

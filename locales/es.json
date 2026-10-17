@@ -160,6 +160,7 @@
     "price_regular": "Precio habitual",
     "price_compare_at": "Precio de comparación",
     "price_sale": "Precio de oferta",
+    "price_on_request": "Price on request",
     "duties_and_taxes_included": "Aranceles e impuestos incluidos.",
     "duties_included": "Aranceles incluidos.",
     "shipping_policy_html": "Los <a href=\"{{ link }}\">gastos de envío</a> se calculan en la página de pago.",

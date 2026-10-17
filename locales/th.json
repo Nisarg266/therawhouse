@@ -158,6 +158,7 @@
     "price_regular": "ราคาปกติ",
     "price_compare_at": "ราคาเปรียบเทียบ",
     "price_sale": "ราคาโปรโมชัน",
+    "price_on_request": "Price on request",
     "duties_and_taxes_included": "รวมภาษีและอากรแล้ว",
     "duties_included": "รวมอากรแล้ว",
     "shipping_policy_html": "<a href=\"{{ link }}\">ค่าจัดส่ง</a>ที่คำนวณในขั้นตอนชำระเงิน",

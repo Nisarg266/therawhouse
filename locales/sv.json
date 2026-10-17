@@ -158,6 +158,7 @@
     "price_regular": "Ordinarie pris",
     "price_compare_at": "Jämförpris",
     "price_sale": "Reapris",
+    "price_on_request": "Price on request",
     "duties_and_taxes_included": "Tullavgifter och skatter ingår.",
     "duties_included": "Tullavgifter ingår.",
     "shipping_policy_html": "<a href=\"{{ link }}\">Frakt</a> beräknas i kassan.",

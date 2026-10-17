@@ -158,6 +158,7 @@
     "price_regular": "Κανονική τιμή",
     "price_compare_at": "Σύγκριση σε τιμή",
     "price_sale": "Τιμή έκπτωσης",
+    "price_on_request": "Price on request",
     "duties_and_taxes_included": "Οι δασμοί και οι φόροι συμπεριλαμβάνονται.",
     "duties_included": "Οι δασμοί συμπεριλαμβάνονται.",
     "shipping_policy_html": "Τα <a href=\"{{ link }}\">έξοδα αποστολής</a> υπολογίζονται κατά την ολοκλήρωση της αγοράς.",

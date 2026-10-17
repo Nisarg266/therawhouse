@@ -232,6 +232,7 @@
     "price_from": "From {{ price }}",
     "price_regular": "Regular price",
     "price_sale": "Sale price",
+    "price_on_request": "Price on request",
     "price_filter_html": "The highest price is {{ price }}",
     "product_image": "Product image",
     "product_information": "Product information",

@@ -162,6 +162,7 @@
     "price_regular": "Běžná cena",
     "price_compare_at": "Původní cena",
     "price_sale": "Výprodejová cena",
+    "price_on_request": "Price on request",
     "duties_and_taxes_included": "Včetně cla a daní.",
     "duties_included": "Včetně cla.",
     "shipping_policy_html": "Cena <a href=\"{{ link }}\">dopravy</a> se vypočítá v pokladně.",
