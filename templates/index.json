@@ -1201,6 +1201,61 @@
         "anchor_id": "",
         "custom_class": ""
       }
+    },
+    "17925667063049aa52": {
+      "type": "_blocks",
+      "blocks": {
+        "showcase_showcase_gallery_j8j7MU": {
+          "type": "shopify://apps/showcase/blocks/showcase-gallery/af2190db-2527-458d-aa2c-700e49c9e70d",
+          "settings": {
+            "gallery-id": "23611",
+            "gallery-title": "As Styled on Instagram",
+            "gallery-description": "",
+            "gallery_style": "slider",
+            "columns": 4,
+            "columns-tablet": 3,
+            "columns-mobile": 2,
+            "rows": 2,
+            "limit": 0,
+            "enable-product-filter": false,
+            "enable-collection-filter": false,
+            "enable-collection-filter-product-pages": false,
+            "specify-collection": "All applicable collections.",
+            "enable-cart-filter": false
+          }
+        }
+      },
+      "block_order": [
+        "showcase_showcase_gallery_j8j7MU"
+      ],
+      "settings": {
+        "content_direction": "column",
+        "vertical_on_mobile": true,
+        "horizontal_alignment": "flex-start",
+        "vertical_alignment": "center",
+        "align_baseline": false,
+        "horizontal_alignment_flex_direction_column": "flex-start",
+        "vertical_alignment_flex_direction_column": "center",
+        "gap": 12,
+        "section_width": "page-width",
+        "section_height": "",
+        "section_height_custom": 50,
+        "background_media": "none",
+        "background_color": "",
+        "video_position": "cover",
+        "background_image_position": "cover",
+        "toggle_overlay": false,
+        "overlay_color": "#00000026",
+        "overlay_style": "solid",
+        "gradient_direction": "to top",
+        "border": "none",
+        "border_width": 1,
+        "border_opacity": 100,
+        "border_color": "",
+        "border_radius": 0,
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
     }
   },
   "order": [
@@ -1211,6 +1266,7 @@
     "the_makers",
     "atelier_promise",
     "brand_statement",
-    "press_and_quote"
+    "press_and_quote",
+    "17925667063049aa52"
   ]
 }
