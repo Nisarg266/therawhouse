@@ -231,12 +231,37 @@
         "film_label": "FILM",
         "empty_label": "Select a photograph or upload a film to begin the gallery."
       }
+    },
+    "city_chennai": {
+      "type": "showcase-city",
+      "blocks": {
+        "cover": {
+          "type": "photograph",
+          "settings": {
+            "caption": "The Raw House Showcase | Chennai",
+            "alt": "The Raw House Showcase in Chennai, featuring collectible furniture, art, sculpture and craft by Indian designers",
+            "image": "shopify://shop_images/chennai.png"
+          }
+        }
+      },
+      "block_order": [
+        "cover"
+      ],
+      "settings": {
+        "city": "Chennai",
+        "description": "<p><strong>Taking Indian design to new conversations.</strong></p><p>The Raw House Showcase arrives in Chennai, bringing together a curated selection of collectible furniture, art, sculpture, craft and contemporary design by distinctive Indian designers and makers. Discover exceptional pieces, meet creative practices and find objects that bring individuality and character to the spaces we live in.</p><p>A new city. Distinctive design. New perspectives.</p>",
+        "date": "",
+        "venue": "",
+        "film_label": "FILM",
+        "empty_label": "Select a photograph or upload a film to begin the gallery."
+      }
     }
   },
   "order": [
     "main",
     "city_intro",
     "city_indore",
+    "city_chennai",
     "trust_features",
     "vip_newsletter",
     "collection_hero_banner_FFfX33"
