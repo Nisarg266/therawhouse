@@ -79,7 +79,7 @@
         "slide_3"
       ],
       "settings": {
-        "autoplay": true,
+        "autoplay": false,
         "autoplay_speed": 6,
         "show_arrows": true,
         "show_dots": true,
@@ -634,10 +634,10 @@
         "arrival_card_biLk8i": {
           "type": "arrival_card",
           "settings": {
-            "product": "civilization-i",
+            "product": "kinjal-shah-civilization-i-2024",
             "badge_bg": "#111111",
             "badge_color": "#ffffff",
-            "link": "shopify://products/atham-low-console-uf-co-02"
+            "link": "shopify://products/kinjal-shah-civilization-i-2024"
           }
         },
         "arrival_card_nej4Ck": {
