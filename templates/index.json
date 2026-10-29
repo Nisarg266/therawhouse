@@ -598,43 +598,43 @@
         "arrival_card_FTjgiF": {
           "type": "arrival_card",
           "settings": {
-            "product": "sarpa-gaja-asandi",
+            "product": "cubo-chair",
             "badge_bg": "#111111",
             "badge_color": "#ffffff",
-            "link": "shopify://products/sarpa-gaja-asandi"
+            "link": "shopify://products/cubo-chair"
           }
         },
         "arrival_card_wtpdAD": {
           "type": "arrival_card",
           "settings": {
-            "product": "ahimsa",
+            "product": "dune-lamp",
             "badge_bg": "#111111",
             "badge_color": "#ffffff",
-            "link": "shopify://products/ahimsa"
+            "link": "shopify://products/dune-lamp"
           }
         },
         "arrival_card_kEehjN": {
           "type": "arrival_card",
           "settings": {
-            "product": "fold-side-table-uf-st-01",
+            "product": "cyan-canopy",
             "badge_bg": "#111111",
             "badge_color": "#ffffff",
-            "link": "shopify://products/fold-side-table-uf-st-01"
+            "link": "shopify://products/cyan-canopy"
           }
         },
         "arrival_card_xqb4XA": {
           "type": "arrival_card",
           "settings": {
-            "product": "drushti-pithika-cabinet",
+            "product": "akash-bhoya-man-flying-with-a-mountain-2-2026",
             "badge_bg": "#111111",
             "badge_color": "#ffffff",
-            "link": "shopify://products/drushti-pithika-cabinet"
+            "link": "shopify://products/akash-bhoya-man-flying-with-a-mountain-2-2026"
           }
         },
         "arrival_card_biLk8i": {
           "type": "arrival_card",
           "settings": {
-            "product": "atham-low-console-uf-co-02",
+            "product": "civilization-i",
             "badge_bg": "#111111",
             "badge_color": "#ffffff",
             "link": "shopify://products/atham-low-console-uf-co-02"
@@ -643,7 +643,7 @@
         "arrival_card_nej4Ck": {
           "type": "arrival_card",
           "settings": {
-            "product": "arq-cabinet",
+            "product": "archana-singh-anuragini-with-her-tanpura-2024",
             "badge_bg": "#111111",
             "badge_color": "#ffffff",
             "link": "shopify://products/arq-cabinet"
@@ -668,14 +668,13 @@
         "heading_letter_spacing": "0.38em",
         "heading_color": "#1a1a1a",
         "text_color": "#1a1a1a",
-        "featured_tab_label": "Curated",
+        "featured_tab_label": "favorites",
         "tab_collections": [
           "furniture",
           "lighting",
           "sculpture-1",
           "wall-art",
-          "accessories",
-          "textile"
+          "accessories"
         ],
         "products_per_tab": 8,
         "card_title_size": 17,
