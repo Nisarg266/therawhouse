@@ -1,58 +1,66 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "styling_editorial": {
       "type": "styling-page",
-      "settings": {
-        "heading": "The Raw House Styling",
-        "subtitle": "Spaces with a point of view.",
-        "intro": "<p>We bring together architecture, collectible design, art and objects to create spaces that feel personal, layered and distinctive. Guided by an understanding of proportion, material and form, our styling goes beyond decoration to create thoughtful compositions that reflect the people who inhabit them.</p>"
-      },
       "blocks": {
         "hero": {
+          "type": "image",
           "settings": {
-            "fallback_width": 1360,
+            "image": "shopify://shop_images/ac0e41b9-6e89-43ea-9665-f1cf85ebee5a.png",
+            "fallback_image": "hero-art-gallery-1.jpg",
             "image_alt": "Interior inspiration with layered rugs, art and sculptural objects",
-            "fallback_height": 768,
-            "fallback_image": "hero-art-gallery-1.jpg"
-          },
-          "type": "image"
+            "fallback_width": 1360,
+            "fallback_height": 768
+          }
         },
         "rugs": {
+          "type": "image",
           "settings": {
-            "fallback_width": 1024,
+            "image": "shopify://shop_images/5fe86c6f-2756-4c00-bffc-4d3a1deb35f1.png",
+            "fallback_image": "maker-gallery-1.jpg",
             "image_alt": "Interior inspiration with an area rug grounding a softly layered bedroom",
-            "fallback_height": 1024,
-            "fallback_image": "maker-gallery-1.jpg"
-          },
-          "type": "image"
+            "fallback_width": 1024,
+            "fallback_height": 1024
+          }
         },
         "art": {
+          "type": "image",
           "settings": {
-            "fallback_width": 1024,
-            "image": "shopify://shop_images/DSC_4334_1.jpg",
+            "image": "shopify://shop_images/b36fef82-58f1-4f80-a45b-10ae5ba8a9a9.png",
+            "fallback_image": "hero-art-gallery-1.jpg",
             "image_alt": "Artwork displayed on a wall at The Raw House gallery",
-            "fallback_height": 1024,
-            "fallback_image": "hero-art-gallery-1.jpg"
-          },
-          "type": "image"
+            "fallback_width": 1024,
+            "fallback_height": 1024
+          }
         },
         "occasions": {
+          "type": "image",
           "settings": {
-            "fallback_width": 1024,
+            "image": "shopify://shop_images/d51d3c3e-1747-4e76-9d5c-45e8e1b376f2.png",
+            "fallback_image": "maker-gallery-2.jpg",
             "image_alt": "Interior inspiration with flowers, candles and objects arranged in a gathering space",
-            "fallback_height": 1024,
-            "fallback_image": "maker-gallery-2.jpg"
-          },
-          "type": "image"
+            "fallback_width": 1024,
+            "fallback_height": 1024
+          }
         },
         "story": {
+          "type": "image",
           "settings": {
-            "fallback_width": 1024,
+            "image": "shopify://shop_images/5a581c02-a3b2-4e13-a190-6a325e9d571f.png",
+            "fallback_image": "maker-gallery-3.jpg",
             "image_alt": "Interior inspiration with an area rug, artwork and a considered arrangement of furniture",
-            "fallback_height": 1024,
-            "fallback_image": "maker-gallery-3.jpg"
-          },
-          "type": "image"
+            "fallback_width": 1024,
+            "fallback_height": 1024
+          }
         }
       },
       "block_order": [
@@ -61,7 +69,12 @@
         "art",
         "occasions",
         "story"
-      ]
+      ],
+      "settings": {
+        "heading": "The Raw House Styling",
+        "subtitle": "Spaces with a point of view.",
+        "intro": "<p>We bring together architecture, collectible design, art and objects to create spaces that feel personal, layered and distinctive. Guided by an understanding of proportion, material and form, our styling goes beyond decoration to create thoughtful compositions that reflect the people who inhabit them.</p>"
+      }
     }
   },
   "order": [
