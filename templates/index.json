@@ -441,22 +441,6 @@
     "recommendations": {
       "type": "recommendations-editorial",
       "blocks": {
-        "card_1": {
-          "type": "editorial_card",
-          "settings": {
-            "image": "shopify://shop_images/920269d4-d86e-44ea-9ea7-05fc2920f168.png",
-            "image_mobile": "shopify://shop_images/d100891c-b0e0-43dc-b5d0-296feb43aa69_2.png",
-            "default_asset": "",
-            "badge": "Oneiric",
-            "badge_bg": "#b08d57",
-            "badge_color": "#ffffff",
-            "title": "Vaayu Console",
-            "curator": "",
-            "text": "",
-            "btn_text": "",
-            "link": "shopify://products/vaayu-console"
-          }
-        },
         "card_2": {
           "type": "editorial_card",
           "settings": {
@@ -507,7 +491,6 @@
         }
       },
       "block_order": [
-        "card_1",
         "card_2",
         "card_3",
         "card_4"
