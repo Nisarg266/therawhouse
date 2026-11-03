@@ -45,7 +45,7 @@
         "image_zUWhEN": {
           "type": "image",
           "settings": {
-            "image": "shopify://shop_images/624dbeb9-f6e6-4564-980c-71b984e63754.jpg",
+            "image": "shopify://shop_images/floral_pendant_lights_HD_971x728_e539e79b-8a1f-4f47-956b-da0273e7f506.jpg",
             "fallback_image": "hero-art-gallery-1.jpg",
             "image_alt": "",
             "fallback_width": 1024,
@@ -55,24 +55,7 @@
         "image_gG7KnR": {
           "type": "image",
           "settings": {
-            "fallback_image": "hero-art-gallery-1.jpg",
-            "image_alt": "",
-            "fallback_width": 1024,
-            "fallback_height": 1024
-          }
-        },
-        "image_iV88CJ": {
-          "type": "image",
-          "settings": {
-            "fallback_image": "hero-art-gallery-1.jpg",
-            "image_alt": "",
-            "fallback_width": 1024,
-            "fallback_height": 1024
-          }
-        },
-        "image_yeyRER": {
-          "type": "image",
-          "settings": {
+            "image": "shopify://shop_images/e26f1c2e-31bc-4783-a676-f68b6fccb6c2.png",
             "fallback_image": "hero-art-gallery-1.jpg",
             "image_alt": "",
             "fallback_width": 1024,
@@ -85,9 +68,7 @@
         "rugs",
         "art",
         "image_zUWhEN",
-        "image_gG7KnR",
-        "image_iV88CJ",
-        "image_yeyRER"
+        "image_gG7KnR"
       ],
       "settings": {
         "heading": "The Raw House Styling",
