@@ -61,6 +61,16 @@
             "fallback_width": 1024,
             "fallback_height": 1024
           }
+        },
+        "image_46WajE": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/f08e0017-c44f-476d-9aed-93bf37cbf722.png",
+            "fallback_image": "hero-art-gallery-1.jpg",
+            "image_alt": "",
+            "fallback_width": 1024,
+            "fallback_height": 1024
+          }
         }
       },
       "block_order": [
@@ -68,7 +78,8 @@
         "rugs",
         "art",
         "image_zUWhEN",
-        "image_gG7KnR"
+        "image_gG7KnR",
+        "image_46WajE"
       ],
       "settings": {
         "heading": "The Raw House Styling",
