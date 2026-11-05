@@ -69,6 +69,25 @@
             "text_align": "center"
           }
         },
+        "slide_6djhG9": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/eb7d6e5f-d671-4451-823d-a95924f81c38.png",
+            "image_alt": "",
+            "default_asset": "hero-slide-1.jpg",
+            "subheading": "",
+            "heading": "",
+            "description": "",
+            "button_label": "",
+            "button_link": "",
+            "button_2_label": "",
+            "button_2_link": "",
+            "overlay_color": "",
+            "overlay_opacity": 0,
+            "header_tone": "light",
+            "text_align": "center"
+          }
+        },
         "slide_3": {
           "type": "slide",
           "settings": {
@@ -94,6 +113,7 @@
         "slide_fLpmFf",
         "slide_CdiRTh",
         "slide_GMPEgd",
+        "slide_6djhG9",
         "slide_3"
       ],
       "settings": {
