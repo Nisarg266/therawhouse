@@ -12,25 +12,6 @@
     "hero_slider": {
       "type": "luxury-hero-slider",
       "blocks": {
-        "slide_hjFpf6": {
-          "type": "slide",
-          "settings": {
-            "image": "shopify://shop_images/3cce7cbf-fcdb-4a13-9689-8507017b6a70.png",
-            "image_alt": "",
-            "default_asset": "hero-slide-1.jpg",
-            "subheading": "",
-            "heading": "",
-            "description": "",
-            "button_label": "",
-            "button_link": "",
-            "button_2_label": "",
-            "button_2_link": "",
-            "overlay_color": "",
-            "overlay_opacity": 0,
-            "header_tone": "light",
-            "text_align": "center"
-          }
-        },
         "slide_1": {
           "type": "slide",
           "settings": {
@@ -93,7 +74,6 @@
         }
       },
       "block_order": [
-        "slide_hjFpf6",
         "slide_1",
         "slide_2",
         "slide_3"
