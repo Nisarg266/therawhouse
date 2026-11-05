@@ -27,7 +27,7 @@
             "button_2_label": "",
             "button_2_link": "shopify://collections/the-raw-collectables",
             "overlay_color": "",
-            "overlay_opacity": 0,
+            "overlay_opacity": 5,
             "header_tone": "light",
             "text_align": "center"
           }
