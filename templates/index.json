@@ -121,8 +121,8 @@
         "slide_3"
       ],
       "settings": {
-        "autoplay": false,
-        "autoplay_speed": 6,
+        "autoplay": true,
+        "autoplay_speed": 4,
         "show_arrows": true,
         "show_dots": true,
         "transition": "none",
