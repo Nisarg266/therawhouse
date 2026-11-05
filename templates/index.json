@@ -12,25 +12,6 @@
     "hero_slider": {
       "type": "luxury-hero-slider",
       "blocks": {
-        "slide_CdiRTh": {
-          "type": "slide",
-          "settings": {
-            "image": "shopify://shop_images/a22eb686-423a-43f1-834f-5106d722cba4.png",
-            "image_alt": "",
-            "default_asset": "hero-slide-1.jpg",
-            "subheading": "",
-            "heading": "",
-            "description": "",
-            "button_label": "",
-            "button_link": "",
-            "button_2_label": "",
-            "button_2_link": "shopify://collections/furniture",
-            "overlay_color": "",
-            "overlay_opacity": 0,
-            "header_tone": "light",
-            "text_align": "center"
-          }
-        },
         "slide_fLpmFf": {
           "type": "slide",
           "settings": {
@@ -44,6 +25,25 @@
             "button_link": "",
             "button_2_label": "",
             "button_2_link": "shopify://collections/the-raw-collectables",
+            "overlay_color": "",
+            "overlay_opacity": 0,
+            "header_tone": "light",
+            "text_align": "center"
+          }
+        },
+        "slide_CdiRTh": {
+          "type": "slide",
+          "settings": {
+            "image": "shopify://shop_images/a22eb686-423a-43f1-834f-5106d722cba4.png",
+            "image_alt": "",
+            "default_asset": "hero-slide-1.jpg",
+            "subheading": "",
+            "heading": "",
+            "description": "",
+            "button_label": "",
+            "button_link": "",
+            "button_2_label": "",
+            "button_2_link": "shopify://collections/furniture",
             "overlay_color": "",
             "overlay_opacity": 0,
             "header_tone": "light",
@@ -91,8 +91,8 @@
         }
       },
       "block_order": [
-        "slide_CdiRTh",
         "slide_fLpmFf",
+        "slide_CdiRTh",
         "slide_GMPEgd",
         "slide_3"
       ],
