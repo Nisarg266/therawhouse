@@ -12,43 +12,41 @@
     "hero_slider": {
       "type": "luxury-hero-slider",
       "blocks": {
-        "slide_1": {
+        "slide_fLpmFf": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/53680494-2a4f-43c4-92dc-e8a0a8fba65f.png",
-            "image_mobile": "shopify://shop_images/ab416121-36c1-42ee-891a-bd78f9ca4411.png",
-            "image_alt": "The Raw Collectables collection",
+            "image": "shopify://shop_images/4f9aef14-f56a-4d8b-b973-c3492070aa07.png",
+            "image_alt": "",
             "default_asset": "hero-slide-1.jpg",
             "subheading": "",
             "heading": "",
             "description": "",
             "button_label": "",
-            "button_link": "shopify://collections/the-raw-collectables",
+            "button_link": "",
             "button_2_label": "",
-            "button_2_link": "",
+            "button_2_link": "shopify://collections/the-raw-collectables",
             "overlay_color": "",
             "overlay_opacity": 0,
             "header_tone": "light",
             "text_align": "center"
           }
         },
-        "slide_2": {
+        "slide_GMPEgd": {
           "type": "slide",
           "settings": {
-            "image": "shopify://shop_images/3c2a8f52-358c-4ff6-9e88-f0e441cc7b80.png",
-            "image_mobile": "shopify://shop_images/09d6f5fe-7642-4884-bbf4-10dcc31d72ee.png",
-            "image_alt": "The Hinchko collection",
-            "default_asset": "hero-slide-2.jpg",
+            "image": "shopify://shop_images/b670d599-0142-4f37-b1ca-c7747fcfe34d.png",
+            "image_alt": "",
+            "default_asset": "hero-slide-1.jpg",
             "subheading": "",
             "heading": "",
             "description": "",
             "button_label": "",
-            "button_link": "shopify://collections/the-hincko",
+            "button_link": "",
             "button_2_label": "",
-            "button_2_link": "",
+            "button_2_link": "shopify://collections/ceramics",
             "overlay_color": "",
             "overlay_opacity": 0,
-            "header_tone": "dark",
+            "header_tone": "light",
             "text_align": "center"
           }
         },
@@ -74,8 +72,8 @@
         }
       },
       "block_order": [
-        "slide_1",
-        "slide_2",
+        "slide_fLpmFf",
+        "slide_GMPEgd",
         "slide_3"
       ],
       "settings": {
