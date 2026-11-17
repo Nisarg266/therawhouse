@@ -25,6 +25,12 @@ export default class PaginatedList extends Component {
   /** @type {IntersectionObserver | undefined} */
   infinityScrollObserver;
 
+  /** Prevent an intersection observer from rendering the same page concurrently. */
+  isRenderingNextPage = false;
+
+  /** Prevent an intersection observer from rendering the same page concurrently. */
+  isRenderingPreviousPage = false;
+
   /** @type {((value: void) => void) | null} */
   #resolveNextPagePromise = null;
 
@@ -168,90 +174,122 @@ export default class PaginatedList extends Component {
   }
 
   async #renderNextPage() {
-    const { grid } = this.refs;
+    // The sentinel can remain visible while a page is loading, which may cause
+    // IntersectionObserver to invoke this method again. Only one append may run
+    // at a time or the same next page can be appended repeatedly.
+    if (this.isRenderingNextPage) return;
+    this.isRenderingNextPage = true;
 
-    if (!grid) return;
+    try {
+      const { grid } = this.refs;
 
-    const nextPage = this.#getPage('next');
+      if (!grid) return;
 
-    if (!nextPage || !this.#shouldUsePage(nextPage)) return;
-    let nextPageItemElements = this.#getGridForPage(nextPage.page);
+      const nextPage = this.#getPage('next');
 
-    if (!nextPageItemElements) {
-      const promise = new Promise((res) => {
-        this.#resolveNextPagePromise = res;
+      if (!nextPage || !this.#shouldUsePage(nextPage)) return;
+      if (this.#isPageRendered(nextPage.page)) return;
+      let nextPageItemElements = this.#getGridForPage(nextPage.page);
+
+      if (!nextPageItemElements) {
+        const promise = new Promise((res) => {
+          this.#resolveNextPagePromise = res;
+        });
+
+        // Trigger the fetch for this page
+        this.#fetchPage('next');
+
+        await promise;
+        nextPageItemElements = this.#getGridForPage(nextPage.page);
+        if (!nextPageItemElements) return;
+      }
+
+      // The DOM may have changed while the requested page was being fetched.
+      if (this.#isPageRendered(nextPage.page)) return;
+
+      grid.append(...nextPageItemElements);
+
+      this.#aspectRatioHelper.processNewElements();
+
+      await yieldToMainThread();
+
+      history.pushState('', '', nextPage.url.toString());
+
+      requestIdleCallback(() => {
+        this.#fetchPage('next');
       });
-
-      // Trigger the fetch for this page
-      this.#fetchPage('next');
-
-      await promise;
-      nextPageItemElements = this.#getGridForPage(nextPage.page);
-      if (!nextPageItemElements) return;
+    } finally {
+      this.isRenderingNextPage = false;
     }
-
-    grid.append(...nextPageItemElements);
-
-    this.#aspectRatioHelper.processNewElements();
-
-    await yieldToMainThread();
-
-    history.pushState('', '', nextPage.url.toString());
-
-    requestIdleCallback(() => {
-      this.#fetchPage('next');
-    });
   }
 
   async #renderPreviousPage() {
-    const { grid } = this.refs;
+    if (this.isRenderingPreviousPage) return;
+    this.isRenderingPreviousPage = true;
 
-    if (!grid) return;
+    try {
+      const { grid } = this.refs;
 
-    const previousPage = this.#getPage('previous');
-    if (!previousPage || !this.#shouldUsePage(previousPage)) return;
+      if (!grid) return;
 
-    let previousPageItemElements = this.#getGridForPage(previousPage.page);
-    if (!previousPageItemElements) {
-      const promise = new Promise((res) => {
-        this.#resolvePreviousPagePromise = res;
+      const previousPage = this.#getPage('previous');
+      if (!previousPage || !this.#shouldUsePage(previousPage)) return;
+      if (this.#isPageRendered(previousPage.page)) return;
+
+      let previousPageItemElements = this.#getGridForPage(previousPage.page);
+      if (!previousPageItemElements) {
+        const promise = new Promise((res) => {
+          this.#resolvePreviousPagePromise = res;
+        });
+
+        // Trigger the fetch for this page
+        this.#fetchPage('previous');
+
+        await promise;
+        previousPageItemElements = this.#getGridForPage(previousPage.page);
+        if (!previousPageItemElements) return;
+      }
+
+      if (this.#isPageRendered(previousPage.page)) return;
+
+      // Store the current scroll position and height of the first element
+      const currentScrollTop = getScrollTop();
+      const firstElement = grid.firstElementChild;
+      const oldHeight = firstElement ? firstElement.getBoundingClientRect().top + currentScrollTop : 0;
+
+      // Prepend the new elements
+      grid.prepend(...previousPageItemElements);
+
+      this.#aspectRatioHelper.processNewElements();
+
+      // Calculate and adjust scroll position to maintain the same view
+      if (firstElement) {
+        const newHeight = firstElement.getBoundingClientRect().top + getScrollTop();
+        const heightDiff = newHeight - oldHeight;
+        scrollTo({
+          top: currentScrollTop + heightDiff,
+          behavior: 'instant',
+        });
+      }
+
+      await yieldToMainThread();
+
+      history.pushState('', '', previousPage.url.toString());
+
+      requestIdleCallback(() => {
+        this.#fetchPage('previous');
       });
-
-      // Trigger the fetch for this page
-      this.#fetchPage('previous');
-
-      await promise;
-      previousPageItemElements = this.#getGridForPage(previousPage.page);
-      if (!previousPageItemElements) return;
+    } finally {
+      this.isRenderingPreviousPage = false;
     }
+  }
 
-    // Store the current scroll position and height of the first element
-    const currentScrollTop = getScrollTop();
-    const firstElement = grid.firstElementChild;
-    const oldHeight = firstElement ? firstElement.getBoundingClientRect().top + currentScrollTop : 0;
-
-    // Prepend the new elements
-    grid.prepend(...previousPageItemElements);
-
-    this.#aspectRatioHelper.processNewElements();
-
-    // Calculate and adjust scroll position to maintain the same view
-    if (firstElement) {
-      const newHeight = firstElement.getBoundingClientRect().top + getScrollTop();
-      const heightDiff = newHeight - oldHeight;
-      scrollTo({
-        top: currentScrollTop + heightDiff,
-        behavior: 'instant',
-      });
-    }
-
-    await yieldToMainThread();
-
-    history.pushState('', '', previousPage.url.toString());
-
-    requestIdleCallback(() => {
-      this.#fetchPage('previous');
-    });
+  /**
+   * @param {number} pageNumber
+   * @returns {boolean} Whether this page is already present in the rendered grid.
+   */
+  #isPageRendered(pageNumber) {
+    return Boolean(this.querySelector(`[ref="cards[]"][data-page="${pageNumber}"]`));
   }
 
   /**
